@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kubernetes中的Configmap和Secret-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="kubernetes, k8s, configmap, secret">
+    <meta name="description" content="Kubernetes中提供了Configmap来实现向容器中提供配置文件或环境变量来实现不同配置，从而实现了镜像配置与镜像本身解耦，使容器应用做到不依赖于环境配置。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Kubernetes中的Configmap和Secret</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-06 12:35:03</span>
+        
+        <span class="post-time">发布于：2020-06-10 08:05:32</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <blockquote>
+<p>本文的试验环境为CentOS 7.3，Kubernetes集群为1.11.2，安装步骤参见<a href="https://www.edulinks.cn/2018/07/24/20180724-kubeadm-install-kubernetes/">kubeadm安装kubernetes V1.11.1 集群</a>。想要了解更多 Kubernetes 相关知识，可以阅读 <a href="http://www.edulinks.cn/2020/10/16/20201016-kubernetes-articles/">Kubernetes 系列学习文章</a>。</p>
+</blockquote>
+<blockquote>
+<p>应用场景：镜像往往是一个应用的基础，还有很多需要自定义的参数或配置，例如资源的消耗、日志的位置级别等等，这些配置可能会有很多，因此不能放入镜像中，Kubernetes中提供了Configmap来实现向容器中提供配置文件或环境变量来实现不同配置，从而实现了镜像配置与镜像本身解耦，使容器应用做到不依赖于环境配置。</p>
+</blockquote>
+<h2 id="向容器传递参数"><a href="#向容器传递参数" class="headerlink" title="向容器传递参数"></a>向容器传递参数</h2><p>如果需要向容器传递参数，可以在Yaml文件中通过command和args或者环境变量的方式实现。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">image:</span> <span class="string">docker.io/nginx</span></span><br><span class="line">    <span class="attr">command:</span> [<span class="string">&quot;/bin/command&quot;</span>]</span><br><span class="line">    <span class="attr">args:</span> [<span class="string">&quot;arg1&quot;</span>, <span class="string">&quot;arg2&quot;</span>, <span class="string">&quot;arg3&quot;</span>]</span><br><span class="line">    <span class="attr">env:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">INTERVAL</span></span><br><span class="line">      <span class="attr">value:</span> <span class="string">&quot;30&quot;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">FIRST_VAR</span></span><br><span class="line">      <span class="attr">value:</span> <span class="string">&quot;foo&quot;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">SECOND_VAR</span></span><br><span class="line">      <span class="attr">value:</span> <span class="string">&quot;$(FIRST_VAR)bar&quot;</span></span><br></pre></td></tr></table></figure>
+<p>可以看到，我们可以利用env标签向容器中传递环境变量，环境变量还可以相互引用。这种方式的问题在于配置文件和部署是绑定的，那么对于同样的应用，测试环境的参数和生产环境是不一样的，这样就要求写两个部署文件，管理起来不是很方便。</p>
+<h2 id="什么是ConfigMap"><a href="#什么是ConfigMap" class="headerlink" title="什么是ConfigMap"></a>什么是ConfigMap</h2><p>上面提到的例子，利用ConfigMap可以解耦部署与配置的关系，对于同一个应用部署文件，可以利用<code>valueFrom</code>字段引用一个在测试环境和生产环境都有的ConfigMap（当然配置内容不相同，只是名字相同），就可以降低环境管理和部署的复杂度。</p>
+<img src="/2020/06/10/20200610-kubernetes-configmap-secret/39469-20181101083024064-1406584186.png" class="">
+<p>ConfigMap有三种用法：</p>
+<ul>
+<li>生成为容器内的环境变量</li>
+<li>设置容器启动命令的参数</li>
+<li>挂载为容器内部的文件或目录</li>
+</ul>
+<h2 id="ConfigMap的缺点"><a href="#ConfigMap的缺点" class="headerlink" title="ConfigMap的缺点"></a>ConfigMap的缺点</h2><ul>
+<li>ConfigMap必须在Pod之前创建</li>
+<li>ConfigMap属于某个NameSpace，只有处于相同NameSpace的Pod才可以应用它</li>
+<li>ConfigMap中的配额管理还未实现</li>
+<li>如果是volume的形式挂载到容器内部，只能挂载到某个目录下，该目录下原有的文件会被覆盖掉</li>
+<li>静态Pod不能用ConfigMap</li>
+</ul>
+<h2 id="ConfigMap的创建"><a href="#ConfigMap的创建" class="headerlink" title="ConfigMap的创建"></a>ConfigMap的创建</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl create configmap &lt;map-name&gt; --from-literal=&lt;parameter-name&gt;=&lt;parameter-value&gt;</span><br><span class="line">$ kubectl create configmap &lt;map-name&gt; --from-literal=&lt;parameter1&gt;=&lt;parameter1-value&gt; --from-literal=&lt;parameter2&gt;=&lt;parameter2-value&gt; --from-literal=&lt;parameter3&gt;=&lt;parameter3-value&gt;</span><br><span class="line">$ kubectl create configmap &lt;map-name&gt; --from-file=&lt;file-path&gt;</span><br><span class="line">$ kubectl apply -f &lt;configmap-file.yaml&gt;</span><br><span class="line"><span class="comment"># 还可以从一个文件夹创建configmap</span></span><br><span class="line">$ kubectl create configmap &lt;map-name&gt; --from-file=/path/to/dir</span><br></pre></td></tr></table></figure>
+<p>Yaml 的声明方式</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="attr">my-nginx-config.conf:</span> <span class="string">|</span></span><br><span class="line">    <span class="string">server</span> &#123;</span><br><span class="line">      <span class="string">listen</span>              <span class="number">80</span><span class="string">;</span></span><br><span class="line">      <span class="string">server_name</span>         <span class="string">www.kubia-example.com;</span></span><br><span class="line"></span><br><span class="line">      <span class="string">gzip</span> <span class="string">on;</span></span><br><span class="line">      <span class="string">gzip_types</span> <span class="string">text/plain</span> <span class="string">application/xml;</span></span><br><span class="line"></span><br><span class="line">	  <span class="string">location</span> <span class="string">/</span> &#123;</span><br><span class="line">        <span class="string">root</span>   <span class="string">/usr/share/nginx/html;</span></span><br><span class="line">        <span class="string">index</span>  <span class="string">index.html</span> <span class="string">index.htm;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="attr">sleep-interval:</span> <span class="string">|</span></span><br><span class="line">    <span class="number">25</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="ConfigMap的调用"><a href="#ConfigMap的调用" class="headerlink" title="ConfigMap的调用"></a>ConfigMap的调用</h2><h3 id="环境变量的方式"><a href="#环境变量的方式" class="headerlink" title="环境变量的方式"></a>环境变量的方式</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">env-configmap</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">image:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">env:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">INTERVAL</span></span><br><span class="line">      <span class="attr">valueFrom:</span></span><br><span class="line">        <span class="attr">configMapKeyRef:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">&lt;map-name&gt;</span></span><br><span class="line">          <span class="attr">key:</span> <span class="string">sleep-interval</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果引用了一个不存在的ConfigMap，则创建Pod时会报错，直到能够正常读取ConfigMap后，Pod会自动创建。</p>
+</blockquote>
+<p>一次传递所有的环境变量</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">image:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">envFrom:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">prefix:</span> <span class="string">CONFIG_</span></span><br><span class="line">      <span class="attr">configMapRef:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">&lt;map-name&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="命令行参数的方式"><a href="#命令行参数的方式" class="headerlink" title="命令行参数的方式"></a>命令行参数的方式</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">env-configmap</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">image:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">env:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">INTERVAL</span></span><br><span class="line">      <span class="attr">valueFrom:</span></span><br><span class="line">        <span class="attr">configMapKeyRef:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">&lt;map-name&gt;</span></span><br><span class="line">          <span class="attr">key:</span> <span class="string">sleep-interval</span></span><br><span class="line">    <span class="attr">args:</span> [<span class="string">&quot;$(INTERVAL)&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="以配置文件的方式"><a href="#以配置文件的方式" class="headerlink" title="以配置文件的方式"></a>以配置文件的方式</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx-test</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">image:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">web-server</span></span><br><span class="line">    <span class="attr">volumeMounts:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">config</span></span><br><span class="line">      <span class="attr">mountPath:</span> <span class="string">/etc/nginx/conf.d</span></span><br><span class="line">      <span class="attr">readOnly:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">volumes:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">config</span></span><br><span class="line">    <span class="attr">configMap:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">&lt;map-name&gt;</span></span><br></pre></td></tr></table></figure>
+<p>将Configmap挂载为一个文件夹后，原来在镜像中的文件夹里的内容就看不到，这是什么原理？这是因为原来文件夹下的内容无法进入，所以显示不出来。为了避免这种挂载方式影响应用的正常运行，可以将configmap挂载为一个配置文件。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">image:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">volumeMounts:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">config</span></span><br><span class="line">      <span class="attr">mountPath:</span> <span class="string">/etc/someconfig.conf</span></span><br><span class="line">      <span class="attr">subPath:</span> <span class="string">myconfig.conf</span></span><br></pre></td></tr></table></figure>
+<img src="/2020/06/10/20200610-kubernetes-configmap-secret/39469-20181101083101837-948645932.png" class="">
+
+<h2 id="Configmap的更新"><a href="#Configmap的更新" class="headerlink" title="Configmap的更新"></a>Configmap的更新</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl edit configmap &lt;map-name&gt;</span><br></pre></td></tr></table></figure>
+<p>confgimap更新后，如果是以文件夹方式挂载的，会自动将挂载的Volume更新。如果是以文件形式挂载的，则不会自动更新。<br>但是对多数情况的应用来说，配置文件更新后，最简单的办法就是重启Pod（杀掉再重新拉起）。如果是以文件夹形式挂载的，可以通过在容器内重启应用的方式实现配置文件更新生效。即便是重启容器内的应用，也要注意configmap的更新和容器内挂载文件的更新不是同步的，可能会有延时，因此一定要确保容器内的配置也已经更新为最新版本后再重新加载应用。</p>
+<h2 id="什么是Secret"><a href="#什么是Secret" class="headerlink" title="什么是Secret"></a>什么是Secret</h2><p>Secret与ConfigMap类似，但是用来存储敏感信息。在Master节点上，secret以非加密的形式存储（意味着我们要对master严加管理）。从Kubernetes1.7之后，etcd以加密的形式保存secret。secret的大小被限制为1MB。当Secret挂载到Pod上时，是以tmpfs的形式挂载，即这些内容都是保存在节点的内存中，而不是写入磁盘，通过这种方式来确保信息的安全性。</p>
+<blockquote>
+<p>Kubernetes helps keep your Secrets safe by making sure each Secret is only distributed to the nodes that run the pods that need access to the Secret. Also, on the nodes themselves, Secrets are always stored in memory and never written to physical storage, which would require wiping the disks after deleting the Secrets from them.</p>
+</blockquote>
+<p>每个Kubernetes集群都有一个默认的secrets</p>
+<img src="/2020/06/10/20200610-kubernetes-configmap-secret/39469-20181101083123554-1363293401.png" class="">
+<p>创建和调用的过程与configmap大同小异，这里就不再赘述了。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d867539a15cf">Kubernetes Pod 深入理解与实践</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/571383da7adf">Configmap</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2020/06/12/20200612-kubernetes-ingress/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Kubernetes Ingress 学习
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2020/06/09/20200609-kubernetes-get-metadata/" id="article-nav-older" class="article-nav-link-wrap">
+            Metadata获取的三种方式 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

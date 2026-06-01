@@ -1,0 +1,231 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>离线环境安装使用 Ansible-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="ansible, 离线, 离线环境, ansible 安装">
+    <meta name="description" content="本文介绍了在离线环境中如何通过源码包安装 ansible 所需要的依赖和 ansible，并简单介绍了 ansible 的使用方式。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>离线环境安装使用 Ansible</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2022-04-28 22:03:21</span>
+        
+        <span class="post-time">发布于：2022-01-04 19:56:25</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>之前写了一篇<a href="http://www.edulinks.cn/2021/07/04/20210706-ansible-startup/">介绍 Ansible 的文章</a> ，今天回顾看来写的有些匆忙，一些具体的操作步骤都没有讲明白，不利于读者复现学习。最近又申请了一个几百台机器的环境，正好借此机会把如何在离线环境中使用 Ansible 详细记录一下。</p>
+<h2 id="使用前准备"><a href="#使用前准备" class="headerlink" title="使用前准备"></a>使用前准备</h2><p>本机环境是 Python 2.7，操作系统版本是 Red Hat Enterprise Linux Server release 7.6 (Maipo)。 </p>
+<ul>
+<li>系统必须安装了 gcc，找一个内网的 yum 源安装 <code>yum install gcc</code> 或使用 rpm 包进行安装</li>
+<li>有些依赖包编译需要依赖 python 库，因此必须安装 python-devel ，安装方法同上</li>
+<li>安装 cffi 需要依赖 libffi-devel，安装方法同上</li>
+<li>安装 cryptography-2.6.1.tar.gz 依赖 openssl-devel</li>
+</ul>
+<p>总结下来，必须使用本地 yum 源安装几个必须的依赖。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install -y python-devel openssl-devel gcc libffi-devel</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h2><p>ansible 安装需要先将 18 个依赖包安装完成，依赖包的安装过程大同小异，都是解压文件后，通过 <code>python setup.py install</code> 命令进行安装。相关的离线包可以到 <a target="_blank" rel="noopener" href="https://pypi.org/">https://pypi.org/</a> 上搜索后下载。</p>
+<ul>
+<li>安装 setuptools-41.1.0.zip</li>
+<li>安装 pycrypto-2.6.1.tar.gz</li>
+<li>安装 PyYAML-5.1.tar.gz ，这个编译安装依赖 _yaml.h ，如果没有会转为纯 python 模式</li>
+<li>安装 MarkupSafe-1.1.1.tar.gz </li>
+<li>安装 Jinja2-2.10.1.tar.gz </li>
+<li>安装 simplejson-3.16.0.tar.gz </li>
+<li>安装 pycparser-2.19.tar.gz</li>
+<li>安装 cffi-1.12.3.tar.gz</li>
+<li>安装 ipaddress-1.0.22.tar.gz </li>
+<li>安装 six-1.12.0.tar.gz</li>
+<li>安装 asn1crypto-0.24.0.tar.gz</li>
+<li>安装 idna-2.8.tar.gz</li>
+<li>安装 pyasn1-0.4.5.tar.gz</li>
+<li>安装 PyNaCl-1.3.0.tar.gz </li>
+<li>安装 enum34-1.1.8.tar.gz</li>
+<li>安装 cryptography-2.6.1.tar.gz </li>
+<li>安装 bcrypt-3.1.6.tar.gz</li>
+<li>安装 paramiko-2.4.2.tar.gz </li>
+<li>安装 ansible-2.9.7.tar.gz </li>
+</ul>
+<p>完成后，验证安装结果。推荐大家使用 Github 上 <a target="_blank" rel="noopener" href="https://github.com/ghl1024/ansible-offline-install/blob/main/ansible/install.sh">ghl1024</a> 整理的一个安装脚本来自动化这个过程，如果需要特定的版本，自己修改脚本内容就可以。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ansible --version</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置与使用"><a href="#配置与使用" class="headerlink" title="配置与使用"></a>配置与使用</h2><p>使用 ansible 操作目标主机的方式有两种，一种是通过配置主机列表后在命令行中通过主机列表名称选择设备。例如：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ansible machinelist -m <span class="built_in">command</span> -a <span class="string">&#x27;cat /etc/redhat-release&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>这里的 machinelist 对应 /etc/ansible/hosts 文件中的一组机器列表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[machinelist]</span><br><span class="line">10.2.1.1</span><br><span class="line">10.2.1.2</span><br></pre></td></tr></table></figure>
+
+<p>使用这种方式配置的机器列表，需要安装了 ansible 的这台机器与列表中的主机都做了 ssh 互信。</p>
+<p>我们可以利用 sshpass 这个应用来实现使用用户密码登录，这种方式要求安装了 ansible 的机器上先要安装 sshpass 。在离线环境下，推荐大家通过 rpm 包进行安装或者编译安装。</p>
+<p>安装完成后，修改 hosts 文件配置如下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[machinelist]</span><br><span class="line">10.2.1.1 ansible_ssh_user=root ansible_ssh_pass=xxxxxx</span><br><span class="line">10.2.1.2 ansible_ssh_user=root ansible_ssh_pass=xxxxxx</span><br></pre></td></tr></table></figure>
+
+<p>利用这种方式，可以实现同口令主机的批量快速访问。根据安全要求，后续口令要按照规则进行修改。最长久的办法，还是对主机做下互信配置。可以通过 <code>ssh-copy-id</code> 结合 ansible 实现主机的批量互信。</p>
+<blockquote>
+<p>两种方式的配置可以混合使用。</p>
+</blockquote>
+<p>在配置了 ssh_pass 的情况下，再介绍下如何批量添加服务器互信。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编写 pushssh.yaml 文件</span></span><br><span class="line">---</span><br><span class="line">  - hosts: unit_test</span><br><span class="line">    user: shiqiang <span class="comment"># 执行 ansible 的用户</span></span><br><span class="line">    tasks:</span><br><span class="line">      - name: ssh-copy</span><br><span class="line">        authorized_key: user=root key=<span class="string">&quot;&#123;&#123; lookup(&#x27;file&#x27;, &#x27;/home/shiqiang/.ssh/id_rsa.pub&#x27;)&#125;&#125;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>上面这个配置表示 将当前用户 <code>shiqiang</code> 的 id_rsa.pub 拷贝到远程主机的 root 用户下。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shiqiang@host: ansible-playbook pushssh.yaml</span><br><span class="line"><span class="comment"># 执行完成后，可以尝试免密登录目标主机</span></span><br><span class="line">shiqiang@host: ssh root@10.2.1.2</span><br></pre></td></tr></table></figure>
+
+<h2 id="题外话"><a href="#题外话" class="headerlink" title="题外话"></a>题外话</h2><p>在使用 ansible 向多台主机发送命令的过程中，有些主机有以下的 WARNING 提示。</p>
+<blockquote>
+<p>[WARNING]: Platform linux on host -.-.-.- is using the discovered Python interpreter at /usr/bin/python, but future installation of another Python interpreter could change this. See <a target="_blank" rel="noopener" href="https://docs.ansible.com/ansible/2.9/reference_appendices/interpreter_discovery.html">https://docs.ansible.com/ansible/2.9/reference_appendices/interpreter_discovery.html</a> for more information.</p>
+</blockquote>
+<p>看文字的大意是某些机器上的 python 是在 <code>/usr/bin/python</code> 下的，未来可能会被替换。</p>
+<p>忽略这个错误的办法是在 <code>/etc/ansible/ansible.cfg</code> 中添加以下配置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[defaults]</span><br><span class="line">interpreter_python = auto_legacy_silent</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ghl1024/p/14309382.html">Ansible 离线安装</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/z960339491/article/details/84328904">ansible的安装配置和配合sshpass的使用</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_30360497/article/details/96901120">sshpass 绕过ssh 密码交互式验证</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/bruce_6/article/details/82019519">Ansible 实现批量建立互信</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u014262328/article/details/107668984">Platform linux on host is using the discovered Python interpreter</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2022/01/12/20220112-ansible-common-usage/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Ansible 常用使用场景
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/12/24/20211224-bye-bye-2021/" id="article-nav-older" class="article-nav-link-wrap">
+            2021 年终总结 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

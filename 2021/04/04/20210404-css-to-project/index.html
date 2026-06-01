@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CSS工程化开发方法及优点-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="sass, css, scss, css工程化开发">
+    <meta name="description" content="借助SASS或LESS拓展语言的支持，我们能够用工程化的方法开发CSS代码。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>CSS工程化开发方法及优点</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-04-04 21:48:44</span>
+        
+        <span class="post-time">发布于：2021-04-04 21:06:28</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h2 id="传统-CSS-开发存在的问题"><a href="#传统-CSS-开发存在的问题" class="headerlink" title="传统 CSS 开发存在的问题"></a>传统 CSS 开发存在的问题</h2><p>在我2003年刚接触Web开发的时候，一直到2008年左右，从最简单的直接编写JS和CSS，到出现jQuery框架，CSS也开始出现一些基础的包，但当时还是以JS为主。后来的事情大家都知道了，Twwiter发布了Bootstrap框架，对于页面开发的友好度大大提升了。传统的CSS开发具有以下缺点：</p>
+<ul>
+<li>缺少模块系统</li>
+<li>没有变量机制</li>
+<li>嵌套层级的写法造成大量重复输入</li>
+<li>难于复用</li>
+</ul>
+<p>对于小型的Web项目CSS手工写起来还可，一旦工程大起来，如何不同人员的合理分工，如何维护基础变量以及解决复用的问题就变得比较关键，这时就需要工程化的管理思路和工具来进行CSS的开发。</p>
+<p><a target="_blank" rel="noopener" href="http://sass-lang.com/">SASS</a> 和 <a target="_blank" rel="noopener" href="http://lesscss.org/">LESS</a>是两种最流行的解决方案。通过提供CSS预处理器，为CSS增加了一些编程的特性，将CSS的开发工作变得更为工程化。</p>
+<h2 id="SASS与LESS简介"><a href="#SASS与LESS简介" class="headerlink" title="SASS与LESS简介"></a>SASS与LESS简介</h2><p>SASS与LESS都是CSS的拓展语言，less是通过node.js编译，sass通过ruby编译。</p>
+<h2 id="什么是-SASS-以及-SASS-的历史"><a href="#什么是-SASS-以及-SASS-的历史" class="headerlink" title="什么是 SASS 以及 SASS 的历史"></a>什么是 SASS 以及 SASS 的历史</h2><blockquote>
+<p>我选择的是SASS，所以本文重点介绍SASS。</p>
+</blockquote>
+<p>Sass 是世界上最成熟、最稳定、最强大的专业级 CSS 扩展语言！</p>
+<h2 id="SASS-的特性"><a href="#SASS-的特性" class="headerlink" title="SASS 的特性"></a>SASS 的特性</h2><h3 id="变量-Variables"><a href="#变量-Variables" class="headerlink" title="变量 Variables"></a>变量 Variables</h3><p>Sass的变量必须是 <code>$</code> 开始，变量名和值使用冒号隔开。</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$mainColor</span>: <span class="number">#0982c1</span>;</span><br><span class="line"><span class="variable">$siteWidth</span>: <span class="number">1024px</span>;</span><br><span class="line"><span class="variable">$borderStyle</span>: dotted;</span><br><span class="line"> </span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="variable">$mainColor</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">1px</span> <span class="variable">$borderStyle</span> <span class="variable">$mainColor</span>;</span><br><span class="line">  <span class="attribute">max-width</span>: <span class="variable">$siteWidth</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="嵌套-Nesting"><a href="#嵌套-Nesting" class="headerlink" title="嵌套 Nesting"></a>嵌套 Nesting</h3><p>Scss支持嵌套语法。</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">section</span> &#123;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">10px</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="selector-tag">nav</span> &#123;</span><br><span class="line">        <span class="attribute">height</span>: <span class="number">25px</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="selector-tag">a</span> &#123;</span><br><span class="line">            <span class="attribute">color</span>: <span class="number">#000</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译后是</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">section</span> &#123;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">section</span> <span class="selector-tag">nav</span> &#123;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">25px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">section</span> <span class="selector-tag">nav</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#000</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="引用-Import"><a href="#引用-Import" class="headerlink" title="引用 Import"></a>引用 Import</h3><h3 id="Mixins"><a href="#Mixins" class="headerlink" title="Mixins"></a>Mixins</h3><p>因为不同的浏览器中有些属性前缀不一致，每次写起来就会很累人，这时候可以使用<code>mixin</code>功能。</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@mixin</span> transform(<span class="variable">$property</span>) &#123;</span><br><span class="line">    -webkit-<span class="attribute">transform</span>: <span class="variable">$property</span>;</span><br><span class="line">    -ms-<span class="attribute">transform</span>: <span class="variable">$property</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box</span> &#123; <span class="keyword">@include</span> transform(rotate(<span class="number">30deg</span>)); &#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译之后就是</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">  -webkit-<span class="attribute">transform</span>: <span class="built_in">rotate</span>(<span class="number">30deg</span>);</span><br><span class="line">  -ms-<span class="attribute">transform</span>: <span class="built_in">rotate</span>(<span class="number">30deg</span>);</span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">rotate</span>(<span class="number">30deg</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="扩展-继承-Extent-Inheritance"><a href="#扩展-继承-Extent-Inheritance" class="headerlink" title="扩展/继承 Extent/Inheritance"></a>扩展/继承 Extent/Inheritance</h3><p>这是sass中最有用的一个特性，使用<code>@extend</code>能让我们在一个和多个选择器间共享一段CSS属性。</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* This CSS will print because %message-shared is extended. */</span></span><br><span class="line">%message-shared</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#ccc</span></span><br><span class="line">  padding: <span class="number">10px</span></span><br><span class="line">  color: <span class="number">#333</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// This CSS won<span class="string">&#x27;t print because %equal-heights is never extended.</span></span><br><span class="line"><span class="string">%equal-heights</span></span><br><span class="line"><span class="string">  display: flex</span></span><br><span class="line"><span class="string">  flex-wrap: wrap</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">.message</span></span><br><span class="line"><span class="string">  @extend %message-shared</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">.success</span></span><br><span class="line"><span class="string">  @extend %message-shared</span></span><br><span class="line"><span class="string">  border-color: green</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">.error</span></span><br><span class="line"><span class="string">  @extend %message-shared</span></span><br><span class="line"><span class="string">  border-color: red</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">.warning</span></span><br><span class="line"><span class="string">  @extend %message-shared</span></span><br><span class="line"><span class="string">  border-color: yellow</span></span><br></pre></td></tr></table></figure>
+<p>编译后的效果</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* This CSS will print because %message-shared is extended. */</span></span><br><span class="line"><span class="selector-class">.message</span>, <span class="selector-class">.success</span>, <span class="selector-class">.error</span>, <span class="selector-class">.warning</span> &#123;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#ccc</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#333</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.success</span> &#123;</span><br><span class="line">  <span class="attribute">border-color</span>: green;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.error</span> &#123;</span><br><span class="line">  <span class="attribute">border-color</span>: red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.warning</span> &#123;</span><br><span class="line">  <span class="attribute">border-color</span>: yellow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="操作符-Operator"><a href="#操作符-Operator" class="headerlink" title="操作符 Operator"></a>操作符 Operator</h3><p>SASS提供了五种运算符，分别为：</p>
+<ul>
+<li>赋值运算符。使用 <code>$main-color: lightpink;</code> 的方式进行赋值。</li>
+<li>算术运算符。支持 <code>+、-、*、/、%</code> 五种算术运算符。</li>
+<li>平等算子。支持<code>==、!=</code> 两种平等算子。</li>
+<li>比较运算符。支持 <code>&gt;、&gt;=、&lt;、&lt;=</code> 四种比较运算符。</li>
+<li>逻辑运算符。支持 <code>And、Or、Not</code> 三种逻辑运算符。</li>
+</ul>
+<h2 id="工程实践"><a href="#工程实践" class="headerlink" title="工程实践"></a>工程实践</h2><p>基于以上的优点，我在制作自己博客皮肤的时候使用了工程化的方法。大家可以参考我的 <a href="">Github</a></p>
+<p>参考资料：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/iovec/p/8024408.html">前端CSS的工程化——掌握Sass这四大特性就够了</a></li>
+<li><a target="_blank" rel="noopener" href="http://sass-lang.com/">SASS</a></li>
+<li><a target="_blank" rel="noopener" href="http://lesscss.org/">LESS</a></li>
+<li><a target="_blank" rel="noopener" href="http://sass-lang.com/documentation/file.SASS_REFERENCE.html">SASS Documentation</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/6a35a548c9e1">sass和less</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/jiaojsun/article/details/95093505">css系列—sass,scss,less,stylus的比较</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ed3c98ba5474">webpack配置中的ExtractTextPlugin插件认识</a></li>
+<li><a target="_blank" rel="noopener" href="https://sass-lang.com/guide">sass guide</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/04/04/20210405-grace-murray-hopper/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 格蕾丝·赫柏
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/04/01/20210401-flink-102-basic-concepts/" id="article-nav-older" class="article-nav-link-wrap">
+            Flink 基础概念 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

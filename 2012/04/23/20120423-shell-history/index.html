@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shell历史-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="shell, shell历史">
+    <meta name="description" content="本文介绍shell的发展历史。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Shell历史</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2012-04-23 14:12:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>浏览了一下Wiki，把shell的历史简要摘抄了一下，整个发展过程还是很有趣，csh贡献了很多的想法和特性，但是最后却没有流行起来。sh虽然刚开始功能比较简单，但是后续也一直在完善。bash我觉得目前对于使用linux的朋友来说是最常见的，但是这位Fox兄弟在Wiki上的评价只是Computer Programmer，远远不及Bourne老爷子呢。</p>
+<p>Bourne Shell     是1977年发布的Unix Version 7 中的默认Shell。目前大多数Unix系统仍保留着原始的 /bin/sh，或者保留一个软连接到其他Shell上 。该程序由 Stephen Bourne 在贝尔实验室工作期间开发，它的开发是做为 Thompson Shell 的一个替代。随着《The UNIX Programming Environment》（作者Brain W. Kernighan、Rob Pike）一书的出版，Bourne Shell开始变得流行起来。</p>
+<img src="/2012/04/23/20120423-shell-history/201204231411503185.png" class="">
+
+<p>随着时间的发展，伴随着不断更新的系统（Version 7、SystemIII、SVR2、SVR3、SVR4），AT&amp;T不断地增强shell的功能，但是因为shell一直没有版本号，所以我们只能依靠其支持的特性来区分SHELL的版本。</p>
+<p>对于SHELL的一些批评：交互式的使用不够友好（当时C Shell提供了history、aliases、job control等命令）；Unix系统使用C写成，但是shell的语法缺不像C，倒是有点像ALGOL；缺少正则表达式支持。</p>
+<img src="/2012/04/23/20120423-shell-history/201204231411538117.png" class="">
+
+<p>后续的故事</p>
+<p>C Shell （csh）在1970年代，由当时还是加州大学伯克利分校的学生Bill Joy编写。在1978年，随着BSD Unix系统的第二个版本广泛发布。早期贡献代码的成员还包括：Michael Ubell, Eric Allman, Mike O’Brien and Jim Kulp。在一些系统如Mac OS X和Red Hat Linux上，csh实际上是tchsh，一种增强型的shell。csh包含了当今shell的绝大多数特性，包括filename wildcarding, piping, here documents, command substitution, variables and control structures for condition-testing and iteration。</p>
+<p>虽然csh有着众多的交互特性以及快速的执行速度，但是最终未能流行起来。整个80年代，csh不能够确保出现在所有的Unix系统上，但是sh可以，这也是造成csh不够流行的主要因素。90年代中期，csh的分发开始广泛起来，这时又遭受了POSIX委员会的质疑，指出语法不够完善、特性缺失、扩展性差等问题[<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/C_shell">8</a>]。</p>
+<p>Korn Shell （ksh）由 David Korn 编写，1983年在USENIX上宣布。它向后兼容Bourne Shell，同时吸取了C Shell中的一些优点（job control）。代码贡献者还包括当时在Bell Labs的Mike Veach和Pat Sullivan。目前为开源软件：<a target="_blank" rel="noopener" href="http://www.kornshell.org/">http://www.kornshell.org/</a>。ksh的早期版本为 ksh88，是AIX4上的默认shell。后来又发布了ksh93版本。</p>
+<p>Bash （the Bourne-Agian shell）由 Brian Fox 为GNU项目编写，目的是代替sh。首次发布于1989年，作为GNU项目的一个程序广泛分布在Linux、Mac OS X、Cygwin上。Brain Fox作为FSF的员工，首次开始工作是在1988年的1月10号，一年之后，发布了.99的测试版本。</p>
+<img src="/2012/04/23/20120423-shell-history/201204231411565972.png" class="">
+
+<p>参考资料：<br>1、The Linux Command Line: A Complete Introduction<br>2、<a target="_blank" rel="noopener" href="http://baike.baidu.com/view/1867757.html?fromTaglist">umask 百度百科</a><br>3、<a target="_blank" rel="noopener" href="http://bbs.chinaunix.net/thread-451969-1-1.html">关于setuid和setgid的讨论</a><br>4、<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Bash_(Unix_shell)">Wiki Bash Unix Shell</a><br>5、<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Bourne_shell">Bourne Shell</a><br>6、<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/The_UNIX_Programming_Environment">The Unix Programming Environment</a><br>7、<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Korn_shell">Wiki Korn Shell</a><br>8、<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/C_shell">Wiki C Shell</a><br>9、<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Bash_(Unix_shell)">Wiki Bash （Unix Shell）</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2012/05/04/20120504-ruby-tail/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 使用Ruby简单实现的tail命令，支持动态输出
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2012/04/10/20120410-set-zendstudio-svn-ignore/" id="article-nav-older" class="article-nav-link-wrap">
+            ZendStudio中设置SVN:ignore &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

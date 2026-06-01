@@ -1,0 +1,210 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VIM的使用技巧-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="vim, vim技巧, vim快捷键">
+    <meta name="description" content="本文总结了一些vim常用的使用技巧和快捷键。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>VIM的使用技巧</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-11 19:09:15</span>
+        
+        <span class="post-time">发布于：2009-01-19 12:25:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h3 id="1、复制多行文字"><a href="#1、复制多行文字" class="headerlink" title="1、复制多行文字"></a>1、复制多行文字</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:3,10 co 11</span><br></pre></td></tr></table></figure>
+
+<p>将第三到10行的内容复制到第11行<br>如果不想查看具体是那一个行，可以用下面的办法：</p>
+<p>光标移到起始行，输入ma<br>光标移到结束行，输入mb<br>光标移到粘贴行，输入mc</p>
+<p>然后 :’a,’b co ‘c</p>
+<p>把 co 改成 m 就成剪切了。</p>
+<p>还有一个办法：找到要复制的行，键盘按下shift+v， 然后用方向键上下或j h 移动想要copy的行，然后按下y。</p>
+<p>再移动到目的行，按下p即完成拷贝多行。这种方法适合没有行号的多行copy。</p>
+<h3 id="2、删除操作"><a href="#2、删除操作" class="headerlink" title="2、删除操作"></a>2、删除操作</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dw：</td>
+<td>删除一个单词,需将光标移到单词的第一个字母上，按dw，如果光标在单词任意位置，用daw</td>
+</tr>
+<tr>
+<td>dnw:</td>
+<td>删除n个单词</td>
+</tr>
+<tr>
+<td>dne:</td>
+<td>也可，只是删除到单词尾</td>
+</tr>
+<tr>
+<td>dnl:</td>
+<td>向右删除n个字母</td>
+</tr>
+<tr>
+<td>dnh:</td>
+<td>向左删除n个字母</td>
+</tr>
+<tr>
+<td>dnj:</td>
+<td>向下删除n行</td>
+</tr>
+<tr>
+<td>dnk:</td>
+<td>向上删除n行</td>
+</tr>
+<tr>
+<td>d$：</td>
+<td>删除当前光标到改行的行尾的字母</td>
+</tr>
+<tr>
+<td>dd：</td>
+<td>删除一行</td>
+</tr>
+</tbody></table>
+<h3 id="3、显示行号"><a href="#3、显示行号" class="headerlink" title="3、显示行号"></a>3、显示行号</h3><p>可以通过 <code>:set number</code> 来在当前编辑文件中显示行号<br>也可以在 <code>.bashsrc</code> 中进行设置</p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2009/01/19/20090119-apache-virtual-machine/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Fedora10下配置Apache和虚拟主机
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2009/01/16/20090116-useful-linux-command/" id="article-nav-older" class="article-nav-link-wrap">
+            一些常用的Linux命令 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

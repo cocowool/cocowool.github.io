@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VIM快捷键入门与精通-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="vim, linux vim, vim快捷键, linux vim 快捷键">
+    <meta name="description" content="掌握VIM快捷键，用啥终端都不怕。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>VIM快捷键入门与精通</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-04-01 13:43:04</span>
+        
+        <span class="post-time">发布于：2021-04-01 12:45:48</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h2 id="基础快捷键"><a href="#基础快捷键" class="headerlink" title="基础快捷键"></a>基础快捷键</h2><ul>
+<li>移动光标：除了使用方向键之外，还可以使用 <code>h、j、k、l</code> 四个按键操作光标。熟练使用后能提升一倍的效率，毕竟手不用离开字母区找方向键了。</li>
+<li>行内移动光标：使用 <code>0</code> 快速跳转到行首，<code>$</code> 快速跳转到行尾，<code>^</code> 快速跳转到第一个非空字符。</li>
+<li>单词间移动光标：使用 <code>w</code> 向后跳转一个单词到下一个单词的开始，使用 <code>e</code> 向后跳转一个单词到单词的末尾，使用 <code>b</code> 向前跳转一个单词到单词的开头。</li>
+<li>插入模式：vim 打开文件后默认是只读模式，使用 <code>i</code> 能够进入插入模式，这时就可以向文件中写入内容。写入完成后，按 Esc 键即可退回到只读模式。</li>
+<li>替换模式：使用 <code>R</code> 进入替换模式，所有的内容都会被新输入的内容原地替换。</li>
+<li>删除字符：只读模式下我们想要删除某个字符，不需要转换到插入模式 + Delete。只需要使用 <code>x</code> / <code>X</code> 就能够快速的删除光标后一个字符或光标前一个字符，避免在两种模式间频繁切换。</li>
+<li>在行尾插入内容：<code>A</code> 可以将光标移动到行尾并且进入插入模式，方便快速的在行尾插入内容。</li>
+<li>撤销和重做：使用 <code>u</code> 能够快速撤销上一步操作，使用 <code>Ctrl + R</code> 能够重做刚才的动作。</li>
+<li>保存和推出：<code>:w</code> 保存对文件的修改，<code>:q</code> 退出文件。 </li>
+</ul>
+<img src="/2021/04/01/20210401-vim-shortcut/NSFileHandle.gif" class="" title="Vim 快捷键基础篇">
+
+<h2 id="操作进阶"><a href="#操作进阶" class="headerlink" title="操作进阶"></a>操作进阶</h2><ul>
+<li>行内查找：<code>f</code> 在只读模式下，输入f后再加上要查找的内容，回车在行内进行查找，并将光标移动到行内内容上。<code>F</code> 是按照反方向在行内进行查找。<code>t</code> 和 <code>T</code> 也是做行内查找，只不过光标停留在查找内容的前面。</li>
+<li>删除内容：<code>d</code> 是删除的快捷键。<code>d + w</code> 表示向后删除一个单词，<code>d + fs</code> 表示向后删除到下一个字母s。<code>c</code> 与 <code>d</code> 的作用相同，只是完成删除操作后停留在插入模式。删除快捷键可以和很多移动光标的快捷键结合使用，来达到快速删除的目的，还可以加上数字来提高删除速度，这个操作真的需要大家自己认真体会一下。</li>
+<li>重复动作：<code>.</code> 键可以重复上一个编辑动作，包括删除内容、新建行等。</li>
+</ul>
+<img src="/2021/04/01/20210401-vim-shortcut/NSFileHandle-7253371.gif" class="" title="Vim 快捷键操作进阶">
+
+<h2 id="复制粘贴"><a href="#复制粘贴" class="headerlink" title="复制粘贴"></a>复制粘贴</h2><ul>
+<li>复制内容：<code>y</code> 快捷键+移动操作表示复制相关的内容，例如 <code>yw</code> 表示复制光标后面一个单词，<code>y$</code> 表示复制从光标到行尾的内容，<code>yy</code> 表示复制光标所在行的全部内容。</li>
+<li>粘贴内容：<code>p</code> 粘贴刚刚复制的内容，如果为一段文字则向光标后插入，如果是一行文字则向下插入。<code>P</code> 与 <code>p</code> 的粘贴方向相反。</li>
+<li>插入空行：<code>o</code> 可以向下插入空行，<code>O</code> 可以向上插入空行。</li>
+</ul>
+<img src="/2021/04/01/20210401-vim-shortcut/NSFileHandle-7254328.gif" class="" title="Vim 快捷键复制粘贴">
+
+<h2 id="查找功能"><a href="#查找功能" class="headerlink" title="查找功能"></a>查找功能</h2><ul>
+<li>查找：<code>/</code> 是查找的快捷键，输入 <code>/</code> 后再输入需要查找的内容然后回车，匹配到的内容会高亮显示。使用 <code>n</code> 和 <code>N</code> 可以向前或向后移动匹配的内容。<code>?</code> 与 <code>/</code> 功能相同，只是查找的方向默认为向前查找。</li>
+</ul>
+<img src="/2021/04/01/20210401-vim-shortcut/NSFileHandle-7254607.gif" class="" title="Vim 快捷键查找功能">
+
+<h2 id="标记与宏"><a href="#标记与宏" class="headerlink" title="标记与宏"></a>标记与宏</h2><ul>
+<li>标记：使用 <code>m</code> 加字母，可以将光标所在的位置进行标记。</li>
+<li>录制宏：使用 <code>q</code> 开启和停止一段录制，使用 <code>@</code> 重放一段录制的动作。</li>
+</ul>
+<img src="/2021/04/01/20210401-vim-shortcut/NSFileHandle-7254999.gif" class="" title="Vim 快捷键标记与宏">
+
+<h2 id="移动进阶"><a href="#移动进阶" class="headerlink" title="移动进阶"></a>移动进阶</h2><ul>
+<li>在配对的括号间跳转。<code>%</code> 可以在配对的括号、大括号、方括号间跳转。</li>
+<li>在屏幕上快速移动。使用 <code>H</code> 可以快速移动到屏幕顶端、使用 <code>M</code> 可以快速移动到屏幕中间，使用 <code>L</code> 可以快速移动到屏幕底部。</li>
+<li>指定位置跳转：使用 <code>G</code> 默认跳转到行尾，也可以指定需要跳转到的行号，即 <code>#15G</code> 就会跳转到第15行。</li>
+<li>跳转到帮助文档：<code>K</code> 可以跳转到光标当前所在命令的帮助文档。</li>
+</ul>
+<img src="/2021/04/01/20210401-vim-shortcut/NSFileHandle-7255373.gif" class="" title="Vim 快捷键标记与宏">
+
+<h2 id="其他技巧"><a href="#其他技巧" class="headerlink" title="其他技巧"></a>其他技巧</h2><img src="/2021/04/01/20210401-vim-shortcut/NSFileHandle-7255761.gif" class="" title="Vim 快捷键">
+
+<img src="/2021/04/01/20210401-vim-shortcut/NSFileHandle-7255770.gif" class="" title="Vim 快捷键">
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/04/01/20210401-flink-102-basic-concepts/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Flink 基础概念
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/03/28/20210401-docker-save-in-and-out/" id="article-nav-older" class="article-nav-link-wrap">
+            Docker镜像的导入、导出 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>浅解用PHP实现MVC-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="php, php mvc, mvc">
+    <meta name="description" content="本文介绍使用PHP通过使用面向对象的方式来实现MVC模式。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>浅解用PHP实现MVC</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-15 17:11:02</span>
+        
+        <span class="post-time">发布于：2009-09-08 22:51:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>传统的面相过程式的开发方式在处理中型以上的应用时，就开始显得力不从心。即便我们能够快速的完成需求，但是在需求发生变更后或者进行后期维护的时候，我们会深深地陷入我们早期搭建的陷阱中。所以，使用面向对象的方式来实现MVC模式，将为我们梳理程序的架构提供一个清晰的思路。</p>
+<p><strong>什么是MVC？</strong></p>
+<p>关于MVC的定义和解释，可以说多种多样。我们可以在Wiki或者[2]中找到更为详尽的解释，这里我并不打算，也没有能力进行深入的讲解，从PHP开发的角度来讲，MVC可以概括为：</p>
+<p>视图(The View)：</p>
+<p>一说到视图，我们很多人都会想到模板引擎(诸如Smarty等等)。其实就是各种各样的输出，比如说html模板和Javascript文件等。</p>
+<p>模块(The Model)</p>
+<p>模块代表了程序的逻辑，在企业应用中通常称为业务逻辑层。一般来讲，这一层完成的工作是把原始的数据处理成按照我们设计的数据结构存储的有意义的数据序列，并将这些数据交给视图去处理。通常情况下， 模块中会利用一个数据抽象类来进行与数据操作有关的处理。<br>Model通常包含了哪些用来同数据库打交道的函数。</p>
+<p>控制器(The Controller)</p>
+<p>控制器使所有WEB应用的第一站，他接受收到的参数，比如$_GET变量，然后做出相应的反应。</p>
+<p>关于MVC的是否适合PHP的争论也很多，人们不断的讨论MVC是否适合PHP[3]，现在也已经有了很多的MVC框架，诸如PHP MVC Frameworks中列出的[4]。那么，为什么人们这么热衷于MVC，我们为什么要使用MVC在我们的设计中呢。</p>
+<p><strong>为什么用MVC？</strong></p>
+<p>MVC最早是用来解决桌面GUI的编程问题，最早的MVC框架应该是Sun在1999年提出的Model 2，后来演变成了Struts。MVC带给人们深刻的印象，但是我们在使用的过程中，却并没有认真的想过为什么使用MVC。<br>在传统的桌面应用中，一旦Model中有时间发生，我们可以主动的让View界面进行刷新，从而展示后台发生的变化。而在Web应用中，我们似乎限于传统的Http的Request/Response的方式，我们似乎没有办法让用户端进行更新。这一段讨论，并不是认为MVC不能够用来进行WEB应用的开发，而是觉得从某种程度上来说，他还不是最合适的。<br>关于使用MVC的争论还有很多[1]，但是相信所有习惯了使用MVC来组织自己的项目的人，让他选择一个新的项目构架时，一定不会放弃MVC。</p>
+<p><strong>如何实现MVC？</strong></p>
+<p>下面是一个超级简单的MVC结构实现，甚至连数据源都用了一个内置的固定数组，虽然简单，但其实众多的PHP Framework核心实现的思想应该和这个是差不多的，只不过一些framework提供了更多的方便开发者使用的工具，我也想自己来实现一个PHP的框架，目前正在着手策划中，也希望自己能够从框架的开发中学习到更多的PHP设计思想和方法。</p>
+<p>Controller.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include</span> <span class="string">&#x27;Model.php&#x27;</span>;</span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;View.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Controller</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$model</span>     = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$view</span>     = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">Controller</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;model    =    <span class="keyword">new</span> Model();</span><br><span class="line">        <span class="keyword">$this</span>-&gt;view        =    <span class="keyword">new</span> View();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">doAction</span>(<span class="params"> <span class="variable">$method</span> = <span class="string">&#x27;defaultMethod&#x27;</span>, <span class="variable">$params</span> = <span class="keyword">array</span>(<span class="params"></span>) </span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>( <span class="keyword">empty</span>(<span class="variable">$method</span>) )&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;defaultMethod();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>( method_exists(<span class="keyword">$this</span>, <span class="variable">$method</span>) )&#123;</span><br><span class="line">            call_user_func(<span class="keyword">array</span>(<span class="keyword">$this</span>, <span class="variable">$method</span>), <span class="variable">$params</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;nonexisting_method();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">link_page</span>(<span class="params"><span class="variable">$name</span> = <span class="string">&#x27;&#x27;</span></span>)</span>&#123;</span><br><span class="line">        <span class="variable">$links</span> = <span class="keyword">$this</span>-&gt;model-&gt;getLinks();</span><br><span class="line">        <span class="keyword">$this</span>-&gt;view-&gt;display(<span class="variable">$links</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="variable">$result</span> = <span class="keyword">$this</span>-&gt;model-&gt;getResult(<span class="variable">$name</span>);</span><br><span class="line">        <span class="keyword">$this</span>-&gt;view-&gt;display(<span class="variable">$result</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">defaultMethod</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;br();</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;This is the default method. &quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">nonexisting_method</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;br();</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;This is the noexisting method. &quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">br</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable">$controller</span> = <span class="keyword">new</span> Controller();</span><br><span class="line"><span class="variable">$controller</span>-&gt;doAction(<span class="string">&#x27;link_page&#x27;</span>, <span class="string">&#x27;b&#x27;</span>);</span><br><span class="line"><span class="variable">$controller</span>-&gt;doAction();</span><br></pre></td></tr></table></figure>
+
+<p>Model.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Model</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$database</span> = <span class="keyword">array</span>(</span><br><span class="line">        <span class="string">&quot;a&quot;</span>    =&gt;    <span class="string">&quot;hello world&quot;</span>,</span><br><span class="line">        <span class="string">&quot;b&quot;</span>    =&gt;    <span class="string">&quot;ok well done&quot;</span>,</span><br><span class="line">        <span class="string">&quot;c&quot;</span>    =&gt;    <span class="string">&quot;good bye&quot;</span>,</span><br><span class="line">    );</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//@TODO connect the database</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//run the query and get the result</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getResult</span>(<span class="params"><span class="variable">$name</span></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>( <span class="keyword">empty</span>(<span class="variable">$name</span>) )&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">FALSE</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>( in_array(<span class="variable">$name</span>, array_keys( <span class="keyword">$this</span>-&gt;database ) ) )&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;database[<span class="variable">$name</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getLinks</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="variable">$links</span> = <span class="string">&quot;&lt;a href=&#x27;#&#x27;&gt;Link A&lt;/a&gt;&amp;nbsp;&amp;nbsp;&quot;</span>;</span><br><span class="line">        <span class="variable">$links</span>.= <span class="string">&quot;&lt;a href=&#x27;#&#x27;&gt;Link B&lt;/a&gt;&amp;nbsp;&amp;nbsp;&quot;</span>;</span><br><span class="line">        <span class="variable">$links</span>.= <span class="string">&quot;&lt;a href=&#x27;#&#x27;&gt;Link C&lt;/a&gt;&amp;nbsp;&amp;nbsp;&quot;</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$links</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>View.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">View</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">display</span>(<span class="params"><span class="variable">$output</span></span>)</span>&#123;</span><br><span class="line"><span class="comment">//        ob_start();</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">echo</span> <span class="variable">$output</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参考资料：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="http://www.sitepoint.com/blogs/2005/12/22/mvc-and-web-apps-oil-and-water/">MVC and Web apps</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.phpwact.org/pattern/model_view_controller">Model View Controller</a></li>
+<li><a target="_blank" rel="noopener" href="http://phplens.com/phpeverywhere/?q=node/view/143">Is MVC over designed Crap</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.phpwact.org/php/mvc_frameworks">PHP MVC Framworks</a></li>
+<li><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Model_2">Model 2 </a></li>
+<li><a target="_blank" rel="noopener" href="http://codesnipers.com/?q=node/158&&title=Stupidly-Easy-MVC-in-PHP-or-">Stupid Easy MVC</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2009/09/13/20090913-php-to-iis/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 将PHP应用无缝转移到IIS中?
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2009/09/05/20090905-generate-version-code/" id="article-nav-older" class="article-nav-link-wrap">
+            Zend Studio小技巧：自动生成版本信息 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

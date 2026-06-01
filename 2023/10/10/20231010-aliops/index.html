@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>阿里云AIOps参赛记录-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="阿里云, AIOps, Trace, Metric, SLS">
+    <meta name="description" content="记录第一次参加阿里云 AIOps 比赛的心得体会。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>阿里云AIOps参赛记录</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2023-10-12 22:42:25</span>
+        
+        <span class="post-time">发布于：2023-10-10 22:45:24</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>记不太清楚是从什么渠道得知阿里云举办这次比赛了，印象深刻的是看到比赛题目后就马上点进去查看了详细的赛制和要求。因为平时工作都侧重在运维领域，对于如何从监控数据中发现异常点这个题目非常感兴趣，看到「数据洞察创新挑战赛之智能运维赛」这个方向后便毫不犹豫的报名参加了。</p>
+<p>我是一名运维工程师，平时很少能够实际编写异常检测的程序来查找定位系统中的故障，而阿里云举办的这次比赛则为我们提供了绝好的学习和锻炼的机会，能够接触到海量的运维监控数据，还能够利用阿里云提供的SLS工具，通过控制台页面方便的查询、分析、可视化展示数据。</p>
+<p>比赛开始后，官方为我们提供了说明文档、钉钉群、直播授课多种形式的引导教育，能够让我这个对于阿里云产品不是很熟悉的用户快速的创建参赛所需要的 SLS 数据。在工作中，我曾经运维管理过单位内部的 ES 集群，我非常赞叹阿里云 SLS 的性能能力，对于数亿亿计的数据能够在很短的时间内推送完成，并且提供了不亚于 Kibana 的图形化查询、分析界面。</p>
+<p>熟悉比赛的数据也是非常有趣的体验，对于交易监控我们单位内部有一套自己的数据结构标准，看到符合 OpenTelemetry 协议的比赛数据后，有一种非常熟悉的感觉。单位内部的数据，在每个服务节点输出的数据中，会将本节点的处理耗时单独打出来，而比赛数据仅仅提供了响应耗时。这一点上，感觉这是为了比赛而埋下的伏笔。</p>
+<p>接下来，我花了很多的时间来计算每个节点的处理耗时。感谢组织者，也提供了非常清晰的 Demo 代码。在 Demo 的帮助下，可以很轻松的生成复合比赛要求的提交结果文件。修改代码，也可以快速的提高比赛成绩。</p>
+<p>我在使用一些智能算法、大模型算法来解决问题方面还有很多的不足，也希望通过本次比赛来积累相关的经验。希望本次比赛结束之后，官方能够将一些优秀的解题思路、代码分享出来，让更多的同学受益。</p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2023/10/26/20231026-yuque-event/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 语雀故障整改措施分析
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2023/09/16/20230916-ted-nelson/" id="article-nav-older" class="article-nav-link-wrap">
+            泰德·尼尔森 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

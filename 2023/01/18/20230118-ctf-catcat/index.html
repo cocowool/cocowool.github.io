@@ -1,0 +1,200 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>攻防世界CTF题目catcat-new Writeup-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="ctf, 攻防世界, catcat">
+    <meta name="description" content="本文记录CTF题目catcat的解题思路。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>攻防世界CTF题目catcat-new Writeup</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2023-06-06 23:03:07</span>
+        
+        <span class="post-time">发布于：2023-01-18 19:30:41</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>最近攻防世界新放出了一道难度为2的Web题目 catcat-new。本文记录了整个学习摸索的过程，欢迎大家批评指正。</p>
+<h2 id="探索阶段"><a href="#探索阶段" class="headerlink" title="探索阶段"></a>探索阶段</h2><p>这是一道 Web 题目，打开后提供了一个展示猫咪图片的网站，可以查看每只猫咪的详细信息。</p>
+<p>使用 xray 做了初次的扫描。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">提示有路径穿越漏洞，可以实现任意文件的读取。尝试了在根目录下找 flag 文件没有结果。</span><br><span class="line"></span><br><span class="line">然后查看了一些系统的敏感文件，例如</span><br><span class="line"></span><br><span class="line">* /etc/passwd</span><br><span class="line">* /etc/environment</span><br><span class="line">* /etc/hostname</span><br><span class="line">* /etc/hosts</span><br><span class="line"></span><br><span class="line">后来在这个环节停顿了好几天，也曾尝试 SSTI 注入，发现不存在这个问题，这是后来获取到网站源码后才知道的。</span><br><span class="line"></span><br><span class="line">后来查网上的资料，开始探索 `/proc` 目录，在 `/proc/self/cmdline` 中发现了关键要素。</span><br><span class="line"></span><br><span class="line">```sh</span><br><span class="line"><span class="comment"># 访问 http://61.147.171.105:56391/info?file=../../proc/self/cmdline</span></span><br><span class="line"><span class="comment"># 看到了</span></span><br><span class="line">b<span class="string">&#x27;python\x00app.py\x00&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>因为摸索到这是一个容器环境，猜测脚本可能部署在 <code>/app</code> 目录下，于是通过下面几个链接，找到了全部的源码。</p>
+<ul>
+<li>/info?file=../../app/app.py</li>
+<li>/info?file=../../app/cat.py</li>
+<li>/info?file=../../app/templates/index.html</li>
+<li>/info?file=../../app/templates/detail.html</li>
+</ul>
+<blockquote>
+<p>源代码放到了我的 Github 中，大家可以访问参考。</p>
+</blockquote>
+<h2 id="逐渐深入"><a href="#逐渐深入" class="headerlink" title="逐渐深入"></a>逐渐深入</h2><p>因为尝试 SSTI 无法成功，就继续摸索文件路径穿越可能存在的问题，尝试更多的文件，逐步摸清出了这是一个 docker 应用，运行了 python 程序提供 Web 服务。</p>
+<p>能够看到程序代码后，做了3种尝试。</p>
+<p>第一种是想尝试Flask SESSION伪造，通过修改本地Cookie去绕过SESSION认证，但是因为SECRET_KEY采取了 uuid4 函数生成，本地生成的和服务器生成的不一致，这个尝试失败。</p>
+<p>第二种网上搜到一些资料，提到 uuid4 使用的是随机数算法，存在重复的可能性，因此尝试去碰撞，本地写了脚本不断尝试，始终没有成功。后来咨询单位的 CTF 大拿，提醒说这个方法基本没听到过，遂放弃。</p>
+<p>第三种看到应用启动的时候会先生成 flag 文件，读取内容后再删除。想到之前遇到过一个比手速的题目，尝试重启应用后用脚本快速获取内容。因为重建场景每次的端口号都不一样，始终也没有成功。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> uuid </span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, request, session, render_template, Markup </span><br><span class="line"><span class="keyword">from</span> cat <span class="keyword">import</span> cat</span><br><span class="line"></span><br><span class="line">flag = <span class="string">&quot;&quot;</span></span><br><span class="line">app = Flask( __name__, static_url_path=<span class="string">&#x27;/&#x27;</span>, static_folder=<span class="string">&#x27;static&#x27;</span> )</span><br><span class="line">app.config[<span class="string">&#x27;SECRET_KEY&#x27;</span>] = <span class="built_in">str</span>(uuid.uuid4()).replace(<span class="string">&quot;-&quot;</span>, <span class="string">&quot;&quot;</span>) + <span class="string">&quot;*abcdefgh&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># http://61.147.171.105:52059/info?file=../../app/flag</span></span><br><span class="line"><span class="comment"># 50734,52160,56860,54194</span></span><br><span class="line"><span class="keyword">if</span> os.path.isfile(<span class="string">&quot;/flag&quot;</span>):</span><br><span class="line">    flag = cat(<span class="string">&quot;/flag&quot;</span>) </span><br><span class="line">    os.remove(<span class="string">&quot;/flag&quot;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>]</span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span>():</span></span><br><span class="line">    detailtxt = os.listdir(<span class="string">&#x27;./details/&#x27;</span>) </span><br><span class="line">    cats_list = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> detailtxt:</span><br><span class="line">        cats_list.append(i[:i.index(<span class="string">&#x27;.&#x27;</span>)])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">&quot;index.html&quot;</span>, cats_list=cats_list, cat=cat)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/info&#x27;</span>, methods=[<span class="string">&quot;GET&quot;</span>, <span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">info</span>():</span></span><br><span class="line">    filename = <span class="string">&quot;./details/&quot;</span> + request.args.get(<span class="string">&#x27;file&#x27;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line">    start = request.args.get(<span class="string">&#x27;start&#x27;</span>, <span class="string">&quot;0&quot;</span>)</span><br><span class="line">    end = request.args.get(<span class="string">&#x27;end&#x27;</span>, <span class="string">&quot;0&quot;</span>)</span><br><span class="line">    name = request.args.get(<span class="string">&#x27;file&#x27;</span>, <span class="string">&quot;&quot;</span>)[:request.args.get(<span class="string">&#x27;file&#x27;</span>, <span class="string">&quot;&quot;</span>).index(<span class="string">&#x27;.&#x27;</span>)]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">&quot;detail.html&quot;</span>, catname=name, info=cat(filename, start, end))</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/admin&#x27;</span>, methods=[<span class="string">&quot;GET&quot;</span>]</span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">admin_can_list_root</span>():</span></span><br><span class="line">    <span class="built_in">print</span>(app.config[<span class="string">&#x27;SECRET_KEY&#x27;</span>])</span><br><span class="line">    <span class="built_in">print</span>(session)</span><br><span class="line">    session[<span class="string">&#x27;admin&#x27;</span>]=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> session.get(<span class="string">&#x27;admin&#x27;</span>) == <span class="number">1</span>: </span><br><span class="line">        flag = <span class="string">&quot;aaaaa&quot;</span></span><br><span class="line">        <span class="keyword">return</span> flag</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        session[<span class="string">&#x27;admin&#x27;</span>] = <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;NoNoNo&quot;</span></span><br><span class="line">        </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>: </span><br><span class="line">    app.run(host=<span class="string">&#x27;0.0.0.0&#x27;</span>, debug=<span class="literal">False</span>, port=<span class="number">5637</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>刚开始抓到 b’abc\nabc’ 样式的内容，我还手工把代码格式调整好，看到其他人的 WP，以 b 开头表示 Python 的 bytes 类型，可以使用 bytes 的 decode() 方法直接格式化，大大节省了工作量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="string">b&#x27;abc\nabc&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(a.decode())</span><br></pre></td></tr></table></figure>
+
+
+</blockquote>
+<h2 id="拍手叫绝"><a href="#拍手叫绝" class="headerlink" title="拍手叫绝"></a>拍手叫绝</h2><p>上面两个阶段已经耗费了好几天，这时看到攻防世界上已经有人提供了 Writeup，感到自己黔驴技穷，点看查看之后不禁拍手叫绝，这个办法是我绝对不可能想到的。</p>
+<p>下面补充一下学到的知识。</p>
+<p>Linux 内核提供了 /proc 文件系统，提供了在运行时访问内核内部数据结构、改变内核设置的机制，用户和应用程序可以通过 /proc 得到系统的信息，并改变内核的某些参数。/proc 文件系统是一个伪文件系统，它只存在内存当中，而不占用外存空间。/proc 目录下还包括 /proc/sys 目录，这个目录是可写的，可以通过它来访问或修改内核的参数。另外还有一些以数字命名的目录，它们是进程目录。系统中运行的每个进程都有一个对应的目录在 /proc 下，以进程的 PID号为目录名，它们是读取进程信息的接口。而 /proc/self 目录则是读取进程本身的信息接口。</p>
+<p>读取 /proc/self/maps 可以得到当前进程的内存映射关系，通过读该文件的内容可以得到内存代码段基址。</p>
+<p>/proc/self/mem 是进程的内存内容，通过修改该文件相当于直接修改当前进程的内存信息。</p>
+<p>本题解答的关键思路是需要知道 Python 的存储对象的位置在堆上这个特性，而通过 /proc/self/mem 可以用来读取堆栈信息。</p>
+<p>题目的代码和一键解决的文件，我已放在 <a href="">Github</a> 上。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://adworld.xctf.org.cn/challenges/details?hash=9cc7514c-7c47-11ed-ab28-000c29bc20bf&task_category_id=3">攻防世界 catcat-new</a></li>
+<li><a target="_blank" rel="noopener" href="https://baijiahao.baidu.com/s?id=1686667928214457971&wfr=spider&for=pc">细说Jinja2之SSIT&amp;bypass</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45615127/article/details/117150993">Flask之Session伪造</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34936378">客户端SESSION导致的安全问题</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/3fba2e5b1e17">/proc/self</a></li>
+<li><a target="_blank" rel="noopener" href="https://xia0ji233.pro/2023/01/01/Nepnep-CatCTF2022/#Cat-cat">cat ctf wp</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2023/01/28/20230128-edsger-wybe-dijkstra/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 艾兹格·迪科斯彻
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2023/01/05/20230105-stephen-kleene/" id="article-nav-older" class="article-nav-link-wrap">
+            斯蒂芬·科尔·克莱尼 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Logstash学习笔记（一）-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="logstash, elk, elasticsearch">
+    <meta name="description" content="logstash作为数据源与数据存储分析工具之间的桥梁，结合 ElasticSearch以及Kibana，能够极大方便数据的处理与分析。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Logstash学习笔记（一）</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2017-08-09 17:24:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>Logstash是一款开源的数据收集引擎，具备实时管道处理能力。简单来说，logstash作为数据源与数据存储分析工具之间的桥梁，结合 ElasticSearch以及Kibana，能够极大方便数据的处理与分析。通过200多个插件，logstash可以接受几乎各种各样的数据。包括日志、网络请求、关系型数据库、传感器或物联网等等。</p>
+<img src="/2017/08/09/20170809-logstash-learning/39469-20170809172218402-966897321.png" class="">
+
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>之前我有一篇文章<a target="_blank" rel="noopener" href="http://www.cnblogs.com/cocowool/p/7297749.html">ElasticSearch + Logstash + Kibana 搭建笔记</a>记录了ELK环境的搭建过程，只是简单介绍了一种安装方式，本文记录更多的细节。</p>
+<blockquote>
+<p>logstash 要求Java8的支持。Java9暂时不支持，本文使用的logstash版本为5.5.1。</p>
+</blockquote>
+<p>在Linux环境中，我们可以通过包管理进行安装，例如Unbuntu中的apt、以及CentOS中的yum。也可以从<a target="_blank" rel="noopener" href="https://www.elastic.co/downloads/logstash">这里</a>下载对应环境的二进制版本。</p>
+<h3 id="体验Pipeline"><a href="#体验Pipeline" class="headerlink" title="体验Pipeline"></a>体验Pipeline</h3><p>Logstatsh最基本的Pipeline模式如下图所示，其需要两个必需参数<strong>input</strong>、<strong>output</strong>，以及一个可选参数<strong>filter</strong>。</p>
+<img src="/2017/08/09/20170809-logstash-learning/39469-20170809172237620-91246511.png" class="">
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> logstash-5.5.1</span><br><span class="line">bin/logstash -e <span class="string">&#x27;input &#123; stdin &#123; &#125; &#125; output &#123; stdout &#123;&#125; &#125;&#x27;</span></span><br><span class="line"></span><br><span class="line">[2017-08-09T15:40:03,303][INFO ][logstash.pipeline        ] Pipeline main started</span><br><span class="line"></span><br><span class="line">hello world</span><br><span class="line">2017-08-09T07:40:46.397Z iZ627x15h6pZ hello world</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><figcaption><span>main started表示logstash已经启动成功，在命令行输入一些文字后，logstash会加上日期和主机名（IP）输出到终端。这就是Logstash最基本的工作模式，接受输入，然后将信息加工后放入到输出。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 处理日志</span><br><span class="line">Logstash收购了Filebeat加入到自己的生态系统中用来处理日志，Filebeat是一个轻量化的日志收集工具，还可以感知后台logstash的繁忙程度来决定日志发送的速度。</span><br><span class="line">首先下载[Filebeat](https://www.elastic.co/downloads/beats/filebeat)，解压后就可以使用。找到filebeat.yml修改如下：</span><br><span class="line">```bash</span><br><span class="line">filebeat.prospectors:</span><br><span class="line">- input_type: log</span><br><span class="line">  paths:</span><br><span class="line">    - /path/to/file/logstash-tutorial.log </span><br><span class="line">output.logstash:</span><br><span class="line">  hosts: [&quot;localhost:5043&quot;]</span><br></pre></td></tr></table></figure>
+<p>配置完成后等logstash启动后再启动Filebeat。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ./filebeat -e -c filebeat.yml -d <span class="string">&quot;publish&quot;</span></span><br></pre></td></tr></table></figure>
+<p>接下来配置logstash，按照如下配置编写一个 filebeat.conf 文件</p>
+<figure class="highlight plaintext"><figcaption><span>&#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">  beats &#123;</span><br><span class="line">    port =&gt; &quot;5043&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">  stdout &#123; codec =&gt; rubydebug &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置文件可以用下面的命令验证是否有问题</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/logstash -f filebeat.conf --config.test_and_exit/</span><br></pre></td></tr></table></figure>
+<p>如果验证没有问题，就可以用这个配置文件启动 logstash 了。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/logstash -f filebeat.conf</span><br></pre></td></tr></table></figure>
+<p>之后再启动Filebeat，就可以在Filebeat终端窗口看到日志信息的输出，同时在logstash这边也能看到有日志输出。这就说明此时logstash已经能够正常接收beats送来的文件了。</p>
+<img src="/2017/08/09/20170809-logstash-learning/39469-20170809172300167-238115856.png" class="">
+
+
+
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/logstash/current/index.html">Logstash Reference</a><br>2、<a target="_blank" rel="noopener" href="https://github.com/elastic/beats/tree/master/filebeat">Filebeat</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2017/08/10/20170810-apache-log-analyse-with-elk/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Filebeat+Logstash+ElasticSearch+Kibana搭建Apache访问日志解析平台
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2017/08/07/20170808-plupload-parameters/" id="article-nav-older" class="article-nav-link-wrap">
+            Plupload设置自定义参数 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

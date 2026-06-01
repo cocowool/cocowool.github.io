@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Logstash中如何处理到ElasticSearch的数据映射-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="logstash, logstash数据映射, elasticsearch">
+    <meta name="description" content="Logstash作为一个数据处理管道，提供了丰富的插件，能够从不同数据源获取用户数据，进行处理后发送给各种各样的后台。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Logstash中如何处理到ElasticSearch的数据映射</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2017-08-11 17:28:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>Logstash作为一个数据处理管道，提供了丰富的插件，能够从不同数据源获取用户数据，进行处理后发送给各种各样的后台。这中间，最关键的就是要对数据的类型就行定义或映射。</p>
+<blockquote>
+<p>本文讨论的 ELK 版本为 5.5.1。</p>
+</blockquote>
+<h2 id="为什么要定义数据"><a href="#为什么要定义数据" class="headerlink" title="为什么要定义数据"></a>为什么要定义数据</h2><p>Elastisearch不仅是一个强大的全文检索引擎，它还能够对一些数据类型进行实时的统计运算，相关的结果可以通过Kibana的图表展现出来。如果数据类型没有正确的定义，那么Elasticsearch就无法进行运算了，因此，虽然数据类型的定义需要花一点时间，但你会收到意想不到的效果。</p>
+<h2 id="JSON、字符串和数字"><a href="#JSON、字符串和数字" class="headerlink" title="JSON、字符串和数字"></a>JSON、字符串和数字</h2><p>所有送往Elasticsearch的数据都要求是JSON格式，Logstash所做的就是如何将你的数据转换为JSON格式。ElasticSearch会帮我们自动的判断传入的数据类型，这么做当然极大的方便了用户，但也带来了一些问题。<br>Elastic中的一些数据类型：<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/text.html">text</a>、<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/keyword.html">keyword</a>、<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/date.html">date</a>、<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/number.html">long</a>、<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/number.html">double</a>、<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/boolean.html">boolean</a>、<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/ip.html">ip</a>、<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/object.html">object</a>、<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/nested.html">nested</a>、<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-point.html">geo_point</a>等。不同的类型有不同的用途，如果你需要全文检索，那应该使用text类型，如果你需要统计汇总那应该选择数据或者keyword类型。感谢动态映射 Dynamic Mapping 的存在，在向ES送数的时候我们不需要事先定义映射关系，ES会对新增的字段自动进行映射。但是你比Elasticsearch更加熟悉你的数据，因此可能需要自己进行显示定义 Explicit Mapping 映射关系。例如IP字段，默认是解析成字符串，如果映射为IP类型，我们就可以在后续的查询中按照IP段进行查询，对工作是很有帮助的。我们可以在创建索引时定义，也可以在索引创建后定义映射关系。</p>
+<blockquote>
+<p>对于已经存在的数据，无法更新映射关系。更新映射关系意味着我们必须重建索引。</p>
+</blockquote>
+<p>先来看下面这个JSON文档。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;@timestamp&quot;</span>: <span class="string">&quot;2017-08-11T20:11:45.000Z&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;@version&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;count&quot;</span>: <span class="number">2048</span>,</span><br><span class="line">  <span class="attr">&quot;average&quot;</span>: <span class="number">1523.33</span>,</span><br><span class="line">  <span class="attr">&quot;host&quot;</span>: <span class="string">&quot;elasticsearch.com&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里有五个字段：<code>@timestamp</code>，<code>@version</code>，<code>count</code>，<code>average</code>，<code>host</code>。其中 @timestamp 和 host 是字符串，count、average 是数字，@version比较特殊，它的值是数字，但是因为放在双引号中，所以作为字符串来对待。<br>尝试把数据送入到 Elasticsearch 中，首先创建一个测试的索引：</p>
+<img src="/2017/08/11/20170811-elasticsearch-data-mapping-in-logstash/39469-20170811172249929-901624181.png" class="">
+<p>将数据存入索引</p>
+<img src="/2017/08/11/20170811-elasticsearch-data-mapping-in-logstash/39469-20170811172301960-1150423241.png" class="">
+<p>查看数据映射的情况</p>
+<img src="/2017/08/11/20170811-elasticsearch-data-mapping-in-logstash/39469-20170811172314288-1982265310.png" class="">
+<p><strong>根据结果可知，在没有明确定义数据类型的情况下，Elasticsearch会自动判断数据的类型，因此 @timestamp、@version、host都被映射为 text ，average、count 被映射为数字。</strong></p>
+<h2 id="在Logstash中定义数据类型映射"><a href="#在Logstash中定义数据类型映射" class="headerlink" title="在Logstash中定义数据类型映射"></a>在Logstash中定义数据类型映射</h2><p>Logstash提供了 grok 和 mutate 两个插件来进行数值数据的转换。</p>
+<h3 id="grok"><a href="#grok" class="headerlink" title="grok"></a>grok</h3><p>grok 目前是解析非结构化的日志数据最好的插件。特别适合处理syslog、apache或其他web服务器、mysql等为了阅读而输出的信息类日志。<br>grok 的基本用法如下：<code>%&#123;SYNTAX:SEMANTIC&#125;</code>，SYNTAX是grok提供的样式Pattern的名称，grok提供了<a target="_blank" rel="noopener" href="https://github.com/logstash-plugins/logstash-patterns-core/tree/master/patterns">120多种Pattern</a>，SEMANTIC是你给匹配内容的名称（标志符）。因为grok实际上是正则匹配，因此任何输出都默认转换为字符类型，如果你需要数据类型的转换，则使用下面这种格式</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%&#123;NUMBER:SEMANTIC:int&#125;</span><br></pre></td></tr></table></figure>
+<p>目前，类型转换仅支持 int 和 float 两种类型。</p>
+<blockquote>
+<p>如果将带小数的数字转换为 int 类型，会将小数后的数字丢弃。</p>
+</blockquote>
+<h3 id="mutate"><a href="#mutate" class="headerlink" title="mutate"></a>mutate</h3><p>mutate 为用户提供了处理Logstash event数据的多种手段。允许我们移除字段、重命名字段、替换字段、修改字段等操作。</p>
+<figure class="highlight plaintext"><figcaption><span>&#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">  mutate &#123;</span><br><span class="line">    convert =&gt; &#123; &quot;num&quot; =&gt; &quot;integer&quot; &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用模版进行字段映射"><a href="#使用模版进行字段映射" class="headerlink" title="使用模版进行字段映射"></a>使用模版进行字段映射</h3><p>Elasticsearch中通过模板来存放索引字段的映射关系，logstash可以在配置文件中指定模板文件来实现自定义映射关系。<br>查询 Elasticsearch 中的模板，系统自带了 logstash-* 的模板。</p>
+<img src="/2017/08/11/20170811-elasticsearch-data-mapping-in-logstash/39469-20170811172341726-2022060215.png" class="">
+<p>我们用实际的例子来看一下映射和模板是如何起作用的。<br>1、首先创建一个 logstash 配置文件，通过 filebeat 读取 combined 格式的 apache 访问日志。<br>配置文件名为 filebeat.conf 位于 logstash 文件夹内。filebeat的配置比较简单，可以参考我的上一篇文章<a target="_blank" rel="noopener" href="http://www.cnblogs.com/cocowool/p/7338426.html">Filebeat+Logstash+ElasticSearch+Kibana搭建Apache访问日志解析平台</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">input &#123;</span><br><span class="line">  beats &#123;</span><br><span class="line">    port =&gt; <span class="string">&quot;5043&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">filter &#123;</span><br><span class="line">  grok &#123;</span><br><span class="line">    match =&gt; &#123; <span class="string">&quot;message&quot;</span> =&gt; <span class="string">&quot;%&#123;COMBINEDAPACHELOG&#125;&quot;</span> &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  date &#123;</span><br><span class="line">    match =&gt; [ <span class="string">&quot;timestamp&quot;</span>, <span class="string">&quot;dd/MMM/yyyy:HH:mm:ss Z&quot;</span> ]</span><br><span class="line">    target =&gt; [<span class="string">&quot;datetime&quot;</span>]</span><br><span class="line">  &#125;</span><br><span class="line">  geoip &#123;</span><br><span class="line">    <span class="built_in">source</span> =&gt; <span class="string">&quot;clientip&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">  elasticsearch &#123;</span><br><span class="line">    hosts =&gt; <span class="string">&quot;localhost:9200&quot;</span></span><br><span class="line">    index =&gt; <span class="string">&quot;my_index&quot;</span></span><br><span class="line">    <span class="comment">#template =&gt; &quot;/data1/cloud/logstash-5.5.1/filebeat-template.json&quot;</span></span><br><span class="line">    <span class="comment">#template_name =&gt; &quot;my_index&quot;</span></span><br><span class="line">    <span class="comment">#template_overwrite =&gt; true</span></span><br><span class="line">  &#125;</span><br><span class="line">  stdout &#123; codec =&gt; rubydebug &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第一次数据导入的时候，我们先不使用模板，看看 es 如何默认映射数据，启动elk环境，进行数据导入。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[maserati@iZ627x15h6pZ logstash-5.5.1]$ ../elasticsearch-5.5.1/bin/elasticsearch </span><br><span class="line">[maserati@iZ627x15h6pZ logstash-5.5.1]$ ./bin/logstash -f filebeat.conf </span><br><span class="line">[maserati@iZ627x15h6pZ filebeat-5.5.1-linux-x86_64]$ sudo ./filebeat -e -c filebeat.yml -d <span class="string">&quot;publish&quot;</span></span><br></pre></td></tr></table></figure>
+<p>数据导入完成后，看一下索引的情况</p>
+<img src="/2017/08/11/20170811-elasticsearch-data-mapping-in-logstash/39469-20170811172547288-1536608024.png" class="">
+<p>因为从log导入的数据，所以mapping中给映射规则起名为log，对应的是 document_type，可以看到clientip和 geoip.location 分别解析成了文本和数值。其他大部分内容都映射为 text 。这种不需要我们定义映射规则的处理方式非常方便，但有时候我们更需要精确的映射。<br>看一下ES映射模板，只有logstash命名的模板，因为名称不匹配，所以没有应用这里的映射规则。</p>
+<img src="/2017/08/11/20170811-elasticsearch-data-mapping-in-logstash/39469-20170811172611742-1957071184.png" class="">
+<p>这里可以注意到模板文件和索引中的映射关系稍有不同，没关系，我们把 my_index 的映射关系拷贝下来，存为 filebeat-template.json ，这里贴一下一个删减版的 模板文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;template&quot;</span>: <span class="string">&quot;my_index&quot;</span>,</span><br><span class="line">  <span class="string">&quot;order&quot;</span>: 1,</span><br><span class="line">  <span class="string">&quot;settings&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;index.refresh_interval&quot;</span> : <span class="string">&quot;5s&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;mappings&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;_default_&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;properties&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;clientip&quot;</span> : &#123; <span class="string">&quot;type&quot;</span>:<span class="string">&quot;ip&quot;</span> &#125;,</span><br><span class="line">        <span class="string">&quot;geoip&quot;</span>: &#123;</span><br><span class="line">          <span class="string">&quot;properties&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;location&quot;</span>: &#123; <span class="string">&quot;type&quot;</span>:<span class="string">&quot;geo_point&quot;</span> &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以通过命令行收工把模板上传到 elasticsearch ，也可以通过 logstash 配置文件指定。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT http://localhost:9200/_template/my_index_template?pretty -d @filebeat-template.json</span><br></pre></td></tr></table></figure>
+<p>我的例子中，我们只需要把 filebeat.conf 中的注释打开即可。然后删除索引，我们对索引重建一下。<br>看一下索引，可以看到模板中定义的规则已经在里面了。</p>
+<img src="/2017/08/11/20170811-elasticsearch-data-mapping-in-logstash/39469-20170811172643695-153584130.png" class="">
+<p>看一下索引字段，看到 clientip 已经定义成 ip 类型了。</p>
+<img src="/2017/08/11/20170811-elasticsearch-data-mapping-in-logstash/39469-20170811172702570-768463545.png" class="">
+<p>同样，geoip.location映射成 geo_point 类型。</p>
+<img src="/2017/08/11/20170811-elasticsearch-data-mapping-in-logstash/39469-20170811172716226-1525265207.png" class="">
+<p>这样我们就可以做访客地图了。</p>
+<img src="/2017/08/11/20170811-elasticsearch-data-mapping-in-logstash/39469-20170811172731195-1160532515.png" class="">
+<p>这时，再看一下 template 的情况。</p>
+<img src="/2017/08/11/20170811-elasticsearch-data-mapping-in-logstash/39469-20170811172746163-1334997107.png" class="">
+<p>可以看到，除了默认的模板，新增了一个我们定义的 my_index 模板。后续还可以对模板进行修改，但是注意只能增加或者删除，无法对已经映射的字段进行更新。</p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="https://www.elastic.co/blog/logstash_lesson_elasticsearch_mapping">Using Logstash to help create an Elasticsearch mapping template</a><br>2、<a target="_blank" rel="noopener" href="https://www.elastic.co/blog/little-logstash-lessons-part-using-grok-mutate-type-data">Using grok and mutate to type your data</a><br>3、<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html#mapping-type">Elasticsearch Mapping</a><br>4、<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html">Grok Filter Plugin</a><br>5、<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/logstash/current/plugins-filters-mutate.html">Mutate Filter Plugin</a><br>6、<a target="_blank" rel="noopener" href="http://m.blog.csdn.net/u012516166/article/details/75106184">用logstash导入ES且自定义mapping时踩的坑</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2017/08/18/20170818-change-openjdk-to-oraclejdk/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 将Linux默认的OpenJDK替换为Oracle JDK
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2017/08/10/20170810-apache-log-analyse-with-elk/" id="article-nav-older" class="article-nav-link-wrap">
+            Filebeat+Logstash+ElasticSearch+Kibana搭建Apache访问日志解析平台 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

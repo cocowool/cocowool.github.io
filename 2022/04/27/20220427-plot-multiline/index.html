@@ -1,0 +1,210 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plot 画折线图的各种方法-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="plot, matplotlib">
+    <meta name="description" content="Python 中 matplotlib 画折线图的方法">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Plot 画折线图的各种方法</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2022-05-11 20:30:57</span>
+        
+        <span class="post-time">发布于：2022-04-27 21:47:39</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>折线图是我们平时数据分析过程中最常用的，通过本次参加国际 AIOPS 比赛，积累了不少画图的经验，再此整理出来与大家分享。</p>
+<blockquote>
+<p>本文使用代码在 macOS Monterey 12.2.1 测试通过，Pyhon 版本 3.9.6</p>
+<p>本文所使用的代码和数据集可以在我的 Github 上获取</p>
+</blockquote>
+<p>首先介绍下我使用的数据结构，这是一份时序数据，时间戳是一个乱序的一天内的时间戳，配置项ID类似于主机名，有多个重复的配置项。指标名也有多个重复的指标，最后一列是具体的值。</p>
+<table>
+<thead>
+<tr>
+<th>timestamp</th>
+<th>cmdb_id</th>
+<th>kpi_name</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>时间戳</td>
+<td>配置项ID</td>
+<td>指标名</td>
+<td>指标值</td>
+</tr>
+<tr>
+<td>1647792000</td>
+<td>node-1</td>
+<td>ping.can_connect</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>1647792000</td>
+<td>node-2</td>
+<td>system.load.5</td>
+<td>3.96</td>
+</tr>
+</tbody></table>
+<ul>
+<li>单折线图</li>
+<li>多折线图</li>
+<li>折线图标注数据点</li>
+<li>折线图叠加矩形</li>
+</ul>
+<h3 id="单折线图"><a href="#单折线图" class="headerlink" title="单折线图"></a>单折线图</h3><p>只画出一个配置项、一个指标的时间序列的折线图。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 画单折线图</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">single_line</span>():</span></span><br><span class="line">    df = pd.read_csv(<span class="string">&#x27;data.csv&#x27;</span>)</span><br><span class="line">    <span class="comment"># 只取一个 cmdb_id 值</span></span><br><span class="line">    df = df[ df[<span class="string">&#x27;cmdb_id&#x27;</span>].<span class="built_in">str</span>.contains(<span class="string">&#x27;node-1&#x27;</span>)]</span><br><span class="line">    <span class="comment"># 只取一个 kpi_name 值</span></span><br><span class="line">    df = df[ df[<span class="string">&#x27;kpi_name&#x27;</span>].<span class="built_in">str</span>.contains(<span class="string">&#x27;system.load.5&#x27;</span>) ]</span><br><span class="line">    df.sort_values(<span class="string">&#x27;timestamp&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># df[&#x27;value&#x27;].plot(x=df[&#x27;timestamp&#x27;])</span></span><br><span class="line">    <span class="comment"># plt.show()</span></span><br><span class="line"></span><br><span class="line">    fig = plt.figure(figsize=(<span class="number">14</span>,<span class="number">8</span>))</span><br><span class="line">    plt.rcParams[<span class="string">&quot;figure.autolayout&quot;</span>] = <span class="literal">True</span></span><br><span class="line">    plt.rcParams[<span class="string">&#x27;font.sans-serif&#x27;</span>] = [<span class="string">&#x27;Songti SC&#x27;</span>]</span><br><span class="line">    plt.rcParams[<span class="string">&#x27;axes.unicode_minus&#x27;</span>] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    plt.plot(df[<span class="string">&#x27;timestamp&#x27;</span>], df[<span class="string">&#x27;value&#x27;</span>], c = ‘lime’, label=<span class="string">&#x27;node-1&#x27;</span>)</span><br><span class="line">    plt.xlabel( <span class="string">&#x27;Timestamp&#x27;</span> )</span><br><span class="line">    plt.ylabel( df[<span class="string">&#x27;kpi_name&#x27;</span>].iloc[<span class="number">1</span>] )</span><br><span class="line">    plt.legend( loc = <span class="string">&#x27;best&#x27;</span> )</span><br><span class="line">    plt.show()</span><br></pre></td></tr></table></figure>
+
+<h2 id="多折线图"><a href="#多折线图" class="headerlink" title="多折线图"></a>多折线图</h2><p>数据文件 cmdb_id 中有两个不重复的配置项，画出这两个配置项 system.load.5 这个指标的折线图。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 画多折线图</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multi_line</span>():</span></span><br><span class="line">    df = pd.read_csv(<span class="string">&#x27;data.csv&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># df[&#x27;value&#x27;].plot(x=df[&#x27;timestamp&#x27;])</span></span><br><span class="line">    <span class="comment"># plt.show()</span></span><br><span class="line"> </span><br><span class="line">    fig = plt.figure(figsize=(<span class="number">14</span>,<span class="number">8</span>))</span><br><span class="line">    plt.rcParams[<span class="string">&quot;figure.autolayout&quot;</span>] = <span class="literal">True</span></span><br><span class="line">    plt.rcParams[<span class="string">&#x27;font.sans-serif&#x27;</span>] = [<span class="string">&#x27;Songti SC&#x27;</span>]</span><br><span class="line">    plt.rcParams[<span class="string">&#x27;axes.unicode_minus&#x27;</span>] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 只取一个 cmdb_id 值</span></span><br><span class="line">    adf = df[ df[<span class="string">&#x27;cmdb_id&#x27;</span>].<span class="built_in">str</span>.contains(<span class="string">&#x27;node-1&#x27;</span>)]</span><br><span class="line">    <span class="comment"># 只取一个 kpi_name 值</span></span><br><span class="line">    adf = adf[ df[<span class="string">&#x27;kpi_name&#x27;</span>].<span class="built_in">str</span>.contains(<span class="string">&#x27;system.load.5&#x27;</span>) ]</span><br><span class="line">    adf.sort_values(<span class="string">&#x27;timestamp&#x27;</span>)</span><br><span class="line">    plt.plot(adf[<span class="string">&#x27;timestamp&#x27;</span>], adf[<span class="string">&#x27;value&#x27;</span>], c = <span class="string">&#x27;teal&#x27;</span>, label=<span class="string">&#x27;node-1&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 只取一个 cmdb_id 值</span></span><br><span class="line">    bdf = df[ df[<span class="string">&#x27;cmdb_id&#x27;</span>].<span class="built_in">str</span>.contains(<span class="string">&#x27;node-2&#x27;</span>)]</span><br><span class="line">    <span class="comment"># 只取一个 kpi_name 值</span></span><br><span class="line">    bdf = bdf[ df[<span class="string">&#x27;kpi_name&#x27;</span>].<span class="built_in">str</span>.contains(<span class="string">&#x27;system.load.5&#x27;</span>) ]</span><br><span class="line">    bdf.sort_values(<span class="string">&#x27;timestamp&#x27;</span>)</span><br><span class="line">    plt.plot( bdf[<span class="string">&#x27;timestamp&#x27;</span>], bdf[<span class="string">&#x27;value&#x27;</span>], c = <span class="string">&#x27;red&#x27;</span>, label=<span class="string">&#x27;node-2&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    plt.xlabel( <span class="string">&#x27;Timestamp&#x27;</span> )</span><br><span class="line">    plt.ylabel( df[<span class="string">&#x27;kpi_name&#x27;</span>].iloc[<span class="number">1</span>] )</span><br><span class="line">    plt.legend( loc = <span class="string">&#x27;best&#x27;</span> )</span><br><span class="line">    plt.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="折线图标注数据点"><a href="#折线图标注数据点" class="headerlink" title="折线图标注数据点"></a>折线图标注数据点</h3><p>将故障点标注在曲线的对应位置。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 折线图标注数据点</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">line_with_dot</span>():</span></span><br><span class="line">    df = pd.read_csv(<span class="string">&#x27;data.csv&#x27;</span>)</span><br><span class="line">    <span class="comment"># 只取一个 cmdb_id 值</span></span><br><span class="line">    df = df[ df[<span class="string">&#x27;cmdb_id&#x27;</span>].<span class="built_in">str</span>.contains(<span class="string">&#x27;node-1&#x27;</span>)]</span><br><span class="line">    <span class="comment"># 只取一个 kpi_name 值</span></span><br><span class="line">    df = df[ df[<span class="string">&#x27;kpi_name&#x27;</span>].<span class="built_in">str</span>.contains(<span class="string">&#x27;system.load.5&#x27;</span>) ]</span><br><span class="line">    df.sort_values(<span class="string">&#x27;timestamp&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># df[&#x27;value&#x27;].plot(x=df[&#x27;timestamp&#x27;])</span></span><br><span class="line">    <span class="comment"># plt.show()</span></span><br><span class="line"> </span><br><span class="line">    fig = plt.figure(figsize=(<span class="number">14</span>,<span class="number">8</span>))</span><br><span class="line">    plt.rcParams[<span class="string">&quot;figure.autolayout&quot;</span>] = <span class="literal">True</span></span><br><span class="line">    plt.rcParams[<span class="string">&#x27;font.sans-serif&#x27;</span>] = [<span class="string">&#x27;Songti SC&#x27;</span>]</span><br><span class="line">    plt.rcParams[<span class="string">&#x27;axes.unicode_minus&#x27;</span>] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    plt.plot(df[<span class="string">&#x27;timestamp&#x27;</span>], df[<span class="string">&#x27;value&#x27;</span>], c = <span class="string">&#x27;red&#x27;</span>, label=<span class="string">&#x27;node-1&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 故障点</span></span><br><span class="line">    plt.plot(<span class="number">1647823965</span>, df[<span class="string">&#x27;value&#x27;</span>].<span class="built_in">max</span>(), <span class="string">&#x27;o&#x27;</span>)</span><br><span class="line">    plt.text(<span class="number">1647823965</span>, df[<span class="string">&#x27;value&#x27;</span>].<span class="built_in">max</span>() + <span class="number">0.4</span>, <span class="string">&#x27;node-1,node节点CPU故障&#x27;</span> , ha = <span class="string">&#x27;left&#x27;</span>, va = <span class="string">&#x27;top&#x27;</span>, fontsize = <span class="number">8</span>)</span><br><span class="line"></span><br><span class="line">    plt.xlabel( <span class="string">&#x27;Timestamp&#x27;</span> )</span><br><span class="line">    plt.ylabel( df[<span class="string">&#x27;kpi_name&#x27;</span>].iloc[<span class="number">1</span>] )</span><br><span class="line">    plt.legend( loc = <span class="string">&#x27;best&#x27;</span> )</span><br><span class="line">    plt.show()    </span><br></pre></td></tr></table></figure>
+
+<h3 id="折线图叠加矩形区域"><a href="#折线图叠加矩形区域" class="headerlink" title="折线图叠加矩形区域"></a>折线图叠加矩形区域</h3><p>在做异常检测的时候，会标注某个时间段的数据属于异常数据，这时会叠加一个矩形区域来表示。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 折线图叠加矩形区域</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">line_with_rect</span>():</span></span><br><span class="line">    df = pd.read_csv(<span class="string">&#x27;data.csv&#x27;</span>)</span><br><span class="line">    <span class="comment"># 只取一个 cmdb_id 值</span></span><br><span class="line">    df = df[ df[<span class="string">&#x27;cmdb_id&#x27;</span>].<span class="built_in">str</span>.contains(<span class="string">&#x27;node-1&#x27;</span>)]</span><br><span class="line">    <span class="comment"># 只取一个 kpi_name 值</span></span><br><span class="line">    df = df[ df[<span class="string">&#x27;kpi_name&#x27;</span>].<span class="built_in">str</span>.contains(<span class="string">&#x27;system.load.5&#x27;</span>) ]</span><br><span class="line">    df.sort_values(<span class="string">&#x27;timestamp&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># df[&#x27;value&#x27;].plot(x=df[&#x27;timestamp&#x27;])</span></span><br><span class="line">    <span class="comment"># plt.show()</span></span><br><span class="line"> </span><br><span class="line">    fig, ax = plt.subplots()</span><br><span class="line">    plt.rcParams[<span class="string">&quot;figure.autolayout&quot;</span>] = <span class="literal">True</span></span><br><span class="line">    plt.rcParams[<span class="string">&#x27;font.sans-serif&#x27;</span>] = [<span class="string">&#x27;Songti SC&#x27;</span>]</span><br><span class="line">    plt.rcParams[<span class="string">&#x27;axes.unicode_minus&#x27;</span>] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    ax.plot(df[<span class="string">&#x27;timestamp&#x27;</span>], df[<span class="string">&#x27;value&#x27;</span>], c = <span class="string">&#x27;blue&#x27;</span>, label=<span class="string">&#x27;node-1&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 故障点</span></span><br><span class="line">    ax.plot(<span class="number">1647823965</span>, df[<span class="string">&#x27;value&#x27;</span>].<span class="built_in">max</span>(), <span class="string">&#x27;o&#x27;</span>)</span><br><span class="line">    ax.text(<span class="number">1647823965</span>, df[<span class="string">&#x27;value&#x27;</span>].<span class="built_in">max</span>() + <span class="number">0.4</span>, <span class="string">&#x27;node-1,node节点CPU故障&#x27;</span> , ha = <span class="string">&#x27;left&#x27;</span>, va = <span class="string">&#x27;top&#x27;</span>, fontsize = <span class="number">8</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 矩形区域</span></span><br><span class="line">    ax.add_patch( patches.Rectangle( (<span class="number">1647823965</span>, <span class="number">0</span>), <span class="number">1200</span>, df[<span class="string">&#x27;value&#x27;</span>].<span class="built_in">max</span>() , facecolor = <span class="string">&quot;red&quot;</span>, alpha=<span class="number">0.5</span>) )</span><br><span class="line">    ax.annotate( <span class="string">&#x27;故障区域&#x27;</span>, xy=( <span class="number">1647823965</span>, df[<span class="string">&#x27;value&#x27;</span>].<span class="built_in">max</span>()), xytext=(<span class="number">1647823965</span> + <span class="number">1200</span>, df[<span class="string">&#x27;value&#x27;</span>].<span class="built_in">max</span>() - <span class="number">2</span>) )</span><br><span class="line"></span><br><span class="line">    plt.xlabel( <span class="string">&#x27;Timestamp&#x27;</span> )</span><br><span class="line">    plt.ylabel( df[<span class="string">&#x27;kpi_name&#x27;</span>].iloc[<span class="number">1</span>] )</span><br><span class="line">    plt.legend( loc = <span class="string">&#x27;best&#x27;</span> )</span><br><span class="line">    plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>这几个都是在本次参加 AIOPS 比赛过程中，为了方便查看指标情况积累的作图技巧，后续如果有折线图更多的内容，会继续在这里更新。</p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2022/05/24/20220524-change-advisory-board/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 变更审核时我们审什么
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2022/04/21/20220421-dns-resolve-seq/" id="article-nav-older" class="article-nav-link-wrap">
+            Linux 下域名解析的一些小知识 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

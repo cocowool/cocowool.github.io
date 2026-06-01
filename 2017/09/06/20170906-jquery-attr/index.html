@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery的attr方法处理checkbox的问题-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="jQuery, jquery attr, jquery checkbox">
+    <meta name="description" content="使用了 jQuery 1.10 的版本，想实现 checkbox 的全部选中和全部取消选中，使用了 attr 的方法。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>jQuery的attr方法处理checkbox的问题</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2017-09-06 15:05:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><p>使用了 jQuery 1.10 的版本，想实现 checkbox 的全部选中和全部取消选中，使用了 attr 的方法，如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(elem).attr(“checked”)</span><br></pre></td></tr></table></figure>
+<p>测试过程中发现，第一次从未选中状态变为选中，再从选中变为未选中，是可以的。但是第二次界面上就没有任何变化了，但是查看元素，发现 checked 属性实际上已经改变了。这是什么情况呢？</p>
+<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>看一下官方对这个函数的解释</p>
+<blockquote>
+<p><strong>.attr()</strong><br>Get the value of an attribute for the first element in the set of matched elements or set one or more attributes for every matched element.</p>
+</blockquote>
+<p>然后官方还特别注明了</p>
+<blockquote>
+<p>As of jQuery 1.6, the .attr() method returns undefined for attributes that have not been set.<strong>To retrieve and change DOM properties such as the checked, selected, or disabled state of form elements, use the .prop() method.</strong></p>
+</blockquote>
+<p>文档还特别对 attr() 和 prop() 进行了对比，总体来说 jQuery 1.6 版本之后，为了保证函数在不同环境下表现的一致性，建议对于获取 DOM 元素的固有属性，使用 prop() 方法，如果需要修改个性化（自定义）的属性字段，则需要使用 attr 方法。</p>
+<img src="/2017/09/06/20170906-jquery-attr/39469-20170906150427897-1646491621.png" class="">
+<p>关于 checked 属性，还特别说了一下，我也不知道如何用汉字区分 attribute 和 property，还是摘抄下来吧。</p>
+<blockquote>
+<p>Nevertheless, the most important concept to remember about the checked attribute is that it does not correspond to the checked property. The attribute actually corresponds to the defaultChecked property and should be used only to set the initial value of the checkbox. The checked attribute value does not change with the state of the checkbox, while the checked property does. Therefore, the cross-browser-compatible way to determine if a checkbox is checked is to use the property</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( elem.checked )</span><br><span class="line">    <span class="keyword">if</span> ( $( elem ).prop( <span class="string">&quot;checked&quot;</span> ) )</span><br><span class="line">    <span class="keyword">if</span> ( $( elem ).is( <span class="string">&quot;:checked&quot;</span> ) )</span><br></pre></td></tr></table></figure>
+
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://api.jquery.com/attr/">jQuery attr</a><br>2、<a target="_blank" rel="noopener" href="http://api.jquery.com/prop/">jQuery prop</a><br>3、<a target="_blank" rel="noopener" href="https://www.w3.org/TR/html401/interact/forms.html#h-17.4">W3C Forms</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2017/09/27/20170927-curl-command-for-elasticsearch/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Curl操作Elasticsearch的常用方法
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2017/08/26/20170826-mysql-data-to-elasticsearch/" id="article-nav-older" class="article-nav-link-wrap">
+            利用Logstash插件进行Elasticsearch与Mysql的数据 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

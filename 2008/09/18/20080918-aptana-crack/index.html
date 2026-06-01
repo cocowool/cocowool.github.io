@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Aptana的破解-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="aptana">
+    <meta name="description" content="aptana 是一款基于Eclipse的JS开发IDE。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Aptana的破解</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-06 14:07:38</span>
+        
+        <span class="post-time">发布于：2008-09-18 14:15:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <blockquote>
+<p>工欲善其事、必先利其器</p>
+</blockquote>
+<p>最近写JS比较多，常常苦恼与没有一个顺手的IDE。Editplus虽然用的熟，不过那个的效率太低而且代码看起来也很不方便，经过一个多月的试用，发现了一款好用的编写JS的IDE–Aptana，一个基于Eclipse的JS开发环境。</p>
+<p>今天先来说一下破解，因为我是用到试用期快满的时候才想起来破解的。如果不破解，在右下角会有一个剩余多少时间的提示，那怎么破解呢。</p>
+<p>关键在 <code>\Aptana\Aptana Studio\plugin\com.aptana.ide.core_1.1.7.015414.jar</code> 中，只要修改其中的license类，编译并替换后就可以了。</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.aptana.ide.core.licensing;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.math.BigInteger;</span><br><span class="line"><span class="keyword">import</span> java.util.Calendar;</span><br><span class="line"><span class="keyword">import</span> java.util.TimeZone;</span><br><span class="line"><span class="keyword">import</span> java.util.zip.CRC32;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ClientKey</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Decrypt</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> BigInteger modulus;</span><br><span class="line">        <span class="keyword">private</span> BigInteger exponent;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">decrypt</span><span class="params">(String encrypted)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">long</span> crc32Value;</span><br><span class="line">            <span class="keyword">byte</span> bytes[];</span><br><span class="line">            CRC32 crc32;</span><br><span class="line">            <span class="keyword">if</span> (encrypted == <span class="keyword">null</span>) &#123;</span><br><span class="line">                encrypted = <span class="string">&quot;&quot;</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                encrypted = ClientKey.trimEncryptedLicense(encrypted);</span><br><span class="line">            &#125;</span><br><span class="line">            BigInteger big = <span class="keyword">new</span> BigInteger(encrypted);</span><br><span class="line">            BigInteger decrypted = big.modPow(exponent, modulus);</span><br><span class="line">            crc32Value = (<span class="keyword">long</span>) decrypted.intValue() &amp; <span class="number">0xffffffffL</span>;</span><br><span class="line">            decrypted = decrypted.shiftRight(<span class="number">32</span>);</span><br><span class="line">            bytes = decrypted.toByteArray();</span><br><span class="line">            crc32 = <span class="keyword">new</span> CRC32();</span><br><span class="line">            crc32.update(bytes);</span><br><span class="line">            <span class="keyword">if</span> (crc32Value == crc32.getValue()) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> String(bytes);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Decrypt(String exponent, String modulus) &#123;</span><br><span class="line">            <span class="keyword">this</span>.modulus = <span class="keyword">new</span> BigInteger(modulus);</span><br><span class="line">            <span class="keyword">this</span>.exponent = <span class="keyword">new</span> BigInteger(exponent);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String BEGIN_LICENSE_MARKER = <span class="string">&quot;--begin-aptana-license--&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String END_LICENSE_MARKER = <span class="string">&quot;--end-aptana-license--&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> TimeZone GMT = TimeZone.getTimeZone(<span class="string">&quot;GMT&quot;</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String EMAILS_NON_MATCHING = <span class="string">&quot;EMAILS_NON_MATCHING&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> PRO = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TRIAL = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">private</span> String email;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> expiration;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> type;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">ClientKey</span><span class="params">(<span class="keyword">int</span> type, String email, <span class="keyword">long</span> expiration)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.type = type;</span><br><span class="line">        <span class="keyword">this</span>.email = email;</span><br><span class="line">        <span class="keyword">this</span>.expiration = expiration;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ClientKey <span class="title">decrypt</span><span class="params">(String encrypted, String email)</span> </span>&#123;</span><br><span class="line">        String modulus = <span class="string">&quot;115801190261221214754334668902722425936509505416457970789287297728816388753627896293249501578830570324705253515546383166989625001335561947096747210280001245977114030627247212292377290543869343996595819188362915644707269064020812435233012510929338706599216007185654748959001143012936618501934698642942289379979&quot;</span>;</span><br><span class="line">        String exponent = <span class="string">&quot;65537&quot;</span>;</span><br><span class="line">        <span class="keyword">if</span> (encrypted != <span class="keyword">null</span>) &#123;</span><br><span class="line">            encrypted = encrypted.trim();</span><br><span class="line">        &#125;</span><br><span class="line">        Decrypt decrypter = <span class="keyword">new</span> Decrypt(exponent, modulus);</span><br><span class="line">        <span class="keyword">return</span> decrypt(decrypter, encrypted, email);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> ClientKey <span class="title">decrypt</span><span class="params">(Decrypt decrypter, String encrypted,</span></span></span><br><span class="line"><span class="params"><span class="function">            String email)</span> </span>&#123;</span><br><span class="line">        String value = decrypter.decrypt(encrypted);</span><br><span class="line">        <span class="keyword">if</span> (value == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ClientKey(<span class="number">1</span>, <span class="keyword">null</span>, <span class="number">0L</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        String values[] = value.split(<span class="string">&quot;;&quot;</span>);</span><br><span class="line">        <span class="keyword">int</span> type = <span class="number">1</span>;</span><br><span class="line">        String genedEmail = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">long</span> expiration = <span class="number">0L</span>;</span><br><span class="line">        <span class="keyword">if</span> (values.length == <span class="number">3</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="string">&quot;p&quot;</span>.equals(values[<span class="number">0</span>].toLowerCase())) &#123;</span><br><span class="line">                type = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            genedEmail = values[<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span> (genedEmail != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!genedEmail.equalsIgnoreCase(email)) &#123;</span><br><span class="line">                    genedEmail = <span class="string">&quot;EMAILS_NON_MATCHING&quot;</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                genedEmail = <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                expiration = Long.parseLong(values[<span class="number">2</span>]);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception _ex) &#123;</span><br><span class="line">                expiration = <span class="number">0L</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ClientKey(type, genedEmail, expiration);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isCloseToExpiring</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isValid</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isCloseToMatching</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isExpired</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getEmail</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="comment">//把此处的Email修改为你自己的Email地址</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;heimazhao@gmail.com&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Calendar <span class="title">getExpiration</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Calendar expirationCal = Calendar.getInstance(GMT);</span><br><span class="line">          <span class="comment">//把此处的时间修改为授权到期时间</span></span><br><span class="line">        expirationCal.set(<span class="number">2010</span>, <span class="number">9</span>, <span class="number">9</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> expirationCal;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isTrial</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPro</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldProPluginsRun</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">trimEncryptedLicense</span><span class="params">(String encrypted)</span> </span>&#123;</span><br><span class="line">     String newEncrypted = encrypted;</span><br><span class="line">     newEncrypted = newEncrypted.trim();</span><br><span class="line">    newEncrypted = newEncrypted.replaceAll(<span class="string">&quot;--begin-aptana-license--&quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">     newEncrypted = newEncrypted.replaceAll(<span class="string">&quot;--end-aptana-license--&quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">     newEncrypted = newEncrypted.replaceAll(<span class="string">&quot;/s+&quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> newEncrypted;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>完成后改成名字和原来一样的jar包替换就行了，我是用的版本是com.aptana.ide.core_1.1.7.015414.jar，破解没出现问题。<br>今后在总结一些使用上的技巧，希望能够在自己手中发挥Aptana的强大威力。</p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2008/09/20/20080920-vimperator/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Vimperator：玩酷你的Firefox
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2008/09/16/20080916-cloud-compute/" id="article-nav-older" class="article-nav-link-wrap">
+            你所应该知道的云计算 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

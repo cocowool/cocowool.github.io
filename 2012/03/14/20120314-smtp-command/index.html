@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SMTP的相关命令-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="smtp, smtp命令">
+    <meta name="description" content="SMTP是Simple Mail Transfer Protocol的简写。本文介绍相关的命令。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>SMTP的相关命令</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-08 23:48:39</span>
+        
+        <span class="post-time">发布于：2012-03-14 09:38:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>SMTP是Simple Mail Transfer Protocol的简写。邮件是日常工作、生活中不能缺少的一个工具，下面是邮件收发的流程。</p>
+<img src="/2012/03/14/20120314-smtp-command/201203140938068432.png" class="">
+
+<p>邮件的发送，主要是通过SMTP协议来实现的。SMTP协议最早在RFC 821（1982年）中定义，最后更新是在RFC 5321（2008年）中，更新中包含了扩展SMTP（ESMTP）。</p>
+<p>在平时的程序开发中经常会有发送邮件的这种需求，所以免不了要对邮件发送服务器的可用性进行测试。下面是整理的命令，用来在命令行下测试SMTP服务器，进行邮件发送等操作，相信对于加深SMTP的理解可以起到促进作用。</p>
+<p>SMTP默认使用25端口，我们可以使用telnet工具进行测试。</p>
+<h3 id="1、连接SMTP服务器，查看是否存活。"><a href="#1、连接SMTP服务器，查看是否存活。" class="headerlink" title="1、连接SMTP服务器，查看是否存活。"></a>1、连接SMTP服务器，查看是否存活。</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;telnet smtp.sina.com 25</span><br><span class="line">&gt;Connected to mail.sina.com.</span><br><span class="line">&gt;Escape character is <span class="string">&#x27;^]&#x27;</span>.</span><br><span class="line">&gt;220 smtp ready</span><br></pre></td></tr></table></figure>
+
+<p>在telnet下转义符是Ctrol+]，如果想退出，按转义符后输入quit，就可以退回到命令行了。</p>
+<h3 id="2、用户登陆"><a href="#2、用户登陆" class="headerlink" title="2、用户登陆"></a>2、用户登陆</h3><p>连接到服务器后，使用AUTH LOGIN命令进行用户登陆（SMTP命令不区分大小写）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;auth login</span><br><span class="line">&gt;334 VXNlcm5hbWU6</span><br><span class="line">&gt;c2VydmljZUBoZWVwLmNx</span><br><span class="line">&gt;334 UGFzc3dvcmQ6</span><br><span class="line">&gt;xxxxxxxx</span><br><span class="line">&gt;235 go ahead</span><br></pre></td></tr></table></figure>
+<p>235返回码表明登陆验证成功，用户可以进行后续的操作了。用户邮箱和密码是经过Base64编码的，这个与服务器的安全特性相关，属于可配置项。</p>
+<h3 id="3、发送邮件。"><a href="#3、发送邮件。" class="headerlink" title="3、发送邮件。"></a>3、发送邮件。</h3><p>用户身份验证通过后，执行下面的命令进行邮件的发送。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;235 <span class="comment">#2.0.0 OK Authenticated</span></span><br><span class="line">&gt;MAIL FROM:[yunpan001@sina.com](mailto:yunpan001@sina.com)</span><br><span class="line">&gt;250 sender &lt;yunpan001@sina.com&gt; ok</span><br><span class="line">&gt;RCPT to:[cocowool@gmail.com](mailto:cocowool@gmail.com)</span><br><span class="line">&gt;250 recipient &lt;cocowool@gmail.com&gt; ok</span><br><span class="line">&gt;DATA</span><br><span class="line">&gt;354 go ahead</span><br><span class="line">&gt;Subject: Hi smtp mail</span><br><span class="line">&gt;hello mail</span><br><span class="line">&gt;.</span><br><span class="line">&gt;250 ok:  Message 1763097690 accepted</span><br></pre></td></tr></table></figure>
+
+<p><strong>SMTP命令列表</strong><br><strong>HELO</strong><br>客户端为标识自己的身份而发送的命令（通常带域名）</p>
+<p><strong>EHLO</strong><br>使服务器可以表明自己支持扩展简单邮件传输协议 (ESMTP) 命令。</p>
+<p><strong>MAIL FROM</strong><br>标识邮件的发件人；以 MAIL FROM: 的形式使用。</p>
+<p><strong>RCPT TO</strong><br>标识邮件的收件人；以 RCPT TO: 的形式使用。</p>
+<p><strong>TURN</strong><br>允许客户端和服务器交换角色，并在相反的方向发送邮件，而不必建立新的连接。</p>
+<p><strong>ATRN</strong><br>ATRN (Authenticated TURN) 命令可以选择将一个或多个域作为参数。如果该会话已通过身份验证，则ATRN 命令一定会被拒绝。</p>
+<p><strong>SIZE</strong><br>提供一种使 SMTP 服务器可以指出所支持的最大邮件大小的机制。兼容的服务器必须提供大小范围，以指出可以接受的最大邮件大小。客户端发送的邮件不应大于服务器所指出的这一大小。</p>
+<p><strong>ETRN</strong><br>SMTP 的扩展。SMTP 服务器可以发送 ETRN 以请求另一台服务器发送它所拥有的任何电子邮件。</p>
+<p><strong>PIPELINING</strong><br>提供发送命令流（而无需在每个命令之后都等待响应）的能力。</p>
+<p><strong>CHUNKING</strong><br>替换 DATA 命令的 ESMTP 命令。该命令使 SMTP 主机不必持续地扫描数据的末尾，它发送带参数的 BDAT 命令，该参数包含邮件的总字节数。接收方服务器计算邮件的字节数，如果邮件大小等于 BDAT 命令发送的值时，则该服务器假定它收到了全部的邮件数据。</p>
+<p><strong>DATA</strong><br>客户端发送的、用于启动邮件内容传输的命令。</p>
+<p><strong>DSN</strong><br>启用传递状态通知的 ESMTP 命令。</p>
+<p><strong>RSET</strong><br>使整个邮件的处理无效，并重置缓冲区。</p>
+<p><strong>VRFY</strong><br>确认在邮件传递过程中可以使用邮箱；例如，vrfy ted 确认在本地服务器上驻留 Ted 的邮箱。该命令在 Exchange 实现中默认关闭。</p>
+<p><strong>HELP</strong><br>返回 SMTP 服务所支持的命令列表。</p>
+<p><strong>QUIT</strong><br>终止会话。</p>
+<p><strong>SMTP命令响应码</strong></p>
+<ul>
+<li>211  System status, or system help reply</li>
+<li>214  Help message (Information on how to use the receiver or the meaning of a particular non-standard command; this reply is useful only to the human user)</li>
+<li>220  <domain> Service ready</li>
+<li>221  <domain> Service closing transmission channel</li>
+<li>250  Requested mail action okay, completed</li>
+<li>251  User not local; will forward to <forward-path> (See Section 3.4)</li>
+<li>252  Cannot VRFY user, but will accept message and attempt delivery (See Section 3.5.3)</li>
+<li>354  Start mail input; end with <CRLF>.<CRLF></li>
+<li>421  <domain> Service not available, closing transmission channel (This may be a reply to any command if the service knows it must shut down)</li>
+<li>450  Requested mail action not taken: mailbox unavailable (e.g., mailbox busy or temporarily blocked for policy reasons)</li>
+<li>451  Requested action aborted: local error in processing</li>
+<li>452  Requested action not taken: insufficient system storage</li>
+<li>455  Server unable to accommodate parameters</li>
+<li>500  Syntax error, command unrecognized (This may include errors such as command line too long)</li>
+<li>501  Syntax error in parameters or arguments502  Command not implemented (see Section 4.2.4)</li>
+<li>503  Bad sequence of commands</li>
+<li>504  Command parameter not implemented</li>
+<li>550  Requested action not taken: mailbox unavailable (e.g., mailbox not found, no access, or command rejected for policy reasons)</li>
+<li>551  User not local; please try <forward-path> (See Section 3.4)</li>
+<li>552  Requested mail action aborted: exceeded storage allocation</li>
+<li>553  Requested action not taken: mailbox name not allowed (e.g.,mailbox syntax incorrect)</li>
+<li>554  Transaction failed (Or, in the case of a connection-opening response, “No SMTP service here”)</li>
+<li>555  MAIL FROM/RCPT TO parameters not recognized or not implemente</li>
+</ul>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://blog.donews.com/Shan/page/17">SMTP指令说明</a><br>2、<a target="_blank" rel="noopener" href="http://baike.baidu.com/view/5450.htm">SMTP百度百科</a><br>3、<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol">Wiki Smtp</a><br>4、<a target="_blank" rel="noopener" href="http://tools.ietf.org/html/rfc5321">RFC 5321</a><br>5、<a target="_blank" rel="noopener" href="http://univasity.iteye.com/blog/1173296">电子邮件收发原理和实现</a><br>6、<a target="_blank" rel="noopener" href="http://compig.net/blog/?p=5">Telnet下Smtp命令发送邮件</a><br>7、<a target="_blank" rel="noopener" href="http://www.yuki-onna.co.uk/email/smtp.html">Send Mail Using Telnet</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2012/04/01/20120401-weblogic-introduce/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; WebLogic中的一些基本概念
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2012/02/25/20120225-yum-segmentation-fault/" id="article-nav-older" class="article-nav-link-wrap">
+            由于版本依赖造成的YUM段错误 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

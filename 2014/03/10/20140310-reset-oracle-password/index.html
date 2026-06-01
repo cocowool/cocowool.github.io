@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Oracle重置过期的密码-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="oracle, oracle linux, oracle重置密码, oracle密码过期">
+    <meta name="description" content="大江小浪，关注数据中心运维、金融科技、互联网相关技术与行业发展趋势，擅长应用运维管理、Linux、Java、Elasticsearch、Kubernetes、PHP相关技术。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Oracle重置过期的密码</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-26 21:34:03</span>
+        
+        <span class="post-time">发布于：2014-03-10 22:33:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>Oracle重置过期的密码</p>
+<p>过期的原因一般有两种可能：<br>一、由于Oracle 11g在默认的default概要文件中设置了“PASSWORD_LIFE_TIME=180”天导致；</p>
+<p>这种情况的解决办法：<br>1、查看用户的proifle是哪个，一般是default：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sql</span><span class="operator">&gt;</span><span class="keyword">SELECT</span> username,PROFILE <span class="keyword">FROM</span> dba_users;</span><br></pre></td></tr></table></figure>
+
+<p>2、查看指定概要文件（如default）的密码有效期设置：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sql</span><span class="operator">&gt;</span><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> dba_profiles s <span class="keyword">WHERE</span> s.profile<span class="operator">=</span><span class="string">&#x27;DEFAULT&#x27;</span> <span class="keyword">AND</span> resource_name<span class="operator">=</span><span class="string">&#x27;PASSWORD_LIFE_TIME&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>3、将密码有效期由默认的180天修改成“无限制”：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sql</span><span class="operator">&gt;</span><span class="keyword">ALTER</span> PROFILE <span class="keyword">DEFAULT</span> LIMIT PASSWORD_LIFE_TIME UNLIMITED;</span><br></pre></td></tr></table></figure>
+
+<p>修改之后不需要重启动数据库，会立即生效。<br>4、修改后，还没有被提示ORA-28002警告的帐户不会再碰到同样的提示；<br>已经被提示的帐户必须再改一次密码，举例如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$sqlplus <span class="operator">/</span> <span class="keyword">as</span> sysdba</span><br><span class="line"><span class="keyword">sql</span><span class="operator">&gt;</span> <span class="keyword">alter</span> <span class="keyword">user</span> smsc identified <span class="keyword">by</span> <span class="operator">&lt;</span>原来的密码<span class="operator">&gt;</span> <span class="comment">----不用换新密码</span></span><br></pre></td></tr></table></figure>
+
+<p>oracle11g启动参数resource_limit无论设置为false还是true，密码有效期都是生效的，所以必须通过以上方式进行修改。以上的帐户名请根据实际使用的帐户名更改。</p>
+<p>二、由于Oracle 11g在默认的default概要文件中设置了“FAILED_LOGIN_ATTEMPTS＝10”次所导致，当输入密码错误次数达到设置值将导致此问题。</p>
+<p>1、查看用户的proifle是哪个，一般是default：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sql</span><span class="operator">&gt;</span><span class="keyword">SELECT</span> username,PROFILE <span class="keyword">FROM</span> dba_users;</span><br></pre></td></tr></table></figure>
+
+<p>2、查看指定概要文件（如default）的密码有效期设置：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sql</span><span class="operator">&gt;</span><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> dba_profiles s <span class="keyword">WHERE</span> s.profile<span class="operator">=</span><span class="string">&#x27;DEFAULT&#x27;</span> <span class="keyword">AND</span> resource_name<span class="operator">=</span><span class="string">&#x27;FAILED_LOGIN_ATTEMPTS&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>3、将尝试登录失败次数由默认的10次修改成“无限制”：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sql</span><span class="operator">&gt;</span><span class="keyword">ALTER</span> PROFILE <span class="keyword">DEFAULT</span> LIMIT FAILED_LOGIN_ATTEMPTS UNLIMITED;</span><br></pre></td></tr></table></figure>
+
+<p>4、修改后，还没有被提示ORA-28000警告的用户不会再碰到同样的提示；<br>已经被锁定的帐户必须解除锁定，举例如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$sqlplus <span class="operator">/</span> <span class="keyword">as</span> sysdba</span><br><span class="line"><span class="keyword">sql</span><span class="operator">&gt;</span> <span class="keyword">alter</span> <span class="keyword">user</span> smsc identified <span class="keyword">by</span> oracle account unlock;</span><br></pre></td></tr></table></figure>
+
+<p>5、修改后default profile应该如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sql</span><span class="operator">&gt;</span> <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> dba_profiles <span class="keyword">WHERE</span> dba_profiles.profile<span class="operator">=</span><span class="string">&#x27;DEFAULT&#x27;</span>;</span><br><span class="line">PROFILE RESOURCE_NAME RESOURCE_TYPE LIMIT</span><br><span class="line"><span class="comment">------------------------------ -------------------------------- ------------- ----------------------</span></span><br><span class="line"><span class="keyword">DEFAULT</span> FAILED_LOGIN_ATTEMPTS PASSWORD UNLIMITED</span><br><span class="line"><span class="keyword">DEFAULT</span> PASSWORD_LIFE_TIME PASSWORD UNLIMITED</span><br></pre></td></tr></table></figure>
+
+<p>修改之后不需要重启动数据库，会立即生效。<br>如果出现ORA-28000 the account is locked.错误<br>alter user 用户名 account unlock;</p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://soft.chinabyte.com/database/43/11835543.shtml">Oracle 11g存在密码过期的问题</a><br>2、<a target="_blank" rel="noopener" href="http://blog.itpub.net/14184018/viewspace-750452">Oracle 11g密码设置为不过期</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2014/04/30/20140430-ios-develop/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; iOS开发学习笔记:基础篇
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2014/01/06/20140106-dedecms-menu-level/" id="article-nav-older" class="article-nav-link-wrap">
+            DedeCMS后台权限分配－添加三级目录分配功能 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

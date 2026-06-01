@@ -1,0 +1,233 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kubernetes基础：Service-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="kubernetes, kubernetes service, kubernetes基础">
+    <meta name="description" content="本文介绍Kubernetes中Service相关的知识点。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Kubernetes基础：Service</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-06 12:40:02</span>
+        
+        <span class="post-time">发布于：2018-10-23 13:22:00</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <blockquote>
+<p>本文的试验环境为CentOS 7.3，Kubernetes集群为1.11.2，安装步骤参见<a href="https://www.edulinks.cn/2018/07/24/20180724-kubeadm-install-kubernetes/">kubeadm安装kubernetes V1.11.1 集群</a>。想要了解更多 Kubernetes 相关知识，可以阅读 <a href="http://www.edulinks.cn/2020/10/16/20201016-kubernetes-articles/">Kubernetes 系列学习文章</a>。</p>
+</blockquote>
+<h3 id="Service-介绍"><a href="#Service-介绍" class="headerlink" title="Service 介绍"></a>Service 介绍</h3><p>我们通过Pod、Deployment等可以将应用发布到Kubernetes平台中，但是如果我们如何才能访问我们部署的应用呢？有一个办法就是通过节点的IP加上节点的端口来访问这个节点上的容器应用，但是如果我们有多个跨节点的相通应用时该怎么办呢？特别是应用发生扩容、缩容时应该如何处理，这时我们就需要利用<code>Service</code>来实现。<br>在Kubernetes中，Service是一种资源，提供了我们访问单个或多个容器应用的能力。每个服务在其生命周期内，都拥有一个固定的IP地址和端口。每个服务对应了后台的一个或多个Pod，通过这种方式，客户端就不需要关心Pod所在的位置，方便后端进行方便的Pod扩容、缩容等操作。<br>可以通过下面的示意图来理解Service的作用。</p>
+<img src="/2018/10/23/20181023-kubernetes-service/39469-20181023132306675-1899988743.png" class="">
+<p>由此可知，服务可以被外部的客户访问，也可以被内部的客户访问。Service通过创建时指定的标签选择器来决定用户的请求转发到后台的哪些Pods中。看一下Service创建的具体例子。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">tomcat-svc</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">sessionAffinity:</span> <span class="string">ClientIP</span> <span class="comment"># 该参数可以设置相同IP的请求总是定位到同一个Pod</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">8080</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">tomcat</span></span><br></pre></td></tr></table></figure>
+<p>这个例子定义了一个Service名为tomcat-svc，端口为8080，该服务会将用户的请求转发到后台带有app=tomcat标签的Pods上。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get svc</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>我们在测试服务是否正常的时候，不能使用ping命令。因为Kubernetes中实现服务时，并不支持ping。因此不能使用ping的方式检查服务是否正常，应当使用telnet或者nc等命令进行测试。</p>
+</blockquote>
+<blockquote>
+<p>Pod中的应用访问Service有两种方式，一种是通过向Pod中注入环境变量的方式，这种方式缺点很明显，必须首先创建Service，Pod内的应用才能通过环境变量访问；另一种方式是通过DNS的方式，这种方式非常灵活。</p>
+</blockquote>
+<h3 id="Service-与-endpints"><a href="#Service-与-endpints" class="headerlink" title="Service 与 endpints"></a>Service 与 endpints</h3><p>Endpoints 是组成Service的一组IP地址和端口资源。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get endpoints kubia</span><br></pre></td></tr></table></figure>
+<p>默认情况下创建Service的时候，会创建一个同名的Endpoints资源，通过<code>kubectl descirbe svc svc-name</code>可以看到这个服务对应的Endpoints。<br>如果创建Service的时候，不指定Pod的选择器，则不会创建Endpoints资源。也可以手工创建Endpoints类型。创建时需要注意名称要与Service的名称一致。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Endpoints</span></span><br><span class="line"><span class="attr">metadata:</span> </span><br><span class="line">  <span class="attr">name:</span> <span class="string">external-service</span></span><br><span class="line"><span class="attr">subsets:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">addresses:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">ip:</span> <span class="number">11.11</span><span class="number">.11</span><span class="number">.11</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">ip:</span> <span class="number">22.22</span><span class="number">.22</span><span class="number">.22</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Service-的类型"><a href="#Service-的类型" class="headerlink" title="Service 的类型"></a>Service 的类型</h3><ul>
+<li>NodePort</li>
+<li>Loadbalance</li>
+<li>Ingress</li>
+</ul>
+<h3 id="实例解析"><a href="#实例解析" class="headerlink" title="实例解析"></a>实例解析</h3><h4 id="1-创建内部服务"><a href="#1-创建内部服务" class="headerlink" title="1. 创建内部服务"></a>1. 创建内部服务</h4><p>创建用于内部访问的服务很简单，创建后服务将在生命周期内拥有固定的IP和端口。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">tomcat-svc</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">sessionAffinity:</span> <span class="string">ClientIP</span> <span class="comment"># 该参数可以设置相同IP的请求总是定位到同一个Pod</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">8080</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">tomcat</span></span><br></pre></td></tr></table></figure>
+<p>客户每次链接Service时，都会对应到后端的一个Pod上，如果客户需要链接所有的后端Pod呢，可以使用headless service。通过这种方式，Kubernetes内部的DNS服务会将Service对应的所有IP返回。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">tomcat-headless</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">clusterIP:</span> <span class="string">None</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">8080</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">tomcat</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>或者可以在客户端通过程序调用Kubernetes API的方式获取地址列表。</p>
+</blockquote>
+<h4 id="2-为外部服务创建一个内部别名"><a href="#2-为外部服务创建一个内部别名" class="headerlink" title="2. 为外部服务创建一个内部别名"></a>2. 为外部服务创建一个内部别名</h4><p>容器内部的应用要访问外部应用时，可以直接在容器内访问外部服务地址，也可以通过创建一个外部服务的别名进行转发，这样相当于将内外部调用关系解耦了，每次外部发生变化的时候，可以不用修改应用的代码。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">external-service</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ExternalName</span></span><br><span class="line">  <span class="attr">externalName:</span> <span class="string">api.baidu.com</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-向外部暴露内部服务"><a href="#3-向外部暴露内部服务" class="headerlink" title="3. 向外部暴露内部服务"></a>3. 向外部暴露内部服务</h4><p>向外部暴露内部服务有三种方式：</p>
+<ul>
+<li>NodePort</li>
+<li>LoadBalancer</li>
+<li>Ingress，7层负载均衡</li>
+</ul>
+<h5 id="3-1-NodePort-方式"><a href="#3-1-NodePort-方式" class="headerlink" title="3.1 NodePort 方式"></a>3.1 NodePort 方式</h5><p>创建这种方式的Service，内部可以通过ClusterIP进行访问，外部用户可以通过NodeIP:NodePort的方式单独访问每个Node上的实例。这种方式有很多问题，直接访问节点的地址和端口需要在客户端记录很多信息，Pod发生迁移后这些信息没办法动态更新，节点的防火墙及节点所在网络区域的防火墙策略配置会比较麻烦。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nodeport</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">NodePort</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">nodePort:</span> <span class="number">30123</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">httpd</span></span><br></pre></td></tr></table></figure>
+<p>端口如果忽略，Kubernetes会自动生成。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get svc nodeport</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>获取一些信息</p>
+</blockquote>
+<figure class="highlight plaintext"><figcaption><span>get nodes -o jsonpath</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2-load-balancer-方式"><a href="#3-2-load-balancer-方式" class="headerlink" title="3.2 load balancer 方式"></a>3.2 load balancer 方式</h4><p>这种方式一般需要云供应商的支持，或者一些本地资源如F5的支持。这里不做过多介绍了。</p>
+<h4 id="3-3-Ingress-方式"><a href="#3-3-Ingress-方式" class="headerlink" title="3.3 Ingress 方式"></a>3.3 Ingress 方式</h4><p>LoadBalancer要求的IP资源较多，每个负载均衡服务都需要一个IP，Ingress可以只用一个IP，通过URL来判断需要访问的服务。Ingress工作在HTTP层，配置与使用更加灵活。目前为止还是一个beta特性。<br>目前有很多Ingress的支持：</p>
+<ul>
+<li><p>Kubernetes提供的基于GCE、Nginx的Ingress控制器</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://clouddocs.f5.com/products/connectors/k8s-bigip-ctlr/latest">F5提供的控制器</a></p>
+</li>
+<li><p>Kong提供的<a target="_blank" rel="noopener" href="https://konghq.com/blog/kubernetes-ingress-controller-for-kong/">Kong Ingress Controller for Kubernetes</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/containous/traefik">Traefik</a>提供收费的解决方案</p>
+</li>
+<li><p>NGINX提供的<a target="_blank" rel="noopener" href="https://www.nginx.com/products/nginx/kubernetes-ingress-controller">NGINX Ingress Controller for Kubernetes</a></p>
+</li>
+<li><p>基于HAProxy的<a target="_blank" rel="noopener" href="https://www.haproxy.com/blog/haproxy_ingress_controller_for_kubernetes/">HAProxy Ingress Controller for Kubernetes</a></p>
+</li>
+<li><p>Istio提供的<a target="_blank" rel="noopener" href="https://istio.io/docs/tasks/traffic-management/ingress/">Control Ingress Traffic</a><br>使用过程中的最佳实践：</p>
+</li>
+<li><p>总是添加 Readiness 探测</p>
+</li>
+<li><p>不要在探测中使用关闭的逻辑</p>
+</li>
+</ul>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li>[Kubernetes in action](Kubernetes in action)</li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/reference/kubectl/jsonpath/">JSONPath Support</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2019/03/06/20190306-linux-shell-run-as-root/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Linux中的普通命令如何以管理员身份运行
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/10/09/20181009-taints-and-tolerations/" id="article-nav-older" class="article-nav-link-wrap">
+            Taints 与 Tolerations &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

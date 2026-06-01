@@ -1,0 +1,200 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>注意了！这样用 systemd 可能会有风险-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="Linux, Kubernetes, Docker, PHP, java, javascript, CSS, 科技互联网, IT, 开发, 研发, 计算机名人">
+    <meta name="description" content="在 Linux 6 / CentOS 6 中，使用 service 来进行服务的起停，但是在 Linux 7 / CentOS 7 中，替换为使用 systemctl 命令来控制。将一些常用应用注册成服务后，可以使用 systemctl 命令来方便的操作启动、停止、重启，但是作者最近发现如果配置不当，严重情况下可能影响正常业务运行，请大家务必关注。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>注意了！这样用 systemd 可能会有风险</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2024-12-10 19:27:11</span>
+        
+        <span class="post-time">发布于：2022-08-11 16:03:40</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>在 Linux 6 / CentOS 6 中，使用 service 来进行服务的起停，但是在 Linux 7 / CentOS 7 中，替换为使用 systemctl 命令来控制。将一些常用应用注册成服务后，可以使用 systemctl 命令来方便的操作启动、停止、重启，但是作者最近发现如果配置不当，严重情况下可能影响正常业务运行，请大家务必关注。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ service start loop.service</span><br><span class="line">The service <span class="built_in">command</span> supports only basic LSB actions (start, stop, restart, try-restart, reload, force-reload, status). For other actions, please try to use systemctl.</span><br></pre></td></tr></table></figure>
+
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>如果我们有一些负责自动化的应用，例如 puppet / mco、ansible，这里简称为宿主服务。宿主服务注册为系统服务并且随系统开机自启动。宿主服务支持接收服务端指令并拉起一些常驻进程，拉起的进程我们简称为子进程。当宿主服务被 kill 或意外终止时，会引起子进程一起被 kill。</p>
+<p>为了复现这个问题，我写了两个脚本。parent_pro.sh 作为宿主脚本，注册为系统 loop.service 并且随系统启动。该脚本的作用是每隔10秒钟检查 config.txt 的配置，如果配置文件中的数字变成 1 则拉起一个无限循环的子进程。</p>
+<p>我的 service 定义信息：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=loop service</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">StandardOutput=/root/namespace/parent_pro.log</span><br><span class="line">StandardError=/root/namespace/parent_pro.log</span><br><span class="line">WorkingDirectory=/root/namespace</span><br><span class="line">User=root</span><br><span class="line">Group=root</span><br><span class="line">ExecStart=/usr/bin/sh parent_pro.sh</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>下面执行启动服务。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl start loop.service</span><br><span class="line">$ ps -ef | grep sh</span><br><span class="line">root      4615     1  0 15:59 ?        00:00:00 /usr/bin/sh parent_pro.sh</span><br><span class="line">root      5153  4615  0 16:00 ?        00:00:00 sh /root/namespace/child_loop.sh</span><br><span class="line">root      5197  4615  0 16:00 ?        00:00:00 sh /root/namespace/child_loop.sh</span><br><span class="line">root      5248  4615  0 16:00 ?        00:00:00 sh /root/namespace/child_loop.sh</span><br></pre></td></tr></table></figure>
+
+<p>从上面的这段输出可以看到，parent_pro.sh 已经启动了三个子进程，我们再看下 parent_pro.sh 的详细信息。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl status</span><br><span class="line">● qking-101</span><br><span class="line">    State: running</span><br><span class="line">     Jobs: 0 queued</span><br><span class="line">   Failed: 0 units</span><br><span class="line">    Since: Thu 2022-08-11 15:59:54 CST; 29s ago</span><br><span class="line">   CGroup: /</span><br><span class="line">           ├─1 /usr/lib/systemd/systemd --switched-root --system --deserialize 22</span><br><span class="line">           ├─user.slice</span><br><span class="line">           │ └─user-0.slice</span><br><span class="line">           │   └─session-1.scope</span><br><span class="line">           │     ├─5125 sshd: root@pts/0    </span><br><span class="line">           │     ├─5129 -bash</span><br><span class="line">           │     ├─5224 systemctl status</span><br><span class="line">           │     └─5225 less</span><br><span class="line">           └─system.slice</span><br><span class="line">             ├─rsyslog.service</span><br><span class="line">             │ └─4618 /usr/sbin/rsyslogd -n</span><br><span class="line">             ├─postfix.service</span><br><span class="line">             │ ├─4944 /usr/libexec/postfix/master -w</span><br><span class="line">             │ ├─4948 pickup -l -t unix -u</span><br><span class="line">             │ └─4949 qmgr -l -t unix -u</span><br><span class="line">             ├─loop.service</span><br><span class="line">             │ ├─4615 /usr/bin/sh parent_pro.sh</span><br><span class="line">             │ ├─5153 sh /root/namespace/child_loop.sh</span><br><span class="line">             │ ├─5197 sh /root/namespace/child_loop.sh</span><br><span class="line">             │ ├─5198 sleep 10</span><br><span class="line">             │ ├─5220 sleep 1</span><br><span class="line">             │ └─5222 sleep 1</span><br></pre></td></tr></table></figure>
+
+<p>可以看到我注册的 loop.service 在 system.slice 这个 cgroup 目录下。接下来复现问题场景。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">kill</span> 4615</span><br><span class="line">$ ps -ef | grep sh</span><br><span class="line">root      1857     2  0 15:59 ?        00:00:00 [kdmflush]</span><br><span class="line">root      1873     2  0 15:59 ?        00:00:00 [kdmflush]</span><br><span class="line">root      3220     2  0 15:59 ?        00:00:00 [kdmflush]</span><br><span class="line">root      4613     1  0 15:59 ?        00:00:00 /usr/sbin/sshd -D</span><br><span class="line">root      5125  4613  0 16:00 ?        00:00:00 sshd: root@pts/0</span><br><span class="line">root      5129  5125  0 16:00 pts/0    00:00:00 -bash</span><br><span class="line">root      5330  5129  0 16:00 pts/0    00:00:00 grep --color=auto sh</span><br></pre></td></tr></table></figure>
+
+<p>杀掉父进程之后，子进程跟着消失了。但是如果手工执行 parent_pro.sh 不会出现这个问题。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ nohup sh parent_pro.sh &gt; parent_pro.log  2&gt;&amp;1 &amp;</span><br><span class="line">$ systemctl status</span><br><span class="line">● qking-101</span><br><span class="line">    State: running</span><br><span class="line">     Jobs: 0 queued</span><br><span class="line">   Failed: 0 units</span><br><span class="line">    Since: Thu 2022-08-11 15:59:54 CST; 2h 21min ago</span><br><span class="line">   CGroup: /</span><br><span class="line">           ├─1 /usr/lib/systemd/systemd --switched-root --system --deserialize 22</span><br><span class="line">           ├─user.slice</span><br><span class="line">           │ └─user-0.slice</span><br><span class="line">           │   ├─session-4.scope</span><br><span class="line">           │   │ ├─5797 sshd: root@pts/1    </span><br><span class="line">           │   │ ├─5801 -bash</span><br><span class="line">           │   │ ├─6012 sh parent_pro.sh</span><br><span class="line">           │   │ ├─6013 sleep 10</span><br><span class="line">           │   │ ├─6014 systemctl status</span><br><span class="line">           │   │ └─6015 less</span><br><span class="line">           │   └─session-1.scope</span><br><span class="line">           │     ├─5125 sshd: root@pts/0    </span><br><span class="line">           │     └─5129 -bash</span><br></pre></td></tr></table></figure>
+
+<p>修改配置文件让父进程拉起一些子进程。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> 0 &gt; config.txt</span><br><span class="line">$ ps -ef | grep sh</span><br><span class="line">root      6012  5801  0 18:21 pts/1    00:00:00 sh parent_pro.sh</span><br><span class="line">root      6018  6012  0 18:21 pts/1    00:00:00 sh /root/namespace/child_loop.sh</span><br><span class="line">root      6041  6012  0 18:21 pts/1    00:00:00 sh /root/namespace/child_loop.sh</span><br><span class="line">root      6084  6012  0 18:22 pts/1    00:00:00 sh /root/namespace/child_loop.sh</span><br><span class="line">root      6147  6012  0 18:22 pts/1    00:00:00 sh /root/namespace/child_loop.sh</span><br><span class="line">root      6232  6012  0 18:22 pts/1    00:00:00 sh /root/namespace/child_loop.sh</span><br><span class="line">$ systemctl status</span><br><span class="line">● qking-101</span><br><span class="line">    State: running</span><br><span class="line">     Jobs: 0 queued</span><br><span class="line">   Failed: 0 units</span><br><span class="line">    Since: Thu 2022-08-11 15:59:54 CST; 2h 23min ago</span><br><span class="line">   CGroup: /</span><br><span class="line">           ├─1 /usr/lib/systemd/systemd --switched-root --system --deserialize 22</span><br><span class="line">           ├─user.slice</span><br><span class="line">           │ └─user-0.slice</span><br><span class="line">           │   ├─session-4.scope</span><br><span class="line">           │   │ ├─5797 sshd: root@pts/1    </span><br><span class="line">           │   │ ├─5801 -bash</span><br><span class="line">           │   │ ├─6012 sh parent_pro.sh</span><br><span class="line">           │   │ ├─6018 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─6041 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─6084 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─6147 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─6232 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─6337 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─6460 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─6603 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─6766 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─6949 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─6950 sleep 10</span><br><span class="line">           │   │ ├─7069 sleep 1</span><br><span class="line">           │   │ ├─7071 sleep 1</span><br><span class="line">           │   │ ├─7073 sleep 1</span><br><span class="line">           │   │ ├─7075 sleep 1</span><br><span class="line">           │   │ ├─7077 sleep 1</span><br><span class="line">           │   │ ├─7079 sleep 1</span><br><span class="line">           │   │ ├─7081 sleep 1</span><br><span class="line">           │   │ ├─7084 sleep 1</span><br><span class="line">           │   │ ├─7085 sleep 1</span><br><span class="line">           │   │ ├─7087 sleep 1</span><br><span class="line">           │   │ ├─7088 systemctl status</span><br><span class="line">           │   │ └─7089 less</span><br><span class="line">           │   └─session-1.scope</span><br><span class="line">           │     ├─5125 sshd: root@pts/0    </span><br><span class="line">           │     └─5129 -bash</span><br><span class="line">           └─system.slice</span><br><span class="line">             ├─rsyslog.service</span><br></pre></td></tr></table></figure>
+
+<p>这时杀掉父进程不会对子进程产生影响。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">kill</span> 6012</span><br><span class="line">$ ps -ef | grep sh</span><br><span class="line">root      6018     1  0 18:21 pts/1    00:00:00 sh /root/namespace/child_loop.sh</span><br><span class="line">root      6041     1  0 18:21 pts/1    00:00:00 sh /root/namespace/child_loop.sh</span><br><span class="line">root      6084     1  0 18:22 pts/1    00:00:00 sh /root/namespace/child_loop.sh</span><br><span class="line">root      6147     1  0 18:22 pts/1    00:00:00 sh /root/namespace/child_loop.sh</span><br><span class="line">root      6232     1  0 18:22 pts/1    00:00:00 sh /root/namespace/child_loop.sh</span><br><span class="line">root      6337     1  0 18:22 pts/1    00:00:00 sh /root/namespace/child_loop.sh</span><br><span class="line">root      6460     1  0 18:22 pts/1    00:00:00 sh /root/namespace/child_loop.sh</span><br><span class="line">root      6603     1  0 18:22 pts/1    00:00:00 sh /root/namespace/child_loop.sh</span><br><span class="line">root      6766     1  0 18:23 pts/1    00:00:00 sh /root/namespace/child_loop.sh</span><br><span class="line">root      6949     1  0 18:23 pts/1    00:00:00 sh /root/namespace/child_loop.sh</span><br><span class="line">root      7154     1  0 18:23 pts/1    00:00:00 sh /root/namespace/child_loop.sh</span><br><span class="line">root      7377     1  0 18:23 pts/1    00:00:00 sh /root/namespace/child_loop.sh</span><br><span class="line">root      7620     1  0 18:23 pts/1    00:00:00 sh /root/namespace/child_loop.sh</span><br><span class="line">[1]+  Terminated              nohup sh parent_pro.sh &gt; parent_pro.log 2&gt;&amp;1</span><br><span class="line">$ systemctl status</span><br><span class="line">● qking-101</span><br><span class="line">    State: running</span><br><span class="line">     Jobs: 0 queued</span><br><span class="line">   Failed: 0 units</span><br><span class="line">    Since: Thu 2022-08-11 15:59:54 CST; 2h 24min ago</span><br><span class="line">   CGroup: /</span><br><span class="line">           ├─1 /usr/lib/systemd/systemd --switched-root --system --deserialize 22</span><br><span class="line">           ├─user.slice</span><br><span class="line">           │ └─user-0.slice</span><br><span class="line">           │   ├─session-4.scope</span><br><span class="line">           │   │ ├─5797 sshd: root@pts/1    </span><br><span class="line">           │   │ ├─5801 -bash</span><br><span class="line">           │   │ ├─6018 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─6041 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─6084 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─6147 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─6232 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─6337 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─6460 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─6603 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─6766 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─6949 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─7154 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─7377 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─7620 sh /root/namespace/child_loop.sh</span><br><span class="line">           │   │ ├─9114 sleep 1</span><br><span class="line">           │   │ ├─9116 sleep 1</span><br><span class="line">           │   │ ├─9119 sleep 1</span><br><span class="line">           │   │ ├─9120 sleep 1</span><br><span class="line">           │   │ ├─9122 sleep 1</span><br><span class="line">           │   │ ├─9126 sleep 1</span><br><span class="line">           │   │ ├─9127 sleep 1</span><br><span class="line">           │   │ ├─9128 sleep 1</span><br><span class="line">           │   │ ├─9130 sleep 1</span><br><span class="line">           │   │ ├─9132 sleep 1</span><br><span class="line">           │   │ ├─9134 sleep 1</span><br><span class="line">           │   │ ├─9136 sleep 1</span><br><span class="line">           │   │ ├─9138 sleep 1</span><br><span class="line">           │   │ ├─9139 systemctl status</span><br><span class="line">           │   │ └─9140 less</span><br><span class="line">           │   └─session-1.scope</span><br><span class="line">           │     ├─5125 sshd: root@pts/0    </span><br><span class="line">           │     └─5129 -bash</span><br><span class="line">           └─system.slice</span><br></pre></td></tr></table></figure>
+
+<h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><p>仔细查阅了 systemd 相关文档，发现这个问题主要与 type 参数有关。</p>
+<p>Type：定义 service 的类型，主要有以下类型：</p>
+<ul>
+<li>simple：默认类型，启动的程序就是主体程序，这个程序要是退出那么一切皆休。因为 simple 类型不存在主进程退出的情况也就不存在有返回状态的情况，所以它一旦启动就认为是成功的，除非没起来。</li>
+<li>forking：标准 Unix Daemon 使用的启动方式。启动程序后会调用 fork() 函数，把必要的通信频道都设置好之后父进程退出，留下守护精灵的子进程。如果启动的进程能够自己创建pidfile，最好也指定下PIDFile=XXX。</li>
+<li>oneshot：一次性服务，这种服务类型就是启动，完成，没进程了。因为这类服务运行完就没进程了，我们经常会需要 RemainAfterExit=yes。后面配置的意思是说，即使没进程了，我们也要 Systemd 认为该服务是存在并成功了的。其他类型千万不要去设置RemainAfterExit=yes，否则systemd会认为服务启动成功了，重启或再去启动都会失败。</li>
+<li>dbus：这个程序启动时需要获取一块 DBus 空间，所以需要和 BusName= 一起用。只有它成功获得了 DBus 空间，依赖它的程序才会被启动。</li>
+<li>notify：这个程序在启动完成后会通过 sd_notify 发送一个通知消息。所以还需要配合 NotifyAccess 来让 Systemd 接收消息，后者有三个级别：none，所有消息都忽略掉; main，只接受我们程序的主进程发过去的消息; all，我们程序的所有进程发过去的消息都算。NotifyAccess 要是不写的话默认是 main。</li>
+<li>idle：这个程序要等它里面调度的全部其它东西都跑完才会跑它自己。比如你 ExecStart 的是个 shell 脚本，里面可能跑了一些别的东西，如果不这样的话，那很可能别的东西的控制台输出里会多一个“启动成功”这样的 Systemd 消息。</li>
+</ul>
+<p>最后，如果大家的服务会处理我这种场景，请务必记住这个参数要设置好了，另外还有一个 KillMode 参数也与 cgroup 有关，当我们执行 systemctl stop loop.service 的时候，整个 cgroup 会被删除，通过设置 KillMode 参数，可以确保子进程不会被清除。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34418380/article/details/122406276">unary operator expected解决方法</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_23312117/article/details/123294598">Linux 系统注册系统服务流程</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904029533765645">Systemd使用小结</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/outsrkem/p/11766267.html">使用systemctl管理服务</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2022/08/25/20220825-python-manage-activemq/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Python 与 ActiveMQ 交互的一些例子
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2022/07/13/20220713-linux-cgroups/" id="article-nav-older" class="article-nav-link-wrap">
+            闲聊 namespace 和 cgroups &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

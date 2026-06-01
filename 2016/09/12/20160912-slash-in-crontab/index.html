@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Crontab中的除号（slash）到底怎么用？-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="crontab, crontab 除号">
+    <meta name="description" content="crontab 是Linux中配置定时任务的工具，在各种配置中，我们经常会看到除号（Slash）的使用，那么这个除号到底标示什么意思，使用中有哪些需要注意的地方呢？">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Crontab中的除号（slash）到底怎么用？</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-06 12:38:59</span>
+        
+        <span class="post-time">发布于：2016-09-12 16:57:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>crontab 是Linux中配置定时任务的工具，如果对于 crontab 还不太熟悉的朋友，可以参考 <a href="http://www.edulinks.cn/2009/04/22/20090422-crontab/">Crontab的格式</a> 。</p>
+<p>在各种配置中，我们经常会看到除号（Slash）的使用，那么这个除号到底标示什么意思，使用中有哪些需要注意的地方呢？</p>
+<p>在定时任务中，我们经常有这样的需求，比如每5分钟查看一下日志，我们可以这么写：</p>
+<p>0,5,10,15,20,25,30,35,40,45,50,55 * * * * /command</p>
+<p>这样肯定是没有问题的，但是就写书写起来非常复杂，简化一下可以这么写：</p>
+<p>0-55/5 * * * * /command</p>
+<p>这样的写法已经简化了很多，大家还是觉得麻烦，那么可以这样写：</p>
+<p>*/5 * * * *　/command</p>
+<p>怎么样，是不是非常简单明了。这句就表示在0，5,10,15,20,25,30,35,40,45,50,55分钟的时候执行命令，即每隔5分钟执行命令。</p>
+<p>由此我们得出除号与范围搭配使用，表示命令执行的步长。</p>
+<p>那么我下面这种写法，是否标示每13分钟执行一次命令呢？</p>
+<p>*/13 * * * *　/command</p>
+<p>这里就是需要注意的地方。有一些步长是无法用这种方式表达的。只有能够被整除的步长值才能表达与我们理解相一致确切的含义，对于分钟来说只有 <em>/2,</em>/3,<em>/4,</em>/5,<em>/6,</em>/10,<em>/12,</em>/15,<em>/30，对于小时来说则只有</em>/2,<em>/3,</em>/4,<em>/6,</em>/8,<em>/12。对于日期来说，如果使用</em>/5，则不能保证每5天执行一次，到月底的时候可能只执行1天、2天或3天后就停止了，这取决与大小月与平闰年。这是因为 cron 是没有状态的，它不能够记录上次执行的是什么时间，只能根据当前的时间来判断是否需要执行。</p>
+<p>而对于*/13这个例子来说，表示在分钟这个范围内，即0-59分钟，任务会每13分钟执行一次。即：0,13,26,39,52，之后再间隔8分钟，就会又重新执行。</p>
+<p>再看下面一个例子：</p>
+<p>0 6 */2 * * /command</p>
+<p>看到这个我们如果理解成每xx执行就是，每两天的6点钟执行命令。在这里<em>的范围是1-31，</em>/2表示任务在奇数天执行，那么在1、3、5、7、8、10、12月，月末最后一天执行后，紧接着第二天仍然后执行，那这就不是每2天执行一次。</p>
+<p>参考资料：</p>
+<p>1、<a target="_blank" rel="noopener" href="http://unix.stackexchange.com/questions/32027/whats-the-meaning-of-the-slash-in-crontab">What’s the meaning of slash in crontab</a><br>2、Man 5 crontab<br>3、<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cron">Wiki Cron</a><br>4、<a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/6094999/crontab-syntax-query">StackOverflow Cron Syntax Query</a><br>5、<a target="_blank" rel="noopener" href="https://binblog.info/2014/10/17/what-does-the-slash-in-crontab-actually-do/">What does the slash in crontab actually do？</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2016/09/13/20160913-fusioncharts-display-process/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 使用Fusioncharts实现后台处理进度的前台展示
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2016/08/29/20160829-codeigniter-upload-file-type/" id="article-nav-older" class="article-nav-link-wrap">
+            Codeigniter文件上传类型不匹配错误 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

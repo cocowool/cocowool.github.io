@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gearman的使用-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="gearman, gearman任务调度, php gearman">
+    <meta name="description" content="Gearnman是一款分布式任务调度产品，提供了一种通用的程序框架来将你的任务分发到不同的机器或者不同的进程当中。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Gearman的使用</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2011-08-18 23:10:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>对于分布式网络环境或者有大量任务的应用，我们需要将任务在不同的服务器之间进行分布，这个时候正好是Gearman发挥实力的时候。虽然我们也可以使用MQ队列再加一些自己实现的调度算法来将任务进行分发，但是既然已经有了成熟的产品，为什么不使用下呢。</p>
+<h2 id="Gearman介绍"><a href="#Gearman介绍" class="headerlink" title="Gearman介绍"></a>Gearman介绍</h2><p>Gearman 提供了一种通用的程序框架来将你的任务分发到不同的机器或者不同的进程当中。它提供了你进行并行工作的能力、负载均衡处理的能力，以及在不同程序语言之间沟通的能力。Gearman能够应用的领域非常广泛，从高可用的网站到数据库的复制任务。总之，Gearman就是负责分发处理的中枢系统，它的优点包括：</p>
+<ul>
+<li><strong>开源：</strong>Gearman免费并且开源而且有一个非常活跃的开源社区。</li>
+<li><strong>多语言支持</strong>：Gearman支持的语言种类非常丰富。让我们能够用一种语言来编写Worker程序，但是用另外一种语言编写Client程序。</li>
+<li><strong>灵活</strong>：不必拘泥于固定的形式。您可以采用你希望的任何形式，例如 Map/Reduce。</li>
+<li><strong>快速</strong>：Gearman的协议非常简单，并且有一个用C语言实现的，经过优化的服务器，保证应用的负载在非常低的水平。</li>
+<li><strong>可植入</strong>：因为Gearman非常小巧、灵活。因此您可以将他置入到现有的任何系统中。</li>
+<li><strong>没有单点</strong>：Gearman不仅可以帮助扩展系统，同样可以避免系统的失败。</li>
+</ul>
+<h2 id="Gearman的工作原理"><a href="#Gearman的工作原理" class="headerlink" title="Gearman的工作原理"></a>Gearman的工作原理</h2><p>使用 Gearman 的应用通常有三部分组成：一个Client、一个Worker、一个 任务服务器。 Client的作用是提出一个 Job 任务 交给 Job Server 任务服务器。Job Server 会去寻找一个 合适的 Worker 来完成这项任务。Worker 执行由 Client 发送过来的 Job，并且将结果通过 Job Server 返回给 Client。Gearman 提供了 Client 和 Worker 的 API，利用这些API 应用可以同 Gearman Job Server来进行通信。Gearman 内部 Client 和 Worker 之间的通信都是通过 TCP 连接来进行的。工作的流程如下图所示：</p>
+<img src="/2011/08/18/20110818-gearman/1111.png" class="">
+
+
+
+
+
+<h2 id="Gearman的用处"><a href="#Gearman的用处" class="headerlink" title="Gearman的用处"></a><strong>Gearman的用处</strong></h2><p>Gearman首先提供了一个多语言通讯的接口，当然还有比这个更简单有效的办法。Gearman可以将工作的负载分担到不同的机器中，如下图所示：</p>
+<img src="/2011/08/18/20110818-gearman/2222.png" class="">
+
+
+
+<p>Job Server 可以开启多个实例，这样在其中一个发生故障的时候，可以 Failover 到其他的机器上。同时 Worker 也可以是多个实例进行运行，因为当前的服务器很多都是多核的。</p>
+<img src="/2011/08/18/20110818-gearman/3333.png" class="">
+
+
+
+<img src="/2011/08/18/20110818-gearman/5555.png" class="">
+
+
+
+<img src="/2011/08/18/20110818-gearman/4444.png" class="">
+
+<p>Gearman要依赖于 Boost C++ Libraries 中的 program_options 库，并且需要的版本大于 1.39。笔者的CentOS 5.2 系统中自带的 1.33 不能满足需求，在自己安装的过程中会遇到一些问题，建议参考 Boost 官方手册中的 Easy Build and Install 这部分。</p>
+<p>安装Gearman之后，第一次启用可能会遇到 <code>error while loading shared libraries: libgearman.so.1</code> 这个问题。可以用下面的方法解决：</p>
+<blockquote>
+<p>当运行 <code>/usr/local/sbin/gearmand -d</code> 时出现 <code>error while loading shared libraries: libgearman.so.1</code> 运行一下 <code>/sbin/ldconfig -v</code> ，然后再去运行gearman就可以了</p>
+</blockquote>
+<p><code>ldconfig</code> 命令的用途，主要是在默认搜寻目录(/lib和/usr/lib)以及动态库配置文件 <code>/etc/ld.so.conf</code> 内所列的目录下，搜索出可共享的动态链接库(格式如前介绍,lib*.so*),进而创建出动态装入程序(ld.so)所需的连接和缓存文件。缓存文件默认为 <code>/etc /ld.so.cache</code>，此文件保存已排好序的动态链接库名字列表。<code>ldconfig</code> 通常在系统启动时运行，而当用户安装了一个新的动态链接库时，就需要手工运行这个命令。</p>
+<p>需要小心的一件事情是数据的共享。Gearman 不进行所交换数据的任何转换或操作。对于这里使用的简单字符串和整数没有问题，但是不能共享 PHP 中的数组值并期望能在 Java 语言中被理解。对于这种类型的交互，可以使用很多结构化数据标准中的一种，比如 JavaScript Object Notation (JSON) 或 XML。另外，如果您在处理来自数据库的信息，只要共享 ID 或者找到需要处理的数据时要用到的信息即可，或者使用 memcached 这样的透明方法（尽管可能仍然需要 JSON 或等价物）。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="http://www.ibm.com/developerworks/cn/opensource/os-php-gearman/">用 Gearman 分发 PHP 应用程序的工作负载</a></li>
+<li><a target="_blank" rel="noopener" href="http://gearman.org/">Gearman</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.163.com/lgh_2002/blog/static/44017526201142610506817/">error while loading shared libraries: libgearman.so.1</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.ibm.com/developerworks/cn/opensource/os-gearman/index.html">跨多种环境部署Gearman</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2011/08/22/20110822-http-cache/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 利用HTTP Cache来优化网站
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2011/08/17/20110817-install-boost/" id="article-nav-older" class="article-nav-link-wrap">
+            Linux上安装Boost C++ Libraries &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

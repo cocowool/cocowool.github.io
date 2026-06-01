@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Firefox与IE的一些Javascript编程小技巧-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="javascript, firefox, ie">
+    <meta name="description" content="本文介绍了一些Javascript编程小技巧">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Firefox与IE的一些Javascript编程小技巧</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-10 22:44:21</span>
+        
+        <span class="post-time">发布于：2008-11-12 20:54:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>1.document.formName.item(“itemName”)问题<br>说明:IE下,可以使用document.formName.item(“itemName”)或document.formName.elements[“elementName”];<br>Firefox下,只能使用document.formName.elements[“elementName”].<br>解决方法:统一使用document.formName.elements[“elementName”].</p>
+<p>2.集合类对象问题<br>说明:IE下,可以使用()或[]获取集合类对象;Firefox下,只能使用[]获取集合类对象.<br>解决方法:统一使用[]获取集合类对象.</p>
+<p>3.自定义属性问题<br>说明:IE下,可以使用获取常规属性的方法来获取自定义属性,也可以使用getAttribute()获取自定义属性;Firefox下,只能使用getAttribute()获取自定义属性.<br>解决方法:统一通过getAttribute()获取自定义属性.</p>
+<p>4.eval(“idName”)问题<br>说明:IE下,,可以使用eval(“idName”)或getElementById(“idName”)来取得id为idName的HTML对象;Firefox下只能使用getElementById(“idName”)来取得id为idName的HTML对象.<br>解决方法:统一用getElementById(“idName”)来取得id为idName的HTML对象.</p>
+<p>5.变量名与某HTML对象ID相同的问题<br>说明:IE下,HTML对象的ID可以作为document的下属对象变量名直接使用;Firefox下则不能.Firefox下,可以使用与HTML对象ID相同的变量名;IE下则不能。<br>解决方法:使用document.getElementById(“idName”)代替document.idName.最好不要取HTML对象ID相同的变量名,以减少错误;在声明变量时,一律加上var,以避免歧义.</p>
+<p>6.const问题<br>说明:Firefox下,可以使用const关键字或var关键字来定义常量;IE下,只能使用var关键字来定义常量.<br>解决方法:统一使用var关键字来定义常量.</p>
+<p>7.input.type属性问题<br>说明:IE下input.type属性为只读;但是Firefox下input.type属性为读写.</p>
+<p>8.window.event问题<br>说明:window.event只能在IE下运行,而不能在Firefox下运行,这是因为Firefox的event只能在事件发生的现场使用. Firefox必须从源处加入event作参数传递。Ie忽略该参数，用window.event来读取该event。<br>解决方法:<br>IE&amp;Firefox:<br>Submitted(event)”/&gt; …</p>
+<script language="javascript">
+function Submitted(evt) {
+evt=evt?evt:(window.event?window.event:null);
+}
+</script>
+
+<p>9.event.x与event.y问题<br>说明:IE下,even对象有x,y属性,但是没有pageX,pageY属性;Firefox下,even对象有pageX,pageY属性,但是没有x,y属性.<br>解决方法:使用mX(mX = event.x ? event.x : event.pageX;)来代替IE下的event.x或者Firefox下的event.pageX.</p>
+<p>10.event.srcElement问题<br>说明:IE下,event对象有srcElement属性,但是没有target属性;Firefox下,even对象有target属性,但是没有srcElement属性.<br>解决方法:使用obj(obj = event.srcElement ? event.srcElement : event.target;)来代替IE下的event.srcElement或者Firefox下的event.target.请同时注意event的兼容性问题。</p>
+<p>11.window.location.href问题<br>说明:IE或者Firefox2.0.x下,可以使用window.location或window.location.href;Firefox1.5.x下,只能使用window.location.<br>解决方法:使用window.location来代替window.location.href.</p>
+<p>12.模态和非模态窗口问题<br>说明:IE下,可以通过showModalDialog和showModelessDialog打开模态和非模态窗口;Firefox下则不能.<br>解决方法:直接使用window.open(pageURL,name,parameters)方式打开新窗口。<br>如果需要将子窗口中的参数传递回父窗口,可以在子窗口中使用window.opener来访问父窗口.例如：var parWin = window.opener; parWin.document.getElementById(“Aqing”).value = “Aqing”;</p>
+<p>13.frame问题<br>以下面的frame为例：</p>
+<frame src="xxx.html" id="frameId" name="frameName" />
+
+<p>(1)访问frame对象:<br>IE:使用window.frameId或者window.frameName来访问这个frame对象. frameId和frameName可以同名。<br>Firefox:只能使用window.frameName来访问这个frame对象.<br>另外，在IE和Firefox中都可以使用window.document.getElementById(“frameId”)来访问这个frame对象.</p>
+<p>(2)切换frame内容:<br>在IE和Firefox中都可以使用window.document.getElementById(“testFrame”).src = “xxx.html”或window.frameName.location = “xxx.html”来切换frame的内容.<br>如果需要将frame中的参数传回父窗口(注意不是opener,而是parent frame)，可以在frme中使用parent来访问父窗口。例如：parent.document.form1.filename.value=”Aqing”;</p>
+<p>14.body问题<br>Firefox的body在body标签没有被浏览器完全读入之前就存在；而IE的body则必须在body标签被浏览器完全读入之后才存在.</p>
+<p>15.事件委托方法<br>IE：document.body.onload = inject; //Function inject()在这之前已被实现<br>Firefox：document.body.onload = inject();</p>
+<ol start="16">
+<li>firefox与IE的父元素(parentElement)的区别<br>IE：obj.parentElement<br>firefox：obj.parentNode<br>解决方法:因为firefox与IE都支持DOM,因此使用obj.parentNode是不错选择.</li>
+</ol>
+<p>17.cursor:hand VS cursor:pointer<br>firefox不支持hand，但ie支持pointer<br>解决方法:统一使用pointer</p>
+<p>18.innerText在IE中能正常工作，但是innerText在FireFox中却不行.需用textContent。<br>解决方法:<br>if(navigator.appName.indexOf(“Explorer”) &gt; -1){<br>document.getElementById(‘element’).innerText = “my text”;<br>} else{<br>document.getElementById(‘element’).textContent = “my text”;<br>}</p>
+<ol start="19">
+<li><p>FireFox中设置HTML标签的style时，所有位置性和字体尺寸的值必须后跟px。这个ie也是支持的。</p>
+</li>
+<li><p>ie,firefox以及其它浏览器对于table标签的操作都各不相同，在ie中不允许对table和tr的innerHTML赋值，使用js增加一个tr时，使用appendChild方法也不管用。<br>解决方法：<br>//向table追加一个空行：<br>var row = otable.insertRow(-1);<br>var cell = document.createElement(“td”);<br>cell.innerHTML = “ “;<br>cell.className = “XXXX”;<br>row.appendChild(cell);</p>
+</li>
+</ol>
+<p>21.padding问题<br>padding 5px 4px 3px 1px FireFox无法解释简写,<br>必须改成padding-top:5px; padding-right:4px; padding-bottom:3px; padding-left:1px;</p>
+<p>22.消除ul、ol等列表的缩进时<br>样式应写成:list-style:none;margin:0px;padding:0px;<br>其中margin属性对IE有效，padding属性对FireFox有效</p>
+<ol start="23">
+<li><p>CSS透明<br>IE：filter:progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=60)。<br>FF：opacity:0.6。</p>
+</li>
+<li><p>CSS圆角<br>IE：不支持圆角。<br>FF：-moz-border-radius:4px，或者-moz-border-radius-topleft:4px;-moz-border- radius-topright:4px;-moz-border-radius-bottomleft:4px;-moz-border-radius- bottomright:4px;。</p>
+</li>
+<li><p>CSS双线凹凸边框<br>IE：border:2px outset;。<br>FF：-moz-border-top-colors: #d4d0c8 white;-moz-border-left-colors: #d4d0c8 white;-moz-border-right-colors:#404040 #808080;-moz-border-bottom-colors:#404040 #808080;</p>
+</li>
+</ol>
+<p>26.对select的options集合操作<br>枚举元素除了[]外，SelectName.options.item()也是可以的,另外SelectName.options.length, SelectName.options.add/remove都可以在两种浏览器上使用。注意在add后赋值元素，否则会失败（本人试验如此）。</p>
+<ol start="27">
+<li><p>XMLHTTP的区别<br>//mf<br>if (window.XMLHttpRequest) //mf<br>{<br>xmlhttp=new XMLHttpRequest()<br>xmlhttp.onreadystatechange=xmlhttpChange<br>xmlhttp.open(“GET”,url,true)<br>xmlhttp.send(null)<br>}<br>//ie<br>else if (window.ActiveXObject) // code for IE<br>{<br>xmlhttp=new ActiveXObject(“Microsoft.XMLHTTP”)<br>if (xmlhttp)<br>{<br>xmlhttp.onreadystatechange=xmlhttpChange<br>xmlhttp.open(“GET”,url,true)<br>xmlhttp.send()<br>}<br>}<br>}</p>
+</li>
+<li><p>window.close()的区别</p>
+</li>
+</ol>
+<p>有的Firefox版本不支持window.close()方法，需要进行设置才可以。<br>需要在about:config中打开<br>dom.allow_scripts_to_close_windows;true<br>才行，我的Firefox版本是Firefox 3.0.4</p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2008/11/13/20081113-ssh-and-copy/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; SSH连接服务器并且拷贝文件
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2008/11/12/20081112-vista-curl/" id="article-nav-older" class="article-nav-link-wrap">
+            使Windows Vista 也支持cUrl扩展 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

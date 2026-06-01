@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Maven 快速入门-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="maven, maven java, maven linux">
+    <meta name="description" content="Maven是一个Java依赖包管理工具，可以支持Java项目的开发、打包、测试、部署等一系列流程，本文简要介绍 Maven 的使用基础和快速入门示例。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Maven 快速入门</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2023-03-21 22:20:06</span>
+        
+        <span class="post-time">发布于：2018-05-08 14:05:00</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>Maven是一个Java工具，因此你的电脑上必须安装有JAVA环境（JDK或者JRE）。首先，从官方<a target="_blank" rel="noopener" href="https://maven.apache.org/download.html">下载 Maven</a>，我这里下载的是 3.5 的版本。</p>
+<p>本文是在Mac环境中安装的，首先创建一个文件夹，将 tar 包解压缩。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">bogon:tools rousseau$ tar -xvzf apache-maven-3.5.3-bin.tar.gz </span><br><span class="line">bogon:tools rousseau$ <span class="built_in">cd</span> apache-maven-3.5.3/</span><br><span class="line">bogon:apache-maven-3.5.3 rousseau$ ./bin/mvn -version</span><br><span class="line">Apache Maven 3.5.3 (3383c37e1f9e9b3bc3df5050c29c8aff9f295297; 2018-02-25T03:49:05+08:00)</span><br><span class="line">Maven home: /Users/rousseau/tools/apache-maven-3.5.3</span><br><span class="line">Java version: 1.8.0_131, vendor: Oracle Corporation</span><br><span class="line">Java home: /Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home/jre</span><br><span class="line">Default locale: en_US, platform encoding: UTF-8</span><br><span class="line">OS name: <span class="string">&quot;mac os x&quot;</span>, version: <span class="string">&quot;10.11.6&quot;</span>, arch: <span class="string">&quot;x86_64&quot;</span>, family: <span class="string">&quot;mac&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>将 bin 目录加入到你的环境变量之后，就可以使用 <code>mvn --version</code> 命令查看安装情况了。</p>
+<p>MacOS 系统也可以使用 <code>brew install mvn</code> 命令安装后使用。macOS 通过 brew 方式安装 maven 默认位于 <code>/usr/local/Cellar/maven/3.8.6/libexec/</code>。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用 mvn --version 查看安装情况</span></span><br><span class="line">$ mvn --version</span><br><span class="line">Apache Maven 3.8.6 (84538c9988a25aec085021c365c560670ad80f63)</span><br><span class="line">Maven home: /usr/<span class="built_in">local</span>/Cellar/maven/3.8.6/libexec</span><br><span class="line">Java version: 1.8.0_341, vendor: Oracle Corporation, runtime: /Library/Java/JavaVirtualMachines/jdk1.8.0_341.jdk/Contents/Home/jre</span><br><span class="line">Default locale: en_CN, platform encoding: UTF-8</span><br><span class="line">OS name: <span class="string">&quot;mac os x&quot;</span>, version: <span class="string">&quot;12.2.1&quot;</span>, arch: <span class="string">&quot;x86_64&quot;</span>, family: <span class="string">&quot;mac&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>Maven的配置分三个级别：Installation 全局级别 、Project 工程级别、User 用户级别。用户级配置可以在 <code>$&#123;user.home&#125;/.m2/settings.xml</code> 文件中设置，这个文件不是必须的，如果没有就会使用默认配置。工程级别的配置可以直接写在工程的 pom.xml 文件中。</p>
+<h4 id="配置本地-Repository"><a href="#配置本地-Repository" class="headerlink" title="配置本地 Repository"></a>配置本地 Repository</h4><p>默认的 Repository 位置为<code>$&#123;user.home&#125;/.m2/repository/</code>，可通过配置文件修改。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">settings</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="tag">&lt;<span class="name">localRepository</span>&gt;</span>/path/to/local/repo/<span class="tag">&lt;/<span class="name">localRepository</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">settings</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="配置国内源"><a href="#配置国内源" class="headerlink" title="配置国内源"></a>配置国内源</h4><p>为了加速依赖包的下载，可以配置国内阿里云的源，提高构建下载速度。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 修改 $&#123;user.home&#125;/.m2/settings.xml</span></span><br><span class="line">&lt;settings&gt;                                                                                                                                                                                                                            </span><br><span class="line">	&lt;mirrors&gt;</span><br><span class="line">		&lt;mirror&gt;</span><br><span class="line">        &lt;id&gt;alimaven&lt;/id&gt;</span><br><span class="line">        &lt;name&gt;aliyun maven&lt;/name&gt;</span><br><span class="line">        &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public/&lt;/url&gt;</span><br><span class="line">        &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;</span><br><span class="line">		&lt;/mirror&gt;</span><br><span class="line">	&lt;/mirrors&gt;</span><br><span class="line">&lt;/settings&gt;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="配置代理-Proxy"><a href="#配置代理-Proxy" class="headerlink" title="配置代理 Proxy"></a>配置代理 Proxy</h4><p>其它还有并发配置 Parallel Artifact Resolution Configuration、安全及部署配置 Security and Deployment Settings</p>
+<h2 id="创建工程"><a href="#创建工程" class="headerlink" title="创建工程"></a>创建工程</h2><blockquote>
+<p>首次执行的时候需要从Maven中央仓库下载一些依赖包，所以可能会花一些时间。由于网络超时的原因，很可能不会一次成功，需要多试几次。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bogon:maven rousseau$ ~/tools/apache-maven-3.5.3/bin/mvn archetype:generate -DgroupId=com.cocowool.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=<span class="literal">false</span></span><br><span class="line"><span class="comment"># 工程创建后，可以查看目录结构</span></span><br><span class="line">bogon:maven rousseau$ <span class="built_in">cd</span> my-app/</span><br></pre></td></tr></table></figure>
+<p>生成的工程中，POM.xml 位于根目录下，<code>src/main/java</code>存放工程代码，<code>src/test/java</code>存放测试代码。</p>
+<h3 id="POM-文件"><a href="#POM-文件" class="headerlink" title="POM 文件"></a>POM 文件</h3><p>POM.xml 是Maven进行工程构建的最主要的配置文件，本文中的 pom.xml 如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0http://maven.apache.org/maven-v4_0_0.xsd&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.cocowool.app<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>my-app<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>my-app<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.apache.org<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.8.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h3><p>执行<code>mvn package</code>可以对工程进行打包，输出 jar 包。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">bogon:my-app rousseau$ ~/tools/apache-maven-3.5.3/bin/mvn package</span><br><span class="line">[INFO] Building jar: /Users/rousseau/Projects/java.my/study/maven/my-app/target/my-app-1.0-SNAPSHOT.jar</span><br><span class="line">[INFO] ------------------------------------------------------------------------</span><br><span class="line">[INFO] BUILD SUCCESS</span><br><span class="line">[INFO] ------------------------------------------------------------------------</span><br><span class="line">[INFO] Total time: 03:55 min</span><br><span class="line">[INFO] Finished at: 2018-05-08T12:43:13+08:00</span><br><span class="line">[INFO] ------------------------------------------------------------------------</span><br><span class="line"><span class="comment"># 生成的jar包存放在 target 目录下</span></span><br><span class="line">bogon:my-app rousseau$ java -cp target/my-app-1.0-SNAPSHOT.jar com.cocowool.app.App</span><br><span class="line">Hello World!</span><br></pre></td></tr></table></figure>
+
+<h3 id="Maven-支持的阶段"><a href="#Maven-支持的阶段" class="headerlink" title="Maven 支持的阶段"></a>Maven 支持的阶段</h3><p>Maven主要的阶段包含以下几个</p>
+<img src="/2018/05/08/20180508-maven-tutorial/39469-20180508140500197-1398530956.png" class="">
+
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>2022年7月24日，操作系统升级到了 Monterey 12.2.1，执行 <code>mvn</code> 命令时提示</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mvn -v</span><br><span class="line">The JAVA_HOME environment variable is not defined correctly</span><br><span class="line">This environment variable is needed to run this program</span><br></pre></td></tr></table></figure>
+
+<p>因为默认的 shell 已经更新为 zsh，修改 <code>.zshrc</code> 文件，追加下面的内容。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#设置 Java_home</span><br><span class="line">export JAVA_HOME=$(/usr/libexec/java_home)</span><br></pre></td></tr></table></figure>
+
+<p>重新查看就可以解决问题</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ mvn -version</span><br><span class="line">Apache Maven 3.8.6 (84538c9988a25aec085021c365c560670ad80f63)</span><br><span class="line">Maven home: /usr/<span class="built_in">local</span>/Cellar/maven/3.8.6/libexec</span><br><span class="line">Java version: 15.0.2, vendor: Oracle Corporation, runtime: /Library/Java/JavaVirtualMachines/jdk-15.0.2.jdk/Contents/Home</span><br><span class="line">Default locale: en_CN, platform encoding: UTF-8</span><br><span class="line">OS name: <span class="string">&quot;mac os x&quot;</span>, version: <span class="string">&quot;10.16&quot;</span>, arch: <span class="string">&quot;x86_64&quot;</span>, family: <span class="string">&quot;mac&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>macOS 操作系统的 jdk 默认安装在 <code>ls -lh /Library/Java/JavaVirtualMachines/</code> 目录下，如果需要多个 jdk 同时存在，可以看看参考资料5对应的文章内容。</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料:"></a>参考资料:</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://maven.apache.org/">Maven</a></li>
+<li><a target="_blank" rel="noopener" href="https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html">Maven in 5 Minutes</a></li>
+<li><a target="_blank" rel="noopener" href="https://maven.apache.org/install.html">Installing Apache Maven</a></li>
+<li><a target="_blank" rel="noopener" href="https://maven.apache.org/guides/mini/guide-configuring-maven.html">Configuring Maven</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/chenzhengfeng/article/details/124965048">macOS 上安装多个版本 JDK</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/softidea/p/6256543.html">maven编译报错 -source 1.5 中不支持 lambda 表达式</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.51cto.com/feirenraoyuan/5331640">mvn 手动下载 jar 包</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u010735988/article/details/125850640">SpringBoot教程(二)：Maven</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/05/28/20180528-tomcat-memory-set/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Tomcat内存设置
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/05/08/20180508-jenkins-quick-start/" id="article-nav-older" class="article-nav-link-wrap">
+            Jenkins 快速搭建 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

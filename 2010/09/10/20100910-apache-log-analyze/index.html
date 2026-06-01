@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>利用AWStat+JAWStat进行Apache访问日志分析-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="apache日志, apache日志分析, awstat, jawstat">
+    <meta name="description" content="Apache的访问日志中会记录服务器所处理的所有请求，awstat和jawstat帮助我们分析访问日志。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>利用AWStat+JAWStat进行Apache访问日志分析</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2010-09-10 17:33:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p><strong>Apache日志的几种形式</strong>：</p>
+<p>Apache的访问日志中会记录服务器所处理的所有请求，对apache的访问日志进行分析是一种比较传统的形式。虽然现在很多第三方的统计分析工具提供了嵌入到页面中的JS脚本来进行分析的方式，但是因为两种分析方式的侧重点不同，目前两种形式的日志分析仍并行存在。</p>
+<p>不同版本的Apache httpd使用了不同的模块和指令来控制对访问的记录，包括mod_log_referer, mod_log_agent和<code>TransferLog</code>指令。现在，<code>CustomLog</code>指令包含了旧版本中相关指令的所有功能。日志分析与服务器产生的日志形式紧密相关，下面就是总结的一些常用的Apache访问日志的形式。</p>
+<p>1、Common Log Format（CLF log format）<br>这是一种典型的记录格式：</p>
+<blockquote>
+<p>LogFormat “%h %l %u %t \”%r\” %&gt;s %b” common<br>CustomLog logs/access_log common</p>
+</blockquote>
+<p>上例中第一行先定义了日志的格式，后面一行再定义日志产生的位置和格式。最后产生的结果如下：</p>
+<blockquote>
+<p>127.0.0.1 - frank [10/Oct/2000:13:55:36 -0700] “GET /apache_pb.gif HTTP/1.0” 200 2326</p>
+</blockquote>
+<p>日志格式中具体字符代表的含义，我们可以在参考资料2中看到。</p>
+<p>2、NCSA Combined log format<br>组合日志格式是另外一种常用的日志格式，如下：</p>
+<blockquote>
+<p>LogFormat “%h %l %u %t &quot;%r&quot; %&gt;s %b &quot;%{Referer}i&quot; &quot;%{User-agent}i&quot;“ combined<br>CustomLog log/access_log combined</p>
+</blockquote>
+<p>记录的形式如下：</p>
+<blockquote>
+<p>127.0.0.1 - frank [10/Oct/2000:13:55:36 -0700] “GET /apache_pb.gif HTTP/1.0” 200 2326 “<a target="_blank" rel="noopener" href="http://www.example.com/start.html&quot;">http://www.example.com/start.html&quot;</a> “Mozilla/4.08 [en] (Win98; I ;Nav)”</p>
+</blockquote>
+<p><strong>AWStat的安装</strong></p>
+<p>AWStat的安装比较简单。可以使用tools文件下的配置工具，按照提示一步步进行安装，也可以自行创建一个配置文件并且进行配置。具体的过程<a target="_blank" rel="noopener" href="http://awstats.sourceforge.net/docs/awstats_setup.html">官方网站</a>上介绍的都比较清楚，就不再赘述了。</p>
+<p>安装完成后，配置好 LogFile/LogFormat等几个必须配置的选项，确保你所要分析的Apache访问日志的格式和定义的格式一致，如果已经预定义的几种格式不能满足你的要求，也可以进行自己定义。例如我自己的Apache日志不属于某种规范，所以必须自己定义。</p>
+<blockquote>
+<p>Apache日志：<br>LogFormat “%h %l %u %t %T &quot;%r&quot; %&gt;s %b &quot;%{Referer}i&quot; &quot;%{User-Agent}i&quot; &quot;%{Cookie}i&quot;“ combined<br>AWStats日志格式：<br>LogFormat=”%host %other %logname %time1 %other %methodurl %code %bytesd %refererquot %uaquot %otherquota”</p>
+</blockquote>
+<p>这样就确保了AWStats可以正确分析我的日志，然后就执行日志分析命令。</p>
+<blockquote>
+<p>perl awstats.pl -config=baiduleju update</p>
+</blockquote>
+<p>我所分析的日志，是从各个Web服务器上统一汇总过来的，所以LogFile配置中如果写成固定的文件名，则会不能适应日志文件的变化，我们日志文件存放的格式为：自定义目录/100910/100910_log_1[2.3.4].gz。与日期相关，并且进行了压缩，为此，我编写了一个脚本，让他来处理这些日志文件。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">DAY=<span class="variable">$1</span></span><br><span class="line"><span class="keyword">if</span> [[ ! <span class="variable">$DAY</span> ]]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">	DAY=`date -d <span class="string">&#x27;1 day ago&#x27;</span> +%y%m%d`</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">`<span class="built_in">cd</span> /awstats的目录/awstats/wwwroot/cgi-bin`</span><br><span class="line">`cp /data0/dpoolapachelog/<span class="variable">$DAY</span>/<span class="variable">$DAY</span>.house.baidu.com_* ./log_tmp/`</span><br><span class="line">`gzip -d ./log_tmp/*`</span><br><span class="line">`/awstats的目录/awstats/tools/logresolvemerge.pl ./log_tmp/* &gt; ./log_tmp/newlog`</span><br><span class="line">perl awstats.pl -config=baiduleju -update</span><br><span class="line">`rm log_tmp/*`</span><br></pre></td></tr></table></figure>
+
+<p>主要过程就是将日志文件先拷贝到一个临时目录，然后利用logresolvemerge合并后进行分析，完成后删除。<br>最后在我指定的数据目录 ./data/ 下得到更新后的分析日志。</p>
+<p>分析完成后，其实就可以通过web方式或者脚本生成静态的分析报告来查看结果了，但是awstats分析出来的结果呈现方式确实不是太好看，于是就用到了JAWStat。</p>
+<p><strong>JAWStat的安装</strong></p>
+<p>JAWStat需要Apache和PHP的支持，所以需要已经配置了相应的环境。它提供了一个非常友好的界面和方便的操作服务，而且支持不同的语言版本。截图如下：</p>
+<img src="/2010/09/10/20100910-apache-log-analyze/image_thumb.png" class="">
+
+<p>配置也非常简单，只需要在程序的config.php文件中修改相应的参数就可以了。但是我发现在分析日志文件大的时候，会产生内存溢出的问题，需要修改一下最大内存限制。感觉处理方式上海由改进的可能，但是作者对这个的开发已经停滞了好久了。</p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://lamp.linux.gov.cn/Apache/ApacheMenu/logs.html">Apache日志文件</a><br>2、<a target="_blank" rel="noopener" href="http://lamp.linux.gov.cn/Apache/ApacheMenu/mod/mod_log_config.html">Apache模块mod_log_config</a><br>3、<a target="_blank" rel="noopener" href="http://awstats.sourceforge.net/">AWStats</a><br>4、<a target="_blank" rel="noopener" href="http://www.jawstats.com/">JAWStats</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2010/09/30/20100930-linux-blog-tools/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 几款Linux下的日志书写工具
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2010/09/07/20100907-php-log-tools/" id="article-nav-older" class="article-nav-link-wrap">
+            PHP开源Apache日志分析工具收集与比较 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

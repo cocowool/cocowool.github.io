@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>我的vim配置-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="vim, vimrc, linux vim, linux vimrc, vim配置">
+    <meta name="description" content="VIM是一款 Linux 命令行下的文本编辑器，虽然现代编辑器及IDE越来越多，但仍敌不过VIM的简单与方便，特别是在生产环境进行运维操作或代码调试过程中，因此熟悉一下VIM的使用和配置也是大有益处的。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>我的vim配置</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-03-28 16:42:41</span>
+        
+        <span class="post-time">发布于：2021-03-26 21:47:43</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>VIM是一款 Linux 命令行下的文本编辑器，虽然现代编辑器及IDE越来越多，但仍敌不过VIM的简单与方便，特别是在生产环境进行运维操作或代码调试过程中，因此熟悉一下VIM的使用和配置也是大有益处的。</p>
+<h2 id="VIM的历史"><a href="#VIM的历史" class="headerlink" title="VIM的历史"></a>VIM的历史</h2><p>喝水不忘打井人。Vim是由 Bram Moolenaar 基于 Bill Joy 开发的 Vi 开发的编辑器。</p>
+<h2 id="VIM的配置"><a href="#VIM的配置" class="headerlink" title="VIM的配置"></a>VIM的配置</h2><p>VIM在Linux系统上，有两个配置文件，一个是放在 <code>/etc/vimrc</code> 下的全局配置文件，一个是放在用户目录下的 <code>~/.vimrc</code> 文件，一般我们都是通过修改用户目录下的配置文件来实现自定义配置。</p>
+<p>下面整理了一些常用的配置，帮助我们获得更好的 vim 体验。</p>
+<ul>
+<li><p>显示行号。<code>set humber</code> 可以默认显示行号 <code>set nonu</code> 可以默认不显示行号。</p>
+</li>
+<li><p>语法高亮。<code>syntax on</code> 打开语法高亮，在使用 vim 编辑时，一些关键字会高亮显示，类似于 IDE 环境。</p>
+</li>
+<li><p>配色方案。<code> colorscheme delek</code> 。</p>
+</li>
+<li><p>设置TAB显示的宽度。<code>set tabstop=4</code>。在脚本编辑时缩进非常重要，不光是美观问题，Python对于缩进严重依赖，bash脚本也要求精确的的缩进。</p>
+</li>
+<li><p>设置TAB键的行为。<code>set softtabstop=4</code> 该命令不修改tab的显示宽度，影响vim在插入模式下按 Tab 键所实际得到的字符，建议和上一个选项保持一致。</p>
+</li>
+<li><p>将TAB替换为空格。<code>set expandtab</code> 这个选项默认为off，打开这个选项后，当我们按 Tab 时，会把 tab 字符转换为 tabstop 对应数值的空格。如果确实需要插入 tab 字符，则按下CTRL-V&lt;Tab&gt;。</p>
+</li>
+<li><p>显示未完成的命令。<code>set showcmd</code> 这个选项打开时，将在vim窗口的右下角看到当前输入的未完成的命令。如下图右下角有个 d 即我还没输入完成的命令。</p>
+<img src="/2021/03/26/20210329-my-vimrc/showcmd.jpg" class="" title="showcmd">
+</li>
+<li><p>显示光标所在行。<code>set cursorline</code> 这个选项打开后，光标所在的行将显示一条明显的直线，方便我们快速找到光标所在的行。</p>
+<img src="/2021/03/26/20210329-my-vimrc/cursorline.jpg" class="" title="cursorline">
+</li>
+<li><p>显示匹配的括号。<code>set showmatch</code> 这个选项打开后，如果光标移动到括号或者大括号，则会显示与它相匹配的另外一个括号或者大括号，对于使用 vim 来做编程的朋友会很方便。</p>
+</li>
+<li><p>更好的搜索体验。<code>set incsearch</code> 和 <code>set hlsearch</code> 。第一个命令增强了 vim 自带的搜索功能，能够找到所有匹配的字符。第二个命令会对搜索到的结果进行高亮显示。</p>
+</li>
+</ul>
+<p>我用到的全部的 vim 配置</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> number</span><br><span class="line">syntax on</span><br><span class="line"><span class="built_in">set</span> autoindent</span><br><span class="line"><span class="built_in">set</span> smartindent</span><br><span class="line"><span class="built_in">set</span> tabstop=4</span><br><span class="line"><span class="built_in">set</span> softtabstop=4</span><br><span class="line"><span class="built_in">set</span> expandtab</span><br><span class="line"><span class="built_in">set</span> showcmd</span><br><span class="line"><span class="built_in">set</span> cursorline</span><br><span class="line">filetype indent on</span><br><span class="line"><span class="built_in">set</span> wildmenu</span><br><span class="line"><span class="built_in">set</span> lazyredraw</span><br><span class="line"><span class="built_in">set</span> showmatch</span><br><span class="line"><span class="built_in">set</span> incsearch</span><br><span class="line"><span class="built_in">set</span> hlsearch</span><br></pre></td></tr></table></figure>
+
+<p>vim 还有很多很多丰富的配置和插件，例如自动代码折叠、显示文件夹等等，如果熟练合理的使用，vim将会比IDE环境功能还要强大，后续有机会整理更多内容后再和大家分享。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000021133524">vim技巧：详解tabstop、softtabstop、expandtab三个选项的区别</a></li>
+<li><a target="_blank" rel="noopener" href="https://mounui.com/314.html">vim插件之incsearch</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/03/28/20210401-docker-save-in-and-out/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Docker镜像的导入、导出
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/03/26/20210326-cfp-george-stibitz/" id="article-nav-older" class="article-nav-link-wrap">
+            乔治·斯蒂比兹 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

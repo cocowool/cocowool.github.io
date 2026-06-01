@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Axure制作Tab切换效果-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="axure, axure tab切换, tab切换效果">
+    <meta name="description" content="axure 作为一款原型工具，能够帮助我们快速的设计原型，从而将产品人员的想法快速准确的传递给技术人员。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Axure制作Tab切换效果</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2009-11-24 15:47:00</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>axure 作为一款原型工具，能够帮助我们快速的设计原型，从而将产品人员的想法快速准确的传递给技术人员。</p>
+<p>我们希望的最终效果如下图：<br><a target="_blank" rel="noopener" href="http://images.cnblogs.com/cnblogs_com/cocowool/WindowsLiveWriter/b0a2d1a7be96_C426/0004_2.png"><img src="20091124-axure-tab/0004_thumb.png"></a></p>
+<p>Technorati 标签:<a target="_blank" rel="noopener" href="http://technorati.com/tags/axure">axure</a>,<a target="_blank" rel="noopener" href="http://technorati.com/tags/%e5%8e%9f%e5%9e%8b">原型</a>,<a target="_blank" rel="noopener" href="http://technorati.com/tags/tab">tab</a>,<a target="_blank" rel="noopener" href="http://technorati.com/tags/%e5%88%87%e6%8d%a2">切换</a></p>
+<p>最简单的一种办法就是通过 Dynamic Panels 来实现。</p>
+<p>首先创建一个空白的 Dynamic Panel，然后在 State 1 中开始绘制我们需要的样式。</p>
+<p><a target="_blank" rel="noopener" href="http://images.cnblogs.com/cnblogs_com/cocowool/WindowsLiveWriter/b0a2d1a7be96_C426/0005_2.png"><img src="20091124-axure-tab/0005_thumb.png"></a></p>
+<p>下面就是最关键的一步，让这些元素都动起来。</p>
+<p><a target="_blank" rel="noopener" href="http://images.cnblogs.com/cnblogs_com/cocowool/WindowsLiveWriter/b0a2d1a7be96_C426/0007_2.png"><img src="20091124-axure-tab/0007_thumb.png"></a></p>
+<p>首先选中一个 Tab，然后单击右侧的 OnClick，在弹出的窗口中选中 Set panel state to state。选中对应的状态，确定就 OK 了。</p>
+<p>然后，可以将设计好的元素全部 拷贝 到其他两个状态中，并且修改 Tab 的样式，来适应当前的状态。如下图：</p>
+<p><a target="_blank" rel="noopener" href="http://images.cnblogs.com/cnblogs_com/cocowool/WindowsLiveWriter/b0a2d1a7be96_C426/0006_2.png"><img src="20091124-axure-tab/0006_thumb.png"></a></p>
+<p>这样就完成了 Tab 效果的切换，如果希望鼠标移到 Tab 上时能够有相应的响应效果，我们可以右键 –&gt; Edit Button Shape –&gt; Edit Roll Over Style 中进行样式的编辑。</p>
+<p>其实 Axure 这款软件的易用性比较不错，上手很快，特别是如果掌握一些 DW 或者 MS Visual 系列工具使用经验的用户。</p>
+<p>PS：虽然 axure 几乎能够做出各种各样的效果来，但我一直对于做出复杂效果的投入是否值得心存疑虑，原型作为一个中间过渡的产品，其价值就在于传递产品的设计和使用理念，而且在原型交接的过程中，一般都会有产品人员和技术人员面对面的沟通，这样一些很复杂的效果完全可以通过叙述来让技术人员明白，这样产品人员就可以节省时间来思考更多的关于产品本身的问题了。</p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://www.axure.com/sampleProjects.aspx">Axure Sample</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2009/11/25/20091125-slow-question/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Apache服务器访问过慢分析及解决
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2009/11/18/20091118-fedora12/" id="article-nav-older" class="article-nav-link-wrap">
+            Fedora 12 正式发布 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

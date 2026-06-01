@@ -1,0 +1,235 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Spark学习笔记01-基础-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="spark, spark 学习, spark 入门">
+    <meta name="description" content="Spark是一个分布式集群计算系统，类似Hadoop提供了强大的分布式计算能力，相比过去的批量处理系统，提供了处理更大规模数据的能力。Spark提供了Java、Python、Scala、R接口。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Spark学习笔记01-基础</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-04-05 21:44:24</span>
+        
+        <span class="post-time">发布于：2019-10-15 13:16:17</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>目录</p>
+<ul>
+<li><a href="#%E7%AE%80%E4%BB%8B">简介</a></li>
+<li><a href="#%E7%89%B9%E6%80%A7">特性</a></li>
+<li><a href="#spark%E8%BF%90%E8%A1%8C%E6%A8%A1%E5%BC%8F">Spark运行模式</a></li>
+<li><a href="#mac%E6%9C%AC%E5%9C%B0%E5%AE%89%E8%A3%85">Mac本地安装</a></li>
+</ul>
+<blockquote>
+<p>本文基于 Spark 2.4.1 进行演示，相关代码可以在我的<a href="Github">Github</a>上看到。</p>
+</blockquote>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Spark是一个分布式集群计算系统，类似Hadoop提供了强大的分布式计算能力，相比过去的批量处理系统，提供了处理更大规模数据的能力。Spark提供了Java、Python、Scala、R接口。除常见的MapReduce运算外，还支持图、机器学习、SparkSQL等计算方式。</p>
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><ul>
+<li>高效 Speed，因为很多数据都在内存中，相比Hadoop，其处理更为高效。</li>
+<li>易用 Usability，Spark提供了80多个高级运算符。</li>
+<li>通用 Generality，提供了大量的库，包括SQL、DataFrames、MLib、GraphX、Spark Streaming。</li>
+<li>兼容 Runs everywhere，基于jvm能够兼容不同类型的操作系统。</li>
+</ul>
+<h2 id="Spark运行模式"><a href="#Spark运行模式" class="headerlink" title="Spark运行模式"></a>Spark运行模式</h2><ul>
+<li>local : 主要用于开发调试Spark应用程序</li>
+<li>Standlone : 利用Spark自带的资源管理与调度器运行Spark集群，采用Master/Slave结构，为解决单点故障，可以采用Xookeeper实现高可靠(High Availability, HA)</li>
+<li>Apache Mesos : 运行在著名的Mesos资源管理框架基础之上，该集群运行模式将资源管理管理交给Mesos,Spark只负责运行任务调度和计算</li>
+<li>Hadoop YARN : 集群运行在Yarn资源管理器上，资源管理交给YARN，Spark只负责进行任务调度和计算</li>
+</ul>
+<h2 id="Mac本地安装"><a href="#Mac本地安装" class="headerlink" title="Mac本地安装"></a>Mac本地安装</h2><p>首先从Spark官方网站下载合适的版本，解压到安装目录，本文使用的是 2.4.1。<br>配置环境变量<code>~/.bash_profile</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> SPARK_HOME=/Users/shiqiang/Projects/tools/spark-2.4.1-bin-hadoop2.7</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$&#123;PATH&#125;</span>:<span class="variable">$&#123;SPARK_HOME&#125;</span>/bin</span><br></pre></td></tr></table></figure>
+<p>本机的安装目录<br><code>~/Project/tools</code><br>在Mac系统管理中打开Mac远程登录设置，允许安装用户远程登录。<br>启动命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ ./sbin/start-all.sh</span><br><span class="line">$ jps</span><br><span class="line">21731 Jps</span><br><span class="line">21717 Worker</span><br><span class="line">21515 Master</span><br></pre></td></tr></table></figure>
+<p>使用JPS命令可以看到Master和Worker已经启动。也可以单独启动master<code>./sbin/start-master.sh</code>，单独启动Worker<code>./bin/spark-class org.apache.spark.deploy.worker.Worker spark://localhost:7077</code></p>
+<p>停止服务的方式也非常简单</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./sbin/stop-all.sh</span><br></pre></td></tr></table></figure>
+
+<h2 id="Spark-组成"><a href="#Spark-组成" class="headerlink" title="Spark 组成"></a>Spark 组成</h2><ul>
+<li>SparkCore : 将分布式数据抽象为弹性分布式数据集（RDD），实现了应用任务调度、RPC、序列化和压缩，并为运行在其上的上层组件提供API。</li>
+<li>SparkSQL : Spark Sql 是Spark来操作结构化数据的程序包，可以让我使用SQL语句的方式来查询数据，Spark支持 多种数据源，包含Hive表，parquest以及JSON等内容。</li>
+<li>SparkStreaming : 是Spark提供的实时数据进行流式计算的组件。</li>
+<li>MLib : 提供常用机器学习算法的实现库。</li>
+<li>GraphX : 提供一个分布式图计算框架，能高效进行图计算。</li>
+<li>BLinkDB : 用于在海量数据上进行交互式SQL的近似查询引擎。</li>
+<li>Tachyon : 以内存为中心高容错的的分布式文件系统。</li>
+</ul>
+<h2 id="Spark组件"><a href="#Spark组件" class="headerlink" title="Spark组件"></a>Spark组件</h2><img src="/2019/10/15/20191015-spark-101-intro/spark.jpg" class="" title="Spark组件">
+
+<p>每个Spark应用都由一个驱动器程序(drive program)来发起集群上的各种并行操作。驱动器程序包含应用的main函数，驱动器负责创建SparkContext,SparkContext可以与不同种类的集群资源管理器(Cluster Manager)，例如Hadoop YARN，Mesos进行通信，获取到集群进行所需的资源后，SparkContext将得到集群中工作节点(Worker Node)上对应的Executor(不同的Spark程序有不同的Executor,他们之间是相互独立的进程，Executor为应用程序提供分布式计算以及数据存储功能)，之后SparkContext将应用程序代码发送到各Executor,最后将任务(Task)分配给executors执行。</p>
+<ul>
+<li>ClusterManager:在Standalone模式中即为Master节点（主节点），控制整个集群，监控Worker.在YARN中为ResourceManager</li>
+<li>Worker:从节点，负责控制计算节点，启动Executor或Driver。在YARN模式中为NodeManager,负责计算节点的控制。</li>
+<li>Driver:运行Application的main()函数并创建SparkContect。</li>
+<li>Executor:执行器，在worker node上执行任务的组件、用于启动线程池运行任务。每个Application拥有独立的一组Executor。</li>
+<li>SparkContext:整个应用的上下文，控制应用的生命周期。</li>
+<li>RDD：Spark的计算单元，一组RDD可形成执行的有向无环图RDD Graph。</li>
+<li>DAG Scheduler:根据作业(Job)构建基于Stage的DAG，并提交Stage给TaskScheduler。</li>
+<li>TaskScheduler:将任务(Task)分发给Executor。</li>
+<li>SparkEnv:线程级别的上下文，存储运行时的重要组件的引用。</li>
+</ul>
+<p>SparkEnv内构建并包含如下一些重要组件的引用。</p>
+<ol>
+<li>MapOutPutTracker:负责Shuffle元信息的存储。</li>
+<li>BroadcastManager:负责广播变量的控制与元信息的存储。</li>
+<li>BlockManager:负责存储管理、创建和查找快。</li>
+<li>MetricsSystem:监控运行时性能指标信息。</li>
+<li>SparkConf:负责存储配置信息。</li>
+</ol>
+<h2 id="Spark整体流程"><a href="#Spark整体流程" class="headerlink" title="Spark整体流程"></a>Spark整体流程</h2><ol>
+<li>Client提交应用。  </li>
+<li>Master找到一个Worker启动Driver。</li>
+<li>Driver向Master或者资源管理器申请资源，之后将应用转化为RDD Graph。</li>
+<li>再由DAGSchedule将RDD Graph转化为Stage的有向无环图提交给TaskSchedule。  </li>
+<li>再由TaskSchedule提交任务给Executor执行。  </li>
+<li>其它组件协同工作，确保整个应用顺利执行。 </li>
+</ol>
+<p>参考资料：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="http://spark.apache.org/docs/latest/">Spark Documentation</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingyunzong/p/8886338.html">Spark学习之路 （一）Spark初识</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaoyu_BD/article/details/82703671">mac本地搭建Spark</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/a595130080/article/details/53350076">Spark简要教程系列（一） Mac安装Spark</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/miqi1992/p/5621268.html">Spark中文指南(入门篇)-Spark编程模型(一)</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2019/11/19/20191119-flink-101-quick-start/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Flink101-快速示例
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2019/10/09/20191009-java-metrics/" id="article-nav-older" class="article-nav-link-wrap">
+            Java Metrics 工具介绍 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

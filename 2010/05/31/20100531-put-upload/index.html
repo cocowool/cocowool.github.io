@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>利用PUT方式上传文件的方法研究-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="php, put, post, put上传文件">
+    <meta name="description" content="虽然没有POST方法使用广泛，但是PUT方法却是向服务器上传文件最有效率的方法。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>利用PUT方式上传文件的方法研究</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-19 13:13:55</span>
+        
+        <span class="post-time">发布于：2010-05-31 14:09:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>虽然没有POST方法使用广泛，但是PUT方法却是向服务器上传文件最有效率的方法。POST上传文件时，我们通常需要将所有的信息组合成 multipart 传送过去，然后服务器再解码这些信息，解码过程则必不可少的会消耗内存和CPU资源，这种现象在上传大文件时尤其明显。而PUT方法则允许你通过与服务器建立的socket链接传递文件的内容，而不附带其他的信息。</p>
+<p>最近一个项目上需要利用这种方式来进行文件的上传，下面介绍一下在 Apache + PHP 的环境下如何进行PUT方式的文件上传。</p>
+<p>Apache 有一个模块 mod_actions，先看看官方的说明：</p>
+<blockquote>
+<p>This module has two directives. The<code>Action</code>directive lets you run CGI scripts whenever a file of a certain<a target="_blank" rel="noopener" href="http://cnblogs.com/glossary.html#mime-type">MIME content type</a>is requested. The<code>Script</code>directive lets you run CGI scripts whenever a particular method is used in a request. This makes it much easier to execute scripts that process files.</p>
+</blockquote>
+<p>也就是说，这个模块可以指定对于特定 MIME 类型的文件处理，或者对于特定脚本的请求进行指定的处理。我用到的就是 Script 这个选项。<br>在Apache 配置文件的 Directory 中指定</p>
+<blockquote>
+<p>Script PUT /receive.php</p>
+</blockquote>
+<p>这个含义就是，对于所有对服务器的PUT请求，都交给根目录下的 receive.php 去处理，当然我们也可以选择 perl 或者其他的CGI脚本来进行处理。<br>接下来就是这个 receive.php 脚本的编写了，他的主要任务就是将请求的文件写到指定的位置</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment">* Process The PUT File, receive and move a file to corresponsed location </span></span><br><span class="line"><span class="comment">* Created by shiqiang&lt;cocowool<span class="doctag">@gmail</span>.com&gt; at 2010-05-24 </span></span><br><span class="line"><span class="comment">* </span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Receive</span> </span>&#123; </span><br><span class="line">    <span class="keyword">var</span> <span class="variable">$default_log_file</span> = <span class="string">&quot;logs/error.log&quot;</span>; </span><br><span class="line">    <span class="keyword">var</span> <span class="variable">$default_server_info</span> = <span class="string">&quot;logs/server.log&quot;</span>; </span><br><span class="line">    <span class="keyword">var</span> <span class="variable">$default_header_info</span> = <span class="string">&quot;logs/header.log&quot;</span>; </span><br><span class="line">    <span class="keyword">var</span> <span class="variable">$default_prefix</span> = <span class="string">&quot;/data1/vhosts&quot;</span>;    <span class="comment">//Default project location prefix; </span></span><br><span class="line">    <span class="keyword">var</span> <span class="variable">$default_module</span> = <span class="string">&quot;test.cn&quot;</span>; </span><br><span class="line">    <span class="keyword">var</span> <span class="variable">$max_filesize</span> = <span class="number">2048000</span>; </span><br><span class="line">    <span class="keyword">var</span> <span class="variable">$request_uri</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Receive</span>(<span class="params"></span>)</span>&#123; </span><br><span class="line">        <span class="keyword">$this</span>-&gt;request_uri = <span class="variable">$_SERVER</span>[<span class="string">&#x27;REQUEST_URI&#x27;</span>]; </span><br><span class="line">    &#125; </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">saveFile</span>(<span class="params"></span>)</span>&#123; </span><br><span class="line">        <span class="comment">//receive data and save </span></span><br><span class="line">        <span class="variable">$putdata</span> = fopen(<span class="string">&quot;php://input&quot;</span>, <span class="string">&quot;r&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="variable">$path</span> = <span class="keyword">$this</span>-&gt;getPath(<span class="keyword">$this</span>-&gt;request_uri); </span><br><span class="line">        <span class="variable">$fp</span> = fopen(<span class="variable">$path</span>, <span class="string">&#x27;w&#x27;</span>); </span><br><span class="line">        <span class="keyword">while</span>(<span class="variable">$data</span> = fread(<span class="variable">$putdata</span>, <span class="number">1024</span>) )&#123; </span><br><span class="line">            fwrite(<span class="variable">$fp</span>, <span class="variable">$data</span>); </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        fclose(<span class="variable">$fp</span>); </span><br><span class="line">        fclose(<span class="variable">$putdata</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//Log The filesize check and limit check </span></span><br><span class="line">        <span class="keyword">if</span>( filesize(<span class="variable">$path</span>) != <span class="variable">$_SERVER</span>[<span class="string">&#x27;CONTENT_LENGTH&#x27;</span>] )&#123; </span><br><span class="line">            <span class="keyword">$this</span>-&gt;errorLog( <span class="string">&quot;[warn] &quot;</span> . date(<span class="string">&quot;Y-m-d H:i:s&quot;</span>)  . <span class="string">&quot; The file&#x27;s (<span class="subst">$path</span>) size dosen&#x27;t match Server Filesize = &quot;</span> . filesize(<span class="variable">$path</span>) . <span class="string">&quot;; Put Filesize = &quot;</span> . <span class="variable">$_SERVER</span>[<span class="string">&#x27;CONTENT_LENGTH&#x27;</span>]. <span class="string">&quot;\r\n&quot;</span> ); </span><br><span class="line">            header(<span class="string">&#x27;HTTP/1.1 526 Receive Data Error&#x27;</span>); </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>( filesize(<span class="variable">$path</span>) &gt; <span class="keyword">$this</span>-&gt;max_filesize )&#123; </span><br><span class="line">            <span class="keyword">$this</span>-&gt;errorLog( <span class="string">&quot;[warn] &quot;</span> . date(<span class="string">&quot;Y-m-d H:i:s&quot;</span>)  . <span class="string">&quot; The file&#x27;s (<span class="subst">$path</span>) size exceed the system limit&quot;</span>); </span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Log Error Info </span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">errorLog</span>(<span class="params"> <span class="variable">$info</span> </span>)</span>&#123; </span><br><span class="line">        <span class="variable">$f</span> = fopen(<span class="keyword">$this</span>-&gt;default_log_file, <span class="string">&#x27;a+&#x27;</span>); </span><br><span class="line">        fwrite(<span class="variable">$f</span>, <span class="variable">$info</span>); </span><br><span class="line">        flcose(<span class="variable">$f</span>); </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">serverLog</span>(<span class="params"></span>)</span>&#123; </span><br><span class="line">        <span class="variable">$f</span> = fopen(<span class="keyword">$this</span>-&gt;default_server_info, <span class="string">&#x27;w&#x27;</span>); </span><br><span class="line">        <span class="variable">$info</span> = <span class="variable">$_SERVER</span>; </span><br><span class="line">        <span class="variable">$str</span> = <span class="string">&quot;The Last Request Server Info:\r\n&quot;</span>; </span><br><span class="line">        <span class="keyword">foreach</span> (<span class="variable">$info</span> <span class="keyword">as</span> <span class="variable">$key</span> =&gt; <span class="variable">$value</span>)&#123; </span><br><span class="line">            <span class="variable">$str</span> .= <span class="string">&quot;<span class="subst">$key</span> = <span class="subst">$value</span>\r\n&quot;</span>; </span><br><span class="line">        &#125; </span><br><span class="line">        <span class="variable">$str</span> .= <span class="keyword">$this</span>-&gt;getPath(<span class="keyword">$this</span>-&gt;request_uri) . <span class="string">&quot;\r\n&quot;</span>; </span><br><span class="line">        <span class="variable">$str</span> .= <span class="string">&quot;PHP_UPLOADED_FILE_NAME=&quot;</span> . <span class="variable">$PHP_UPLOADED_FILE_NAME</span> . <span class="string">&quot;\r\n&quot;</span>; </span><br><span class="line">        fwrite(<span class="variable">$f</span> , <span class="variable">$str</span>); </span><br><span class="line">        fclose(<span class="variable">$f</span>); </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Log the Request Header info </span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">headerLog</span>(<span class="params"></span>)</span>&#123; </span><br><span class="line">        <span class="variable">$f</span> = fopen(<span class="keyword">$this</span>-&gt;default_header_info, <span class="string">&#x27;w&#x27;</span>); </span><br><span class="line">        <span class="variable">$info</span> = get_headers(); </span><br><span class="line">        <span class="variable">$str</span> = <span class="string">&quot;The Last Request header Info:\r\n&quot;</span>; </span><br><span class="line">        <span class="keyword">foreach</span> (<span class="variable">$info</span> <span class="keyword">as</span> <span class="variable">$key</span> =&gt; <span class="variable">$value</span>)&#123; </span><br><span class="line">            <span class="variable">$str</span> .= <span class="string">&quot;<span class="subst">$key</span> = <span class="subst">$value</span>\r\n&quot;</span>; </span><br><span class="line">        &#125; </span><br><span class="line">        fwrite(<span class="variable">$f</span> , <span class="variable">$str</span>); </span><br><span class="line">        fclose(<span class="variable">$f</span>); </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//get the path where the file should be </span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getPath</span>(<span class="params"><span class="variable">$uri</span></span>)</span>&#123; </span><br><span class="line">        <span class="variable">$module</span> = <span class="keyword">$this</span>-&gt;defalt_module;    <span class="comment">//Default storage module</span></span><br><span class="line"></span><br><span class="line">        <span class="variable">$referer</span> = <span class="keyword">$this</span>-&gt;request_uri; </span><br><span class="line">        preg_match(<span class="string">&#x27;/(?&lt;=\/)(.*?)(?=\/)/s&#x27;</span>, <span class="variable">$referer</span>, <span class="variable">$match</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>( !<span class="keyword">empty</span>(<span class="variable">$match</span>) &amp;&amp; !<span class="keyword">empty</span>(<span class="variable">$match</span>[<span class="number">0</span>]) )&#123; </span><br><span class="line">            <span class="variable">$module</span> = <span class="variable">$match</span>[<span class="number">0</span>]; </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="variable">$path</span> = <span class="keyword">$this</span>-&gt;default_prefix; </span><br><span class="line">        <span class="variable">$path</span> .= <span class="string">&#x27;/&#x27;</span> . <span class="variable">$module</span> . <span class="string">&#x27;/htdocs&#x27;</span>; </span><br><span class="line">        <span class="variable">$fullpath</span> = substr(<span class="variable">$uri</span>, strlen(<span class="variable">$match</span>[<span class="number">0</span>]) + <span class="number">1</span>, strlen(<span class="variable">$uri</span>) );</span><br><span class="line"></span><br><span class="line">        <span class="variable">$arr</span> = explode(<span class="string">&#x27;/&#x27;</span>, ltrim(<span class="variable">$fullpath</span>, <span class="string">&#x27;/&#x27;</span>)); </span><br><span class="line">        <span class="keyword">foreach</span>(<span class="variable">$arr</span> <span class="keyword">as</span> <span class="variable">$v</span>)&#123; </span><br><span class="line">            <span class="keyword">if</span>( !strstr(<span class="variable">$v</span>, <span class="string">&#x27;.&#x27;</span>) )&#123; </span><br><span class="line">                <span class="variable">$path</span> .= <span class="string">&#x27;/&#x27;</span> . <span class="variable">$v</span>; </span><br><span class="line">                <span class="comment">//exec(&quot;echo $path &gt;&gt; dir.txt&quot;); </span></span><br><span class="line">                <span class="keyword">if</span>( !is_dir(<span class="variable">$path</span>) )&#123; </span><br><span class="line">                    <span class="comment">//For php &gt; 5.0 </span></span><br><span class="line">                    <span class="comment">//mkdir($path, &quot;0766&quot;, true); </span></span><br><span class="line">                    mkdir(<span class="variable">$path</span>, <span class="number">0766</span>); </span><br><span class="line">                &#125; </span><br><span class="line">            &#125;<span class="keyword">else</span>&#123; </span><br><span class="line">                <span class="variable">$path</span> .= <span class="string">&#x27;/&#x27;</span> . <span class="variable">$v</span>; </span><br><span class="line">            &#125; </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$path</span>; </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$instance</span> = <span class="keyword">new</span> Receive(); </span><br><span class="line"><span class="variable">$instance</span>-&gt;serverLog(); </span><br><span class="line"><span class="comment">//$instance-&gt;headerLog(); </span></span><br><span class="line"><span class="variable">$instance</span>-&gt;saveFile();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这个脚本，使用PHP手册中的接收PUT方式的方法，详细的使用，GOOGLE的时候，并没有找到很多，所以可能对于错误情况，考虑的也不是很全面，如果有使用过这个方法的欢迎和我讨论。</p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://upload.thinfile.com/docs/put.php">PUT Upload</a><br>2、RFC 2616</p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2010/06/02/20100602-xhprof/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; PHP性能监测的工具介绍 - XHProf
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2010/05/27/20100527-virtualbox-network/" id="article-nav-older" class="article-nav-link-wrap">
+            通过设置双网卡实现VirtualBox虚机上网及主宿互访 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

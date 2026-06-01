@@ -1,0 +1,184 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery的animate函数-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="jquery, jquery animate, javascript jquery">
+    <meta name="description" content="jQuery提供了一个animate函数，可以通过改变CSS属性来实现一些动画效果。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>jQuery的animate函数</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-26 21:14:16</span>
+        
+        <span class="post-time">发布于：2013-05-12 09:45:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>jQuery提供了一个animate函数，可以通过改变CSS属性来实现一些动画效果。</p>
+<p>用法如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.animate( properties[, duration ][, easing ][, complete ])</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<p>.animate( properties, options )，其中 options 包含了duration、easing、queue、specialEasing、step、progress、complete、done、fail、always等多个属性。</p>
+<p>animate函数允许我们在所有使用数字值的CSS属性上创建动画效果。唯一必须的属性是一个 CSS 属性对象。例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&#x27;.class&#x27;</span>).animate(&#123;</span><br><span class="line">	<span class="attr">left</span>:<span class="string">&quot;100&quot;</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>Animation Properties and Values</strong></p>
+<p>所有的可创建动画效果的属性必须是一个单一的数值，例如 宽度(width)、高度(height)、左边距（left）等，但是不能是 background-color。注：要实现颜色的动画效果，必须使用 jQuery.Color() 插件。除非特殊声明，否则这些属性的单位都按照像素处理，可以使用的其他单位还包括 em 和 % 百分比。</p>
+<p>除了一些样式属性外，像 scrollTop 和 scrollLeft 这样的一些非样式属性也可以实现动画效果。</p>
+<p>缩写的CSS属性不被支持。例如，如果想对边框的宽度做一个动画效果，那么必须提前明确定义边框的宽度，而不能使用 auto。对于字体尺寸，可以使用 fontsize 或者 font-size，而不能使用 font。</p>
+<p>对于每一个指定的值，我们可以使用“show”、“hide”、“toggle”三个字符串，来指定在何时使用动画效果。</p>
+<p>动画属性也可以使用相对值。如果使用“+=”、“-=”这样的字符串，则会使用给定的步长进行属性值的计算。</p>
+<p><strong>Duration 持续时间</strong></p>
+<p>Duration 的单位为微秒，数值越高动画效果越慢，反之则越快。默认的时间是 400 毫秒。“fast”默认为 200 毫秒，“slow”默认为 600 毫秒。</p>
+<p><strong>Complete Function 完成后的函数动作</strong></p>
+<p>如果指定，complete 回调函数会在动画执行完毕后被触发。这在设计多个顺序发生的动画时特别有用。这个函数没有任何参数，但是 this 被设置为触发动画的DOM元素。如果多个元素发生动画，则回调在每个动画执行完后都会被执行，而不是在所有动画执行完后执行一次。</p>
+<p><strong>Step Function 步长函数</strong></p>
+<p>在animate的第二种调用方式中提供了一个step的选项，这是一个回调函数，可以在每一个step执行时被触发。这个函数在自定义动画类型时非常有用，可以在动画触发后对其做出更改。step函数接收 now 和 fx 两个参数，this 设置为发生动画的DOM元素。</p>
+<p>now 表示发生动画效果属性的当前值；<br>fx 是对 jQuery.fx 的引用，包含了动画元素的一系列属性，例如 fx.elem.id，其中的 start 和 end 是动画属性的初始值和最终值，prop 指被改变的属性。</p>
+<p><strong>Easing 放开动作</strong></p>
+<p>这个属性是一个字符串，来指定动画过程中不同的时间点所使用的速度，默认的属性为“swing”，如果需要动画保持一个均匀的速度，可以使用“linear”。更多的属性可以使用插件，可以参考<a target="_blank" rel="noopener" href="http://jqueryui.com/">jQuery UI suite</a>。</p>
+<p>所有的jQuery动画效果，都可以使用 jQuery.fx.off = true 来关闭，实际上是设置了 duration 为0.更多的信息，可以参考 jQuery.fx.off。</p>
+<p>利用jQuery的Animate函数和Effect插件，做了一个类似于IBM首页的焦点图切换效果，可以参考<a target="_blank" rel="noopener" href="https://github.com/cocowool/RoseFocus">https://github.com/cocowool/RoseFocus</a></p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://api.jquery.com/animate/">animate of jQuery</a><br>2、<a target="_blank" rel="noopener" href="http://www.w3school.com.cn/jquery/dom_element_methods_index.asp">jQuery的Index方法</a><br>3、<a target="_blank" rel="noopener" href="http://jqueryui.com/effect/#easing">jQuery UI effect</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2013/05/17/20130517-css-counter/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; CSS中的计数器
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2013/04/25/20130425-ie-dom-parse/" id="article-nav-older" class="article-nav-link-wrap">
+            IE对文档的解析模式及兼容性问题 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kafka学习笔记三：常用参数以及调优配置-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="Kafka, Kafka 调优">
+    <meta name="description" content="本文介绍Kafka的参数和调优配置。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Kafka学习笔记三：常用参数以及调优配置</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-09-29 20:13:06</span>
+        
+        <span class="post-time">发布于：2021-09-15 22:35:26</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><h3 id="Consumer-参数"><a href="#Consumer-参数" class="headerlink" title="Consumer 参数"></a>Consumer 参数</h3><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>bootstrap.servers</td>
+<td>Kafka集群初始化连接的服务器列表。</td>
+</tr>
+<tr>
+<td>group.id</td>
+<td>表示消费者组的唯一标识。This property is required if the consumer uses either the group management functionality by using subscribe(topic) or the Kafka-based offset management strategy。</td>
+</tr>
+<tr>
+<td>heartbeat.interval.ms</td>
+<td>期待的到consumer coordinator的心跳时间。心跳确保消费者的会话保持存活，以便在有新的消费者加入或离开时进行rebalance。这个值必须小于<code>session.timeout.ms</code>，但一般不应高于其值的三分之一。</td>
+</tr>
+<tr>
+<td>zookeeper.connect</td>
+<td>指定zookeeper的连接的字符串，格式是 <code>hostname:port</code> ，此处 host 和 port 都是 zookeeper server 的host 和 port，为避免某个 zookeeper 机器宕机之后失联，你可以指定多个 <code>hostname:port</code>，使用逗号作为分隔：<code>hostname1:port1, hostname2:port2, hostname3:port3</code> 可以在zookeeper连接字符串中加入zookeeper的chroot路径，此路径用于存放他自己的数据，方式：<code>hostname1:port1, hostname2:port2, hostname3:port3/chroot/path</code></td>
+</tr>
+<tr>
+<td>socket.timeout.ms</td>
+<td>默认为 30*100，网络请求的超时限制。真实的超时限制是  max.fetch.wait + socket.timeout.ms</td>
+</tr>
+<tr>
+<td>socket.receive.buffer.bytes</td>
+<td>默认为 64*1024，设置 socket 用于接收网络请求的缓存大小。</td>
+</tr>
+<tr>
+<td>fetch.message.max.bytes</td>
+<td>默认为 1024*1024，每次fetch请求中，针对每次fetch消息的最大字节数。这些字节将会督导用于每个partition的内存中，因此，此设置将会控制consumer所使用的memory大小。这个fetch请求尺寸必须至少和server允许的最大消息尺寸相等，否则，producer可能发送的消息尺寸大于consumer所能消耗的尺寸。</td>
+</tr>
+<tr>
+<td>num.consumer.fetchers</td>
+<td>默认为 1，用于 fetch 数据的 fetcher 线程数。</td>
+</tr>
+<tr>
+<td>auto.commit.enable</td>
+<td>默认为 true，表示 consumer 所 fetch 的消息的 offset 将会自动同步到 zookeeper 。这项提交的 offset 将在进程挂掉时，由新的 consumer 使用。</td>
+</tr>
+<tr>
+<td>auto.commit.interval.ms</td>
+<td>默认为 60*1000，consumer 向 zookeeper 提交 offset 的频率，单位是秒。</td>
+</tr>
+<tr>
+<td>queued.max.message.chunks</td>
+<td>默认为 2，表示用于缓存消息的最大数目，以供 consumption。每个 chunk 必须和fetch.message.max.bytes 相同。</td>
+</tr>
+<tr>
+<td>rebalance.max.retries</td>
+<td>默认为 4。当新的 consumer 加入到 consumer  group 时，consumers 集合试图重新平衡分配到每个 consumer 的 partitions 数目。如果 consumers 集合改变了，当分配正在执行时，这个重新平衡会失败并重入。</td>
+</tr>
+<tr>
+<td>fetch.min.bytes</td>
+<td>默认为 1，表示每次 fetch 请求时，server 应该返回的最小字节数。如果没有足够的数据返回，请求会等待，直到足够的数据才会返回。</td>
+</tr>
+<tr>
+<td>fetch.wait.max.ms</td>
+<td>默认为 100，表示如果没有足够的数据能够满足 fetch.min.bytes，则此项配置是指在应答 fetch 请求之前，server会阻塞的最大时间。</td>
+</tr>
+<tr>
+<td>rebalance.backoff.ms</td>
+<td>默认为 2000，表示在重试 reblance 之前 backoff 的时间。</td>
+</tr>
+<tr>
+<td>refresh.leader.backoff.ms</td>
+<td>默认为 200，表示在试图确定某个 partition 的 leader 是否失去他的 leader 地位之前，需要等待的 backoff 的时间。</td>
+</tr>
+<tr>
+<td>auto.offset.reset</td>
+<td>默认为 largest。如果 zookeeper 中没有初始化的 offset 时，如果 offset 是以下值的回应：<br/>smallest：自动复位 offset 为 smallest 的 offset<br/>largest：自动复位 offset 为 largest 的 offset<br/>anything  else：向 consumer 抛出异常</td>
+</tr>
+<tr>
+<td>consumer.timeout.ms</td>
+<td>默认为 -1，如果没有消息可用，即使等待特定的时间之后也没有，则抛出超时异常。</td>
+</tr>
+<tr>
+<td>exclude.internal.topics</td>
+<td>默认为 true，表示是否将内部 topics 的消息暴露给 consumer。</td>
+</tr>
+<tr>
+<td>paritition.assignment.strategy</td>
+<td>默认为 range，表示选择向 consumer 流分配 partitions 的策略，可选值：range，roundrobin。</td>
+</tr>
+<tr>
+<td>client.id</td>
+<td>是用户特定的字符串，用来在每次请求中帮助跟踪调用。它应该可以逻辑上确认产生这个请求的应用。</td>
+</tr>
+<tr>
+<td>zookeeper.session.timeout.ms</td>
+<td>默认为 6000，表示 zookeeper 会话的超时限制。如果 consumer 在这段时间内没有向zookeeper 发送心跳信息，则它会被认为挂掉了，并且 reblance 将会产生。</td>
+</tr>
+<tr>
+<td>zookeeper.connection.timeout.ms</td>
+<td>默认为 6000，表示客户端在建立同 zookeeper 连接中的最大等待时间。</td>
+</tr>
+<tr>
+<td>zookeeper.sync.time.ms</td>
+<td>默认为 2000，表示 ZK follower 可以落后 ZK leader 的最大时间。</td>
+</tr>
+<tr>
+<td>offsets.storage</td>
+<td>默认为 zookeeper，表示用于存放 offsets 的地点： zookeeper 或者 kafka。</td>
+</tr>
+<tr>
+<td>offset.channel.backoff.ms</td>
+<td>默认为 1000，表示重新连接 offsets channel 或者是重试失败的 offset 的 fetch/commit 请求的 backoff 时间。</td>
+</tr>
+<tr>
+<td>offsets.channel.socket.timeout.ms</td>
+<td>默认为 10000，当读取offset的fetch/commit请求回应的socket 超时限制。此超时限制是被consumerMetadata请求用来请求offset管理。</td>
+</tr>
+<tr>
+<td>offsets.commit.max.retries</td>
+<td>默认为 5，表示重试offset commit的次数。这个重试只应用于offset  commits在shut-down之间。</td>
+</tr>
+<tr>
+<td>dual.commit.enabled</td>
+<td>默认为 true，如果使用“kafka”作为offsets.storage，你可以二次提交offset到zookeeper(还有一次是提交到kafka）。在zookeeper-based的offset  storage到kafka-based的offset storage迁移时，这是必须的。对任意给定的consumer  group来说，比较安全的建议是当完成迁移之后就关闭这个选项。</td>
+</tr>
+</tbody></table>
+<h3 id="Broker"><a href="#Broker" class="headerlink" title="Broker"></a>Broker</h3><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>auto.create.topics.enable</td>
+<td>true 表示允许消费者自动创建不存在的topic</td>
+</tr>
+<tr>
+<td>delete.topic.enable</td>
+<td>true 删除topic的时候同时进行物理删除</td>
+</tr>
+</tbody></table>
+<h2 id="调优"><a href="#调优" class="headerlink" title="调优"></a>调优</h2><p>Kafka调优大概分为几个方面：</p>
+<ul>
+<li>Producer <ul>
+<li>压缩率</li>
+<li>批次大小</li>
+<li>同步或异步</li>
+</ul>
+</li>
+<li>Consumer <ul>
+<li>每次获取数据的大小</li>
+</ul>
+</li>
+<li>Broker</li>
+</ul>
+<p>看下图可以了解到，kafka调优是一个平衡的过程，如果希望获得大的消息处理能力，那么可能造成延时的提高。因此，我们要根据应用场景的实际需要，选择一个最佳的平衡点。<br><img src="evernotecid://ABDCA1EB-5F78-4410-93E7-50133663A78D/appyinxiangcom/28528220/ENResource/p154" alt="06458b6140e7583ba12afd50d454b600.png"></p>
+<h3 id="评价指标"><a href="#评价指标" class="headerlink" title="评价指标"></a>评价指标</h3><ul>
+<li>Latency 处理一条消息所需要的时间</li>
+<li>Throughput 表示特定时间内处理消息的条数</li>
+</ul>
+<p>总结一下，对于一个调整好的Kafka集群来说，有足够的broker来提供Topic的处理能力，同时保证消息的处理延时维持在一定的水平之下。</p>
+<h3 id="Producer-调优"><a href="#Producer-调优" class="headerlink" title="Producer 调优"></a>Producer 调优</h3><p>Kafka使用异步的<code>发布订阅模型</code>。当Producer调用<code>send()</code>方法时，结果会在未来返回。对于Broker来说则是等待事件，接收数据，处理完成后发送处理结果。</p>
+<h3 id="Batch-Size"><a href="#Batch-Size" class="headerlink" title="Batch Size"></a>Batch Size</h3><p>与消息条数不同，<code>batch.size</code>从总的字节水平衡量批次的大小，这个参数控制发送给Broker之前，每次可以收集的数据大小。这个参数的默认值是<code>16384</code>，在内存足够的情况下，应该是越大越好。</p>
+<h3 id="Linger-Time"><a href="#Linger-Time" class="headerlink" title="Linger Time"></a>Linger Time</h3><p><code>linger.ms</code>设置可以缓存数据的最大时间。这个值设的大了，Throughput会变大，同时Latency也会增加。</p>
+<h3 id="Brokder-调优"><a href="#Brokder-调优" class="headerlink" title="Brokder 调优"></a>Brokder 调优</h3><p>Topic分为多个Partition，每个Partition有一个Leader，多个副本，多数情况下数据都是写入Leader。如果数据负载均衡做的不好，将会造成个别点特别忙，从而影响整体性能。</p>
+<p>推荐一个物理磁盘对应一个分区，一个Consumer对应一个分区。</p>
+<ul>
+<li><code>num.replica.fetchers</code> 从leader拉取数据的replica线程数。配置高可以提高并发度，单位时间内leader处理请求增加，负载会增加。</li>
+<li><code>replica.fetch.max.bytes</code> 每次请求从分区获取数据的大小</li>
+<li><code>replica.fetch.wait.max.ms</code> </li>
+<li><code>replica.socket.receive.buffer.bytes</code> </li>
+<li><code>num.partitions</code> 分区数量取决于可用的线程数和磁盘数量</li>
+<li><code>num.io.threads</code> Broker处理磁盘IO的线程数量，线程的数量最好与磁盘数量一致。也有朋友建议高峰期io会有等待，建议配置为CPU核数2倍，最大不超过3倍。</li>
+<li><code>num.network.threads</code> Broker处理消息的最大线程数</li>
+</ul>
+<h3 id="Consumer-调优"><a href="#Consumer-调优" class="headerlink" title="Consumer 调优"></a>Consumer 调优</h3><p>Consumer的数量应该与Topic分区的数量一致。</p>
+<ul>
+<li><code>replica.high.watermark.checkpoint.interval.ms</code>参数会影响Throughput。如果为每次消费都进行标注，会产生明显的性能影响。</li>
+</ul>
+<h2 id="Benchmarking"><a href="#Benchmarking" class="headerlink" title="Benchmarking"></a>Benchmarking</h2><p>Kafka提供了一个用于</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="http://kafka.apache.org/0100/documentation.html">Kafka 010 document</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u010003835/article/details/52790378">大数据_Kafka_Kafka自动创建不存在的Topics / 删除已存在的Topics</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/smartloli/p/10093838.html">Kafka性能测试实例</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/runnerjack/p/9105784.html">kafka性能测试</a></li>
+<li><a target="_blank" rel="noopener" href="https://data-flair.training/blogs/kafka-performance-tuning/">Kafka Performance Tuning – Ways for Kafka Optimization</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/senlinyang/p/8143268.html">关于Kafka部署优化的一点建议</a></li>
+<li><a target="_blank" rel="noopener" href="https://engineering.linkedin.com/kafka/benchmarking-apache-kafka-2-million-writes-second-three-cheap-machines">Benchmarking Apache Kafka: 2 Million Writes Per Second </a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/10/07/20211007-spark-intro-1/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Spark 系列一
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/09/07/20210907-kafka-basics-02/" id="article-nav-older" class="article-nav-link-wrap">
+            Kafka学习笔记二：常用命令 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

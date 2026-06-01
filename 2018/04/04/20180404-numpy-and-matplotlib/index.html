@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>使用Numpy验证Google GRE的随机选择算法-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="numpy, numpy python">
+    <meta name="description" content="最近在读《SRE Google运维解密》第20章提到数据中心内部服务器的负载均衡方法，文章对比了几种负载均衡的算法，其中随机选择算法，非常适合用 Numpy 模拟并且用 Matplotlib 画图。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>使用Numpy验证Google GRE的随机选择算法</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2018-04-04 11:29:00</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>最近在读《SRE Google运维解密》第20章提到数据中心内部服务器的负载均衡方法，文章对比了几种负载均衡的算法，其中随机选择算法，非常适合用 Numpy 模拟并且用 Matplotlib 画图，下面是我的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用 numpy 模拟 GRE 中的随机选择算法，并使用 pyplot绘图</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">r = random.randint(<span class="number">1</span>,<span class="number">301</span>,size = (<span class="number">300</span>,<span class="number">225</span>) )</span><br><span class="line">a = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> r:</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> i:</span><br><span class="line">        <span class="keyword">if</span>(j <span class="keyword">in</span> a.keys()):</span><br><span class="line">            a[j] = a[j] + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            a[j] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">height = []</span><br><span class="line">z = a.values()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> z:</span><br><span class="line">    height.append(i)</span><br><span class="line"></span><br><span class="line">height.sort()</span><br><span class="line">x = np.arange(<span class="number">1</span>,<span class="number">301</span>)</span><br><span class="line"></span><br><span class="line">plt.bar(x,height)</span><br><span class="line">plt.axis([<span class="number">0</span>,<span class="number">301</span>,<span class="number">0</span>,<span class="number">280</span>])</span><br><span class="line">plt.grid(<span class="literal">True</span>)</span><br><span class="line">plt.title(<span class="string">&quot;75%子集，225个后端&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>整个模拟的思路就是首先随机生成一个二维数组，然后再统计每台服务器被选中的次数，并对次数排序并画图，然后就能够出来书中的图的样式。整个代码感觉还是有些繁琐，如果有更好的想法的朋友，欢迎与我沟通改进。<br>刚开始还想用直方图来绘制，仔细看了之后发现图上的并不是直方图，直方图能够反映每台前端连接后端服务器的分布情况，但是未经过排序，所以无法明显的看出最大和最小的区别。所以要对数据做一下处理，排序后再重新做图。<br>我按照三个参数模拟了一下，感觉随机选择算法不管子集的大小如何，负载的情况都不是很均衡。子集小的情况下，能够偏出平均值50%，子集大的时候（75％）仍能偏出平均值15%左右。</p>
+<img src="/2018/04/04/20180404-numpy-and-matplotlib/39469-20180404112753811-250894648.png" class="">
+<img src="/2018/04/04/20180404-numpy-and-matplotlib/39469-20180404112802212-846524274.png" class="">
+<img src="/2018/04/04/20180404-numpy-and-matplotlib/39469-20180404112809119-2024751661.png" class="">
+
+<p>参考资料：<br>1、[SRE Google 运维解密](SRE Google 运维解密)<br>2、<a target="_blank" rel="noopener" href="https://www.cnblogs.com/python-life/articles/6084059.html">Python中plt.hist参数详解</a><br>3、<a target="_blank" rel="noopener" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.title.html#matplotlib.pyplot.title">Matplotlib</a><br>4、<a target="_blank" rel="noopener" href="http://www.cnblogs.com/xiaojikuaipao/p/8465834.html">彻底解决matplotlib中文乱码问题</a><br>5、<a target="_blank" rel="noopener" href="https://www.cnblogs.com/td15980891505/p/6198036.html">numpy中的随机数模块</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/04/13/20180413-memcache-upgrade/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Memcache的安装与配置
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/03/31/20180331-php-wechat/" id="article-nav-older" class="article-nav-link-wrap">
+            PHP开发微信被动回复消息遇到的大坑 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

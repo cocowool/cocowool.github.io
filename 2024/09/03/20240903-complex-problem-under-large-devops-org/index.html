@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>大型运维组织中的问题排查困境-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="问题排查, 运维问题排查, 生产故障, 故障排查, 故障定位, 线上问题排查">
+    <meta name="description" content="笔者最近经历了一起生产系统线上问题处置、排查的过程，因为涉及业务应用、大数据平台、操作系统、硬件、厂商、网络几个团队，在寻找根本问题的过程中虽然费劲了心力，但仍得不到令人满意的结论，本文将相关过程记录下来并尝试分析深层次的问题和解决办法。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>大型运维组织中的问题排查困境</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2024-09-06 17:46:26</span>
+        
+        <span class="post-time">发布于：2024-09-03 18:24:39</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>笔者最近经历了一起生产系统线上问题处置、排查的过程，因为涉及业务应用、大数据平台、操作系统、硬件、厂商、网络几个团队，在寻找根本问题的过程中虽然费劲了心力，但仍得不到令人满意的结论，本文将相关过程记录下来并尝试分析深层次的问题和解决办法。</p>
+<h2 id="排查始末"><a href="#排查始末" class="headerlink" title="排查始末"></a>排查始末</h2><p>有一个总容量在1PB左右的ES集群，周六早上的时候监控发现集群的写入性能下降明显，大量的业务数据已经开始排队等待写入产生了堆积。整个集群设备数量有50多台，ES节点数量有200多个。首先是应用运维的同事收到业务告警开始排查，同时也联系了大数据负责ES的同事协助排查。</p>
+<p>当时，从集群的健康度和节点状态上看，整个集群还是 Green 状态，没有发生某个ES节点的重启。集群的写入也并非完全停止，排查ES集群的慢查询语句也并没有发现大量的查询，排除因为大量查询引起的集群性能下降。</p>
+<p>在这期间，分别联系了网络、环境、操作系统领域的同事分别检查是否有相关的故障信息。网络领域排查网络上没问题，但是观察到某些设备有网络流入流量的突增和突降。环境领域排查服务器硬件层面没有告警。操作系统领域通过 iostat、sar 等命令检查，认为当时磁盘高的现象都是应用正常使用导致，操作系统层面并无异常。</p>
+<p>因为应用运维人员没有ES集群的全部权限，不能查看ES日志，后续的排查更多的以大数据的同事为主，大概花了40多分钟后定位到集群中有两台服务器的写入任务堆积比较多，同时发现这两台设备的磁盘写入速度不高，但是 util 使用率几乎被打满，怀疑是磁盘故障，决定对这两台机器进行隔离处置。</p>
+<p>隔离处置的操作很快，但是因为这些服务器中数据量比较大，大数据服务器单台20T空间，使用率均在70%以上，数据迁移用了很长时间，大概花了2个多小时，整个集群最后恢复到了正常状态。</p>
+<h2 id="问题定位"><a href="#问题定位" class="headerlink" title="问题定位"></a>问题定位</h2><p>生产的故障已经解除，最后对于问题定位有了困难。大数据团队认为是磁盘有问题，慢盘影响和拖累了整个集群。</p>
+<p>而环境团队认为磁盘硬件上并无明显报错，一致性校验任务也是一个固定的检查动作，需要上层应用分析为何应用会受到影响。环境团队答复一致性校验是在操作系统中配置的任务，可以根据应用需求进行调整。</p>
+<p>我们作为应用运维团队，真是左右为难，根本原因没有一方愿意承担，后续措施不好具体落实，如何推进系统的安全稳定运行?</p>
+<h2 id="深层问题"><a href="#深层问题" class="headerlink" title="深层问题"></a>深层问题</h2><p>因为笔者所在单位对于线上生产问题的处理和考核非常严格，这就造成了「铁路警察，各管一段」的情况。环境团队觉得磁盘一致性校验是提供了多个选项的服务，具体使用由上层来控制。大数据团队觉得基础设施的性能变化影响了应用，应该由基础设施来提供优化解决措施。</p>
+<p>这种场景，如果对于管理模式为竖井式的团队来说，从基础设施到上层应用都由一个团队负责，则很容易达成问题点和优化的措施，推进起来就比较困难。</p>
+<p>而我所在单位为了推进专业化分工，采用了按领域划分的管理模式，这就提高了问题解决的沟通协调成本。其实在日常运维工作领域，有非常多的类似冲突每天在不断上演，例如老旧设备到期到底是应用周转搬迁，还是基础设施满足应用IP不变、操作系统不变的要求；基础设施建设到底是先建设好再给应用部门，还是应用部门明确需求后再规划建设。研发、运维就像是带着业务前进的两个车轮，两方如果步调不一致，那必然会产生非常多的摩擦和问题。</p>
+<h2 id="回看SRE"><a href="#回看SRE" class="headerlink" title="回看SRE"></a>回看SRE</h2><p>自从 Google 推出 SRE 的概念之后，在运维领域 SRE 代表了运维水平较高。实际上 SRE 代表了一种运维的文化。</p>
+<p>在这种文化中，SRE 团队做为系统可用性的责任人，会牵头各方齐心协力来推进系统可用性的改进。改进包括可观测性、高可用、容量规划等等运维全生命周期覆盖的领域。</p>
+<p>在这种文化中，我相信 SRE 团队一定是充满了责任感、使命感，同时 SRE 团队也需要有相当的话语权以及获得相关的组织上的支持。</p>
+<p>很想了解在 Google 内部，类似我们单位的这种场景是如何解决的，想了解 Google 内部是如何划分组织结构的。</p>
+<p>当然，即便知道 Google 的组织结构划分，如何应用到现在的单位，因为不同的文化背景差异，一定也需要做适合单位特点的改造和裁剪。</p>
+<h2 id="个人体会"><a href="#个人体会" class="headerlink" title="个人体会"></a>个人体会</h2><p>简单总结下，如果想在一个组织中推进运维质量的提高，以下几点应该是必须的：</p>
+<ul>
+<li>制度、流程和规范要求在稳定性保障中必不可少</li>
+<li>勇于挑战，敬畏生产，重视过去失败的经验</li>
+<li>对于玩忽职守引起的问题要严格问责，其他之外的问题则不过于追究</li>
+</ul>
+<p>对于运维领域感兴趣的，欢迎关注我随时交流。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://dbaplus.cn/news-134-2930-1.html">以阿里为例，详解SRE的团队建设与职能分工</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/Dou_Hua_Hua/article/details/108516702">一文帮你理解整个SRE运维体系_运维白屏化</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2024/09/10/20240910-open-source-responsible-for-anything/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 开源要为生产事故背锅吗
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2024/08/30/20240830-macos-python-env/" id="article-nav-older" class="article-nav-link-wrap">
+            macOS 下的 python 环境管理 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>关于变更评审的进一步思考-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="运维变更, 运维变更评审, 变更评审">
+    <meta name="description" content="本文继续写下一些对于运维变更评审工作的一些想法，包括是否引入业务用户、评审的分类要点、评审的形式等等，欢迎同行参与讨论。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>关于变更评审的进一步思考</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2023-04-28 09:11:36</span>
+        
+        <span class="post-time">发布于：2023-04-25 15:28:22</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h2 id="变更评审的意义"><a href="#变更评审的意义" class="headerlink" title="变更评审的意义"></a>变更评审的意义</h2><p>评审从字面上理解主要是对变更方案合理性、风险和影响的评估，变更评审应当根据组织的特点来采取针对性的形式和流程。通过变更评审过程，可以增加变更实施人员对于变更内容和影响的理解，降低变更带来的风险，提高变更问题的处理恢复速度。</p>
+<p>每一个项变更的提出，都有其特定的业务背景，做为变更发起人在提交变更评审的时候，需要把事项的背景介绍清楚，以便于评审人员能够把握评审的标准。</p>
+<p>如果在一个人数较少的组织，如自由创业者或者3～5人的创业团队，每个人都应该对变更的内容负责任，这种组织下，变更评审的意义就不是很大。</p>
+<p>对于超过5人的团队，如果想控制变更的质量，并且做到每一项变更都能够事后追溯，那就需要制定变更流程、组织变更评审。</p>
+<h2 id="运维如何高质量交付环境"><a href="#运维如何高质量交付环境" class="headerlink" title="运维如何高质量交付环境"></a>运维如何高质量交付环境</h2><p>信息系统运行需要一定的环境和资源，包括设施环境（风火水电）、网络、服务器等等。</p>
+<p>从最宏观的角度来考虑信息系统的安全稳定运行，首先要解决的就是选址问题，2021年7月20日，郑州遭遇罕见的大暴雨，部分IDC机房收到直接冲击。还有一部分机房，因为电力供应受损，柴油又因为暴雨原因无法及时送达而影响了业务。</p>
+<p>设施环境的选择不仅仅是对于大型数据中心和企业来说很重要，对于小型企业来说也非常重要。俗话说「不要把鸡蛋放在一个篮子里」，在选择购买服务的的时候，考虑一个备用的环境，就能给自己在极端情况下留好后路。</p>
+<p>在准备服务器环境方面，涉及到的细节要素就会更多。服务器型号和配置要求、网络带宽要求、操作系统参数要求、文件系统要求、操作系统用户管理与分离要求、监控部署要求。做运维，并不是把服务器买来交给开发使用就算完成了。在运维的整个生命周期里，我们要负责系统的安全稳定运行，在发生紧急故障的时候，能够捋清楚数据流向、业务流向等等影响应急决策关键信息。这就要求我们建立起组织级别的、分层的规范来帮助我们提高管理的有效性。</p>
+<h2 id="是否引入业务用户"><a href="#是否引入业务用户" class="headerlink" title="是否引入业务用户"></a>是否引入业务用户</h2><p>观察 ITIL 的资料，变更管理委员会（Change Advisory Board，CAB）是为了帮助评估变更而召集的组织，建议的成员包括了业务用户（特别是业务负责人），现在就想讨论下在变更评审中引入业务用户的必要性和实现难度。</p>
+<p>一个系统的变更，从与业务用户是否相关的角度来说，一类是有业务变化或影响的变更，如版本投产上线新功能，或者在业务运行时段却需要做一些维护性动作（如重启、设备更换等等），这种情况下应当请业务用户从业务运行稳定的角度来参与变更评估。另一类是理论上应该完全没有业务影响的变更，例如集群中某个节点的故障维修、磁盘更换等硬件类问题，这种类型的变更，我觉得可以不用事无巨细的通知业务用户。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.itilxf.com/thread-52356-1-1.html">ITSS变更管理的风险和影响评估</a></li>
+<li><a target="_blank" rel="noopener" href="https://baijiahao.baidu.com/s?id=1705983883408379028&wfr=spider&for=pc">数据中心因暴雨崩溃，应急处置如何做</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1896279">从运维管理角度看变更</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2023/04/29/20230429-build-windows-workspace/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 构建Windows下的工作环境
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2023/04/17/20230417-arthur-burks/" id="article-nav-older" class="article-nav-link-wrap">
+            阿瑟·伯克斯 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

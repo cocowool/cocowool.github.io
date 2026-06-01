@@ -1,0 +1,200 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Analog使用中的一些技巧和总结-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="analog, analog技巧, analog总结, analog分析日志">
+    <meta name="description" content="Analog是一款用来快速处理日志的开源工具，具有很高的效率，但是生成的结果并不美观。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Analog使用中的一些技巧和总结</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2022-06-13 22:02:23</span>
+        
+        <span class="post-time">发布于：2011-02-25 16:58:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>Analog是一款用来快速处理日志的开源工具，具有很高的效率，但是生成的结果并不美观，本文就analog使用过程中的一些问题进行总结，讨论如何对analog进行深度的定制使用。</p>
+<p><strong>处理经过压缩的多个日志文件</strong></p>
+<p>analog可以读取gz格式压缩的日志文件，并且支持读取多个文件。这个选项在我们有多台前端Web服务器的时候可以用上，读取多个日志文件，可以通过两种方式实现：在配置文件中指定多行LOGFILE，或者在单个文件中使用通配符，后一种方法是最常用到的。</p>
+<blockquote>
+<p>LOGFILE new1.log,old*.log<br>LOGFILE new2.log</p>
+</blockquote>
+<p><strong>Analog配置文件相关的设置技巧</strong></p>
+<p>Analog启动时，会读取配置文件和命令行中的配置信息，配置文件默认是 analog.cfg ，如果想要命令行中的配置信息优先级比较高，需要加上 –G 参数，这样才能在有重复的配置项时，以命令行中的为准。</p>
+<p>analog支持读多个配置文件，但是如果多个配置文件中的配置项不同，就会发生混乱。如果真的需要读取多个配置文件，建议将一些基础性的配置信息放在默认配置文件中，一些个性的配置信息通过 +ganalog.x.cfg 包含进来。</p>
+<p>analog中的配置项信息非常多，有些在命令行下有缩写的形式，有一些则没有，如果希望在命令行中指定没有缩写的配置信息，可以使用下面的形式，注意命令之间不能有空格。</p>
+<blockquote>
+<p>+C”UNCOMPRESS *.gz gzcat”</p>
+</blockquote>
+<blockquote>
+<p>./analog/analog -G +ganalog.cfg +Oanalog_reports/bizhouse/bizhouse-110221.html /data0/dpoolapachelog/110221/110221.biz.house.sina.com.cn_*.gz +C”HOSTNAME biz.house.sina.com.cn”</p>
+</blockquote>
+<p>analog中关于日志文件和日志文件格式的配置项都是 cumulative （累加）的。如果我们的日志有两种格式，那么配置文件中写两行 LOGFORMAT 就可以保证不管遇到什么样的日志格式，都可以正常执行，这个特性在处理情况复杂的日志文件时非常有用。</p>
+<p><strong>配置HTML报告界面</strong></p>
+<p>图标和图标的链接</p>
+<blockquote>
+<p>LOGO <a target="_blank" rel="noopener" href="http://watchdog.com.cn/static/v1.0/logo.png">http://watchdog.com.cn/static/v1.0/logo.png</a><br>LOGOURL <a target="_blank" rel="noopener" href="http://watchdog.com.cn/">http://watchdog.com.cn</a></p>
+</blockquote>
+<p><strong>如何处理多个网站的日志文件</strong></p>
+<p>在我们的环境中，有很多个项目，日志的存储方式如下</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/data/logs/2011-02-23/domain.a.com.cn-2011-02-23.ip1.tar.gz</span><br><span class="line">/data/logs/2011-02-23/domain.a.com.cn-2011-02-23.ip2.tar.gz</span><br><span class="line">/data/logs/2011-02-23/domain.b.com.cn-2011-02-23.ip1.tar.gz</span><br><span class="line">/data/logs/2011-02-23/domain.b.com.cn-2011-02-23.ip2.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>目录中存在很多日志文件，使用analog进行分析比较麻烦的问题是这些日志的日志格式如果不一样，就不太好办。幸好 analog 的配置文件中对于日志格式的支持是累加的，可以在配置文件中使用这种方式进行配置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">APACHEDEFAULTLOGFORMAT (%h %l %u %t %T \&quot;%r\&quot; %&gt;s %b \&quot;%&#123;Referer&#125;i\&quot; \&quot;%&#123;User-Agent&#125;i\&quot; \&quot;%&#123;Cookie&#125;i\&quot;)</span><br><span class="line">APACHEDEFAULTLOGFORMAT (%h %l %u %t \&quot;%r\&quot; %&gt;s %b \&quot;%&#123;Referer&#125;i\&quot; \&quot;%&#123;User-Agent&#125;i\&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>只要配置的日志格式包括了所有可能的日志格式，我们就可以使用一个配置文件来进行所有日志文件的分析了。为了分析众多的日志文件，我写了一个脚本，通过读取一个项目列表文件，分析目录中对应的项目日志。然后汇总到一个数据库中进行展示，这样就方便我们查看多个网站的日志统计数据。分享如下：<a target="_blank" rel="noopener" href="http://files.cnblogs.com/cocowool/wd_analog.pl.rar">Wd_analog.pl</a></p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl -w</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># This script use analog to analyze all the apache logs and send main result to watchdog.sample.com.cn site </span></span><br><span class="line"><span class="comment"># Author:shiqiang at 2011-2-24 </span></span><br><span class="line"><span class="comment"># Revision History: </span></span><br><span class="line"><span class="comment"># 2011-02-25 shiqiang Use Getopt::Long to parse parameters </span></span><br><span class="line"><span class="comment"># 2011-02-25 shiqiang add some parameters to make this script common to use </span></span><br><span class="line"><span class="comment"># 2011-02-24 shiqiang create file</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> strict; </span><br><span class="line"><span class="keyword">use</span> Getopt::Long; </span><br><span class="line"><span class="keyword">use</span> diagnostics; </span><br><span class="line"><span class="keyword">use</span> LWP; </span><br><span class="line"><span class="keyword">my</span> $version = <span class="string">&quot;1.0&quot;</span>; </span><br><span class="line"><span class="keyword">my</span> $usage = <span class="string">&quot;Welcome to use wd_analog.pl $version\n&quot;</span>; </span><br><span class="line"><span class="keyword">my</span> $help = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#Declare default values for variables </span></span><br><span class="line"><span class="keyword">my</span> $verbose = <span class="number">0</span>; </span><br><span class="line"><span class="keyword">my</span> $debug = -<span class="number">1</span>; </span><br><span class="line"><span class="keyword">my</span> $config = <span class="string">&quot;project_list&quot;</span>; </span><br><span class="line"><span class="keyword">chomp</span>(<span class="keyword">my</span> $date = <span class="string">`date -d &#x27;1 day ago&#x27; +%y%m%d`</span>); </span><br><span class="line"><span class="keyword">chomp</span>(<span class="keyword">my</span> $report_date = <span class="string">`date -d &#x27;1 day ago&#x27; +%Y-%m-%d`</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">chomp</span>(<span class="keyword">my</span> $base_path = <span class="string">`pwd`</span>); </span><br><span class="line"><span class="comment"># Analog binary path </span></span><br><span class="line"><span class="keyword">my</span> $analog = (<span class="string">&quot;/data0/vhosts/analog.sample.com.cn/htdocs/analog/analog&quot;</span>); </span><br><span class="line"><span class="keyword">my</span> $log_store_path = $base_path . <span class="string">&quot;/computer_result/&quot;</span>; </span><br><span class="line"><span class="keyword">my</span> $log_file = $base_path . <span class="string">&quot;/computer_result/wd_analog_log&quot;</span>; </span><br><span class="line"><span class="keyword">my</span> $apache_log_path = <span class="string">&quot;/data0/dpoolapachelog/&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#process options from command line </span></span><br><span class="line">GetOptions( </span><br><span class="line">    <span class="string">&#x27;verbose+&#x27;</span> =&gt; \$verbose, </span><br><span class="line">    <span class="string">&#x27;config|f=s&#x27;</span> =&gt; \$config, </span><br><span class="line">    <span class="string">&#x27;date|d=s&#x27;</span> =&gt; \$date, </span><br><span class="line">    <span class="string">&#x27;help|?&#x27;</span> =&gt; \$help, </span><br><span class="line">    <span class="string">&#x27;debug:i&#x27;</span> =&gt; \$debug </span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( $help )&#123; </span><br><span class="line">    <span class="keyword">print</span> $usage; </span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;Sample:wd_analog.pl -config=config_file_path -date=cur_date\n&quot;</span>; </span><br><span class="line">    <span class="keyword">exit</span>(<span class="number">0</span>); </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">die</span> <span class="string">&quot;Config file doesn&#x27;t exists or incorrupt&quot;</span> <span class="keyword">if</span> ! -f $config; </span><br><span class="line"><span class="keyword">my</span> @content = <span class="string">`cat $config`</span>; </span><br><span class="line"><span class="keyword">my</span> %project_list = ();</span><br><span class="line"></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># Parse the project domain and generate the module name </span></span><br><span class="line"><span class="comment"># we trim the &quot;www&quot; prefix and &quot;.com\.cn\&quot; suffix to create the module name </span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="keyword">for</span> <span class="keyword">my</span> $value ( @content )&#123; </span><br><span class="line">    <span class="keyword">chomp</span>( $value ); </span><br><span class="line">    <span class="keyword">my</span> $module = $value; </span><br><span class="line">    $module =~ <span class="regexp">s/www|sina\.com\.cn|\.com\.cn|\.cn|\.com|\.//g</span>; </span><br><span class="line">    $project_list&#123;$value&#125; = $module; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># Iterate all the project and run analog </span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="keyword">my</span> $browser = LWP::UserAgent-&gt;new(); </span><br><span class="line"><span class="keyword">my</span> @keys = <span class="keyword">sort</span> <span class="keyword">keys</span> %project_list; </span><br><span class="line"><span class="keyword">for</span> <span class="keyword">my</span> $key ( @keys ) &#123; </span><br><span class="line">    <span class="comment"># Define trhee parameters used for analog </span></span><br><span class="line">    <span class="keyword">my</span> $module = $project_list&#123;$key&#125;; </span><br><span class="line">    <span class="keyword">my</span> $domain_keyword = $key; </span><br><span class="line">    <span class="keyword">my</span> $cur_date = $date; </span><br><span class="line">    $log_store_path .= $module; </span><br><span class="line">    <span class="string">`mkdir -p $log_store_path`</span> <span class="keyword">if</span> ! -d $log_store_path; </span><br><span class="line">    <span class="comment">#`echo &quot;=================================&quot; &gt;&gt; $log_file 2&gt;1&amp;`; </span></span><br><span class="line">    <span class="string">`echo $key=$project_list&#123;$key&#125; &gt;&gt; $log_file 2&gt;1&amp;`</span>; </span><br><span class="line">    <span class="string">`./analog/analog -G +ganalog.cfg +O$log_store_path/$module-$cur_date.txt $apache_log_path$date/$date.*$&#123;domain_keyword&#125;_*.gz +C&quot;HOSTNAME $domain_keyword&quot; +C&quot;OUTPUT COMPUTER&quot;`</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Parse the stat result and do some post processing </span></span><br><span class="line">    <span class="keyword">my</span> %stat; </span><br><span class="line">    <span class="keyword">my</span> $k; </span><br><span class="line">    <span class="keyword">foreach</span> $k (<span class="string">&quot;B7&quot;</span>, <span class="string">&quot;BT&quot;</span>, <span class="string">&quot;CL&quot;</span>, <span class="string">&quot;F7&quot;</span>, <span class="string">&quot;FL&quot;</span>, <span class="string">&quot;FRd&quot;</span>, <span class="string">&quot;FRh&quot;</span>, <span class="string">&quot;FRmi&quot;</span>, <span class="string">&quot;FRmo&quot;</span>, <span class="string">&quot;FRy&quot;</span>, <span class="string">&quot;H7&quot;</span>, <span class="string">&quot;LRd&quot;</span>, <span class="string">&quot;LRh&quot;</span>, <span class="string">&quot;LRmi&quot;</span>, <span class="string">&quot;LRmo&quot;</span>, <span class="string">&quot;LRy&quot;</span>, <span class="string">&quot;N7&quot;</span>, <span class="string">&quot;NF&quot;</span>, <span class="string">&quot;NH&quot;</span>, <span class="string">&quot;P7&quot;</span>, <span class="string">&quot;PR&quot;</span>, <span class="string">&quot;R7&quot;</span>, <span class="string">&quot;RR&quot;</span>, <span class="string">&quot;S7&quot;</span>, <span class="string">&quot;SR&quot;</span>, <span class="string">&quot;UL&quot;</span>) &#123; $stat&#123;$k&#125; = <span class="number">0</span>; &#125; </span><br><span class="line">    $stat<span class="string">&#123;HN&#125;</span> = <span class="string">&quot;&quot;</span>; </span><br><span class="line">    <span class="comment"># Analog doesn&#x27;t necessarily create lines for all values </span></span><br><span class="line">    <span class="keyword">open</span>(INPUT, <span class="string">&quot;$log_store_path/$module-$cur_date.txt&quot;</span> ) <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">&quot;Faile to open stat result file $domain_keyword:$log_store_path/$module-$cur_date.txt&quot;</span>; </span><br><span class="line">    <span class="keyword">while</span> (&lt;INPUT&gt;) &#123; </span><br><span class="line">        <span class="keyword">chomp</span>; </span><br><span class="line">        <span class="keyword">if</span> (<span class="regexp">m&#123;^x    FR    (\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)$&#125;</span>) &#123; </span><br><span class="line">            ($stat<span class="string">&#123;FRy&#125;</span>, $stat<span class="string">&#123;FRmo&#125;</span>, $stat<span class="string">&#123;FRd&#125;</span>, $stat<span class="string">&#123;FRh&#125;</span>, $stat<span class="string">&#123;FRmi&#125;</span>) = ($1, $2, $3, $4, $5) </span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">elsif</span> (<span class="regexp">m&#123;^x    LR    (\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)$&#125;</span>) &#123; </span><br><span class="line">            ($stat<span class="string">&#123;LRy&#125;</span>, $stat<span class="string">&#123;LRmo&#125;</span>, $stat<span class="string">&#123;LRd&#125;</span>, $stat<span class="string">&#123;LRh&#125;</span>, $stat<span class="string">&#123;LRmi&#125;</span>) = ($1, $2, $3, $4, $5) </span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">elsif</span> (m&#123;^<span class="keyword">x</span>    ([A-Z][A-Z7])    ([^<span class="regexp">/]+)$&#125;) &#123; $stat&#123;$1&#125; = $2; &#125; </span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">    my $pv = 0; </span></span><br><span class="line"><span class="regexp">    $pv = $stat&#123;PR&#125;/</span>$stat<span class="string">&#123;NH&#125;</span> <span class="keyword">if</span> $stat<span class="string">&#123;NH&#125;</span> <span class="keyword">ne</span> <span class="string">&#x27;0&#x27;</span>; </span><br><span class="line">    <span class="keyword">my</span> $response = $browser-&gt;post(<span class="string">&quot;http://watchdog.sample.com.cn/log/save&quot;</span>, [<span class="string">&quot;domain&quot;</span>=&gt;$stat<span class="string">&#123;HN&#125;</span>,<span class="string">&quot;requests&quot;</span>=&gt;$stat<span class="string">&#123;SR&#125;</span>,<span class="string">&quot;pages&quot;</span>=&gt;$stat<span class="string">&#123;PR&#125;</span>,<span class="string">&quot;pv&quot;</span>=&gt; $pv,<span class="string">&quot;traffic&quot;</span>=&gt;$stat<span class="string">&#123;BT&#125;</span>,<span class="string">&quot;uip&quot;</span>=&gt;$stat<span class="string">&#123;NH&#125;</span>,<span class="string">&quot;stats_date&quot;</span>=&gt;<span class="string">&quot;$report_date&quot;</span>]);; </span><br><span class="line">    <span class="keyword">die</span> <span class="string">&quot;Post data failed : $response-&gt;content !&quot;</span> <span class="keyword">if</span> $response-&gt;content <span class="keyword">ne</span> <span class="string">&#x27;0&#x27;</span>; </span><br><span class="line">    $log_store_path = $base_path . <span class="string">&quot;/computer_result/&quot;</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>Analog中几种固定的日志格式</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">Common format, LOGFORMAT COMMON</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">jay.bird.com - fred [25/Dec/1998:17:45:35 +0000]</span><br><span class="line">      &quot;GET /~sret1/ HTTP/1.0&quot; 200 1243</span><br><span class="line">LOGFORMAT (%S %j %u [%d/%M/%Y:%h:%n:%j] &quot;%j%w%r%wHTTP%j&quot; %c %b)</span><br><span class="line">LOGFORMAT (%S %j %u [%d/%M/%Y:%h:%n:%j] &quot;%j%w%r&quot; %c %b)</span><br><span class="line">LOGFORMAT (%S %j %u [%d/%M/%Y:%h:%n:%j] &quot;%r&quot; %c %b)</span><br><span class="line">Microsoft common format, LOGFORMAT MS-COMMON</span><br><span class="line">jay.bird.com - fred [25/Dec/1998:17:45:35 +0000]</span><br><span class="line">      &quot;GET /~sret1/ &quot;HTTP/1.0&quot; 200 1243</span><br><span class="line">LOGFORMAT (%S %j %u [%d/%M/%Y:%h:%n:%j] &quot;%j%w%r%w&quot;HTTP%j&quot; %c %b)</span><br><span class="line">LOGFORMAT (%S %j %u [%d/%M/%Y:%h:%n:%j] &quot;%j%w%r&quot; %c %b)</span><br><span class="line">LOGFORMAT (%S %j %u [%d/%M/%Y:%h:%n:%j] &quot;%r&quot; %c %b)</span><br><span class="line">Combined log, LOGFORMAT COMBINED</span><br><span class="line">jay.bird.com - fred [25/Dec/1998:17:45:35 +0000] &quot;GET /~sret1/ HTTP/1.0&quot; 200</span><br><span class="line">      1243 &quot;http://www.site.com/&quot; &quot;Mozilla/2.0 (X11; I; HP-UX A.09.05)&quot;</span><br><span class="line">LOGFORMAT (%S %j %u [%d/%M/%Y:%h:%n:%j] &quot;%j%w%r%wHTTP%j&quot; %c %b &quot;%f&quot; &quot;%B&quot;)</span><br><span class="line">LOGFORMAT (%S %j %u [%d/%M/%Y:%h:%n:%j] &quot;%j%w%r&quot; %c %b &quot;%f&quot; &quot;%B&quot;)</span><br><span class="line">LOGFORMAT (%S %j %u [%d/%M/%Y:%h:%n:%j] &quot;%r&quot; %c %b &quot;%f&quot; &quot;%B&quot;)</span><br><span class="line">Referrer log, LOGFORMAT REFERRER</span><br><span class="line">[25/Dec/1998:17:45:35] http://www.site.com/ -&gt; /~sret1/</span><br><span class="line">or http://www.site.com/ -&gt; /~sret1/</span><br><span class="line">LOGFORMAT ([%d/%M/%Y:%h:%n:%j] %f -&gt; %*r)</span><br><span class="line">LOGFORMAT (%f -&gt; %*r)</span><br><span class="line">Browser log, LOGFORMAT BROWSER</span><br><span class="line">[25/Dec/1998:17:45:35] Mozilla/2.0 (X11; I; HP-UX A.09.05)</span><br><span class="line">LOGFORMAT ([%d/%M/%Y:%h:%n:%j] %B)</span><br><span class="line">Microsoft log, North American dates, LOGFORMAT MICROSOFT-NA</span><br><span class="line">192.64.25.41, -, 12/25/98, 17:45:35, W3SVC1, HOST1, 192.16.225.10,</span><br><span class="line">      2178, 303, 1243, 200, 0, GET, /~sret1/, -,</span><br><span class="line">192.64.25.41, -, 12/25/2001, 17:45:35, W3SVC1, HOST1, 192.16.225.10,</span><br><span class="line">      2178, 303, 1243, 200, 0, GET, /~sret1/, -,</span><br><span class="line">LOGFORMAT (%S, %u, %m/%d/%Z, %h:%n:%j, W3SVC%j, %j, %v,</span><br><span class="line">      %T, %j, %b, %c, %j, %j, %r, %q,)</span><br><span class="line">LOGFORMAT (%*S, %*u, %m/%d/%Z, %h:%n:%j, %j)</span><br><span class="line">Microsoft log, international dates, LOGFORMAT MICROSOFT-INT</span><br><span class="line">192.64.25.41, -, 25/12/98, 17:45:35, W3SVC1, HOST1, 192.16.225.10,</span><br><span class="line">      2178, 303, 1243, 200, 0, GET, /~sret1/, -,</span><br><span class="line">192.64.25.41, -, 25/12/2001, 17:45:35, W3SVC1, HOST1, 192.16.225.10,</span><br><span class="line">      2178, 303, 1243, 200, 0, GET, /~sret1/, -,</span><br><span class="line">LOGFORMAT (%S, %u, %d/%m/%Z, %h:%n:%j, W3SVC%j, %j, %v,</span><br><span class="line">      %T, %j, %b, %c, %j, %j, %r, %q,)</span><br><span class="line">LOGFORMAT (%*S, %*u, %d/%m/%Z, %h:%n:%j, %j)</span><br><span class="line">WebSite log, North American dates, LOGFORMAT WEBSITE-NA</span><br><span class="line">12/25/98 17:45:35  jay.bird.com  host1  Server  fred  GET  /~sret1/</span><br><span class="line">   http://www.site.com/    Mozilla/2.0 (X11; I; HP-UX A.09.05)  200  1243  2178</span><br><span class="line">LOGFORMAT (%m/%d/%y %h:%n:%j\t%S\t%v\t%j\t%u\t%j\t%r\t%f\t%j\t%B\t%c\t%b\t%T)</span><br><span class="line">WebSite log, international dates, LOGFORMAT WEBSITE-INT</span><br><span class="line">25/12/98 17:45:35  jay.bird.com  host1  Server  fred  GET  /~sret1/</span><br><span class="line">   http://www.site.com/    Mozilla/2.0 (X11; I; HP-UX A.09.05)  200  1243  2178</span><br><span class="line">LOGFORMAT (%d/%m/%y %h:%n:%j\t%S\t%v\t%j\t%u\t%j\t%r\t%f\t%j\t%B\t%c\t%b\t%T)</span><br><span class="line">MacHTTP format, LOGFORMAT MACHTTP</span><br><span class="line">12/25/98  17:45:35   OK    jay.bird.com  /~sret1/  1243</span><br><span class="line">LOGFORMAT (%m/%d/%y\t%h:%n:%j \t%C%w%S\t%r\t%b)</span><br></pre></td></tr></table></figure>
+
+<p>参考资料：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="http://www.analog.cx/docs/index.html">Analog Docs</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.reppep.com/~pepper/analog/logwrangler/">Logwrangler</a></li>
+<li><a target="_blank" rel="noopener" href="http://perldoc.perl.org/Getopt/Long.html#Documentation-and-help-texts">Perl Doc Getopt::Long</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.pcwdld.com/perl-cheat-sheet">PCWDLD: Perl Cheat Sheet</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2011/03/08/20110308-svn-post-commit/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 利用SVN的POST-COMMIT钩子自动部署代码
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2011/02/14/20110214-cacti-data-structure/" id="article-nav-older" class="article-nav-link-wrap">
+            Cacti数据结构解析，查找对应的RRD文件 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

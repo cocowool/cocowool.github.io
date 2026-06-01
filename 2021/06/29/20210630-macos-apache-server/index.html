@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>探索macOS自带的apache-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="macOS, Mac, apache">
+    <meta name="description" content="本文将macOS下自带的Apache服务器相关的信息和操作整理出来，方便大家查看使用。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>探索macOS自带的apache</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-06-30 08:36:13</span>
+        
+        <span class="post-time">发布于：2021-06-29 08:11:39</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <blockquote>
+<p>写本文时使用的操作系统版本为macOS Catalina 10.15.7</p>
+</blockquote>
+<p>前一段时间在配置macOS的PAC代理设置时（可以参考<a href="http://www.edulinks.cn/2021/06/10/20210610-macos-proxy-auto-config/">macOS使用自动代理</a>），用到了macOS自带的Apache服务器。macOS自带了Apache服务器，提供HTTP服务，对于简单的日常使用或开发调试，非常方便。有时我们会需要修改一些配置，例如端口等，来避免和我们的其他环境冲突。本文就是因为占用了默认的80端口，导致我的一个测试例子报端口冲突，从而起了修改相关配置的念头。</p>
+<p>本文将macOS下自带的Apache服务器相关的信息和操作整理出来，方便大家查看使用。</p>
+<h2 id="相关路径"><a href="#相关路径" class="headerlink" title="相关路径"></a>相关路径</h2><ul>
+<li><p>配置文件路径 <code>/etc/apache2</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">➜  / ll /etc/apache2</span><br><span class="line">total 96</span><br><span class="line">drwxr-xr-x   9 root  wheel   288B  4 18  2020 .</span><br><span class="line">drwxr-xr-x  84 root  wheel   2.6K  6 29 19:51 ..</span><br><span class="line">drwxr-xr-x  14 root  wheel   448B  6 10 08:51 extra</span><br><span class="line">-rw-r--r--   1 root  wheel    21K  4 18  2020 httpd.conf</span><br><span class="line">-rw-r--r--   1 root  wheel    13K  4 18  2020 magic</span><br><span class="line">-rw-r--r--   1 root  wheel    60K  4 18  2020 mime.types</span><br><span class="line">drwxr-xr-x   4 root  wheel   128B  4 18  2020 original</span><br><span class="line">drwxr-xr-x   4 root  wheel   128B  4 18  2020 other</span><br><span class="line">drwxr-xr-x   2 root  wheel    64B  4 18  2020 users</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>默认根文件夹 <code>/Library/WebServer/Documents</code></p>
+</li>
+</ul>
+<h2 id="服务起停"><a href="#服务起停" class="headerlink" title="服务起停"></a>服务起停</h2><ul>
+<li><p>启动服务 <code>sudo apachectl start</code></p>
+</li>
+<li><p>重启服务 <code>sudo apachectl restart</code></p>
+</li>
+<li><p>停止服务 <code>sudo apachectl stop</code></p>
+</li>
+<li><p>查看版本</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  / sudo apachectl -v              </span><br><span class="line">Password:</span><br><span class="line">Server version: Apache/2.4.41 (Unix)</span><br><span class="line">Server built:   Jun  5 2020 23:42:06</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="PHP支持"><a href="#PHP支持" class="headerlink" title="PHP支持"></a>PHP支持</h2><p>macOS还自带了PHP7的支持，需要通过修改 <code>/etc/apache2/httpd.conf</code> 配置文件打开并重启服务后生效。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#LoadModule php7_module libexec/apache2/libphp7.so  </span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.sqlsec.com/2017/07/macapache.html">macOS Apache</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/19849652/answer/23500445">Mac OS X为何自带Apache和PHP</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jb51.net/article/115272.htm">详解Mac自带apache配置</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/06/30/20210701-leetcode-complex-number-multiplication/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Leetcode:计算复数乘法
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/06/28/20210628-leetcode-maximum-binary-tree/" id="article-nav-older" class="article-nav-link-wrap">
+            Leetcode:构建最大数二叉树 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

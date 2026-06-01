@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PHP中正则的使用-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="正则, 正则表达式, 正则 PHP, 正则表达式 PHP, PHP">
+    <meta name="description" content="正则表达式，作为一种快速、便捷的处理字符串的工具，在各种编程语言中都有着广泛的用途，通过在PHP中的一些使用，下面记录一下关于PHP中正则使用的一些技巧。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>PHP中正则的使用</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-14 20:12:17</span>
+        
+        <span class="post-time">发布于：2009-08-24 16:51:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>正则表达式，作为一种快速、便捷的处理字符串的工具，在各种编程语言中都有着广泛的用途，通过在PHP中的一些使用，下面记录一下关于PHP中正则使用的一些技巧。</p>
+<p>我的正则入门，是起源于网上的一篇文章[1]，这篇文章由浅入深的阐述了正则使用的方法，我觉得是一个很好的入门材料，不过学成还是要靠个人，在使用的过程中，还是会不断地忘记，因此反反复复的阅读了这篇文章有四五遍，对于其中一些比较困难的知识点，甚至要用很久才能消化，但是只要能见坚持着看完，你会发现自己对于正则的运用能力就会显著提高。</p>
+<p>正则表达式：</p>
+<p>用于描述字符排列和匹配模式的一种语法规则。它主要用于字符串的模式分割、匹配、查找及替换操作。</p>
+<p><strong>PHP中的正则函数：</strong><br>php中有两套正则函数，两者功能差不多，分别为：<br>一套是由PCRE（Perl Compatible Regular Expression）库提供的。使用“preg_”为前缀命名的函数；<br>一套由POSIX（Portable Operating System Interface of Unix ）扩展提供的。使用以“ereg_”为前缀命名的函数；（POSIX的正则函数库，自PHP 5.3以后，就不在推荐使用，从PHP6以后，就将被移除）</p>
+<p>由于POSIX正则即将推出历史舞台，并且PCRE和perl的形式差不多，更利于我们在perl和php之间切换，所以这里重点介绍PCRE正则的使用。</p>
+<p><strong>PCRE正则表达式</strong><br>PCRE全称为Perl Compatible Regular Expression，意思是Perl兼容正则表达式。<br>在PCRE中，通常将模式表达式（即正则表达式）包含在两个反斜线“/”之间，如“/apple/”。</p>
+<p>正则中重要的几个概念有：元字符、转义、模式单元（重复）、反义、引用和断言，这些概念都可以在文章[1]中轻松的理解和掌握。<br>**<br>常用的元字符(Meta-character)：**</p>
+<p>元字符     说明<br>\A       匹配字符串串首的原子<br>\Z       匹配字符串串尾的原子<br>\b       匹配单词的边界     /\bis/   匹配头为is的字符串   /is\b/   匹配尾为is的字符串   /\bis\b/ 定界<br>\B       匹配除单词边界之外的任意字符   /\Bis/   匹配单词“This”中的“is”</p>
+<p>\d     匹配一个数字；等价于[0-9]<br>\D     匹配除数字以外任何一个字符；等价于[^0-9]<br>\w     匹配一个英文字母、数字或下划线；等价于[0-9a-zA-Z_]<br>\W     匹配除英文字母、数字和下划线以外任何一个字符；等价于[^0-9a-zA-Z_]<br>\s     匹配一个空白字符；等价于[\f\t\v]<br>\S     匹配除空白字符以外任何一个字符；等价于[^\f\t\v]<br>\f     匹配一个换页符等价于 \x0c 或 \cL<br>匹配一个换行符；等价于 \x0a 或 \cJ<br>匹配一个回车符等价于\x0d 或 \cM<br>\t     匹配一个制表符；等价于 \x09\或\cl<br>\v     匹配一个垂直制表符；等价于\x0b或\ck<br>\oNN   匹配一个八进制数字<br>\xNN   匹配一个十六进制数字<br>\cC    匹配一个控制字符</p>
+<p><strong>模式修正符（Pattern Modifiers）：</strong><br>模式修正符在忽略大小写、匹配多行中使用特别多，掌握了这一个修正符，往往能解决我们遇到的很多问题。</p>
+<p>i     －可同时匹配大小写字母<br>M     －将字符串视为多行<br>S     －将字符串视为单行，换行符做普通字符看待，使“.”匹配任何字符<br>X     －模式中的空白忽略不计<br>U     －匹配到最近的字符串<br>e     －将替换的字符串作为表达使用<br>格式：/apple/i匹配“apple”或“Apple”等，忽略大小写。     /i<br>**<br>PCRE的模式单元：**</p>
+<p>//1 提取第一位的属性<br>/^\d{2} ([\W])\d{2}\1\d{4}$匹配“12-31-2006”、“09/27/1996”、“86 01 4321”等字符串。但上述正则表达式不匹配“12/34-5678”的格式。这是因为模式“[\W]”的结果“/”已经被存储。下个位置“\1”引用时，其匹配模式也是字符“/”。</p>
+<p>当不需要存储匹配结果时使用非存储模式单元“（？：）”<br>例如/(?:a|b|c)(D|E|F)\1g/ 将匹配“aEEg”。在一些正则表达式中，使用非存储模式单元是必要的。否则，需要改变其后引用的顺序。上例还可以写成/（a|b|c）(C|E|F)\2g/。<br>**<br>PCRE正则表达式函数：**<br>preg_match()和preg_match_all()<br>preg_quote()<br>preg_split()<br>preg_grep()<br>preg_replace()</p>
+<p>函数的具体使用，我们可以通过PHP手册来找到，下面分享一些平时积累的正则表达式：</p>
+<p>匹配action属性<br>$str = ‘<form name="adfa" action="asdf.bphp" target=""><form name="bbbb" action="http://www.bac.com/test.php" target="qwerqwerq"><form name="bbbb" action="http.php" target="qwerqwerq">‘;<br>$match = ‘’;<br>preg_match_all(‘/\s+action=&quot;(?!http:)(.*?)&quot;\s/‘, $str, $match);<br>print_r($match);</p>
+<p>在正则中使用回调函数<br>/**</p>
+<ul>
+<li>replace some string by callback function</li>
+<li></li>
+<li>/<br>function callback_replace() {<br>$url = ‘<a target="_blank" rel="noopener" href="http://esfang.house.sina.com.cn&/#39;">http://esfang.house.sina.com.cn&#39;</a>;<br>$str = ‘<form name="adfa" action="asdf.bphp" target=""><form name="bbbb" action="http://www.bac.com/test.php" target="qwerqwerq"><form name="bbbb" action="http.php" target="qwerqwerq">‘;<br>$str = preg_replace ( ‘/(?&lt;=\saction=&quot;)(?!http:)(.*?)(?=&quot;\s)/e’, ‘search($url, \1)’, $str );</li>
+</ul>
+<p>echo $str;<br>}</p>
+<p>function search($url, $match){<br>return $url . ‘/‘ . $match;<br>}</p>
+<p>带断言的正则匹配<br>$match = ‘’;<br>$str = ‘<a href="">xxxxxx.com.cn</a> <b>bold font</b> <p>paragraph text</p>‘;<br>preg_match_all ( ‘/(?&lt;=&lt;(\w{1})&gt;).*(?=&lt;/\1&gt;)/‘, $str, $match );<br>echo “<br />匹配没有属性的HTML标签中的内容：”;<br>print_r ( $match );</p>
+<p>替换HTML源码中的地址<br>$form_html = preg_replace ( ‘/(?&lt;=\saction=&quot;|\ssrc=&quot;|\shref=&quot;)(?!http:|javascript)(.*?)(?=&quot;\s)/e’, ‘add_url($url, &#39;\1&#39;)’, $form_html );</p>
+<p>最后，正则工具虽然强大，但是从效率和编写时间上来讲，有的时候可能没有explode来的更直接，对于一些紧急或者要求不高的任务，简单、粗暴的方法也许更好。<br>而对于preg和ereg两个系列之间的执行效率，曾看到文章说preg要更快一点，具体由于使用ereg的时候并不多，而且也要推出历史舞台了，再加个个人更偏好于PCRE的方式，所以笔者就不做比较了，熟悉的朋友可以发表下意见，谢谢。</p>
+<p>参考资料：<br>1、正则表达式三十分钟入门            <a target="_blank" rel="noopener" href="http://unibetter.com/deerchao/zhengzhe-biaodashi-jiaocheng-se.htm">http://unibetter.com/deerchao/zhengzhe-biaodashi-jiaocheng-se.htm</a><br>2、PHP ereg                        <a target="_blank" rel="noopener" href="http://cn.php.net/manual/en/function.ereg.php">http://cn.php.net/manual/en/function.ereg.php</a><br>3、PHP正则函数                    <a target="_blank" rel="noopener" href="http://www.5iphp.com/zh-hans/content/319.html">http://www.5iphp.com/zh-hans/content/319.html</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2009/08/27/20090827-bash-character/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; bash中的字符串引用
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2009/08/19/20090819-arp/" id="article-nav-older" class="article-nav-link-wrap">
+            局域网中ARP攻击的查找与防范（Linux环境） &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

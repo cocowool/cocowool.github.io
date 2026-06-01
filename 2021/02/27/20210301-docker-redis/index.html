@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>基于Docker快速搭建Redis集群-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="docker, redis, linux, redis集群">
+    <meta name="description" content="Redis 是一个 Key / Value 数据库，本文介绍了容器化部署主备集群的方法。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>基于Docker快速搭建Redis集群</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2024-11-19 16:50:07</span>
+        
+        <span class="post-time">发布于：2021-02-27 11:52:28</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h2 id="Redis-介绍"><a href="#Redis-介绍" class="headerlink" title="Redis 介绍"></a>Redis 介绍</h2><p><a target="_blank" rel="noopener" href="https://redis.io/">Redis</a> 本质上是一个Key / Value 数据库，是与 Memcached 类似的NoSQL数据库。相比 Memcached ，它支持数据持久化到磁盘，支持更多的数据类型（包括 String、List、Set、Hash、Zset），支持数据备份等多种特性在2014年之后取得了快速的发展。</p>
+<h2 id="Docker安装Redis"><a href="#Docker安装Redis" class="headerlink" title="Docker安装Redis"></a>Docker安装Redis</h2><h3 id="1-获取Redis镜像"><a href="#1-获取Redis镜像" class="headerlink" title="1. 获取Redis镜像"></a>1. 获取Redis镜像</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull redis</span><br><span class="line">$ docker images </span><br><span class="line">REPOSITORY                          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">redis                               6.2.0               cc69ae189a1a        4 days ago          105MB</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>写文章时，最新的 redis 镜像版本为 6.2.0</p>
+</blockquote>
+<h3 id="2-启动单个Redis服务"><a href="#2-启动单个Redis服务" class="headerlink" title="2. 启动单个Redis服务"></a>2. 启动单个Redis服务</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">shiqiang@bogon redis % docker run --rm -p 6379:6379 --name redis -d redis redis-server --appendonly yes</span><br><span class="line">f22a08d103ad0908803da0ba4d58f08717d1e6c1f1064175c22324a274c6bb6b</span><br><span class="line">shiqiang@bogon redis % docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES</span><br><span class="line">f22a08d103ad        redis               <span class="string">&quot;docker-entrypoint.s…&quot;</span>   3 seconds ago       Up 2 seconds        0.0.0.0:6379-&gt;6379/tcp   redis</span><br><span class="line">shiqiang@bogon redis % docker <span class="built_in">exec</span> -it redis /bin/bash</span><br><span class="line">root@f22a08d103ad:/data<span class="comment"># redis-cli</span></span><br><span class="line">127.0.0.1:6379&gt; <span class="built_in">set</span> <span class="built_in">test</span> 1</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get <span class="built_in">test</span></span><br><span class="line"><span class="string">&quot;1&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上面的代码首先创建了一个后台状态运行的reids服务，这个服务还不能用于生产环境，因为配置和数据都是在容器中，当容器重启之后，所有的信息都会丢失，尽可以作为测试学习使用。</p>
+<p>随后我们又运行了容器中的 <code>redis-cli</code> 命令，验证了与服务端的连接。</p>
+<p>如果使用本地的配置文件，则需要如下的命令。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --rm -p 6379:6379 --name redis -d -v <span class="string">&quot;<span class="variable">$PWD</span>/redis.conf&quot;</span>:/usr/<span class="built_in">local</span>/etc/redis/redis.conf -v <span class="string">&quot;<span class="variable">$PWD</span>/data&quot;</span>:/data redis redis-server /usr/<span class="built_in">local</span>/etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
+
+<p>配置文件的样例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dir /data</span><br><span class="line">logfile /data/redis.log</span><br><span class="line">protected-mode no</span><br><span class="line"></span><br><span class="line">appendonly yes</span><br></pre></td></tr></table></figure>
+
+<h2 id="基于Docker快速构建Redis集群"><a href="#基于Docker快速构建Redis集群" class="headerlink" title="基于Docker快速构建Redis集群"></a>基于Docker快速构建Redis集群</h2><p>首先来介绍主从模式的Redis集群，开始之前先做好准备，拉取 Redis 镜像文件，创建对应的配置文件。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ docker images</span><br><span class="line">REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">redis                  6.2.0               cc69ae189a1a        8 days ago          105MB</span><br><span class="line">$ ls -lha</span><br><span class="line">total 24</span><br><span class="line">drwxr-xr-x  7 shiqiang  staff   224B  3  3 13:15 .</span><br><span class="line">drwxr-xr-x  3 shiqiang  staff    96B  3  3 14:25 ..</span><br><span class="line">drwxr-xr-x  2 shiqiang  staff    64B  3  3 13:15 data-master</span><br><span class="line">drwxr-xr-x  2 shiqiang  staff    64B  3  3 13:15 data-slave</span><br><span class="line">-rw-r--r--  1 shiqiang  staff   1.1K  3  3 17:25 docker-compose.yml</span><br><span class="line">-rw-r--r--  1 shiqiang  staff    92B  3  3 13:24 redis_master.conf</span><br><span class="line">-rw-r--r--  1 shiqiang  staff   118B  3  3 14:31 redis_slave.conf</span><br></pre></td></tr></table></figure>
+
+<p>配置文件的具体内容可以参考我的 <a target="_blank" rel="noopener" href="https://github.com/cocowool/code-space">Github</a>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># Redis-master</span><br><span class="line">dir /data</span><br><span class="line">logfile /data/redis-master.log</span><br><span class="line">protected-mode no</span><br><span class="line"></span><br><span class="line">appendonly yes</span><br><span class="line"></span><br><span class="line">bind 172.25.0.11</span><br><span class="line"></span><br><span class="line"># Redis-slave</span><br><span class="line">dir /data</span><br><span class="line">logfile /data/redis-slave.log</span><br><span class="line">protected-mode no</span><br><span class="line"></span><br><span class="line">appendonly yes</span><br><span class="line"></span><br><span class="line">bind 172.25.0.12</span><br><span class="line"></span><br><span class="line">slaveof 172.25.0.11 6379</span><br></pre></td></tr></table></figure>
+
+<p>看一下具体效果：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在一个终端中启动服务</span></span><br><span class="line">$ docker-compose up</span><br><span class="line">Creating network <span class="string">&quot;master-slave_redis-network&quot;</span> with driver <span class="string">&quot;bridge&quot;</span></span><br><span class="line">Creating master-slave_redis-slave_1  ... <span class="keyword">done</span></span><br><span class="line">Creating master-slave_redis-master_1 ... <span class="keyword">done</span></span><br><span class="line">Attaching to master-slave_redis-slave_1, master-slave_redis-master_1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开另外一个终端，进入 redis slave 容器</span></span><br><span class="line">docker <span class="built_in">exec</span> -it 655b7f4e8f41 sh</span><br><span class="line">$ redis-cli -h 172.25.0.12</span><br><span class="line">172.25.0.12:6379&gt; <span class="built_in">set</span> username wang</span><br><span class="line">(error) READONLY You can<span class="string">&#x27;t write against a read only replica.</span></span><br><span class="line"><span class="string">172.25.0.12:6379&gt; get username</span></span><br><span class="line"><span class="string">&quot;wang&quot;</span></span><br><span class="line"><span class="string">172.25.0.12:6379&gt; get username</span></span><br><span class="line"><span class="string">&quot;wang&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 再打开一个终端，进入 redis master 容器</span></span><br><span class="line"><span class="string">$ docker exec -it 6a5c161840ee sh</span></span><br><span class="line"><span class="string"># redis-cli -h 172.25.0.11</span></span><br><span class="line"><span class="string">172.25.0.11:6379&gt; set username wang</span></span><br><span class="line"><span class="string">OK</span></span><br><span class="line"><span class="string">172.25.0.11:6379&gt; get username</span></span><br><span class="line"><span class="string">&quot;wang&quot;</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_38362455/article/details/86760892">redis 和 memcached区别是什么？</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.docker.com/compose/compose-file/compose-file-v2/">Compose file version 2 reference</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/03/03/20210304-linux-command-tr/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Linux下转换文件的换行符
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/02/27/20210228-vannevar-bush/" id="article-nav-older" class="article-nav-link-wrap">
+            信息时代的教父 - 范内瓦·布什 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

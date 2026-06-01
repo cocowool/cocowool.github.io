@@ -1,0 +1,238 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>常用 Shell 命令-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="linux, shell, shell command, shell 命令, shell 常用命令">
+    <meta name="description" content="本文总结了运维过程中常用的 shell 命令">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>常用 Shell 命令</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2022-05-29 19:09:30</span>
+        
+        <span class="post-time">发布于：2021-04-12 16:56:07</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h2 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h2><h3 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> `seq  1 10`</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;xxxx&quot;</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="SHELL中的特定变量"><a href="#SHELL中的特定变量" class="headerlink" title="SHELL中的特定变量"></a>SHELL中的特定变量</h3><ol>
+<li>$# 传递到脚本的参数个数</li>
+<li>$* 以一个单字符串显示所有向脚本传递的参数。与位置变量不同，此项参数可超过9个</li>
+<li>$$ 脚本运行的当前进程ID号</li>
+<li>$! 后台运行的最后一个进程的进程ID号</li>
+<li>$@ 与 $# 相同，但使用时加引号，并在引号中返回参数个数</li>
+<li>$- 显示shell使用的当前选项，与SET命令功能相同</li>
+<li>$? 显示命令最后退出的状态。0表示没有错误，其他任何值表明有错误</li>
+</ol>
+<h3 id="SHELL脚本语法检查"><a href="#SHELL脚本语法检查" class="headerlink" title="SHELL脚本语法检查"></a>SHELL脚本语法检查</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh -n ***.sh</span><br></pre></td></tr></table></figure>
+<p>以上命令可以检查shell脚本中是否存在语法错误，如果没有异常输出证明脚本没有明显的语法问题。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sh -vx ***.sh</span><br></pre></td></tr></table></figure>
+<p>该命令可以看到每行代码的原始命令以及命令执行时的情况，包括运算结果、逻辑判断结果、变量赋值等。</p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="1-查找文件"><a href="#1-查找文件" class="headerlink" title="1.查找文件"></a>1.查找文件</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ find . -name <span class="string">&#x27;name&#x27;</span>     <span class="comment">#默认支持递归查询</span></span><br><span class="line">$ <span class="comment">#查找某个具体日期之后修改过的文件</span></span><br><span class="line">$ find . -newermt “2015-05-10”</span><br><span class="line">$ <span class="comment">#查找某个具体日期之前修改过的文件</span></span><br><span class="line">$ find . ! -newermt “2015-05-10<span class="string">&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-查找文件后执行命令"><a href="#2-查找文件后执行命令" class="headerlink" title="2. 查找文件后执行命令"></a>2. 查找文件后执行命令</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find . -name <span class="string">&#x27;name&#x27;</span> | xargs -n 1 cat</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-比较文件夹"><a href="#3-比较文件夹" class="headerlink" title="3. 比较文件夹"></a>3. 比较文件夹</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ diff -r -x *.bak -c folder1 folder2</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-拷贝文件的时候排除svn文件"><a href="#4-拷贝文件的时候排除svn文件" class="headerlink" title="4. 拷贝文件的时候排除svn文件"></a>4. 拷贝文件的时候排除svn文件</h3><p>copy with tar 技巧：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ tar --exclude=<span class="string">&#x27;.svn&#x27;</span> -c -f - /path/to/sourcedir/* | (<span class="built_in">cd</span> /path/to/destdir ; tar xfp -)</span><br><span class="line">$ <span class="comment"># 比较懒的方法，拷贝后删除 </span></span><br><span class="line">$ find /path/to/destdir -name <span class="string">&#x27;.svn&#x27;</span> -<span class="built_in">exec</span> rm -r &#123;&#125; \;</span><br><span class="line">$ <span class="comment"># svn的导出export功能</span></span><br><span class="line">$ <span class="comment"># 使用rsync方法：</span></span><br><span class="line">$ rsync -r --exclude=.svn /home/user/progname/ /home/user/progname.copy</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-一条循环统计的命令，for-grep-zgrep"><a href="#5-一条循环统计的命令，for-grep-zgrep" class="headerlink" title="5. 一条循环统计的命令，for\grep\zgrep"></a>5. 一条循环统计的命令，for\grep\zgrep</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">for</span>((i=110714;i&lt;110719;i++)); <span class="keyword">do</span> <span class="built_in">echo</span> -e <span class="string">&quot;<span class="variable">$i</span>\t\c&quot;</span> ; zgrep <span class="string">&#x27;systemnotice&#x27;</span> <span class="variable">$i</span>/<span class="variable">$i</span>.t.leju.com_*.cn.gz | wc -l; <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<p>利用循环，分别统计gz文件中含有关键字的记录，同时打印出日期和统计结果<br>使用到了 echo -e 属性，还用到了 zgrep 来查找经过gzip压缩的文件内容。</p>
+<p>扩展用法，利用echo打印三列内容。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">for</span>((i=110804;i&lt;110816;i++)); <span class="keyword">do</span> <span class="built_in">echo</span> -e <span class="string">&quot;<span class="variable">$i</span>\t\c&quot;</span>; <span class="built_in">echo</span> -n `zgrep <span class="string">&#x27;/love/?m=yiqiso&amp;a=showtop HTTP/1.1&#x27;</span>  <span class="variable">$i</span>/<span class="variable">$i</span>.t.leju.com_*.cn.gz | wc -l`;<span class="built_in">echo</span> -e <span class="string">&quot;\t&quot;</span> `zgrep <span class="string">&#x27;/love/?m=yiqiso&amp;a=showtop HTTP/1.1&#x27;</span> <span class="variable">$i</span>/<span class="variable">$i</span>.t.leju.com_*.cn.gz  | awk <span class="string">&#x27;&#123;print $1&#125;&#x27;</span> | awk -F <span class="string">&quot;:&quot;</span> <span class="string">&#x27;&#123;print $2&#125;&#x27;</span> | uniq -c | wc -l`; <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>利用 echo -n 同行打印的功能，将第三行的内容合并到上面一行中<br>第二个统计数字为日志中的独立IP数目，利用uniq -c 来进行统计</p>
+<h3 id="6-修改服务器时间"><a href="#6-修改服务器时间" class="headerlink" title="6. 修改服务器时间"></a>6. 修改服务器时间</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">date 显示当前时间</span><br><span class="line">date -s <span class="string">&quot;2007-08-03 14:15:00&quot;</span> 修改时间</span><br><span class="line">clock -w 把系统时间写入CMOS</span><br><span class="line"></span><br><span class="line">hwclock --<span class="built_in">set</span> --date=<span class="string">&quot;03/19/2013 19:09:00&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-替换文件某行的内容"><a href="#7-替换文件某行的内容" class="headerlink" title="7. 替换文件某行的内容"></a>7. 替换文件某行的内容</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed <span class="string">&#x27;2 s/xxx/bbb/&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="8-查找前缀和后缀符合特定要求的内容，并进行替换"><a href="#8-查找前缀和后缀符合特定要求的内容，并进行替换" class="headerlink" title="8. 查找前缀和后缀符合特定要求的内容，并进行替换"></a>8. 查找前缀和后缀符合特定要求的内容，并进行替换</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1,<span class="variable">$s</span>/^BHME\(\S\)\(\S\)\(\S*\)\(\S\)\(\S\)\.jpg/\/BHME\/Source_pic\/\1\5\/\2\4\/BHME\1\2\3\4\5\.jpg/g   </span><br></pre></td></tr></table></figure>
+
+<h3 id="9-查找文件内容中含有特定字符的文件，并列出文件列表"><a href="#9-查找文件内容中含有特定字符的文件，并列出文件列表" class="headerlink" title="9. 查找文件内容中含有特定字符的文件，并列出文件列表"></a>9. 查找文件内容中含有特定字符的文件，并列出文件列表</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -<span class="built_in">type</span> f  -<span class="built_in">exec</span> grep <span class="string">&#x27;anlian&#x27;</span> -l &#123;&#125; \;</span><br></pre></td></tr></table></figure>
+
+<h3 id="10-查找文件内容并删除保存"><a href="#10-查找文件内容并删除保存" class="headerlink" title="10. 查找文件内容并删除保存"></a>10. 查找文件内容并删除保存</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">&#x27;/aaa/d&#x27;</span>  filename</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="11-查找第五列的内容，并且取部分内容"><a href="#11-查找第五列的内容，并且取部分内容" class="headerlink" title="11. 查找第五列的内容，并且取部分内容"></a>11. 查找第五列的内容，并且取部分内容</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> `awk <span class="string">&#x27;&#123;print gensub(/\/data1\/static\.house\.sina\.com\.cn\/cricfs\//,&quot;&quot;,&quot;g&quot;,$5) &#125;&#x27;</span> /data1/logs/vfslog/received/111122/111122-upload.file.dc.cric.com.log`;<span class="keyword">do</span> `rsync -Rtp <span class="variable">$i</span> 172.16.244.156::upload_file_dc_cric_com_storage/`; <span class="keyword">done</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="12-查找并杀死符合条件的进程"><a href="#12-查找并杀死符合条件的进程" class="headerlink" title="12. 查找并杀死符合条件的进程"></a>12. 查找并杀死符合条件的进程</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">kill</span> -9 `ps -ef | grep php | grep -v grep | awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>`     </span><br><span class="line"><span class="comment"># 这个命令可以杀死一条符合条件的进程</span></span><br><span class="line">$ ps -ef | grep background |awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span> | sed <span class="string">&quot;s/^/kill -9 /g&quot;</span>|sh - </span><br><span class="line"><span class="comment"># 这样就可以杀死多个进程</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="13-批量生成建表语句"><a href="#13-批量生成建表语句" class="headerlink" title="13. 批量生成建表语句"></a>13. 批量生成建表语句</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>((i=0;i&lt;=100;i++)); <span class="keyword">do</span> sed s/<span class="comment">#/$i/ test &gt;&gt; sql; done;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="14-批量修改文件名"><a href="#14-批量修改文件名" class="headerlink" title="14. 批量修改文件名"></a>14. 批量修改文件名</h3><p>Linux有一个很好用的rename命令，格式如下：rename oldpattern newpattern files<br>可惜在Mac下没有原生的命令支持。</p>
+<p>还可以使用脚本的方式，其中用到了sed的替换指令。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> *;<span class="keyword">do</span> OUT=$(<span class="built_in">echo</span> <span class="variable">$i</span> | sed <span class="string">&#x27;s/ *//g&#x27;</span>);mv <span class="string">&quot;<span class="variable">$i</span>&quot;</span> <span class="variable">$OUT</span>;<span class="keyword">done</span>;</span><br></pre></td></tr></table></figure>
+<p>完全使用sed的一个方案，看不太明白</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls | sed -n <span class="string">&#x27;/ /&#123;h;s/ //g;G;s/ /\\ /g;s/\(.*\)\n\(.*\)/mv \2 \1/e&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="15-查看系统的发行版本"><a href="#15-查看系统的发行版本" class="headerlink" title="15. 查看系统的发行版本"></a>15. 查看系统的发行版本</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/issue</span><br><span class="line">cat /etc/redhat-release</span><br></pre></td></tr></table></figure>
+
+<h3 id="16-添加路由"><a href="#16-添加路由" class="headerlink" title="16. 添加路由"></a>16. 添加路由</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">route add -net 10.71.32.0/24 gw 172.16.228.1</span><br><span class="line"></span><br><span class="line">删除路由</span><br><span class="line"></span><br><span class="line">route del -net 0.0.0.0 gw 192.168.56.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="17-SED查找内容并输出"><a href="#17-SED查找内容并输出" class="headerlink" title="17. SED查找内容并输出"></a>17. SED查找内容并输出</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">查询匹配的内容并输出</span><br><span class="line"></span><br><span class="line">sed -n <span class="string">&#x27;/17\/Apr\/2011/,$p&#x27;</span> /data0/bbslog/110423/i.house.sina.com.cn_244192.log  &gt; output_test</span><br></pre></td></tr></table></figure>
+
+<h3 id="18-时间处理"><a href="#18-时间处理" class="headerlink" title="18. 时间处理"></a>18. 时间处理</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看当前时间戳</span></span><br><span class="line">$ date +%s</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看指定时间的时间戳</span></span><br><span class="line">$ date -d 2008-01-01 +%s</span><br><span class="line">$ date -d 20080101 +%s</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将时间戳转换为日期字符串</span></span><br><span class="line">$ date -d <span class="string">&#x27;1970-01-01 UTC 1199116800 seconds&#x27;</span></span><br><span class="line">2008年 01月 01日 星期二 00:00:00 CST</span><br><span class="line">$ <span class="built_in">export</span> LANG=en</span><br><span class="line">$ date -d <span class="string">&#x27;1970-01-01 UTC 1199116800 seconds&#x27;</span></span><br><span class="line">Tue Jan  1 00:00:00 CST 2008</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将时间戳转换为日期格式</span></span><br><span class="line">$ date -j -f <span class="string">&quot;%s&quot;</span> 160336789645 <span class="string">&quot;+%Y-%m-%d %H:%M:%S&quot;</span>    //Mac下有效</span><br><span class="line">$ date -d @1557025194 <span class="string">&quot;+%Y-%m-%d&quot;</span>    //Mac下无效</span><br></pre></td></tr></table></figure>
+
+<h3 id="20-AWK抽取文件内容"><a href="#20-AWK抽取文件内容" class="headerlink" title="20. AWK抽取文件内容"></a>20. AWK抽取文件内容</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 抽取文件的奇数行</span></span><br><span class="line">$ awk <span class="string">&#x27;NR%2&#x27;</span> file</span><br><span class="line"></span><br><span class="line"><span class="comment"># 抽取文件的偶数行</span></span><br><span class="line">$ awk <span class="string">&#x27;NR%2==0&#x27;</span> file</span><br></pre></td></tr></table></figure>
+
+<h3 id="21-文件的压缩与解压缩"><a href="#21-文件的压缩与解压缩" class="headerlink" title="21. 文件的压缩与解压缩"></a>21. 文件的压缩与解压缩</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -czf xxx.tar.gz folders</span><br><span class="line"><span class="comment"># 压缩并打包目录</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="22-文件系统挂载"><a href="#22-文件系统挂载" class="headerlink" title="22. 文件系统挂载"></a>22. 文件系统挂载</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mount 11.155.x.x:/vol/xxx /folder</span><br></pre></td></tr></table></figure>
+
+<h3 id="23-将文件夹下-gz-文件解压为同名文件"><a href="#23-将文件夹下-gz-文件解压为同名文件" class="headerlink" title="23. 将文件夹下 gz 文件解压为同名文件"></a>23. 将文件夹下 gz 文件解压为同名文件</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">for</span> i <span class="keyword">in</span> `ls .`;<span class="keyword">do</span> result=$(<span class="built_in">echo</span> <span class="variable">$i</span> | grep <span class="string">&quot;gz&quot;</span>); <span class="keyword">if</span> [ <span class="variable">$result</span> ]; <span class="keyword">then</span> gunzip -c <span class="variable">$i</span> &gt; <span class="variable">$&#123;i%.*&#125;</span>  ; <span class="keyword">fi</span>; <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<p>文件夹下存在格式为 xxx.log.gz 的文件，遍历文件并解压为 xxx.log。</p>
+<h2 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h2><ol>
+<li><a target="_blank" rel="noopener" href="http://blog.csdn.net/magicpang/article/details/3030089">使用Diff比较两个文件夹</a></li>
+<li><a target="_blank" rel="noopener" href="http://hi.baidu.com/plp_cm/blog/item/d828d1881b05e2faf11f3607.html">Linux Shell For循环总结</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.csdn.net/lllxy/article/details/3423580">echo不换行的实现</a></li>
+<li><a target="_blank" rel="noopener" href="http://hi.baidu.com/cationly/blog/item/398010ef9454f23cacafd5f2.html">Bash for遍历目录</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.osmsg.com/2011/03/batch-change-file-names-under-linux/">Linux下批量修改文件名</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cyberciti.biz/tips/renaming-multiple-files-at-a-shell-prompt.html">Howto：Linux Rename Multiple Files at a shell prompt</a></li>
+<li><a target="_blank" rel="noopener" href="http://lok.me/2011/09/centos-redhat-linux-release/">Centos Linux查看系统发行版本</a></li>
+<li><a target="_blank" rel="noopener" href="http://xok.la/2008/06/linux_date_transfer.html">Linux下时间戳的转换方法</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39591031/article/details/114028113">Shell字符串截取（非常详细）</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/04/12/20210413-linux-firmware-infomation/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Linux下查看CPU等硬件信息
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/04/11/20210411-herman-goldstine/" id="article-nav-older" class="article-nav-link-wrap">
+            赫曼·哥尔斯廷 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

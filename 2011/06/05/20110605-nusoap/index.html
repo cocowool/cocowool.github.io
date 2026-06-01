@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>在Codeigniter框架中使用NuSOAP-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="soap, nusoap, codeignitor nusoap">
+    <meta name="description" content="在Codeigniter框架中使用NuSOAP的方法。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>在Codeigniter框架中使用NuSOAP</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2011-06-05 10:48:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>0、NuSOAP的简介<br><a target="_blank" rel="noopener" href="http://sourceforge.net/projects/nusoap/">NuSOAP</a>是一组功能强大的PHP类，这个工具的发布让使用和创建SOAP消息变得相当简单。 NuSOAP有Dirtrich Ayala编写，可以无缝的与许多最流行的SOAP服务实现交互，它以LGPL协议进行发布。NuSOAP的主要特性包括：</p>
+<blockquote>
+<p>简单：NuSOAP的面向对象方法隐藏了SOAP消息的组装、解析、提交和接收的有关细节，是用户能够集中精力处理自己的业务。<br>WSDL的生成和导入：NoSOAP可以生成一个对应于所发布的Web服务的WSDL文档，并且能导入一个WSDL引用在NuSOAP客户端使用。<br>代理类：NuSOAP可以生成的一个代理类，允许调用远程方法，如同调用本地方法一样。<br>HTTP代理：出于多种原因（安全性和审计是其中两个原因），有些客户端被强制将请求委托给HTTP代理，由代理代表客户端执行请求。也就是说，需要所有SOAP请求都传递给此代理，而不是直接查询服务器。NuSOAP为指定代理服务器提供了基本支持。<br>SSL：如果可以通过PHP使用CURL扩展，NuSOAP还支持通过SSL的安全通信。</p>
+</blockquote>
+<p>1、Nusoap的获取安装</p>
+<p>NuSOAP是一组PHP类，只要从SourceForge下载源码后，放入自己的工程目录引用，就可以使用。当然，NuSOAP库的存放位置可以自由决定，include目录、工程目录或者任何能够访问到的位置。</p>
+<p>2、NuSOAP的使用</p>
+<p>要使用NuSOAP，我觉得需要要对于SOAP有些基础得了解，附录中的参考资料我们可以了解到一些知识，从下面的图片，也可以了解到SOAP在Web服务堆栈中的地位。</p>
+<img src="/2011/06/05/20110605-nusoap/ws-03.gif" class="">
+
+<p>使用SOAP时，有客户端和服务器两种情况。具体的使用比较简单，以至于NuSOAP官方都没有什么文档来说明，也许作者觉得不需要说明吧。下面就结合CodeIgniter框架，来说明NuSOAP的使用。<br>PS：需要说明的一点，NuSOAP不能和PHP的SOAP扩展同时使用，如果你的LAMP环境中安装了SOAP的扩展，那么NuSOAP直接是不能用的，因为类名重复的，如果花些力气把名字改下，也可以使用 :)</p>
+<p>3、CI中使用Nusoap的方法</p>
+<p>CI中调用第三方的类库，如果简单的调用，则非常的简单。一般的做法是将NuSOAP放在application/libraries 下面，然后编写一个引用这些文件的类，如 Nusoap_lib.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>  </span><br><span class="line"><span class="keyword">if</span> ( ! defined(<span class="string">&#x27;BASEPATH&#x27;</span>)) <span class="keyword">exit</span>(<span class="string">&#x27;No direct script access allowed&#x27;</span>);</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Nusoap_lib</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      <span class="variable">$library_path</span> = <span class="string">&#x27;/home/apache/htdocs/libraries/&#x27;</span>;</span><br><span class="line">      <span class="variable">$nusoap</span> = <span class="variable">$library_path</span> . <span class="string">&#x27;nusoap0.9.5/nusoap.php&#x27;</span>;</span><br><span class="line">      <span class="keyword">require_once</span> <span class="variable">$nusoap</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">这样，我们就可以在其他的文件中通过CI常规的加载的方式来调用 NuSOAP 进行使用，比如在一个 Client类中。</span><br><span class="line"></span><br><span class="line">​```php</span><br><span class="line"><span class="keyword">$this</span>-&gt;load-&gt;library(<span class="string">&#x27;Nusoap_lib&#x27;</span>);</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="variable">$api_url</span> = <span class="string">&quot;http://app.x.com/webservicefordiscuz/Service.asmx&quot;</span>; </span><br><span class="line"><span class="keyword">$this</span>-&gt;nusoap_client = <span class="keyword">new</span> SoapClient( <span class="variable">$api_url</span> ); </span><br><span class="line"><span class="keyword">$this</span>-&gt;nusoap_client-&gt;soap_defencoding = <span class="string">&#x27;utf-8&#x27;</span>; </span><br><span class="line"><span class="keyword">$this</span>-&gt;nusoap_client-&gt;decode_utf8 = <span class="literal">false</span>; </span><br><span class="line"><span class="keyword">$this</span>-&gt;nusoap_client-&gt;xml_encoding = <span class="string">&#x27;utf-8&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable">$err</span> = <span class="keyword">$this</span>-&gt;nusoap_client-&gt;getError();</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="variable">$err</span> )&#123; </span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;&lt;h2&gt;Constructor error&lt;/h2&gt;&lt;pre&gt;&#x27;</span> . <span class="variable">$err</span> . <span class="string">&#x27;&lt;/pre&gt;&#x27;</span>; </span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;&lt;h2&gt;Debug&lt;/h2&gt;&lt;pre&gt;&#x27;</span> . htmlspecialchars(<span class="variable">$client</span>-&gt;getDebug(), ENT_QUOTES) . <span class="string">&#x27;&lt;/pre&gt;&#x27;</span>; </span><br><span class="line">    <span class="keyword">exit</span>(); </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>&#123; </span><br><span class="line">    <span class="variable">$result</span> = <span class="keyword">$this</span>-&gt;nusoap_client-&gt;call( </span><br><span class="line">        <span class="string">&#x27;CheckExistUser&#x27;</span>, </span><br><span class="line">        <span class="keyword">array</span>(<span class="string">&#x27;username&#x27;</span> =&gt; <span class="string">&quot;<span class="subst">$username</span>&quot;</span>), </span><br><span class="line">        <span class="string">&#x27;&#x27;</span>, </span><br><span class="line">        <span class="string">&#x27;http://app.x.com/webserviceForDiscuz/CheckExistUser&#x27;</span> </span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    print_r( <span class="variable">$result</span> ); </span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>; </span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;&lt;p&gt;Request:&lt;br /&gt;&#x27;</span>; </span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;&#x27;</span>,htmlspecialchars(<span class="keyword">$this</span>-&gt;nusoap_client-&gt;request,ENT_QUOTES),<span class="string">&#x27;&lt;/pre&gt;&#x27;</span>; </span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;&lt;br /&gt;Response:&lt;br /&gt;&#x27;</span>; </span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;&#x27;</span>,htmlspecialchars(<span class="keyword">$this</span>-&gt;nusoap_client-&gt;response,ENT_QUOTES ),<span class="string">&#x27;&lt;/pre&gt;&lt;/p&gt;&#x27;</span>; </span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>; </span><br><span class="line">    print_r( <span class="keyword">$this</span>-&gt;nusoap_client ); </span><br><span class="line">&#125;<span class="keyword">catch</span>(<span class="built_in">Exception</span> <span class="variable">$e</span>)&#123; </span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$e</span>-&gt;getMessage(); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>事实上，在CI中使用NuSOAP，最大的挑战不在于如何引入。而在于理解并使用NuSOAP，我们照着参考资料1中的例子，一步步也能做出一个SOAP应用，但是却不是十分理解为什么要这样做，以及SOAP的具体通信和实现方式是怎么样的。建议感兴趣的同学可以看看IBM Developer Works中关于SOAP的介绍，相信对于SOAP的理解和今后的使用会有很大帮助。</p>
+<p>下面，是我自己试验的过程中的两个例子，希望对大家有所帮助。</p>
+<p>服务端</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>  <span class="keyword">if</span> ( ! defined(<span class="string">&#x27;BASEPATH&#x27;</span>)) <span class="keyword">exit</span>(<span class="string">&#x27;No direct script access allowed&#x27;</span>); </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Server</span> <span class="keyword">extends</span> <span class="title">Controller</span></span>&#123; </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span>&#123; </span><br><span class="line">        <span class="built_in">parent</span>::__construct(); </span><br><span class="line">        <span class="keyword">$this</span>-&gt;load-&gt;library(<span class="string">&#x27;Nusoap_lib&#x27;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">$this</span>-&gt;nusoap_server = <span class="keyword">new</span> soap_server(); </span><br><span class="line">        <span class="keyword">$this</span>-&gt;nusoap_server-&gt;register( </span><br><span class="line">            <span class="string">&#x27;hello&#x27;</span>, </span><br><span class="line">            <span class="keyword">array</span>( </span><br><span class="line">                <span class="string">&#x27;name&#x27;</span> =&gt; <span class="string">&#x27;xsd:string&#x27;</span> </span><br><span class="line">            ), </span><br><span class="line">            <span class="keyword">array</span>(<span class="string">&#x27;return&#x27;</span>=&gt;<span class="string">&#x27;xsd:string&#x27;</span>), </span><br><span class="line">            <span class="string">&#x27;uri:soap/server&#x27;</span>, </span><br><span class="line">            <span class="string">&#x27;uri:soap/server/hello&#x27;</span>, </span><br><span class="line">            <span class="string">&#x27;rpc&#x27;</span>, </span><br><span class="line">            <span class="string">&#x27;encoded&#x27;</span> </span><br><span class="line">        ); </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">index</span>(<span class="params"></span>)</span>&#123; </span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;uri-&gt;segment(<span class="number">3</span>) == <span class="string">&quot;wsdl&quot;</span>)&#123; </span><br><span class="line">            <span class="variable">$_SERVER</span>[<span class="string">&#x27;QUERY_STRING&#x27;</span>] = <span class="string">&quot;wsdl&quot;</span>; </span><br><span class="line">        &#125;<span class="keyword">else</span>&#123; </span><br><span class="line">            <span class="variable">$_SERVER</span>[<span class="string">&#x27;QUERY_STRING&#x27;</span>] = <span class="string">&quot;&quot;</span>; </span><br><span class="line">        &#125; </span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">hello</span>(<span class="params"><span class="variable">$name</span></span>)</span>&#123; </span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;Hello <span class="subst">$name</span>.&quot;</span>; </span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">$this</span>-&gt;nusoap_server-&gt;service( file_get_contents(<span class="string">&#x27;php://input&#x27;</span>) ); </span><br><span class="line">        <span class="keyword">exit</span>; </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>客户端</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>  <span class="keyword">if</span> ( ! defined(<span class="string">&#x27;BASEPATH&#x27;</span>)) <span class="keyword">exit</span>(<span class="string">&#x27;No direct script access allowed&#x27;</span>); </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Client</span> <span class="keyword">extends</span> <span class="title">Controller</span></span>&#123; </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span>&#123; </span><br><span class="line">        <span class="built_in">parent</span>::__construct(); </span><br><span class="line">        <span class="keyword">$this</span>-&gt;load-&gt;library(<span class="string">&#x27;Nusoap_lib&#x27;</span>); </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">index</span>(<span class="params"></span>)</span>&#123; </span><br><span class="line">        <span class="keyword">$this</span>-&gt;nusoap_client = <span class="keyword">new</span> SoapClient(<span class="string">&#x27;http://mti.x.com/soap/server&#x27;</span>); </span><br><span class="line"><span class="comment">//        $this-&gt;nusoap_client-&gt;soap_defencoding = &#x27;utf-8&#x27;; </span></span><br><span class="line"><span class="comment">//        $this-&gt;nusoap_client-&gt;decode_utf8 = false; </span></span><br><span class="line"><span class="comment">//        $this-&gt;nusoap_client-&gt;xml_encoding = &#x27;utf-8&#x27;;</span></span><br><span class="line"></span><br><span class="line">        <span class="variable">$err</span> = <span class="keyword">$this</span>-&gt;nusoap_client-&gt;getError(); </span><br><span class="line">        <span class="keyword">if</span>( <span class="variable">$err</span> )&#123; </span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&#x27;&lt;p&gt;&lt;b&gt;Constructor error:&#x27;</span> . <span class="variable">$err</span> . <span class="string">&#x27;&lt;/b&gt;&lt;/p&gt;&#x27;</span>; </span><br><span class="line">        &#125; </span><br><span class="line">        <span class="variable">$result</span> = <span class="keyword">$this</span>-&gt;nusoap_client-&gt;call( </span><br><span class="line">            <span class="string">&#x27;hello&#x27;</span>, </span><br><span class="line">            <span class="keyword">array</span>(<span class="string">&#x27;name&#x27;</span>=&gt;<span class="string">&#x27;World&#x27;</span>), </span><br><span class="line">            <span class="string">&#x27;uri:soap/server&#x27;</span>, </span><br><span class="line">            <span class="string">&#x27;uri:soap/server/helo&#x27;</span> );</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>( <span class="keyword">$this</span>-&gt;nusoap_client-&gt;fault )&#123; </span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&#x27;&lt;p&gt;&lt;b&gt;Fault:&#x27;</span>; </span><br><span class="line">            print_r( <span class="variable">$result</span> ); </span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&#x27;&lt;/b&gt;&lt;/p&gt;&#x27;</span>; </span><br><span class="line">        &#125;<span class="keyword">else</span>&#123; </span><br><span class="line">            print_r( <span class="variable">$result</span> ); </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>; </span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;p&gt;Request:&lt;br /&gt;&#x27;</span>; </span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;&#x27;</span>,htmlspecialchars(<span class="keyword">$this</span>-&gt;nusoap_client-&gt;request,ENT_QUOTES),<span class="string">&#x27;&lt;/pre&gt;&#x27;</span>; </span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;br /&gt;Response:&lt;br /&gt;&#x27;</span>; </span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;&#x27;</span>,htmlspecialchars(<span class="keyword">$this</span>-&gt;nusoap_client-&gt;response,ENT_QUOTES ),<span class="string">&#x27;&lt;/pre&gt;&lt;/p&gt;&#x27;</span>; </span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Display the debug messages </span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;h2&gt;Debug&lt;/h2&gt;&#x27;</span>; </span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;&#x27;</span> . htmlspecialchars(<span class="keyword">$this</span>-&gt;nusoap_client-&gt;debug_str, ENT_QUOTES) . <span class="string">&#x27;&lt;/pre&gt;&#x27;</span>; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>4、常见问题</p>
+<p>调试的三个方法：1、使用-&gt;request，-&gt;response查看消息头；2、使用日志查看调试信息；3、使用错误信息捕捉。</p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://codeigniter.com/forums/viewthread/59710/">Nusoap in Code Igniter 1.5.4</a><br>2、<a target="_blank" rel="noopener" href="http://codeigniter.com/wiki/CI_Nusoap_Library">CI Nusoap Library</a><br>3、<a target="_blank" rel="noopener" href="http://www.ibm.com/developerworks/cn/xml/x-sisoap/index.html">浅谈SOAP</a><br>4、<a target="_blank" rel="noopener" href="http://www.ibm.com/developerworks/cn/webservices/ws-wsdl/index.html">WSDL：描述你的Web服务</a><br>5、<a target="_blank" rel="noopener" href="http://www.uh80.com/?p=50">NuSoap的使用</a><br>6、<a target="_blank" rel="noopener" href="http://www.scottnichol.com/nusoapintro.htm">Introduction to NuSOAP</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2011/06/24/20110624-mac-shortcut/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Mac下快捷键的收集整理
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2011/06/01/20110601-compile-imap/" id="article-nav-older" class="article-nav-link-wrap">
+            为PHP编译imap扩展 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>使用Python读取Mp3的标签信息-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="python, id3, python id3">
+    <meta name="description" content="写了一个 Python 脚本可以用来读取 ID3v1 的信息。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>使用Python读取Mp3的标签信息</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2018-06-22 14:39:00</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h3 id="什么是ID3"><a href="#什么是ID3" class="headerlink" title="什么是ID3"></a>什么是ID3</h3><p>MP3是音频文件最流行的格式，它的全称是 MPEG layer III。但是这种格式不支持对于音频内容的描述信息，包括歌曲名称、演唱者、专辑等等。<br>因此在1996年，Eric Kemp在<strong>Studio 3</strong>项目中提出了ID3的解决方案。ID3全称是Identity of MP3，其解决方案是在音频文件末尾附加一串数据，包含关于歌曲的名称、歌手、图片的信息。为了方便检测，数据的长度固定为128bytes。这个版本的解决方案称为 ID3v1。<br>Michael Mutschler 在 1997 对格式进行了微小的调整，压缩了Comment字段，增加了Track信息，这个版本被称为ID3v1.1。<br>1998年，Martin Nilsson &amp; Michael Mutschler牵头，多个贡献者一起发起了ID3v2的工作。这个班的结构和ID3v1完全不同，数据的长度不再固定，位置也从尾部移到了头部，并且引入了Unicode支持。ID3v2的第一个版本是ID3v2.2，2000年发布了ID3v2.4。</p>
+<h3 id="ID3v1"><a href="#ID3v1" class="headerlink" title="ID3v1"></a>ID3v1</h3><p>附着在音频数据之后，长度为128bytes，每个字段最大支持30个字符。</p>
+<img src="/2018/06/22/20180622-python-read-id3v1-tag/39469-20180622143756058-1269044464.png" class="">
+<p>具体的字段信息</p>
+<p>在数据开始之前，总是有三个字符<code>TAG</code>，这样和上面的字段加起来，正好是128bytes。如果Artist字段内容不足30个字符，不足的部分用0填充。</p>
+<h3 id="ID3v2"><a href="#ID3v2" class="headerlink" title="ID3v2"></a>ID3v2</h3><p>ID3v2是加在音频数据前面的一组数据，每项具体的数据称为frame(例如歌曲名称)。可以包含任意类型的数据，每个frame最大支持16MB，整个tag大小最大支持256MB。存储编码支持Unicode，这样就不会产生乱码问题。<br>Tag数据放在音频数据之前还有一个好处，对于流式访问可以首先获得歌曲信息并展现给用户。</p>
+<img src="/2018/06/22/20180622-python-read-id3v1-tag/39469-20180622143813329-1167316642.png" class="">
+<p>列举一些特性：</p>
+<ul>
+<li>The ID3v2 tag is a container format, just like IFF or PNG files, allowing new frames (chunks) as evolution proceeds.</li>
+<li>Residing in the beginning of the audio file makes it suitable for streaming.</li>
+<li>Has an ‘unsynchronization scheme’ to prevent ID3v2-incompatible players to attempt to play the tag.</li>
+<li>Maximum tag size is 256 megabytes and maximum frame size is 16 megabytes.</li>
+<li>Byte conservative and with the capability to compress data it keeps the files small.</li>
+<li>The tag supports Unicode.</li>
+<li>Isn’t entirely focused on musical audio, but also other types of audio.</li>
+<li>Has several new text fields such as composer, conductor, media type, BPM, copyright message, etc. and the possibility to design your own as you see fit.</li>
+<li>Can contain lyrics as well as music-synced lyrics (karaoke) in almost any language.</li>
+<li>Is able to contain volume, balance, equalizer and reverb settings.</li>
+<li>Could be linked to CD-databases such as CDDB and FreeDB.</li>
+<li>Is able to contain images and just about any file you want to include.</li>
+<li>Supports enciphered information, linked information and weblinks.</li>
+</ul>
+<h3 id="使用-Python-读取ID3-信息"><a href="#使用-Python-读取ID3-信息" class="headerlink" title="使用 Python 读取ID3 信息"></a>使用 Python 读取ID3 信息</h3><p>我写了一个 Python 脚本可以用来读取 ID3v1 的信息。实际操作过程中发现两个问题：<br><strong>1、ID3v1的信息没有编码字段，所以有的时候同样的Mp3，在不同的系统环境中播放，会显示乱码。针对这个问题，打算再写一篇文章说一下如何探测编码。</strong><br><strong>2、iTunes应该是优先使用ID3v2的信息</strong><br>我把脚本放到了 github 上，感兴趣的同学可以通过<a target="_blank" rel="noopener" href="https://github.com/cocowool/py-id3">https://github.com/cocowool/py-id3</a>查看。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Read ID3v1 tag information</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> chardet</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span>(<span class="params">fileObj, version = <span class="string">&#x27;v1&#x27;</span></span>):</span></span><br><span class="line">fileObj.seek(<span class="number">0</span>,<span class="number">2</span>)</span><br><span class="line"><span class="comment"># ID3v1&#x27;s max length is 128 bytes</span></span><br><span class="line"><span class="keyword">if</span>(fileObj.tell() &lt; <span class="number">128</span>):</span><br><span class="line"><span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">fileObj.seek(-<span class="number">128</span>,<span class="number">2</span>)</span><br><span class="line">tag_data = fileObj.read()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(tag_data[<span class="number">0</span>:<span class="number">3</span>] != <span class="string">b&#x27;TAG&#x27;</span>):</span><br><span class="line"><span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"><span class="keyword">return</span> getTag(tag_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Detect the encoding and decode</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decodeData</span>(<span class="params">bin_seq</span>):</span></span><br><span class="line"><span class="comment"># print(bin_seq)</span></span><br><span class="line">result = chardet.detect(bin_seq)</span><br><span class="line"><span class="comment"># print(result)</span></span><br><span class="line"><span class="keyword">if</span>(result[<span class="string">&#x27;confidence&#x27;</span>] &gt; <span class="number">0</span>):</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line"><span class="keyword">return</span> bin_seq.decode(result[<span class="string">&#x27;encoding&#x27;</span>])</span><br><span class="line"><span class="keyword">except</span> UnicodeDecodeError:</span><br><span class="line"><span class="keyword">return</span> <span class="string">&#x27;Decode Failed&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Get ID3v1 tag data</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getTag</span>(<span class="params">tag_data</span>):</span></span><br><span class="line"><span class="comment"># STRIP_CHARS = compat.b(string.whitespace) + b&quot;\x00&quot;</span></span><br><span class="line">STRIP_CHARS = <span class="string">b&quot;\x00&quot;</span></span><br><span class="line"></span><br><span class="line">tags = &#123;&#125;</span><br><span class="line">tags[<span class="string">&#x27;title&#x27;</span>] = tag_data[<span class="number">3</span>:<span class="number">33</span>].strip(STRIP_CHARS)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(tags[<span class="string">&#x27;title&#x27;</span>]):</span><br><span class="line">tags[<span class="string">&#x27;title&#x27;</span>] = decodeData(tags[<span class="string">&#x27;title&#x27;</span>])</span><br><span class="line"></span><br><span class="line">tags[<span class="string">&#x27;artist&#x27;</span>] = tag_data[<span class="number">33</span>:<span class="number">63</span>].strip(STRIP_CHARS)</span><br><span class="line"><span class="keyword">if</span>(tags[<span class="string">&#x27;artist&#x27;</span>]):</span><br><span class="line">tags[<span class="string">&#x27;artist&#x27;</span>] = decodeData(tags[<span class="string">&#x27;artist&#x27;</span>])</span><br><span class="line"></span><br><span class="line">tags[<span class="string">&#x27;album&#x27;</span>] = tag_data[<span class="number">63</span>:<span class="number">93</span>].strip(STRIP_CHARS)</span><br><span class="line"><span class="keyword">if</span>(tags[<span class="string">&#x27;album&#x27;</span>]):</span><br><span class="line">tags[<span class="string">&#x27;album&#x27;</span>] = decodeData(tags[<span class="string">&#x27;album&#x27;</span>])</span><br><span class="line"></span><br><span class="line">tags[<span class="string">&#x27;year&#x27;</span>] = tag_data[<span class="number">93</span>:<span class="number">97</span>].strip(STRIP_CHARS)</span><br><span class="line"><span class="comment"># if(tags[&#x27;year&#x27;]):</span></span><br><span class="line"><span class="comment"># tags[&#x27;year&#x27;] = decodeData(tags[&#x27;year&#x27;])</span></span><br><span class="line"></span><br><span class="line">tags[<span class="string">&#x27;comment&#x27;</span>] = tag_data[<span class="number">97</span>:<span class="number">127</span>].strip(STRIP_CHARS)</span><br><span class="line"><span class="comment">#@TODO Need to analyze comment to verfiy v1 or v1.1</span></span><br><span class="line"><span class="keyword">if</span>(tags[<span class="string">&#x27;comment&#x27;</span>]):</span><br><span class="line">tags[<span class="string">&#x27;comment&#x27;</span>] = decodeData(tags[<span class="string">&#x27;comment&#x27;</span>])</span><br><span class="line"></span><br><span class="line">tags[<span class="string">&#x27;genre&#x27;</span>] = <span class="built_in">ord</span>(tag_data[<span class="number">127</span>:<span class="number">128</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> tags</span><br><span class="line"></span><br><span class="line"><span class="comment"># Set ID3v1 tag data</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">setTag</span>():</span></span><br><span class="line"><span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<p><strong>本文为作者原创，如果您觉得本文对您有帮助，请随意打赏，您的支持将鼓励我继续创作。</strong></p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://id3.org/Home">ID3.org</a><br>2、<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/ID3">Wiki ID3</a><br>3、<a target="_blank" rel="noopener" href="http://www.runoob.com/python/python-func-open.html">Python open() 函数</a><br>4、<a target="_blank" rel="noopener" href="https://www.cnblogs.com/pcode/archive/2013/04/01/2992690.html">使用Python读取和写入mp3文件的id3v1信息</a><br>5、<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/0014318447437605e90206e261744c08630a836851f5183000">Python 模块</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/06/27/20180627-make-your-own-base-docker-image/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 创建自己的Docker基础镜像
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/06/20/20180620-docker-overview/" id="article-nav-older" class="article-nav-link-wrap">
+            Docker 入门介绍 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

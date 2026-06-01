@@ -1,0 +1,184 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>如何用 Java 实现 HTTP 请求的解析-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="Java, HTTP 解析, Java Proxy, Java HTTP 代理, HTTP Proxy">
+    <meta name="description" content="最近在用 Java 实现一个简单的HTTP代理服务器，过程中发现Java世界提供的标准HTTP解析库真是太少了，国外同行也有一个吐槽的，将其文章编辑整合发布与大家探讨。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>如何用 Java 实现 HTTP 请求的解析</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2025-01-24 08:48:16</span>
+        
+        <span class="post-time">发布于：2025-01-22 17:20:02</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>最近想自己实现一个 HTTP 代理服务器，查阅资料和编写过程中，发现 Java 对比 Python，不太容易找到成熟的 HTTP 请求处理包。不要说 Netty、Jetty 这些，只是想单纯的能够处理原始的 HTTP 请求，解析出里面的 Host、Request URI、Header、Cookie 等信息。正好看到有位外国朋友也做了类似的探索，将他的文章翻译转载到此处，原文可以看 <a target="_blank" rel="noopener" href="https://stevenyue.com/blogs/http-message-parsing-in-java-web-servers/">Http Message Parsing in Java Web Servers</a>。</p>
+<p>解析来自客户端的请求消息是构建 Web 服务器的开始。 典型请求可能如下所示：GET</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET /steventen HTTP/1.1\r\n</span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>github.com</span><br><span class="line"><span class="attribute">Accept-Language</span><span class="punctuation">: </span>en-us</span><br><span class="line"><span class="attribute">Accept</span><span class="punctuation">: </span>text/json</span><br><span class="line"><span class="attribute">User-Agent</span><span class="punctuation">: </span>curl/7.16.3</span><br><span class="line"><span class="attribute">Cookie</span><span class="punctuation">: </span>a=123; b=456;\r\n\r\n</span><br></pre></td></tr></table></figure>
+
+<p>HTTP 请求的语法和内容遵循 <a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc7230">RFC 7230</a> 和 <a target="_blank" rel="noopener" href="https://www.rfc-editor.org/rfc/rfc7231">RFC 7231</a> 两个规范。当 Web 服务器收到消息时，它需要解析或解码其中的信息（路径、标头等），然后再启动接下来的过程，如路由、代理、身份验证等。</p>
+<p>我花了一些时间寻找可以解析上述原始 HTTP 的标准 Java 库，希望支持将请求消息从字节或字符串到 Java 对象中，方便我编写程序访问 Header、Cookie 等信息。 我以为这是一个很常用的功能，以至于必须有一个标准库。 相反，在阅读了大多数用 Java 编写的流行的 Web 服务器库（如 Tomcat、Jetty、Netty 、Undertow 等）的源代码后，我发现每个人都实现了一个 HTTP 解析器。此外，当我查看每个实现时，我发现它们都不能作为独立使用。 每个库都需要除原始 HTTP 消息本身之外的其他参数。</p>
+<p>以下部分展示了 HTTP 消息配对/解码在那些用 Java 编写的 Web 服务器库中的样子。 并描述了如何“使用”每个库中的 Http 解析器。</p>
+<h2 id="Jetty"><a href="#Jetty" class="headerlink" title="Jetty"></a>Jetty</h2><p>在 Jetty 中，HttpParser 负责处理 HTTP 消息解析。然而，它需要一个 HttpHandler，具体示例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ByteBuffer buffer = BufferUtil.toBuffer(</span><br><span class="line">            <span class="string">&quot;GET / HTTP/1.1\r\n&quot;</span> +</span><br><span class="line">                <span class="string">&quot;Host: localhost\r\n&quot;</span> +</span><br><span class="line">                <span class="string">&quot;Name: value\r\n\r\n&quot;</span>);</span><br><span class="line">HttpParser.RequestHandler handler = <span class="keyword">new</span> Handler();</span><br><span class="line">HttpParser parser = <span class="keyword">new</span> HttpParser(handler);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Undertow"><a href="#Undertow" class="headerlink" title="Undertow"></a>Undertow</h2><p>主要的处理逻辑在 HttpRequestParser 中，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">byte</span>[] in = <span class="string">&quot;GET /somepath%2fotherPath HTTP/1.1\r\n\r\n&quot;</span>.getBytes();</span><br><span class="line"><span class="keyword">final</span> ParseState context = <span class="keyword">new</span> ParseState(<span class="number">10</span>);</span><br><span class="line">HttpServerExchange result = <span class="keyword">new</span> HttpServerExchange(<span class="keyword">null</span>);</span><br><span class="line">HttpRequestParser.instance(OptionMap.create(UndertowOptions.ALLOW_ENCODED_SLASH, <span class="keyword">true</span>)).handle(ByteBuffer.wrap(in), context, result);</span><br><span class="line"><span class="comment">// get method</span></span><br><span class="line">result.getRequestMethod()</span><br><span class="line"><span class="comment">// get path</span></span><br><span class="line">result.getRequestPath()</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，解析时必须依赖 ParseState 类。</p>
+<h2 id="Netty"><a href="#Netty" class="headerlink" title="Netty"></a>Netty</h2><p>Netty 的主要实现代码在 HttpRequestDecoder 中，示例代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">String crlf = <span class="string">&quot;\r\n&quot;</span>;</span><br><span class="line">String request =  <span class="string">&quot;GET https://github.com/steventen HTTP/1.1&quot;</span> + crlf +</span><br><span class="line">    <span class="string">&quot;Host: github.com&quot;</span> + crlf +</span><br><span class="line">    <span class="string">&quot;Accept-Language: en-us&quot;</span> + crlf +</span><br><span class="line">    <span class="string">&quot;Accept: text/json&quot;</span> + crlf +</span><br><span class="line">    <span class="string">&quot;Accept-Encoding: gzip, deflate, br&quot;</span> + crlf +</span><br><span class="line">    <span class="string">&quot;Cookie: a=123; b=456;c=wfhhnchauhd&quot;</span></span><br><span class="line">    + crlf + crlf;</span><br><span class="line"></span><br><span class="line">EmbeddedChannel channel = <span class="keyword">new</span> EmbeddedChannel(<span class="keyword">new</span> HttpRequestDecoder());</span><br><span class="line">channel.writeInbound(Unpooled.copiedBuffer(request, CharsetUtil.US_ASCII));</span><br><span class="line">HttpRequest req = channel.readInbound();</span><br><span class="line">req.headers();</span><br><span class="line">req.method();</span><br><span class="line">req.uri();</span><br><span class="line">Set&lt;Cookie&gt; cookies = ServerCookieDecoder.LAX.decode(req.headers().get(<span class="string">&quot;Cookie&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<p>比起其他两个来，可以在工程中引用 Netty 的 EmbeddedChannel 实现解析，但是需要注意性能问题。</p>
+<h2 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h2><p>这一唯一一个无法通过阅读源码来了解其工作原理的库。</p>
+<h2 id="我的实现"><a href="#我的实现" class="headerlink" title="我的实现"></a>我的实现</h2><p>总结下来，发现 Java 世界中确实没有一个比较轻量的 HTTP 解析器。作者的这篇文章发表于 2021年，而且是他对国外技术栈考察的结果。</p>
+<p>在这段时间，结合使用搜索工具与豆包等AI工具，我整理了一段代码，可以实现监听8080端口，并将HTTP GET请求转发到后端服务器，获取服务器响应后发送给客户端。</p>
+<p>实现了基本的HTTP头解析逻辑，支持提取Host、URI、Port信息，欢迎大家阅提意见。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.net.*;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * 2024-11-14 对于telnet发起的简单http请求能够正常返回，不支持 postman 请求</span></span><br><span class="line"><span class="comment"> * 2024-11-22 已支持 Postman 发 http 请求，不能正常响应重复请求</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@TODO</span> 后续考虑使用 HttpClient 库 / 或者使用 Netty </span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * 问题：</span></span><br><span class="line"><span class="comment"> * 1. 不能持续响应一个客户端的连续请求</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HttpProxyServer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> THREAD_POOL_SIZE = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> port = <span class="number">8080</span>; <span class="comment">// HTTP代理端口</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// @TODO 解析用户自定义的端口参数</span></span><br><span class="line">        <span class="keyword">try</span> ( ServerSocket serverSocket = <span class="keyword">new</span> ServerSocket(port) ) &#123;</span><br><span class="line">            <span class="comment">//设置服务端与客户端连接未活动超时时间</span></span><br><span class="line">            serverSocket.setSoTimeout(<span class="number">1000</span> * <span class="number">60</span>);</span><br><span class="line">            System.out.println(<span class="string">&quot;Http Proxy Server listen at: &quot;</span> + port);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">byte</span>[] Request = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">            <span class="keyword">byte</span>[] Reply = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4096</span>];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                Socket proxySocket = <span class="keyword">null</span>;</span><br><span class="line">                Socket socket_client = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    socket_client = serverSocket.accept();</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">final</span> InputStream InputStreamClient = socket_client.getInputStream();</span><br><span class="line">                    <span class="keyword">final</span> OutputStream OutputStreamClient = socket_client.getOutputStream();</span><br><span class="line"></span><br><span class="line">                    String requestHost = <span class="keyword">null</span>;</span><br><span class="line">                    <span class="keyword">int</span> requestPort = <span class="number">80</span>;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="comment">//@ 在这里要判断用户发送的请求地址和端口，建立 Socket 链接</span></span><br><span class="line">                        BufferedReader client_reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(InputStreamClient));</span><br><span class="line">                        String remoteRequest = <span class="string">&quot;&quot;</span>;</span><br><span class="line">                        String requestLine = client_reader.readLine();</span><br><span class="line">                        <span class="comment">// remoteRequest = &quot;&quot;;</span></span><br><span class="line">                        <span class="keyword">if</span>( requestLine != <span class="keyword">null</span>)&#123;</span><br><span class="line">                            String[] parts = requestLine.split(<span class="string">&quot; &quot;</span>);</span><br><span class="line">                            <span class="keyword">if</span> (parts.length &gt;= <span class="number">3</span>) &#123;</span><br><span class="line">                                String requestMethod = parts[<span class="number">0</span>];</span><br><span class="line">                                String requestPath = parts[<span class="number">1</span>];</span><br><span class="line">                                String requestProtocol = parts[<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">                                <span class="keyword">if</span> (requestPath.startsWith(<span class="string">&quot;http://&quot;</span>))&#123;</span><br><span class="line">                                    requestPath = requestPath.substring(<span class="number">7</span>);</span><br><span class="line">                                &#125;<span class="keyword">else</span> <span class="keyword">if</span>( requestPath.startsWith(<span class="string">&quot;https://&quot;</span>))&#123;</span><br><span class="line">                                    requestPath = requestPath.substring(<span class="number">8</span>);</span><br><span class="line">                                &#125;</span><br><span class="line">                                <span class="keyword">int</span> pathIndex = requestPath.indexOf(<span class="string">&#x27;/&#x27;</span>);</span><br><span class="line">                                <span class="keyword">if</span>(pathIndex != -<span class="number">1</span>)&#123;</span><br><span class="line">                                    requestPath = requestPath.substring(pathIndex);</span><br><span class="line">                                &#125;</span><br><span class="line">                                System.out.println(<span class="string">&quot;Request path : &quot;</span> + requestPath);</span><br><span class="line">                                remoteRequest = requestMethod + <span class="string">&quot; &quot;</span> + requestPath + <span class="string">&quot; &quot;</span> + requestProtocol + <span class="string">&quot;\r\n&quot;</span>;</span><br><span class="line"></span><br><span class="line">                                String line;</span><br><span class="line">                                <span class="keyword">while</span>((line = client_reader.readLine()) != <span class="keyword">null</span> &amp;&amp; !line.isEmpty())&#123;</span><br><span class="line">                                    <span class="keyword">if</span>(line.startsWith(<span class="string">&quot;Host: &quot;</span>))&#123;</span><br><span class="line">                                        String[] hostParts = line.substring(<span class="number">6</span>).split(<span class="string">&quot;:&quot;</span>);</span><br><span class="line">                                        requestHost = hostParts[<span class="number">0</span>];</span><br><span class="line">                                        <span class="keyword">if</span>(hostParts.length &gt; <span class="number">1</span>)&#123;</span><br><span class="line">                                            requestPort = Integer.parseInt(hostParts[<span class="number">1</span>]);</span><br><span class="line">                                        &#125;</span><br><span class="line">                                    &#125;</span><br><span class="line">                                    remoteRequest += line + <span class="string">&quot;\r\n&quot;</span>;</span><br><span class="line">                                &#125;</span><br><span class="line"></span><br><span class="line">                                <span class="comment">// 输出提取的信息</span></span><br><span class="line">                                System.out.println(<span class="string">&quot;Method: &quot;</span> + requestMethod);</span><br><span class="line">                                System.out.println(<span class="string">&quot;Path: &quot;</span> + requestPath);</span><br><span class="line">                                System.out.println(<span class="string">&quot;Protocol: &quot;</span> + requestProtocol);</span><br><span class="line">                                System.out.println(<span class="string">&quot;Host: &quot;</span> + requestHost);</span><br><span class="line">                                System.out.println(<span class="string">&quot;Port: &quot;</span> + requestPort);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        remoteRequest += <span class="string">&quot;\r\n&quot;</span>;</span><br><span class="line">                        System.out.println(<span class="string">&quot;Send Request to Remote Server:&quot;</span>);</span><br><span class="line">                        System.out.println(remoteRequest);</span><br><span class="line"></span><br><span class="line">                        <span class="comment">// 先手工写死请求的远端地址，实际需要从用户请求中解析出来</span></span><br><span class="line">                        <span class="keyword">if</span>( requestHost == <span class="keyword">null</span>)&#123;</span><br><span class="line">                            requestHost = <span class="string">&quot;www.edulinks.cn&quot;</span>;</span><br><span class="line">                            requestPort = <span class="number">80</span>;    </span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        proxySocket = <span class="keyword">new</span> Socket(requestHost, requestPort);</span><br><span class="line">                        <span class="keyword">final</span> InputStream prxoyInputStream = proxySocket.getInputStream();</span><br><span class="line">                        <span class="keyword">final</span> OutputStream proxyOutputStream = proxySocket.getOutputStream();</span><br><span class="line"></span><br><span class="line">                        proxyOutputStream.write(remoteRequest.getBytes());</span><br><span class="line">                        proxyOutputStream.flush();</span><br><span class="line"></span><br><span class="line">                        <span class="comment">// proxySocket.shutdownOutput();</span></span><br><span class="line"></span><br><span class="line">                        <span class="keyword">int</span> Bytes_Read;</span><br><span class="line">                        <span class="keyword">try</span> &#123;    </span><br><span class="line">                            <span class="keyword">while</span> ( (Bytes_Read = prxoyInputStream.read(Reply))!= -<span class="number">1</span>)&#123;</span><br><span class="line">                                System.out.println(Reply);</span><br><span class="line">                                OutputStreamClient.write(Reply, <span class="number">0</span>, Bytes_Read);</span><br><span class="line">                                OutputStreamClient.flush();</span><br><span class="line">                            &#125;</span><br><span class="line">    </span><br><span class="line">                        &#125;<span class="keyword">catch</span>(IOException e)&#123;</span><br><span class="line">                            System.out.println(<span class="string">&quot;Get response Error !&quot;</span>);</span><br><span class="line">                            System.out.println(e);</span><br><span class="line">                            e.printStackTrace();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;<span class="keyword">catch</span>(IOException e)&#123;</span><br><span class="line">                        System.out.println(<span class="string">&quot;Send request Error !&quot;</span>);</span><br><span class="line">                        System.out.println(e);</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    OutputStreamClient.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    System.out.println(<span class="string">&quot;Proxy can not get response. &quot;</span>);</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://stevenyue.com/blogs/http-message-parsing-in-java-web-servers/">Http Message Parsing in Java Web Servers</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2025/02/07/20250207-james-wilkinson/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 詹姆斯·威尔金森
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2025/01/15/20250115-charles-bachman/" id="article-nav-older" class="article-nav-link-wrap">
+            查尔斯·巴赫曼 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

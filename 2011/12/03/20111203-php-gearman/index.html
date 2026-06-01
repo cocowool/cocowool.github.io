@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gearman的问题分析与深入研究-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="gearman, gearman php">
+    <meta name="description" content="Gearman是基于PHP开发的一款分布式解决方案。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Gearman的问题分析与深入研究</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2011-12-03 14:35:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>Gearman作为一个优秀的分布式解决方案，已经被众多的公司或者团队所采用，我在之前的<a target="_blank" rel="noopener" href="http://www.cnblogs.com/cocowool/archive/2011/08/18/2145144.html">一篇文章</a>中也有过介绍。但是目前对于woker的执行状态和结果监控，特别是放入后台的worker的监控，官方还没有完善的解决方法。最近，为团队内部做了一次分享，我也得以深入的研究了 Gearmand。</p>
+<p><strong>Gearman的主要作用：</strong><br>1、Dispatch 任务调度（无负载调度）<br>2、Interface 多应用语言间接口<br>3、Parallel 并行计算</p>
+<p><strong>Gearmand的安装</strong></p>
+<p>Gearmand 的安装有多种方式，在 Ubuntu 和 Debian 的系统中已经提供了<a target="_blank" rel="noopener" href="http://gearman.org/index.php?id=getting_started">在线安装的方法</a>。编译安装的过程也比较简单：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tar xzf gearmand-X.Y.tar.gz</span><br><span class="line">cd gearmand-X.Y</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<p>安装需要系统提供了 libevent，如果没有编译就会报错。编译安装完成后的提示如下：</p>
+<img src="/2011/12/03/20111203-php-gearman/111.png" class="">
+
+<p>其中 libsqlite3、lbdrizzle、libmemcached、libpq、tokyocabinet的支持都是对于持久化来说的，如果需要要确保系统中安装了这些数据库。</p>
+<p>安装完成后，gearmand 提供了以下这些配置参数</p>
+<img src="/2011/12/03/20111203-php-gearman/222.jpg" class="">
+
+<p><strong>性能的问题：</strong></p>
+<p>gearmand 中使用到了多线程模型，其线程分为三种：</p>
+<p>Listening and management thread 监听和管理线程 － 只有一个：主要负责接受连接请求，并分配给I/O线程<br>I/O Thread I/O 线程 － 可以有很多个：主要负责读写系统调用，解析数据包<br>Processing Thread 处理线程  － 只有一个：负责管理列表和Hash表，管理唯一Key、任务的Handle、函数、任务队列</p>
+<p>刚才在  gearmand 的参数中看到，-t 可以指定I/O线程的数量。如果 没有指定 t 或者 t = 0，则三个线程合为一个，所有的事情都在一个线程中处理。如果 -t 1 则有一个监听和管理线程、一个I/O和处理线程；如果 -t 2 则每个类别一个线程，如果大于2，则创建更多的I/O线程。</p>
+<p>官方提到，a 16 core Intel machine is able to process upwards of 50k jobs per second。</p>
+<p><strong>使用中应当关注的几个问题</strong>：</p>
+<p>1、Job Server 的单点问题。</p>
+<p>实际上 Job Server 是存在单点问题的，我们只能通过增加冗余 Job Server 的方式来解决这个问题。就如官方的图例所示，下图：</p>
+<img src="/2011/12/03/20111203-php-gearman/333.jpg" class="">
+
+<p>我们可以通过配置域名、多个服务器配置列表等方法，在遇到其中一个 Job Server 失败时，将 Client 的请求转向另外的 Job Server。这种情况下，Job Server 中原来存在的任务会发生丢失，除非使用了数据库或其他类似的持久化方法。</p>
+<p>2、Job Server 重启后，Worker会自动重新注册。</p>
+<p>通过 gearmand -vvvvvvv  分析发现，如果 gearmand 关闭并重新启动后，原来的 worker 会马上与 Job Server 建立连接，并询问是否有任务。</p>
+<img src="/2011/12/03/20111203-php-gearman/444.jpg" class="">
+
+<p>3、使用持久队列避免任务的丢失</p>
+<p>因为 Gearmand 的队列是放在内存中的，所以宕机或重启事件会导致队列的丢失。为了避免这种情况，可以使用持久队列，将队列存储在一个相对中立的位置。注意，持久队列只对于后台任务有效。</p>
+<p>4、Gearman Worker 的无缝重启</p>
+<p>我在实现Worker的过程中，采用了PHP脚本，脚本调用外部的配置文件。如果外部的配置文件修改后，需要重新启动脚本才能够使配置文件中修改的变量生效，所以想要坐到无缝的重启。即脚本Stop、Start的过程不会影响正在进行的业务。</p>
+<p>对于无缝重启的问题，我总结了如下几个思路进行处理，解决的方法：</p>
+<p>1、每次修改完代码后，Worker需要手工重启（先杀死然后启动）。<br>2、在Worker中设置，单次任务循环完成后，就对Worker进行重启。<br>3、在Worker中添加一个退出函数，如果需要Worker退出的时候，在Client端发送一个优先级比较高的退出调用。<br>4、在Worker中检查文件是否发生变化，如果发生了变化，退出并重启自身。<br>5、为Worker编写信号控制，接受重启指令，类似于 http restart graceful 指令</p>
+<p>另外，也可以使用 supervisord 。这个工具暂时还没有了解，有兴趣的朋友可以分享一下。</p>
+<p>下面是我在部门内部分享时制作的PPT</p>
+<p>**<a target="_blank" rel="noopener" href="http://www.slideshare.net/Wonwang/gearman-introduction-10452050">Gearman Introduction</a>**View more<a target="_blank" rel="noopener" href="http://www.slideshare.net/">presentations</a>from<a target="_blank" rel="noopener" href="http://www.slideshare.net/Wonwang">Wonwang</a>.</p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://william.shallum.net/random-notes/usingmemcachetogetresultsfromagearmanbackgroundjob">Using memcache to get results from a gearman background job</a><br>2、<a target="_blank" rel="noopener" href="http://gearman.org/">Gearman</a><br>3、<a target="_blank" rel="noopener" href="http://groups.google.com/group/gearman/msg/5314505c52e92b74?dmode=source">PHP Worker Script Automatically Restart On Crash/Exit</a><br>4、<a target="_blank" rel="noopener" href="http://www.supervisord.org/">http://www.supervisord.org</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2011/12/04/20111204-php-daemon/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 使用PHP脚本来写Daemon程序
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2011/11/14/20111114-gunpgp-mail/" id="article-nav-older" class="article-nav-link-wrap">
+            如何使用GunPGP加密Apple Mail的邮件 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Oracle学习笔记-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="oracle">
+    <meta name="description" content="Oracle学习笔记材料整理。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Oracle学习笔记</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-06-19 18:02:36</span>
+        
+        <span class="post-time">发布于：2012-09-29 17:31:02</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <blockquote>
+<p>这是2012年刚进入银行IT系统工作时整理的Oracle学习笔记，时光划过了将近10年，Oracle在使用率上仍占有很大的比重，不过Mysql、国产数据库也开始逐步引入了。</p>
+<p>重新整理记录于2021年6月19日</p>
+</blockquote>
+<h2 id="Oracle数据库的历史"><a href="#Oracle数据库的历史" class="headerlink" title="Oracle数据库的历史"></a>Oracle数据库的历史</h2><p>Oracle 10g发布于2004年，第一个版本是10.2.0.1。目前最新的Oracle版本是 Oracle 11g。</p>
+<h2 id="Oracle-产品家族"><a href="#Oracle-产品家族" class="headerlink" title="Oracle 产品家族"></a>Oracle 产品家族</h2><p>Oracle 10g发行有五个版本：Enterprise、Standard、Standard Edition One、Personal、Lite。</p>
+<h2 id="Oracle架构"><a href="#Oracle架构" class="headerlink" title="Oracle架构"></a>Oracle架构</h2><p>Oracle的架构可以总结为下面三点：</p>
+<ul>
+<li>用户相关的进程，User-related processes；</li>
+<li>Oracle 实例（Oracle Instance）所使用的逻辑内存结构；</li>
+<li>物理文件结构，我们称之为 database；</li>
+</ul>
+<img src="/2012/09/29/20120929-oracle-notes/NSFileHandle.png" class="" title="NSFileHandle">
+
+<h3 id="用户进程与服务进程"><a href="#用户进程与服务进程" class="headerlink" title="用户进程与服务进程"></a>用户进程与服务进程</h3><p>用户想要连接Oracle数据库，必须通过User Process才能连接。User Process可以存在于客户端或者中间层上，对应User Process连接请求的是Server Process。用户进程与服务器进程建立连接（Connection）后，服务器上会有一个专门的Server Process来响应用户的请求。连接建立后，用户就创建了一个 Session。同时，会在内存区域创建一个PGA（Program Global Area）区域，存储一些用户相关的会话变量和信息。具体的结构如下图所示。</p>
+<img src="/2012/09/29/20120929-oracle-notes/NSFileHandle-4095472.png" class="" title="NSFileHandle">
+
+<h3 id="Oracle-Instance"><a href="#Oracle-Instance" class="headerlink" title="Oracle Instance"></a>Oracle Instance</h3><p>Oracle Instance由SGA以及一些后台进程组成。SGA是Oracle的主要内存结构，全称为System Global Area。</p>
+<h3 id="物理文件结构"><a href="#物理文件结构" class="headerlink" title="物理文件结构"></a>物理文件结构</h3><p>Oracle中的MetaData以及数据字典视图（Data Dictionary View）：除了用户的数据表之外，Oracle中包含了大量的系统表，这些表的名字多数为OBJ$、FILE$、X$KSMSP等难以记忆的名字。为了便于使用，Oracle中还包含很多视图，具体信息如下：</p>
+<p>动态的性能视图，与Oracle安装的特性有关系，包括：V$DATABASE、V$VERSION、V$OPTION、V$SQL、V$SGA、V$SGA_DYNAMIC_COMPONENTS。</p>
+<p>Oracle中Segment的类型：</p>
+<img src="/2012/09/29/20120929-oracle-notes/NSFileHandle-4095560.png" class="" title="NSFileHandle">
+
+<p>Oracle中Segment、Extent、Blocks和System Blocks之间的关系。</p>
+<img src="/2012/09/29/20120929-oracle-notes/NSFileHandle-4095575.png" class="" title="NSFileHandle">
+
+<h2 id="PL-SQL"><a href="#PL-SQL" class="headerlink" title="PL/SQL"></a>PL/SQL</h2><p>PL/SQL是Oracle Procedural Language for SQL的缩写，是Oracle提供的一个SQL的变种，针对SQL的缺点，提供了循环、判断等众多的功能。</p>
+<img src="/2012/09/29/20120929-oracle-notes/NSFileHandle-4095623.png" class="" title="NSFileHandle">
+
+<h2 id="表空间及数据文件管理"><a href="#表空间及数据文件管理" class="headerlink" title="表空间及数据文件管理"></a>表空间及数据文件管理</h2><h3 id="查看表空间信息"><a href="#查看表空间信息" class="headerlink" title="查看表空间信息"></a>查看表空间信息</h3><p>我们可以通过 DBA_TABLESPACES、DBA_DATA_FILES、DBA_TEMP_FILES、V$TABLESPACE几个视图查看数据库的表空间。</p>
+<h3 id="表空间的管理"><a href="#表空间的管理" class="headerlink" title="表空间的管理"></a>表空间的管理</h3><p>索引（Indexes）、约束（Constrains）、触发器（Triggers）和Tables使用不同的命名空间，Tables和Views、Sequences、functions等共用命名空间。在同一个命名空间下，名字不能够重复。</p>
+<p>1、新建表空间</p>
+<p>2、移除表空间</p>
+<p>3、修改表空间</p>
+<p>使用 ALTER TABLESPACE 命令来修改表空间的属性，可以进行包括： 修改表空间名称、向表空间中增加数据文件、下线一个表空间、改变表空间的读写状态等。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span>SPACE  xxx  RENAME <span class="keyword">TO</span> yyy;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span>SPACE xxx OFFLINE;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span>SPACE xxx READ <span class="keyword">ONLY</span>;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span>SPACE xxx READ WRITE;</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据文件管理（Datafile-Management）"><a href="#数据文件管理（Datafile-Management）" class="headerlink" title="数据文件管理（Datafile Management）"></a><strong>数据文件管理（Datafile Management）</strong></h3><p>如果没有使用OMF，我们就需要手工对数据文件进行管理，一个数据文件在某一时间只能属于一个数据库、一个表空间。对于数据文件，常见的操作包括：调整大小（Resize）、上线或下线、移动（重命名）、恢复。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> DATABASE DATAFILE <span class="string">&#x27;/xxx/yyy/ddd.dbf&#x27;</span> RESIZE <span class="number">2000</span>M;</span><br><span class="line"><span class="keyword">ALTER</span> DATABASE DATAFILE <span class="string">&#x27;/xxx/yyy/ddd.dbf&#x27;</span> AUTOEXTEND <span class="keyword">ON</span> NEXT <span class="number">100</span>M MAXSIZE <span class="number">8000</span>M;</span><br><span class="line"><span class="keyword">ALTER</span> DATABASE DATAFILE <span class="string">&#x27;/xxx/yyy/ddd.dbf&#x27;</span> OFFLINE;</span><br><span class="line"><span class="keyword">ALTER</span> DATABASE RENAME FILE <span class="string">&#x27;/xxx/yyy/ddd.dbf&#x27;</span> <span class="keyword">TO</span> <span class="string">&#x27;/xxx/yyy/aaa.dbf&#x27;</span></span><br><span class="line"><span class="keyword">ALTER</span> DATABASE DATAFILE <span class="string">&#x27;/xxx/yyy/ddd.dbf&#x27;</span> ONLINE;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Schema-Objects"><a href="#Schema-Objects" class="headerlink" title="Schema Objects"></a>Schema Objects</h3><p>Schema是数据库中归属于某个特定用户的所有数据库对象的集合，包括 Tables、Indexes、Views、Constrains等等。</p>
+<p>4.1 Oracle数据库中的数据类型。Oracle 10g提供了六种主要的数据类型，分别是：Character、Numeric、Datetime、LOB（Large Object）、ROWID、Binary。</p>
+<p>4.2 创建表格</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> (</span><br><span class="line">id   NUMBER,</span><br><span class="line">who   <span class="type">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line"><span class="keyword">WHEN</span>   <span class="type">timestamp</span> <span class="keyword">DEFAULT</span> SYSTIMESTAMP</span><br><span class="line">) TABLESPACE xxx;</span><br></pre></td></tr></table></figure>
+
+<p>4.3 修改表定义</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> xxx MODIFY who <span class="type">VARCHAR</span>(<span class="number">64</span>) <span class="keyword">DEFAULT</span> <span class="keyword">USER</span>;</span><br></pre></td></tr></table></figure>
+
+<p>4.4 给表重命名</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RENAME xxx <span class="keyword">TO</span> yyy;</span><br></pre></td></tr></table></figure>
+
+<p>4.5 增加修改列</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> xxx <span class="keyword">ADD</span> how <span class="type">VARCHAR</span>(<span class="number">64</span>);</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> xxx <span class="keyword">DROP</span> how;</span><br></pre></td></tr></table></figure>
+
+<p>4.6 修改列定义</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> xxx MODIFY how <span class="type">VARCHAR</span>(<span class="number">100</span>);</span><br></pre></td></tr></table></figure>
+
+<p>4.7 查看表信息</p>
+<p>DESCRIBE xxx;</p>
+<h3 id="表约束-Constrains"><a href="#表约束-Constrains" class="headerlink" title="表约束 Constrains"></a>表约束 Constrains</h3><p>Oracle 10g提供了以下几种约束方式：NOT NULL、UNIQUE、PRIMARY KEY、REFERENTRIAL、CHECK。</p>
+<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><p>BTREE索引是Oracle 10g中的默认索引，适用于那些存在很多不同值的列上。BTREE支持行级锁，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> INDEX index_name <span class="keyword">on</span> table_name ( column_name ) TABLESPACE idx;</span><br><span class="line"><span class="keyword">CREATE</span> BITMAP INDEX index_name <span class="keyword">on</span> table_name ( column_name ) TABLESPACE idx;</span><br></pre></td></tr></table></figure>
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2012/10/06/20121006-replace-mac-harddisk/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Mac更换SSD硬盘后系统全新安装的方法
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2012/09/24/20120924-publisher-in-social/" id="article-nav-older" class="article-nav-link-wrap">
+            国外的图书出版商如何使用社交化媒体 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

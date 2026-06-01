@@ -1,0 +1,182 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IBM的双机切换HACMP方案介绍-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="双机切换, HACMP, IBM">
+    <meta name="description" content="HACMP，全称为IBM High Availablity Cluster Multiprocessing。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>IBM的双机切换HACMP方案介绍</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2012-04-05 10:37:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>HACMP，全称为IBM High Availablity Cluster Multiprocessing。</p>
+<p>IBM PowerHA （原来称为HACMP）是IBM为AIX Unix以及基于System p平台的Linux开发的一个集群高可用性的解决方案，其全称为High Availability Cluster MultiProcessing。HACMP的产品最早发布与1991年，如今的PowerHA SystemMirror for AIX7.1 已经是第20个版本。</p>
+<p>PowerHA最多可以支持32台Computer或者节点Node，可以主动的在节点上运行应用（Active），也可以被动的接管失败的节点（Passive）。文件系统中的数据也可以在集群之间共享。</p>
+<p>PowerHA高度依赖 IBM RSCT（IBM Reliable Scalable Cluster Technology, RSCT,是为AIX和Linux集群环境管理，提供的一组全面的软件[<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/IBM_RSCT">2</a>]）</p>
+<p>下面探讨一下关于HACMP中实现高可用的方式，如下图是一个高可用的系统，在每个可能出现问题的节点上增加了冗余。</p>
+<img src="/2012/04/05/20120405-ibm-hacmp/20120405103659153.png" class="">
+
+<p>为了实现系统的高可用，避免单点故障（Single Points Of Failure，SPOF），我们需要考察一个系统中的以下节点：<br>1、服务器节点；<br>2、服务器电源；<br>3、网络适配器 Network Adapter；<br>4、网络通路 Network；<br>5、磁盘 Disk Adapter；<br>6、应用程序 Application；</p>
+<p>在HACMP中，通常将集群资源配置为一个个资源组 Resource Groups。这些资源组具有以下的属性：可以配置启动 Startup、切换 Failover、回撤 Fall back策略，设置处理时间和分布策略等。</p>
+<img src="/2012/04/05/20120405-ibm-hacmp/201204051037065871.png" class="" title="HACMP Hot standby configuration">
+
+<p>Mutal takeover</p>
+<img src="/2012/04/05/20120405-ibm-hacmp/201204051037109553.png" class="" title="Mutal takeover">
+
+<p>Third party takeover</p>
+<img src="/2012/04/05/20120405-ibm-hacmp/20120405103715420.png" class="" title="Third party takeover">
+
+<p>最近的版本信息：</p>
+<ul>
+<li>PowerHA 7.1 发布于2010年，可用于AIX V6.1 TL6 以及 AIX V7.1</li>
+<li>PowerHA 6.1 发布于2009年，重新更名为 IBM PowerHA SystemMirror</li>
+<li>HACMP 5.5 发布于2008年，更名为 IBM PowerHA</li>
+<li>HACMP 5.4.1 发布于2007年</li>
+</ul>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/IBM_High_Availability_Cluster_Multiprocessing">Wiki HACMP</a><br>2、<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/IBM_RSCT">IBM RSCT</a><br>3、<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/High-availability_cluster">Wiki High Availability Cluster</a><br>4、<a target="_blank" rel="noopener" href="http://aix.chinaunix.net/doc/2009/01/06/1349637.shtml">HACMP参考资料 for HACMP 5.4</a><br>5、<a target="_blank" rel="noopener" href="http://www.mtxia.com/js/Documentation/mtxia_HACMP.pdf">一个介绍HACMP的PPT</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2012/04/10/20120410-set-zendstudio-svn-ignore/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; ZendStudio中设置SVN:ignore
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2012/04/01/20120401-weblogic-introduce/" id="article-nav-older" class="article-nav-link-wrap">
+            WebLogic中的一些基本概念 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

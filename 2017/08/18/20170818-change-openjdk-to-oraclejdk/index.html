@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>将Linux默认的OpenJDK替换为Oracle JDK-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="linux, openjdk, oracle jdk">
+    <meta name="description" content="Logstash安装插件的时候，发生与系统自带的OpenJDK有关的错误，解决方案是将系统自带的OpenJDK更新为Oracle的JDK。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>将Linux默认的OpenJDK替换为Oracle JDK</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-30 20:50:52</span>
+        
+        <span class="post-time">发布于：2017-08-18 09:08:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>在使用Logstash安装插件的时候，发生了一个错误，如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR: Something went wrong when installing logstash-input-jdbc, message: java.security.KeyException</span><br></pre></td></tr></table></figure>
+<p>经查可能是与系统自带的OpenJDK有关，解决方案是将系统自带的OpenJDK更新为Oracle的JDK。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[cloud@localhost ~]$ java -version</span><br><span class="line">openjdk version <span class="string">&quot;1.8.0_141&quot;</span></span><br><span class="line">OpenJDK Runtime Environment (build 1.8.0_141-b16)</span><br><span class="line">OpenJDK 64-Bit Server VM (build 25.141-b16, mixed mode)</span><br></pre></td></tr></table></figure>
+
+<h3 id="下载-Oracle-JDK"><a href="#下载-Oracle-JDK" class="headerlink" title="下载 Oracle JDK"></a>下载 Oracle JDK</h3><p>首先从<a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">Oracle网站</a>下载所需的JDK。<br>我下载的是 1.8 版本的 rpm 安装包，因为 Elasticsearch 套装需要Java 1.8。</p>
+<h3 id="安装Oracle-JDK"><a href="#安装Oracle-JDK" class="headerlink" title="安装Oracle JDK"></a>安装Oracle JDK</h3><p>使用如下命令进行安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost cloud]<span class="comment"># rpm -ivh jdk-8u144-linux-x64.rpm </span></span><br><span class="line">Preparing...                          <span class="comment">################################# [100%]</span></span><br><span class="line">Updating / installing...</span><br><span class="line">   1:jdk1.8.0_144-2000:1.8.0_144-fcs  <span class="comment">################################# [100%]</span></span><br><span class="line">Unpacking JAR files...</span><br><span class="line">    tools.jar...</span><br><span class="line">    plugin.jar...</span><br><span class="line">    javaws.jar...</span><br><span class="line">    deploy.jar...</span><br><span class="line">    rt.jar...</span><br><span class="line">    jsse.jar...</span><br><span class="line">    charsets.jar...</span><br><span class="line">    localedata.jar...</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用update-alternative配置java"><a href="#使用update-alternative配置java" class="headerlink" title="使用update-alternative配置java"></a>使用update-alternative配置java</h3><p>首先执行<code>update-alternative —list java</code>看一下系统中有几个java版本。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost cloud]<span class="comment"># update-alternatives --display java</span></span><br><span class="line">java - status is auto.</span><br><span class="line"> link currently points to /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.141-1.b16.el7_3.x86_64/jre/bin/java</span><br><span class="line">/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.51-2.4.5.5.el7.x86_64/jre/bin/java - priority 170051</span><br><span class="line"> slave ControlPanel: (null)</span><br><span class="line"> slave javaws: (null)</span><br><span class="line"> slave jcontrol: (null)</span><br><span class="line"> slave jjs: (null)</span><br><span class="line">/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.141-1.b16.el7_3.x86_64/jre/bin/java - family java-1.8.0-openjdk.x86_64 priority 1800141</span><br><span class="line"> slave ControlPanel: (null)</span><br><span class="line"> slave javaws: (null)</span><br><span class="line"> slave jcontrol: (null)</span><br><span class="line"> slave jjs: /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.141-1.b16.el7_3.x86_64/jre/bin/jjs</span><br><span class="line">/usr/java/jdk1.8.0_144/jre/bin/java - priority 180144</span><br><span class="line"> slave ControlPanel: /usr/java/jdk1.8.0_144/jre/bin/ControlPanel</span><br><span class="line"> slave javaws: /usr/java/jdk1.8.0_144/jre/bin/javaws</span><br><span class="line"> slave jcontrol: /usr/java/jdk1.8.0_144/jre/bin/jcontrol</span><br><span class="line"> slave jjs: /usr/java/jdk1.8.0_144/jre/bin/jjs</span><br><span class="line">Current `best<span class="string">&#x27; version is /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.141-1.b16.el7_3.x86_64/jre/bin/java.</span></span><br></pre></td></tr></table></figure>
+<p>输出的内容省略了一部分，可以看到，系统中存在OpenJDK 和 Oracle的JDK，下面选择Oracle JDK为默认</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost cloud]<span class="comment"># update-alternatives --config java</span></span><br><span class="line"></span><br><span class="line">There are 3 programs <span class="built_in">which</span> provide <span class="string">&#x27;java&#x27;</span>.</span><br><span class="line"></span><br><span class="line">  Selection    Command</span><br><span class="line">-----------------------------------------------</span><br><span class="line">   1           /usr/lib/jvm/java-1.7.0-openjdk-1.7.0.51-2.4.5.5.el7.x86_64/jre/bin/java</span><br><span class="line">*+ 2           java-1.8.0-openjdk.x86_64 (/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.141-1.b16.el7_3.x86_64/jre/bin/java)</span><br><span class="line">   3           /usr/java/jdk1.8.0_144/jre/bin/java</span><br><span class="line"></span><br><span class="line">Enter to keep the current selection[+], or <span class="built_in">type</span> selection number: 3</span><br><span class="line">[root@localhost cloud]<span class="comment"># java -version</span></span><br><span class="line">java version <span class="string">&quot;1.8.0_144&quot;</span></span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_144-b01)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.144-b01, mixed mode)</span><br></pre></td></tr></table></figure>
+<p>update-alternatives 提供了交互界面，我们选择3之后会车，配置就会生效，可以看到已经改过来了。</p>
+<h3 id="update-alternatives-介绍"><a href="#update-alternatives-介绍" class="headerlink" title="update-alternatives 介绍"></a>update-alternatives 介绍</h3><p>如果我们用<code>ls -l /usr/bin/java</code>查看，可以发现命令其实都是软链接，现在java会定期升级，版本也特别多，所以很多命令都是软链接，update-alternatives就是管理这些软链接，这样版本切换的时候，可以将所有的链接同时进行更新。</p>
+<blockquote>
+<p>本文操作系统为 CentOS release 6.5(final)，本文是用 rpm 方式安装的jdk，如果下载的源码，可能需要配置 profile 并用 update-alternative —install 命令安装，本文没有尝试。</p>
+</blockquote>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://blog.csdn.net/rj042/article/details/72034650">linux下如何使用自己安装的SunJDK替换默认的OpenJDK</a><br>2、<a target="_blank" rel="noopener" href="http://blog.csdn.net/kkdelta/article/details/50365323">如何更改Linux中默认的openjdk为自己安装的JDK</a><br>3、<a target="_blank" rel="noopener" href="http://www.cnblogs.com/gavinyinyuan/p/4227720.html">Linux安装Oracle JDK替换OpenJDK详解</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2017/08/19/20170819-install-logstash-plugin-offline/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 如何进行Logstash logstash-input-jdbc插件的离线安装
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2017/08/11/20170811-elasticsearch-data-mapping-in-logstash/" id="article-nav-older" class="article-nav-link-wrap">
+            Logstash中如何处理到ElasticSearch的数据映射 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SED入门-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="sed, sed linux, sed入门">
+    <meta name="description" content="SED的入门介绍，SED（Stream Editor）意为流编辑器，是Unix常见的命令行程序。。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>SED入门</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-26 21:25:59</span>
+        
+        <span class="post-time">发布于：2013-09-01 11:05:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>使用Linux多年，SED和AWK两大神器却始终无法得心应手的来提高自己的工作效率，每每需要查找替换，都要依赖于ST2等一众图形工具，深感愧疚，乃专门抽时间学习之，志在使之真正成为左右手。</p>
+<p><strong>SED历史</strong></p>
+<p>SED（Stream Editor）意为流编辑器，是Unix常见的命令行程序。是Bell实验室的<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Lee_E._McMahon">Lee</a><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Lee_E._McMahon">E.McMahon</a>在1973年到1974年之间开发完成，目前可以在大多数操作系统中使用。</p>
+<p>SED的出现是作为grep的一个继任者，因为grep只能简单的进行查找和替换，但是考虑还可能会有删除等各种需求，McMahon 开发了一个更具通用性的工具。SED著名的语法规则包括使用 / 进行模式匹配，以及 s/// 来进行替代。与同期存在的工具ed一起，sed的语法影响了后来发展的 ECMAScript 和 Perl。GNU sed 添加了很多特性，包括著名的 in-place editing。</p>
+<p><strong>SED基础</strong></p>
+<p><strong>替换</strong>Substitution：作为流编辑器，默认情况下，SED会将处理结果输出到终端上，我们可以使用重定向符号，来达到生成新文件的目的。</p>
+<p>sed ‘s/regexp/replacement/g’ inputFileName &gt; outputFileName</p>
+<p>在有些版本的sed中，必须加 -e 参数。</p>
+<p><strong>其他命令</strong>：下面这个命令将文件中的空行或者只包含空格的行删除，其中使用了正则的形式，^表示行首，$表示行尾。</p>
+<p>sed ‘/^ *$/d’ inputFileName</p>
+<p><strong>脚本 Scripting</strong>：SED支持将命令写在脚本中，通过脚本的方式调用命令，同样，也支持Unix中的管道处理。</p>
+<p>sed -f subst.sed inputFileName &gt; outputFileName</p>
+<p>subst.sed 文件的内容<br>#!/bin/sed -f<br>s/x/y/g</p>
+<p><strong>原地替换 In-place editing</strong>：这个特性在GNU SED中引入，在GNU版本中，-i后的参数是可选的。后来BSD将SED引入后，对于-i参数的处理有所不同，变成了必须的参数。</p>
+<p>sed -i ‘s/abc/def/‘ file</p>
+<p><strong>常用SED问题</strong><br><strong>1、Mac下替换文本中的内容</strong></p>
+<p>Mac的Sed和Linux中的稍有不同，如果需要替换文本内容，需要加 -i 的参数。但是加上 -i 后就必须指定备份文件的后缀名，也就是说，执行替换的时候，会自动备份原文件。如果我们不想要备份怎么办，可以用下面的方法：</p>
+<p>sed -i ‘’ “s/xx/yy/g” abc.txt</p>
+<p>也可以这么写</p>
+<p>sed -ig “s/xx/yy/g” abc.txt</p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://jl453625978.blog.163.com/blog/static/86041705201171511624868/">SED入门</a><br>2、<a target="_blank" rel="noopener" href="http://blog.saymoon.com/2012/04/mac-os-%E4%B8%AD%E7%94%A8-sed-%E5%91%BD%E4%BB%A4-%E6%9B%BF%E6%8D%A2%E6%96%87%E6%9C%AC%E4%B8%AD%E7%9A%84%E6%8C%87%E5%AE%9A%E5%86%85%E5%AE%B9/">Mac OS中用SED命令替换文本内容</a><br>3、<a target="_blank" rel="noopener" href="http://bukkake.iteye.com/blog/829516">Mac上的SED</a><br>4、<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Sed">SED Wiki</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2013/09/12/20130912-iis7-php-mysql/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 配置IIS7.0支持PHP+Mysql
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2013/07/07/20130707-disable-webviewbounce/" id="article-nav-older" class="article-nav-link-wrap">
+            Phonegap项目中禁用WebViewBounce &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

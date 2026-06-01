@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>由.call引起的-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="javascript, call函数">
+    <meta name="description" content="本文详细解释了javascript中call函数的使用方法。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>由.call引起的</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-06 14:50:19</span>
+        
+        <span class="post-time">发布于：2008-10-20 17:55:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>以前看过的源码里，也有用到过.call的时候，今天的一个例子，也碰到了，为了彻底的明白这个的用法，Google了一下，找到了一些比较有用的资料。</p>
+<p>其实所有的函数都有.call这个函数，之外还有.apply,.prototype,.length等一系列的，详细的列表在MSDN上有，这里只说.call：<br>第一个参数是要调用的函数对象,在函数体内就是this了.剩余参数就是要传递给这个函数的(参数)值.<br>例如函数aaa(arg1,arg2)和对象bbb<br>aaa.call(bbb,arg1,arg2);<br>等效<br>bbb.ccc = aaa;<br>bbb.ccc(arg1, arg2);<br>delete bbb.ccc;</p>
+<p>.call方法实际是产生一个函数的临时调用，调用结束后既进行销毁，这样可以节省资源，也非常灵活。</p>
+<p>为了加深对于这个的理解，不妨看一下下面的这些解释：</p>
+<h3 id="1-函数对象和函数指针"><a href="#1-函数对象和函数指针" class="headerlink" title="1.函数对象和函数指针"></a><strong>1.函数对象和函数指针</strong></h3><p>函数实际上是一个可执行的对象，任何访问函数对象的方式都是函数指针。<br>不论 使用哪一种方式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a=<span class="keyword">new</span> <span class="built_in">Function</span>(...);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params">...</span>)</span>&#123;...&#125;</span><br><span class="line"><span class="keyword">var</span> a=<span class="function"><span class="keyword">function</span>(<span class="params">...</span>)</span>&#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+<p>得到的函数名a都是一个指向函数的指针 可以用var b=a;来创建另外一个指向它的指针。<br>但是 它们指向同一段函数。因为函数名是一个指针，所以能够被作为参数传递。<br>()运算符作用于一个函数指针将会执行它所在的函数，当然还会传入参数。</p>
+<h3 id="2-函数直接量-函数文字量"><a href="#2-函数直接量-函数文字量" class="headerlink" title="2.函数直接量(函数文字量)"></a><strong>2.函数直接量(函数文字量)</strong></h3><p>实际上函数直接量这个说法并不准确 但可以通俗地解释一些用法<br>125 “good”是都是直接量 可以在代码中不通过变量名使用 函数也有类似的用法<br>function(){…} 代表了一个函数指针的值 它指向function(){…}定义的函数<br>那么 (function(){…})() 就执行了这个函数 a=function(){…}就创建了这个指针的一个副本</p>
+<h3 id="3-函数对象的成员"><a href="#3-函数对象的成员" class="headerlink" title="3.函数对象的成员"></a><strong>3.函数对象的成员</strong></h3><p>函数对象继承自object对象 它还有自己的属性和方法<br>查到的就这么多 来自vs2005的提示</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在thisValue对象上执行 参数由数组argArray提供</span></span><br><span class="line">f.apply(thisValue,argArray);</span><br><span class="line"><span class="comment">//在thisValue对象上执行，不是没有参数，要用参数的话直接跟在thisValue后面</span></span><br><span class="line">f.call(thisValue);</span><br><span class="line"><span class="comment">//原型 很常见 前面也用过 不多说了。</span></span><br><span class="line">f.prototype; </span><br><span class="line"><span class="comment">//参数列表的长度</span></span><br><span class="line">f.length;</span><br><span class="line"></span><br><span class="line"><span class="comment">//继承自Object的方法，检查对象是否有指定属性</span></span><br><span class="line">f.hasOwnProperty(propertyName);</span><br><span class="line"><span class="comment">//继承自Object的方法，检查指定属性是否能被for in枚举出来 （除了firefox下的prototype 其他属性都不能被枚举）</span></span><br><span class="line">f.propertyIsEnumerable(propertyName);</span><br><span class="line"><span class="comment">//继承自Object的方法，转换为字符串</span></span><br><span class="line">f.toLocaleString();</span><br><span class="line"><span class="comment">//继承自Object的方法，转换为字符串 在alert document.write等时自动调用</span></span><br><span class="line">f.toString();</span><br><span class="line"><span class="comment">//继承自Object的方法，求值，对象做算术运算时自动调用，如果默认就是toString</span></span><br><span class="line">f.valueOf();</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-javascript函数能访问的范围"><a href="#4-javascript函数能访问的范围" class="headerlink" title="4.javascript函数能访问的范围"></a><strong>4.javascript函数能访问的范围</strong></h3><p>javascript函数究竟能访问那些资源？ 包括三部分：函数的作用域、this指针、参数，除此之外函数无法访问任何资源。<br>如果要比较清晰地理解函数 应当想像函数有三组参数：<br>第一组是作用域 在定义时确定 是函数定义位置决定的 暂称为外作用域 在函数定义处可以访问的变量和函数在函数中也可以访问，不论调用这个函数的指针被传递到哪里<br>第二组是this 在函数被调用时确定<br>如果函数是用()调用的  它默认指向函数所属的对象：如果函数是某个对象的成员 那么this指向这个对象，否则指向全局对象（大多数时候是window）<br>如果函数是用apply或者call调用的 this指向指定的thisvalue<br>第三组是参数 在函数被调用时确定 在参数列表中的参数可以直接访问 不再参数列表中的参数可以用arguments访问</p>
+<h3 id="5-函数作用域的生成与访问"><a href="#5-函数作用域的生成与访问" class="headerlink" title="5.函数作用域的生成与访问"></a><strong>5.函数作用域的生成与访问</strong></h3><p>函数除了能够访问一个作用域之外 每次执行 会生成一个新的作用域 （闭包）<br>此作用域之外的代码无法访问这一作用域的变量 此作用域内的代码可以访问这个作用域以及此函数定义时的作用域。</p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2008/11/03/20081103-robots-file/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Robots.txt和Robots META
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2008/10/20/20081020-different-enter/" id="article-nav-older" class="article-nav-link-wrap">
+            不同浏览器对于换行的处理 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

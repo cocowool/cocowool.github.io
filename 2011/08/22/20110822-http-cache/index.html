@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>利用HTTP Cache来优化网站-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="http cache, cache, cache header">
+    <meta name="description" content="利用HTTP头中的Cache相关属性，来优化网站访问速度。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>利用HTTP Cache来优化网站</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2011-08-22 21:15:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>对于网站来说，速度是第一位的。用户总是讨厌等待，面对加载的Video和页面，是非常糟糕的用户体验。所以如何利用Cache来优化网站，值得深入研究。</p>
+<p><strong>什么是缓存？</strong></p>
+<p>缓存是一个到处都存在的用空间换时间的例子。通过使用多余的空间，我们能够获取更快的速度。用户在浏览网站的时候，浏览器能够在本地保存网站中的图片或者其他文件的副本，这样用户再次访问该网站的时候，浏览器就不用再下载全部的文件，减少了下载量意味着提高了页面加载的速度。</p>
+<p>下面这个图例说明了浏览器和服务器之间如何进行交互。</p>
+<img src="/2011/08/22/20110822-http-cache/1111.png" class="">
+
+<p><strong>缓存的缺点</strong></p>
+<p>缓存非常有用，但是也带来了一定的缺陷。当我们的网站发生了更新的时候，比如说Logo换了，浏览器本地仍保存着旧版本的Logo，那么浏览器如何来确定使用本地文件还是使用服务器上的新文件？下面来介绍几种判断的方法。</p>
+<p><strong>Caching Method 1：Last-Modified</strong></p>
+<p>服务器为了通知浏览器当前文件的版本，会发送一个上次修改时间的标签，例如：</p>
+<p>Last-modified: Fri, 16 Mar 2007 04:00:25 GMT<br>File Contents (could be an image, HTML, CSS, Javascript…)</p>
+<img src="/2011/08/22/20110822-http-cache/2222.png" class="">
+
+<p>这样浏览器就知道他收到的这个文件创建时间，在后续的请求中，浏览器会按照下面的规则进行验证：<br>1、浏览器：Hey，我需要logo.png这个文件，如果是在  Fri, 16 Mar 2007 04:00:25 GMT 之后修改过的，请发给我。<br>2、服务器：（检查文件的修改时间）<br>3、服务器：Hey，这个文件在那个时间之后没有被修改过，你已经有最新的版本了。<br>4、浏览器：太好了，那我就显示给用户了。</p>
+<p>在这种情况下，服务器仅仅返回了一个304的响应头，减少了响应的数据量，提高了响应的速度。</p>
+<p><strong>Caching Method 2: ETag</strong></p>
+<p>通常情况下，通过修改时间来比较文件是可行的。但是在一些特殊情况，例如服务器的时钟发生了错误，服务器时钟进行修改，夏时制DST到来后服务器时间没有及时更新，这些都会引起通过修改时间比较文件版本的问题。</p>
+<p>ETag可以用来解决这种问题。ETag是一个文件的唯一标志符。就像一个哈希或者指纹，每个文件都有一个单独的标志，只要这个文件发生了改变，这个标志就会发生变化。</p>
+<p>服务器返回ETag标签：</p>
+<p>ETag: ead145f<br>File Contents (could be an image, HTML, CSS, Javascript…)</p>
+<p>接下来的访问顺序如下图所示：</p>
+<img src="/2011/08/22/20110822-http-cache/3333.png" class="">
+
+<p>1、浏览器：Hey，我需要Logo.png这个文件，有没有不匹配“ead145f”这个串的<br>2、服务器：（检查ETag…）<br>3、服务器：Hey，我这里的版本也是”ead145f”，你已经是最新的版本了<br>4、浏览器：好，那就可以使用本地缓存了</p>
+<p>如同 Last-modified 一样，ETag 解决了文件版本比较的问题。只不过 ETag 的级别比 Last-Modified 高一些。</p>
+<p><strong>Caching Method 3：Expires</strong></p>
+<p>缓存一个文件，并且与服务器确认版本的方式非常好，但是仍有一个缺点，我们必须连接服务器。每次使用前都进行一次比较，这种方法很安全，但还不是最好的。我们可以使用 Expiration Date 来减少这种请求。</p>
+<p>就像我们用牛奶来煮麦片一样，每次喝之前都要检查一下牛奶是否安全。但是如果我们知道牛奶的过期时间，我们就可以在过期之前，直接使用而不用再送去检查。一旦超过了过期时间，我们再去买一份新的回来。服务器返回的时候，会带上这份数据的过期时间：</p>
+<p>Expires: Tue, 20 Mar 2007 04:00:25 GMT<br>File Contents (could be an image, HTML, CSS, Javascript…)</p>
+<img src="/2011/08/22/20110822-http-cache/4444.png" class="">
+
+<p>这样，在过期之前，我们就避免了和服务器之间的连接。浏览器只需要自己判断手中的材料是否过期就可以了，完全不需要增加服务器的负担。</p>
+<p><strong>Caching Method 4：Max-age</strong></p>
+<p>Expires的方法很好，但是我们每次都得算一个精确的时间。max-age 标签可以让我们更加容易的处理过期时间。我们只需要说，这份资料你只能用一个星期就可以了。</p>
+<p>Max-age 使用秒来计量，下面是一些常用的单位：<br>1 days in seconds = 86400<br>1 week in seconds = 604800<br>1 month in seconds = 2629000<br>1 year in seconds = 31536000</p>
+<p><strong>额外的标签</strong></p>
+<p>缓存标签永远不会停止工作，但是有时候我们需要对已经缓存的内容进行一些控制。</p>
+<p>Cache-control: public 表示缓存的版本可以被代理服务器或者其他中间服务器识别。<br>Cache-control: private 意味着这个文件对不同的用户是不同的。只有用户自己的浏览器能够进行缓存，公共的代理服务器不允许缓存。<br>Cache-control: no-cache 意味着文件的内容不应当被缓存。这在搜索或者翻页结果中非常有用，因为同样的URL，对应的内容会发生变化。</p>
+<p>注意：有些标签只是在支持HTTP/1.1的浏览器上可用，如果想要了解更多，那么推荐RFC2616以及<a target="_blank" rel="noopener" href="http://www.mnot.net/cache_docs/">Cache docs</a>。</p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://betterexplained.com/articles/how-to-optimize-your-site-with-http-caching/">How to Optimize Your Site with HTTP Caching</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2011/09/30/20110930-make-lion-speaking/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 如何让你的Mac Lion朗读中文
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2011/08/18/20110818-gearman/" id="article-nav-older" class="article-nav-link-wrap">
+            Gearman的使用 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

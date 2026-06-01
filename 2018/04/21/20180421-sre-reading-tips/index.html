@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Google SRE 读书笔记 扒一扒SRE用的那些工具-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="google sre, 读书笔记">
+    <meta name="description" content="总体而言，这本书是首次比较系统的披露Google内部SRE运作的一些指导思想、实践以及相关的问题，对于我们运维乃至开发人员都有一定的借鉴意义。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Google SRE 读书笔记 扒一扒SRE用的那些工具</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2018-04-21 15:22:11</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>最近花了一点时间阅读了《<a target="_blank" rel="noopener" href="https://book.douban.com/subject/26875239/">SRE Goolge运维解密</a>》这本书，对于书的内容大家可以看看豆瓣上的介绍。总体而言，这本书是首次比较系统的披露Google内部SRE运作的一些指导思想、实践以及相关的问题，对于我们运维乃至开发人员都有一定的借鉴意义。</p>
+<p>书中的一些思想也令我印象深刻，例如SRE工程师要保证投入50%的时间在项目上、错误预算、命运之轮、事故总结等等，对于从业者有很大的启发。书中提到了很多思想，也提到了很多工具，我想不同的单位有不同的文化、制度背景，这种指导思想未必能够执行，但是书中提到的工具，却有被其他人利用的可能。因此，我就整理了书中提到的一些工具以及搜索是否有对应的开源工程，整理成下面的列表供大家参考。</p>
+<p>如果大家发现有不全的，或者对于某个工具希望深入讨论的，欢迎给我留言。</p>
+<h3 id="Google-技术栈"><a href="#Google-技术栈" class="headerlink" title="Google 技术栈"></a>Google 技术栈</h3><p>Borg    调度服务（2003），开源产品 Kubernetes<br>Borg Name Service BNS 名称解析系统<br>Bigtable<br>Blaze/<a target="_blank" rel="noopener" href="https://www.bazel.build/">Bazel</a>构建<br>Rapid 发布<br>Midas Pacakge Management MPM 打包<br>Sisyphus 发布自动化框架<br>Chubby 强一致性存储系统<br>Prober 端到端检测（黑盒监控 Black Box Monitoring）<br>Protocol Buffer (Protobuf)<br>Alert Manager 报警管理服务<br>Dapper 分布式组件跟踪工具<br>Incident Command System 应急事件管理<br>IRC机器人<br>Dagger 依赖注入(Dependency Injection)工具<br>Protocol Buffer 数据交换格式<br>Auxon 自动化容量规划<br>gRPC Google RPC 框架<br>Doorman 协作性分布式客户端节流系统<br>Zipking 业务流追踪<br>Stackdriver</p>
+<h3 id="两点吐槽"><a href="#两点吐槽" class="headerlink" title="两点吐槽"></a>两点吐槽</h3><p>一、绕口的翻译<br>P158:一个测试系统可以检测出一个MTTR为0的Bug。<br>P253:这种设计类型在服务领头人的工作量是分片的。<br>P327:Google几乎没有处理大规模消费者产品运行不能直接控制的客户端代码的经验。</p>
+<p>二、强大的客户端</p>
+<img src="/2018/04/21/20180421-sre-reading-tips/39469-20180421152131829-1112946961.png" class="">
+
+
+
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://flacro.me/google-borgmon/">Google Borgmon</a><br>2、<a href="Google%E4%BD%BF%E7%94%A8Borg%E8%BF%9B%E8%A1%8C%E5%A4%A7%E8%A7%84%E6%A8%A1%E9%9B%86%E7%BE%A4%E7%9A%84%E7%AE%A1%E7%90%86-2015">Google使用Borg进行大规模集群的管理-2015</a><br>3、<a target="_blank" rel="noopener" href="https://juejin.im/entry/58facf91da2f60005db72841">基于 Prometheus 的数据库监控</a><br>4、<a href="Prometheus">Prometheus</a><br>5、<a target="_blank" rel="noopener" href="https://www.ibm.com/developerworks/cn/linux/l-cn-gpb/index.html">Google Protocol Buffer 的使用和原理</a><br>6、<a target="_blank" rel="noopener" href="https://www.usenix.org/conference/srecon16/program/presentation/visser">Doorman: Global Distributed Client Side Rate Limiting</a><br>7、<a target="_blank" rel="noopener" href="https://danluu.com/google-sre-book/">SRE Book notes</a><br>8、<a target="_blank" rel="noopener" href="https://zipkin.io/pages/quickstart">Zipkin</a><br>9、<a target="_blank" rel="noopener" href="https://github.com/etsy/morgue">morgue 事故总结工具</a><br>10、<a target="_blank" rel="noopener" href="https://news.ycombinator.com/item?id=13744621">Incident management at Google</a><br>11、<a target="_blank" rel="noopener" href="https://www.terraform.io/">TerraForm</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/05/08/20180508-jenkins-quick-start/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Jenkins 快速搭建
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/04/13/20180413-memcache-upgrade/" id="article-nav-older" class="article-nav-link-wrap">
+            Memcache的安装与配置 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

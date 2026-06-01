@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Leetcode:两个有序数组中查找第K大数-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="算法, leetcode">
+    <meta name="description" content="两个数组A、B，长度分别为m、n，即A(m)、B(n)，分别是递增数组。求第K大的数字。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Leetcode:两个有序数组中查找第K大数</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-06-24 08:27:42</span>
+        
+        <span class="post-time">发布于：2021-06-23 19:02:50</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>题目：两个数组A、B，长度分别为m、n，即A(m)、B(n)，分别是递增数组。求第K大的数字。</p>
+<p>方法一：<br>简单的办法，使用Merge Sort，首先将两个数组合并，然后在枚举查找。这个算法的时间复杂度是O（m＋n）、空间复杂度也是O（M＋n）。<br>这个方法其实没有考虑到有第K大数为两个相同数字的情况。</p>
+<p>方法二：<br>这里需要两个前提条件，<br>1、如果K是中位数，则（M＋n）是奇数还是偶数是有关系的。如果是奇数，那么中位数唯一，如果是偶数就有两个中位数，可以随便取一个。<br>2、如果找到的第K大数是x，假如在A的位置是A(x)，在B中的位置是B(x)，则Ax+Bx-1=k是成立的。</p>
+<p>接下来是具体实现逻辑：<br>1、首先假设K大数在A数组中，首先检查 (m/(m+n))<em>(k-1)，假设其值为A1。然后检查B中(k+1-(n/(m+n))</em>(k-1))假设为B1，检查A1、B1是否相等，或者大于B中的第(k+1-(n/(m+n))<em>(k-1))，并且小于(k+1-(n/(m+n))</em>(k-1))+1个元素。满足条件就可以知道A1就是所求，否则看条件2。<br>2、如果两个条件都不满足，那么需要判断第K个元素是位于A1左边还是右边。</p>
+<p>如果A1&gt;B1，那么K肯定不在A[0, (m/(m + n)) * (k - 1)]以及B[(k + 1 - (m/(m + n)) * (k - 1))+ 1, n]中；<br>如果A1&lt;B1，那么K肯定不在A[ (m/(m + n)) * (k - 1), m]以及B[0, (k + 1 - (m/(m + n)) * (k - 1))]中。</p>
+<p>第K个元素有可能在B中，同理可以假设在B中，再进行一次搜索。复杂度为log(m)+log(n)。</p>
+<p>具体代码如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">kthsmallest</span><span class="params">(<span class="keyword">int</span> *a,<span class="keyword">int</span> m,<span class="keyword">int</span> *b,<span class="keyword">int</span> n,<span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (m == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> b[k - <span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> a[k - <span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (k == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> (a[<span class="number">0</span>] &lt; b[<span class="number">0</span>])?a[<span class="number">0</span>]:b[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (k == m + n) &#123;</span><br><span class="line">            <span class="keyword">return</span> (a[m - <span class="number">1</span>] &gt; b[n - <span class="number">1</span>])?a[m - <span class="number">1</span>]:b[n - <span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> i = ((<span class="keyword">double</span>) m) / (m + n) * (k - <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">int</span> j = k - <span class="number">1</span> - i;</span><br><span class="line">        <span class="keyword">if</span> (j &gt;= n) &#123;</span><br><span class="line">            j = n - <span class="number">1</span>;</span><br><span class="line">            i = k - n;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (((i == <span class="number">0</span>) || (a[i - <span class="number">1</span>] &lt;= b[j])) &amp;&amp; (b[j] &lt;= a[i])) &#123;</span><br><span class="line">            <span class="keyword">return</span> b[j];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (((j == <span class="number">0</span>) || (b[j - <span class="number">1</span>] &lt;= a[i])) &amp;&amp; (a[i] &lt;= b[j])) &#123;</span><br><span class="line">            <span class="keyword">return</span> a[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (a[i] &lt;= b[j]) &#123;</span><br><span class="line">            <span class="keyword">return</span> kthsmallest(a + i + <span class="number">1</span>, m - i - <span class="number">1</span>, b, j, k - i - <span class="number">1</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> kthsmallest(a, i, b + j + <span class="number">1</span>, n - j - <span class="number">1</span>, k - j - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>方法三：<br>当然也可以在方法一的基础上，采用一些二分的办法进行优化，但是这种算法</p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://www.cnblogs.com/davidluo/articles/k-smallest-element-of-two-sorted-array.html">http://www.cnblogs.com/davidluo/articles/k-smallest-element-of-two-sorted-array.html</a><br>2、<a target="_blank" rel="noopener" href="http://blog.csdn.net/realxie/article/details/8078043">http://blog.csdn.net/realxie/article/details/8078043</a><br>3、<a target="_blank" rel="noopener" href="http://blog.csdn.net/shifuwawa/article/details/6121573">http://blog.csdn.net/shifuwawa/article/details/6121573</a><br>4、<a target="_blank" rel="noopener" href="http://eriol.iteye.com/blog/1172098">http://eriol.iteye.com/blog/1172098</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/06/24/20210624-leetcode-short-url/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Leetcode:编码并解码短网址
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/06/21/20210621-markdown-syntax/" id="article-nav-older" class="article-nav-link-wrap">
+            Markdown 语法 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>让PHP 5.3支持MSSQL连接-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="php, php mssql">
+    <meta name="description" content="从5.3开始，PHP自带的dll不再支持2000以后的MS SQL Server了。整理了相关资料，实现了与Sql Server 2008的成功连接。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>让PHP 5.3支持MSSQL连接</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2013-12-31 13:18:00</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>最近在Windows Server 2008配置了PHP环境，想要连接SQL Server 2008，但是悲催的发现，从5.3开始，PHP自带的dll不再支持2000以后的MS SQL Server了。</p>
+<p>没办法，只能求助于百度了。看到网上的攻略，按照以下的步骤配置，可以成功连接SQL Server。</p>
+<p>一、首先需要下载、安装最新版的PHP Driver。我下载的时候，有两个版本，分别是SQLSRV20、SQLSRV30对应PHP 5.2和PHP 5.3以上的版本。从微软官方下载的是两个exe文件，实际上是一个可以自解压的压缩包。</p>
+<p>双击运行后，会提示你将文件保存到什么位置。选择对应的位置后，就能够看到众多的dll文件了。</p>
+<img src="/2013/12/31/20131231-php-mssql-connect/162323441890.png" class="">
+
+<p>二、之后根据自己的需要，选择对应的dll，拷贝到php安装路径的ext目录下。完成后，记得修改php.ini中的配置，然后重启Web服务器使配置生效。</p>
+<p>[PHP_PDO_SQLSRV]<br>extension=php_pdo_sqlsrv_53_ts.dll<br>[PHP_SQLSRV]<br>extension=php_sqlsrv_53_ts.dll</p>
+<p>其中，ts表示线程安全，nts表示非线程安全。根据你的需要选择就可以了。</p>
+<p>这个时候，如果遇到要求安装“SQL Server Native Client”的错误，这说明本地没有安装客户端。这种情况，可以通过在本地安装SQL Server的时候选择安装Client，或者单独下载安装Client解决。在参考资料2的<a target="_blank" rel="noopener" href="http://msdn.microsoft.com/en-us/library/cc296170(SQL.90).aspx">链接</a>中，可以找到Client的下载地址。</p>
+<p>这些问题排除后，就可以使用PDO函数，链接SQL Server数据库了。</p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://msdn.microsoft.com/en-us/sqlserver/ff657782.aspx">http://msdn.microsoft.com/en-us/sqlserver/ff657782.aspx</a><br>2、<a target="_blank" rel="noopener" href="http://msdn.microsoft.com/en-us/library/cc296170(SQL.90).aspx">System Requirements (Microsoft Drivers for PHP for SQL Server)</a><br>3、<a target="_blank" rel="noopener" href="http://msdn.microsoft.com/en-us/library/cc296170(SQL.90).aspx">Introducing the Microsoft Drivers for PHP for SQL Server</a><br>4、<a target="_blank" rel="noopener" href="http://blog.csdn.net/sptoor/article/details/7704991">PHP 5.3如何连接MSSql Server</a><br>5、<a target="_blank" rel="noopener" href="http://msdn.microsoft.com/zh-cn/library/ms131321.aspx">安装SQL Server native client</a><br>6、<a target="_blank" rel="noopener" href="http://social.msdn.microsoft.com/Forums/ie/zh-CN/2e950ea0-0f1d-411b-99f6-e48d26269214/sqlserver2012?forum=sqlserverzhchs">SQLServer 2012的问题</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2014/01/06/20140106-dedecms-menu-level/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; DedeCMS后台权限分配－添加三级目录分配功能
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2013/11/30/20131130-prototype-with-omnigraffle/" id="article-nav-older" class="article-nav-link-wrap">
+            使用OmniGraffle制作原型图 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

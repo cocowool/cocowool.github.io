@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>如何开发YUI3的扩展-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="yui3, yui3扩展, css">
+    <meta name="description" content="YUI是Yahoo发布的一个JS框架，本文介绍如何开发YUI3的扩展。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>如何开发YUI3的扩展</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-25 13:10:33</span>
+        
+        <span class="post-time">发布于：2012-06-01 13:38:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>YUI是Yahoo发布的一个JS框架，虽然不如jQuery简单，但是如果你是要做一些复杂的事情的时候，有一个合适量级的框架还是能有用不少。</p>
+<p>YUI3中的一些定义。<br>Module。YUI3中的每块代码都可以看作是一个Module。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">YUI().use(<span class="string">&#x27;node&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params">Y</span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">Y.one(<span class="string">&#x27;div.status&#x27;</span>).setContent(<span class="string">&#x27;Ready&#x27;</span>);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>使用YUI，我们需要一个YUI实例，这个实例称之为Sandbox，之后我们所有的代码都在这个Sandbox中运行，不会与其他的代码冲突，这样也可以解决遗留代码（Legacy Code）的冲突问题。函数中的Y是对这个Sandbox实例的引用。</p>
+<p>还有其他的使用方式：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">varY = newYUI();</span><br><span class="line"></span><br><span class="line">Y.use(<span class="string">&#x27;node&#x27;</span>),<span class="function"><span class="keyword">function</span>(<span class="params">Y</span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">Y.one(<span class="string">&#x27;div.status&#x27;</span>).setContent(<span class="string">&#x27;Ready&#x27;</span>);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(newYUI).use(<span class="string">&#x27;node&#x27;</span>),<span class="function"><span class="keyword">function</span>(<span class="params">Y</span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">Y.one(<span class="string">&#x27;div.status&#x27;</span>).setContent(<span class="string">&#x27;Ready&#x27;</span>);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>在YUI中注册Module的三种方式。</p>
+<ol>
+<li>By Seed；</li>
+<li>By Includsion；</li>
+<li>By config。</li>
+</ol>
+<p>1、By Seed。通过引入Seed文件后，由YUI框架自动调入。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">”http://yui.yahooapis.../yui-min.js”</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">YUI().use (‘node’, ‘anim’,<span class="function"><span class="keyword">function</span>(<span class="params">Y</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">newY.Anim(&#123; <span class="attr">node</span>:<span class="string">&#x27;#demo&#x27;</span>, <span class="attr">to</span>: &#123;<span class="attr">opacity</span>: <span class="number">0</span>&#125; &#125;);</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">Y.one (‘div.status’).setContent (‘ready!’);</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">&#125;);</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>2、By Inclusion。在页面文件中显式的引入。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">”http://yui.yahooapis.../yui-min.js”</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">”</span> <span class="attr">http:</span>//<span class="attr">yui.yahooapi...</span>/<span class="attr">build</span>/<span class="attr">gallery-yql</span>/<span class="attr">gallery-yql.js</span>”&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">YUI().use (‘gallery-yql’,<span class="function"><span class="keyword">function</span>(<span class="params">Y</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">newY.yql(<span class="string">&#x27;select * from github.user.info where (id=”caridy&quot;)&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params">r</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">r.query;<span class="comment">// The result</span></span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">&#125;);</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">&#125;);</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>3、By Configuration。在配置文件中指定引入Module所需要的信息，这是一种比较推荐的使用方式。在YUI实例化时，YUI()方法中可以接收多个配置项，例如YUI(c1,c2,,,)。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=”http:<span class="comment">//yui.yahooapis.../yui-min.js”&gt;&lt;/script&gt;&lt;script&gt;</span></span><br><span class="line">YUI(&#123;</span><br><span class="line">	<span class="attr">modules</span>: &#123;</span><br><span class="line">    <span class="string">&#x27;gallery-yql&#x27;</span>: &#123;</span><br><span class="line">      <span class="attr">fullpath</span>:<span class="string">&#x27;http://yui.yahooapi.../build/gallery-yql/gallery-yql.js&#x27;</span>,</span><br><span class="line">      <span class="attr">requires</span>: [<span class="string">&quot;get&quot;</span>,<span class="string">&quot;event-custom&quot;</span>]</span><br><span class="line">    &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;).use (‘gallery-yql’,<span class="function"><span class="keyword">function</span>(<span class="params">Y</span>) </span>&#123;</span><br><span class="line">	newY.yql(<span class="string">&#x27;select * from github.user.info where (id=”caridy&quot;)&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params">r</span>) </span>&#123;</span><br><span class="line">		r.query;<span class="comment">// The result</span></span><br><span class="line">	&#125;);</span><br><span class="line">&#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+
+<p>如何编写一个YUI的扩展<br>1、实用工具，也是最简单的方式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">YUI.add(‘gallery-youtube’,<span class="function"><span class="keyword">function</span>(<span class="params">Y</span>) </span>&#123;</span><br><span class="line">	Y.youtube = &#123;</span><br><span class="line">		<span class="attr">play</span>:<span class="function"><span class="keyword">function</span>(<span class="params">node, vid</span>) </span>&#123;</span><br><span class="line">			<span class="comment">/* … */</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;, ‘<span class="number">0.0</span><span class="number">.1</span>’, &#123; <span class="attr">requires</span>: [‘node’] &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>2、使用类的形式，这也是比较常用的形式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">YUI.add(<span class="string">&#x27;gallery-slideshow&#x27;</span>,<span class="function"><span class="keyword">function</span>(<span class="params">Y</span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">varSlideshow =<span class="function"><span class="keyword">function</span>(<span class="params">config</span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">Slideshow.superclass.constructor.apply(<span class="built_in">this</span>,<span class="built_in">arguments</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Slideshow.hello =<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">alert(<span class="string">&quot;Hello world!&quot;</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Y.Slideshow = Slideshow;</span><br><span class="line">&#125;,<span class="string">&#x27;0.0.1&#x27;</span>, &#123;<span class="attr">requires</span>:[<span class="string">&#x27;node&#x27;</span>]&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>有了这些知识，我们就可以创建一些自己的Module来减轻Copy &amp; Paste的工作量了，哈哈。</p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://www.slideshare.net/caridy/building-yui-3-custom-modules">Building YUI3 Custom Modules</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2012/06/11/20120611-process-communication/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 进程的同步、互斥以及PV原语
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2012/05/31/20120531-ruby-introduce/" id="article-nav-older" class="article-nav-link-wrap">
+            Ruby学习笔记 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

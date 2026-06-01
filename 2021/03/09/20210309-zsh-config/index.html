@@ -1,0 +1,194 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>我的 zsh 配置-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="zsh, shell, linux shell, linux zsh">
+    <meta name="description" content="zsh 号称「终极shell」，在我的 [Catalina 默认使用zsh了，你可习惯](http://www.edulinks.cn/2020/07/18/20200718-zsh-and-bash/) 文章中也介绍了zsh的一些基本特点，但光了解这些基本的还是没办法提高生产力的，本文用来介绍如何配置 zsh 让你的工作效率飞起来。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>我的 zsh 配置</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2022-06-15 08:13:32</span>
+        
+        <span class="post-time">发布于：2021-03-09 16:11:53</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>zsh 号称「终极shell」，在我的 <a href="http://www.edulinks.cn/2020/07/18/20200718-zsh-and-bash/">Catalina 默认使用zsh了，你可习惯</a> 文章中也介绍了zsh的一些基本特点，但光了解这些基本的还是没办法提高生产力的，本文用来介绍如何配置 zsh 让你的工作效率飞起来。</p>
+<p>我的需求：</p>
+<ul>
+<li>History 支持的记录数尽可能的多，因为经常容易忘记敲过的命令</li>
+<li>在所有的终端窗口间共享历史命令</li>
+<li>最好能够彩色显示不同的文件夹和不同类型的文件，这样看起来有点酷</li>
+</ul>
+<h2 id="zshrc"><a href="#zshrc" class="headerlink" title=".zshrc"></a>.zshrc</h2><p>先把我的配置文件分享出来</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置zsh的家目录</span></span><br><span class="line"><span class="built_in">export</span> ZSH=<span class="variable">$HOME</span>/.oh-my-zsh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置使用的主题</span></span><br><span class="line">ZSH_THEME=<span class="string">&#x27;robbyrussell&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开自动完成功能</span></span><br><span class="line"><span class="built_in">autoload</span> -U compinit &amp;&amp; compinit</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开启自动切换目录功能</span></span><br><span class="line"><span class="built_in">setopt</span> auto_cd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 消除重复的历史命令</span></span><br><span class="line"><span class="built_in">setopt</span> HIST_IGNORE_DUPS</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置history的时间戳，默认为Unix秒</span></span><br><span class="line">HIST_STAMPS=<span class="string">&quot;mm/dd/yyyy&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置启用的插件</span></span><br><span class="line">plugins=(git autojump zsh-syntax-highlighting zsh-autosuggestions)</span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> <span class="variable">$ZSH</span>/oh-my-zsh.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># ls 别名，默认显示详细信息</span></span><br><span class="line"><span class="comment"># alias ls=&#x27;ls -lha&#x27;</span></span><br><span class="line"><span class="built_in">alias</span> ll=<span class="string">&#x27;ls -lha&#x27;</span></span><br><span class="line"><span class="built_in">alias</span> grep=<span class="string">&#x27;grep --color=auto&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="ssh-config"><a href="#ssh-config" class="headerlink" title=".ssh/config"></a>.ssh/config</h2><p>日常使用中，ssh 连接服务器空闲超过一段时间后，会自动退出服务器，并有如下提示</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client_loop: send disconnect: Broken pipe</span><br></pre></td></tr></table></figure>
+
+<p>如果是个人使用，可以在 <code>.ssh/config</code> 文件中增加如下配置</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ cat ~/.ssh/config                                                             </span><br><span class="line">Host *</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~/.ssh/id_rsa</span><br><span class="line"></span><br><span class="line">  <span class="comment"># 每隔5秒自动发送一个空的请求以保持连接</span></span><br><span class="line">  ServerAliveInterval 60</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="oh-my-zsh"><a href="#oh-my-zsh" class="headerlink" title="oh-my-zsh"></a>oh-my-zsh</h2><p><strong>Oh My Zsh</strong> 是一个帮助我们快速配置 zsh 的开源程序，<a target="_blank" rel="noopener" href="https://github.com/ohmyzsh/ohmyzsh">项目地址</a> 可以下载最新的源码。提供了很多有用的插件以及众多的样式，我选择了手工安装的方式，从项目主页上下载代码包，解压后拷贝到 <code>~/.oh-my-zsh</code> 目录，然后按照我上面的配置文件，就可以使用 oh-my-zsh 了。</p>
+<h2 id="日常使用"><a href="#日常使用" class="headerlink" title="日常使用"></a>日常使用</h2><ul>
+<li>查找历史命令 <code>Ctrl + r</code> 是最常用的，输入几个字母就能联想出敲过的命令</li>
+<li>Git 插件提速git操作，例如 <code>git add --all</code> 可以缩写成 <code>gaa</code>，所有的命令在 <code>cat ~/.oh-my-zsh/plugins/git/git.plugin.zsh</code> 中。这个插件是默认开启的。</li>
+<li><strong>autojump</strong> 插件能够实现目录间的快速跳转，不仅仅是省略 <code>cd</code> 这么简单，还能够记住很多目录的名字，这样我们通过 <code>j folder-name</code> 这样的方式，就可以直接进入相关的目录，不用再关心前面的路径，使用起来非常方便。在Mac下需要先通过 <code>brew install autojump</code> 安装后才能启用该插件。</li>
+<li><strong>zsh-syntax-highlighting</strong> 插件能够对错误的shell命令给出颜色警告。安装方法 <code>git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting</code> 然后参照我之前的配置文件启用插件就行。</li>
+<li><strong>zsh-autosuggestions</strong> 能够自动进行命令提示，使用 Tab 或者 右箭头就可以补全，对于重复敲的命令非常方便。安装方法 <code>git clone git://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions</code> 然后参照我之前的配置文件启用插件就行。</li>
+</ul>
+<blockquote>
+<p>本文没有涉及如何切换默认Shell，因为Mac换到Catalina之后，已经将 zsh 设置为默认的 Shell 了。</p>
+</blockquote>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/eeee90f27bcc">zsh || bash 快捷键</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ohmyzsh/ohmyzsh">oh-my-zsh</a></li>
+<li><a target="_blank" rel="noopener" href="http://macshuo.com/?p=676">终极 Shell</a></li>
+<li><a target="_blank" rel="noopener" href="https://hufangyun.com/2017/zsh-plugin/">oh-my-zsh 插件</a></li>
+<li><a target="_blank" rel="noopener" href="https://xiaozhou.net/learn-the-command-line-iterm-and-zsh-2017-06-23.html">程序员内功系列–iTerm与Zsh篇</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/431249844">解决ssh连接长时间不操作断开问题</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/03/10/20210311-gnuplot-usage/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; GNUPLOT使用技巧总结
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/03/09/20210309-load-data-file-to-mysql/" id="article-nav-older" class="article-nav-link-wrap">
+            将文件导入Mysql数据库 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

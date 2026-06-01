@@ -1,0 +1,353 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Spark 系列二-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="spark, 流式计算">
+    <meta name="description" content="整理的关于Spark流式计算的一些学习资料。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Spark 系列二</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-10-16 22:46:45</span>
+        
+        <span class="post-time">发布于：2021-10-11 20:49:04</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <blockquote>
+<p>本文介绍Spark Standalone部署方式，Spark同时还支持YARN、Mesos进行资源调度</p>
+</blockquote>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><ul>
+<li>SPARK_WORKER_INSTANCES</li>
+<li>SPARK_WORKER_CORES</li>
+</ul>
+<p><code>conf/spark-env.sh</code> 文件指定了standalone模式的相关参数。</p>
+<ul>
+<li>SPARK_MASTER_HOST</li>
+<li>SPARK_MASTER_PORT</li>
+<li>SPARK_WORKER_CORES</li>
+<li>SPARK_WORKER_MEMORY</li>
+<li>SPARK_CONF_DIR</li>
+</ul>
+<h2 id="启动Master"><a href="#启动Master" class="headerlink" title="启动Master"></a>启动Master</h2><p>在哪台机器上启动，这台机器就成为了master。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./sbin/start-master.sh</span><br></pre></td></tr></table></figure>
+
+<h2 id="启动Worker"><a href="#启动Worker" class="headerlink" title="启动Worker"></a>启动Worker</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./sbin/start-slaves.sh</span><br></pre></td></tr></table></figure>
+
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ jps -l</span><br><span class="line">62227 org.apache.spark.deploy.worker.Worker</span><br><span class="line">62312 sun.tools.jps.Jps</span><br><span class="line">60395 org.apache.spark.deploy.master.Master</span><br></pre></td></tr></table></figure>
+
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><ul>
+<li>spark.streaming.receiver.maxRate</li>
+<li>spark.streaming.kafka.maxRatePerPartition</li>
+<li>spark.streaming.backpressure.enabled</li>
+<li>spark.streaming.blockInterval</li>
+<li>spark.default.parallelism</li>
+</ul>
+<h2 id="高可用集群搭建"><a href="#高可用集群搭建" class="headerlink" title="高可用集群搭建"></a>高可用集群搭建</h2><p>Spark高可用集群，是指搭建多个Master，其中一个为ALIVE，另外几个为STANDBY。Master之间状态的同步和切换通过Zookeeper来实现。</p>
+<p>主要依靠修改<code>spark-env.sh</code>文件中的参数。</p>
+<ul>
+<li>Dspark.deployrecoveryMode=ZOOKEEPER</li>
+<li>Dspark.deploy.zookeeper.url=zk:2181,zk2:2181</li>
+</ul>
+<h2 id="Spark-Submit-的两种方式"><a href="#Spark-Submit-的两种方式" class="headerlink" title="Spark Submit 的两种方式"></a>Spark Submit 的两种方式</h2><h3 id="Local模式"><a href="#Local模式" class="headerlink" title="Local模式"></a>Local模式</h3><p>Local模式通常用于测试，直接<code>bin/spark-shell</code>启动即可。</p>
+<h3 id="client-模式"><a href="#client-模式" class="headerlink" title="client 模式"></a>client 模式</h3><p>client模式使用6066端口</p>
+<h3 id="cluster-模式"><a href="#cluster-模式" class="headerlink" title="cluster 模式"></a>cluster 模式</h3><p>cluster模式使用7077端口</p>
+<h3 id="相关参数"><a href="#相关参数" class="headerlink" title="相关参数"></a>相关参数</h3><table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>参数说明</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>–master</td>
+<td>master 的地址，提交任务到哪里执行，例如 spark://host:port,  yarn,  local</td>
+<td></td>
+</tr>
+<tr>
+<td>–deploy-mode</td>
+<td>在本地 (client) 启动 driver 或在 cluster 上启动，默认是 client</td>
+<td></td>
+</tr>
+<tr>
+<td>–class</td>
+<td>应用程序的主类，仅针对 java 或 scala 应用</td>
+<td></td>
+</tr>
+<tr>
+<td>–name</td>
+<td>应用程序的名称</td>
+<td></td>
+</tr>
+<tr>
+<td>–jars</td>
+<td>用逗号分隔的本地 jar 包，设置后，这些 jar 将包含在 driver 和 executor 的 classpath 下</td>
+<td></td>
+</tr>
+<tr>
+<td>–packages</td>
+<td>包含在driver 和executor 的 classpath 中的 jar 的 maven 坐标</td>
+<td></td>
+</tr>
+<tr>
+<td>–exclude-packages</td>
+<td>为了避免冲突 而指定不包含的 package</td>
+<td></td>
+</tr>
+<tr>
+<td>–repositories</td>
+<td>远程 repository</td>
+<td></td>
+</tr>
+<tr>
+<td>–conf PROP=VALUE</td>
+<td>指定 spark 配置属性的值， 例如 -conf spark.executor.extraJavaOptions=”-XX:MaxPermSize=256m”</td>
+<td></td>
+</tr>
+<tr>
+<td>–properties-file</td>
+<td>加载的配置文件，默认为 conf/spark-defaults.conf</td>
+<td></td>
+</tr>
+<tr>
+<td>–driver-memory</td>
+<td>Driver内存，默认 1G</td>
+<td></td>
+</tr>
+<tr>
+<td>–driver-java-options</td>
+<td>传给 driver 的额外的 Java 选项</td>
+<td></td>
+</tr>
+<tr>
+<td>–driver-library-path</td>
+<td>传给 driver 的额外的库路径</td>
+<td></td>
+</tr>
+<tr>
+<td>–driver-class-path</td>
+<td>传给 driver 的额外的类路径</td>
+<td></td>
+</tr>
+<tr>
+<td>–driver-cores</td>
+<td>Driver 的核数，默认是1。在 yarn 或者 standalone 下使用</td>
+<td></td>
+</tr>
+<tr>
+<td>–executor-memory</td>
+<td>每个 executor 的内存，默认是1G</td>
+<td></td>
+</tr>
+<tr>
+<td>–total-executor-cores</td>
+<td>所有 executor 总共的核数。仅仅在 mesos 或者 standalone 下使用</td>
+<td></td>
+</tr>
+<tr>
+<td>–num-executors</td>
+<td>启动的 executor 数量。默认为2。在 yarn 下使用</td>
+<td></td>
+</tr>
+<tr>
+<td>–executor-core</td>
+<td>每个 executor 的核数。在yarn或者standalone下使用</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="Spark-Streaming"><a href="#Spark-Streaming" class="headerlink" title="Spark Streaming"></a>Spark Streaming</h2><h3 id="Spark-Streaming-介绍"><a href="#Spark-Streaming-介绍" class="headerlink" title="Spark Streaming 介绍"></a>Spark Streaming 介绍</h3><p>Spark Streaming 是Spark API核心的扩展，支持实时数据流的可扩展，高吞吐量，容错流处理。数据可以从Kafka，Flume， Kinesis， 或TCP Socket来源获得，并且可以使用与高级别功能表达复杂的算法来处理map，reduce，join和window。最后，处理后的数据可以推送到文件系统，数据库和实时仪表看板。</p>
+<p>Spark Streaming provides a high-level abstraction called discretized stream or DStream, which represents a continuous stream of data.  Internally, a DStream is represented as a sequence of RDDs.</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><ul>
+<li>创建SparkConf</li>
+<li>创建DStream对象</li>
+<li>定义DStream的输入源</li>
+<li>定义DStream的计算和输出</li>
+<li>启动数据接收和任务处理 <code>streamingContext.start()</code></li>
+<li>等待处理进程结束 <code>streamingContext.awaitTermination()</code></li>
+<li>手工终止处理流程 <code>streamingContext.stop()</code></li>
+</ul>
+<h3 id="DStream"><a href="#DStream" class="headerlink" title="DStream"></a>DStream</h3><p>DStream表示一系列连贯的数据流，由连续的RDD序列表示。</p>
+<ul>
+<li>可靠的Receiver，例如Kafka、flume</li>
+<li>不可靠的Receiver，消费数据后不能向数据源进行确认</li>
+</ul>
+<h3 id="Window-Operation"><a href="#Window-Operation" class="headerlink" title="Window Operation"></a>Window Operation</h3><ul>
+<li>window length</li>
+<li>sliding interval</li>
+</ul>
+<h3 id="foreachRDD"><a href="#foreachRDD" class="headerlink" title="foreachRDD"></a>foreachRDD</h3><p>Spark为DStreams对象提供了几种输出方式，包括<code>print()\saveAsTextFiles()\saveAsObjectFiles()\saveAsHadoopFiles()\foreachRDD</code>。最重要也最常用的就是<code>foreachRDD</code>，我们一般使用这个函数将计算的结果集存入数据库或其他什么地方。</p>
+<blockquote>
+<p>DStreams are executed lazily by the output operations, just like RDDs are lazily executed by RDD actions. Specifically, RDD actions inside the DStream output operations force the processing of the received data. Hence, if your application does not have any output operation, or has output operations like dstream.foreachRDD() without any RDD action inside them, then nothing will get executed. The system will simply receive the data and discard it.</p>
+</blockquote>
+<blockquote>
+<p>By default, output operations are executed one-at-a-time. And they are executed in the order they are defined in the application.</p>
+</blockquote>
+<h3 id="Checkpoint"><a href="#Checkpoint" class="headerlink" title="Checkpoint"></a>Checkpoint</h3><p>可以定期对RDD做一个检查，然后将状态保存在文件中，如果Spark意外退出，还可以从原来的状态中恢复。</p>
+<blockquote>
+<p>Accumulator和广播变量不能从Checkpoint中恢复。</p>
+</blockquote>
+<h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><ul>
+<li>Spark Cluster 带有 cluster manager</li>
+<li>APP的Jar包（特别是如果使用了Kafka、Flume这类的高级数据源）</li>
+<li>为Executor配置足够的内存</li>
+<li>如果应用需要则配置checkpoint</li>
+</ul>
+<h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><blockquote>
+<p>Note that, if you want to receive multiple streams of data in parallel in your streaming application, you can create multiple input DStreams (discussed further in the Performance Tuning section). This will create multiple receivers which will simultaneously receive multiple data streams. </p>
+</blockquote>
+<blockquote>
+<p>集群运行时，Core的数量必须大于Receiver的数量，否则只接收数据不处理数据。Extending the logic to running on a cluster, the number of cores allocated to the Spark Streaming application must be more than the number of receivers. Otherwise the system will receive data, but not be able to process it.</p>
+</blockquote>
+<ul>
+<li>降低每个批次的处理时间</li>
+</ul>
+<h3 id="在本地提交任务"><a href="#在本地提交任务" class="headerlink" title="在本地提交任务"></a>在本地提交任务</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./spark-submit --name Spark-Name --master <span class="built_in">local</span>[*] --conf spark.executor.extraClassPath=/path/to/class --conf spark.driver.extraClassPath=/path/to/class --class ClassName class-name.jar</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://sonra.io/2015/06/03/multiple-spark-worker-instances-on-a-single-node-why-more-of-less-is-more-than-less/">Multiple Spark Worker Instances on a single Node. Why more of less is more than less.</a></li>
+<li><a target="_blank" rel="noopener" href="http://spark.apache.org/docs/latest/streaming-programming-guide.html">Spark Streaming Guide</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41851454/article/details/80013831">Spark学习（二）Spark高可用集群搭建</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b4d3db386925">SPARK运行模式</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/10/16/20211016-spark-intro-3/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Spark 系列三
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/10/07/20211007-spark-intro-1/" id="article-nav-older" class="article-nav-link-wrap">
+            Spark 系列一 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

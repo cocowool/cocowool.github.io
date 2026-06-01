@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Linux上安装Boost C++ Libraries-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="boost, boost c++, linux boost">
+    <meta name="description" content="Linux下Bookt C++库的安装方法。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Linux上安装Boost C++ Libraries</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-24 22:08:21</span>
+        
+        <span class="post-time">发布于：2011-08-17 11:01:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p><strong>Boost C++ 库</strong>（Libraries）是一组扩充<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/C%2B%2B">C++</a>功能性的经过<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/%E5%90%8C%E8%A1%8C%E8%A9%95%E5%AF%A9">同行评审</a>（Peer-reviewed）且<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/%E9%96%8B%E6%94%BE%E6%BA%90%E7%A2%BC">开放源代码</a>程序库。大多数的函数为了能够以开放源代码、封闭项目的方式运作，而授权于Boost软件授权条款（Boost Software License）之下。许多Boost的开发人员是来自C++标准委员会，而部份的Boost库成为C++的<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/C%2B%2B_Technical_Report_1">TR1</a>标准之一。<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/Boost_C%2B%2B_Libraries#cite_note-0">[1]</a><br>为了要确保库的效率与弹性，Boost广泛的使用<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/%E6%A8%A1%E6%9D%BF_(C%2B%2B)">模板</a>（template）功能。而它是针对各式领域的C++用户与应用领域（Application Domain）上，包含的库类从像<a target="_blank" rel="noopener" href="http://www.boost.org/doc/libs/1_35_0/libs/smart_ptr/smart_ptr.htm">smart_ptr 库</a>这种类通用库，到像是<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/w/index.php?title=Boost_%E6%AA%94%E6%A1%88%E7%B3%BB%E7%B5%B1&action=edit&redlink=1">文件系统</a>的<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1">操作系统</a>抽象层，甚至能够利用Boost来开发额外的库或是给高级的C++用户利用，像是<a target="_blank" rel="noopener" href="http://www.boost.org/libs/mpl">MPL</a>。</p>
+<p>Boost的安装<br>参考官方的安装文档，利用 Easy Build and Install 可以进行方便的安装。<br>Issue the following commands in the shell (don’t type $; that represents the shell’s prompt):</p>
+<p>$ cd path/to/boost_1_47_0<br>$ ./bootstrap.sh –help<br>Select your configuration options and invoke ./bootstrap.sh again without the –help option. Unless you have write permission in your system’s /usr/local/ directory, you’ll probably want to at least use</p>
+<p>$ ./bootstrap.sh –prefix=path/to/installation/prefix<br>to install somewhere else. Also, consider using the –show-libraries and –with-libraries=library-name-list options to limit the long wait you’ll experience if you build everything. Finally,</p>
+<p>$ ./b2 install<br>will leave Boost binaries in the lib/ subdirectory of your installation prefix. You will also find a copy of the Boost headers in the include/ subdirectory of the installation prefix, so you can henceforth use that directory as an #include path in place of the Boost root directory.</p>
+<p>以上是1.47的安装方法，1.39也有类似的方法，但是生成的二进制程序叫做 bjam 而不是 b2。</p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/Boost_C%2B%2B_Libraries">Boost C++ Libraries</a><br>2、<a target="_blank" rel="noopener" href="http://www.boost.org/doc/libs/1_47_0/more/getting_started/unix-variants.html#get-boost">Get Started with Boost</a><br>3、<a target="_blank" rel="noopener" href="http://blog.csdn.net/cnhome/article/details/4459497">Boost 1.39 编译安装手记</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2011/08/18/20110818-gearman/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Gearman的使用
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2011/08/13/20110813-php-functions/" id="article-nav-older" class="article-nav-link-wrap">
+            method_exists VS is_callable &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Puppet 安装使用体验-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="Puppet， 自动化">
+    <meta name="description" content="Puppet 安装配置的简单步骤和使用场景，用来分析与 Ansible 进行功能比对。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Puppet 安装使用体验</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2022-02-12 22:18:14</span>
+        
+        <span class="post-time">发布于：2022-01-13 08:35:04</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>前两天写了一篇文章介绍 <a href="http://www.edulinks.cn/2022/01/04/20220104-run-ansible-offline/">Ansible 的安装与使用</a> 。最近这两天也想研究下 Puppet 比较两者的区别，在此记录下使用过程。</p>
+<blockquote>
+<p>Puppet 是基于 Ruby 开发的服务器配置管理系统，它支持以描述语言的方式管理大批量的系统配置。</p>
+</blockquote>
+<p>服务器规划，操作系统为 Red Hat Enterprise Linux Server release 7.4，安装测试的 Puppet 版本为 3.8.7。</p>
+<ul>
+<li>128.180.34.198 主机名为 master.puppet.cn，规划为Puppet Master</li>
+<li>128.180.34.104 主机名为 client1.puppet.cn，规划为普通的被管服务器</li>
+<li>128.180.34.105 主机名为 client2.puppet.cn，规划为普通的被管服务器</li>
+</ul>
+<h2 id="Server-安装配置"><a href="#Server-安装配置" class="headerlink" title="Server 安装配置"></a>Server 安装配置</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装 Puppet Server 和 Puppet，我这里安装的是3.8.7的版本</span></span><br><span class="line">$ yum install puppet-server puppet -y</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改主机名配置，在 hosts 中添加以下内容</span></span><br><span class="line">$ vim /etc/hosts</span><br><span class="line">128.180.34.198 master.puppet.cn</span><br><span class="line">128.180.34.104 client1.puppet.cn</span><br><span class="line">128.180.34.105 client2.puppet.cn</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动 Puppet 服务</span></span><br><span class="line">$ systemctl <span class="built_in">enable</span> puppetmaster.service</span><br><span class="line">$ systemctl start puppetmaster.service</span><br></pre></td></tr></table></figure>
+
+<h2 id="Agent-安装配置"><a href="#Agent-安装配置" class="headerlink" title="Agent 安装配置"></a>Agent 安装配置</h2><p>首先安装客户端。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install puppet -y</span><br></pre></td></tr></table></figure>
+
+<p>修改主机名配置，保持与 master 一致。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/hosts</span><br><span class="line">128.180.34.198 master.puppet.cn</span><br><span class="line">128.180.34.104 client1.puppet.cn</span><br><span class="line">128.180.34.105 client2.puppet.cn</span><br></pre></td></tr></table></figure>
+
+<p>编辑 puppet 配置文件，默认位于 <code>/etc/puppet/puppet.conf</code> 。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[main]</span><br><span class="line">    server = master.puppet.cn</span><br></pre></td></tr></table></figure>
+
+<p>主要增加了服务端地址的配置。</p>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>后面的几个步骤需要在客户端和服务端之间切换操作。</p>
+<p>首先在客户端开始申请证书。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@client $ puppet agent --server=master.puppet.cn --no-daemonize --verbose</span><br></pre></td></tr></table></figure>
+
+<p>看到执行成功的提示后，切换到服务端进行操作。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看收到的客户端证书申请列表</span></span><br><span class="line">root@master $ puppet cert list</span><br><span class="line"><span class="comment"># 对所有的客户端申请进行批量授权</span></span><br><span class="line">root@master $ puppet cert sign --all</span><br><span class="line"><span class="comment"># 通过目录查看已经注册成功的客户端</span></span><br><span class="line">root@master $ ll /var/lib/puppet/ssl/ca/signed</span><br></pre></td></tr></table></figure>
+
+<p>所有这些完成后，可以用一个文件分发的场景来做验证，这个场景的主要目的是将服务端的一个文件分发到所有被管机上。</p>
+<p>在 <code>/etc/puppet/mainfests/</code> 目录下创建一个 <code>site.pp</code> 文件，具体内容如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">file &#123;&quot;/tmp/puppet.txt&quot;:</span><br><span class="line">	content =&gt; &quot;This is file for puppet distribution.&quot;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>到被管机上执行下面的命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ puppet agent --server=master.puppet.cn --no-daemonize --verbose --<span class="built_in">test</span></span><br><span class="line">$ cat /tmp/puppet.txt</span><br><span class="line">This is file <span class="keyword">for</span> puppet distribution.</span><br></pre></td></tr></table></figure>
+
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>在熟悉 Ansible 和 Puppet 的过程中，对比了企业内部正在使用的相关工具，虽然说开源的工具提供了基本的软件功能，但是要在企业内部落地，还需要考虑几个要素：</p>
+<ul>
+<li>用户认证。每家单位一般都有自己的用户认证和管理体系，对于人数超过一千的单位来说，新的系统进来不可能全部手工录入或导入这些数据。因为这种方式能搞定存量，却搞不定增量，不应当花费额外的资源去做这方面的维护。</li>
+<li>权限管理。权限管理与组织架构密切相关，包括业务功能、数据功能的权限划分都离不开组织架构的具体情况。每家单位的组织架构又都不尽相同，有垂直型管理的、有扁平管理的，特别是对于存在多个办公地点的公司，可能还有跨部门、跨中心的虚拟团队的组织形式。</li>
+<li>流程适配。在小的团队里工作，很多事情通过见面聊一会儿就能解决。在大的团队中，如果没有流程来限定做事的顺序，很多事情就会向意想不到的方向发展。因此，如何把开源软件的功能和本单位的流程实际需要结合起来，这中间需要流程平台的粘合，也需要开源软件具备开放的特性。</li>
+<li>安全审计。根据公司的实际情况需要选择不同的网络安全等级保护标准，这就会服务器的部署、访问提出很多具体的控制性要求。开源软件在落地的时候，这些问题必须由本地化的团队来考虑。另外，公司的审计管理也会提出很多审计方面的要求。</li>
+</ul>
+<p>对于企业服务来说，这几个方面应该是最重要的。对于软件产品经理来说，不光要把基本的系统功能做完整、完善，还要考虑到落地过程中多样的企业需求，来促进真正的落地。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.51cto.com/215687833/1962448">Puppet 安装部署篇</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.51cto.com/u_11134648/2161486">Puppet 服务安装和部署</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/gentlemanhai/p/3529554.html">Puppet 安装及部署</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/30637414/puppet-server-hostname-did-not-match-server-certificate">Puppet:Server hostname did not match server certificate</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2022/01/27/20220127-life-memo/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 流水争先，靠的是绵绵不绝
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2022/01/12/20220112-ansible-common-usage/" id="article-nav-older" class="article-nav-link-wrap">
+            Ansible 常用使用场景 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

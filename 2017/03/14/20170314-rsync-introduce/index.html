@@ -1,0 +1,187 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rsync服务介绍与配置-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="rsync, linux rsync, rsync 文件传输">
+    <meta name="description" content="rsync 是一个用于增量文件传输的开源工具，rsync简直是不同服务器间传输文件、同步文件的利器。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Rsync服务介绍与配置</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-03-24 13:32:54</span>
+        
+        <span class="post-time">发布于：2017-03-14 14:51:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>本文简要介绍Rsync的使用方法</p>
+<h2 id="Rsync-简要介绍"><a href="#Rsync-简要介绍" class="headerlink" title="Rsync 简要介绍"></a>Rsync 简要介绍</h2><p>rsync 是一个用于增量文件传输的开源工具，不得不说，rsync简直是不同服务器间传输文件、同步文件的利器。与FTP相比，它具有非常简单的安装和配置方法。而且，rsync可以只拷贝发生过变化的文件，这就让传输效率非常高。如果你考虑安全问题，也可以通过<strong>ssh</strong>协议来进行传输。<strong>rsync</strong>用来进行备份和镜像也非常棒，它的这些特性可能是你非常需要的：</p>
+<blockquote>
+<p>支持链接、属主、属组合权限的拷贝<br>支持包含或排出条件，类似<strong>tar</strong><br>不需要 root 权限<br>支持匿名或授权的 rsync server 模式</p>
+</blockquote>
+<h2 id="典型用法"><a href="#典型用法" class="headerlink" title="典型用法"></a>典型用法</h2><p>rsync 可以用来同步本地与远程服务器，包括将本地文件上传至远程服务器、将远程文件同步到本地等等。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync local-file user@remote-host:remote-file</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用方法<br>rsync [OPTION] … SRC … [USER@]HOST:DEST<br>rsync [OPTION] … [USER@]HOST:SRC [DEST]<br>rsync –verbose  –progress –stats –compress –rsh=/usr/local/bin/ssh<br>–recursive –times –perms –links –delete<br>–exclude “<strong>bak” –exclude “</strong>~”<br>/www/* webserver:simple_path_name</p>
+</blockquote>
+<h2 id="守护进程-rsync-—daemon"><a href="#守护进程-rsync-—daemon" class="headerlink" title="守护进程 rsync —daemon"></a>守护进程 rsync —daemon</h2><p>以守护模式启动rsync的命令为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -daemon</span><br></pre></td></tr></table></figure>
+<p>守护进程必须使用具有root用户权限的用户启动，如果使用其他用户启动，必须确保有相应的数据、日志文件权限。</p>
+<blockquote>
+<p>Note that you should not send the rsync daemon a HUP signal to force it to reread the rsyncd.conf file. The file is re-read on each client connection.</p>
+</blockquote>
+<h2 id="配置文件-rsyncd-conf"><a href="#配置文件-rsyncd-conf" class="headerlink" title="配置文件 rsyncd.conf"></a>配置文件 rsyncd.conf</h2><p>文件包含模块和参数，模块的格式为**[module_name]**，模块包含的内容至到下一个模块开始结束。配置文件是基于行的，每一行可能是模块名称、注释或者参数。</p>
+<h3 id="全局参数"><a href="#全局参数" class="headerlink" title="全局参数"></a>全局参数</h3><p>出现在配置文件前面的内容为全局参数，rsync也允许使用**[global]<strong>的形式来指定全局参数。<br>**1. motd file</strong><br>表示message of the day文件配置，文件中的内容会显示在每个链接建立后。具体形式为<strong>motdfile=FILE</strong><br><strong>2. pid file</strong><br>为rsync指定pid。<br><strong>3. port</strong><br>默认端口为873，可以在配置文件中重新指定。<br><strong>4. address</strong><br>可以指定rsync监听的地址。</p>
+<h3 id="模块参数"><a href="#模块参数" class="headerlink" title="模块参数"></a>模块参数</h3><p><strong>1. comment</strong><br>默认为空，展示在用户获取所有的模块后，显示模块的描述信息。<br><strong>2. path</strong><br>该参数必须设置，指定模块对应的文件夹位置。<br><strong>3. use chroot</strong><br><strong>4. max connections</strong><br>设置同时链接的数量。<br><strong>5. log file</strong><br>指定日志文件位置。<br><strong>6. lock file</strong><br>默认为 /var/run/rsyncd.lock，必须与 max connections 参数同时使用。用来记录当前链接的数量。<br><strong>7. read only</strong><br>该参数指定客户端能否向服务端上传文件，默认为no。<br><strong>8. write only</strong><br>该参数指定客户端能否从服务端下载文件。</p>
+<h2 id="无密码同步的几种方法"><a href="#无密码同步的几种方法" class="headerlink" title="无密码同步的几种方法"></a>无密码同步的几种方法</h2><h3 id="1-使用daemon方式"><a href="#1-使用daemon方式" class="headerlink" title="1.使用daemon方式"></a>1.使用daemon方式</h3><p>服务端以daemon方式启动rsync。<br>客户端使用指定 password-file 的方式实现不用密码进行同步，如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -arv —password-file=/etc/rsyncd.secrets /local_file user@remote_host::remote_module</span><br></pre></td></tr></table></figure>
+
+<h2 id="Rsync算法介绍"><a href="#Rsync算法介绍" class="headerlink" title="Rsync算法介绍"></a>Rsync算法介绍</h2><p>需要提及的是 rsync 以其优越的性能优势区别于其它几种 Linux 文件传输方法，其同步文件的速度相当快，这主要归功于 rsync 所使用的传输算法。简而言之 rsync 算法能在相当短的时间内计算出需要备份的数据，只对源文件与目标文件的不同之处进行传输，从而降低网络中传输的数据量，以此达到快速备份镜像的目的。下面通过一典型应用场景来描述 rsync 算法的基本原理：主机 A 与主机 B 均有对同一文件的拷贝，用户对主机 A 上的拷贝进行更新，主机 B 通过 rsync 算法对更新后的文件进行同步。以下是该算法的实现步骤：</p>
+<ol>
+<li>主机 B 将原始拷贝划分成大小为 N 的不重合的若干块（文件末尾部分分块大小可能不足 N），并对这些数据块进行两种不同方式的校验：32 位的滚动弱校验、128 位的 MD4 强校验。弱校验较之强校验计算速度快。</li>
+<li>主机 B 将每个数据块的弱校验、强校验结果发送给主机 A 。</li>
+<li>主机 A 对更新后的文件拷贝中的每个长度为 N 的数据块进行弱校验并与从 B 接收到的弱校验值进行匹配，若相同再进行强校验匹配。由于弱校验的滚动特性可以快速地筛选出需要进行同步的数据块。该算法的运算量主要集中在主机 A 上。</li>
+<li>通过上述计算，主机 A 将文件的不同部分发送给 B，B 接收到两个拷贝之间的不同之处，从而同步得到更新后的文件。</li>
+</ol>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p>1、<a target="_blank" rel="noopener" href="https://rsync.samba.org/ftp/rsync/rsyncd.conf.html">rsyncd.conf</a><br>2、<a target="_blank" rel="noopener" href="http://www.tuicool.com/articles/bUZJj2u">rsync无密码同步方法</a><br>3、<a target="_blank" rel="noopener" href="http://everythinglinux.org/rsync/">rsync tutorial</a><br>4、<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Rsync">wiki rsync</a><br>5、<a target="_blank" rel="noopener" href="https://rsync.samba.org/how-rsync-works.html">How rsync works</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2017/03/16/20170316-make-mac-fan-quiet/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 让Mac风扇面对PD不再疯狂
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2017/02/21/20170221-favicon-introduce/" id="article-nav-older" class="article-nav-link-wrap">
+            自定义地址栏与收藏夹中的图标 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>2023年第二届陇剑杯初赛题目整理-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="陇剑杯, 陇剑杯真题, 2023年陇剑杯真题, 第二届陇剑杯真题, CTF, CTF真题">
+    <meta name="description" content="本文重温2023年第二届陇剑杯的赛事题目，积累CTF经验。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>2023年第二届陇剑杯初赛题目整理</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2025-10-17 17:24:15</span>
+        
+        <span class="post-time">发布于：2025-08-31 21:46:59</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h3 id="赛事简介"><a href="#赛事简介" class="headerlink" title="赛事简介"></a>赛事简介</h3><p>第二届「陇剑杯」网络安全是2023年9月16日在甘肃兰州举办的，由兰州新区、国网甘肃省电力公司、中国移动通信集团甘肃有限公司承办。本文整理了初赛阶段的题目和解题思路，参考了一些大牛的 WP。总体上感觉流量分析类型的题目偏多。</p>
+<p>第二届比赛共有1680支战队报名参赛，有200支战队进入半决赛，通过半决赛角逐最终有120支战队进入决赛。</p>
+<p>决赛阶段设立了实景防御与人工智能工坊赛道。在实景防御赛道，基于平行仿真和春秋云专有云技术，仿真真实数字业务环境，通过数据分析、漏洞修复、网络配置、服务构建等场景，考验各战队的问题分析、安全策略、安全技术能力。在人工智能赛道，要求各战队利用全机器自动化方式执行，对含有漏洞的二进制文件进行自动化漏洞分析、挖掘和利用。</p>
+<h3 id="Easy-Web"><a href="#Easy-Web" class="headerlink" title="Easy Web"></a>Easy Web</h3><p>下载到一个名为 ez_web.pcap 流量包附件，是一道流量分析的题目。可以先用统计功能看看流量的各项特征。通过 <code>http</code> 过滤HTTP流量，因为很多 GET 请求，GET请求一般不会造成什么危害，看 POST 请求。</p>
+<p>第一问：服务器自带的后门文件名是什么？（含文件后缀）</p>
+<img src="/2025/08/31/20250831-2023-longjianbei/image-20250917142556457.png" class="" title="image-20250917142556457">
+
+<p>第二问：服务器内网IP是多少？</p>
+<p>逐个查看每个 POST 请求，会发现有一个请求发送了 <code>ifconfig</code> 命令。</p>
+<p>第三问：攻击者往服务器中写入的Key是什么？</p>
+<p>这一问是看了 WP 才知道怎么解的，找到文件内容解码后，需要能识别出来表示的是 zip 文件。</p>
+<h3 id="Easy-Wiki"><a href="#Easy-Wiki" class="headerlink" title="Easy Wiki"></a>Easy Wiki</h3><p>题目附件是 stream_new.cap 文件，是一道流量分析题。</p>
+<p>第一问：攻击者通过暴力破解进入了某 Wiki 文档，请给出登录的用户名与密码，以:拼接，如 admin:admin。</p>
+<p>找登录相关的关键信息，然后找返回码没有报错的。</p>
+<p>第二问：攻击者发现软件存在越权漏洞，请给出攻击者越权使用的 cookie 的内容的 md5 值。（32位小写）。</p>
+<p>找到成功登录的会话，记录会话请求头中的 cookie 值。</p>
+<p>第三问：攻击使用jdbc漏洞读取了应用配置文件，给出配置中的数据库账号密码，以:拼接，比如 root:123456。</p>
+<p>第四问：攻击者又使用了CVE漏洞攻击应用，执行系统命令，请给出此CVE编号以及远程EXP的文件名，使用:拼接，比如CVE-2020-19817:exp.so。</p>
+<p>如何快速找到CVE这个感觉还比较困难。</p>
+<p>第五问：给出攻击者获取系统权限后，下载的工具的名称，比如nmap。</p>
+<p>这道题还是流量分析，所以看来陇剑杯对于 Wireshark 的熟练使用要求很高。</p>
+<h3 id="Small-Sword"><a href="#Small-Sword" class="headerlink" title="Small Sword"></a>Small Sword</h3><p>这道题的附件给了一个流量包，还是需要先从流量分析入手。</p>
+<p>第一问：连接蚁剑的正确密码是<strong><strong>____</strong></strong>?（答案示例：123asd）</p>
+<p>查找 HTTP 协议，并且查找 POST 方法。<code>http &amp;&amp; http.request.method == &quot;POST&quot;</code></p>
+<p>第二问：攻击者留存的值是<strong>____</strong>?（答案示例：d1c3f0d3-68bb-4d85-a33-fb97cf99ee2e）</p>
+<p>查找包含 <code>fwrite</code> 函数名的流量包。</p>
+<p>第三问：攻击者下载到的flag是<strong><strong>__</strong></strong>?（答案示例：flag3{uuid}）</p>
+<p>看别人的WP知道的，可以从 HTTP 对象中导出一个 huorong.exe 文件，执行后能程序文件所在的上级目录生成一个图片（所以比赛如果没有 Windows 环境很吃亏，发现这个图片在 Win 10 环境中可以正常打开，在 MacOs Monterey中就打不开），使用 010Editor 的 template 脚本能提示 CRC 校验错误，看 WP 是根据观察图片和经验把高度调整到 800，然后就能看到对应的 flag。</p>
+<h3 id="WS"><a href="#WS" class="headerlink" title="WS"></a>WS</h3><p>这一题比较简单，也是流量分析类的题目，包的数量不多，从头到尾全看一遍也不用太多时间。</p>
+<p>第一问：被入侵的主机IP是？</p>
+<p>第二问：被入侵主机的口令是？</p>
+<p>第三问：用户目录下第二个文件夹的名称是？</p>
+<img src="/2025/08/31/20250831-2023-longjianbei/image-20250911184306124.png" class="" title="image-20250911184306124">
+
+<p>第四问：/etc/passwd 中倒数第二个用户的用户名是？</p>
+<img src="/2025/08/31/20250831-2023-longjianbei/image-20250911184444702.png" class="" title="image-20250911184444702">
+
+<h3 id="IR"><a href="#IR" class="headerlink" title="IR"></a>IR</h3><p>你是公司的一名安全运营工程师，今日接到外部监管部门通报，你公司网络出口存在请求挖矿域名的行为。需要立即整改。经过与网络组配合，你们定位到了请求挖矿域名的内网IP是10.221.36.21.查询CMDB后得知该IP运行了公司的工时系统。（虚拟机账号密码为：root/IncidentResponsePasswd）</p>
+<p>第一问：挖矿程序所在路径是？（答案中如有空格均需去除，如有大写均需变为小写，使用 echo -n ‘strings’ | md5sum | cut - d ‘’ -f1 获取md5值做为答案）</p>
+<p>解题思路：</p>
+<ol>
+<li>首先查看 history 分析是否有敏感操作</li>
+<li>如果不是 root 用户，尝试 su 或者 sudo</li>
+<li>通过 .viminfo 查看文件编辑记录</li>
+<li>查找各类日志目录，看看执行历史中有没有应用的日志路径，从 /var 下找一些公共日志</li>
+</ol>
+<p>在第三步能发现大量 Redis 修改记录，查看 Redis 的配置文件，发现 pools 关键字，判断挖矿程序为 /etc/redis/redis-server。</p>
+<p>第二问：挖矿程序连接的矿池域名是？（答案中如有空格均需去除，如有大写均需变为小写，使用 echo -n ‘strings’ | md5sum | cut - d ‘’ -f1 获取md5值做为答案）</p>
+<p>矿池的域名就在 Redis 的配置文件中。</p>
+<p>第三问：攻击者入侵服务器利用的方法是？（答案中如有空格均需去除，如有大写均需变为小写，使用 echo -n ‘strings’ | md5sum | cut - d ‘’ -f1 获取md5值做为答案）<br>题目提示：答案md5值的前两位为3e</p>
+<p>根据 .bash_history 中的启动目录找到 nohup.log 的文件路径，查看文件有 shiro 的报错信息。这里看别人的WP是根据经验判断shiro漏洞的，方法的名字是 shirodeserialization。</p>
+<img src="/2025/08/31/20250831-2023-longjianbei/image-20250912202518092.png" class="" title="image-20250912202518092">
+
+<p>第四问：攻击者的IP是？（答案中如有空格均需去除，如有大写均需变为小写，使用echo -n ‘strings’|md5sum|cut -d ’ ’ -f1获取md5值作为答案）</p>
+<p>攻击者应该登陆了服务器，通过 <code>last</code> 命令查看得到。</p>
+<p>第五问：攻击者发起攻击时使用的User-Agent是？（答案中如有空格均需去除，如有大写均需变为小写，使用echo -n ‘strings’|md5sum|cut -d ’ ’ -f1获取md5值作为答案）</p>
+<p>这道题攻击者IP有好几个User-Agent，正确答案好像是最后一次请求的User-Agent。</p>
+<p>第六问：攻击者使用了两种权限维持手段，相应的配置文件路径是？(md5加密后以a开头)（答案中如有空格均需去除，如有大写均需变为小写，使用echo -n ‘strings’|md5sum|cut -d ’ ’ -f1获取md5值作为答案）</p>
+<p>权限维持的几种方式，第一种是利用Web服务，后面四种都是针对Linux服务器的，Windows的不是很熟悉：</p>
+<ul>
+<li>Webshell 通过上传一句话木马之类的文件到后台服务器，利用蚁剑之类的工具链接</li>
+<li>通过定时任务执行反弹Shell之类的脚本，客户端通过监听获取登录权限。这类属于操作系统层面的权限维持</li>
+<li>SUID后门，这种需要先拿到 root 权限，给一个普通文件设置设置SUID的方式，获取root权限</li>
+<li>SSH Key免密登录后门，将自己的公钥添加到目标服务器，可以 ssh 免密登录。可以查看 ~/.ssh/authorized_keys 文件内容判断。</li>
+<li>在目标服务器中添加一个用户</li>
+</ul>
+<p>第七问：攻击者使用了两种权限维持手段，相应的配置文件路径是？(md5加密后以b开头)（答案中如有空格均需去除，如有大写均需变为小写，使用echo -n ‘strings’|md5sum|cut -d ’ ’ -f1获取md5值作为答案）</p>
+<p>看别人的 WP 是通过 redis.conf 猜到去找 systemd 配置文件的，也可以先看一下配置的系统服务。服务的配置路径在 <code>/lib/systemd/system/</code> 下这个属于硬知识了。</p>
+<img src="/2025/08/31/20250831-2023-longjianbei/image-20250912225754869.png" class="" title="image-20250912225754869">
+
+<h3 id="SS"><a href="#SS" class="headerlink" title="SS"></a>SS</h3><p>这道题给了一个流量包文件，一个服务器。应该是从流量包入手。可以通过HTTP包分析、地址分析、请求分析找一些关键的要素，再进一步分析。</p>
+<p>第一问：黑客是使用什么漏洞拿下root权限的。格式为：CVE-2020-114514</p>
+<p>利用 <code>http.response.code == 200</code> 能找到 <code>shell.jsp</code> ，但是不知道是怎么传上去的，通过 <code>http</code> 筛选逐步查看能找到一个 POST 请求尝试了漏洞利用。大模型可以根据 payload 给出 CVE 编号，看起来不错。</p>
+<img src="/2025/08/31/20250831-2023-longjianbei/image-20250912232726936.png" class="" title="image-20250912232726936">
+
+<p>第二问：黑客反弹shell的ip和端口是什么，格式为：10.0.0.1:4444</p>
+<p>查看流量可以看到执行了<code>bbbb.sh</code>这个脚本，到服务器上查询到这个脚本看内容就行。</p>
+<p>第三问：黑客的病毒名称是什么？格式为：filename</p>
+<p>这个是看 WP 的，貌似是 /home/guest/main 这个程序。</p>
+<p>第四问：黑客的病毒运行后创建了什么用户？请回答用户名与密码：username:password</p>
+<p>通过 <code>/etc/passwd</code> 和 <code>/etc/shadow</code> 查找，找最新的一条记录。</p>
+<p>第五问：服务器在被入侵时外网ip是多少？格式为：10.10.0.1</p>
+<p>在<code>/home/guest</code>目录下的一个日志文件里找到了可疑地址。</p>
+<p>第六问：病毒运行后释放了什么文件？格式：文件1，文件2</p>
+<p>上一问的日志文件中看到执行了一个脚本，在 <code>idea</code> 目录下。</p>
+<p>第七问：矿池地址是什么？格式：domain:1234</p>
+<p>在 <code>idea</code> 目录下继续查找可疑的 mine_doge.sh 文件，里面能看到矿池地址和钱包地址。</p>
+<p>第八问：黑客的钱包地址是多少？格式：xx:xxxxxxxx</p>
+<h3 id="hard-web"><a href="#hard-web" class="headerlink" title="hard web"></a>hard web</h3><p>这道题也是流量分析的题目。</p>
+<p>第一问：服务器开放了哪些端口，请按照端口大小顺序提交答案，并以英文逗号隔开（如服务器开放了80 81 82 83端口，则答案为flag{80,81,82,83}）</p>
+<p>ip.addr == 192.168.162.180 and tcp.flags.syn == 1 and tcp.flags.ack == 1，使用这个条件可以查到地址是 180 并被成功扫描到的端口。</p>
+<p>第二问：服务器中根目录下的flag值是多少？</p>
+<p>翻一下HTTP流量包能看到一个 shell.jsp 的请求，看到有些流量都是加密过的。再往前面找看到一个请求中有个类似的 Key，也有 AES 的字样。这里有个知识点，AES 加密有多种模式，其中不需要 IV 变量的只有基础的 ECB 模式。下图是豆包总结的各种模式的对比。</p>
+<img src="/2025/08/31/20250831-2023-longjianbei/image-20250930095207246.png" class="" title="image-20250930095207246">
+
+<p>这道题在具体操作上学到一些技巧，比如在 Wireshark 中复制响应部分的 Hex 流，可以按照截图提示，选中响应部分的内容，然后右键 Copy 选择对应的格式。</p>
+<img src="/2025/08/31/20250831-2023-longjianbei/image-20250930152720697.png" class="" title="image-20250930152720697">
+
+<p>解密也是要按照 Hex -&gt; AESDecrypt -&gt; Gunzip 的顺序，需要用到 CyperChef 。</p>
+<img src="/2025/08/31/20250831-2023-longjianbei/image-20250930152919242.png" class="" title="image-20250930152919242">
+
+<p>第三问：该webshell的连接密码是多少？</p>
+<p>通过上面的解密方法，能够看到一个流量包中有 <code>the key is 1****y</code> 的提示，看WP说是之前的 IV 值 <code>748007e861908c03</code> 进行 md5 的结果。这个确实没想到，一般 md5 的长度好像是32位的，而这个才16位，试了一下确实可以用在线 MD5 爆破网站碰出来。</p>
+<p>正常的 md5 字符串为 <code>748007e861908c03ba0830d5c47fd282</code> 。</p>
+<h3 id="Hacked"><a href="#Hacked" class="headerlink" title="Hacked"></a>Hacked</h3><p>附件是一个名为 flask.pcap 的流量包，又是流量分析。</p>
+<p>第一问：admin用户的密码是什么？</p>
+<p>刚开始以为几个 register 里面的 base64 编码能解决，后来分析 HTTP 流量发现有前端加解密，通过豆包生成了一段 Python 代码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">from Crypto.Cipher import AES</span><br><span class="line">import base64</span><br><span class="line">import binascii</span><br><span class="line"></span><br><span class="line"># Python3 版本的 AES 解密脚本</span><br><span class="line"># 安装依赖：pip install pycryptodome</span><br><span class="line"># 运行：python3 aes_decrypt.py</span><br><span class="line"></span><br><span class="line"># 提供的密钥和IV</span><br><span class="line">crypt_key = &#x27;l36DoqKUYQP0N7e1&#x27;</span><br><span class="line">crypt_iv = &#x27;131b0c8a7a6e072e&#x27;</span><br><span class="line"></span><br><span class="line"># 待解密的Base64字符串</span><br><span class="line">encrypted_str = &#x27;KGM7NI0/WvKswK+PlmFIhO4gqe8jJzRdOi02GQ0wZoo=&#x27;</span><br><span class="line"></span><br><span class="line"># 转换密钥和IV为字节</span><br><span class="line">key = crypt_key.encode(&#x27;utf-8&#x27;)</span><br><span class="line">iv = crypt_iv.encode(&#x27;utf-8&#x27;)</span><br><span class="line"></span><br><span class="line"># Base64解码</span><br><span class="line">ciphertext = base64.b64decode(encrypted_str)</span><br><span class="line"></span><br><span class="line"># 创建AES解密器（CBC模式，Pkcs7填充）</span><br><span class="line">cipher = AES.new(key, AES.MODE_CBC, iv)</span><br><span class="line"></span><br><span class="line"># 解密并去除填充</span><br><span class="line">decrypted_bytes = cipher.decrypt(ciphertext)</span><br><span class="line"></span><br><span class="line"># 处理PKCS7填充</span><br><span class="line">pad_len = decrypted_bytes[-1]</span><br><span class="line">decrypted_bytes = decrypted_bytes[:-pad_len]</span><br><span class="line"></span><br><span class="line"># 转换为字符串</span><br><span class="line">decrypted_str = decrypted_bytes.decode(&#x27;utf-8&#x27;)</span><br><span class="line"></span><br><span class="line">print(f&quot;解密后的字符串: &#123;decrypted_str&#125;&quot;)</span><br><span class="line">print(f&quot;解密的十六进制表示: &#123;binascii.hexlify(decrypted_bytes).decode(&#x27;utf-8&#x27;)&#125;&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>还有一个办法可以不用写 Python 解密代码，使用 CyperChef 组合，之前有一道题，这类大概率是 AES 加密的 CBC 模式。</p>
+<img src="/2025/08/31/20250831-2023-longjianbei/image-20251011191809534.png" class="" title="image-20251011191809534">
+
+<p>WP 有个好的思路，是先把用户名 admin 加密后的字符串求出来，然后通过 http contains 查找对应的请求，再看里面的密码报文，根据这个方法可以找到一个 post 登录请求，解出密码就可以了。</p>
+<p>第二问：app.config[‘SECRET_KEY’]值为多少？</p>
+<p>这个仔细找一下就能发现，使用 <code>http contains SECRET</code> 或者 <code>tcp contains SECRET</code>，有一个对首页的 GET 请求返回了相关内容。</p>
+<p>第三问：flask网站由哪个用户启动？</p>
+<p>这一问的 WP 没看明白，说是要找到带 whoami 命令执行的请求，但是截图看到并没有这个命令参数，这道题是利用 JWT cookie 解密发现更多信息。这里使用了一个 <code>flask-session-cookie-manager</code> 的开源 python 工具。</p>
+<img src="/2025/08/31/20250831-2023-longjianbei/image-20251015184347090.png" class="" title="image-20251015184347090">
+
+<p>第四问：攻击者写入的内存马的路由名叫什么？（答案里不需要加/）</p>
+<p>这道题也是从 session 中解密出信息，可能得一个一个请求找，看了下状态码是200的请求不是很多。然后下面这个请求带了一个请求地址。</p>
+<img src="/2025/08/31/20250831-2023-longjianbei/image-20251015184016139.png" class="" title="image-20251015184016139">
+
+<h3 id="baby-forensics"><a href="#baby-forensics" class="headerlink" title="baby forensics"></a>baby forensics</h3><p>这种题型没见过，给了一个 vmdk 后缀的文件，看着像是 Vmware 的磁盘虚拟文件，还有一个 raw 后缀的文件，根据题目描述猜测可能是内存快照数据。</p>
+<p>看大牛的WP提示需要使用 Volatility 取证工具分析，工具使用和文件分析都不太懂，留在后面有时间继续学习分析。</p>
+<p>第一问：磁盘中的key是多少？</p>
+<p>第二问：电脑中正在运行的计算器的运行结果是多少？</p>
+<p>第三问：该内存文件中存在的flag值是多少？</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/692447949">https://zhuanlan.zhihu.com/p/692447949</a></li>
+<li><a target="_blank" rel="noopener" href="http://nooemotion.com/2023/09/19/%E7%AC%AC%E4%BA%8C%E5%B1%8A%E9%99%87%E5%89%91%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9Bwp-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90-smallsword/">http://nooemotion.com/2023/09/19/%E7%AC%AC%E4%BA%8C%E5%B1%8A%E9%99%87%E5%89%91%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9Bwp-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90-smallsword/</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/z2414_sxs/article/details/136318786">https://blog.csdn.net/z2414_sxs/article/details/136318786</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1142506">https://cloud.tencent.com/developer/article/1142506</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/F07on3/p/18985679">https://www.cnblogs.com/F07on3/p/18985679</a></li>
+<li></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2025/10/27/20251027-richard-karp/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 理查德·卡普
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2025/08/30/20250830-2021-longjianbei/" id="article-nav-older" class="article-nav-link-wrap">
+            2021年第一届陇剑杯初赛题目整理 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

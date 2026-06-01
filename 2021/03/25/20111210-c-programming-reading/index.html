@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>C程序设计语言读书笔记-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="c, c语言, c语言读书笔记">
+    <meta name="description" content="本文是当时读C语言经典图书时记录的笔记，C语言虽然没有面向对象等高级的特性，但却是整个编程语言中最为重要的一种，因此熟悉一些C语言的知识，对工作只有好处。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>C程序设计语言读书笔记</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-03-25 19:42:31</span>
+        
+        <span class="post-time">发布于：2021-03-25 19:36:55</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h2 id="第一章-导言"><a href="#第一章-导言" class="headerlink" title="第一章 导言"></a><strong>第一章 导言</strong></h2><p>第一章带领大家进入了C语言的世界，但是我感觉，如果没有一些基础，要想完全理解这一章的内容，还是有些困难的。</p>
+<p>在允许使用某种类型变量值的任何场合，都可以使用该类型的更复杂的表达式。无论文本从何处输入，输出到何处，其输入/输出都是按照字符流的方式处理。文本流是由多行字符构成的字符序列，而每行字符则由0个或多个字符组成，行末是一个换行符。</p>
+<p>当把数组名用作参数时，传递给函数的值是数组起始元素的位置或地址－它并不复制数组元素本身。在被调用函数中，可以通过数组下标访问或修改数组元素的值。可以使用const来声明该数组不能够被修改。</p>
+<h2 id="第二章-类型、运算符与表达式"><a href="#第二章-类型、运算符与表达式" class="headerlink" title="第二章 类型、运算符与表达式"></a><strong>第二章 类型、运算符与表达式</strong></h2><p>变量和常量是程序处理的两种基本数据对象。声明语句说明变量的名字及类型，也可以指定变量的初值。运算符指定将要进行的操作。表达式则把变量和常量组合起来生成新的值。</p>
+<p>变量命名的限制：名字是由字母和数字组成的序列，但其第一个字符必须为字母。下划线“_”被看作是字母，通常用于命名较长的变量名，以提高其可读性。大写字母和小写字母是有区别的。在传统的C语言语法中，变量名使用小写字母，符号常量名全部使用大写字母。</p>
+<p>默认情况下，外部变量与静态变量将被初始化为0.未经显式初始化的自动变量的值为未定义值（即无效值）。C语言中的基本数据类型：char（字符型）、int（整型）、float（单精度浮点型）、double（双精度浮点型）。</p>
+<p>基本数据类型的限定符：short、long、signed、unsigned、const。</p>
+<p>任何变量的声明都可以使用const限定符限定。该限定符指定的变量不能被修改。对数组而言，const限定符指定数组所有元素的值都不能被修改。</p>
+<p>所有的变量都必须先声明后使用。</p>
+<p><strong>ANSI标准库</strong></p>
+<p>标准库中的函数、类型以及宏分别在下面的标准头文件中定义：</p>
+<blockquote>
+<p>  &lt;assert.h&gt;   &lt;float.h&gt;   &lt;math.h&gt;   &lt;stdarg.h&gt;   &lt;stdlib.h&gt;   &lt;ctype.h&gt;   &lt;limitf.h&gt;   &lt;setjmp.h&gt;   &lt;stddef.h&gt;   &lt;string.h&gt;   &lt;errno.h&gt;   &lt;locale.h&gt;   &lt;signal.h&gt;   &lt;stdio.h&gt;   &lt;time.h&gt;</p>
+</blockquote>
+<p><strong>常量：各种数据类型都可以有对应的常量。整数的常量可以有多种表现类型，可以是十进制表示、八进制表示、十六进制表示。一个字符常量就是一个整数。常量表达式是仅仅只包含常量的表达式。枚举是另外一种类型的常量。枚举是一个常量整型值列表。他的优势在于常量值可以自动生成。</strong></p>
+<p>类型转换：</p>
+<p><strong>一般来说，自动转换是指把“比较窄的”操作数转换为“比较宽的”操作数，并且不丢失信息。将字符类型转换为整型时，C语言没有指定Char类型的变量是无符号变量（unsigned）还是带符号变量（signed）。</strong></p>
+<p><strong>C语言中，很多情况下会进行隐式的算数类型转换。一般来说，如果二元运算符的两个操作数具有不同类型，那么在进行运算之前先要把“较低”的类型提升为“较高”的类型。运算的结果为“较高”的类型。</strong></p>
+<p><strong>一般来说，数学函数使用双精度类型的变量。使用float类型主要是为了在使用较大数组时节省存储空间，有时也为了节省机器执行时间（双精度算术运算特别费时）。</strong></p>
+<p><strong>赋值时也要进行类型转换。赋值运算符右边的值需要转换为左边变量的类型，左边变量的类型即赋值表达式结果的类型。</strong></p>
+<p><strong>当把较长的整数转换为较短的整数或char类型时，超出的高位部分将会被丢弃。</strong></p>
+<p><strong>由于函数调用的参数是表达式，所以把参数传递给函数时也可能进行类型转换。</strong></p>
+<p><strong>在任何表达式中都可以使用强制类型转换的一元运算符进行显式类型转换：（类型名）表达式。</strong></p>
+<p>自增运算符与自减运算符、按位运算符、赋值运算符、条件表达式都比较简单，就不记录了。</p>
+<p>运算符的优先级与求值次序非常有趣。有一个需要特别注意的问题：C语言没有指定同一运算符中多个操作数的计算顺序。例如：</p>
+<p>printf(“%d %d\n”, ++n power(2,n) )   这种使用方式在不同机器上的表现是不一致的，因此要借助中间变量来保证运算的正确性。</p>
+<p><strong>屏蔽码是多个111111，在位的运算中有重要作用。用屏蔽码进行异或操作，可以对位取反；用屏蔽码进行与操作，可以取出对应的位；用屏蔽码进行或操作，可以保持原始的值不变。</strong></p>
+<p><strong>按位与运算符&amp;经常用于屏蔽某些二进制位；</strong></p>
+<p><strong>按位或运算符｜常用于将某些二进制位置为1；</strong></p>
+<p><strong>按位异或运算符^当两个操作数的对应位不相同时将该位置置为1.</strong></p>
+<p><strong>一元运算符～用于求整数的二进制反码；</strong></p>
+<h2 id="第三章-控制流"><a href="#第三章-控制流" class="headerlink" title="第三章 控制流"></a><strong>第三章 控制流</strong></h2><p>程序语言中的控制流语句用语控制各计算操作执行的顺序。</p>
+<p>语句和程序块的区别。表达式加上分号（；）之后，就成为了一条语句。右花括号用于结束程序块，其后不需要分号。</p>
+<p>条件判定（If … else if … ）、多路判定（ switch ）、while 循环和 for 循环、break 和 continue、goto 和标号 构成了C语言中全部的控制流。</p>
+<h2 id="第四章-函数与程序结构"><a href="#第四章-函数与程序结构" class="headerlink" title="第四章 函数与程序结构"></a><strong>第四章 函数与程序结构</strong></h2><p>C语言在设计中考虑了函数的高效性和易用性这两个因素。</p>
+<p>如果函数定义中省略了返回值类型，则默认为int类型。程序可以看成是变量定义和函数定义的集合。函数之间的通信可以通过参数、函数返回值以及外部变量进行。</p>
+<p>如果函数没有原型，则函数将在第一次出现的表达式中被隐式的声明，该函数的返回值被假定为 int 类型，但上下文并不对其参数做任何假设。</p>
+<p>对空参数列表的特殊处理是为了是新的编译器能够编译比较老的C语言程序，不过，在新编写的程序中，这么做是不提倡的。</p>
+<p>C语言可以看作是由一系列的外部对象构成，这些外部对象可能是参数或函数。由于C语言中不允许在函数内部定义其他函数，因此函数本身是“外部的”。</p>
+<p>默认情况下，外部变量与函数具有下列性质：通过同一个名字对外部变量的所有引用（即使这种引用来自单独编译的不同函数），实际上都是引用同一个对象（标准中把这一性质称为外部链接）。</p>
+<p>外部变量的用途还表现在它们与内部变量相比具有更大的作用域和更长的生存期。</p>
+<h2 id="第五章-指针与数组"><a href="#第五章-指针与数组" class="headerlink" title="第五章 指针与数组"></a><strong>第五章 指针与数组</strong></h2><p>指针是一种保存变量地址的变量。C语言中，指针的使用非常广泛，原因：指针常常是表达某个计算的唯一途径；同其他方法比较起来，使用指针可以生成更高效、更紧凑的代码。</p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/03/25/20111103-php-signal/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; php的信号(signal)处理
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/03/24/20111027-php-history/" id="article-nav-older" class="article-nav-link-wrap">
+            PHP的历史 - 版本演变及区别 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GNUPLOT使用技巧总结-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="gnuplot, gnuplot linux, 作图, gnuplot 作图">
+    <meta name="description" content="Gnuplot 是一款非常著名的作图软件，支持Mac、Linux等多种操作系统类型，我曾写过「[Mac OS X下GnuPlot的安装](http://www.edulinks.cn/2011/07/03/20110703-install-gnuplot/)」以及「[利用Apache ab以及GNUPlot来进行Web测试](http://www.edulinks.cn/2011/07/25/20110725-ab-test/)」两篇文章来介绍如何使用这个工具。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>GNUPLOT使用技巧总结</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-09 00:01:49</span>
+        
+        <span class="post-time">发布于：2021-03-10 09:57:51</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>Gnuplot 是一款非常著名的作图软件，支持Mac、Linux等多种操作系统类型，我曾写过「<a href="http://www.edulinks.cn/2011/07/03/20110703-install-gnuplot/">Mac OS X下GnuPlot的安装</a>」以及「<a href="http://www.edulinks.cn/2011/07/25/20110725-ab-test/">利用Apache ab以及GNUPlot来进行Web测试</a>」两篇文章来介绍如何使用这个工具。</p>
+<p>最近翻出了之前整理的更为详细的使用说明，发布出来希望能帮大家熟悉这个工具。</p>
+<p>一些最基本的操作请大家看说明书。这里总结一下我在使用过程中遇到的一些问题以及解决的办法，目的是让那些以前不会的或不熟练的能快速入门，会画自己想要的图，因为原来的说明书很长，较难有针对性地很快找到自己想要的信息。这里简单的总结不可能面面俱到，所以大家不要抱怨我写的不全，更全面的了解还是请看说 明书，网上的资料也多的是。其实这也是我们从网上一点一点搜集和摸索出来的。我相信看完后，应该平时最常见的问题基本上都能在这里找到答案。如果大家在使 用过程中摸索到了我没有写到的技巧和体会，或有其它建议，请大家提告诉我，以不断完善这篇总结，谢谢！</p>
+<h3 id="一、基础篇："><a href="#一、基础篇：" class="headerlink" title="一、基础篇："></a><strong>一、基础篇：</strong></h3><p>在linux命令提示符下运行gnuplot命令启动，输入quit或q或exit退出。</p>
+<p><strong>1、plot命令</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt; plot sin(x) with line linetype 3 linewidth 2 或</span><br><span class="line">gnuplot&gt; plot sin(x) w l lt 3 lw 2  </span><br><span class="line"><span class="comment">#用线画，线的类型（包括颜色与虚线的类型）是3，线的宽度是2，对函数sin(x)作图</span></span><br><span class="line"></span><br><span class="line">gnuplot&gt; plot sin(x) with point pointtype 3 pointsize 2 或</span><br><span class="line">gnuplot&gt; plot sin(x) w p pt 3 ps 2  </span><br><span class="line"><span class="comment">#用点画，点的类型（包括颜色与点的类型）是3，点的大小是2</span></span><br><span class="line"></span><br><span class="line">gnuplot&gt; plot sin(x) title <span class="string">&#x27;f(x)&#x27;</span> w lp lt 3 lw 2 pt 3 ps 2  </span><br><span class="line"><span class="comment">#同时用点和线画，这里title ‘f(x)’表示图例上标&#x27;f(x)&#x27;，如果不用则用默认选项</span></span><br><span class="line"></span><br><span class="line">gnuplot&gt; plot sin(x)  </span><br><span class="line"><span class="comment">#此时所有选项均用默认值。如果缺某一项则将用默认值</span></span><br><span class="line"></span><br><span class="line">gnuplot&gt; plot ‘a.dat’ u 2:3 w l lt 3 lw 2 </span><br><span class="line"><span class="comment">#利用数据文件a.dat中的第二和第三列作图</span></span><br></pre></td></tr></table></figure>
+
+<p>顺便提一下，如这里最前面的两个例子所示，在gnuplot中，如果某两个词，按字母先后顺序，前面某几个字母相同，后面的不同，那么只要写到第一个不同的字母就可以了。如with，由于没有其它以w开头的词，因此可以用 w 代替，line也可以用 l 代替。</p>
+<h3 id="2、同时画多条曲线"><a href="#2、同时画多条曲线" class="headerlink" title="2、同时画多条曲线"></a><strong>2、同时画多条曲线</strong></h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt; plot sin(x) title ‘sin(x)’ w l lt 1 lw 2, cos(x) title ‘cos(x)’ w l lt 2 lw 2 </span><br><span class="line"><span class="comment">#两条曲线是用逗号隔开的。画多条曲线时，各曲线间均用逗号隔开就可以了。</span></span><br></pre></td></tr></table></figure>
+<p>以上例子中是对函数作图，如果对数据文件作图，将函数名称换为数据文件名即可，但要用单引号引起来。</p>
+<h3 id="3、关于图例的位置"><a href="#3、关于图例的位置" class="headerlink" title="3、关于图例的位置"></a><strong>3、关于图例的位置</strong></h3><p>默认位置在右上方。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt; <span class="built_in">set</span> key left </span><br><span class="line"><span class="comment"># 放在左边，有left 和right两个选项</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> key bottom </span><br><span class="line"><span class="comment"># 放在下边，只有这一个选项；默认在上边</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> key outside </span><br><span class="line"><span class="comment"># 放在外边，但只能在右面的外边</span></span><br></pre></td></tr></table></figure>
+
+<p>以上三个选项可以进行组合。如：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt; <span class="built_in">set</span> key left bottom <span class="comment">#表示左下边</span></span><br></pre></td></tr></table></figure>
+
+<p>还可以直接用坐标精确表示图例的位置，如</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt; <span class="built_in">set</span> key 0.5,0.6 <span class="comment">#将图例放在0.5,0.6的位置处</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4、关于坐标轴"><a href="#4、关于坐标轴" class="headerlink" title="4、关于坐标轴"></a><strong>4、关于坐标轴</strong></h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt; <span class="built_in">set</span> xlabel ‘x’  <span class="comment">#x轴标为‘x’</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> ylabel ‘y’  <span class="comment">#y轴标为’y’</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> ylabel ‘DOS’ tc lt 3 <span class="comment">#其中的tc lt 3表示’DOS’的颜色用第三种颜色。</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> xtics 1.0  <span class="comment">#x轴的主刻度的宽度为1.0，同样可以为y轴定义ytics</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> mxtics 3  <span class="comment">#x轴上每个主刻度中画3个分刻度，同样可以为y轴定义mytics</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> border 3 lt 3 lw 2 <span class="comment">#设为第三种边界，颜色类型为3，线宽为2</span></span><br></pre></td></tr></table></figure>
+
+<p>同样可以为上边的x轴（称为x2）和右边y（称为y2）轴进行设置，即x2tics，mx2tics，y2tics，my2tics。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt; <span class="built_in">set</span> xtics nomirror</span><br><span class="line">gnuplot&gt; <span class="built_in">unset</span> x2tics   <span class="comment">#以上两条命令去掉上边x2轴的刻度</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> ytics nomirror</span><br><span class="line">gnuplot&gt; <span class="built_in">unset</span> y2tics   <span class="comment">#以上两条命令去掉右边y轴的刻度</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5、在图中插入文字"><a href="#5、在图中插入文字" class="headerlink" title="5、在图中插入文字"></a><strong>5、在图中插入文字</strong></h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt; <span class="built_in">set</span> label ‘sin(x)’ at 0.5,0.5 <span class="comment">#在坐标（0.5,0.5）处加入字符串’sin(x)’。</span></span><br></pre></td></tr></table></figure>
+
+<p>在输出为.ps或.eps文件时，如果在set term 的语句中加入了enhanced选现，则可以插入上下标、希腊字母和特殊符号。上下标的插入和latex中的方法是一样的。</p>
+<h3 id="6、在图中添加直线和箭头"><a href="#6、在图中添加直线和箭头" class="headerlink" title="6、在图中添加直线和箭头"></a><strong>6、在图中添加直线和箭头</strong></h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt; <span class="built_in">set</span> arrow from 0.0,0.0 to 0.6,0.8  <span class="comment">#从（0.0,0.0）到（0.6,0.8）画一个箭头</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> arrow from 0.0,0.0 to 0.6,0.8 lt 3 lw 2  <span class="comment">#这个箭头颜色类型为3，线宽类型为2</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> arrow from 0.0,0.0 to 0.6,0.8 nohead lt 3 lw 2 <span class="comment">#利用nohead可以去掉箭头的头部，这就是添加直线的方法。</span></span><br></pre></td></tr></table></figure>
+
+<p>注意，在gnuplot中，对于插入多个的label和arrow等等，系统会默认按先后顺序分别对各个label或arrow进行编号，从1开始。如果以后要去掉某个label或arrow，那么只要用unset命令将相应的去掉即可。如：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt; <span class="built_in">unset</span> arrow 2</span><br></pre></td></tr></table></figure>
+<p>将去掉第二个箭头。</p>
+<h3 id="7、图的大小和位置"><a href="#7、图的大小和位置" class="headerlink" title="7、图的大小和位置"></a><strong>7、图的大小和位置</strong></h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;<span class="built_in">set</span> size 0.5,0.5 </span><br><span class="line"><span class="comment"># 长宽均为默认宽度的一半，建议用这个取值，尤其是画成ps或eps图形的时候</span></span><br><span class="line">gnuplot&gt;<span class="built_in">set</span> origin 0.0,0.5  </span><br><span class="line"><span class="comment"># 设定图的最左下角的那一点在图形面板中的位置。这里图将出现在左上角。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="8、画三维图"><a href="#8、画三维图" class="headerlink" title="8、画三维图"></a><strong>8、画三维图</strong></h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;splot ‘文件名’ u 2:4:5 </span><br><span class="line"><span class="comment"># 以第二和第四列作为x和y坐标，第五列为z坐标。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="9．将图形输出到文件"><a href="#9．将图形输出到文件" class="headerlink" title="9．将图形输出到文件"></a><strong>9．将图形输出到文件</strong></h3><p>在 gnuplot中，输出文件的格式是由terminal来控制的。默认的情况下，都是输出到屏幕，即终端模式为X11。如果想输出到文件，则必须对 terminal进行设置。要了解有那些终端类型，可以输入 set terminal后回车，所有支持的终端模式（或文件格式）都列出来了。就我来说，输出文件的格式用得最多的是ps和eps文件。这在运行画图命令 plot或splot前必须先运行如下两条命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;<span class="built_in">set</span> term post eps color solid enh</span><br><span class="line">gnuplot&gt;<span class="built_in">set</span> output ‘a.eps’</span><br></pre></td></tr></table></figure>
+
+<p>其 中第一条命令为设置终端模式，post即为postscript模式，这是输出到ps或eps文件必须有的。后面的eps，color，solid以及 enh选项均可以有或没有，根据你的需要。eps表示输出为eps文件，没有就输出为ps文件；color表示输出图形为彩色，不用就会保存为黑白 的；solid表示输出图中的所有线都用实线，不用则除了第一条线为实线外，其它的均用不同的虚线；使用enh(enhanced)选项可以在图中插入上 下标、希腊字母和特殊符号，不用则不能实现这些功能。后面的选项可以根据自己的需要选择一个或几个。</p>
+<p>第二条命令对output的设置表示要输出的文件的名字。但是请注意，运行完这条命令后，还仅仅是定义了输出文件的名字，实际上，图还没画到这个文件里去。因此运行这两条命令还只是进行了必须的设置。然后运行如下命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;plot sin(x) w l</span><br></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;replot（假如前面已经运行过plot或replot命令的话）</span><br></pre></td></tr></table></figure>
+<p>这时，图形就在上面指定的文件中了。</p>
+<p>要输出为其它格式，同样要进行这样的设置，比如要输出为jpg格式，则在运行画图命令前先运行如下命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;<span class="built_in">set</span> term jpeg</span><br><span class="line">gnuplot&gt;<span class="built_in">set</span> output ‘a.jpg’</span><br></pre></td></tr></table></figure>
+
+<p>如果要由其它模式再返回到输出到屏幕，则运行如下命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;<span class="built_in">set</span> term X11</span><br></pre></td></tr></table></figure>
+
+<h3 id="二、提高篇："><a href="#二、提高篇：" class="headerlink" title="二、提高篇："></a><strong>二、提高篇：</strong></h3><h3 id="1、如何在同一张图里同时画多个图"><a href="#1、如何在同一张图里同时画多个图" class="headerlink" title="1、如何在同一张图里同时画多个图"></a><strong>1、如何在同一张图里同时画多个图</strong></h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;<span class="built_in">set</span> multiplot  <span class="comment">#设置为多图模式</span></span><br><span class="line">gnuplot&gt;<span class="built_in">set</span> origin 0.0,0.5  <span class="comment">#设置第一个图的原点的位置</span></span><br><span class="line">gnuplot&gt;<span class="built_in">set</span> size 0.5,0.5 <span class="comment">#设置第一个图的大小</span></span><br><span class="line">gnuplot&gt;plot “a1.dat”</span><br><span class="line">gnuplot&gt;<span class="built_in">set</span> origin 0.5,0.5  <span class="comment">#设置第二个图的原点的位置</span></span><br><span class="line">gnuplot&gt;<span class="built_in">set</span> size 0.5,0.5  <span class="comment">#设置第二个图的大小</span></span><br><span class="line">gnuplot&gt;plot “a2.dat”</span><br><span class="line">gnuplot&gt;<span class="built_in">set</span> origin 0.0,0.0  <span class="comment">#设置第三个图的原点的位置</span></span><br><span class="line">gnuplot&gt;<span class="built_in">set</span> size 0.5,0.5 <span class="comment">#设置第三个图的大小</span></span><br><span class="line">gnuplot&gt;plot “a3.dat”</span><br><span class="line">gnuplot&gt;<span class="built_in">set</span> origin 0.5,0.0  <span class="comment">#设置第四个图的原点的位置</span></span><br><span class="line">gnuplot&gt;<span class="built_in">set</span> size 0.5,0.5 <span class="comment">#设置第四个图的大小</span></span><br><span class="line">gnuplot&gt;plot “a4.dat”</span><br></pre></td></tr></table></figure>
+
+<p>当然，如果后一个图中的某个量的设置和前一个的相同，那么后一个中的这个量的设置可以省略。例如上面对第二、第三和第四个图的大小的设置。前一个图中对某个量的设置也会在后一个图中起作用。如果要取消在后面图中的作用，必须用如下命令，如取消label，用</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;<span class="built_in">unset</span> label</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、作二维图时，如何使两边坐标轴的单位长度等长"><a href="#2、作二维图时，如何使两边坐标轴的单位长度等长" class="headerlink" title="2、作二维图时，如何使两边坐标轴的单位长度等长"></a><strong>2、作二维图时，如何使两边坐标轴的单位长度等长</strong></h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt; <span class="built_in">set</span> size square  <span class="comment">#使图形是方的</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> size 0.5,0.5  <span class="comment">#使图形是你要的大小</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> xrange[-a:a]</span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> yrange[-a:a]  <span class="comment">#两坐标轴刻度范围一样</span></span><br><span class="line">gnuplot&gt; plot ‘a.dat’</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、如何在同一张图里利用左右两边的y轴分别画图"><a href="#3、如何在同一张图里利用左右两边的y轴分别画图" class="headerlink" title="3、如何在同一张图里利用左右两边的y轴分别画图"></a><strong>3、如何在同一张图里利用左右两边的y轴分别画图</strong></h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt; <span class="built_in">set</span> xtics nomirror  <span class="comment">#去掉上面坐标轴x2的刻度</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> ytics nomirror  <span class="comment">#去掉右边坐标轴y2的刻度</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> x2tics    <span class="comment">#让上面坐标轴x2刻度自动产生</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> y2tics   <span class="comment">#让右边坐标轴y2的刻度自动产生</span></span><br><span class="line">gnuplot&gt; plot sin(x),cos(x) axes x1y2  <span class="comment">#cos(x)用x1y2坐标，axes x1y2表示用x1y2坐标轴</span></span><br><span class="line">gnuplot&gt; plot sin(x),cos(x) axes x2y2   <span class="comment">#cos(x)用x2y2坐标，axes x2y2表示用x2y2坐标轴</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> x2range[-20:20]  <span class="comment">#设定x2坐标的范围</span></span><br><span class="line">gnuplot&gt; replot</span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> xrange[-5:5] <span class="comment">#设定x坐标的范围</span></span><br><span class="line">gnuplot&gt; replot</span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> xlabel <span class="string">&#x27;x&#x27;</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> x2label <span class="string">&#x27;t&#x27;</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> ylabel <span class="string">&#x27;y&#x27;</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> y2label <span class="string">&#x27;s&#x27;</span></span><br><span class="line">gnuplot&gt; replot</span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> title <span class="string">&#x27;The figure&#x27;</span></span><br><span class="line">gnuplot&gt; replot</span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> x2label <span class="string">&#x27;t&#x27;</span> textcolor lt 3  %textcolor lt 3 <span class="comment">#或 tc lt 3设置坐标轴名称的颜色</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4、如何插入希腊字母和特殊符号"><a href="#4、如何插入希腊字母和特殊符号" class="headerlink" title="4、如何插入希腊字母和特殊符号"></a><strong>4、如何插入希腊字母和特殊符号</strong></h3><p>一般只能在ps和eps图中，且必须指定enhanced选项。在X11终端（即显示器）中无法显示。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt; <span class="built_in">set</span> terminal postscript enhanced然后希腊字母就可以通过&#123;/Symbol a&#125;输入。例如</span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> label ‘&#123;/Symbol a&#125;’</span><br><span class="line">&lt;!--[<span class="keyword">if</span> !supportLineBreakNewLine]--&gt;</span><br><span class="line">&lt;!--[endif]--&gt;</span><br></pre></td></tr></table></figure>
+
+<p>各种希腊字母与特殊符号的输入方法请见安装包中gnuplot-4.0.0/docs/psdoc目录下的ps_guide.ps文件。<br>另外还可参见：<a target="_blank" rel="noopener" href="http://t16web.lanl.gov/Kawano/gnuplot/label-e.html#4.3">http://t16web.lanl.gov/Kawano/gnuplot/label-e.html#4.3</a></p>
+<h3 id="5、gnuplot中如何插入Angstrom（埃）这个符号-A上面一个小圆圈"><a href="#5、gnuplot中如何插入Angstrom（埃）这个符号-A上面一个小圆圈" class="headerlink" title="5、gnuplot中如何插入Angstrom（埃）这个符号(A上面一个小圆圈)"></a><strong>5、gnuplot中如何插入Angstrom（埃）这个符号(A上面一个小圆圈)</strong></h3><p>脚本中在插入前先加入</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;<span class="built_in">set</span> encoding iso_8859_1</span><br></pre></td></tr></table></figure>
+<p>这个命令，然后就可以通过“{\305}”加入了。如横坐标要标上“k(1/?)”：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;<span class="built_in">set</span> xlabel <span class="string">&#x27;k(1/&#123;\305&#125;)</span></span><br></pre></td></tr></table></figure>
+<p>如果是multiplot模式，则这个命令必须放在</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;<span class="built_in">set</span> multiplot</span><br></pre></td></tr></table></figure>
+<p>的前面。</p>
+<p>如果后面还要插入别的转义字符，那么还要在插入字符后加入如下命令：<code>set encoding default</code>安装包中gnuplot-4.0.0/docs/psdoc/ps_guide.ps文件中的表中的‘E’代表那一列的所有符号都用这个方法输入。</p>
+<h3 id="6、gnuplot画等高线图"><a href="#6、gnuplot画等高线图" class="headerlink" title="6、gnuplot画等高线图"></a><strong>6、gnuplot画等高线图</strong></h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;splot ‘文件名.dat’ u 1:2:3 w l  %做三维图</span><br><span class="line">gnuplot&gt;<span class="built_in">set</span> dgrid3d 100,100 %设置三维图表面的网格的数目</span><br><span class="line">gnuplot&gt;replot</span><br><span class="line">gnuplot&gt;<span class="built_in">set</span> contour  %设置画等高线</span><br><span class="line">gnuplot&gt;<span class="built_in">set</span> cntrparam levels incremental -0.2,0.01,0.2  %设置等高线的疏密和范围，数据从  -0.2到0.2中间每隔0.01画一条线</span><br><span class="line">gnuplot&gt;<span class="built_in">unset</span> surface  去掉上面的三维图形</span><br></pre></td></tr></table></figure>
+
+<p>最后用鼠标拽动图形，选择合理的角度即可。或者直接设置(0,0)的视角也可以：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;<span class="built_in">set</span> view 0,0</span><br><span class="line">gnuplot&gt;replot</span><br></pre></td></tr></table></figure>
+
+<p>这里注意，画三维图的数据文件必须是分块的，也就是x每变换一个值，y在其变化范围内变化一周，这样作为一块，然后再取一个x值，y再变化一周，作为下一数据块，等等。块与块之间用一空行格开。</p>
+<h3 id="7、如何画漂亮的pm3d图"><a href="#7、如何画漂亮的pm3d图" class="headerlink" title="7、如何画漂亮的pm3d图"></a><strong>7、如何画漂亮的pm3d图</strong></h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt; <span class="built_in">set</span> pm3d        <span class="comment"># 设置pm3d模式</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> isosamples 50,50    <span class="comment"># 设置网格点</span></span><br><span class="line">gnuplot&gt; splot x**2+y**2     <span class="comment"># 画三维图</span></span><br><span class="line">gnuplot&gt; splot x**2+y**2 w pm3d  <span class="comment"># 画成pm3d模式，注意比较变化</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> view 0,0       <span class="comment"># 设置视角，（0，0）将投影到底面上去</span></span><br><span class="line">gnuplot&gt; splot x**2+y**2 w pm3d  <span class="comment"># 重画，注意看变化</span></span><br><span class="line">gnuplot&gt; <span class="built_in">unset</span> ztics        <span class="comment"># 把z轴上的数字给去掉</span></span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> isosamples 200,200   <span class="comment"># 使网格变细</span></span><br><span class="line">gnuplot&gt; replot          <span class="comment"># 重画，注意看变化，主要是过渡更光滑</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="8、利用脚本文件避免重复输入"><a href="#8、利用脚本文件避免重复输入" class="headerlink" title="8、利用脚本文件避免重复输入"></a><strong>8、利用脚本文件避免重复输入</strong></h3><p>有时候对某个数据文件做好一张图后，下次可能还要利用这个数据文件作图，但某个或某些设置要作些细微变化。这时候，可以把第一次作图时的命令全部写到一个文件里，如a.plt，下次只要将相应的设置做修改后，用下面的命令就会自动运行文件所有的命令而最后得到你要的图：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;load ‘a.plt’</span><br></pre></td></tr></table></figure>
+<p>作为一个例子，假设文件名为a.plt，里面的内容为：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> pm3d </span><br><span class="line"><span class="built_in">set</span> view 0,0 </span><br><span class="line"><span class="built_in">unset</span> ztics </span><br><span class="line"><span class="built_in">set</span> isosamples 200,200 </span><br><span class="line">splot x**2+y**2 w pm3d</span><br><span class="line"><span class="built_in">set</span> term post color</span><br><span class="line"><span class="built_in">set</span> output ‘a.ps’</span><br><span class="line">replot</span><br></pre></td></tr></table></figure>
+
+<p>那么启动gnuplot后，只要运行如下命令就可以了：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;load ‘a.plt’</span><br></pre></td></tr></table></figure>
+
+<p>如果我们要得到的仅仅是.ps或.eps图，那也可以在linux命令提示符下直接运行如下命令：</p>
+<p>[zxh@theory zxh]$gnuplot a.plt</p>
+<h3 id="9、在gnuplot模式下运行linux命令"><a href="#9、在gnuplot模式下运行linux命令" class="headerlink" title="9、在gnuplot模式下运行linux命令"></a><strong>9、在gnuplot模式下运行linux命令</strong></h3><p>在gnuplot提示符下也可以运行linux命令，但必须在相应的命令前面加上 ! 号。例如，假设很多参量都已经设置好了，但需要对某个数据文件a.dat进行修改后再画图，则可以用如下方式</p>
+<p>gnuplot&gt;!vi a.dat</p>
+<p>通过这种方式，所有的linux命令都可以在gnuplot环境里运行。</p>
+<p>另外，也可以在gnuplot的提示符后输入shell，暂时性退出gnuplot，进入linux环境，做完要做的事情后，运行exit命令，又回到gnuplot环境下。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;shell</span><br><span class="line">[zxh@theory zxh]<span class="variable">$vi</span> a.f</span><br><span class="line">[zxh@theory zxh]<span class="variable">$f77</span> a.f</span><br><span class="line">[zxh@theory zxh]<span class="variable">$a</span>.out  (假设生成a.dat数据文件)</span><br><span class="line">[zxh@theory zxh]<span class="variable">$exit</span></span><br><span class="line">gnuplot&gt;plot ‘a.dat’ w l</span><br></pre></td></tr></table></figure>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/03/12/20210314-john-eckert/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 约翰·埃克特
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/03/09/20210309-zsh-config/" id="article-nav-older" class="article-nav-link-wrap">
+            我的 zsh 配置 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Firebug Command Line 的使用技巧-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="firebug, command line">
+    <meta name="description" content="Command lin 是Firebug中总有用的一个特性。Firebug中的命令行更像“Immediate Window”，你能够在任何时候检测代码中的值，firebug命令行的一个好处就是可以在”设计时“就查看代码。另外还有一个优点就是你可以在命令行写js语句并且让他们立刻执行。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Firebug Command Line 的使用技巧</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-14 19:49:31</span>
+        
+        <span class="post-time">发布于：2009-05-23 11:15:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>Command lin 是Firebug中总有用的一个特性。如果你有Microsoft Visual Studio的使用经验，你就会知道“Immediate Window”和“Watch Window”的作用，我倒是想起了AutoCAD中的Commandline，通过快速的输入命令来完成操作。</p>
+<p>Firebug中的命令行更像“Immediate Window”，你能够在任何时候检测代码中的值，firebug命令行的一个好处就是可以在”设计时“就查看代码。另外还有一个优点就是你可以在命令行写js语句并且让他们立刻执行。</p>
+<p>firebug commandline的详细的api可以在官方的地址中看到：<a target="_blank" rel="noopener" href="http://getfirebug.com/commandline.html">http://getfirebug.com/commandline.html</a></p>
+<p>下面来详细的介绍一下：</p>
+<p>命令行的类型。firebug中有两种类型的命令行：1、单行模式；2、多行模式；</p>
+<ul>
+<li>1、单行模式。单行模式是firebug的默认命令行模式，它允许我们一次输入一行代码。单行模式的优点是支持自动完成。<br>这个很强大的，就像在终端中一样，你还可以使用上下键来调入最近使用过的命令。</li>
+<li>2、多行模式。多行模式是单行模式的加强版，它允许我们一次输入多行代码并且马上执行。<br>这两种模式都有各自的优势，大家可以根据自己的情况选择适合的模式。</li>
+</ul>
+<p>Commandline API使用示例。</p>
+<p>在使用之前，需要在提醒一下尽管这些API在运行时和DEBUG时都可以使用，但是他们在DEBUG时尤其有用，下面我们就来看看为什么。</p>
+<p>API列表：</p>
+<ul>
+<li>1、$(id)；</li>
+<li>2、$$(selector);</li>
+<li>3、$x(path);</li>
+<li>4、dir(object);</li>
+<li>5、dirxml(node);</li>
+<li>6、cd(window);</li>
+<li>7、clear();</li>
+<li>8、inspect(object [,tagname]);</li>
+<li>9、key(object);</li>
+<li>10、values(object);</li>
+<li>11、debug(fn) &amp; undebug(fn);</li>
+<li>12、monitor(fn) &amp; unmonitor(fn);</li>
+<li>13、monitorEvents(object [, tagname]) &amp; unmonitorEvents(object [, tagName]);</li>
+<li>14、profile(title) &amp; profileEnd();</li>
+</ul>
+<p>1、$(id)。<br>使用过Prototype的同学看到这个一定很亲切。<br>对了，他的用法就和Prototype中的$一样，在单行模式中，命令会将选择的元素打印到console中<br>在多行模式中，你就完全可以像在Prototype中那样使用它了。<br>对于Prototype不熟悉的同学可以查看参考资料中的连接了解更多的情况。</p>
+<p>2、$$()。<br>返回给定CSS选择器选中的元素数组。<br>关于CSS Selector（选择器），相信了解一些CSS的人都有一些印象，Jqueyr将Css Selector发扬的很光大。<br>我在console中试验了几个jquery中的常用写法，看来支持的还是不够好。</p>
+<p>3、$x(xpath)。<br>返回给定xpath下的元素数组。<br>例如在一个包含多个p的div中，我们可以用下面的代码获得每个p。<br>var obj = $x(‘html/body/div/p’);<br>console.log(obj[0].id);<br>console.log(obj[1].id);<br>console.log(obj[2].id);</p>
+<p>4、dir(object)。<br>打印一个对象的所有属性，结果形式和在DOM标签中看到的一样。<br>其实这个用法和console.dir()是一样的。<br>var obj = $x(‘html/body/div/p’);<br>dir(obj);</p>
+<p>5、dirxml(note)。<br>打印xml或HTML元素的树形结构。打印的结果就像在HTML标签中看到的一样。<br>之前我们也接触过console.dirxml()的用法，这两个方法是一样的。</p>
+<p>6、cd(window)。<br>cd是用来在框架布局的不同窗口间切换，不过据说还不是很完善。</p>
+<p>7、clear()。<br>清除控制台的内容，就像在Javascript中使用Console.clear()一样。</p>
+<p>8、inspect(object [,TabName])。<br>在最适合的标签中检测一个元素，也可以通过TabName指定需要打开的标签。<br>例如：<br>inspect($(‘txt1’),’html’);<br>就会打开HTML标签，并且选中id为txt1的元素。</p>
+<p>9、keys(boject)。<br>返回指定名称的对象的所有属性的名称数组。指定的名称可以是Javascript对象，也可以是HTML的DOM元素。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Car</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.Model = <span class="string">&quot;Old Model&quot;</span>;</span><br><span class="line">  <span class="built_in">this</span>.getManufactor = <span class="keyword">new</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	  <span class="keyword">return</span> <span class="string">&quot;Toyota&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> o = <span class="keyword">new</span> car()</span><br></pre></td></tr></table></figure>
+
+<p>我们可以用keys(o)获得car对象的所有属性。</p>
+<p>还可以获得HTML元素的所有属性名称，比如 keys($(‘txt5’));</p>
+<p>10、values(object)。<br>返回对象包含的属性值的数组。<br>像keys一样，我们既可以用在javascript上，也可以用在html元素上。</p>
+<p>11、debug(fn)和undebug(fn)。<br>在程序的开始处添加或删除断点。</p>
+<p>12、monitor(FunctionName)和unmonitor(FunctionName)。<br>打开或关闭函数调用的记录。<br>通常，如果我们想知道一个函数是否被执行，我们会加入一个alert()或者console.log()来记录。<br>这实在是一个累人的工作，特别是如果编辑一个很大的script文件的时候，我们需要找到这个函数，加入alert,console.log<br>保存然后再运行，我们需要不断地保存、修改、运行来检查函数在那里被执行了。<br>有了firebug你就不再需要这么累了，你只需要知道这个函数，然后你就可以跟踪它，只要他被执行了，执行情况就会打印在<br>console窗口中。另外，console还会提供一个指向这个函数的连接。</p>
+<p>使用方法    monitor(func1); 找到问题的原因后，我们还可以通过 unmonitor(func1)里解除对于函数的追踪。</p>
+<p>13、monitorEvent(object [,types])和 unmonitorEvent(object [,types])。<br>打开或关闭对于对象动作的记录。</p>
+<p>types表示的我们要追踪的事件类型，最常用的就是’mouse’和’key’<br>完整的参数类型包括：“composition”, “contextmenu”, “drag”, “focus”, “form”, “key”, “load”, “mouse”, “mutation”, “paint”, “scroll”, “text”, “ui”, and “xul”</p>
+<p>不过不幸的是，这个API工作地不是很好，希望作者能够在后继的版本中完善一下。</p>
+<p>14、profile([title])和profileEnd([title])<br>对于这个命令，我想看过上一篇的同学应该比较熟悉。这个就和console.profile()是一样的，用来记录页面中js的执行情况<br>并在结束后给出分析报告。</p>
+<p>最后，希望每一位使用firebug来开发的同学，能够提高自己的开发效率。</p>
+<p>[参考资料]</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="http://michaelsync.net/2007/09/15/firebug-tutorial-commandline-api">firebug commandline</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.prototypejs.org/">prototype</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2009/06/02/20090602-think-about-framework/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 关于框架的一些思考
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2009/05/21/20090521-jsonp/" id="article-nav-older" class="article-nav-link-wrap">
+            使用Jsonp解决跨域数据访问问题 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

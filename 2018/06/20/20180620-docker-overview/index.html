@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Docker 入门介绍-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="docker, docker介绍, docker镜像, docker daemon, docker client, docker 仓库">
+    <meta name="description" content="Docker 是一个应用程序开发、部署、运行的平台，使用 go 语言开发。相较于传统的主机虚拟化，Docker 提供了轻量级的应用隔离方案，并且为我们提供了应用程序快速扩容、缩容的能力。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Docker 入门介绍</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-20 20:22:39</span>
+        
+        <span class="post-time">发布于：2018-06-20 11:12:13</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>Docker 是一个应用程序开发、部署、运行的平台，使用 go 语言开发。相较于传统的主机虚拟化，Docker 提供了轻量级的应用隔离方案，并且为我们提供了应用程序快速扩容、缩容的能力。</p>
+<span id="more"></span>
+
+<p>[TOC]</p>
+<h2 id="Docker与其他虚拟化方式的对比"><a href="#Docker与其他虚拟化方式的对比" class="headerlink" title="Docker与其他虚拟化方式的对比"></a>Docker与其他虚拟化方式的对比</h2><ul>
+<li>虚拟机：通过在一种操作系统中运行另外一种操作系统的方式来提供不同的程序运行环境。这种方式的缺点是资源占用多，每个虚拟机都虚拟出了完整操作系统的各个部分；启动慢，虚拟机启动和正常的操作系统启动步骤一样，都要经过自检、加载等一系列步骤。</li>
+<li>Linux Container（简称LXC）：这是促使Docker产生的重要基础性技术。LXC实现了进程级别的资源隔离，因此相比传统的虚拟机来说，资源占用率大大减少，启动速度自然也就提高了很多。</li>
+</ul>
+<h2 id="Docker-介绍"><a href="#Docker-介绍" class="headerlink" title="Docker 介绍"></a>Docker 介绍</h2><p>Docker是最早是基于LXC的一种封装，从0.9版本（2013年3月13日发布） 开始，Docker开发了libcontainer项目作为更广泛的容器驱动实现，从而替换掉了LXC，Docker是目前最流行的Linux容器解决方案。</p>
+<p>从百度指数上看，自从2014年之后docker关键词的搜索热度开始呈现快速的增长。</p>
+<img src="/2018/06/20/20180620-docker-overview/image-20200504175945750.png" class="" title="image-20200504175945750">
+
+<p>Docker目前有两个版本，一个是社区版（Community Edition，缩写为CE），另外一个是企业版（Enterprise Edition，缩写为EE），企业版包含了一些收费服务。</p>
+<h2 id="Docker架构"><a href="#Docker架构" class="headerlink" title="Docker架构"></a>Docker架构</h2><p>Docker是一个Client-Server应用程序，服务端包含了三个主要部分：dockerd守护进程、REST API接口层、cli接口层(管理容器、镜像、网络、存储等等)。</p>
+<img src="/2018/06/20/20180620-docker-overview/39469-20180620111050822-168274068.png" class="">
+
+<p>Docker客户端通过Unix套接字或者网络接口访问 docker daemon，从而完成容器、镜像等内容的管理。</p>
+<img src="/2018/06/20/20180620-docker-overview/39469-20180620111102824-1462399429.png" class="">
+
+<h3 id="Docker-Daemon"><a href="#Docker-Daemon" class="headerlink" title="Docker Daemon"></a>Docker Daemon</h3><p>Docker的守护进程监听对于API的请求，并且管理Docker对象，包括容器、镜像、网络、存储等。不同守护进程之间可以互相通信，从而构成集群服务。</p>
+<p>Docker 服务端一般在宿主机后台运行，dockerd 作为服务端接受客户端请求，并通过 containerd 具体处理与容器相关的请求。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ps -ef | grep docker</span><br><span class="line">root	14677	1	0	16:21	?	00:00:00	/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock</span><br></pre></td></tr></table></figure>
+
+<h3 id="Docker-Client"><a href="#Docker-Client" class="headerlink" title="Docker Client"></a>Docker Client</h3><p>Docker 客户端 <code>docker</code> 命令是与 Docker 交互的主要方式。如果服务端没有在默认的监听端口，则需要明确指定后端地址和端口。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker -H tcp://127.0.0.1:1234 info</span><br></pre></td></tr></table></figure>
+
+<h3 id="Docker-仓库"><a href="#Docker-仓库" class="headerlink" title="Docker 仓库"></a>Docker 仓库</h3><p>Docker 仓库保存 Docker 镜像，可以通过 <code>docker pull</code> 以及 <code>docker push</code> 来下载、上传镜像文件。</p>
+<h2 id="Docker-对象"><a href="#Docker-对象" class="headerlink" title="Docker 对象"></a>Docker 对象</h2><h3 id="1-镜像文件-image"><a href="#1-镜像文件-image" class="headerlink" title="1. 镜像文件 image"></a><strong>1. 镜像文件 image</strong></h3><p>Docker把应用程序和相关的依赖打包到镜像文件中，通过镜像文件生成Docker容器，可以理解位镜像是用来构建容器的只读模版。同一个镜像文件，可以生成多个同时运行的容器实例。</p>
+<p>通常一个镜像会依赖其他的镜像。例如我们编写的一个Node程序需要依赖Node环境，那在构建这个应用镜像时就需要依赖基础的Node镜像。</p>
+<p>我们可以创建自己的镜像，也可以使用仓库中已经创建好的镜像。创建镜像需要创建一个<code>Dockerfile</code>文件。每个Dockerfile定义镜像文件中的一层，当定义发生变化的时候，只需要更新这一层的文件即可。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列出本机当前所有的镜像文件</span></span><br><span class="line">$ docker images</span><br><span class="line"><span class="comment"># 删除镜像文件，如果有使用该镜像的容器，则需要先删除容器然后才能删除镜像</span></span><br><span class="line">$ docker rmi 镜像ID或名称</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-容器"><a href="#2-容器" class="headerlink" title="2. 容器"></a><strong>2. 容器</strong></h3><p>容器是一个运行状态下的镜像，通过docker命令我们可以创建、启动、停止、删除容器。容器本身也是一个文件，可以通过<code>docker ps -a</code>查看本地创建的所有容器文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看本地所有的容器文件</span></span><br><span class="line">$ docker ps -a</span><br><span class="line"><span class="comment"># 运行ubuntu并进入命令行</span></span><br><span class="line">$ docker run -i -t ubuntu /bin/bash</span><br></pre></td></tr></table></figure>
+<p>上面的命令实际上经过了6个步骤：</p>
+<ol>
+<li>如果本地没有<strong>ubuntu</strong>镜像，那么首先执行<code>docker pull ubuntu</code>镜像文件到本地；</li>
+<li>自动创建一个容器，相当于命令<code>dock container create</code>；</li>
+<li>Docker分配一块文件系统给容器；</li>
+<li>Docker创建网络接口、分配网络地址；</li>
+<li>启动容器，并且执行<code>/bin/bash</code>命令；</li>
+<li>我们可以在bash中执行命令，执行exit后，退出ubuntu的命令行，同时容器关闭。</li>
+</ol>
+<h3 id="3-网络"><a href="#3-网络" class="headerlink" title="3. 网络"></a><strong>3. 网络</strong></h3><p>Docker的网络子系统是可插拔的，支持bridge、host、overlay、macvlan、none等网络模式。熟悉虚拟机的同学可能对这些有概念，想要了解更多参考<a target="_blank" rel="noopener" href="https://docs.docker.com/network/network-tutorial-standalone/">这里</a>。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看 当前可用网络</span></span><br><span class="line">$ docker network ls</span><br></pre></td></tr></table></figure>
+
+<p>可以使用 <code>ip</code> 命令绑定端口和网桥，docker 随机分配一个本地未占用的私有段中的地址给 docker0 网桥接口，比较典型的是 172.17.0.0/16。</p>
+<h3 id="4-存储"><a href="#4-存储" class="headerlink" title="4. 存储"></a><strong>4. 存储</strong></h3><p>默认情况下，容器中的应用生成的所有文件都存放在一个可写的容器层，意味着这些数据的生命周期和容器保持一致，一旦容器重启数据就丢了。另外，这些文件与容器高度关联，想要将这些文件分享给其他的容器或者设备非常困难。<br>为此，Docker提供了两种方案解决数据问题：<strong>Volumes</strong>、<strong>bind mount</strong>。不管使用哪种方式，容器内看起来都是一样的，或者作为一个文件夹存在、或者作为一个文件存在。</p>
+<img src="/2018/06/20/20180620-docker-overview/types-of-mounts.png" class="" title="img">
+
+<p>上图说明了不同方式的区别，<strong>Volumes</strong>是存在本地文件系统中的一部分，其他应用程序不能对这个文件系统进行修改，Linux下在<code>/var/lib/docker/volumes</code>。这是数据持久化的最好方案。<strong>Bind Mount</strong>允许将主机中任何位置的数据挂载，这些数据的读写没有收到保护。<strong>tmps</strong>是存储在主机内存中的数据。</p>
+<h2 id="常用的Docker命令"><a href="#常用的Docker命令" class="headerlink" title="常用的Docker命令"></a>常用的Docker命令</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 运行friendlyhello，并将容器的80端口映射到本机的4000端口</span></span><br><span class="line">$ docker run -p 4000:80 friendlyhello</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行一个mysql容器，并在运行结束后删除</span></span><br><span class="line">$ docker pull mysql</span><br><span class="line">$ docker run --name mysql -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看已经创建的容器</span></span><br><span class="line">$ docker ps</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看容器的信息</span></span><br><span class="line">$ docker inspect image-id</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行容器中的命令</span></span><br><span class="line">$ docker <span class="built_in">exec</span> -it container-name bash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 挂载宿主机文件或目录到容器，下面将sh-valley目录挂载到容器的/home/go目录下</span></span><br><span class="line">$ docker run -it -v /Users/local_path:/home/go golang bash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除所有本地镜像文件</span></span><br><span class="line">$ docker rmi -f $(docker images -q)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止所有正在运行的容器</span></span><br><span class="line">$ docker stop $(docker images -q)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行一个 Apache 镜像服务，挂载本地文件，并在运行后删除</span></span><br><span class="line">$ docker run -it --rm --name my-httpd-server -p 80:80 -v <span class="string">&quot;<span class="variable">$PWD</span>&quot;</span>:/usr/<span class="built_in">local</span>/apache2/htdocs httpd:2.4</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/docker-overview/">Docker Overview</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lisperl/archive/2012/05/03/2480573.html">Linux Namespaces机制——实现</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Linux_namespaces">Linux namespaces</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cgroups">cgroups</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html">Docker入门教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/34152365/difference-between-lxc-and-libcontainer">Difference between LXC and libcontainer</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.opencontainers.org/">Open Container Initiative</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/06/22/20180622-python-read-id3v1-tag/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 使用Python读取Mp3的标签信息
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/06/19/20180619-minikube-introduce/" id="article-nav-older" class="article-nav-link-wrap">
+            Minikube体验 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

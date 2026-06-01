@@ -1,0 +1,237 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>node-sass安装遇到的错误-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="node-sass, npm, npm install, node-gyp">
+    <meta name="description" content="Node版本升级后，带来的npm install安装失败问题。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>node-sass安装遇到的错误</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2022-07-22 18:15:11</span>
+        
+        <span class="post-time">发布于：2021-07-27 13:32:34</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <blockquote>
+<p>本文记录MacOS Catalina环境下，Node版本升级到16.5.0之后，导致的node-sass不能使用，而更新安装node-sass失败问题的解决过程，以及在此过程中对于npm更加深入的了解，希望能够帮助到有同样困惑的同学。</p>
+</blockquote>
+<p>前两天系统安装了 <code>nmap</code> 后，<code>hexo new</code> 新文章的时候就报下面的错误。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">INFO  Validating config</span><br><span class="line">ERROR &#123;</span><br><span class="line">  err: Error: Node Sass does not yet support your current environment: OS X 64-bit with Unsupported runtime (93)</span><br><span class="line">  For more information on <span class="built_in">which</span> environments are supported please see:</span><br><span class="line">  https://github.com/sass/node-sass/releases/tag/v4.14.1</span><br><span class="line">      at module.exports (/Users/shiqiang/Projects/edulinks-blog/node_modules/node-sass/lib/binding.js:13:13)</span><br><span class="line">      at Object.&lt;anonymous&gt; (/Users/shiqiang/Projects/edulinks-blog/node_modules/node-sass/lib/index.js:14:35)</span><br><span class="line">      at Module._compile (node:internal/modules/cjs/loader:1095:14)</span><br><span class="line">      at Object.Module._extensions..js (node:internal/modules/cjs/loader:1124:10)</span><br><span class="line">      at Module.load (node:internal/modules/cjs/loader:975:32)</span><br><span class="line">      at Function.Module._load (node:internal/modules/cjs/loader:816:12)</span><br><span class="line">      at Module.require (node:internal/modules/cjs/loader:999:19)</span><br><span class="line">      at req (/Users/shiqiang/Projects/edulinks-blog/node_modules/hexo/lib/hexo/index.js:292:23)</span><br><span class="line">      at /Users/shiqiang/Projects/edulinks-blog/node_modules/hexo-render-sass/dist/index.js:10:35</span><br><span class="line">      at /Users/shiqiang/Projects/edulinks-blog/node_modules/hexo/lib/hexo/index.js:305:14</span><br><span class="line">      at tryCatcher (/Users/shiqiang/Projects/edulinks-blog/node_modules/bluebird/js/release/util.js:16:23)</span><br><span class="line">      at Promise._settlePromiseFromHandler (/Users/shiqiang/Projects/edulinks-blog/node_modules/bluebird/js/release/promise.js:547:31)</span><br><span class="line">      at Promise._settlePromise (/Users/shiqiang/Projects/edulinks-blog/node_modules/bluebird/js/release/promise.js:604:18)</span><br><span class="line">      at Promise._settlePromise0 (/Users/shiqiang/Projects/edulinks-blog/node_modules/bluebird/js/release/promise.js:649:10)</span><br><span class="line">      at Promise._settlePromises (/Users/shiqiang/Projects/edulinks-blog/node_modules/bluebird/js/release/promise.js:729:18)</span><br><span class="line">      at _drainQueueStep (/Users/shiqiang/Projects/edulinks-blog/node_modules/bluebird/js/release/async.js:93:12)</span><br><span class="line">      at _drainQueue (/Users/shiqiang/Projects/edulinks-blog/node_modules/bluebird/js/release/async.js:86:9)</span><br><span class="line">      at Async._drainQueues (/Users/shiqiang/Projects/edulinks-blog/node_modules/bluebird/js/release/async.js:102:5)</span><br><span class="line">      at Immediate.Async.drainQueues [as _onImmediate] (/Users/shiqiang/Projects/edulinks-blog/node_modules/bluebird/js/release/async.js:15:14)</span><br><span class="line">      at processImmediate (node:internal/timers:464:21)</span><br><span class="line">&#125; Plugin load failed: %s hexo-render-sass</span><br></pre></td></tr></table></figure>
+
+<p>看了一下本机 node 版本已经升级到了 v16.5.0。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ node --version              </span><br><span class="line">v16.5.0</span><br></pre></td></tr></table></figure>
+
+<p>查看 node-sass 的版本是4.14.1，从 node-sass 的官方看到这个版本是不支持 node v16版本的，要从 node-sass 6.0.0 之后才开始支持。尝试安装最新版本的 node-sass 报错依旧，探索了几天觉得应该是 node-gyp 环境问题造成的。</p>
+<h2 id="node-gyp"><a href="#node-gyp" class="headerlink" title="node-gyp"></a>node-gyp</h2><p><a target="_blank" rel="noopener" href="https://gyp.gsrc.io/index.md">gyp</a> 是一个用来生成项目文件的工具，一开始是设计给 chromium 项目用的，生成项目文件后可以调用GCC、vsbuild、xcode等不通平台的编译工具进行编译。node 程序中需要调用一些其他语言编写的工具或dll，因此首先需要编译一下，否则会出现跨平台后无法正常使用的问题。</p>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><p>通过查看 node-sass 官方页面介绍，基本明确是当前使用的 node-sass 版本无法在高版本Node下正常运行，因此需要升级 node-sass。升级 node-sass 又依赖 node-gyp 的更高版本。因此，依次升级 node-gyp 、node-sass 后本地的问题就解决了。为了验证解决问题的思路和方法，设计了两个场景来一步一步寻找定位问题的根本原因。 </p>
+<ul>
+<li><strong>场景一</strong>：初始化一个Hexo博客，尝试安装 hexo-renderer-sass看是否报错。搞明白npm install hexo-renderer-sass 的过程，看是哪个环境依赖导致的问题。</li>
+<li><strong>场景二</strong>：初始化一个npm项目，安装并调用node-sass看是否报错，验证项目对node-sass引用情况。</li>
+</ul>
+<p>随着越来越多的人将Node版本升级，使用到 hexo-renderer-sass 插件的朋友应该都会遇到这个问题，目前看到插件作者还没有更新的动态，后续我可能会提交一个 request 或创建一个新的hexo插件，来支持更高版本的Node。</p>
+<h2 id="场景一：问题复现"><a href="#场景一：问题复现" class="headerlink" title="场景一：问题复现"></a>场景一：问题复现</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init test-blog</span><br><span class="line">...</span><br><span class="line">INFO  Start blogging with Hexo!</span><br></pre></td></tr></table></figure>
+
+<p>看到成功信息后，使用 <code>hexo server</code> 检查能否正常打开页面。然后安装 hexo-renderer-sass 插件可以看到文章开头的报错。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --save hexo-renderer-sass</span><br><span class="line">npm WARN old lockfile </span><br><span class="line">npm WARN old lockfile The package-lock.json file was created with an old version of npm,</span><br><span class="line">npm WARN old lockfile so supplemental metadata must be fetched from the registry.</span><br><span class="line">npm WARN old lockfile </span><br><span class="line">npm WARN old lockfile This is a one-time fix-up, please be patient...</span><br><span class="line">npm WARN old lockfile </span><br><span class="line">npm WARN deprecated har-validator@5.1.5: this library is no longer supported</span><br><span class="line">npm WARN deprecated request@2.88.2: request has been deprecated, see https://github.com/request/request/issues/3142</span><br><span class="line">npm ERR! code 1</span><br><span class="line">npm ERR! path /Users/shiqiang/Projects/www.edulinks.cn/0806-test-blog/node_modules/node-sass</span><br><span class="line">npm ERR! <span class="built_in">command</span> failed</span><br><span class="line">npm ERR! <span class="built_in">command</span> sh -c node-gyp rebuild</span><br><span class="line">npm ERR! gyp info it worked <span class="keyword">if</span> it ends with ok</span><br><span class="line">npm ERR! gyp info using node-gyp@3.8.0</span><br><span class="line">npm ERR! gyp info using node@16.5.0 | darwin | x64</span><br><span class="line">npm ERR! gyp ERR! configure error </span><br><span class="line">npm ERR! gyp ERR! stack Error: Command failed: /usr/bin/python3 -c import sys; <span class="built_in">print</span> <span class="string">&quot;%s.%s.%s&quot;</span> % sys.version_info[:3];</span><br><span class="line">npm ERR! gyp ERR! stack   File <span class="string">&quot;&lt;string&gt;&quot;</span>, line 1</span><br><span class="line">npm ERR! gyp ERR! stack     import sys; <span class="built_in">print</span> <span class="string">&quot;%s.%s.%s&quot;</span> % sys.version_info[:3];</span><br><span class="line">npm ERR! gyp ERR! stack                       ^</span><br><span class="line">npm ERR! gyp ERR! stack SyntaxError: invalid syntax</span><br><span class="line">npm ERR! gyp ERR! stack </span><br><span class="line">npm ERR! gyp ERR! stack     at ChildProcess.exithandler (node:child_process:397:12)</span><br><span class="line">npm ERR! gyp ERR! stack     at ChildProcess.emit (node:events:394:28)</span><br><span class="line">npm ERR! gyp ERR! stack     at maybeClose (node:internal/child_process:1067:16)</span><br><span class="line">npm ERR! gyp ERR! stack     at Socket.&lt;anonymous&gt; (node:internal/child_process:453:11)</span><br><span class="line">npm ERR! gyp ERR! stack     at Socket.emit (node:events:394:28)</span><br><span class="line">npm ERR! gyp ERR! stack     at Pipe.&lt;anonymous&gt; (node:net:672:12)</span><br><span class="line">npm ERR! gyp ERR! System Darwin 19.6.0</span><br><span class="line">npm ERR! gyp ERR! <span class="built_in">command</span> <span class="string">&quot;/usr/local/Cellar/node/16.5.0/bin/node&quot;</span> <span class="string">&quot;/Users/shiqiang/Projects/www.edulinks.cn/0806-test-blog/node_modules/.bin/node-gyp&quot;</span> <span class="string">&quot;rebuild&quot;</span></span><br><span class="line">npm ERR! gyp ERR! cwd /Users/shiqiang/Projects/www.edulinks.cn/0806-test-blog/node_modules/node-sass</span><br><span class="line">npm ERR! gyp ERR! node -v v16.5.0</span><br><span class="line">npm ERR! gyp ERR! node-gyp -v v3.8.0</span><br><span class="line">npm ERR! gyp ERR! not ok</span><br></pre></td></tr></table></figure>
+
+<p>此时本地的环境信息如下。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ node --version                       </span><br><span class="line">v16.5.0</span><br><span class="line">$ npm --version                        </span><br><span class="line">7.20.2</span><br><span class="line">$ node-gyp --version</span><br><span class="line">v8.1.0</span><br><span class="line">$ sass --version     </span><br><span class="line">1.35.2 compiled with dart2js 2.13.4</span><br></pre></td></tr></table></figure>
+
+<p>查看 package.json 显示对于 node-sass 的版本要求是 4.* 版本。Node升级到16版本以上之后，必须是node-sass 6.0以上的版本才支持。<code>npm install</code> 的时候，默认是从npmjs下载，但是作者没有更新这个版本依赖，因此想到将相关代码 fork 到我的仓库中，然后通过github安装。可以将 package.json 修改为下面</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;hexo-renderer-sass&quot;</span>: <span class="string">&quot;github:cocowool/hexo-renderer-sass&quot;</span>,</span><br></pre></td></tr></table></figure>
+
+<p>然后重新执行 <code>npm install</code> 就可以正常安装了。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">npm http fetch GET 200 https://codeload.github.com/cocowool/hexo-renderer-sass/tar.gz/64987aa78f10d6622915bf4350407b238b1b0448 1110ms (cache miss)</span><br><span class="line">npm timing reifyNode:node_modules/hexo-renderer-sass Completed <span class="keyword">in</span> 1453ms</span><br><span class="line">npm timing reify:unpack Completed <span class="keyword">in</span> 1462ms</span><br><span class="line">npm timing reify:unretire Completed <span class="keyword">in</span> 1ms</span><br><span class="line">npm timing build:queue Completed <span class="keyword">in</span> 5ms</span><br><span class="line">npm timing build:link:node_modules/node-sass Completed <span class="keyword">in</span> 3ms</span><br><span class="line">npm timing build:link:node_modules/nopt Completed <span class="keyword">in</span> 3ms</span><br><span class="line">npm timing build:link:node_modules/node-gyp Completed <span class="keyword">in</span> 3ms</span><br><span class="line">npm timing build:link:node_modules/sass-graph Completed <span class="keyword">in</span> 3ms</span><br><span class="line">npm timing build:link:node_modules/rimraf Completed <span class="keyword">in</span> 3ms</span><br><span class="line">npm timing build:link:node_modules/uuid Completed <span class="keyword">in</span> 3ms</span><br><span class="line">npm timing build:link:node_modules/sshpk Completed <span class="keyword">in</span> 3ms</span><br><span class="line">npm timing build:link:node_modules/normalize-package-data/node_modules/semver Completed <span class="keyword">in</span> 3ms</span><br><span class="line">npm timing build:link:node_modules/node-gyp/node_modules/semver Completed <span class="keyword">in</span> 3ms</span><br><span class="line">npm timing build:link:node_modules/read-pkg/node_modules/semver Completed <span class="keyword">in</span> 3ms</span><br><span class="line">npm timing build:link Completed <span class="keyword">in</span> 4ms</span><br><span class="line">npm info run node-sass@6.0.1 install node_modules/node-sass node-gyp rebuild</span><br><span class="line">npm info run node-sass@6.0.1 install &#123; code: 0, signal: null &#125;</span><br><span class="line">npm timing build:run:install:node_modules/node-sass Completed <span class="keyword">in</span> 104719ms</span><br></pre></td></tr></table></figure>
+
+<h2 id="另外一个问题"><a href="#另外一个问题" class="headerlink" title="另外一个问题"></a>另外一个问题</h2><p>为了更深入了解 node-sass 写了一个js脚本用来测试node-sass的使用，脚本内容很简单，仅仅引用了node-sass模块。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sass = <span class="built_in">require</span>(<span class="string">&#x27;node-sass&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>执行的时候报错，提示找不到 <code>vendor</code> 目录。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ node test.js                        </span><br><span class="line">node:internal/fs/utils:343</span><br><span class="line">    throw err;</span><br><span class="line">    ^</span><br><span class="line"></span><br><span class="line">Error: ENOENT: no such file or directory, scandir <span class="string">&#x27;/Users/shiqiang/Projects/www.edulinks.cn/test-blog/node_modules/node-sass/vendor&#x27;</span></span><br><span class="line">    at Object.readdirSync (node:fs:1380:3)</span><br><span class="line">    at Object.getInstalledBinaries (/Users/shiqiang/Projects/www.edulinks.cn/test-blog/node_modules/node-sass/lib/extensions.js:134:13)</span><br><span class="line">    at foundBinariesList (/Users/shiqiang/Projects/www.edulinks.cn/test-blog/node_modules/node-sass/lib/errors.js:20:15)</span><br><span class="line">    at foundBinaries (/Users/shiqiang/Projects/www.edulinks.cn/test-blog/node_modules/node-sass/lib/errors.js:15:5)</span><br><span class="line">    at Object.module.exports.missingBinary (/Users/shiqiang/Projects/www.edulinks.cn/test-blog/node_modules/node-sass/lib/errors.js:45:5)</span><br><span class="line">    at module.exports (/Users/shiqiang/Projects/www.edulinks.cn/test-blog/node_modules/node-sass/lib/binding.js:15:30)</span><br><span class="line">    at Object.&lt;anonymous&gt; (/Users/shiqiang/Projects/www.edulinks.cn/test-blog/node_modules/node-sass/lib/index.js:13:35)</span><br><span class="line">    at Module._compile (node:internal/modules/cjs/loader:1095:14)</span><br><span class="line">    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1124:10)</span><br><span class="line">    at Module.load (node:internal/modules/cjs/loader:975:32) &#123;</span><br><span class="line">  errno: -2,</span><br><span class="line">  syscall: <span class="string">&#x27;scandir&#x27;</span>,</span><br><span class="line">  code: <span class="string">&#x27;ENOENT&#x27;</span>,</span><br><span class="line">  path: <span class="string">&#x27;/Users/shiqiang/Projects/www.edulinks.cn/test-blog/node_modules/node-sass/vendor&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>进入到 <code>node_modules/node-sass</code> 下面看确实没有 vendor 目录，</p>
+<p>按照官方的指引执行下面的命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> node-sass</span><br><span class="line">$ npm install</span><br><span class="line">$ node scripts/build -f  <span class="comment"># use -d switch for debug release</span></span><br><span class="line"><span class="comment"># if succeeded, it will generate and move</span></span><br><span class="line"><span class="comment"># the binary in vendor directory.</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="因祸得福"><a href="#因祸得福" class="headerlink" title="因祸得福"></a>因祸得福</h2><p>本次熟悉了几个命令</p>
+<ul>
+<li><code>npm config set/get</code> 设置npm的配置或读取npm的配置</li>
+<li><code>npm config get cache</code> 查看npm缓存目录的位置，默认位于 <code>/Users/shiqiang/.npm/_cacache</code></li>
+<li><code>npm config get prefix</code> 查看全局npm安装的路径，查到之后可以在 <code>$&#123;prefixUrl&#125;/lib/node_modules/npm</code> 下看到npm的源码，例如想要查看 <code>npm install</code> 的代码，可以在 <code>/usr/local/lib/node_modules/npm/lib/install.js</code> 中看到</li>
+<li><code>npm config ls -l</code> 查看npm的详细配置</li>
+<li><code>npm ls -g</code> 查看npm安装的全局包</li>
+<li><code>npm outdated -g</code> 查看需要更新的全局包，不加参数表示查看本地需要更新的包</li>
+<li><code>npm uninstall -g hexo</code> 卸载全局安装的包</li>
+<li><code>npm update -g hexo</code> 更新全局安装的包 </li>
+<li><code>npm install /local/plugin/path</code> 可以本地安装npm包</li>
+<li><code> npm install --save github:cocowool/hexo-renderer-sass --verbose</code> 可以从github上安装相关的依赖包</li>
+<li><code>npm install --verbose</code> 可以看到安装过程的详细信息</li>
+<li><code>npm cache clean --force</code> 强制清理本地缓存</li>
+</ul>
+<h2 id="Sass"><a href="#Sass" class="headerlink" title="Sass"></a>Sass</h2><p>在今年2月份的时候，还写了一篇介绍SASS的文章《<a href="http://www.edulinks.cn/2021/02/08/20210208-sass-notes/">SASS学习笔记</a>》，这篇中仅记录了语法方面的知识，没有介绍安装使用方面的内容。</p>
+<p>翻阅了sass的官方网站，发现sass安装有两种模式，一种是本地命令的方式，在Mac中可以通过<code>brew install sass</code> 进行安装，安装完成后执行下面命令可以确认安装是否成功。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sass --version</span><br><span class="line">1.35.2 compiled with dart2js 2.13.4</span><br></pre></td></tr></table></figure>
+
+<p>也可以使用 <code>npm install -g sass</code> 命令来安装JS版本的sass。</p>
+<h2 id="22年更新"><a href="#22年更新" class="headerlink" title="22年更新"></a>22年更新</h2><p>因为本地环境 Node 版本又发生了一次变化导致 node-sass 无法正常工作。经过资料查阅后发现，可以使用 <code>hexo-render-dartsass</code> 插件代替 <code>hex-renderer-sass</code> ，修改 package.json 然后执行 npm install 就可以解决上述问题。我的 package.json 供大家参考。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&#123;                                                                                                                                                                                                               </span><br><span class="line">  <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;hexo-site&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;0.0.0&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;private&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;build&quot;</span>: <span class="string">&quot;hexo generate&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;clean&quot;</span>: <span class="string">&quot;hexo clean&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;deploy&quot;</span>: <span class="string">&quot;hexo deploy&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;server&quot;</span>: <span class="string">&quot;hexo server&quot;</span></span><br><span class="line">  &#125;,  </span><br><span class="line">  <span class="attr">&quot;hexo&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;5.4.0&quot;</span></span><br><span class="line">  &#125;,  </span><br><span class="line">  <span class="attr">&quot;dependencies&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;hexo&quot;</span>: <span class="string">&quot;^5.0.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;hexo-deployer-git&quot;</span>: <span class="string">&quot;^3.0.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;hexo-generator-archive&quot;</span>: <span class="string">&quot;^1.0.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;hexo-generator-category&quot;</span>: <span class="string">&quot;^1.0.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;hexo-generator-index&quot;</span>: <span class="string">&quot;^1.0.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;hexo-generator-tag&quot;</span>: <span class="string">&quot;^1.0.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;hexo-image-link&quot;</span>: <span class="string">&quot;0.0.3&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;hexo-renderer-ejs&quot;</span>: <span class="string">&quot;^1.0.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;hexo-renderer-marked&quot;</span>: <span class="string">&quot;^3.0.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;hexo-renderer-dartsass&quot;</span>: <span class="string">&quot;^0.1.2&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;hexo-renderer-stylus&quot;</span>: <span class="string">&quot;^1.1.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;hexo-server&quot;</span>: <span class="string">&quot;^1.0.0&quot;</span></span><br><span class="line">  &#125;,  </span><br><span class="line">  <span class="attr">&quot;devDependencies&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;bootstrap&quot;</span>: <span class="string">&quot;^5.1.3&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;images&quot;</span>: <span class="string">&quot;^3.2.4&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;node-sass&quot;</span>: <span class="string">&quot;^6.0.1&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>本次更新在以下环境验证通过</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">$ node --version</span><br><span class="line">v18.6.0</span><br><span class="line">$ sass --version       </span><br><span class="line">1.53.0 compiled with dart2js 2.17.3</span><br><span class="line">$ hexo -v      </span><br><span class="line">INFO  Validating config</span><br><span class="line">hexo: 5.4.0</span><br><span class="line">hexo-cli: 4.3.0</span><br><span class="line">os: darwin 21.3.0 12.2.1</span><br><span class="line"></span><br><span class="line">node: 18.6.0</span><br><span class="line">v8: 10.2.154.13-node.8</span><br><span class="line">uv: 1.44.2</span><br><span class="line">zlib: 1.2.11</span><br><span class="line">brotli: 1.0.9</span><br><span class="line">ares: 1.18.1</span><br><span class="line">modules: 108</span><br><span class="line">nghttp2: 1.48.0</span><br><span class="line">napi: 8</span><br><span class="line">llhttp: 6.0.7</span><br><span class="line">openssl: 1.1.1q</span><br><span class="line">cldr: 40.0</span><br><span class="line">icu: 70.1</span><br><span class="line">tz: 2021a3</span><br><span class="line">unicode: 14.0</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/36291768">node-gyp的作用是什么</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c16c4b6212b9">macOS 下 node-gyp rebuild failed 的解决方法</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/download/all/?q=xcode">Apple Developer Downloads</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/nodejs/node-gyp/blob/master/macOS_Catalina.md">Installation notes for macOS Catalina</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/nodejs/node-gyp#readme">GIthub node-gyp</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/sass/node-sass">node-sass</a></li>
+<li><a target="_blank" rel="noopener" href="https://sass-lang.com/">sass lang</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/nodejs/node-gyp">Github node-gyp</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mybilibili/p/10482192.html">npm 安装github包的方式</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/08/10/20210812-node-program-introduce/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Node.js 语言介绍
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/07/24/20210724-oop-design-pricipal/" id="article-nav-older" class="article-nav-link-wrap">
+            面向对象设计原则 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

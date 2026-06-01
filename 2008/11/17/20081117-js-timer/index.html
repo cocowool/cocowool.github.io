@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>利用setTimeout和SetInterval构建Javascript计时器-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="javascript, setTimeout, setInterval">
+    <meta name="description" content="利用setTimeout和setInterval函数构建 Javascript 中的计时器。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>利用setTimeout和SetInterval构建Javascript计时器</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-11 18:02:33</span>
+        
+        <span class="post-time">发布于：2008-11-17 20:59:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>看到了一篇深入浅出的讲解setTimeout和setInterval的例子，直接讲英文贴出来吧，也不是很难。</p>
+<p>In this tutorial we’ll look at JavaScript’s setTimeout(), clearTimeout(), setInterval() and clearInterval() methods, and show how to use them to set timers and create delayed actions.</p>
+<p>JavaScript features a handy couple of methods of the window object: setTimeout() and setInterval(). These let you run a piece of JavaScript code at some point in the future. In this tutorial we’ll explain how these two methods work, and give some practical examples.</p>
+<p><strong>setTimeout()</strong></p>
+<p>window.setTimeout() allows you to specify that a piece of JavaScript code (called an expression) will be run a specified number of milliseconds from when the setTimeout() method was called. The general syntax of the method is:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">setTimeout</span> ( expression, timeout );</span><br></pre></td></tr></table></figure>
+
+<p>where expression is the JavaScript code to run after timeout milliseconds have elapsed.</p>
+<p>setTimeout() also returns a numeric timeout ID that can be used to track the timeout. This is most commonly used with the clearTimeout() method (see below).<br>Here’s a simple example:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> <span class="attr">name</span>=<span class="string">&quot;clickMe&quot;</span> <span class="attr">value</span>=<span class="string">&quot;Click me and wait!&quot;</span> <span class="attr">onclick</span>=<span class="string">&quot;setTimeout(&#x27;alert(&quot;</span>&#x27;<span class="attr">Surprise</span>!&quot;&#x27;)&#x27;, <span class="attr">5000</span>)&quot;/&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<p>When a visitor clicks the button, the setTimeout() method is called, passing in the expression that we want to run after the time delay, and the value of the time delay itself - 5,000 milliseconds or 5 seconds.</p>
+<p>It’s worth pointing out that setTimeout() doesn’t halt the execution of the script during the timeout period; it merely schedules the specified expression to be run at the specified time. After the call to setTimeout() the script continues normally, with the timer running in the background.</p>
+<p>In the above simple example we embedded the entire code for our JavaScript alert box in the setTimeout() call. More usually, you’d call a function instead. In this next example, clicking a button calls a function that changes the button’s text colour to red. </p>
+<p>At the same time, this function also sets up a timed function using setTimeout() that sets the text colour back to black after 2 seconds:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><span class="javascript"> <span class="function"><span class="keyword">function</span> <span class="title">setToRed</span> (<span class="params"> </span>) </span>&#123; <span class="built_in">document</span>.getElementById(<span class="string">&quot;colourButton&quot;</span>).style.color = <span class="string">&quot;#FF0000&quot;</span>; <span class="built_in">setTimeout</span> ( <span class="string">&quot;setToBlack()&quot;</span>, <span class="number">2000</span> ); &#125; <span class="function"><span class="keyword">function</span> <span class="title">setToBlack</span> (<span class="params"> </span>) </span>&#123; <span class="built_in">document</span>.getElementById(<span class="string">&quot;colourButton&quot;</span>).style.color = <span class="string">&quot;#000000&quot;</span>; &#125; </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span> <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> <span class="attr">name</span>=<span class="string">&quot;clickMe&quot;</span> <span class="attr">id</span>=<span class="string">&quot;colourButton&quot;</span> <span class="attr">value</span>=<span class="string">&quot;Click me and wait!&quot;</span> <span class="attr">onclick</span>=<span class="string">&quot;setToRed()&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="clearTimeout"><a href="#clearTimeout" class="headerlink" title="clearTimeout()"></a><code>clearTimeout()</code></h2><p>Sometimes it’s useful to be able to cancel a timer before it goes off. The<code>clearTimeout()</code>method lets us do exactly that. Its syntax is:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">clearTimeout</span> ( timeoutId );</span><br></pre></td></tr></table></figure>
+<p>where <code>timeoutId</code> is the ID of the timeout as returned from the<code>setTimeout()</code>method call.</p>
+<p>For example, the following code sets up an alert box to appear after 3 seconds when a button is clicked, but the visitor can click the same button before the alert appears and cancel the timeout:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><br><span class="line"><span class="keyword">var</span> alertTimerId = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">alertTimerClickHandler</span> (<span class="params"> </span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span> ( <span class="built_in">document</span>.getElementById(<span class="string">&quot;alertTimerButton&quot;</span>).value == <span class="string">&quot;Click me and wait!&quot;</span> )&#123;</span><br><span class="line">		<span class="comment">// Start the timer</span></span><br><span class="line">		<span class="built_in">document</span>.getElementById(<span class="string">&quot;alertTimerButton&quot;</span>).value = <span class="string">&quot;Click me to stop the timer!&quot;</span>;</span><br><span class="line">		alertTimerId = <span class="built_in">setTimeout</span> ( <span class="string">&quot;showAlert()&quot;</span>, <span class="number">3000</span> );</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="built_in">document</span>.getElementById(<span class="string">&quot;alertTimerButton&quot;</span>).value = <span class="string">&quot;Click me and wait!&quot;</span>;</span><br><span class="line">		<span class="built_in">clearTimeout</span> ( alertTimerId );</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showAlert</span> (<span class="params"> </span>)</span>&#123;</span><br><span class="line">	alert ( <span class="string">&quot;Too late! You didn&#x27;t stop the timer.&quot;</span> );</span><br><span class="line">	<span class="built_in">document</span>.getElementById(<span class="string">&quot;alertTimerButton&quot;</span>).value = <span class="string">&quot;Click me and wait!&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> <span class="attr">name</span>=<span class="string">&quot;clickMe&quot;</span> <span class="attr">id</span>=<span class="string">&quot;alertTimerButton&quot;</span> <span class="attr">value</span>=<span class="string">&quot;Click me and wait!&quot;</span> <span class="attr">onclick</span>=<span class="string">&quot;alertTimerClickHandler()&quot;</span>/&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>Try it out! Click the button below to start the timer, and click it again within 3 seconds to cancel it.</p>
+<h2 id="setInterval"><a href="#setInterval" class="headerlink" title="setInterval()"></a><code>setInterval()</code></h2><figure class="highlight plaintext"><figcaption><span>setInterval()```function is very closely related to```setTimeout()```- they even share similar syntax:</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">setInterval ( expression, interval );</span><br></pre></td></tr></table></figure>
+<p>The important difference is that, whereas<code>setTimeout()</code>triggers<code>expression</code>only once,<code>setInterval()</code>keeps triggering<code>expression</code>again and again (unless you tell it to stop).<br>So when should you use it? Essentially, if you ever find yourself writing code like:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">setTimeout</span> ( <span class="string">&quot;doSomething()&quot;</span>, <span class="number">5000</span> );</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomething</span> (<span class="params"> </span>)</span>&#123;</span><br><span class="line">	<span class="comment">// (do something here)</span></span><br><span class="line">	<span class="built_in">setTimeout</span> ( <span class="string">&quot;doSomething()&quot;</span>, <span class="number">5000</span> );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>…then you should probably be using <code>setInterval()</code> instead:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">setInterval</span> ( <span class="string">&quot;doSomething()&quot;</span>, <span class="number">5000</span> );</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomething</span> (<span class="params"> </span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// (do something here)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Why? Well, for one thing you don’t need to keep remembering to call<code>setTimeout()</code>at the end of your timed function. Also, when using<code>setInterval()</code>there’s virtually no delay between one triggering of the expression and the next. With<code>setTimeout()</code>, there’s a relatively long delay while the expression is evaluated, the function called, and the new<code>setTimeout()</code>being set up. So if you need regular, precise timing - or you need to do something at, well, set intervals -<code>setInterval()</code>is your best bet.</p>
+<h2 id="clearInterval"><a href="#clearInterval" class="headerlink" title="clearInterval()"></a><code>clearInterval()</code></h2><p>As you’ve probably guessed, if you want to cancel a<code>setInterval()</code>then you need to call<code>clearInterval()</code>, passing in the interval ID returned by the call to<code>setInterval()</code>.<br>Here’s a simple example of<code>setInterval()</code>and<code>clearInterval()</code>in action. When you press a button, the following code displays “Woo!” and “Yay!” randomly every second until you tell it to stop. (I said a simple example, not a useful one.) Notice how we’ve also used a<code>setTimeout()</code>within the<code>wooYay()</code>function to make the “Woo!” or “Yay!” disappear after half a second:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><br><span class="line"><span class="keyword">var</span> wooYayIntervalId = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">wooYayClickHandler</span> (<span class="params"> </span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span> ( <span class="built_in">document</span>.getElementById(<span class="string">&quot;wooYayButton&quot;</span>).value == <span class="string">&quot;Click me!&quot;</span> )&#123;</span><br><span class="line">		<span class="comment">// Start the timer</span></span><br><span class="line">		<span class="built_in">document</span>.getElementById(<span class="string">&quot;wooYayButton&quot;</span>).value = <span class="string">&quot;Enough already!&quot;</span>;</span><br><span class="line">		wooYayIntervalId = <span class="built_in">setInterval</span> ( <span class="string">&quot;wooYay()&quot;</span>, <span class="number">1000</span> );</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="built_in">document</span>.getElementById(<span class="string">&quot;wooYayMessage&quot;</span>).innerHTML = <span class="string">&quot;&quot;</span>;</span><br><span class="line">		<span class="built_in">document</span>.getElementById(<span class="string">&quot;wooYayButton&quot;</span>).value = <span class="string">&quot;Click me!&quot;</span>;</span><br><span class="line">		<span class="built_in">clearInterval</span> ( wooYayIntervalId );</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">wooYay</span> (<span class="params"> </span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span> ( <span class="built_in">Math</span>.random ( ) &gt; <span class="number">.5</span> )&#123;</span><br><span class="line">		<span class="built_in">document</span>.getElementById(<span class="string">&quot;wooYayMessage&quot;</span>).innerHTML = <span class="string">&quot;Woo!&quot;</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="built_in">document</span>.getElementById(<span class="string">&quot;wooYayMessage&quot;</span>).innerHTML = <span class="string">&quot;Yay!&quot;</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">setTimeout</span> ( <span class="string">&#x27;document.getElementById(&quot;wooYayMessage&quot;).innerHTML = &quot;&quot;&#x27;</span>, <span class="number">500</span> );</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;wooYayMessage&quot;</span> <span class="attr">style</span>=<span class="string">&quot;height: 1.5em; font-size: 2em; color: red;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> <span class="attr">name</span>=<span class="string">&quot;clickMe&quot;</span> <span class="attr">id</span>=<span class="string">&quot;wooYayButton&quot;</span> <span class="attr">value</span>=<span class="string">&quot;Click me!&quot;</span> <span class="attr">onclick</span>=<span class="string">&quot;wooYayClickHandler()&quot;</span>/&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>And here it is in action. Click the button below to kick it off:</p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>We’ve now covered the four methods that you can use to create timed events in JavaScript: setTimeout() and clearTimeout() for controlling one-off events, and setInterval() and clearInterval() for setting up repeating events. Armed with these tools, you should have no problem creating timed events in your own scripts.</p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2008/11/26/20081126-pr-tips/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 充电：PR值的相关知识
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2008/11/13/20081113-ssh-and-copy/" id="article-nav-older" class="article-nav-link-wrap">
+            SSH连接服务器并且拷贝文件 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

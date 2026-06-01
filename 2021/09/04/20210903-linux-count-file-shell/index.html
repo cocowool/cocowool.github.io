@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>统计文件夹下某类文件大小的小脚本-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="Linux, 统计文件, stat, 使用率">
+    <meta name="description" content="写了一个脚本，支持统计某个文件夹下某一类文件总的大小，或者某一类文件以外其他文件总的大小。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>统计文件夹下某类文件大小的小脚本</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2024-12-10 18:58:02</span>
+        
+        <span class="post-time">发布于：2021-09-04 08:00:45</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h2 id="背景需求"><a href="#背景需求" class="headerlink" title="背景需求"></a>背景需求</h2><p>我的<a href="http://www.edulinks.cn/">站点</a>使用 hexo 生成静态文件存放在新浪云服务器上，因为静态文件都做为代码存放上传，新浪云默认提供的代码空间是100M，因此我经常关注 hexo 生成的 public 文件夹的使用情况。</p>
+<p>最近发现 public 使用已经到了 91M，感觉很快就会超过 100M 的上限了。因此需要对生成的静态文件做一些分析，看是否还有优化压缩的空间。</p>
+<p>hexo 生成的静态文件主要有两类，一类是 markdown 转换后的 html 文件，另一大块主要是 文章中引用的图片。由此产生了一个需求，我需要统计 <code>pubic</code> 文件夹下（包括子文件夹）图片占用的空间大小。</p>
+<h2 id="统计脚本"><a href="#统计脚本" class="headerlink" title="统计脚本"></a>统计脚本</h2><p>经过几个小时的编写，终于完成了这个统计脚本 <a target="_blank" rel="noopener" href="https://github.com/cocowool/code-space/blob/master/shell/count_file.sh"><code>count_file.sh</code></a> 。支持统计某个文件夹下（包含子文件夹）某一类文件的大小，或者除某一类文件外其他文件的大小。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 统计一个目录下指定类型或限制某种类型以外的文件的大小，包括子目录</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">help</span></span>() &#123;</span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;Description: 用于查找某个目录下特定类型文件的数量和总的大小，或者查找某种类型以外的文件数量和总的大小&quot;</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;Author: cocowool &lt;cocowool@qq.com&gt;, Blog: http://www.edulinks.cn&quot;</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;Usage: sh count_file.sh -p folder_path [ -t jpg ] [ -x html ] &quot;</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;       -p : 需要查找的文件路径&quot;</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;       -t : 需要查找的文件类型&quot;</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;       -x : 需要排除的文件类型&quot;</span></span><br><span class="line">  <span class="built_in">exit</span> 0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [[ <span class="variable">$#</span> == 0 ]] || [[ <span class="string">&quot;<span class="variable">$1</span>&quot;</span> == <span class="string">&quot;-h&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">help</span></span><br><span class="line">  <span class="built_in">exit</span> 0</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># INCLUDE_FILE_TYPE=&quot;&quot;</span></span><br><span class="line"><span class="comment"># EXCLUDE_FILE_TYPE=&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># echo $*</span></span><br><span class="line"><span class="keyword">while</span> <span class="built_in">getopts</span> <span class="string">&quot;p:t:x:&quot;</span> opt</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">  <span class="keyword">case</span> <span class="string">&quot;<span class="variable">$opt</span>&quot;</span> <span class="keyword">in</span></span><br><span class="line">    p) </span><br><span class="line">      FOLDER_PATH=<span class="variable">$OPTARG</span> ;;</span><br><span class="line">    t) </span><br><span class="line">      <span class="comment"># echo &quot;Found t option&quot;</span></span><br><span class="line">      INCLUDE_FILE_TYPE=<span class="variable">$OPTARG</span> ;;</span><br><span class="line">    x)</span><br><span class="line">      <span class="comment"># echo &quot;Found x option&quot;</span></span><br><span class="line">      EXCLUDE_FILE_TYPE=<span class="variable">$OPTARG</span> ;;</span><br><span class="line">    <span class="comment"># getopts doesn&#x27;t support long option, such as --option</span></span><br><span class="line">    <span class="comment"># debug)</span></span><br><span class="line">    <span class="comment">#   echo &quot;Found debug option&quot;</span></span><br><span class="line">    <span class="comment">#   echo $OPTARG ;;</span></span><br><span class="line">    *) <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$opt</span> is invalid option&quot;</span> ;;</span><br><span class="line">  <span class="keyword">esac</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># FOLDER_PATH=&quot;/Users/shiqiang/Projects/edulinks-blog/public&quot;</span></span><br><span class="line"><span class="comment"># 解决文件中含有空格的问题</span></span><br><span class="line">IFS=$(<span class="built_in">echo</span> <span class="string">&quot;\n\b&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;查找的文件路径为：<span class="variable">$FOLDER_PATH</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -n <span class="variable">$FOLDER_PATH</span> ]; <span class="keyword">then</span></span><br><span class="line">  <span class="comment">#list=`find $FOLDER_PATH | grep &quot;jpg&quot;`</span></span><br><span class="line">  <span class="keyword">if</span> [ -n <span class="string">&quot;<span class="variable">$INCLUDE_FILE_TYPE</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;查找的文件后缀为：<span class="variable">$INCLUDE_FILE_TYPE</span>.&quot;</span></span><br><span class="line">    list=`find <span class="variable">$FOLDER_PATH</span> -<span class="built_in">type</span> f -name <span class="string">&quot;*.<span class="variable">$INCLUDE_FILE_TYPE</span>&quot;</span>`</span><br><span class="line">  <span class="keyword">elif</span> [ -n <span class="string">&quot;<span class="variable">$EXCLUDE_FILE_TYPE</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;查找文件后缀不是：<span class="variable">$EXCLUDE_FILE_TYPE</span> 的文件&quot;</span></span><br><span class="line">    list=`find <span class="variable">$FOLDER_PATH</span> -<span class="built_in">type</span> f ! -name <span class="string">&quot;*.<span class="variable">$EXCLUDE_FILE_TYPE</span>&quot;</span>`</span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$list</span></span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    <span class="comment"># echo $i</span></span><br><span class="line">    fileSize=$(du -k <span class="string">&quot;<span class="variable">$&#123;i&#125;</span>&quot;</span> | cut -f1)</span><br><span class="line">    <span class="comment"># echo $fileSize</span></span><br><span class="line">    ((totalSize=fileSize+totalSize))</span><br><span class="line">  <span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;文件总大小为：<span class="subst">$((totalSize/1024)</span>)M&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><p>这个脚本难点在于命令行参数的处理，因为写这个脚本查阅了一些资料，主流的方案是使用下面两个命令：</p>
+<ul>
+<li>getopts 是 Linux 系统中的一个内置变量，一般通过循环的方式使用，每次循环 getopts 都会检查命令行选项，并将命令行选项的值爆存在 OPTARG 变量中</li>
+<li>getopt 是一个外部命令，相较于 <code>getopts</code> 命令能够支持长参数，但是使用起来较 getopts 复杂</li>
+</ul>
+<p>本文中因为参数比较少且没计划使用长参数，因此采用了 <code>getopts</code> 来处理选项和参数问题。如果不熟悉 shell 的使用，可以查看 <a href="http://www.edulinks.cn/2020/07/22/20200722-shell-quick-start/">Shell 入门详解（一）</a> ，希望能有所帮助。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>最后统计发现，我写了 470 篇博客，引用了 700 多张图片。其中 html 文件大小占用了 11M 的空间，而图片占用了 79M 的空间。如果后续的文章还要放很多图片的话，很快源码空间就会使用完，看来是要考虑准备用图床的方案来存放博客的图片了。</p>
+<p>各位自己有独立博客的小伙伴，有没有图床服务提供，欢迎给我些指导。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/p1279030826/article/details/111868792">查找多个指定文件或者排除某类文件</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hangj/p/13331581.html">Shell 脚本如何输出帮助信息？</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.136.la/jingpin/show-115062.html">给你的shell脚本写一个–help文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/z1037561063/article/details/80410060">编写可接受选项和参数的shell脚本</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/klb561/p/8933992.html">getopts 的使用</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/09/07/20210907-kafka-basics-02/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Kafka学习笔记二：常用命令
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/09/02/20210902-macos-catalina-parallelsdesktop-error/" id="article-nav-older" class="article-nav-link-wrap">
+            记录一次 Parallels Desktop 故障解决过程 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>使用Fusioncharts实现后台处理进度的前台展示-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="fusioncharts, 进度条">
+    <meta name="description" content="本文解决在文件上传处理过程中，在前台动态展示处理进度的解决方案。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>使用Fusioncharts实现后台处理进度的前台展示</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2016-09-13 14:09:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>本文要解决两个问题：<br>1、在ajax的数据交互中，如何获得后台的处理进度？<br>2、在前台界面中，如何使用图形化的方式展示后台处理进度？</p>
+<p>关于第一个问题，不是本文的重点，简单说一下思路。因为HTTP协议实际上是无状态的协议，前台的请求提交给后台之后，一般情况下都是后台处理完成才会向前台返回处理结果。如果想前台展示处理进度，有三个方法：</p>
+<p><strong>一、使用flush()函数</strong>。PHP中提供了 flush() 和 ob_flush() 函数，允许用户将缓存的内容输出，但是如果在服务器端使用了gzip压缩，这种方法常常会失效。另外，这种办法实际上是一个流式的结果输出，在形式上很难有美观的展现。</p>
+<p>二、<strong>使用JS控制任务进度</strong>。更好的办法我觉得应该是使用JS在前端来控制多个任务提交的顺序，从而在前端计算整体的进度来用图形化的方式展现。</p>
+<p>三、<strong>后台实现进度记录，前台进行展现</strong>。也可以采用后端使用持久化数据来记录整体计划于当前进度，前端JS定时异步调用查询结果的方式来实现前端的展示。我在一个Zip文件包解压并处理的程序中采用了第二种方式，大家可以根据项目的具体情况来选用。</p>
+<p>下面来说如何用 Fusion charts 实时展现后台进度，本文只实现简单的有一个任务进度展示的情况。实际上 Linear Gauge 非常强大，可以支持多个指示标志，本文就不做考虑，只考虑实现一个简单的进度指示标志的情况。</p>
+<p>完成后的效果如下图，用户选择一个Zip文件包进行上传，JS完成后台上传、解压缩与文件处理的操作。使用FusionCharts进行图形化的进度显示。</p>
+<img src="/2016/09/13/20160913-fusioncharts-display-process/39469-20160913140727586-766934313.png" class="">
+
+<p>其中文件上传使用了jQuery的AjaxUpload插件，文件上传部分的JS代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&#x27;#userfile&#x27;</span>).AjaxFileUpload(&#123;</span><br><span class="line">  <span class="attr">action</span>: <span class="string">&#x27;/tool/uploadZip&#x27;</span>,</span><br><span class="line">  <span class="attr">onChange</span>:<span class="function"><span class="keyword">function</span>(<span class="params">filename</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//console.log(&quot;Change&quot;);</span></span><br><span class="line">    $(<span class="string">&#x27;#tip_text&#x27;</span>).text(<span class="string">&quot;正在上传&quot;</span>);</span><br><span class="line">    interval = <span class="built_in">window</span>.setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      vartext = $(<span class="string">&quot;#tip_text&quot;</span>).text();</span><br><span class="line">      <span class="keyword">if</span>(text.length &lt; <span class="number">13</span>) &#123;</span><br><span class="line">        $(<span class="string">&#x27;#tip_text&#x27;</span>).text(text + <span class="string">&quot;.&quot;</span>);</span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        $(<span class="string">&#x27;#tip_text&#x27;</span>).text(<span class="string">&quot;正在上传&quot;</span>);</span><br><span class="line">           &#125;</span><br><span class="line">      </span><br><span class="line">      $.cookie(<span class="string">&#x27;progress&#x27;</span>, <span class="number">20</span>);</span><br><span class="line">    &#125;, <span class="number">200</span>);</span><br><span class="line">    <span class="comment">//$(&quot;#tip_text&quot;).append(&quot;文件上传开始&quot;);</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">//secureuri: false,</span></span><br><span class="line">  <span class="comment">//fileElementId:&#x27;test&#x27;,</span></span><br><span class="line">  <span class="attr">onSubmit</span>:<span class="function"><span class="keyword">function</span>(<span class="params">filename</span>) </span>&#123;</span><br><span class="line">    returntrue;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">onComplete</span>:<span class="function"><span class="keyword">function</span>(<span class="params">filename, response</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">window</span>.clearInterval(interval);</span><br><span class="line">    </span><br><span class="line">    $(<span class="string">&quot;#file_count&quot;</span>).html( response.zip_info.file_list.length );</span><br><span class="line">    $(<span class="string">&quot;#tip_text&quot;</span>).append(<span class="string">&quot;&lt;br /&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<p>文件上传完成，即将开始进行导入”);28$.cookie(‘progress’, 40);2930zip_import(response, 0, response.zip_info.file_list.length);31}32});</p>
+<p>文件上传后，使用JS记录下上传的文件以及Zip包内文件的数量，然后开始使用JS控制逐个文件的提交。这一部分处理的难点主要在于Zip的解压和进度控制。Zip的解压有PHP的ZipArchive类，可以很方便的获取Zip内的文件列表，以及指定读取某个文件。当获取了Zip文件包的列表数量之后，我就可以在前台使用JS控制逐个文件的读取。</p>
+<p>最后就是整个过程的图形化界面显示，FusionCharts部分的代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">FusionCharts.ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">         <span class="keyword">var</span> fusioncharts = <span class="keyword">new</span> FusionCharts(&#123;</span><br><span class="line">         <span class="attr">type</span>: <span class="string">&#x27;hlineargauge&#x27;</span>,</span><br><span class="line">         <span class="attr">renderAt</span>: <span class="string">&#x27;realchart&#x27;</span>,</span><br><span class="line">         <span class="attr">id</span>: <span class="string">&#x27;realtime-chart&#x27;</span>,</span><br><span class="line">         <span class="attr">width</span>: <span class="string">&#x27;400&#x27;</span>,</span><br><span class="line">         <span class="attr">height</span>: <span class="string">&#x27;170&#x27;</span>,</span><br><span class="line">         <span class="attr">dataFormat</span>: <span class="string">&#x27;json&#x27;</span>,</span><br><span class="line">         <span class="attr">dataSource</span>: &#123;</span><br><span class="line">             <span class="string">&quot;chart&quot;</span>: &#123;</span><br><span class="line">                 <span class="string">&quot;theme&quot;</span>: <span class="string">&quot;fint&quot;</span>,</span><br><span class="line">                 <span class="string">&quot;caption&quot;</span>: <span class="string">&quot;后台处理进度&quot;</span>,</span><br><span class="line">                 <span class="string">&quot;subcaption&quot;</span>: <span class="string">&quot;www.dcod.com&quot;</span>,</span><br><span class="line">                 <span class="string">&quot;lowerLimit&quot;</span>: <span class="string">&quot;0&quot;</span>,</span><br><span class="line">                 <span class="string">&quot;upperLimit&quot;</span>: <span class="string">&quot;100&quot;</span>,</span><br><span class="line">                 <span class="string">&quot;numberSuffix&quot;</span>: <span class="string">&quot;%&quot;</span>,</span><br><span class="line">                 <span class="string">&quot;chartBottomMargin&quot;</span>: <span class="string">&quot;40&quot;</span>,</span><br><span class="line">                 <span class="string">&quot;valueFontSize&quot;</span>: <span class="string">&quot;11&quot;</span>,</span><br><span class="line">                 <span class="string">&quot;valueFontBold&quot;</span>: <span class="string">&quot;0&quot;</span></span><br><span class="line">             &#125;,</span><br><span class="line">             <span class="string">&quot;colorRange&quot;</span>: &#123;</span><br><span class="line">                 <span class="string">&quot;color&quot;</span>: [&#123;</span><br><span class="line">                     <span class="string">&quot;minValue&quot;</span>: <span class="string">&quot;0&quot;</span>,</span><br><span class="line">                     <span class="string">&quot;maxValue&quot;</span>: <span class="string">&quot;35&quot;</span>,</span><br><span class="line">                     <span class="string">&quot;label&quot;</span>: <span class="string">&quot;文件上传&quot;</span>,</span><br><span class="line">                 &#125;, &#123;</span><br><span class="line">                     <span class="string">&quot;minValue&quot;</span>: <span class="string">&quot;35&quot;</span>,</span><br><span class="line">                     <span class="string">&quot;maxValue&quot;</span>: <span class="string">&quot;100&quot;</span>,</span><br><span class="line">                     <span class="string">&quot;label&quot;</span>: <span class="string">&quot;解压与保存&quot;</span>,</span><br><span class="line">                 &#125;]</span><br><span class="line">             &#125;,</span><br><span class="line">             <span class="string">&quot;pointers&quot;</span>: &#123;</span><br><span class="line">                 <span class="string">&quot;pointer&quot;</span>: [&#123;</span><br><span class="line">                     <span class="string">&quot;value&quot;</span>: <span class="string">&quot;0&quot;</span></span><br><span class="line">                 &#125;]</span><br><span class="line">             &#125;,</span><br><span class="line">             <span class="string">&quot;trendPoints&quot;</span>: &#123;</span><br><span class="line">                 <span class="string">&quot;point&quot;</span>: [</span><br><span class="line">                     <span class="comment">//Trendpoint</span></span><br><span class="line">                     &#123;</span><br><span class="line">                         <span class="string">&quot;startValue&quot;</span>: <span class="string">&quot;70&quot;</span>,</span><br><span class="line">                         <span class="string">&quot;displayValue&quot;</span>: <span class="string">&quot; &quot;</span>,</span><br><span class="line">                         <span class="string">&quot;dashed&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">                         <span class="string">&quot;showValues&quot;</span>: <span class="string">&quot;0&quot;</span></span><br><span class="line">                     &#125;, &#123;</span><br><span class="line">                         <span class="string">&quot;startValue&quot;</span>: <span class="string">&quot;85&quot;</span>,</span><br><span class="line">                         <span class="string">&quot;displayValue&quot;</span>: <span class="string">&quot; &quot;</span>,</span><br><span class="line">                         <span class="string">&quot;dashed&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">                         <span class="string">&quot;showValues&quot;</span>: <span class="string">&quot;0&quot;</span></span><br><span class="line">                     &#125;,</span><br><span class="line">                     <span class="comment">//Trendzone</span></span><br><span class="line">                     &#123;</span><br><span class="line">                         <span class="string">&quot;startValue&quot;</span>: <span class="string">&quot;70&quot;</span>,</span><br><span class="line">                         <span class="string">&quot;endValue&quot;</span>: <span class="string">&quot;85&quot;</span>,</span><br><span class="line">                         <span class="string">&quot;displayValue&quot;</span>: <span class="string">&quot; &quot;</span>,</span><br><span class="line">                         <span class="string">&quot;alpha&quot;</span>: <span class="string">&quot;40&quot;</span></span><br><span class="line">                     &#125;</span><br><span class="line">                 ]</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;,</span><br><span class="line">        <span class="string">&quot;events&quot;</span>: &#123;</span><br><span class="line">             <span class="string">&quot;rendered&quot;</span>:<span class="function"><span class="keyword">function</span>(<span class="params">evtObj, argObj</span>)</span>&#123;</span><br><span class="line">                  evtObj.sender.intervalVar = <span class="built_in">setInterval</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                       <span class="built_in">console</span>.log(<span class="string">&quot;Txt x&quot;</span>);</span><br><span class="line">                       <span class="comment">//定时获取服务端的数据</span></span><br><span class="line">                       <span class="keyword">var</span> prcnt = $.cookie(<span class="string">&#x27;progress&#x27;</span>);</span><br><span class="line"></span><br><span class="line">                       <span class="comment">//将数据提交给图表</span></span><br><span class="line">                       FusionCharts.items[<span class="string">&quot;realtime-chart&quot;</span>].feedData(<span class="string">&quot;value=&quot;</span> + prcnt);</span><br><span class="line">                  &#125;, <span class="number">5000</span>);</span><br><span class="line">             &#125;,</span><br><span class="line">             <span class="string">&quot;disposed&quot;</span>:<span class="function"><span class="keyword">function</span>(<span class="params">evtObj, argObj</span>)</span>&#123;</span><br><span class="line">                  <span class="built_in">console</span>.log(<span class="string">&#x27;disposed&#x27;</span>);</span><br><span class="line">                  <span class="built_in">clearInterval</span>(evtObj.sender.intervalVar);</span><br><span class="line">             &#125;</span><br><span class="line">        &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     );</span><br><span class="line"></span><br><span class="line">         fusioncharts.render();</span><br><span class="line">     &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>FusionCharts设置了一个轮训间隔，不断地从后台查询数据。因为我的后台处理过程都是在领带的ajax请求中完成的，所以采取了一个折衷的办法，ajax请求完成后，将进度写入到cookie中，然后FusionCharts定时从cookie中读取进度来进行展示。</p>
+<p>注：我使用的版本是Fusion Charts Suite XT</p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://www.fusioncharts.com/dev/gauge-and-widgets-guide/linear-gauge/introduction.html">Fusion Charts Linear Gauge</a><br>2、AjaxFileUpload<br>3、<a target="_blank" rel="noopener" href="http://blog.163.com/zhou_shj/blog/static/6555644420104503138229/">实现jQuery的Ajax文件上传</a><br>4、<a target="_blank" rel="noopener" href="https://github.com/carhartl/jquery-cookie">jQuery Cookie</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2016/11/17/20161117-date-types-in-excel/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; PHPExcel对于Excel中日期和时间类型的处理
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2016/09/12/20160912-slash-in-crontab/" id="article-nav-older" class="article-nav-link-wrap">
+            Crontab中的除号（slash）到底怎么用？ &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

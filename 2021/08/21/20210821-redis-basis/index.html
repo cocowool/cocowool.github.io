@@ -1,0 +1,394 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Redis 基础介绍-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="redis">
+    <meta name="description" content="Redis 是一个内存型数据库，相较于它的前辈 Memcached ，它支持的存储类型比 Memcached 更多，包括字符串（ String ）、链表（ List ）、集合（ Set ）、有序集合（ Zset ）和哈希（ Hash ）。这些数据类型都支持 ` push / pop ` 和 ` add / remove ` 及取交集、并集、差集以及更加丰富的操作，而且这些操作都是原子性的。Redis会周期性把更新的数据写入磁盘，并在此基础上实现了主从同步。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Redis 基础介绍</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-10-17 20:47:12</span>
+        
+        <span class="post-time">发布于：2021-08-21 22:40:18</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h2 id="Redis介绍"><a href="#Redis介绍" class="headerlink" title="Redis介绍"></a>Redis介绍</h2><p>Redis是一个内存型数据库，是一个高性能的 Key / Value 数据库，相较于它的前辈 Memcached，它支持的存储类型比Memcached更多，包括字符串（String）、链表（List）、集合（Set）、有序集合（Zset）和哈希（Hash）。这些数据类型都支持 <code>push/pop</code> 和 <code>add/remove</code> 及取交集、并集、差集以及更加丰富的操作，而且这些操作都是原子性的。Redis会周期性把更新的数据写入磁盘，并在此基础上实现了主从同步。</p>
+<p>从2010年3月5日开始，Redis的开发工作由VMWare主持。<br>从2013年5月开始，Redis的开发由Pivotal赞助。</p>
+<h2 id="Redis快速体验"><a href="#Redis快速体验" class="headerlink" title="Redis快速体验"></a>Redis快速体验</h2><p>快速体验Redis的最佳方式，是使用Docker。如果想搭建Redis集群，可以参考我的另外一篇文章「<a href="http://www.edulinks.cn/2021/02/27/20210301-docker-redis/">基于Docker快速搭建Redis集群</a>」</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull redis</span><br><span class="line">Using default tag: latest</span><br><span class="line">latest: Pulling from library/redis</span><br><span class="line">27833a3ba0a5: Pull complete </span><br><span class="line">cde8019a4b43: Pull complete </span><br><span class="line">97a473b37fb2: Pull complete </span><br><span class="line">c6fe0dfbb7e3: Pull complete </span><br><span class="line">39c8f5ba1240: Pull complete </span><br><span class="line">cfbdd870cf75: Pull complete </span><br><span class="line">Digest: sha256:000339fb57e0ddf2d48d72f3341e47a8ca3b1beae9bdcb25a96323095b72a79b</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> redis:latest</span><br><span class="line">$ docker run -p 6379:6379 -d redis:latest redis-server</span><br><span class="line">$ telnet 127.0.0.1 6379</span><br><span class="line">exists xxx</span><br><span class="line">:0</span><br><span class="line"><span class="built_in">type</span> xxx</span><br><span class="line">+none</span><br><span class="line">del xxx</span><br><span class="line">:0</span><br><span class="line"><span class="built_in">set</span> xxx hello-redis</span><br><span class="line">+OK</span><br><span class="line">exists xxx</span><br><span class="line">:1</span><br><span class="line"><span class="built_in">type</span> xxx</span><br><span class="line">+string</span><br><span class="line">$ docker <span class="built_in">exec</span> -ti d0b86 redis-cli -h 127.0.0.1 -p 6379  //使用redis-cli连接</span><br></pre></td></tr></table></figure>
+
+<h2 id="Redis-支持的数据类型"><a href="#Redis-支持的数据类型" class="headerlink" title="Redis 支持的数据类型"></a>Redis 支持的数据类型</h2><ul>
+<li>String，最基本的数据类型，一个键对应一个值，需要注意是一个键值最大存储512MB。</li>
+<li>Hash，是一个键值对的集合，是一个string类型的field和value的映射表，适合用于存储对象。</li>
+<li>List，简单的字符串列表，它按插入顺序排序。</li>
+<li>Set，是字符串类型的无序集合，也不可重复。</li>
+<li>Zset，是string类型的有序集合，也不可重复。有序集合中的每个元素都需要指定一个分数，根据分数对元素进行升序排序，如果多个元素有相同的分数，则以字典序进行升序排序，sorted set因此非常适合实现排名。</li>
+</ul>
+<h3 id="Redis常用命令"><a href="#Redis常用命令" class="headerlink" title="Redis常用命令"></a>Redis常用命令</h3><h4 id="String相关命令"><a href="#String相关命令" class="headerlink" title="String相关命令"></a>String相关命令</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>set key value</td>
+<td>设置key对应的值为string类型的value,返回1表示成功，0失败</td>
+<td></td>
+</tr>
+<tr>
+<td>setnx key value</td>
+<td>如果key不存在，则设置value</td>
+<td></td>
+</tr>
+<tr>
+<td>get key</td>
+<td>获取key对应的string值,如果key不存在返回nil</td>
+<td></td>
+</tr>
+<tr>
+<td>getset key value</td>
+<td>设置key的值，并返回key的旧值。如果key不存在返回nil</td>
+<td></td>
+</tr>
+<tr>
+<td>mget key1 key2 … keyN</td>
+<td>一次获取多个key的值，如果对应key不存在，则对应返回nil。</td>
+<td></td>
+</tr>
+<tr>
+<td>mset key1 value1 … keyN valueN</td>
+<td>一次设置多个key的值，成功返回1表示所有的值都设置了，失败返回0表示没有任何值被设置</td>
+<td></td>
+</tr>
+<tr>
+<td>msetnx key1 value1 … keyN valueN</td>
+<td>如果key不存在，则设置。可以支持多个key-value对</td>
+<td></td>
+</tr>
+<tr>
+<td>incr key</td>
+<td>对key的值做加法操作,并返回新的值。注意incr一个不是int的value会返回错误，incr一个不存在的key，则设置key为1</td>
+<td></td>
+</tr>
+<tr>
+<td>decr key</td>
+<td>对key的值做减法操作，并返回新的值。</td>
+<td></td>
+</tr>
+<tr>
+<td>incrby key integer</td>
+<td>功能与incr类似，只是每次相加指定数值。key不存在时候会设置key，并认为原来的value是 0</td>
+<td></td>
+</tr>
+<tr>
+<td>decrby key integer</td>
+<td>功能与decr类似，只是每次相减指定数值。</td>
+<td></td>
+</tr>
+<tr>
+<td>append key value</td>
+<td>给指定key的字符串值追加value,返回新字符串值的长度。</td>
+<td></td>
+</tr>
+<tr>
+<td>substr key start end</td>
+<td>返回截取过的key的字符串值,注意并不修改key的值。下标是从0开始的。</td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="List-相关命令"><a href="#List-相关命令" class="headerlink" title="List 相关命令"></a>List 相关命令</h4><p>List 类型其实就是一个每个子元素都是string类型的双向链表。我们可以通过push，pop操作从链表的头部或者尾部添加删除元素。这使得list既可以用作栈，也可以用作队列。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>lpush key value</td>
+<td>从左边插入数据</td>
+<td></td>
+</tr>
+<tr>
+<td>rpush key value</td>
+<td>从右边插入数据</td>
+<td></td>
+</tr>
+<tr>
+<td>llen key</td>
+<td>获取列表的长度</td>
+<td></td>
+</tr>
+<tr>
+<td>lpop key</td>
+<td>弹出最左边的数据</td>
+<td></td>
+</tr>
+<tr>
+<td>rpop key</td>
+<td>弹出最右边的数据</td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="Sets-相关命令"><a href="#Sets-相关命令" class="headerlink" title="Sets 相关命令"></a>Sets 相关命令</h4><p>Sets 是 string 类型的无序集合，包含的数据不能重复。Set元素最大可以包含(2的32次方 - 1)个元素。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sadd key member</td>
+<td>添加一个string元素到，key对应的set集合中，成功返回1。如果元素以及在集合中返回0，key对应的set不存在返回错误</td>
+<td></td>
+</tr>
+<tr>
+<td>srem key member</td>
+<td>从key对应set中移除给定元素，成功返回1，如果member在集合中不存在或者key不存在返回0，如果key对应的不是set类型的值返回错误</td>
+<td></td>
+</tr>
+<tr>
+<td>spop key</td>
+<td>删除并返回key对应set中随机的一个元素,如果set是空或者key不存在返回nil</td>
+<td></td>
+</tr>
+<tr>
+<td>srandmember key</td>
+<td>随机取set中的一个元素，但是不删除元素</td>
+<td></td>
+</tr>
+<tr>
+<td>smove srckey dstkey member</td>
+<td>从srckey对应set中移除member并添加到dstkey对应set中，整个操作是原子的。成功返回1,如果member在srckey中不存在返回0，如果key不是set类型返回错误</td>
+<td></td>
+</tr>
+<tr>
+<td>scard key</td>
+<td>返回set的元素个数，如果set是空或者key不存在返回0</td>
+<td></td>
+</tr>
+<tr>
+<td>sismember key member</td>
+<td>判断member是否在set中，存在返回1，0表示不存在或者key不存在</td>
+<td></td>
+</tr>
+<tr>
+<td>sinter</td>
+<td>key1 key2…keyN 返回所有给定key的交集</td>
+<td></td>
+</tr>
+<tr>
+<td>sinterstore dstkey key1…keyN</td>
+<td>类似sinter，但是会同时将交集存到dstkey下</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="管理命令"><a href="#管理命令" class="headerlink" title="管理命令"></a>管理命令</h2><h3 id="查看版本信息"><a href="#查看版本信息" class="headerlink" title="查看版本信息"></a>查看版本信息</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$ telnet 127.0.0.1 6379</span><br><span class="line">info</span><br><span class="line"><span class="variable">$3286</span></span><br><span class="line"><span class="comment"># Server</span></span><br><span class="line">redis_version:5.0.4</span><br><span class="line">redis_git_sha1:00000000</span><br><span class="line">redis_git_dirty:0</span><br><span class="line">redis_build_id:c6d7e1572d62bb79</span><br><span class="line">redis_mode:standalone</span><br><span class="line">os:Linux 4.9.93-linuxkit-aufs x86_64</span><br><span class="line">arch_bits:64</span><br><span class="line">multiplexing_api:epoll</span><br><span class="line">atomicvar_api:atomic-builtin</span><br><span class="line">gcc_version:6.3.0</span><br><span class="line">process_id:1</span><br><span class="line">run_id:96ed68c2f2b5bb22d872e747b4af6ed2aefb0a55</span><br><span class="line">tcp_port:6379</span><br><span class="line">uptime_in_seconds:67</span><br><span class="line">uptime_in_days:0</span><br><span class="line">hz:10</span><br><span class="line">configured_hz:10</span><br><span class="line">lru_clock:16908</span><br><span class="line">executable:/data/redis-server</span><br><span class="line">config_file:</span><br></pre></td></tr></table></figure>
+
+<h3 id="选择数据库"><a href="#选择数据库" class="headerlink" title="选择数据库"></a>选择数据库</h3><h3 id="实时监控"><a href="#实时监控" class="headerlink" title="实时监控"></a>实时监控</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ telnet 127.0.0.1 6379</span><br><span class="line">monitor</span><br></pre></td></tr></table></figure>
+
+<h3 id="Key检索"><a href="#Key检索" class="headerlink" title="Key检索"></a>Key检索</h3><p>查看所有的key</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; keys *</span><br><span class="line">&gt; keys mo* //查看mo开头的keys</span><br></pre></td></tr></table></figure>
+
+<h2 id="Redis-配置"><a href="#Redis-配置" class="headerlink" title="Redis 配置"></a>Redis 配置</h2><h3 id="过期清理策略"><a href="#过期清理策略" class="headerlink" title="过期清理策略"></a>过期清理策略</h3><p>redis的<code>maxmemory</code>参数可以控制最大可用内存大小。当使用的内存超过最大可用内存后，会触发<code>maxmemory-policy</code>，其默认值是<code>noeviction</code>。</p>
+<table>
+<thead>
+<tr>
+<th>规则名称</th>
+<th>规则说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>volatile-lru</td>
+<td>从设置了生存时间的数据集中，使用LRU（Least Recently Used）算法挑选最近最少使用的数据删除</td>
+</tr>
+<tr>
+<td>volatile-lfu</td>
+<td>从设置了生存时间的数据集中，使用LFU算法挑选最近使用次数最少的数据删除</td>
+</tr>
+<tr>
+<td>volatile-random</td>
+<td></td>
+</tr>
+<tr>
+<td>volatile-ttl</td>
+<td>从设置了生存时间的数据集中，挑选离过期时间最近的数据删除</td>
+</tr>
+<tr>
+<td>allkeys-lru</td>
+<td>从所有数据集中，使用LRU（Least Recently Used）算法挑选最近最少使用的数据删除</td>
+</tr>
+<tr>
+<td>allkeys-lfu</td>
+<td></td>
+</tr>
+<tr>
+<td>allkeys-random</td>
+<td></td>
+</tr>
+<tr>
+<td>noeviction</td>
+<td></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>redis中并不会准确的删除所有键中最近最少使用的键，而是随机抽取3个键，删除这三个键中最近最少使用的键。</p>
+</blockquote>
+<h2 id="相关资源"><a href="#相关资源" class="headerlink" title="相关资源"></a>相关资源</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://redis.io/">https://redis.io</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/middleware2018/article/details/80355418">关于redis，学会这8点就够了</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u014590757/article/details/79788076">5.Redis内存满了的几种解决方法（内存淘汰策略与Redis集群）</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/libafei/article/details/80311372">Redis内存释放策略和过期键删除的策略</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhzhlong/p/9465670.html">Docker安装运行Redis</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.redis.net.cn/order/3535.html">Redis Keys 命令 - 查找所有符合给定模式( pattern)的 key</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/machanghai/p/5497043.html">转：Redis使用认证密码登录</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiaohuiduan/p/11394505.html">redis最基础的入门教程</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/09/01/20210901-kafka-basics-01/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Kafka学习笔记一：快速入门
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/08/16/20210816-build-your-body/" id="article-nav-older" class="article-nav-link-wrap">
+            减脂及如何科学的减脂 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

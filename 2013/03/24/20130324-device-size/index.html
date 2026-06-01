@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>设备尺寸杂谈:响应性Web设计中的尺寸问题-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="Web设计, 网页设计, 响应式设计">
+    <meta name="description" content="移动设备界面设计中，不通设备尺寸差别非常大，本文介绍如何对不通设备尺寸进行针对性设计。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>设备尺寸杂谈:响应性Web设计中的尺寸问题</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2013-03-24 17:45:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>目前在为移动设备设计界面时，最头疼的问题莫过于尺寸的问题。我们无法使用固定的尺寸来进行设计，因为不同设备的大小千变万化。但是如果我们了解了设备的物理特性后，这将有助于我们进行更好的设计。</p>
+<img src="/2013/03/24/20130324-device-size/24174446-a22117a0073d4411b864a5d6b6d1b571.png" class="">
+
+<p>不同的设备可能具有相同的屏幕分辨率，但是他们的物理特性差别却非常大。一代iPad的屏幕尺寸是9.7寸，分辨率为1024<em>768、132dpi。Kindle Kyeboard 3G的物理尺寸只有6寸，同样是768</em>1024的分辨率，像素却是212dpi。</p>
+<p>获取屏幕的尺寸有很多种办法，包括” Resolution Media Query “，这种办法作为 Media Queries的规范已经存在很长时间，但是在还没有正式发布之前，不是所有的浏览器都支持。但是很幸运，WebKit在这方面已经迈出了重要一步，下面是基本的用法：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@media</span> ( <span class="attribute">min-resolution</span>: <span class="number">250dpi</span> )&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这句话可以将低分辨率图片过滤掉，只保留高分辨率的图片。</p>
+<p>实际上对于设计师来说，他们对分辨率并不是那么感兴趣。因为他们是为人类而设计，所以最好有 width: 1寸，这样的单位。可惜的是，当今的社会是电子化的社会，物理的尺寸和电子像素不完全一致，做为设计师，我们需要来填补这两个不同之间的鸿沟。</p>
+<p>来比较一下下面的两段代码：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@media</span> (<span class="attribute">min-resolution</span>:<span class="number">341dpi</span>) <span class="keyword">and</span> (<span class="attribute">min-width</span>: <span class="number">767px</span>) &gt; &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@media</span> (<span class="attribute">max-resolution</span>:<span class="number">131dpi</span>) <span class="keyword">and</span> (<span class="attribute">min-width</span>: <span class="number">767px</span>) &gt; &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>粗看上去，这两段代码非常相似，实际上是用来区分不同设备的，第一个适用于 HTC Windows Phone 8X，第二个适用于 iPad2。通过使用 Resolution Query，可以将小设备同大设备区分开。两个设备的的宽度都是768px，物理尺寸一个是10英寸（iPad），一个却是4.3英寸（HTC）。更重要的是，iPad的分辨率比较低（1024<em>768），而HTC的分辨率比较高（1280</em>768）。通过 Resolution Media Query 和 Width Query 的配合使用，我们能够将具有同样宽度的不同大小的设备区分开，从而来相应的调整设计中的元素布局。</p>
+<p>之前说过，实际上我们对于各个设备的分辨率并不是很关心，我们更加关心的是，这个界面是显示在一个（物理尺寸上）较大的设备还是较小的设备上。那么，我们又该如何定义大设备和小设备呢？实际上并没有明确的分割，我们必须从每个项目的实际出发，这个设备在这个项目中是小设备，但在另外一个项目中，可能被归类为大设备。</p>
+<p><strong>The Physical Size Inquiry Non-Exhaustive Theorem</strong></p>
+<p>理论：在一个组合的查询中，如果 分辨率 Resolution 与 宽度和高度中的较小的一个的比值大于5，那么基本上可以归属为大设备，如果小于5，基本上可以归属为小设备。如果得分接近于5，那么是一个中等的设备，物理上的尺寸接近于1张A4纸的大小（21*29.7cm）。</p>
+<p>下面是一个验证这个理论的表格：</p>
+<p>使用PSINET判断设备的尺寸只是一个假设，这个假设在设备的长宽相差不大的情况下还比较准确，如果长宽差别太大，这个数字就不准确了。</p>
+<p>PPI的计算公式，如果一个屏幕宽1280px，高720px，对角线尺寸为4.3inches，那么PPI的计算方式为：</p>
+<img src="/2013/03/24/20130324-device-size/24174506-2c27a4726b14445b82c0fd6104a70374.png" class="">
+
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://mobile.smashingmagazine.com/2013/03/21/responsive-web-design-with-physical-units/">Device Size Matters: Responsive Web Design With Physical Units</a><br>2、<a target="_blank" rel="noopener" href="http://rss.9ria.com/?p=4414">学习Media Query</a><br>3、<a target="_blank" rel="noopener" href="http://www.smashingmagazine.com/2013/03/01/logical-breakpoints-responsive-design/">Logical Breakpoints in responsive design</a><br>4、<a target="_blank" rel="noopener" href="http://www.cnblogs.com/anjey/archive/2012/08/14/2638066.html">Media Type 与 Media Query</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2013/04/18/20130418-app-stats/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 几个移动应用统计平台
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2013/03/09/20130309-yeoman/" id="article-nav-older" class="article-nav-link-wrap">
+            Yeoman学习与实践笔记 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

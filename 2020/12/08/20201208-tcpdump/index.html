@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>tcpdump 命令使用介绍-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="linux, tcpdump, Linux命令">
+    <meta name="description" content="本文介绍tcpdump命令的简单使用方法。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>tcpdump 命令使用介绍</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2020-12-09 10:43:21</span>
+        
+        <span class="post-time">发布于：2020-12-08 18:31:31</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h2 id="命令介绍"><a href="#命令介绍" class="headerlink" title="命令介绍"></a>命令介绍</h2><p><code>tcpdump</code> 从字面上理解是 dump the traffic on a network，是命令行下对网络进行抓包分析的工具。不仅提供了根据网络层、协议、主机、网络或端口等多个条件进行过滤的能力，还能够通过 and、or、not逻辑语句，以及表达式来满足用户多种多样的网络抓包需求。</p>
+<p>Linux 下的命令格式：</p>
+<img src="/2020/12/08/20201208-tcpdump/image-20201208180212950.png" class="" title="image-20201208180212950">
+
+<p>常用的参数：</p>
+<ul>
+<li>-D：列出可用于抓包的接口；</li>
+<li>-l ：使标准输出变为缓冲行形式；</li>
+<li>-n：不把网络地址转换成名字；</li>
+<li>-c：在收到指定的包的数目后，tcpdump就会停止；</li>
+<li>-i：指定监听的网络接口；(如果没有指定可能在默认网卡上监听，需要指定绑定了特定IP的网卡)；</li>
+<li>-s：指定记录package的大小，常见 -s 0 ，代表最大值65535，一般linux传输最小单元MTU为1500；</li>
+<li>-w：直接将包写入文件中，配合 <code>-G time</code> 选项可以按照固定的时间间隔切割输出的文件；</li>
+<li>-X：直接输出package data数据，默认不设置，只能通过-w指定文件进行输出；</li>
+</ul>
+<blockquote>
+<p>Unix、Mac下tcpdump命令的参数有所不同，在具体使用过程中要查阅文档进行相应的调整。如Mac下的命令格式：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">NAME</span><br><span class="line">       tcpdump - dump traffic on a network</span><br><span class="line"></span><br><span class="line">SYNOPSIS</span><br><span class="line">       tcpdump [ -AbdDefhHIJKlLnNOpqStuUvxX<span class="comment"># ] [ -B buffer_size ]</span></span><br><span class="line">               [ -c count ]</span><br><span class="line">               [ -C file_size ] [ -G rotate_seconds ] [ -F file ]</span><br><span class="line">               [ -i interface ] [ -j tstamp_type ] [ -k (metadata_arg) ]</span><br><span class="line">               [ -m module ] [ -M secret ]</span><br><span class="line">               [ --number ] [ -Q <span class="keyword">in</span>|out|inout ]</span><br><span class="line">               [ -r file ] [ -V file ] [ -s snaplen ] [ -T <span class="built_in">type</span> ] [ -w file ]</span><br><span class="line">               [ -W filecount ]</span><br><span class="line">               [ -E spi@ipaddr algo:secret,...  ]</span><br><span class="line">               [ -y datalinktype ] [ -z postrotate-command ] [ -Z user ]</span><br><span class="line">               [ -Q packet-metadata-filter ] [ -Q <span class="keyword">in</span>|out|inout ]</span><br><span class="line">               [ --time-stamp-precision=tstamp_precision ]</span><br><span class="line">               [ --immediate-mode ] [ --version ]</span><br><span class="line">               [ expression ]</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="表达式"><a href="#表达式" class="headerlink" title="表达式"></a>表达式</h2><p>表达式的基本格式为：<code>proto dir type ID</code> 。表达式之间可以使用逻辑语句进行连接。分别介绍如下：</p>
+<ul>
+<li>协议。包括：tcp、udp、icmp，如果为空则可以匹配所有协议。</li>
+<li>目标。包括：src、dst、src or dst、src and dst。</li>
+<li>类型。包括：host、net、port、portrange。</li>
+</ul>
+<h2 id="用法举例"><a href="#用法举例" class="headerlink" title="用法举例"></a>用法举例</h2><ol>
+<li><p>监听 eth1 网卡上的所有数据包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -i eth1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>监听某个IP上的所有数据包，适合有多个IP的设备的场景</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump host 10.208.0.10</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>监听两个IP之间通信的数据包</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump host 10.208.0.10 and \( 10.208.1.10 \)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>监听主机与某个IP之外的所有IP数据包</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump ip host 10.208.0.10 and ! 10.208.1.10</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>监听某个IP所有80端口的流量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump tcp port 80 and host 10.208.0.10</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>本文无法列举所有的使用场景，还需要各位同学根据自己需求分析实践，如果愿意与楼主交流，欢迎通过关注公众号找到我。如果不习惯使用命令行下的抓包工具，也可以使用图形界面的抓包工具，通过 <a href="http://www.edulinks.cn/2019/06/23/20190623-wireshark-tcp-http/">Wireshark使用入门</a> 可以了解更多信息。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="http://www.cyberciti.biz/faq/tcpdump-capture-record-protocols-port/">TCPDump：Capture and Record Specific Protocols / Port</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/sunlong88/articles/11834795.html">centos下使用tcpdump来抓包查看服务器上的get或post请求</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ggjucheng/archive/2012/01/14/2322659.html">Linux tcpdump命令详解</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2020/12/09/20201209-git-faq/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Git 使用常见问题
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2020/12/03/20201203-system-disaster/" id="article-nav-older" class="article-nav-link-wrap">
+            RTO/RPO驱动的系统可靠性架构设计 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

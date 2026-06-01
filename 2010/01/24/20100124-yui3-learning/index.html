@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>学习使用YUI3-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="yui3, css">
+    <meta name="description" content="yui3的学习体会">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>学习使用YUI3</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2010-01-24 22:02:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>以下只是在YUI学习和使用中零碎的一些心得体会，未成体系，发出来，供批判。</p>
+<p>1、利用 Font、Base、Grid CSS进行快速的网页布局。</p>
+<p>对YUI一直很有好感，最近开始看了看YUI CSS GRID，发现这个理念非常好，非常有利于我们工作效率的提高，特别是熟悉了这套CSS之后，我们就不必每一个项目自己都去写一些CSS。其实，我想有心的朋友或多或少的都会收集一些自己常用的CSS，在不同的项目间使用，但是能够做到像YUI CSS这样有逻辑性、模块清楚的，恐怕还比较少见。</p>
+<p>YUI CSS GRID 中，最重要的是三个概念：页宽 Page width，预设模板 Template Preset和嵌套布局 Nested Grid。合理的利用这三个手段，我们基本上可以满足日常页面的布局工作。<br>但是YUI CSS GRID在YUI3中已经不被推荐使用，我为此感到惋惜和不解。不过幸好，及时不被推荐，我们仍可在项目中使用他。</p>
+<p>2、 IO的使用。</p>
+<p>YUI3中封装的IO具备了强大的功能，不仅能够通过GET、POST方式提交数据。而且支持整个Form数据的提交，这个方法对于希望全站都是用Ajax来做的同学无疑提供了极大地便利。</p>
+<p>但是，现在由于不是十分的熟悉YUI3的API，绑定IO事件的时候，都是在初始页面中进行的编码，这样必须能够了解到这个页面中可能会出现多少个Form，并分别把Form的提交事件绑定好。我在考虑，能否将JS代码写在每个表单中，通过IO将表单调入到当前页面，然后JS生效，再进行提交呢？ 这样对应的表单带着自己的JS，逻辑上就比较清楚。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Y<span class="selector-class">.io</span>(&quot;/foo/bar/some_widget&quot;, &#123;</span><br><span class="line">  method: <span class="string">&#x27;GET&#x27;</span>,</span><br><span class="line">  on: &#123;</span><br><span class="line">    complete: <span class="built_in">function</span>(id, respdata) &#123;</span><br><span class="line">      thediv.innerHTML = respdata.responseText;</span><br><span class="line">      initWidget();// this function is embedded in the responseText// and doesn&#x27;t get evaluated. <span class="selector-tag">I</span><span class="selector-class">.e</span>. it doesn&#x27;t exist.&#125;,</span><br><span class="line">    failure: <span class="built_in">function</span>(id, respdata) &#123;</span><br><span class="line">      <span class="built_in">alert</span>(<span class="string">&#x27;Feed failed to load!&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>这里作者提供了一个解决的办法，但是提到了一个缺点，用户在被搜索引擎导向到这个页面后这些代码还是不能够执行。</p>
+<p>那么有什么办法解决呢？</p>
+<p>有一位<a target="_blank" rel="noopener" href="http://starcatcher.ca/?p=636">兄弟</a>提出利用一种真正的ajax的方法，将返回结果分成两部分，一部分是HTML的内容，一部分是javascript的脚本，返回后就直接执行javascript的方法。这样做也未尝不可，但是在写这个响应页面的时候，就要稍微注意结果的形式。</p>
+<p>我就采用了一种比较笨的办法，将脚本放在一个容器中，加载到宿主页面以后，再通过 eval 执行一下，暂时这个问题就被这么丑陋的解决了。</p>
+<p>但是有一个问题需要注意，就是通过ajax传递过来的js代码中不能含有注释，否则 eval 的时候会报错，这个是在 ie 下发现的错误。</p>
+<p>3、YUI3还是不够稳定。</p>
+<p>还是使用IO的时候，当通过POST方式提交数据时，第二次点击提交表单按钮，就会发出双份的数据，第三次，发送出去的数据就会变成三份。这个在YUI的论坛里有人反映了，是一个bug，已经解决，但是官方的那个build还没有更新。</p>
+<p>在排查这个错误的时候因为不了解 YUI Loader 的工作原理，所以费了一些周折，同样不了解的同学可以去<a target="_blank" rel="noopener" href="http://www.zhuoqun.net/html/y2008/1118.html">这里</a>看一下，补充一下相关知识。我将 io-base.js 的最新版本下载下来，覆盖了本地文件之后，发现问题并没有解决，使用firebug查看，如下：</p>
+<img src="/2010/01/24/20100124-yui3-learning/image_thumb.png" class="">
+
+<p>原来这些模块都还是通过combo调用的远程的，很奇怪的是为什么在firebug的网络中没有看到这个链接消耗的时间呢，难道他不消耗带宽？</p>
+<p>至此，发现了原来将 YUI(combine:true) 配置去掉，就可以调用本地文件了。但同时丧失了 combo 的这个节省带宽的优势，本地有办法自己搭建一个 combo 么?</p>
+<p>参考资料<br>1、<a target="_blank" rel="noopener" href="http://ued.taobao.com/blog/2010/01/11/yui3%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%BF%80%E8%BF%9B%E5%92%8C%E5%A6%A5%E5%8D%8F/">YUI3设计中的激进与妥协</a><br>2、<a target="_blank" rel="noopener" href="http://blog.fredrikbostrom.net/2008/10/29/executing-embedded-javascript-after-ajax-call">Excute embedded javascript after ajax-call</a><br>3、<a target="_blank" rel="noopener" href="http://starcatcher.ca/?p=636">Post-Ajax Javascripts Calls</a><br>4、<a target="_blank" rel="noopener" href="http://yuilibrary.com/forum/viewtopic.php?f=92&t=2058&p=6793">YUI Library</a><br>5、<a target="_blank" rel="noopener" href="http://www.zhuoqun.net/html/y2008/1118.html">YUI Loader 学习笔记</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2010/01/25/20100125-css3-transition/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; CSS3的过渡效果
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2010/01/09/20100109-redesign-logs/" id="article-nav-older" class="article-nav-link-wrap">
+            2009年重新设计过的著名的Logo &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

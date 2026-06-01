@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mac OS路由设置常用命令-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="macOS, route, 路由">
+    <meta name="description" content="macOS 通过 netstat 命令查看路由表，通过 route 命令修改路由，通过 networksetup 调整网络设置。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Mac OS路由设置常用命令</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2020-11-24 10:45:52</span>
+        
+        <span class="post-time">发布于：2020-05-19 13:12:17</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <blockquote>
+<p>关注路由配置的原因是因为单位办公环境不允许访问互联网，在原来只有一块网卡的时候，不得不频繁的在办公网和互联网之间切换。为了解决这个问题，我在Macbook Pro上外接了一块USB无线网卡，通过两块网卡实现既能上办公网，也能上互联网。</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="查看路由"><a href="#查看路由" class="headerlink" title="查看路由"></a>查看路由</h2><p>Mac下通过<code>netstat</code>命令查看路由表，可以看到有两条默认路由。一般情况下，我们可以通过系统配置中的<code>设置网络顺序</code>将提供互联网接入的网卡放在第一位就能够顺利的实现既能访问互联网，也能访问办公网。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ netstat -nr</span><br><span class="line">Routing tables</span><br><span class="line"></span><br><span class="line">Internet:</span><br><span class="line">Destination        Gateway            Flags        Refs      Use   Netif Expire</span><br><span class="line">default            172.20.10.1        UGSc           34       32     en5</span><br><span class="line">default            11.136.160.254     UGScI           0        0     en1</span><br></pre></td></tr></table></figure>
+
+<p>但是在我的场景中，单位内部有一个比较特殊的地址段<code>128.192.*.*</code>因为属于B类地址，走了第一条路由导致我没有办法访问这个网段的所有应用，这时就需要单独指定对于这个网段走第二条路由。</p>
+<p>路由信息中<code>Flags</code>的一些具体含义如下：</p>
+<ul>
+<li>U = Up</li>
+<li>G = Gateway</li>
+<li>S = Static, e.g., default route added at boot time</li>
+<li>H = Host-specific</li>
+<li>C = Generate new (host-specific) routes on use</li>
+<li>L = Valid link-layer (MAC) address</li>
+<li>c = Cloned route</li>
+<li>R = Reject route, known but unreachable route</li>
+</ul>
+<h2 id="route命令"><a href="#route命令" class="headerlink" title="route命令"></a>route命令</h2><p>首先来介绍一下Mac下的路由命令，命令的用法如下。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ route [-dnqtv] <span class="built_in">command</span> [[modifiers] args]</span><br></pre></td></tr></table></figure>
+
+<p>支持的命令包括：<code>add</code>、<code>flush</code>、<code>delete</code>、<code>change</code>、<code>get</code>、<code>monitor</code>。</p>
+<p>对于<code>monitor</code>和<code>flush</code>命令，后面不需要额外的参数，对于<code>add</code>、<code>delete</code>、<code>change</code>、<code>get</code>参数，则需要按照以下格式输入：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ route [-n] <span class="built_in">command</span> [-net | -host] [-ifscope boundif] destination gateway [netmask]</span><br></pre></td></tr></table></figure>
+
+<h3 id="监控路由变化"><a href="#监控路由变化" class="headerlink" title="监控路由变化"></a>监控路由变化</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ route -v monitor</span><br></pre></td></tr></table></figure>
+
+<p>通过这个命令可以看到系统中路由变化的情况，如果此时在系统管理面板中调整网络的顺序，就能够看到路由变化的细节。如下所示，可以看到因为我调整了网络顺序，系统先是把两条默认路由删掉，然后按照调整的顺序再依次添加到路由表中，从而实现了网络顺序的调整。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">$ route -v monitor</span><br><span class="line"></span><br><span class="line">got message of size 164 on Tue May 19 12:20:05 2020</span><br><span class="line">RTM_DELETE: Delete Route: len 164, pid: 62, seq 262, errno 0, flags:&lt;GATEWAY,DONE,STATIC,PRCLONING,CONDEMNED&gt;</span><br><span class="line">locks:  inits: </span><br><span class="line">sockaddrs: &lt;DST,GATEWAY,NETMASK,IFP,IFA&gt;</span><br><span class="line"> default 172.20.10.1 default en5:40.a5.ef.41.9f.fb 172.20.10.3</span><br><span class="line"></span><br><span class="line">got message of size 164 on Tue May 19 12:20:05 2020</span><br><span class="line">RTM_DELETE: Delete Route: len 164, pid: 62, seq 263, errno 0, ifscope 6, flags:&lt;GATEWAY,DONE,STATIC,PRCLONING,IFSCOPE,CONDEMNED&gt;</span><br><span class="line">locks:  inits: </span><br><span class="line">sockaddrs: &lt;DST,GATEWAY,NETMASK,IFP,IFA&gt;</span><br><span class="line"> default 11.136.160.254 default en1:e4.ce.8f.23.c5.de 11.136.160.44</span><br><span class="line"></span><br><span class="line">got message of size 176 on Tue May 19 12:20:16 2020</span><br><span class="line">RTM_ADD: Add Route: len 176, pid: 62, seq 270, errno 0, flags:&lt;UP,GATEWAY,DONE,STATIC&gt;</span><br><span class="line">locks:  inits: </span><br><span class="line">sockaddrs: &lt;DST,GATEWAY,NETMASK,IFP,IFA&gt;</span><br><span class="line"> default 11.136.160.254 default  11.136.160.44</span><br><span class="line"></span><br><span class="line">got message of size 176 on Tue May 19 12:20:16 2020</span><br><span class="line">RTM_ADD: Add Route: len 176, pid: 62, seq 271, errno 0, ifscope 5, flags:&lt;UP,GATEWAY,DONE,STATIC,IFSCOPE&gt;</span><br><span class="line">locks:  inits: </span><br><span class="line">sockaddrs: &lt;DST,GATEWAY,NETMASK,IFP,IFA&gt;</span><br><span class="line"> default 172.20.10.1 default  172.20.10.3</span><br></pre></td></tr></table></figure>
+
+<h3 id="添加路由"><a href="#添加路由" class="headerlink" title="添加路由"></a>添加路由</h3><p>添加路由时，<code>-host</code> 和<code>-net</code>是可选参数。如果没有加参数，并且输入的ip是一个段网络地址，则会假设为一个地址段。如果是明确的ip地址，则会对应到主机。这部分内容可以通过<code>man route</code>查看到。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ sudo route -v add ip gateway [-netmask net-mask-ip]</span><br><span class="line"><span class="comment"># -net 参数可以指定添加一个网段</span></span><br><span class="line">$ sudo route -v add -net 128.192 gateway</span><br><span class="line"><span class="comment"># -host 参数可以指定添加一个具体的地址</span></span><br><span class="line">$ sudo route -v add -host 128.192.214.29 gateway</span><br><span class="line">$ sudo route -n add -net 192.168.0.0（需进入的网段） -netmask 255.255.255.0 （掩码）192.168.5.254 （进该网段的网关）</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除路由"><a href="#删除路由" class="headerlink" title="删除路由"></a>删除路由</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo route -v delete ip</span><br><span class="line">$ sudo route -v delete -net 10.10.12.0（某网段） -gateway 10.10.12.1（某网关）</span><br></pre></td></tr></table></figure>
+
+<h3 id="清空路由表"><a href="#清空路由表" class="headerlink" title="清空路由表"></a>清空路由表</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo route -v flush</span><br></pre></td></tr></table></figure>
+
+<h2 id="持久化路由的设置"><a href="#持久化路由的设置" class="headerlink" title="持久化路由的设置"></a>持久化路由的设置</h2><p>持久化路由设置需要介绍一个新的命令<code>networksetup</code>，该命令相当于系统偏好设置中的网络设置工具的命令行版本，但是自爱系统偏好设置中没有提供路由维护的功能，因此这个命令行工具提供了比系统便好设置更强大的功能，主要有以下几个方面。</p>
+<h3 id="查看所有的网络连接方式"><a href="#查看所有的网络连接方式" class="headerlink" title="查看所有的网络连接方式"></a>查看所有的网络连接方式</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ networksetup -listallnetworkservices</span><br><span class="line">An asterisk (*) denotes that a network service is disabled.</span><br><span class="line">802.11n NIC</span><br><span class="line">Wi-Fi</span><br><span class="line">Ethernet</span><br><span class="line">FireWire</span><br><span class="line">Bluetooth PAN</span><br><span class="line">Thunderbolt Bridge</span><br><span class="line">iPhone USB</span><br><span class="line">Parallels Shared <span class="comment">#0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="查看某个网络连接的路由信息"><a href="#查看某个网络连接的路由信息" class="headerlink" title="查看某个网络连接的路由信息"></a>查看某个网络连接的路由信息</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ networksetup -getadditionalroutes Wi-Fi</span><br><span class="line">There are no additional IPv4 routes on Wi-Fi.</span><br></pre></td></tr></table></figure>
+
+<h3 id="添加路由信息"><a href="#添加路由信息" class="headerlink" title="添加路由信息"></a>添加路由信息</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ networksetup -setadditionalroutes Wi-Fi 11.33.0.0 255.255.255.0 11.136.167.254</span><br><span class="line">$ networksetup -getadditionalroutes Wi-Fi</span><br><span class="line">11.33.0.0 255.255.255.0 11.136.167.254</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除路由信息"><a href="#删除路由信息" class="headerlink" title="删除路由信息"></a>删除路由信息</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ networksetup -setadditionalroutes Wi-Fi </span><br><span class="line">$ networksetup -getadditionalroutes Wi-Fi</span><br><span class="line">There are no additional IPv4 routes on Wi-Fi.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>清空路由表就是不需要添加任何路由信息就可以。</p>
+<h2 id="查看端口监听"><a href="#查看端口监听" class="headerlink" title="查看端口监听"></a>查看端口监听</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ lsof -i :61613             </span><br><span class="line">COMMAND     PID     USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME</span><br><span class="line">com.docke 22500 shiqiang   74u  IPv6 0xa0a6fc82987d1dcd      0t0  TCP *:61613 (LISTEN)</span><br></pre></td></tr></table></figure>
+
+<p>通过 lsof 命令可以查看端口监听的情况。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.baidu.com/link?url=E9XstvqW5Vbeju068bPVl_1O1YUpOLqwPEGn3ISXzyfkoLC4z38FYkr02YJ7717n7RPsOhIQyInCRU1Wgk0uAq&wd=&eqid=eae92997001fc824000000035ec23824">MacOS上路由表的操作</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.xuebuyuan.com/2213546.html">MacOS route flags</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/linusflow/p/7390566.html">Mac OSX常用网络命令</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hanyifeng/p/8195538.html">https://www.cnblogs.com/hanyifeng/p/8195538.html</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2020/05/28/20200520-nginx-configuration/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Nginx 介绍及配置文件入门
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2020/04/23/20200423-puppet-introduce/" id="article-nav-older" class="article-nav-link-wrap">
+            Puppet 各版本特性介绍与典型架构 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CoffeeScript学习笔记-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="coffeescript, coffeescript学习笔记">
+    <meta name="description" content="CoffeeScript编程语言构建于Javascript之上，它可编译成高效JavaScript。可以在Web浏览器上，或者结合Node.js一类的技术构建服务端应用程序。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>CoffeeScript学习笔记</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2013-05-21 23:49:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>CoffeeScript编程语言构建于Javascript之上，它可编译成高效JavaScript。可以在Web浏览器上，或者结合Node.js一类的技术构建服务端应用程序。</p>
+<p>The golden rule of CoffeeScript is: “It’s just JavaScript”.</p>
+<p><strong>CoffeeScript的吸引力</strong></p>
+<p>1、提供一种比较简单的语法，减少了样板代码，诸如括号和逗号；<br>2、使用空格作为一种组织代码块的方法；<br>3、提供拥有表达函数的简单语法；<br>4、提供基于类的继承（可选项，但是在进行应用程序开发时非常有用）</p>
+<p><strong>先决条件</strong></p>
+<p>CoffeeScript使用Nodejs的包管理程序，作为Node.js的一个包进行分布。<br>CoffeeScript必须被编译，其编译器实际上就是使用CoffeeScript编写的，所以，需要一个JavaScript运行时来完成其编译。</p>
+<p><strong>安装方法</strong></p>
+<p>sudo npm install -g coffee-script</p>
+<p>安装成功后，我们应该能够在命令行中找到 coffee 命令了。coffee -v 我这里看到的是 1.6.0。使用 coffee 命令，可以将 .coffee 文件编译成 js 文件。使用 coffeescript 的格式来写 javascript 据说可以节省三分之二的代码量哦。</p>
+<p><strong>基本用法</strong></p>
+<ul>
+<li>-c,–compile          将.coffee编译为.js文件</li>
+<li>-w,–watch            监控文件的变化，并输出监控的结果</li>
+<li>-o,–output [DIR]     将编译的结果文件输出到指定目录</li>
+<li>-p,–print            将编译结果</li>
+<li>-l,–lint             如果安装了 jsl (javascript lint)的话，使用lint检查代码</li>
+<li>-s,–stdio            将其它程序的输出作为coffee的标准输入，并且获得JavaScript的标准输出。</li>
+<li>-e,–eval             命令行的形式</li>
+</ul>
+<img src="/2013/05/21/20130521-coffeescript-introduce/21234823-2d3cf3d499174fbe91b146ef9f2c8063.png" class="">
+
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://www.ibm.com/developerworks/cn/web/wa-coffee1/index.html">初步了解CoffeeScript：第一部分入门</a><br>2、<a target="_blank" rel="noopener" href="http://coffeescript.org/">CoffeeScript</a><br>3、<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/zh-cn/CoffeeScript">Wiki CoffeeScript</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2013/05/25/20130525-touch-screen-design/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 超越按钮，拥抱触摸界面
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2013/05/17/20130517-css-counter/" id="article-nav-older" class="article-nav-link-wrap">
+            CSS中的计数器 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

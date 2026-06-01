@@ -1,0 +1,281 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shell 入门详解（一）-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="shell, shell变量, shell命令行, shell逻辑运算, shell算数运算">
+    <meta name="description" content="shell是一种特殊的程序，是 `用户与Linux系统内核间的接口`，它解释运行由命令行或文件输入的命令，从而实现用户与内核间的交互。本文介绍了常用的shell命令与语法。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Shell 入门详解（一）</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2024-11-15 20:57:28</span>
+        
+        <span class="post-time">发布于：2020-07-22 19:42:57</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>[TOC]</p>
+<blockquote>
+<p>其实这篇文章最早想起名《30分钟学会shell》但是仔细梳理了shell的相关知识后，发现如果想把所有的细节都掌握的，真的不可能30分钟学完。但是通过30分钟的时间，过一遍相关的知识点还是可能的，整理了一份相关知识点的思维导图，想要真的学好，还要静下心来花点功夫哦。</p>
+</blockquote>
+<img src="/2020/07/22/20200722-shell-quick-start/image-20200809154352060.png" class="" title="image-20200809154352060">
+
+<h2 id="Shell-简介"><a href="#Shell-简介" class="headerlink" title="Shell 简介"></a>Shell 简介</h2><p>shell是一种特殊的程序，是 <code>用户与Linux系统内核间的接口</code>，它解释运行由命令行或文件输入的命令，从而实现用户与内核间的交互。</p>
+<h2 id="内部命令"><a href="#内部命令" class="headerlink" title="内部命令"></a>内部命令</h2><p>内部命令是shell命令的一部分，驻留在系统内存中，不需要创建子进程，例如 <code>cd exit echo history</code> 这些命令。使用 <code>man builtins</code> 可以看到 shell 中自带的内部命令。</p>
+<blockquote>
+<p>以 <code>/</code> 开头的命令都不会触发内部命令，例如 <code>echo</code> 会调用内部命令，<code>/bin/echo</code> 或 <code>./echo</code> 则不会调用内部命令。</p>
+</blockquote>
+<p>本文简要列了一些：<code>alias、bg、bind、break、builtin、case、cd、chdir、command、continue、do、done        echo、elif、else、esac、eval、exit、export、false、fc、fg、fi、for、getopts、hash、if、jobid、jobs、local、pwd、read、readonly、return、set、setvar、shift、test、then、times、trap、true、type、ulimit、umask、unalias、unset、until、wait、while</code></p>
+<blockquote>
+<p>判断一个命令是否内部命令，可以使用 <code>type</code> 命令。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">% <span class="built_in">type</span> <span class="built_in">echo</span></span><br><span class="line"><span class="built_in">echo</span> is a shell <span class="built_in">builtin</span></span><br></pre></td></tr></table></figure>
+
+<p>如果是外部命令，则 <code>type</code> 会给出该命令的执行路径。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">% <span class="built_in">type</span> node</span><br><span class="line">node is /usr/<span class="built_in">local</span>/bin/node</span><br></pre></td></tr></table></figure>
+
+
+</blockquote>
+<h2 id="外部命令"><a href="#外部命令" class="headerlink" title="外部命令"></a>外部命令</h2><p>外部命令其实并不是 shell 的内容，它们往往都是脚本文件或者二进制文件，需要的时候会加载到内存并创建对应的子进程，通常位于 <code>/bin</code> 或者 <code>/usr/bin</code> 等目录下。</p>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>在 shell 中定义变量有两种方式，一种可以直接使用 <code>var_name=&quot;AAAA&quot;</code> 的方式在定义变量的同时就为变量赋值，也可以使用 <code>declare -i number_var</code> 定义变量，然后稍后再给变量赋值。</p>
+<blockquote>
+<p>注意变量赋值语句前后一定不要有空格！</p>
+</blockquote>
+<p>使用变量要通过 <code>$</code> ，例如打印变量 <code>echo $var_name</code> 。还以加上花括号来引用变量，例如 <code>echo $&#123;var_name&#125;</code> 这种方式能够给出明确的变量边界，推荐在实际工作中都使用这种方式。</p>
+<p><strong>一些常用的变量</strong>：</p>
+<ul>
+<li>命令行参数：<code>$0、$1......$&#123;10&#125;</code></li>
+<li>命令行或者位置参数的个数：<code>$#</code></li>
+<li><code>$*</code>：所有位置参数，被作为一个单词。必须被””引用</li>
+<li>$@    ：同$*，但每个参数都是一个独立的””引用。必须被引用</li>
+<li><code>$!</code>    ：在后台运行的最后的工作的 PID(进程ID)</li>
+<li><code>$_</code>    ：保存之前执行的命令的最后一个参数</li>
+<li><code>$?</code>    ：命令、函数或者脚本本身的退出状态，用来判断脚本是否正常退出，正常退出返回为0。</li>
+<li><code>$$</code>    ：脚本自身进程ID，常用来构造一个”unique”的临时文件名</li>
+<li><code>$BASH</code>    ：指向 Bash 的二进制执行文件的位置</li>
+<li><code>FUNCNAME</code>：当前函数的名字</li>
+<li><code>LINENO</code>：当前行号</li>
+<li><code>HOME</code>：用户的 home 目录</li>
+<li><code>PWD</code>：所在的当前目录</li>
+<li><code>OLDPWD</code>：所在的之前的目录</li>
+<li><code>PATH</code>：PATH参数，指向外部命令所在的位置，可以是多个位置</li>
+<li><code>SECONDS</code>：脚本已经运行的时间(单位为秒)</li>
+</ul>
+<h2 id="逻辑运算"><a href="#逻辑运算" class="headerlink" title="逻辑运算"></a>逻辑运算</h2><p>shell 提供了丰富的逻辑运算符来满足我们常见的文件、数字、字符串等逻辑运算需求。shell提供了<code>test</code>内置命令来检测某个条件是否成立，通常和 <code>if</code> 配合使用，可以进行文件、数值、字符串三方面的比较。</p>
+<p><code>test</code> 的语法如下，如果表达式成立返回 0 ，如果表达式不成立返回 1，返回大于 1 的值表示发生了错误。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span> expression</span><br><span class="line">[ expression ]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>test</code> 命令可以简写为 [ ] ，注意 [ ] 与 expression 之间的空格是必须的。[ ] 的写法更加简洁，[[ ]] 是 [ ] 的扩充，能支持 <code>&lt;、&gt;</code> 运算，不需要转义，内支持逻辑运算符，是性能最高的表达式。</p>
+</blockquote>
+<img src="/2020/07/22/20200722-shell-quick-start/image-20200809091643796.png" class="" title="image-20200809091643796">
+
+<h3 id="文件测试操作"><a href="#文件测试操作" class="headerlink" title="文件测试操作"></a>文件测试操作</h3><ul>
+<li><code>-e</code> : 检测文件（包括目录）是否存在</li>
+<li><code>-b</code> : 检测文件是否为块设备文件</li>
+<li><code>-c</code> : 检测文件是否是字符设备文件</li>
+<li><code>-d</code> : 检测文件是否为目录</li>
+<li><code>-f</code> : 检测文件是否为普通文件（既不是目录，也不是块设备）</li>
+<li><code>-s</code> : 检测文件是否为空，即文件的大小是否大于0</li>
+<li><code>-p</code> : 检测文件是否为有名管道</li>
+<li><code>-r</code> : 检测文件是否有读权限</li>
+<li><code>-w</code> : 检测文件是否有写权限</li>
+<li><code>-x</code> : 检测文件是否有执行权限</li>
+<li><code>-g</code> : 检测文件是否设置了SGID位</li>
+<li><code>-k</code> : 检测文件是否设置了粘着位（Sticky Bit）</li>
+<li><code>-u</code> : 检测文件是否设置了SUID位</li>
+<li><code>-L</code> : 判断是否为符号链接</li>
+<li><code>-S</code> : 判读是否为socket文件</li>
+<li><code>-nt</code> : 判断file1是否比file2新</li>
+<li><code>-ot</code> : 判断file1是否比file2旧</li>
+</ul>
+<p>关于文件测试的具体代码示例，可以看下面的代码</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 判断 file_compare.sh 这个文件是否存在</span></span><br><span class="line"><span class="keyword">if</span> [[ -e file_compare.sh ]]; <span class="keyword">then</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">&quot;File &#x27;file_compare.sh&#x27; Exists!&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">&quot;File &#x27;file_compare.sh&#x27; doen&#x27;t exists!&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 判断 /etc 目录是否存在</span></span><br><span class="line"><span class="keyword">if</span> [[ -e /etc ]]; <span class="keyword">then</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">&quot;Folder /etc exists!&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">&quot;folder /etc dosn&#x27;t exists!&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 判断 file_compare.sh 是否为普通文件</span></span><br><span class="line"><span class="keyword">if</span> [[ -f file_compare.sh ]]; <span class="keyword">then</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">&quot;Common file!&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">&quot;Not common file!&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 判断 file_compare.sh 是否为块文件</span></span><br><span class="line"><span class="keyword">if</span> [[ -b file_compare.sh ]]; <span class="keyword">then</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">&quot;Block file!&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">&quot;Not block file!&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 判断 file_compare.sh 是否为字符设备文件</span></span><br><span class="line"><span class="keyword">if</span> [[ -c file_compare.sh ]]; <span class="keyword">then</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">&quot;Character file!&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">&quot;Not character file!&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="整数比较"><a href="#整数比较" class="headerlink" title="整数比较"></a>整数比较</h3><ul>
+<li><code>-eq</code> : 是否相等</li>
+<li><code>-ne</code> : 是否不相等</li>
+<li><code>-gt</code> : 是否大于</li>
+<li><code>-ge</code> : 是否大于等于</li>
+<li><code>-lt</code> : 是否小于</li>
+<li><code>-le</code> : 是否小于等于</li>
+</ul>
+<h3 id="字符串比较"><a href="#字符串比较" class="headerlink" title="字符串比较"></a>字符串比较</h3><ul>
+<li><code>=:</code> : 等于</li>
+<li><code>!=:</code> : 不等于</li>
+<li><code>&lt;:</code> ： 小于</li>
+<li><code>&gt;:</code> : 大于</li>
+<li><code>-z</code> : 字符串长度为0</li>
+<li><code>-n</code> : 字符串长度不为0</li>
+</ul>
+<blockquote>
+<p>注意shell中的字符串比较和其他语言中可以用来做数字比较，而shell中只能用来做字符串比较，这点一定要习惯。另外 shell 中不支持 <code>&gt;=</code> 、<code>&lt;=</code> 运算符，请大家牢记。</p>
+</blockquote>
+<h3 id="关系比较"><a href="#关系比较" class="headerlink" title="关系比较"></a>关系比较</h3><ul>
+<li><code>-a</code> : 逻辑与</li>
+<li><code>-o</code> : 逻辑或</li>
+<li><code>&amp;&amp;</code> : 逻辑与</li>
+<li><code>||</code> : 逻辑或</li>
+</ul>
+<h2 id="算术运算"><a href="#算术运算" class="headerlink" title="算术运算"></a>算术运算</h2><p>Shell 支持的算术运算类型很丰富，能够满足日常的需求。</p>
+<ul>
+<li>算术操作：<code>+</code> 加法、<code>-</code> 减法、<code>*</code> 乘法、<code>/</code> 除法、<code>**</code> 幂运算、<code>%</code> 取模、<code>+=</code> 加等于、<code>-=</code> 减等于、<code>*=</code> 乘等于、<code>/=</code> 除等于、<code>%=</code> 取模等于。</li>
+<li>位操作符：<code>&lt;&lt;</code> 左移1位、<code>&lt;&lt;=n</code> 左移n位、<code>&gt;&gt;</code> 右移1位、 <code>&gt;&gt;=n</code> 右移n位、<code>&amp;</code> 按位与、<code>&amp;=</code> 按位与赋值、<code>|</code> 按位或、<code>|=</code> 按位或赋值、<code>~</code> 按位非、<code>!</code> 按位否、<code>^</code> 按位异或、<code>^=</code> 按位异或赋值。</li>
+<li>逗号运算符：逗号操作符可以连接2个或多个算术运算，所有的操作都会被执行，但只有最后一个操作作为结果。</li>
+</ul>
+<p>具体算术运算的例子如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试一些算术表达式的使用</span></span><br><span class="line">A=4</span><br><span class="line">B=5</span><br><span class="line"></span><br><span class="line"><span class="comment"># 直接使用+号会将数字作为字符串拼接起来</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$A</span> + <span class="variable">$B</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用expr命令能够执行数学运算</span></span><br><span class="line"><span class="built_in">echo</span> `expr <span class="variable">$A</span> + <span class="variable">$B</span>`</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用$[]也可以执行数字运算</span></span><br><span class="line"><span class="built_in">echo</span> $[ <span class="variable">$A</span> + <span class="variable">$B</span> ]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用$(())也可以执行数字运算</span></span><br><span class="line"><span class="built_in">echo</span> $(( <span class="variable">$A</span> + <span class="variable">$B</span> ))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用let</span></span><br><span class="line"><span class="built_in">let</span> <span class="string">&quot;r=<span class="variable">$A</span>+<span class="variable">$B</span>&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$r</span></span><br></pre></td></tr></table></figure>
+
+<p>执行结果</p>
+<img src="/2020/07/22/20200722-shell-quick-start/image-20200809104349131.png" class="" title="image-20200809104349131">
+
+
+
+<blockquote>
+<p>到这里基本上把shell变量、运算符介绍完了，下一篇计划把控制语句介绍一下，这样两篇结合起来就能够实现基本的shell脚本编写了。</p>
+</blockquote>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/-beyond/p/8253836.html">shell脚本-文件测试</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qiangyuzhou/p/10806667.html">shell test命令详解</a></li>
+<li><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/2751.html">shell 详解：检测某个条件是否成立</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2020/09/22/20200922-elasticsearch-log-config/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Elasticsearch 日志配置详解
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2020/07/18/20200718-zsh-and-bash/" id="article-nav-older" class="article-nav-link-wrap">
+            Catalina 默认使用zsh了，你可习惯 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>从阿里云故障学习一点经验-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="阿里云, 故障, 运维故障, 运维事故, 运维事件, 阿里云故障">
+    <meta name="description" content="根据阿里云此次事件的分析总结报告，整理一些自己对于应急处理的不成熟想法，欢迎与大家讨论。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>从阿里云故障学习一点经验</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2022-12-30 12:17:11</span>
+        
+        <span class="post-time">发布于：2022-12-27 10:39:28</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>北京时间2022年12月18日，阿里云香港Region可用区C发生了大规模的服务中断事件，根据官方发布的事件线索，从最早08:56分开始发生告警，到22:50完成主要故障恢复，花了差不多整整20小时来处理此次事件。澳门司法警察局反馈从中午开始依赖阿里云服务的澳门金融管理局、澳门银河、莲花卫视、澳门水泥厂等关键基础设施营运着的网站，澳觅和MFood等外卖平台，以及澳门日报等本地应用APP都收到影响导致暂时无法使用。甚至有的网友称自己的服务器到19日凌晨2点多还没恢复。从用户侧来看，因为机房基础设施故障而引发的次生应用级别的故障其处理和恢复时间还要长。</p>
+<p>12月18日本是圣诞节前一个悠闲的假日，故障刚刚发生时，阿里云及其机房的运维管理人员应该也认为是一个能够快速搞定的故障。因为从8:56分告警，到定位到冷机故障并在9:17分启动应急预案，这一系列步骤的操作看起来有条不紊。只有当冷机预案失效之后，一切开始变得刺激起来。</p>
+<p>我认真的看完了整个服务中断事件的说明，结合我所在单位的运维经验，总结了对于所有运维人员和运维事件处理中比较容易出问题，也比较容易被领导诟病的三个问题，在这里整理出来和大家分享讨论，说的不对的地方还请大家指正。</p>
+<h3 id="处置怎么这么慢"><a href="#处置怎么这么慢" class="headerlink" title="处置怎么这么慢"></a>处置怎么这么慢</h3><p>我们看到这次事件是工程师通过温控告警发现的，而故障的核心组件「冷机」系统没有直接发出告警，这就导致工程师找到故障点需要花费一些时间。</p>
+<p>「冷机」很显然是外部采购的一个产品，在定位到这个组件故障后，按照常见的应急预案处置方法进行处理却无法恢复故障时，因为现场人员对于设备的了解程度不够，需要供应商到现场支持，这中间消耗了接近2个半小时到等待时间。</p>
+<h3 id="影响为何这么大"><a href="#影响为何这么大" class="headerlink" title="影响为何这么大"></a>影响为何这么大</h3><p>我们在整理应急预案过程中，往往是针对某个故障点来整理对应的操作步骤。对于一个故障可能引起的关联问题，以及关联问题的处理，往往没有系统的总结到文档中，一般情况下这种问题需要对于系统整个运行有全局观的人才能提前识别到。</p>
+<p>在阿里云服务中断事件中，我们看到从 8:56 开始介入事件处理，直到 10:30 左右才开始做出一些应对机房高温可能产生的次生影响处理动作。如果在这之前，能够及早的将事件向上反映，并做出提前的准备，我想可能有些用户就有足够充裕的时间来实施服务/数据转移的变更。</p>
+<p>历史无法假设，未来也很难评估。我猜测早上的一段时间，大家可能在乐观的等待冷机厂商赶到后能够将故障尽快恢复。然而如果我们没有对最坏的处境做好充足的准备，当这一刻来临时一定会手忙脚乱，并且将事情的发展引向更坏的结局。</p>
+<h3 id="应急指挥一团糟"><a href="#应急指挥一团糟" class="headerlink" title="应急指挥一团糟"></a>应急指挥一团糟</h3><p>阿里云服务中断事件的最后也提到「故障信息发布不够及时透明」，我非常理解阿里云在此次事件中组织信息并及时对外发布的难度。这次事件由基础设施故障引发，最终引起机房物理环境和设备，各类应用服务都发生了不同严重程度的影响。想必故障的处理也涉及了阿里云内部众多的部门和人员，在一个原本平静的周日遇到这类突发事件，很多人解决问题都是通过远程的方式接入，在人员组织、信息收集、信息整理、信息发布方面，存在的困难可想而知。</p>
+<p>通过对于阿里云此次服务中断事件过程的学习，我能想到很多很多的优化点，细化应急预案、量化影响分析、强化组织架构等等等等。对于每一位运维人员来说，对系统运行始终保持敬畏的态度，认真做好每一件运维工作，落实好相关的制度规范要求，才能尽可能的避免故障发生、减少故障的影响，借阿里云的此次事件以自勉。</p>
+<p>以上分析均为本人结合经验对此次事件的一个预判评估，如果有不正确的地方，请及时与我联系修改。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/rJ2_TEc9mDxfJ1q4gCN-Zg">关于阿里云香港Region可用区C服务中断事件的说明</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.163.com/dy/article/HPJ2V10R05149B41.html">香港机房故障，阿里云致歉：将尽快处理赔偿事宜</a></li>
+<li><a target="_blank" rel="noopener" href="https://baijiahao.baidu.com/s?id=1752618467453019433&wfr=spider&for=pc">阿里云发生严重事故，故障超12小时，张建锋刚带公司实现年度盈利</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2023/01/05/20230105-stephen-kleene/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 斯蒂芬·科尔·克莱尼
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2022/12/12/20221212-byebye-2022/" id="article-nav-older" class="article-nav-link-wrap">
+            2022年终总结 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

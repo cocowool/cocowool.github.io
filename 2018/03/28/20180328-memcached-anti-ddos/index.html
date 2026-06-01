@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>防止Memcached的DDOS攻击另外一个思路-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="memcached, ddos">
+    <meta name="description" content="memcached反射攻击利用了在互联网上暴露的大批量memcached服务器（一种分布式缓存系统）存在的认证和设计缺陷，攻击者通过向memcached服务器IP地址的默认端口11211发送伪造受害者IP地址的特定指令UDP数据包（stats、set/get指令），使memcached服务器向受害者IP地址反射返回比原始数据包大数倍的数据（理论最高可达5万倍，通过持续跟踪观察攻击流量平均放大倍数在100倍左右），从而进行反射攻击。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>防止Memcached的DDOS攻击另外一个思路</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-30 21:07:38</span>
+        
+        <span class="post-time">发布于：2018-03-28 19:09:00</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>3月3日，国家互联网应急中心通报了一条消息<a target="_blank" rel="noopener" href="http://www.cert.org.cn/publish/main/9/2018/20180303110550151219900/20180303110550151219900_.html">关于利用memcached服务器实施反射DDoS攻击的情况通报</a>通告了 memcached 服务器漏洞被黑客利用的情况，笔者的一台服务器也存在漏洞，因此将漏洞封堵的方法与大家分享一下。</p>
+<h3 id="攻击的原理"><a href="#攻击的原理" class="headerlink" title="攻击的原理"></a>攻击的原理</h3><p>memcached反射攻击利用了在互联网上暴露的大批量memcached服务器（一种分布式缓存系统）存在的认证和设计缺陷，攻击者通过向memcached服务器IP地址的默认端口11211发送伪造受害者IP地址的特定指令UDP数据包（stats、set/get指令），使memcached服务器向受害者IP地址反射返回比原始数据包大数倍的数据（理论最高可达5万倍，通过持续跟踪观察攻击流量平均放大倍数在100倍左右），从而进行反射攻击。</p>
+<p>本来Memcached提供的缓存服务应该只是对内部访问的，因此就设置了所有地址可访问，安全限制上就比较弱，黑客就利用这个特点，专门在互联网上找开放端口的 Memcached…</p>
+<blockquote>
+<p>The web page caching utility was never designed to be internet-accessible and requires no authentication to access. But some administrators - as well as some Linux instances by default - have left TCP or UDP port 11211 open to internet-borne requests.</p>
+</blockquote>
+<h3 id="处置办法"><a href="#处置办法" class="headerlink" title="处置办法"></a>处置办法</h3><p>互联网应急中心给出了3条建议：</p>
+<blockquote>
+<p>1、在memcached服务器或者其上联的网络设备上配置防火墙策略，仅允许授权的业务IP地址访问memcached服务器，拦截非法的非法访问。<br>2、更改memcached服务的监听端口为11211之外的其他大端口，避免针对默认端口的恶意利用。<br>3、升级到最新的memcached软件版本，配置启用SASL认证等权限控制策略（在编译安装memcached程序时添加-enable-sasl选项，并且在启动memcached服务程序时添加-S参数，启用SASL认证机制以提升memcached的安全性）。</p>
+</blockquote>
+<p>我分析了一下，1 需要单位从整体的网络策略上进行调整，但是系统管理员负责的这部分职责还是要继续落实；2 需要修改端口，势必设计应用端的修改，我觉得算不上是上策；3 需要升级到最新版本，升级后应用是否会有问题还需要测试验证。</p>
+<p>经过仔细分析后，发现 memcached 支持一个<code>-l</code>参数，允许指定监听的地址，默认是<code>0.0.0.0</code>也就是允许所有的地址链接。我们可以通过修改<code>-l</code>参数，绑定本地地址，这样就可以避免被外部攻击了。但是这里有个问题，一般缓存服务器是供前端或其它服务器公共调用的，一般不是本机使用，而且外部使用的设备往往多于1台。在早期的 Memcached 版本(我的环境是1.4.4)中<code>-l</code>参数不支持绑定多个地址。在最新的1.5.6版本中，已经能够支持绑定多个地址，具体形式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$./memcached -l 127.0.0.1:11211,192.168.0.20:11211 -vv -u memcached</span><br></pre></td></tr></table></figure>
+<p>这样，就可以避免修改应用，又达到了防治漏洞的目的。</p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://www.cert.org.cn/">国家互联网应急中心</a><br>2、<a target="_blank" rel="noopener" href="http://www.cert.org.cn/publish/main/9/2018/20180303110550151219900/20180303110550151219900_.html">关于利用memcached服务器实施反射DDoS攻击的情况通报</a><br>3、<a target="_blank" rel="noopener" href="http://www.sohu.com/a/225346899_354899">CNCERT关于Memcached服务器反射攻击的情况通报 2</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/03/31/20180331-php-wechat/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; PHP开发微信被动回复消息遇到的大坑
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/03/16/20180316-prometheus-introduce/" id="article-nav-older" class="article-nav-link-wrap">
+            Prometheus 初体验 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

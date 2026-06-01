@@ -1,0 +1,261 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Curl操作Elasticsearch的常用方法-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="elasticsearch, curl elasticsearch, elasticsearch 远程命令">
+    <meta name="description" content="Elasticsearch对于文档操作，提供了以下几种API，本文就说明如何使用curl方式来调用这些API。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Curl操作Elasticsearch的常用方法</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2023-02-21 13:39:03</span>
+        
+        <span class="post-time">发布于：2017-09-27 08:53:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <blockquote>
+<p>本文基于 ELK 6.7 版本进行测试验证，如果你的版本不一致，可能需要稍微调整相关语法。</p>
+</blockquote>
+<p>在 Elasticsearch 日常维护过程中，很多信息、配置和临时的调整都可以通过命令行的方式操作生效，不必通过配置文件修改，这就要求我们运维人员对于常用的 API 比较熟悉。本文整理了 elasticsearch 日常运维过程中常用的 API，详细说明如果通过 curl 命令来调用这些API。</p>
+<p>[TOC]</p>
+<h2 id="集群信息"><a href="#集群信息" class="headerlink" title="集群信息"></a>集群信息</h2><ul>
+<li>查看集群描述和集群版本</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ curl -XGET http://localhost:9203</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span> : <span class="string">&quot;es-node3&quot;</span>,</span><br><span class="line">  <span class="string">&quot;cluster_name&quot;</span> : <span class="string">&quot;es-cluster&quot;</span>,</span><br><span class="line">  <span class="string">&quot;cluster_uuid&quot;</span> : <span class="string">&quot;vF9I5eNwQo-UrQc-hDLFuQ&quot;</span>,</span><br><span class="line">  <span class="string">&quot;version&quot;</span> : &#123;</span><br><span class="line">    <span class="string">&quot;number&quot;</span> : <span class="string">&quot;6.7.0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;build_flavor&quot;</span> : <span class="string">&quot;default&quot;</span>,</span><br><span class="line">    <span class="string">&quot;build_type&quot;</span> : <span class="string">&quot;docker&quot;</span>,</span><br><span class="line">    <span class="string">&quot;build_hash&quot;</span> : <span class="string">&quot;8453f77&quot;</span>,</span><br><span class="line">    <span class="string">&quot;build_date&quot;</span> : <span class="string">&quot;2019-03-21T15:32:29.844721Z&quot;</span>,</span><br><span class="line">    <span class="string">&quot;build_snapshot&quot;</span> : <span class="literal">false</span>,</span><br><span class="line">    <span class="string">&quot;lucene_version&quot;</span> : <span class="string">&quot;7.7.0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;minimum_wire_compatibility_version&quot;</span> : <span class="string">&quot;5.6.0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;minimum_index_compatibility_version&quot;</span> : <span class="string">&quot;5.0.0&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;tagline&quot;</span> : <span class="string">&quot;You Know, for Search&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>检查集群的健康状态</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ curl -XGET http://192.18.8.7:9203/_cat/health?v</span><br><span class="line">epoch      timestamp cluster      status node.total node.data shards  pri relo init unassign pending_tasks max_task_wait_time active_shards_percent</span><br><span class="line">1657161542 10:39:02  performance6 green          31        22  13138 6569    0    0        0             0                  -                100.0%</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获取集群节点</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -XGET http://192.18.8.7:9203/_cat/nodes?v</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获取集群配置</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -XGET http://localhost:9203/_cluster/settings</span><br></pre></td></tr></table></figure>
+
+<h2 id="索引相关"><a href="#索引相关" class="headerlink" title="索引相关"></a>索引相关</h2><ul>
+<li>查看索引信息。</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -XGET http://localhost:9201/_cat/indices?v</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看索引配置</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -XGET http://localhost:9201/xxx/_settings</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li></li>
+</ul>
+<h2 id="文档相关"><a href="#文档相关" class="headerlink" title="文档相关"></a>文档相关</h2><ul>
+<li>查询索引</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -XGET http://localhost:9202/kibana_sample_data_logs/_search?pretty</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加一条文档</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ curl -XPOST http://localhost:9202/student/_doc/2</span><br><span class="line">&#123;</span><br><span class="line">	<span class="string">&quot;name&quot;</span> : <span class="string">&quot;wang&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询索引中的一条具体信息</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">1、Index API 索引文档，为文档创建索引。</span><br><span class="line"></span><br><span class="line">```sh</span><br><span class="line">curl -XPUT <span class="string">&quot;http://localhost:9200/twitter/tweet/1&quot;</span>; -H <span class="string">&#x27;Content-Type: application/json&#x27;</span> -d<span class="string">&#x27;</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">    &quot;user&quot; : &quot;kimchy&quot;,</span></span><br><span class="line"><span class="string">    &quot;post_date&quot; : &quot;2009-11-15T14:12:12&quot;,</span></span><br><span class="line"><span class="string">    &quot;message&quot; : &quot;trying out Elasticsearch&quot;</span></span><br><span class="line"><span class="string">&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>返回结果</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;_shards&quot;</span> : &#123;            </span><br><span class="line">        <span class="string">&quot;total&quot;</span> : <span class="number">2</span>,        #表示应该在多少个节点执行操作</span><br><span class="line">        <span class="string">&quot;failed&quot;</span> : <span class="number">0</span>,       #表示失败的个数</span><br><span class="line">        <span class="string">&quot;successful&quot;</span> : <span class="number">2</span>    #表示成功的个数，正常情况最小应该是<span class="number">1</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;_index&quot;</span> : <span class="string">&quot;twitter&quot;</span>,</span><br><span class="line">    <span class="string">&quot;_type&quot;</span> : <span class="string">&quot;tweet&quot;</span>,</span><br><span class="line">    <span class="string">&quot;_id&quot;</span> : <span class="string">&quot;1&quot;</span>,</span><br><span class="line">    <span class="string">&quot;_version&quot;</span> : <span class="number">1</span>,</span><br><span class="line">    <span class="string">&quot;created&quot;</span> : <span class="literal">true</span>,</span><br><span class="line">    <span class="string">&quot;result&quot;</span> : created</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面的例子，如果索引不存在，则会自动创建索引及动态映射关系。如果想要关掉这两个特性，可以修改节点上配置文件中<code>action.auto_create_index</code>以及<code>index.mapper.dynamic</code>两项的值为 false。</p>
+</blockquote>
+<blockquote>
+<p>使用这个API发送两次请求，即便插入的数据一模一样，仍然会在索引中创建两个文档。如果不能接受这个结果，那就需要使用 _update API，并将<code>detect_noop</code>参数打开。</p>
+</blockquote>
+<p>2、<em>GET API 获取文档</em><br>该API能够基于文档ID获取一份格式化的JSON文档。除了支持通过GET获取文档信息，也支持通过HEAD方法检查文档是否存在。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET <span class="string">&#x27;localhost:9200/twitter/tweet/0?pretty&#x27;</span></span><br><span class="line">curl -XHEAD <span class="string">&#x27;localhost:9200/twitter/tweet/0?pretty&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>返回结果如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;_index&quot;</span> : <span class="string">&quot;twitter&quot;</span>,</span><br><span class="line">    <span class="string">&quot;_type&quot;</span> : <span class="string">&quot;tweet&quot;</span>,</span><br><span class="line">    <span class="string">&quot;_id&quot;</span> : <span class="string">&quot;0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;_version&quot;</span> : <span class="number">1</span>,</span><br><span class="line">    <span class="string">&quot;found&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">&quot;_source&quot;</span> : &#123;</span><br><span class="line">        <span class="string">&quot;user&quot;</span> : <span class="string">&quot;kimchy&quot;</span>,</span><br><span class="line">        <span class="string">&quot;date&quot;</span> : <span class="string">&quot;2009-11-15T14:12:12&quot;</span>,</span><br><span class="line">        <span class="string">&quot;likes&quot;</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="string">&quot;message&quot;</span> : <span class="string">&quot;trying out Elasticsearch&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、* Delete API 删除文档 *<br>该API允许我们根据ID删除某个索引中的文档。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XDELETE <span class="string">&#x27;localhost:9200/twitter/tweet/1?pretty&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>结果如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;_shards&quot;</span> : &#123;</span><br><span class="line">        <span class="string">&quot;total&quot;</span> : <span class="number">2</span>,</span><br><span class="line">        <span class="string">&quot;failed&quot;</span> : <span class="number">0</span>,</span><br><span class="line">        <span class="string">&quot;successful&quot;</span> : <span class="number">2</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;found&quot;</span> : <span class="literal">true</span>,</span><br><span class="line">    <span class="string">&quot;_index&quot;</span> : <span class="string">&quot;twitter&quot;</span>,</span><br><span class="line">    <span class="string">&quot;_type&quot;</span> : <span class="string">&quot;tweet&quot;</span>,</span><br><span class="line">    <span class="string">&quot;_id&quot;</span> : <span class="string">&quot;1&quot;</span>,</span><br><span class="line">    <span class="string">&quot;_version&quot;</span> : <span class="number">2</span>,</span><br><span class="line">    <span class="string">&quot;result&quot;</span>: <span class="string">&quot;deleted&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>删除文档时，如果该索引不存在，则Elasticsearch会自动创建索引和自动映射关系。这个官方文档中有这个文字，但是我自己实验的却没有这样的结果，而是收到 index_not_found_exception 的错误。</p>
+</blockquote>
+<p>4、* Delete By Query API 根据条件删除 *<br>该API会对满足查询条件的所有文档执行删除操作。示例如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&#x27;localhost:9200/twitter/_delete_by_query?pretty&#x27;</span> -H <span class="string">&#x27;Content-Type: application/json&#x27;</span> -d<span class="string">&#x27;</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">  &quot;query&quot;: &#123; </span></span><br><span class="line"><span class="string">    &quot;match&quot;: &#123;</span></span><br><span class="line"><span class="string">      &quot;message&quot;: &quot;some message&quot;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>返回结果</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;took&quot;</span> : <span class="number">147</span>,            #</span><br><span class="line">  <span class="string">&quot;timed_out&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="string">&quot;deleted&quot;</span>: <span class="number">119</span>,</span><br><span class="line">  <span class="string">&quot;batches&quot;</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="string">&quot;version_conflicts&quot;</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">&quot;noops&quot;</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">&quot;retries&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;bulk&quot;</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="string">&quot;search&quot;</span>: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;throttled_millis&quot;</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">&quot;requests_per_second&quot;</span>: -<span class="number">1.0</span>,</span><br><span class="line">  <span class="string">&quot;throttled_until_millis&quot;</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">&quot;total&quot;</span>: <span class="number">119</span>,</span><br><span class="line">  <span class="string">&quot;failures&quot;</span> : [ ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该API接受的URL参数<code>pretty</code>、<code>refresh</code>、<code>wait_for_completion</code>、<code>wait_for_active_shards</code>、<code>timeout</code>。如果想要获取正在执行的删除人物，可以通过Task API。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET <span class="string">&#x27;localhost:9200/_tasks?detailed=true&amp;actions=*/delete/byquery&amp;pretty&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>也可以对删除操作进行取消。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&#x27;localhost:9200/_tasks/task_id:1/_cancel?pretty&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>5、* Update API 更新API *<br>我觉得这是很多人对ELK误解最深的地方，以为ELK不支持更新功能，数据只能一次性导入，其实ELK是有更新API的。更新API首先从ES获取文档，然后根据请求对文档进行更新，最后将更新保存至服务器。这个过程中使用版本号 Version 来确保文档没有被其他人修改过。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT <span class="string">&#x27;localhost:9200/test/type1/1?pretty&#x27;</span> -H <span class="string">&#x27;Content-Type: application/json&#x27;</span> -d<span class="string">&#x27;</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">    &quot;counter&quot; : 1,</span></span><br><span class="line"><span class="string">    &quot;tags&quot; : [&quot;red&quot;]</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>也可以通过Script进行更新</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&#x27;localhost:9200/test/type1/1/_update?pretty&#x27;</span> -H <span class="string">&#x27;Content-Type: application/json&#x27;</span> -d<span class="string">&#x27;</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">    &quot;script&quot; : &#123;</span></span><br><span class="line"><span class="string">        &quot;source&quot;: &quot;ctx._source.counter += params.count&quot;,</span></span><br><span class="line"><span class="string">        &quot;lang&quot;: &quot;painless&quot;,</span></span><br><span class="line"><span class="string">        &quot;params&quot; : &#123;</span></span><br><span class="line"><span class="string">            &quot;count&quot; : 4</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>6、* Update by Query API 根据条件更新 *<br>类似于根据条件查询，这个API可以根据条件对多个文档进行更新。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&#x27;localhost:9200/twitter/_update_by_query?conflicts=proceed&amp;pretty&#x27;</span> -H <span class="string">&#x27;Content-Type: application/json&#x27;</span> -d<span class="string">&#x27;</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">  &quot;query&quot;: &#123; </span></span><br><span class="line"><span class="string">    &quot;term&quot;: &#123;</span></span><br><span class="line"><span class="string">      &quot;user&quot;: &quot;kimchy&quot;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="多文档操作API"><a href="#多文档操作API" class="headerlink" title="多文档操作API"></a>多文档操作API</h4><p>1、* MULTI GET API 获取多个文档*<br>MULTI GET API允许我们根据索引、类型和ID来获取多个文档，返回结果放在docs数组中。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET <span class="string">&#x27;localhost:9200/_mget?pretty&#x27;</span> -H <span class="string">&#x27;Content-Type: application/json&#x27;</span> -d<span class="string">&#x27;</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">    &quot;docs&quot; : [</span></span><br><span class="line"><span class="string">        &#123;</span></span><br><span class="line"><span class="string">            &quot;_index&quot; : &quot;test&quot;,</span></span><br><span class="line"><span class="string">            &quot;_type&quot; : &quot;type&quot;,</span></span><br><span class="line"><span class="string">            &quot;_id&quot; : &quot;1&quot;</span></span><br><span class="line"><span class="string">        &#125;,</span></span><br><span class="line"><span class="string">        &#123;</span></span><br><span class="line"><span class="string">            &quot;_index&quot; : &quot;test&quot;,</span></span><br><span class="line"><span class="string">            &quot;_type&quot; : &quot;type&quot;,</span></span><br><span class="line"><span class="string">            &quot;_id&quot; : &quot;2&quot;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">    ]</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>2、<strong>BULK API</strong><br>BULK API提供了在一次请求中更新大量文档的可能，这将极大的提高索引的速度。</p>
+<p>3、<strong>Reindex API 重建索引</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">```bash</span><br><span class="line">curl -XPOST &#x27;localhost:9200/_reindex?pretty&#x27; -H &#x27;Content-Type: application/json&#x27; -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;source&quot;: &#123;</span><br><span class="line">    &quot;index&quot;: &quot;twitter&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;dest&quot;: &#123;</span><br><span class="line">    &quot;index&quot;: &quot;new_twitter&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x27;</span><br></pre></td></tr></table></figure>
+<p>3、<strong>Term Vectors</strong><br>TODO 待补充</p>
+<p>4、<strong>Multi termvectors API</strong><br>TODO 待补充</p>
+<p>5、**?refresh**<br>TODO 待补充</p>
+<blockquote>
+<p>本文所有示例基于ELK 5.6。</p>
+</blockquote>
+<h2 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-index_.html">Elasticsearch Docs</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Optimistic_concurrency_control">Optimistic Concurrency Control</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1846903">Elasticsearch merge 你懂了吗？</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/Alice_qixin/article/details/121040843">ES学习之curl命令操作索引</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2017/09/28/20170928-tomcat-and-eclipse/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Mac环境下配置Tomcat+Eclipse
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2017/09/06/20170906-jquery-attr/" id="article-nav-older" class="article-nav-link-wrap">
+            jQuery的attr方法处理checkbox的问题 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

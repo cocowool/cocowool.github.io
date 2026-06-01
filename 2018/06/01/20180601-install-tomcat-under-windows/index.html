@@ -1,0 +1,184 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tomcat 安装与配置-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="tomcat, windows tomcat">
+    <meta name="description" content="Tomcat 在官方网站中提供了两个 Windows 安装版本，一个是普通安装版，一个是解压版。普通安装版带了安装器，像我们安装其他Windows程序一样，可以通过安装界面下一步下一步直到安装完成。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Tomcat 安装与配置</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2018-06-01 09:59:00</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h3 id="Windows-安装"><a href="#Windows-安装" class="headerlink" title="Windows 安装"></a>Windows 安装</h3><p>Tomcat 在官方网站中提供了两个 Windows 安装版本，一个是普通安装版，一个是解压版。普通安装版带了安装器，像我们安装其他Windows程序一样，可以通过安装界面下一步下一步直到安装完成。解压版就相当于绿色版，直接解压即可使用。因为安装版可以自动注册Windows服务，所以对于小白用户，安装版更友好一些。</p>
+<img src="/2018/06/01/20180601-install-tomcat-under-windows/39469-20180601095756908-1308989679.png" class="">
+<p>zip 包就是解压后可以直接用，相当于绿色版。Installer 带了安装器，能够安装为 Windows 服务。</p>
+<h4 id="安装-JDK"><a href="#安装-JDK" class="headerlink" title="安装 JDK"></a>安装 JDK</h4><p>从 Oracle 网站下载合适的 JDK 或者 JRE。<a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">JDK下载地址</a></p>
+<h4 id="以普通方式启动"><a href="#以普通方式启动" class="headerlink" title="以普通方式启动"></a>以普通方式启动</h4><p>Tomcat 的启动是一个 bat 脚本，在 tomcat_path\bin 目录下，可以通过双击或者在命令行窗口执行的方式启动。<br>双击启动时，如果遇到窗口一闪就关闭，说明Tomca没有找到JAVA运行环境，这个时候检查系统的JAVA_HOME变量是否设置了。<br>如果是命令行方式启动，则会看到明确的提示信息。</p>
+<img src="/2018/06/01/20180601-install-tomcat-under-windows/39469-20180601095823734-322940177.png" class="">
+<p>启动成功后，可以看到新开了一个窗口，并且有提示信息。</p>
+<img src="/2018/06/01/20180601-install-tomcat-under-windows/39469-20180601095845467-1922887476.png" class="">
+<p>这时就可以通过浏览器进行访问，看到这只猫就可以了。</p>
+<img src="/2018/06/01/20180601-install-tomcat-under-windows/39469-20180601095856198-423016843.png" class="">
+
+<h4 id="配置-Tomcat-以服务方式启动"><a href="#配置-Tomcat-以服务方式启动" class="headerlink" title="配置 Tomcat 以服务方式启动"></a>配置 Tomcat 以服务方式启动</h4><p>如果是用安装器安装的 Tomcat 那么在服务中会自动注册 Tomcat 服务，如果是用 zip 的方式，也可以注册服务，需要执行下面的命令。</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> tomcat_path\bin</span><br><span class="line">service install tomcat</span><br></pre></td></tr></table></figure>
+<p>其中服务的名称可以自己定义，如果需要启动多个Tomcat，只要能够通过名字区分开就可以。举例如下：</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> tomcat_7_path\bin</span><br><span class="line">service install tomcat7</span><br><span class="line"><span class="built_in">cd</span> tomcat_8_path\bin</span><br><span class="line">service install tomcat8</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>用这种方式注册服务，需要使用管理员用户权限。后续管理的时候，也只能用管理员用户进行启停，如果需要使用普通用户权限启停，看下面一节。</p>
+</blockquote>
+<h4 id="以普通用户方式启停服"><a href="#以普通用户方式启停服" class="headerlink" title="以普通用户方式启停服"></a>以普通用户方式启停服</h4><blockquote>
+<p>使用普通用户启停，也遇到过坑，停服务的时候停不下来，可能是服务内存溢出了。这时想杀掉进城有没权限，真的是欲哭无泪。</p>
+</blockquote>
+<h3 id="Linux-安装"><a href="#Linux-安装" class="headerlink" title="Linux 安装"></a>Linux 安装</h3><p>Linux 下的安装方法也有多种，可以选择二进制包，也可以使用源码包编译安装。还可以使用 yum 源进行安装。</p>
+<h3 id="目录结构介绍"><a href="#目录结构介绍" class="headerlink" title="目录结构介绍"></a>目录结构介绍</h3><h3 id="一些主要的配置参数"><a href="#一些主要的配置参数" class="headerlink" title="一些主要的配置参数"></a>一些主要的配置参数</h3><p>conf 目录下的 server.xml 保存了主要的服务器设置参数。</p>
+<h4 id="修改默认端口"><a href="#修改默认端口" class="headerlink" title="修改默认端口"></a>修改默认端口</h4><p>找到下面一段，可以修改服务器对外提供服务的端口</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">&quot;8080&quot;</span> <span class="attr">protocol</span>=<span class="string">&quot;HTTP/1.1&quot;</span></span></span><br><span class="line"><span class="tag">               <span class="attr">connectionTimeout</span>=<span class="string">&quot;20000&quot;</span></span></span><br><span class="line"><span class="tag">                <span class="attr">redirectPort</span>=<span class="string">&quot;8443&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="修改默认网站位置"><a href="#修改默认网站位置" class="headerlink" title="修改默认网站位置"></a>修改默认网站位置</h4><p>Tomcat 对于网站项目的目录结构有着自己特殊的要求，不像 php 这种解释型语言，可以随意组织目录。作为站点的文件夹中必须包含一个<code>WEB-INF</code>的子文件夹。在该子文件夹下必须有一个 web.xml 的文件。<br>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html">JDK 7 Download</a><br>2、<a target="_blank" rel="noopener" href="http://tomcat.apache.org/download-70.cgi">Tomcat Download</a><br>3、<a target="_blank" rel="noopener" href="http://www.cnblogs.com/Johness/archive/2012/07/20/2600937.html">Tomcat安装配置</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/06/07/20180607-sre-paxos/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; SRE学习笔记：分布式共识系统、Paxos协议
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/05/28/20180528-tomcat-memory-set/" id="article-nav-older" class="article-nav-link-wrap">
+            Tomcat内存设置 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

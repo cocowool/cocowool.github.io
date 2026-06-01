@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sublime Text 3 提高工作效率的使用技巧-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="sublime, sublime text, sublime text技巧">
+    <meta name="description" content="Sublime Text 3对于Sublime Text 2压倒性的优势就是秒启动，再掌握点技巧就更无敌了。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Sublime Text 3 提高工作效率的使用技巧</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-27 21:45:41</span>
+        
+        <span class="post-time">发布于：2016-12-02 09:43:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>Sublime Text 3对于Sublime Text 2压倒性的优势就是秒启动，启动非常非常快，所以从2012年到2016年我一直用<a target="_blank" rel="noopener" href="http://www.cnblogs.com/cocowool/archive/2012/07/01/2572011.html">Sublime Text 2</a>，但是安装了3并且启动试用后，我再也不愿意打开Sublime Text 2了。</p>
+<p>工欲善其事，必先利其器。经过多年使用，总结了一些Sublime Text的使用技巧。</p>
+<p>一、常用的使用技巧。</p>
+<p>0、Ctrl + P 匹配项目中的文件，然后快速跳转到文件中。找到对应文件后，还可以在完整的文件名后通过输入跳转到更精确的位置：<br>@符号跳转：输入@symbol，可以跳转到symbol符号所在位置。支持实时预览。在PHP文件中，@将显示所有的函数列表。<br>#关键字跳转：输入#keyword跳转到keyword所在的位置。<br>：行号跳转，输入：12跳转到文件的第12行。</p>
+<p>1、快速打开、关闭左侧的文件列表。默认快捷键 Ctrl+k+b （Windows）Command + k + b （Mac）。也可以使用 View-&gt;Side Bar切换。</p>
+<p>2、通过 Control + R 查看当前文件中的函数列表，Ctrl + G 定位到文件的指定行。</p>
+<p>3、双击选中光标所在的单词，三击选中光标所在行，快捷键 Ctrl + L （Windows）Command + L （Mac）。</p>
+<p>4、Ctrl + Shift + T 打开之前关闭的 tab 页，这对于大项目中不小心关闭了文件时非常有用，当然也可以通过 File -&gt; Open Recent 找回。</p>
+<p>5、批量行的编辑。如果需要对多个行同时进行修改，可以选中多行之后通过 Ctrl + Shift + L 将选中区域打散，然后再进行同时编辑。</p>
+<p>6、分屏。如果需要分割窗口对比两个文件，可以使用分屏功能。</p>
+<p>7、快速调整字体大小。开发的时候字体大小非常重要，如果觉得不舒服，可以使用 Ctrl + = 号来快速调大，或 Ctrl + Shift + = 调小，非常方便。</p>
+<p>8、括弧跳转。对于一个大的函数，如果需要从开头跳到结尾，可以使用 Ctrl + M。</p>
+<p>9、Ctrl + P，这个不需要多说了，菜单上就叫做 Goto Anywhere，可以很方便的实现日常工作中文件的查找跳转，当前前提是你要把整个工程文件夹打开。</p>
+<p>二、挑选顺手的插件</p>
+<p>Sublime Text 有强大的可扩展性，可以根据自己的需要安装不同的插件，这样她就会变得更加强大了。Sublime Text 3具有两种插件安装方式。</p>
+<p>1、直接安装</p>
+<p>可以直接搜索到自己需要的插件，然后下载安装包解压缩到 Packages 目录。</p>
+<p>2、使用Package Control组件安装。</p>
+<p>通过 Ctrl + · 调出命令行，输入：</p>
+<p>import urllib.request,os; pf = ‘Package Control.sublime-package’; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), ‘wb’).write(urllib.request.urlopen( ‘<a target="_blank" rel="noopener" href="http://sublime.wbond.net/&#39;">http://sublime.wbond.net/&#39;</a> + pf.replace(‘ ‘,’%20’)).read())</p>
+<p>重启Sublime Text 3。如果在Perferences-&gt;package settings中看到package control这一项，则安装成功。</p>
+<p>完成之后我安装了自己最常用的一个插件：</p>
+<p>Emmet（Zend Coding）它的使用方式可以参考我之前的一篇博客<a target="_blank" rel="noopener" href="http://www.cnblogs.com/cocowool/archive/2012/07/01/2572011.html">Sublime Text 2 以及 Zen Coding</a>。</p>
+<p>参考资料：1、<a target="_blank" rel="noopener" href="http://www.jeffjade.com/2015/12/15/2015-04-17-toss-sublime-text/#">如何优雅的使用SublimeText</a><br>2、<a target="_blank" rel="noopener" href="https://packagecontrol.io/installation">Sublime Text Package Control</a><br>3、<a target="_blank" rel="noopener" href="http://www.jianshu.com/p/5905f927d01b">Sublime Text 3 插件：增强篇</a><br>3、<a target="_blank" rel="noopener" href="http://www.open-open.com/news/view/26d731">20个强大的Sublime Text 插件</a><br>4、<a target="_blank" rel="noopener" href="http://www.cnblogs.com/jadeboy/p/4165449.html">Sublime Text 下的Markdown写作</a><br>5、<a target="_blank" rel="noopener" href="http://www.jeffjade.com/2015/08/28/2015-08-28-Write-Morkdown/">追求高效工作的一路折腾</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2016/12/09/20161209-hexo-and-github-pages/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Mac下体验Hexo与Github Pages搭建
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2016/11/17/20161117-date-types-in-excel/" id="article-nav-older" class="article-nav-link-wrap">
+            PHPExcel对于Excel中日期和时间类型的处理 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

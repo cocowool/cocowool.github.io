@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>发布自定义的 Hexo 主题-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="Hexo, Hexo theme, Hexo 主题">
+    <meta name="description" content="本文介绍如何将自己开发的主题发布到 Hexo 官网，希望对大家有用。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>发布自定义的 Hexo 主题</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2022-09-27 22:49:31</span>
+        
+        <span class="post-time">发布于：2022-09-20 19:02:58</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>使用关键词 Hexo + 主题 能够搜索到很多如何配置使用 Hexo 主题的文章，也有一些介绍如何制作自己主题的文章，我也曾经写过一篇 <a target="_blank" rel="noopener" href="http://edulinks.cn/2020/12/23/20201223-develop-hexo-theme/">Hexo 主题开发准备工作</a>，但是很少有介绍如何将自己制作的主题发布到 Hexo 官网的中文文章。</p>
+<p><a target="_blank" rel="noopener" href="https://hexo.io/docs/themes">Hexo官网</a> 提供了一段简要的描述，本文在此基础上，以我自己开发的主题为例，详细介绍下如何将自己开发的 Hexo 主题发布到官方主题列表。</p>
+<h2 id="通过测试"><a href="#通过测试" class="headerlink" title="通过测试"></a>通过测试</h2><p>官方文档建议主题发布之前需要通过单元测试，这个非常有必要，能帮我们发现一些开发过程中考虑不到的异常情况。测试的步骤是将 <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-theme-unit-test">hexo-theme-unit-test</a> 工程下载到本地，然后安装配置需要测试的主题，根据检查列表检查各个测试文章是否能够正常显示。这是一个手工的测试过程，和我原来想象的自动化测试流程差别比较大。</p>
+<p>这个测试框架默认仅支持 <code>stylus</code> 渲染器，如果使用 scss 方式开发的样式表，则推荐安装 <code>hexo-renderer-dartsass</code> 插件。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-renderer-dartsass</span><br></pre></td></tr></table></figure>
+
+<p>我尝试了一个已经发布在官方主题列表页的主题 hexo-theme-yuzu，发现并不能通过测试，可以推断主题发布时对于测试是否通过并不是强制要求。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s</span><br><span class="line">INFO  Validating config</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http://localhost:4000/ . Press Ctrl+C to stop.</span><br><span class="line">ERROR Render HTML failed: index.html</span><br><span class="line">TypeError: /Users/shiqiang/Projects/hexo-project/hexo-theme-unit-test/themes/hexo-theme-yuzu/layout/layout.ejs:3</span><br><span class="line">    1| &lt;!DOCTYPE html&gt;</span><br><span class="line">    2| &lt;html lang=<span class="string">&quot;en&quot;</span>&gt;</span><br><span class="line"> &gt;&gt; 3| &lt;%- partial(<span class="string">&#x27;_partial/head&#x27;</span>, null, &#123;cache: <span class="literal">false</span>&#125;) %&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="发布主题"><a href="#发布主题" class="headerlink" title="发布主题"></a>发布主题</h2><p>首先需要在 Github 页面上 Fork 一个 <a target="_blank" rel="noopener" href="https://github.com/hexojs/site">hexojs/site</a> 工程。</p>
+<p>将代码克隆到本地，并安装相关依赖。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cocowool 部分替换为自己的 github 用户名</span></span><br><span class="line">$ git <span class="built_in">clone</span> https://github.com/cocowool/site.git</span><br><span class="line">$ <span class="built_in">cd</span> site</span><br><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在尝试的过程中，因为本地 node / npm 版本比较高，npm install 过程总是失败，尝试了网上推荐的 macOS 下安装多个 node 版本的方法，在 node 8.10.0 / npm 5.6.0 的环境下验证安装成功了。</p>
+</blockquote>
+<p> 本地环境配置好之后，编辑 <code>source/_data/themes.yml</code> 文件，按照固定的格式增加自定义主题的相关信息，例如：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Wave</span> </span><br><span class="line">  <span class="attr">description:</span> <span class="string">Simple</span> <span class="string">&amp;</span> <span class="string">clean</span> <span class="string">theme</span> <span class="string">for</span> <span class="string">Hexo,</span> <span class="string">focus</span> <span class="string">on</span> <span class="string">personal</span> <span class="string">tech</span> <span class="string">blog.</span></span><br><span class="line">  <span class="attr">link:</span> <span class="string">https://github.com/cocowool/wave</span></span><br><span class="line">  <span class="attr">preview:</span> <span class="string">http://www.edulinks.cn</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">responsive</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">simple</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">clean</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">chinese</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">中文</span></span><br></pre></td></tr></table></figure>
+
+<p>同时在 <code>source/themes/screenshots</code> 目录下将主题的截图保存为与主题同名的 PNG文件。官方文档中要求图片大小必须为 800*500 。</p>
+<img src="/2022/09/20/20220920-publish-hexo-theme/image-20220927082034655.png" class="" title="image-20220927082034655">
+
+<p>创建 pull request 后，需要在 check list 中勾选自己做过的检查，同时 Github 会触发一些自动检查，这些检查通过后，就等待官方通过即可。</p>
+<img src="/2022/09/20/20220920-publish-hexo-theme/image-20220927082142077.png" class="" title="image-20220927082142077">
+
+<p>耐心的等待官方审核，通过后就可以在 <a target="_blank" rel="noopener" href="https://hexo.io/themes/">Hexo官方主题页面</a> 看到发布的主题啦。</p>
+<img src="/2022/09/20/20220920-publish-hexo-theme/image-20220927224930504.png" class="" title="image-20220927224930504">
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://hexo.io/docs/themes">Hexo themes</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45895753/article/details/126101874">Mac安装多个版本Node.js</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2022/10/09/20221009-es-cluster-monitoring/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 利用xpack监控ES集群
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2022/09/01/20220901-activemq-cluster-architecture/" id="article-nav-older" class="article-nav-link-wrap">
+            ActiveMQ 常见集群模式 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

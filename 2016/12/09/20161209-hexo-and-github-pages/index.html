@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mac下体验Hexo与Github Pages搭建-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="hexo, mac hexo, github pages, hexo搭建github pages">
+    <meta name="description" content="Hexo支持生成静态博客内容，再结合Github Pages可以实现个人博客站点的快速搭建。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Mac下体验Hexo与Github Pages搭建</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2022-09-20 14:32:29</span>
+        
+        <span class="post-time">发布于：2016-12-09 10:54:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>很久之前就知道Github可以发布自己的博客，因为仅支持静态文件，一直懒于动手自己进行编辑。再了解到还存在<a target="_blank" rel="noopener" href="https://hexo.io/">JekyII</a>和<a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>这样的内容生成框架后，终于决定体验一下。</p>
+<h3 id="一、本地环境准备。"><a href="#一、本地环境准备。" class="headerlink" title="一、本地环境准备。"></a>一、本地环境准备。</h3><p><a target="_blank" rel="noopener" href="https://pages.github.com/">Github Pages</a>的申请过程就不再搬砖，Github的<a target="_blank" rel="noopener" href="https://pages.github.com/">页面</a>上说的很清楚，注意每个用户只能创建一个与自己用户名相同的Pages。<br>Pages申请好之后，可以克隆到本地的文件夹，这样 hexo 运行的文件夹就准备好，可以开始准备本地的hexo环境。<br>hexo需要有nodes和nam的支持，我先安装了<a target="_blank" rel="noopener" href="https://nodejs.org/dist/v6.9.2/node-v6.9.2.pkg">6.9.2版本的node</a>，使用的是安装包，当然也可以使用<a target="_blank" rel="noopener" href="http://brew.sh/">homebrew</a>等工具。安装hexo很简单：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
+<p>然后进入到 github Pages 的本地目录执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo init blog</span><br><span class="line"><span class="built_in">cd</span> blog</span><br><span class="line">nam install</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+<p>当看到Hexo is running的提示之后，就可以按照提示的地址在浏览器中预览博客效果了。</p>
+<img src="/2016/12/09/20161209-hexo-and-github-pages/39469-20161209105601835-184073315.png" class="">
+
+<p>_config.yml 是博客的配置文件，能够定义博客名称、作者等各种全局的参数。<br>package.json 应用数据，EJS、Sylus、Markdown三个渲染工具是默认安装的，如果不需要刻意卸载。但是对于最终要是使用 Markdown 来编辑博客的我来说，那是必不可少的。<br>source 文件夹，文章原始的 md 文件都放在这个文件夹下面。通过生成器会对该文件夹下的 markdown、html 文件进行解析，其他的文件只做拷贝，放入 public 文件夹。<br>themes 主题文件夹，默认的主题为 landscape。</p>
+<h3 id="二、必备插件的安装"><a href="#二、必备插件的安装" class="headerlink" title="二、必备插件的安装"></a>二、必备插件的安装</h3><ul>
+<li>Hexo-deployer-git 如果要以 git 方式部署项目，必须安装这个插件，在 Blog 目录下执行  <code>npm install hexo-deployer-git --save</code> </li>
+<li>hexo-renderer-sass 因为我选择的插件需要sass支持，因此必须安装。对于 node 版本是 16.0 的环境，默认从 npmjs 下载这个插件安装会报错，可以参考 <a href="http://www.edulinks.cn/2021/07/27/20210727-node-sass-problem/">node-sass安装遇到的错误</a> 解决问题。</li>
+<li>hexo-image-link 这个是我自己写的一个插件，在使用 Typora 编辑 Markdown 过程中，支持插入相对路径的图片，可以在 Typora 中预览。支持在发布过程中转换为绝对路径，支持正常在页面上显示。具体可以参考 <a href="http://www.edulinks.cn/2020/03/14/20200314-write-hexo-with-typora/">Hexo博客写作与图片处理的经验</a> ，安装命令 <code>npm install hexo-image-link --save</code></li>
+</ul>
+<blockquote>
+<p>hexo-renderer-sass 安装过程中遇到了一些问题，记录在 <a href="http://www.edulinks.cn/2021/07/27/20210727-node-sass-problem/">node-sass安装遇到的错误</a> 中</p>
+</blockquote>
+<h3 id="三、主题更换。"><a href="#三、主题更换。" class="headerlink" title="三、主题更换。"></a>三、主题更换。</h3><p>默认的主题美观性基本上没有，hexo 支持自己开发博客主题，但是刚开始的时候最好还是选择一个比较成熟的主题先上手。hexo 官方有一个提供预览图的<a target="_blank" rel="noopener" href="https://hexo.io/themes/">列表</a>，也有一个更完整的<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/wiki/Themes">列表</a>，我这里要使用的是<a target="_blank" rel="noopener" href="https://github.com/litten/hexo-theme-yilia">yilia</a>，后续考虑自己定义一个。<br>更换theme的步骤包括获取 theme 文件，修改配置，可以参考 yilia 的文档进行。</p>
+<h3 id="四、生成与发布"><a href="#四、生成与发布" class="headerlink" title="四、生成与发布"></a>四、生成与发布</h3><p>编辑完自己的文章后，本地预览觉得效果还可以的话，就可以生成等待发布的页面了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
+<p>执行完成后，可以在 public 文件夹下看到生成的文件。由此可以看到，hexo 中有原始的文档文件，也有发布后生成的网页文件。<br>修改 hexo 配置文件中关于部署的部分</p>
+<figure class="highlight plaintext"><figcaption><span>Deployment</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">## Docs: https://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">type: git</span><br><span class="line">repo: https://github.com/yourname/yourname.github.io.git</span><br><span class="line">branch: hexo</span><br></pre></td></tr></table></figure>
+<p>至此，使用 hexo 搭建环境发布内容的工作就完成了，你可以通过<a target="_blank" rel="noopener" href="http://yourname.github.io/">http://yourname.github.io</a>访问页面，查看效果。<br>为了让这两部分文件都保存下来，我们利用 git 中的分支功能。在本地环境查看有多少分支 git branch -a，一般只有一个 master。创建一个新的分支 git branch hexo<br>将分支推送到远程服务器 git push origin hexo，在 hexo 的配置文件中选择将内容发布到 hexo 而本地的源码提交到 master 中。</p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2017/02/17/20170217-diff-and-patch/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Linux中的Diff和Patch
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2016/12/02/20161202-sublime-text3-skills/" id="article-nav-older" class="article-nav-link-wrap">
+            Sublime Text 3 提高工作效率的使用技巧 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

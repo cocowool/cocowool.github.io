@@ -1,0 +1,244 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nginx Rewrite 使用总结-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="nginx, rewrite, url, 地址重写">
+    <meta name="description" content="利用 URL Rewrite 屏蔽服务器运行态的信息，使URL对用户和搜索引擎更加友好。本文介绍了如何使用 Nginx Rewrite 功能来实现相关的场景。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Nginx Rewrite 使用总结</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2024-11-17 22:18:32</span>
+        
+        <span class="post-time">发布于：2020-11-23 15:30:37</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>URL Rewrite是网站建设中经常用到的一项技巧，通过 rewrite 我们能够屏蔽服务器运行态的信息，包括服务的程序、参数等等，给用户呈现美化后的URL，同时对搜索引擎更加友好，方便我们网站的推广。</p>
+<span id="more"></span>
+
+<p>[TOC]</p>
+<h2 id="rewrite-功能介绍"><a href="#rewrite-功能介绍" class="headerlink" title="rewrite 功能介绍"></a>rewrite 功能介绍</h2><p>URL是互联网上指定信息的唯一标志，URL Rewrite 就是常说的地址重写，我们一般常说的地址重写主要是针对 HTTP 或 HTTPS 协议，具体的场景有下面几种。</p>
+<ul>
+<li>美化URL。不管使用哪种后台语言，多多少少会有一些能够暴露技术特性的后缀，例如 <code>.php</code> 、<code>.do</code> 等等。URL重写后，去掉了这些对于普通用户难于理解的后缀，也有利于网站后台的安全。</li>
+<li>提高安全性。可以对一个域名下的所有服务进行重写，只开放对外的服务。对于不开放服务的访问，重定向到404或者500页面，避免被人暴力猜解。</li>
+<li>有利于搜索引擎收录。有些后台服务的功能很强大，但是为了按照业务拆分，我们可以设计一些后台并不存在的URL，利于搜索引擎的收录和业务的开展。</li>
+<li>方便URL的重用一记后台服务的调整。如果我们后台进行了版本升级或者地址变更，都可以通过URL Rewrite对外部用户屏蔽这些变化，极大的方便了网站的维护。</li>
+</ul>
+<p>这些场景可以用下图来概括说明。</p>
+<img src="/2020/11/23/20201123-nginx-rewrite/image-20201123141130287.png" class="" title="image-20201123141130287">
+
+<p>有的朋友会发出疑问，在PC时代，大家首先面对的就是网站的地址，但是2020已经快要步入5G时代，大多数人都是通过手机APP来访问互联网上的各种内容。根据 CNNIC 《<a target="_blank" rel="noopener" href="http://www.cnnic.net.cn/hlwfzyj/hlwxzbg/hlwtjbg/202009/P020200929546215182514.pdf">第46次中国互联网络发展状况统计报告</a>》显示我国网民使用手机上网的比例达99.2%，而使用台式机和笔记本上网的网民比例分别是37.3%和31.8%。使用手机上网，很多情况下我们都是扫描一个二维码或者点击分享的链接就能打开页面，而无需再记忆复杂的URL，那么是否可以说在5G时代，URL Rewrite 就不重要了呢？</p>
+<p>实际上，网站服务除了被用户访问外，每天都会被搜索引擎、黑产分子不停的访问，在5G时代即便用户不需要手工输入URL来访问，合理利用URL Rewrite这项技术仍是每个网站开发人员、网站维护人员不可缺少的技能。</p>
+<p>URL Rewrite的方法有很多，可以利用Apache、Nginx等中间件，也可以使用支持单入口的程序框架（例如PHP的Codeigniter）等，本文介绍如何使用Nginx来实现URL Rewrite的需求，毕竟Nginx近年来的发展势头那真是势不可挡。</p>
+<h2 id="nginx-rewrite"><a href="#nginx-rewrite" class="headerlink" title="nginx rewrite"></a>nginx rewrite</h2><p>Nginx提供了rewrite功能，结合正则表达式和标志位实现URL的重写与重定向,正则规则采用PCRE（PERL兼容的正则表达式语法规则）。</p>
+<blockquote>
+<p>如果需要正则功能，在编译Nginx之前，需要编译安装PCRE库。</p>
+</blockquote>
+<p>rewrite 规则只能放在<code>server&#123;&#125;</code>,<code>location&#123;&#125;</code>,<code>if&#123;&#125;</code>中，并且只能对域名后边除去传递的参数外的字符串起作用。。</p>
+<h3 id="rewrite-语法"><a href="#rewrite-语法" class="headerlink" title="rewrite 语法"></a>rewrite 语法</h3><p>rewrite 是实现URL重写的关键，根据正则表达式的内容，重新定向到replacement指定的URL，根据末尾的flag参数不同，决定后续的处理动作。</p>
+<table>
+<thead>
+<tr>
+<th>指令语法</th>
+<th>rewrite regex replacement [flag]</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>默认值</td>
+<td>none</td>
+</tr>
+<tr>
+<td>应用位置</td>
+<td>server、location、if</td>
+</tr>
+</tbody></table>
+<p>简单的示例：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># URL实现伪静态，将动态参数变为URL中的字符串</span></span><br><span class="line"><span class="attribute">rewrite</span><span class="regexp"> ^/users/(.*)$</span> /show.php?user=<span class="variable">$1</span>? <span class="literal">last</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 实现不同语言网站的跳转</span></span><br><span class="line"><span class="attribute">rewrite</span><span class="regexp"> ^/cn/(.*)$</span> /cn/<span class="variable">$1</span> <span class="literal">break</span>;</span><br><span class="line"><span class="attribute">rewrite</span><span class="regexp"> ^/jp/(.*)$</span> /jp/<span class="variable">$1</span> <span class="literal">break</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将所有的请求都定向到 baidu.com</span></span><br><span class="line"><span class="attribute">rewrite</span><span class="regexp"> ^/(.*)</span> http://www.baidu.com/ <span class="literal">permanent</span>;</span><br></pre></td></tr></table></figure>
+
+<p>在Nginx的配置中，优先执行 server 块中的 rewrite 指令，然后再执行 location 块中的 rewrite 指令。最后再执行选定的 location 中的 rewrite 指令。</p>
+<h3 id="flag标记"><a href="#flag标记" class="headerlink" title="flag标记"></a>flag标记</h3><table>
+<thead>
+<tr>
+<th>flag标记符号</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>last</td>
+<td>本条规则匹配完成后，继续向下匹配新的 location URI 规则，浏览器地址栏URL地址显示原来的地址</td>
+</tr>
+<tr>
+<td>break</td>
+<td>本条规则匹配完成即终止，不再匹配后面的任何规则，浏览器地址栏URL地址显示原来的地址</td>
+</tr>
+<tr>
+<td>redirect</td>
+<td>返回302临时重定向，浏览器地址栏会显示跳转后的URL地址</td>
+</tr>
+<tr>
+<td>permanent</td>
+<td>返回301永久重定向，浏览器地址栏会显示跳转后的URL地址</td>
+</tr>
+</tbody></table>
+<p>在flag标记中，<code>last</code> 和 <code>break</code> 实现功能类似，使用 <code>alias</code> 指令时必须用 <code>last</code> 标记，使用 <code>proxy_pass</code> 指令时要使用 <code>break</code> 标记。<code>last</code> 标记在本条 rewrite 规则执行完毕后，会对其所在的 <code>server&#123;…&#125;</code> 标签重新发起请求，而 <code>break</code> 标记则会在本条规则匹配完成后，终止匹配，不再匹配后面的规则。</p>
+<h3 id="实战案例"><a href="#实战案例" class="headerlink" title="实战案例"></a>实战案例</h3><p>本文提供了一个基于 docker 的演示案例，将上文的场景一一演示出来。通过访问 <a target="_blank" rel="noopener" href="https://github.com/cocowool/code-space">我的Github</a> 可以获得全部的 docker 编排文件及代码。</p>
+<blockquote>
+<p>不太熟悉 Docker 的同学可以参考 <a href="http://www.edulinks.cn/2020/04/17/20200415-qucik-lnmp-dev-environment/">使用 Docker 快速搭建LNMP开发环境</a>，让你在安装了 Docker 的情况下，使用一条命令就快速搭建LNMP开发环境。还要了解更多 Docker 的内容，可以查看 <a href="http://www.edulinks.cn/2020/10/16/20201016-kubernetes-articles/#Docker-%E7%B3%BB%E5%88%97%E6%96%87%E7%AB%A0">Docker 系列文章</a></p>
+</blockquote>
+<img src="/2020/11/23/20201123-nginx-rewrite/image-20201123151805246.png" class="" title="image-20201123151805246">
+
+<img src="/2020/11/23/20201123-nginx-rewrite/image-20201123151856940.png" class="" title="image-20201123151856940">
+
+<p>主要的语法如下</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">rewrite</span><span class="regexp"> ^/login$</span> /login.php <span class="literal">last</span>;</span><br><span class="line"><span class="attribute">rewrite</span><span class="regexp"> ^/register$</span> /register.php <span class="literal">last</span>;</span><br><span class="line"><span class="attribute">rewrite</span><span class="regexp"> ^/search$</span> /search.php <span class="literal">last</span>;</span><br><span class="line"><span class="attribute">rewrite</span><span class="regexp"> ^/discount/student$</span> /discount.php?u=d <span class="literal">last</span>;</span><br><span class="line"><span class="attribute">rewrite</span><span class="regexp"> ^/discount/teacher$</span> /discount.php?u=t <span class="literal">last</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Nginx Rewrite 还有更多强大的功能，等待大家去探索，欢迎关注我的公众号与我进行交流探讨。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/rfc1630/?include_text=1">IETF RFC 1630</a></li>
+<li><a target="_blank" rel="noopener" href="http://nginx.org/en/docs/http/ngx_http_rewrite_module.html">Ngx_http_rewrite_module</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/boundless-sky/p/9459775.html">nginx中try_files</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/37214921/nginx-rewrite-or-internal-redirection-cycle-while-internally-redirecting">Nginx rewrite or internal redirection cycle while internally redirecting</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41475058/article/details/89516051">Nginx rewrite</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2020/11/24/20201124-flex-layout/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 学好Flex布局并不容易
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2020/11/18/20201001-quick-view-of-oracle-awr-report/" id="article-nav-older" class="article-nav-link-wrap">
+            快速熟悉 Oracle AWR 报告解读 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

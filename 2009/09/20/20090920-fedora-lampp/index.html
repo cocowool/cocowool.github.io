@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fedora 11 的安装以及 LAMP环境的搭建(一)-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="Fedora, LAMP, Linux, PHP">
+    <meta name="description" content="使用Fedora作为开发桌面，配置LAMP环境的过程记录。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Fedora 11 的安装以及 LAMP环境的搭建(一)</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2009-09-20 19:58:00</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>最近，重新安装了一次系统，为了以后不再做无谓的重复查询的工作，特将本次安装及配置的过程记录下来，做为自己以后的一个参考，亦可以为想要安装 Fedora 桌面的同学的一个参考，有任何不对或者可以节省安装时间的方法，都可以在这里讨论。</p>
+<h2 id="一、安装系统"><a href="#一、安装系统" class="headerlink" title="一、安装系统"></a>一、安装系统</h2><p>这个很简单，我使用的是Fedora Live cd KDE 的版本，其实是喜欢和习惯gnome的，只是手边上没有现成的。系统安装完成后，稍微体验了一下KDE的dolphine和Konquer，还是不是很习惯，需要上gnome</p>
+<p>yum groupinstall ‘GNOME Desktop Environment’</p>
+<p>安装完成后，Logout 然后重新登录进来就能看到熟悉的 gnome 界面了，只不过，这样安装的 gnome 很多默认的软件还是和直接的 gnome 不太一样，比如Office 套件就保留了 Koffice，游戏也有很多是K下的，这个影响不大，暂且不表。</p>
+<h2 id="二、配置权限和网络连接及其他"><a href="#二、配置权限和网络连接及其他" class="headerlink" title="二、配置权限和网络连接及其他"></a>二、配置权限和网络连接及其他</h2><p>(1)、配置权限<br>需要为经常使用的用户配置权限，需要修改 /etc/sudoers ，添加：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cipher  				ALL=(ALL)       ALL</span><br><span class="line">cipher          ALL=(ALL)       NOPASSWD: ALL</span><br></pre></td></tr></table></figure>
+
+<p>这样，用户 cipher 就获得了 sudo 权限而且不需要输入每次都输入密码。</p>
+<p>(2)、配置RPM Fusion</p>
+<p>因为专利许可证的原因，Fedora 软件仓库不包含 MP3, DVD和视频播放及解码库支持。正因为如此，你必须从第三方软件仓库中安装那些软件。RPM Fusion 是 Fedora 和 Red Hat 企业版的软件仓库，是由 Dribble, Freshrpms 和 RPM Fusion 合并而来的。各种各样的应用程序包含在这个软件仓库中，比如MP3、未加密的 DVD 、Mplayer, VLX, Xine 等多媒体应用程序使用的解码库，以及闭源的 Nvidia 和 ATI 显卡驱动，RPM Fusion 包含以下两个主要的软件仓库：</p>
+<ul>
+<li>一个被命名为“自由”，主要是开源软件（开源软件的含义通过 Fedora授权指引定义），但因为美国专利保护法案又不能包含在 Fedora 中。</li>
+<li>另一个被命名为“非自由”，主要是非自由软件，就是其它所有那些不能非自由软件，包括公开源代码的软件，但是有“非商业使用”之类的限制。</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo rpm -ivh http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-stable.noarch.rpm</span><br><span class="line">$ sudo rpm -ivh http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-stable.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+<p>安装presto插件：sudo yum install yum-presto<br>安装镜像自动选择插件：sudo yum install yum-fastestmirror</p>
+<h2 id="三、安装常用软件"><a href="#三、安装常用软件" class="headerlink" title="三、安装常用软件"></a>三、安装常用软件</h2><p>(0)、输入法 – SCIM</p>
+<p>Fedora 11 下默认了 ibus 作为输入法，但是我在将系统语言切换为英文后，又经过 yum remove ibus， yum install ibus 反反复复的几次，始终无法终端中切换出中文来，所以最后又投入了我所熟悉的 scim 的怀抱。</p>
+<p><code>yum install scim*</code></p>
+<p>(1)、Firefox</p>
+<p>Firefox 的安装很简单：    yum install firefox，只是之后需要安装一些插件，下面这些插件，能够在我日后使用 Firefox 进行上网冲浪的时候提供更好的帮助。</p>
+<p>Firefox Addons<br>1、Vimperator<br>2、Firebug<br>3、YSlow<br>4、DownThem All<br>5、xmarks<br>6、Greasemonkey<br>7、Httpfox<br>8、FireGesture<br>9、All in one gestures<br>10、Easy Drag and go</p>
+<p>Flash插件的安装，下载最新的Flash 10 的插件进行安装：flash-plugin-10.0.15.3-release.i386.rpm</p>
+<p>(2)、QQ</p>
+<p>qq 的安装需要从官方下载 Linux 的安装包：<a target="_blank" rel="noopener" href="http://im.qq.com/qq/linux/download.shtml%EF%BC%8C%E5%AE%8C%E6%88%90%E5%90%8E%E6%89%A7%E8%A1%8C%EF%BC%9A">http://im.qq.com/qq/linux/download.shtml，完成后执行：</a><br>rpm -ivh linuxqq-v1.0.2-beta1.i386.rpm<br>Linux版的QQ自发布到现在一直都没有更新过，不知道是不是现在这个版本就是为了挡当时北航学生的提问的，有了以后就不思更新了。</p>
+<p>(3)、邮件客户端 Thunderbird</p>
+<p>邮件客户端选用了 Thunderbird，系统自带的 Evolution 虽然也可以用，但是你终究会发现有些功能他无法支持的那一天，下载地址为：<a target="_blank" rel="noopener" href="http://www.mozillamessaging.com/en-US/thunderbird/">http://www.mozillamessaging.com/en-US/thunderbird/</a><br>完成后对包进行解压缩：tar -xvzf thunderbird-2.0.0.23.tar.gz<br>解压完成后：cd thunderbird<br>执行：./thunderbird 的时候提示：./thunderbird-bin: error while loading shared libraries: libstdc++.so.5: cannot open shared object file: No such file or directory</p>
+<p>看来是一些基础的库不存在，按照提示：    sudo yum install libstdc++.so.5 完成后，通过：./thunderbird 就可以打开邮件客户端，进行用户名和POP、SMTP服务器配置后就可以使用进行邮件的发送。</p>
+<p>我们可以为其建立桌面的快捷方式<br>命令行方式为：    ln -s   ~/Download/software/misc/thunderbird/thunderbird ./thunderbird<br>图形界面的方式为点击右键-&gt;Create Launcher-&gt;选择相应的位置和图标，这样建立的好处是没有那个快捷键。</p>
+<p>(4)、VPN连接</p>
+<p>因为单位有的时候需要 VPN 连接，所以安装了 pptp 方式的VPN连接：yum install NetworkManager-pptp<br>安装完成后要重新启动才可以进行VPN连接的设置，否则不会生效，这个问题的原因暂时不明。</p>
+<p>(5)、飞信</p>
+<p>Linux下的飞信，我使用了 Libfeition 提供的安装包，下载地址：<a target="_blank" rel="noopener" href="http://www.libfetion.cn/Linux_demoapp_download.html">http://www.libfetion.cn/Linux_demoapp_download.html</a><br>在安装之前，需要下面的这些包来确保接下来的安装正常进行：<br>sudo yum install qt4 qt4-devel libcurl libcurl-devel kernel-devel automake gcc-c++ glibc glibc-devel openssl-devel<br>具体的安装有说明，这里就不赘述了，很容易，这样我们就能享受飞信的服务了。</p>
+<p>(6)、Office</p>
+<p>使用系统自带的Office套件。</p>
+<p>(7)、MSN客户端</p>
+<p>这种方式安装的系统中没有自带pidgin，所以需要自己手工安装：sudo yum install pidgin</p>
+<p>到目前位置，这个系统就基本上能满足我们日常的办公和沟通需要了。</p>
+<h2 id="四、影音娱乐以及系统美化"><a href="#四、影音娱乐以及系统美化" class="headerlink" title="四、影音娱乐以及系统美化"></a>四、影音娱乐以及系统美化</h2><p>(1)、视频播放器 Mplayer</p>
+<p>首先安装DVD的解码库支持：sudo yum install libdvdread libdvdnav lsdvd<br>接下来安装livdvdcss支持：<br>sudo rpm -Uvh <a target="_blank" rel="noopener" href="http://rpm.livna.org/livna-release.rpm">http://rpm.livna.org/livna-release.rpm</a><br>sudo yum install libdvdcss<br>安装其他视频文件格式支持：sudo yum install ffmpeg ffmpeg-libs gstreamer-ffmpeg libmatroska xvidcore<br>安装播放器：sudo yum install mplayer smplayer</p>
+<p><del>进行了编译安装mplayer的尝试，不过最后编译完成后，皮肤没有安装好，最后还是采用了简单粗暴的 yum 方法</del><br><del>首先查看官方的安装说明：<a target="_blank" rel="noopener" href="http://www.mplayerhq.hu/DOCS/HTML/en/softreq.html">http://www.mplayerhq.hu/DOCS/HTML/en/softreq.html</a></del><br><del>大部分的软件包都可以通过 yum 来进行安装，有些需要单独安装，包括：</del><br><del>lame    <a target="_blank" rel="noopener" href="http://lame.sourceforge.net/download.php">http://lame.sourceforge.net/download.php</a>,    然后按照 INSTALL 中的提示进行编译安装就可以了。</del></p>
+<p>(2)、音频播放器 Rhythmbox</p>
+<p>默认的Feodra 11 KDE中并没有提供 rhythmbox，需要我们独立安装<br>安装命令：sudo yum install gstreamer rhythmbox<br>安装MP3格式支持：sudo yum install gstreamer-plugins-good gstreamer-plugins-bad gstreamer-plugins-ugly<br>这样就可以使用 Rhythmbox 来欣赏 Mp3 音乐了。</p>
+<p>当然除此之外，还有诸如 Amarok，Songbird 等非常好的音频播放器，基本上都可以通过 yum 安装，当然前提是需要已经添加了 RPM Fusion。</p>
+<p>(3)、Compiz-Fusion</p>
+<p>Compiz Fusion， 非常酷的3d立方体桌面，在很多截图和视频中你应该看到过了，Fedora 10 自带 Compiz-Fusion ，但不包含它所有的特性。你可以通过运行 系统 -&gt; 首选项-&gt; 感官 -&gt; 桌面特效找到它。<br>如果需要所有的特效，需要先检查系统是否支持 direct 渲染：glxinfo | grep direct<br>如果结果是yes我们就可以直接安装 Compiz-Fusion：sudo yum install ccsm emerald-themes compizconfig-backend-gconf fusion-icon-gtk emerald compiz-fusion compiz-fusion-gnome libcompizconfig compiz-gnome compiz-bcop compiz compizconfig-python compiz-fusion-extras compiz-fusion-extras-gnome</p>
+<p>(4)、安装 avant-window-navigator</p>
+<p>这个类似于Mac的Dock，可以将底部的 Panel删除掉，而且可以自动隐藏，用起来十分方便。</p>
+<p>完成后，将3和4两个加入到系统启动里。<br>启动进程的添加，可以从菜单里找到 SESSION 进行添加，也可以编辑 /etc/rc.local，也可以编辑 ~/.config/ ，方法很多，就看个人爱好了。</p>
+<p>(5)、安装 gnome-do</p>
+<p>这个工具可以让我们快速搜索菜单中的工具，而无须使用鼠标去点击，能够提高工作的效率，很实用。<br>sudo yum install gnome-do gonme-do-plugins*</p>
+<p>最后，附上现在的桌面和主题。</p>
+<img src="/2009/09/20/20090920-fedora-lampp/Screenshot-1.png" class="">
+
+<img src="/2009/09/20/20090920-fedora-lampp/Screenshot.png" class="">
+
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://www.ownlinux.cn/2009/06/14/fedora-11-install-configure.html">Fedora11 安装配置指南中文版</a><br>2、<a target="_blank" rel="noopener" href="http://www.mplayerhq.hu/DOCS/HTML/en/rtc.html">Mpalyer</a><br>3、<a target="_blank" rel="noopener" href="http://audacity.sourceforge.net/help/faq?s=install&item=lame-mp3">Lame Install</a><br>4、<a target="_blank" rel="noopener" href="http://fixunix.com/slackware/513045-did-you-compiled-mplayer-1-0rc2-slack-12-1-a.html">Mplayer Compile Error</a><br>5、<a target="_blank" rel="noopener" href="http://slackbuilds.org/repository/12.1/multimedia/mplayer/">Mplayer Slack Build</a><br>6、<a target="_blank" rel="noopener" href="http://www.virtualbox.org/manual/UserManual.html#hostossupport">Sun Virtual Box</a><br>7、<a target="_blank" rel="noopener" href="http://hi.baidu.com/yonggangli/blog/item/30087eed2f0970d0b21cb158.html">Yum 补充用法</a><br>8、<a target="_blank" rel="noopener" href="http://hi.baidu.com/yxdark/blog/item/98d5ed1fe484f616413417db.html">Linux下编译安装飞信</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2009/09/22/20090922-fedora-lampp/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Fedora 11 的安装以及 LAMP环境的搭建(二)
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2009/09/17/20090917-php-pathinfo/" id="article-nav-older" class="article-nav-link-wrap">
+            PHP中的PathInfo &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

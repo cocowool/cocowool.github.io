@@ -1,0 +1,221 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Minikube体验-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="kubernetes, k8s, minikube">
+    <meta name="description" content="本文介绍了如何通过Minikube来快速体验Kubernetes集群的相关功能。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Minikube体验</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2018-06-19 11:31:00</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <blockquote>
+<p>本文的环境如下：<br>操作系统： Mac OSX EI Caption<br>Docker：Docker version 18.03.1-ce, build 9ee9f40<br>Minikube：minikube version: v0.27.0<br>Kubernetes: v1.10.0</p>
+</blockquote>
+<h3 id="Minikube-介绍"><a href="#Minikube-介绍" class="headerlink" title="Minikube 介绍"></a>Minikube 介绍</h3><p>Minikube支持Kubenetes的以下特性：</p>
+<ul>
+<li>DNS</li>
+<li>NodePorts</li>
+<li>ConfigMaps and Secrets</li>
+<li>Dashboards</li>
+<li>Container Runtime: Docker, rkt and CRI-O</li>
+<li>Enabling CNI (Container Network Interface)</li>
+<li>Ingress</li>
+</ul>
+<h3 id="Minikube-安装"><a href="#Minikube-安装" class="headerlink" title="Minikube 安装"></a>Minikube 安装</h3><p>因为 Google 在国内没办法访问，我使用了阿里版的 Minikube 。<br>Minikube运行要求安装有VirtualBox或VMWare Fusion，我用的是VirtualBox。<br>VirtualBox安装很简单，从<a target="_blank" rel="noopener" href="https://www.virtualbox.org/">官方下载DMG</a>安装即可。</p>
+<h4 id="下载安装-Minikube"><a href="#下载安装-Minikube" class="headerlink" title="下载安装 Minikube"></a>下载安装 Minikube</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -Lo minikube http://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/releases/v0.27.0/minikube-darwin-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube /usr/<span class="built_in">local</span>/bin/</span><br></pre></td></tr></table></figure>
+
+<h4 id="启动-Minikube"><a href="#启动-Minikube" class="headerlink" title="启动 Minikube"></a>启动 Minikube</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minikube start --registry-mirror=https://registry.docker-cn.com</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果你遇到这个错误，<strong>Error restarting cluster:  restarting kube-proxy: waiting for kube-proxy to be up for configmap update: timed out waiting for the condition</strong><br>通过 minikube delete，minikube start 可以解决</p>
+</blockquote>
+<h4 id="打开-Minikube-控制台"><a href="#打开-Minikube-控制台" class="headerlink" title="打开 Minikube 控制台"></a>打开 Minikube 控制台</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minikube dashboard</span><br></pre></td></tr></table></figure>
+<p>随后浏览器中会自动打开这个界面。</p>
+<img src="/2018/06/19/20180619-minikube-introduce/39469-20180619113017294-1321626965.png" class="">
+
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>Minikube在本地虚拟机环境中部署 Kubernetes。</p>
+<img src="/2018/06/19/20180619-minikube-introduce/39469-20180619113030619-1842549291.png" class="">
+
+<h4 id="启动-Cluster"><a href="#启动-Cluster" class="headerlink" title="启动 Cluster"></a>启动 Cluster</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">bogon:k8s rousseau$ minikube start</span><br><span class="line">Starting <span class="built_in">local</span> Kubernetes v1.10.0 cluster...</span><br><span class="line">Starting VM...</span><br><span class="line">Getting VM IP address...</span><br><span class="line">Moving files into cluster...</span><br><span class="line">Setting up certs...</span><br><span class="line">Connecting to cluster...</span><br><span class="line">Setting up kubeconfig...</span><br><span class="line">Starting cluster components...</span><br><span class="line">Kubectl is now configured to use the cluster.</span><br><span class="line">Loading cached images from config file.</span><br></pre></td></tr></table></figure>
+<p>该命令创建并配置一个运行了单个Kubernetes节点的虚拟机。Minikube 启动过程中，可以用<code>--extra-config=component.key=value</code>的形式给 Kubernetes 指定参数。</p>
+<h4 id="停止-Cluster"><a href="#停止-Cluster" class="headerlink" title="停止 Cluster"></a>停止 Cluster</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bogon:k8s rousseau$ minikube stop</span><br></pre></td></tr></table></figure>
+
+<h4 id="删除-Cluster"><a href="#删除-Cluster" class="headerlink" title="删除 Cluster"></a>删除 Cluster</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bogon:k8s rousseau$ minikube delete</span><br></pre></td></tr></table></figure>
+
+<h4 id="访问服务"><a href="#访问服务" class="headerlink" title="访问服务"></a>访问服务</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minikube service [-n NAMESPACE] [--url] NAME</span><br></pre></td></tr></table></figure>
+
+<h3 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h3><p>前面的原理图说明了Minikube启动了一个虚拟机，这个虚拟机的地址是Host-Only的，要获得主机IP，执行。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bogon:k8s rousseau$ minikube ip</span><br><span class="line">192.168.99.100</span><br></pre></td></tr></table></figure>
+
+<h3 id="存储"><a href="#存储" class="headerlink" title="存储"></a>存储</h3><h3 id="简单的示例"><a href="#简单的示例" class="headerlink" title="简单的示例"></a>简单的示例</h3><h4 id="构建一个-Node-服务"><a href="#构建一个-Node-服务" class="headerlink" title="构建一个 Node 服务"></a>构建一个 Node 服务</h4><p>构建一个简单的Node网页程序，用户访问的时候输出hello world。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> handleRequest = <span class="function"><span class="keyword">function</span>(<span class="params">request, response</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;Received request for URL: &#x27;</span> + request.url);</span><br><span class="line">  response.writeHead(<span class="number">200</span>);</span><br><span class="line">  response.end(<span class="string">&#x27;Hello World!&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> www = http.createServer(handleRequest);</span><br><span class="line">www.listen(<span class="number">8080</span>);</span><br></pre></td></tr></table></figure>
+<p>可以在终端中执行<code>node server.js</code>并通过 <a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080</a> 查看效果</p>
+<h4 id="生成镜像"><a href="#生成镜像" class="headerlink" title="生成镜像"></a>生成镜像</h4><p>编写 Dockerfile 文件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">FROM</span> <span class="string">node:6.9.2</span></span><br><span class="line"><span class="string">EXPOSE</span> <span class="number">8080</span></span><br><span class="line"><span class="string">COPY</span> <span class="string">server.js</span> <span class="string">.</span></span><br><span class="line"><span class="string">CMD</span> <span class="string">node</span> <span class="string">server.js</span></span><br></pre></td></tr></table></figure>
+<p>因为我们使用的是 Minikube ，不需要把镜像放到镜像仓库中，只需要放在Minikube VM中。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">bogon:k8s rousseau$ <span class="built_in">eval</span> $(minikube docker-env)</span><br><span class="line">bogon:k8s rousseau$ docker build -t hello-node:v1 .</span><br><span class="line">Sending build context to Docker daemon  3.072kB</span><br><span class="line">Step 1/4 : FROM node:6.9.2</span><br><span class="line">6.9.2: Pulling from library/node</span><br><span class="line">75a822cd7888: Pull complete </span><br><span class="line">57de64c72267: Pull complete </span><br><span class="line">4306be1e8943: Pull complete </span><br><span class="line">871436ab7225: Pull complete </span><br><span class="line">0110c26a367a: Pull complete </span><br><span class="line">1f04fe713f1b: Pull complete </span><br><span class="line">ac7c0b5fb553: Pull complete </span><br><span class="line">Digest: sha256:2e95be60faf429d6c97d928c762cb36f1940f4456ce4bd33fbdc34de94a5e043</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> node:6.9.2</span><br><span class="line"> ---&gt; faaadb4aaf9b</span><br><span class="line">Step 2/4 : EXPOSE 8080</span><br><span class="line"> ---&gt; Running <span class="keyword">in</span> a3229e6d0438</span><br><span class="line">Removing intermediate container a3229e6d0438</span><br><span class="line"> ---&gt; f8e1aa12de28</span><br><span class="line">Step 3/4 : COPY server.js .</span><br><span class="line"> ---&gt; 5254ea79c7a4</span><br><span class="line">Step 4/4 : CMD node server.js</span><br><span class="line"> ---&gt; Running <span class="keyword">in</span> 060ef7e6f713</span><br><span class="line">Removing intermediate container 060ef7e6f713</span><br><span class="line"> ---&gt; 2fe0fd2e98d7</span><br><span class="line">Successfully built 2fe0fd2e98d7</span><br><span class="line">Successfully tagged hello-node:v1</span><br></pre></td></tr></table></figure>
+
+<h4 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h4><p>使用<code>kubectl</code>命令行部署应用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">bogon:k8s rousseau$ kubectl run hello-node --image=hello-node:v1 --port=8080</span><br><span class="line">deployment.apps <span class="string">&quot;hello-node&quot;</span> created</span><br><span class="line">bogon:k8s rousseau$ kubectl get deployments</span><br><span class="line">NAME         DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE</span><br><span class="line">hello-node   1         1         1            1           26s</span><br><span class="line">bogon:k8s rousseau$ kubectl get pods</span><br><span class="line">NAME                          READY     STATUS    RESTARTS   AGE</span><br><span class="line">hello-node-658d8f6754-7mz28   1/1       Running   0          37s</span><br></pre></td></tr></table></figure>
+<p>Pods在Kubernetes中是一组容器的集合，在这个例子中只有一个容器实例，所以看到的各项统计数字都是1。</p>
+<h4 id="创建服务"><a href="#创建服务" class="headerlink" title="创建服务"></a>创建服务</h4><p>默认情况下，Pod只能通过内部地址访问，为了让 hello-node 可以从外部访问，需要将Pod暴露为 Kubernetes 的服务。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">bogon:k8s rousseau$ kubectl expose deployment hello-node --<span class="built_in">type</span>=LoadBalancer</span><br><span class="line">service <span class="string">&quot;hello-node&quot;</span> exposed</span><br><span class="line">bogon:k8s rousseau$ kubectl get services</span><br><span class="line">NAME         TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE</span><br><span class="line">hello-node   LoadBalancer   10.108.143.198   &lt;pending&gt;     8080:32386/TCP   7s</span><br><span class="line">kubernetes   ClusterIP      10.96.0.1        &lt;none&gt;        443/TCP          1h</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">```bash</span><br><span class="line">minikube service hello-node</span><br></pre></td></tr></table></figure>
+<p>这个命令会自动打开浏览器窗口访问服务，使用本地IP。</p>
+<h4 id="更新应用"><a href="#更新应用" class="headerlink" title="更新应用"></a>更新应用</h4><p>假设我们更新了应用，输出新的一段话。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.end(<span class="string">&#x27;Hello World Again!&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>生成镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t hello-node:v2 .</span><br></pre></td></tr></table></figure>
+<p>更新部署</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl <span class="built_in">set</span> image deployment/hello-node hello-node=hello-node:v2</span><br></pre></td></tr></table></figure>
+<p>查看更新</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minikube service hello-node</span><br></pre></td></tr></table></figure>
+<p>销毁服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete service hello-node</span><br><span class="line">kubectl delete deployment hello-node</span><br></pre></td></tr></table></figure>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="https://yq.aliyun.com/articles/221687">Minikube - Kubernetes本地实验环境</a><br>2、<a target="_blank" rel="noopener" href="https://kubernetes.io/docs/tutorials/hello-minikube/">Hello Minikube</a><br>3、<a target="_blank" rel="noopener" href="https://kubernetes.io/docs/setup/minikube/">Running Kubernetes Locally via Minikube</a><br>4、<a target="_blank" rel="noopener" href="https://kubernetes.io/docs/tasks/tools/install-minikube/">Install Minikube</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/06/20/20180620-docker-overview/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Docker 入门介绍
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/06/19/20180619-vue-tab-single-page-app/" id="article-nav-older" class="article-nav-link-wrap">
+            基于Vue、Bootstrap的Tab形式的进度展示 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

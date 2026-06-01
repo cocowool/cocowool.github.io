@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CSS3的过渡效果-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="css3, css transition, css">
+    <meta name="description" content="CSS3的过渡效果刚开始被引入，本文做了一些简单介绍。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>CSS3的过渡效果</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2010-01-25 14:16:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>在CSS2的世界中，过渡常常是非常单薄的，要么是从一种颜色变成另一种颜色、要么是从不透明变到透明，总而言之就是由一种状态变到另外一种状态。这就导致了很多页面给人的感觉很突兀，没有一个平滑的过渡。</p>
+<p>虽然我们可以使用DHTML或者诸如jQuery等其他第三方的库文件来完成过渡效果，但是为了完成一个简单的效果我们就需要大量的编码。</p>
+<p>我们所需要的就是用一种简单的方法来实现这些过渡，因为我相信在今后的WEB应用中，平滑的过渡越来越成为一种标准的展现形式。</p>
+<p>CSS3现在已经添加到了Webkit中，现在 Apple Safari 和 Google Chrome 都已经开始支持。再往前推几个月，那个时候人们还在争论是否将这些过渡写在CSS3中，一些人坚持认为过渡并不是一种样式属性，应当用脚本来进行处理。经过众多人的努力，样式不仅限于静态的样式，动态的样式也是非常需要的。于是过渡的样式终于开始写入CSS3的<a target="_blank" rel="noopener" href="http://www.w3.org/TR/css3-transitions/">官方文档</a>中。</p>
+<p>废话少说，进入正题。</p>
+<p>本文的例子需要支持CSS3的浏览器，所以你最好使用 Safari 或者 Chrome 来测试。</p>
+<p><strong>过渡、状态和动作</strong><br>我们知道，CSS中都是通过伪类来实现页面中的一个元素与用户互动的。例如，用户鼠标的悬停和移动。下面列出了几个伪类：</p>
+<p><strong>过渡包含哪些元素</strong><br>一个从蓝色变成红色的动态过渡包含哪些元素呢，我们先看一个实例：</p>
+<blockquote>
+<p>#css3tr a:link {<br>display:block;<br>height:30px;<br>line-height:30px;<br>width:100px;<br>border:5px solid #cccccc;<br>text-align:center;<br>-webkit-transition:width .25s ease-in-out, background-color .25s linear;<br>transitiona:width .25s ease-in-out, background-color .25s linear;<br>}<br>#css3tr a:hover {<br>color:red;<br>background-color:#e9e9e9;<br>width:200px;<br>-webkit-transition: width .25s ease-in-out, background-color .25s linear;<br>transition:width .25s ease-in-out, background-color .25s linear;<br>}</p>
+</blockquote>
+<p>由此可见，transition 属性中包含了三个基本的属性：样式属性(CSS property)、持续时间(Duration)、计时函数(Timing Function)、延时(Delay)</p>
+<img src="/2010/01/25/20100125-css3-transition/image_thumb.png" class="">
+
+<p>看到这个图，大家对于这几个参数的作用应该了解了吧。很简单的几个参数设置，实现了我们之前需要用大量js脚本实现的效果，那么有什么理由不期待CSS3的到来呢。</p>
+<p>可以应用过渡的元素：</p>
+<p>过渡的时间和延时：</p>
+<p>现在，就期待CSS3早日全面普及吧。</p>
+<p>参考资料<br>1、<a target="_blank" rel="noopener" href="http://www.webdesignerdepot.com/2010/01/css-transitions-101/">CSS Transitions 101</a><br>2、<a target="_blank" rel="noopener" href="http://www.w3.org/TR/css3-transitions/">CSS Transitions Module Level 3</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2010/01/26/20100126-yui-grids/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; YUI Grids实现自定义宽度的Template
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2010/01/24/20100124-yui3-learning/" id="article-nav-older" class="article-nav-link-wrap">
+            学习使用YUI3 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

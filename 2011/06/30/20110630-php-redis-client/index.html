@@ -1,0 +1,235 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Redis的PHP客户端-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="redis, redis客户端, redis php客户端">
+    <meta name="description" content="本文主要介绍PHP客户端的安装和使用。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Redis的PHP客户端</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-22 08:40:27</span>
+        
+        <span class="post-time">发布于：2011-06-30 15:55:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>Redis支持的客户端种类非常多，包括C、Java、PHP、Python等，本文主要介绍PHP客户端的安装和使用。</p>
+<p>Redis的客户端实际上担负了通过网络协议与Redis Server进行通信的过程，通信的过程必须遵循协议规范，让客户的调用更加符合特定语言的使用习惯。现有PHP客户端：rediska、phpredis、Predis、Redisent。这些可护短中，有纯PHP的实现方案，也有二进制版本的实现方案。</p>
+<p>官方提供的PHP客户端列表如下：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>predis</th>
+<th>phpredis</th>
+<th>Rediska</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>易扩展</td>
+<td>∆</td>
+<td></td>
+<td>∆</td>
+</tr>
+<tr>
+<td>客户端策略和Hash算法定义</td>
+<td>∆</td>
+<td></td>
+<td>∆</td>
+</tr>
+<tr>
+<td>实现方式</td>
+<td>纯PHP</td>
+<td>PHP扩展（C语言）</td>
+<td>纯PHP</td>
+</tr>
+<tr>
+<td>测试数据（本地环境下）</td>
+<td>18900 SET/sec using 12 bytes for both key and value18300 GET/sec while retrieving the very same values0.210 seconds to fetch 30000 keys using <em>KEYS *</em>.</td>
+<td>29000 SET/sec using 12 bytes for both key and value30000 GET/sec while retrieving the very same values0.037 seconds to fetch 30000 keys using “KEYS *””.</td>
+<td></td>
+</tr>
+<tr>
+<td>测试结果（网络环境下）</td>
+<td>3150 SET/sec using 12 bytes for both key and 3150 GET/sec while retrieving the very same 0.212 seconds to fetch 30000 keys using “KEYS *”.</td>
+<td>3300 SET/sec using 12 bytes for both key and 3300 GET/sec while retrieving the very same 0.088 seconds to fetch 30000 keys using “KEYS *”.</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>特性比较</strong></p>
+<p><strong>Predis</strong></p>
+<p>Predis是一个灵活和特性完备（PHP&gt;5.3）的支持Redis的PHP客户端。当前版本为0.6.3，默认不支持PHP5.2。<br>主要特性如下：<br>完整的支持从1.2到2.4的Redis，并且支持当前正在开发的版本；<br>提供客户端实现的一致性哈希算法，支持自定义；<br>在单个或聚合连接中支持命令管道；（Command pipelining on single and aggregated connections）<br>能够通过TCP/IP或者Unix domain sockets连接到redis，支持持久连接；<br>自动连接Redis实例，使用“懒惰”方式，只在第一个命令发出时执行连接；<br>可以灵活定义客户端的命令集合；</p>
+<p>Predis安装</p>
+<p><strong>phpredis</strong></p>
+<p>这是一个二进制版本的PHP客户端，按照的说法，效率要比Predis高。这个版本支持作为Session的Handler。这个扩展的有点在于无需加载任何外部文件，使用比较方便。缺点在于难于扩展，一般的PHP程序员无法对其做出扩展。考虑到Redis正在飞速发展过程中，缺乏扩展的特性还是有些影响的，需要维护过程中注意进行升级更新。</p>
+<p>Max下整合XAMPP的安装（需要XAMPP的Dev环境）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo /Applications/XAMPP/xamppfiles/bin/phpize</span><br><span class="line">$ sudo MACOSX_DEPLOYMENT_TARGET=10.6 CFLAGS=<span class="string">&quot;-arch i386 -arch x86_64 -g -Os -pipe -no-cpp-precomp&quot;</span> CCFLAGS=<span class="string">&quot;-arch i386 -arch x86_64 -g -Os -pipe&quot;</span> CXXFLAGS=<span class="string">&quot;-arch i386 -arch x86_64 -g -Os -pipe&quot;</span> LDFLAGS=<span class="string">&quot;-arch i386 -arch x86_64 -bind_at_load&quot;</span> ./configure --with-apxs=/Applications/XAMPP/xamppfiles/bin/apxs --with-php-config=/Applications/XAMPP/xamppfiles/bin/php-config</span><br><span class="line">$ sudo make</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure>
+
+<p>然后修改php.ini，重启服务就可以了。</p>
+<p>示例代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;phpredis sample:&lt;br /&gt;&#x27;</span>;</span><br><span class="line"></span><br><span class="line">error_reporting(E_ALL);</span><br><span class="line">ini_set(<span class="string">&#x27;display_errors&#x27;</span>,<span class="string">&#x27;ON&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$redis</span> = <span class="keyword">new</span> Redis();</span><br><span class="line"><span class="variable">$redis</span>-&gt;connect(<span class="string">&#x27;127.0.0.1&#x27;</span>,<span class="number">6379</span>);</span><br><span class="line"><span class="variable">$redis</span>-&gt;set(<span class="string">&#x27;first_key_phpredis&#x27;</span>, <span class="string">&#x27;Hello world&#x27;</span>);</span><br><span class="line"></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p><strong>Rediska</strong></p>
+<p>rediska 目前还处于 beta 阶段。他的代码托管在github上，可以方便的获取。另外也提供了PEAR版本，所以获取和安装都非常方便。可以使用PEAR包安装。</p>
+<p>本文使用的是 Mac 下的 XAMPP提供的PEAR进行安装。首先添加频道地址：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">localhost:bin shiqiang$ sudo ./pear channel-discover[pear.geometria-lab.net](http://pear.geometria-lab.net/)</span><br><span class="line">Password:</span><br><span class="line">Adding Channel <span class="string">&quot;[pear.geometria-lab.net](http://pear.geometria-lab.net/)&quot;</span> succeeded</span><br><span class="line">Discovery of channel <span class="string">&quot;[pear.geometria-lab.net](http://pear.geometria-lab.net/)&quot;</span> succeeded</span><br></pre></td></tr></table></figure>
+
+<p>然后进行安装</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">localhost:bin shiqiang$ sudo ./pear channel-discover[pear.geometria-lab.net](http://pear.geometria-lab.net/)</span><br><span class="line">Password:</span><br><span class="line">Adding Channel <span class="string">&quot;[pear.geometria-lab.net](http://pear.geometria-lab.net/)&quot;</span> succeeded</span><br><span class="line">Discovery of channel <span class="string">&quot;[pear.geometria-lab.net](http://pear.geometria-lab.net/)&quot;</span> succeeded</span><br><span class="line">localhost:bin shiqiang$ sudo ./pear install geometria-lab/Rediska-beta</span><br><span class="line">Unknown remote channel:[pear.zfcampus.org](http://pear.zfcampus.org/)</span><br><span class="line">Did not download optional dependencies: channel://pear.[zfcampus.org/zf](http://zfcampus.org/zf), use --alldeps to download automatically</span><br><span class="line">geometria-lab/Rediska can optionally use package <span class="string">&quot;channel://pear.[zfcampus.org/zf](http://zfcampus.org/zf)&quot;</span> (recommended version 1)</span><br><span class="line">downloading Rediska-0.5.6.tgz ...</span><br><span class="line">Starting to download Rediska-0.5.6.tgz (116,203 bytes)</span><br><span class="line">.........................<span class="keyword">done</span>: 116,203 bytes</span><br><span class="line">install ok: channel://pear.[geometria-lab.net/Rediska-0.5.6](http://geometria-lab.net/Rediska-0.5.6)</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后，就可以看到本地的目录环境下已经有了Rediska的PEAR包</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">localhost:XAMPP shiqiang$ sudo find . -name <span class="string">&#x27;Redis*&#x27;</span></span><br><span class="line">./xamppfiles/lib/php/pear/data/Rediska</span><br><span class="line">./xamppfiles/lib/php/pear/doc/Rediska</span><br><span class="line">./xamppfiles/lib/php/pear/Rediska</span><br><span class="line">./xamppfiles/lib/php/pear/Rediska/Options/RediskaInstance.php</span><br><span class="line">./xamppfiles/lib/php/pear/Rediska/Zend/Application/Resource/Rediska.php</span><br><span class="line">./xamppfiles/lib/php/pear/Rediska/Zend/Auth/Adapter/Redis.php</span><br><span class="line">./xamppfiles/lib/php/pear/Rediska/Zend/Cache/Backend/Redis.php</span><br><span class="line">./xamppfiles/lib/php/pear/Rediska/Zend/Log/Writer/Redis.php</span><br><span class="line">./xamppfiles/lib/php/pear/Rediska/Zend/Queue/Adapter/Redis.php</span><br><span class="line">./xamppfiles/lib/php/pear/Rediska/Zend/Session/SaveHandler/Redis.php</span><br><span class="line">./xamppfiles/lib/php/pear/Rediska.php</span><br><span class="line">./xamppfiles/lib/php/pear/<span class="built_in">test</span>/Rediska</span><br><span class="line">./xamppfiles/lib/php/pear/<span class="built_in">test</span>/Rediska/tests/library/Rediska</span><br><span class="line">./xamppfiles/lib/php/pear/<span class="built_in">test</span>/Rediska/tests/library/Rediska/Options/RediskaInstanceTest.php</span><br><span class="line">./xamppfiles/lib/php/pear/<span class="built_in">test</span>/Rediska/tests/library/RediskaTest.php</span><br><span class="line">./xamppfiles/temp/pear/download/Rediska-0.5.6</span><br><span class="line">./xamppfiles/temp/pear/download/Rediska-0.5.6/library/Rediska</span><br><span class="line">./xamppfiles/temp/pear/download/Rediska-0.5.6/library/Rediska/Options/RediskaInstance.php</span><br><span class="line">./xamppfiles/temp/pear/download/Rediska-0.5.6/library/Rediska/Zend/Application/Resource/Rediska.php</span><br><span class="line">./xamppfiles/temp/pear/download/Rediska-0.5.6/library/Rediska/Zend/Auth/Adapter/Redis.php</span><br><span class="line">./xamppfiles/temp/pear/download/Rediska-0.5.6/library/Rediska/Zend/Cache/Backend/Redis.php</span><br><span class="line">./xamppfiles/temp/pear/download/Rediska-0.5.6/library/Rediska/Zend/Log/Writer/Redis.php</span><br><span class="line">./xamppfiles/temp/pear/download/Rediska-0.5.6/library/Rediska/Zend/Queue/Adapter/Redis.php</span><br><span class="line">./xamppfiles/temp/pear/download/Rediska-0.5.6/library/Rediska/Zend/Session/SaveHandler/Redis.php</span><br><span class="line">./xamppfiles/temp/pear/download/Rediska-0.5.6/library/Rediska.php</span><br><span class="line">./xamppfiles/temp/pear/download/Rediska-0.5.6/tests/library/Rediska</span><br><span class="line">./xamppfiles/temp/pear/download/Rediska-0.5.6/tests/library/Rediska/Options/RediskaInstanceTest.php</span><br><span class="line">./xamppfiles/temp/pear/download/Rediska-0.5.6/tests/library/RediskaTest.php</span><br><span class="line">./xamppfiles/temp/pear/download/Rediska-0.5.6.tgz</span><br></pre></td></tr></table></figure>
+
+<p><strong>简单使用的示例</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(E_ALL);</span><br><span class="line">ini_set(<span class="string">&#x27;display_errors&#x27;</span>,<span class="string">&#x27;ON&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$options</span> = <span class="keyword">array</span>(</span><br><span class="line">  <span class="string">&#x27;namespace&#x27;</span> =&gt; <span class="string">&#x27;Application_&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;servers&#x27;</span>   =&gt; <span class="keyword">array</span>(</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">&#x27;host&#x27;</span> =&gt; <span class="string">&#x27;127.0.0.1&#x27;</span>, <span class="string">&#x27;port&#x27;</span> =&gt; <span class="number">6379</span>),</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">&#x27;host&#x27;</span> =&gt; <span class="string">&#x27;127.0.0.1&#x27;</span>, <span class="string">&#x27;port&#x27;</span> =&gt; <span class="number">6380</span>)</span><br><span class="line">  )</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">require_once</span> <span class="string">&#x27;Rediska.php&#x27;</span>;</span><br><span class="line"><span class="variable">$rediska</span> = <span class="keyword">new</span> Rediska(<span class="variable">$options</span>);<span class="comment">//创建Rediska对象，连接服务器</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$key</span> = <span class="keyword">new</span> Rediska_Key(<span class="string">&#x27;first_key&#x27;</span>);</span><br><span class="line"><span class="variable">$key</span>-&gt;setValue(<span class="string">&#x27;first_value&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$get_value</span> = <span class="keyword">new</span> Rediska_Key(<span class="string">&#x27;first_key&#x27;</span>);</span><br><span class="line"><span class="keyword">print</span> <span class="variable">$get_value</span>;<span class="comment">//取回存储的值</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>相对于Memcache的区别</strong><br>1、支持的数据类型多样化。支持字符串、列表、集合、有序集合、Hash数组这几种数据类型。<br>2、可以灵活的指定key存储在哪台服务器上。</p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://rediska.geometria-lab.net/">http://rediska.geometria-lab.net/</a><br>2、<a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/2001075/redis-which-php-module-to-use">Reids Which PHP Module to use</a><br>3、<a target="_blank" rel="noopener" href="http://code.google.com/p/phpredis/">PHP Redis</a><br>4、<a target="_blank" rel="noopener" href="http://hi.baidu.com/thinkinginlamp/blog/item/3358c93d174e35ce9f3d62bf.html">膜拜Redis</a><br>5、<a target="_blank" rel="noopener" href="http://blog.csdn.net/lxzo123/archive/2011/05/12/6414458.aspx">redis客户端 predis与phpredis 比较</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2011/07/03/20110703-install-gnuplot/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Mac OS X下GnuPlot的安装
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2011/06/24/20110624-mac-shortcut/" id="article-nav-older" class="article-nav-link-wrap">
+            Mac下快捷键的收集整理 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

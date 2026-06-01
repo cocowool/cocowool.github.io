@@ -1,0 +1,220 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Spark 系列三-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="spark, 流式计算">
+    <meta name="description" content="整理的关于Spark流式计算的一些学习资料。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Spark 系列三</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-10-17 20:03:06</span>
+        
+        <span class="post-time">发布于：2021-10-16 22:24:54</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>Spark 应用在进行问题排查或性能优化分析时，往往有固定的套路和方法，本文总结了过去处理Spark性能问题时的常用手段，希望能够帮到大家。</p>
+<h2 id="查看操作系统的资源使用情况"><a href="#查看操作系统的资源使用情况" class="headerlink" title="查看操作系统的资源使用情况"></a>查看操作系统的资源使用情况</h2><h3 id="CPU使用情况"><a href="#CPU使用情况" class="headerlink" title="CPU使用情况"></a>CPU使用情况</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ top</span><br></pre></td></tr></table></figure>
+<p>检查CPU使用率最常用的是 <code>top</code> 命令，除此之外还有很多其他的方法，具体可以参考 <a href="http://www.edulinks.cn/2021/04/09/20210409-linux-cpu-commands/">查看Linux CPU使用率的7种方法</a></p>
+<h3 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ free -h</span><br></pre></td></tr></table></figure>
+<p>使用 free 命令可以看到服务器的内容总量以及使用的情况。</p>
+<h3 id="磁盘"><a href="#磁盘" class="headerlink" title="磁盘"></a>磁盘</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ df -lh</span><br><span class="line">$ iostat -x 1s 10</span><br></pre></td></tr></table></figure>
+
+<p>磁盘主要包括空间和使用率的情况，使用率可以使用<code>vmstat</code>、<code>netstat</code>命令查看。</p>
+<h2 id="查看应用情况"><a href="#查看应用情况" class="headerlink" title="查看应用情况"></a>查看应用情况</h2><h3 id="查看进程内存"><a href="#查看进程内存" class="headerlink" title="查看进程内存"></a>查看进程内存</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ jmap -heap processId</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>因为Spark集中使用内存的特性，为Spark程序分配超过100G的堆空间是很常见的事情，这种情况在传统的Java应用中却不常见。</p>
+</blockquote>
+<h3 id="查看GC情况"><a href="#查看GC情况" class="headerlink" title="查看GC情况"></a>查看GC情况</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ jstat -gcutil processId 1s 60</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看HeapDump"><a href="#查看HeapDump" class="headerlink" title="查看HeapDump"></a>查看HeapDump</h3><p>使用<code>-XX:HeapDumpOnOutOfMemoryError</code>可以在发生OOM的时候自动生成DUMP文件。</p>
+<p>RDD使用的空间越小，Heap使用的空间就越大，更大的Heap空间带来更高的内存使用效率。</p>
+<h3 id="打开Executor的GC日志"><a href="#打开Executor的GC日志" class="headerlink" title="打开Executor的GC日志"></a>打开Executor的GC日志</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--conf spark.executor.extraJavaOptions=<span class="string">&quot;-XX:+PrintFlagsFinal -XX:PrintReferenceGC -verbose:gc -XX:+PrintGCDetails -XX:PrintGCTimeStamps -XX:PrintAdaptiveSizePolicy -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeConcMark&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="打开Driver的GC日志"><a href="#打开Driver的GC日志" class="headerlink" title="打开Driver的GC日志"></a>打开Driver的GC日志</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--conf spark.driver.extraJavaOptions=<span class="string">&quot;-XX:+PrintFlagsFinal -XX:PrintReferenceGC -verbose:gc -XX:+PrintGCDetails -XX:PrintGCTimeStamps -XX:PrintAdaptiveSizePolicy -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeConcMark&quot;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>是否有内存泄漏。Memory Leak</li>
+<li>使用工具查看GC的统计数据</li>
+</ul>
+<p>当Spark GC频繁发生或者持续很长时间的时候，说明内存没有被有效使用，可以通过强制清理缓存的RDD来提高内存使用效率。</p>
+<h2 id="优化建议"><a href="#优化建议" class="headerlink" title="优化建议"></a>优化建议</h2><ul>
+<li>降低<code>InitiatingHeapOccupancyPercent</code>的值，默认为45.</li>
+<li>增加<code>ConcGCThreads</code>的值。</li>
+<li>增加<code>G1HeapRegionSize</code>的值，避免创建过大的Heap区域。如果确实程序需要很多的大对象，就需要仔细的调整<code>-XX:G1HeapWastePercent -XX:G1MixedGCLiveThresholdPercent</code>参数来避免这种情况。</li>
+<li>如果想减少STW的数量，可以减小<code>G1RSetUpdatingPauseTimePercent</code>参数，同时增加<code>G1ConcRefinementThreads</code></li>
+<li>对于长时间运行的程序，可以使用<code>AlwaysPreTouch</code>参数，这样JVM在启动的时候就会向OS申请必须的内存，从而避免动态的调整。</li>
+</ul>
+<blockquote>
+<p>参考配置 <code>-XX:+UseG1GC -XX:+PrintFlagsFinal -XX:+PrintReferenceGC -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintAdaptiveSizePolicy -XX:+UnlockDiagnosticVMOptions -XX:+G1SummarizeConcMark -Xms88g -Xmx88g -XX:InitiatingHeapOccupancyPercent=35 -XX:ConcGCThread=20</code></p>
+</blockquote>
+<h2 id="相关参数"><a href="#相关参数" class="headerlink" title="相关参数"></a>相关参数</h2><ul>
+<li>spark.core.connection.ack.wait.timeout 避免因网络或GC造成任务丢失</li>
+<li>spark.speculation true 开启推测机制，避免某台慢造成影响</li>
+<li>spark.speculation.interval 100 单位毫秒</li>
+<li>spark.speculation.quantile 0.75</li>
+<li>spark.speculation.multiplier 1.5 比其他慢1.5倍时启动推测</li>
+<li>spark.shuffle.io.numConnectionsPerPeer</li>
+<li>spark.storage.memoryFraction 控制cached RDD所占的空间比例 </li>
+</ul>
+<h2 id="以pid分割spark日志"><a href="#以pid分割spark日志" class="headerlink" title="以pid分割spark日志"></a>以pid分割spark日志</h2><p>生产集群上Spark以脚本的方式启动，每个Worker上会启动三个Executor，脚本文件中gc的日志文件写了一个固定目录，结果发现gc日志会产生相互覆盖，对于排查生产问题不利，因此想要每个单独的Executor生产自己的gc日志文件。</p>
+<p>查看官方文档，知道可以使用<code>spark.executor.extraJavaOptions</code>指定gc的目录，对于如何根据分隔日志，官方的描述感觉并不清晰。</p>
+<blockquote>
+<p>A string of extra JVM options to pass to executors. For instance, GC settings or other logging. Note that it is illegal to set Spark properties or maximum heap size (-Xmx) settings with this option. Spark properties should be set using a SparkConf object or the spark-defaults.conf file used with the spark-submit script. Maximum heap size settings can be set with spark.executor.memory. <strong>The following symbols, if present will be interpolated: will be replaced by application ID and will be replaced by executor ID. For example, to enable verbose gc logging to a file named for the executor ID of the app in /tmp, pass a ‘value’ of: -verbose:gc -Xloggc:/tmp/-.gc</strong></p>
+</blockquote>
+<p><code>%p</code></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/feb9c82ac0a5">Spark作业性能优化</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/1f45bb8a81b3">Spark 任务执行排查慢的问题排查-2</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/7c74b8690322">Spark job 异常排查-1</a></li>
+<li><a target="_blank" rel="noopener" href="https://anish749.github.io/spark/analyzing-java-garbage-collection-logs-debugging-optimizing-apache-spark/">analyzing java garbage collection logs debugging optimizing apache sparkTuning Java Garbage Collection for Apache Spark Applications</a></li>
+<li><a target="_blank" rel="noopener" href="https://databricks.com/blog/2015/05/28/tuning-java-garbage-collection-for-spark-applications.html">Tuning Java Garbage Collection for Apache Spark Applications</a></li>
+<li><a target="_blank" rel="noopener" href="https://blogs.oracle.com/poonam/troubleshooting-long-gc-pauses">Troubleshooting Long GC Pauses</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.oracle.com/technetwork/articles/java/g1gc-1984535.html">Garbage First Garbage Collector Tuning</a></li>
+<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/configuration.html">Spark Configuration</a></li>
+<li><a target="_blank" rel="noopener" href="http://shzhangji.com/blog/2015/05/31/spark-streaming-logging-configuration/">Spark Streaming Logging Configuration</a></li>
+<li><a target="_blank" rel="noopener" href="https://anish749.github.io/spark/analyzing-java-garbage-collection-logs-debugging-optimizing-apache-spark/">Analyzing Java Garbage Collection Logs for debugging and optimizing Apache Spark jobs</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/10/21/20211021-make-activemq-docker-image/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 构建ActiveMQ镜像并运行
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/10/11/20211011-spark-intro-2/" id="article-nav-older" class="article-nav-link-wrap">
+            Spark 系列二 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

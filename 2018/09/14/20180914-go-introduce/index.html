@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Go学习入门-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="go, go language">
+    <meta name="description" content="Go语言宣称为互联网时代的C语言，那她有那些特性值得我们必须学习呢。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Go学习入门</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2023-02-15 19:29:39</span>
+        
+        <span class="post-time">发布于：2018-09-14 11:11:00</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h2 id="1-为什么要学习Go"><a href="#1-为什么要学习Go" class="headerlink" title="1. 为什么要学习Go"></a>1. 为什么要学习Go</h2><p>Go语言宣称为互联网时代的C语言，那她有那些特性值得我们必须学习呢：</p>
+<ul>
+<li>并行与分布式支持。除了我们日常熟悉的进程和线程，Go语言中提供了协程coroutine，从而简化了并行开发的难度。</li>
+<li>软件工程支持。这体现在很多方面，我觉得Go语言借鉴了Python的做法，通过代码风格规范进行强制统一，从而减少工程管理的难度。</li>
+<li>编程思想的变化。过去面向过程和面向对象是两大编程流派，Go语言则使用批判吸收的方法，融合众家之长，以更实用的目标作为语言发展的基调。</li>
+</ul>
+<h2 id="2-Go语言简史"><a href="#2-Go语言简史" class="headerlink" title="2. Go语言简史"></a>2. Go语言简史</h2><p>Go语言的历史要从贝尔实验室开始说起，我们知道贝尔实验室计算科学研究中心的肯•汤普逊 Ken Thompson 和丹尼斯 • 里奇 Dennis Ritchie开发了Unix系统以及开发系统所使用的C语言。在这之后他们还开发了Plan 9操作系统。<br>后来包括Ken Tompson在内的Plan 9 原班人马加入Google，在Google他们创立了Go语言。2007年9月之前Go语言是20%自由时间的实验项目，到了2008年5月Google发现Go语言的巨大潜力，开始全力支持这个项目。Go语言的第一个版本是2009年11月正式对外发布。<br>Go语言采用BSD授权协议，任何人都可以查看Go语言的所有源代码。<br>Go语言之所以发展迅猛引人注目，还有一个重要原因是其拥有一个豪华的作者团队。我们来看一下GO的作者都有谁：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Ken_Thompson">Ken Thompson</a>Unix以及C的开发人员，1983年图灵奖得主</li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Rob_Pike">Rob Pike</a>Unix小组成员</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/griesemer">Robert Griesemer</a></li>
+<li><a target="_blank" rel="noopener" href="https://swtch.com/~rsc/">Russ Cox</a>Google Code Search 项目负责人</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ianlancetaylor">Ian Lance Taylor</a>GCC社区活跃人物</li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Brad_Fitzpatrick">Brad Fitzpatrick</a>Memcached 的作者</li>
+</ul>
+<h2 id="3-语言特性"><a href="#3-语言特性" class="headerlink" title="3. 语言特性"></a>3. 语言特性</h2><ul>
+<li>自动内存回收。手工管理内存让人十分崩溃，很容易造成内存泄漏问题，目前内存泄漏问题最佳的解决方案就是在语言级别提供GC（Garbage Collection）</li>
+<li>更丰富的内置类型。Go语言中新增了一些近年来流行语言中提供的一些高级类型，例如map、slice</li>
+<li>函数多返回值，这个功能是我接触了Python之后才知道的，之前的语言为了返回多个值，通常会创建一个数组或者结构体，现在再也不用发愁了，Go语言率先在静态语言中提供了函数多返回值功能</li>
+<li>错误处理。引入了三个关键字用于标准的错误处理流程，defer、panic、recover，避免了try catch的使用，减少了代码量</li>
+<li>匿名函数和闭包，这个特性好像也是动态语言率先使用的</li>
+<li>类型和接口。类型定义类似于C语言中的结构（struct），引入了“非侵入式”接口概念</li>
+<li>并发编程。使用goroutine而不是操作系统的并发机制，使用消息传递而不是使用共享内存来通信，让并发编程变得更加轻盈和安全</li>
+<li>反射 Reflection，Go实现了反射的大部分功能，但没有像Java语言那样内置类型工厂</li>
+<li>语言交互性。可以在Go语言中使用Cgo的特定语法混合编写C语言代码</li>
+</ul>
+<h2 id="4-Hello-World"><a href="#4-Hello-World" class="headerlink" title="4. Hello World"></a>4. Hello World</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * My First Go Program!</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"> <span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"> </span><br><span class="line"> <span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">     fmt.Println(<span class="string">&quot;Hello, world!&quot;</span>)</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>其中的一些语法规范</p>
+<ul>
+<li>package 表明代码所属的包，包是Go语言最基本的分发单位，要生成可执行的Go程序，必须有一个main包以及一个main函数</li>
+<li>main 函数，不能带参数，也不能有返回值</li>
+<li>import 用于引入程序依赖的包，注意不能包含在程序中没有用到的包，这一点可以看出Go是极力追求精简的</li>
+<li>代码注释与C语言一样，支持两种注释方式，单行注释和多行注释</li>
+<li>花括号不能在行的开头，否则编译会报错<blockquote>
+<p>Python 和 Go 给我印象最深刻的一点是形式即代码，例如原来在PHP中，每段代码的结尾都必须有<code>;</code>来表示，而在Python和Go中，通过严格的形式规定，可以减少不必要代码的录入，同时又能够保证参与工程开发的所有人都遵循这个形式。<br>特别是对于大型的工程，不再通过一些配置文件来指定目录层次或者引用关系，而完全依靠实际的目录层级来推导工程的结构。这样就保证了工程规范能够强制性的被所有人执行，大大提高了协作的效率。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="5-编译环境与开发工具"><a href="#5-编译环境与开发工具" class="headerlink" title="5. 编译环境与开发工具"></a>5. 编译环境与开发工具</h2><p>Go语言提供了Windows、Linux、Mac OS三种安装包，因为众所周知的原因，我们没有办法从官网下载，但是大家还是可以从中文站点<a target="_blank" rel="noopener" href="https://studygolang.com/dl">下载</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bogon:~ rousseau$ go version</span><br><span class="line">go version go1.11 darwin/amd64</span><br></pre></td></tr></table></figure>
+<p>上面的命令执行后如果能够正常输出表示编译环境已经安装好了，可以将hello world程序编译了。将上面的代码保存为hello.go，然后执行。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bogon:go.my rousseau$ go run hello.go</span><br><span class="line">Hello, world!</span><br></pre></td></tr></table></figure>
+<figure class="highlight go"><figcaption><span>run```命令将编译、链接、 运行三个步骤合为一步，运行后不会再当前目录看到任何中间文件和可执行文件。使用```go build```命令会生成可执行文件。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">``</span><span class="string">`bash</span></span><br><span class="line"><span class="string">bogon:go.my rousseau$ go build hello.go </span></span><br><span class="line"><span class="string">bogon:go.my rousseau$ ls</span></span><br><span class="line"><span class="string">hello		hello.go</span></span><br><span class="line"><span class="string">bogon:go.my rousseau$ ./hello </span></span><br><span class="line"><span class="string">Hello, world!</span></span><br></pre></td></tr></table></figure>
+<p>关于开发工具的选择，这个第一要看个人习惯，第二要结合项目的规模和最多使用的一些功能。可以用来编程的工具包括 vim、VS Code、liteIDE、goland等，目前我水平还比较菜，感觉Vim或者VS Code就能满足需求了。</p>
+<h2 id="6-Go的工程管理"><a href="#6-Go的工程管理" class="headerlink" title="6. Go的工程管理"></a>6. Go的工程管理</h2><p>Go消除了工程文件的概念，完全用目录结构和包名来推导工程结构和构建顺序。<br>看一个简单的命令行计算器工程的目录结构，代码在<a target="_blank" rel="noopener" href="https://github.com/cocowool/k8s-go/tree/master/golearn/calcproject">这里</a></p>
+<img src="/2018/09/14/20180914-go-introduce/39469-20180914111126339-138017365.png" class="">
+<p>想要编译这个工程，执行以下命令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">bogon:calcproject rousseau$ <span class="built_in">export</span> GOPATH=$(<span class="built_in">pwd</span>)</span><br><span class="line">bogon:calcproject rousseau$ <span class="built_in">cd</span> bin</span><br><span class="line">bogon:bin rousseau$ go build calc</span><br><span class="line">bogon:bin rousseau$ ./calc </span><br><span class="line">Usage: calc <span class="built_in">command</span> [arguments] ... </span><br><span class="line"></span><br><span class="line">The commands are:</span><br><span class="line">	add	Addition of two values.</span><br><span class="line">	sqrt	Square root of a non-negative value.</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-问题追踪和调试"><a href="#7-问题追踪和调试" class="headerlink" title="7. 问题追踪和调试"></a>7. 问题追踪和调试</h2><h3 id="7-1-打印日志"><a href="#7-1-打印日志" class="headerlink" title="7.1 打印日志"></a>7.1 打印日志</h3><p>Go语言中包含了一个fmt包，包含了大量的打印函数，主要用到的是<code>Printf()</code>和<code>Println()</code>两个函数。区别就是一个能够换行一个不能换行。</p>
+<h3 id="7-2-GDB-调试"><a href="#7-2-GDB-调试" class="headerlink" title="7.2 GDB 调试"></a>7.2 GDB 调试</h3><p>Go语言编译的二进制程序直接支持GDB调试，具体的细节后续会详细介绍。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料:"></a>参考资料:</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://golang.org/">打不开的 Golang 官网</a></li>
+<li><a target="_blank" rel="noopener" href="https://studygolang.com/">Golang中文网</a></li>
+<li><a target="_blank" rel="noopener" href="http://liteide.org/en/download/">LiteIDE</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.jetbrains.com/go/">Goland</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.studygolang.com/2012/12/gdb%E8%B0%83%E8%AF%95go%E7%A8%8B%E5%BA%8F/">GDB调试Go程序</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/09/21/20180921-systemd-journal-log/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Linux系统管理员应该知道的journalctl知识
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/09/10/20180910-deploy-elk-and-collect-logs-via-filebeat/" id="article-nav-older" class="article-nav-link-wrap">
+            Kubernetes部署ELK并使用Filebeat收集容器日志 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

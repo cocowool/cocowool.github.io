@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>如何生成eot字体-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="eot字体, 生成eot字体">
+    <meta name="description" content="生成EOT字体的三种方法。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>如何生成eot字体</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2011-04-10 15:55:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>前一段时间听闻Google退出ubuntu字体的时候，使用了一下，从而了解到 font-face 的用法：</p>
+<blockquote>
+<p><strong>@font-face{font-family:’yahei’;src:url(../images/msyh.eot);}</strong></p>
+</blockquote>
+<p>利用这种方式，就可以在网页上显示用户的系统中不存在的字体。对于保证我们设计的一致性，减少图片的使用是非常有帮助的。</p>
+<p>那么如何才能生成对应字体的EOT文件呢？<br>查阅资料后，找到了三个方法：</p>
+<p>1、在线字体转换：<a target="_blank" rel="noopener" href="http://www.fontsquirrel.com/fontface/generator">Font Squirrel</a></p>
+<img src="/2011/04/10/20110410-generate-eot/201104101554453143.png" class="">
+
+<p>这个网站为我们提供了一个在线的字体转换服务，缺点是对于字体文件的大小有限制，更适合用来转换英文类的字体。</p>
+<p>2、使用ttf2eot。<br><a target="_blank" rel="noopener" href="http://code.google.com/p/ttf2eot/wiki/Demo">ttf2eot</a>是一个开源项目。支持Linux和Windows的环境，能够快速的生成EOT文件。使用起来也非常方便。</p>
+<p>3、Microsoft WEFT。<br><a target="_blank" rel="noopener" href="http://www.microsoft.com/typography/web/embedding/weft3/download.aspx">Microsoft WEFT</a>是微软推出的一款用来解决网页字体问题的软件。这款软件能够分析你的网页中调用了哪些字体（应当是通过css判断出来）然后会从系统中选择对应的字体进行转换，生成的EOT文件，也会根据页面中用到的字体情况进行缩减，所以生成的文件比较小。我认为非常适合用于中文类字体的生成。</p>
+<p>具体的操作工程如下：</p>
+<p>安装程序并运行后，点击Wizard，第一步是输入姓名和邮箱，完成后进入到网页选择的界面。这里是选择要用到特殊字体的页面。点击下一步后会弹出一个关于编码问题的对话框，一直点继续就可以了。</p>
+<p>接着，WEFT会分析你的网页中用到了哪些字体。一般通用的字体，我们可以不选择嵌入，只对特定的字体进行转换。</p>
+<p>之后，在选择生成文件保存的位置，就可以生成文件了。</p>
+<p>将生成的文件拷贝到服务器的指定位置，在对应的页面中补充 font-face 样式，就可以实现在用户浏览器上显示特殊字体的目的。</p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://longoes.com/blog/design/microsoft-weft_font_family.html">用Microsoft WEFT工具制作EOT字库</a><br>2、<a target="_blank" rel="noopener" href="http://blog.cnfront.com/article.asp?id=229">网页字体终极解决方案</a><br>3、<a target="_blank" rel="noopener" href="http://code.google.com/p/ttf2eot/">TTF2EOT</a><br>4、<a target="_blank" rel="noopener" href="http://www.fontsquirrel.com/fontface/generator">Font Squirrel</a><br>5、<a target="_blank" rel="noopener" href="http://www.microsoft.com/typography/web/embedding/weft3/weft01.htm">Microsoft WEFT</a><br>6、<a target="_blank" rel="noopener" href="http://blog.csdn.net/ruanzhijun9999999999/archive/2010/10/25/5963253.aspx">CSS嵌入任意字体</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2011/04/15/20110415-nginx-rewrite/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Nginx的Rewrite规则编写
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2011/04/09/20110409-xampp-xhprof/" id="article-nav-older" class="article-nav-link-wrap">
+            为Lampp环境配置xhprof &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

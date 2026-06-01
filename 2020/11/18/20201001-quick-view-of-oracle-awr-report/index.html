@@ -1,0 +1,236 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>快速熟悉 Oracle AWR 报告解读-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="oracle, awr, oracle awr报告, oracle 性能分析">
+    <meta name="description" content="本文面向没有太多 Oracle 基础知识，但是需要通过 AWR 报告来分析数据库性能或排查问题人员，通过对 AWR报告的简介，了解其包含的主要信息，然后对一些能够帮助我们分析定位问题的章节做一点稍微详细的介绍。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>快速熟悉 Oracle AWR 报告解读</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2020-12-07 17:47:21</span>
+        
+        <span class="post-time">发布于：2020-11-18 18:58:47</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>[TOC]</p>
+<blockquote>
+<p>本文面向没有太多 Oracle 基础知识，但是需要通过 AWR 报告来分析数据库性能或排查问题人员，通过对 AWR 报告的简介，了解其包含的主要信息，然后对一些能够帮助我们分析定位问题的章节做一点稍微详细的介绍。通过阅读本文，期望使读者能够快速抓住阅读 AWR 报告的重点，为分析判断数据库性能是否有问题提供帮助。</p>
+<p>本文示例报告基于 Oracle 11.2.0.3.0 版本生成。</p>
+</blockquote>
+<h2 id="AWR报告简介"><a href="#AWR报告简介" class="headerlink" title="AWR报告简介"></a>AWR报告简介</h2><p>AWR是Oracle 10g版本推出的特性，全称叫做 <code>Automatic Workload Repository 全自动负载信息库</code> 。Oracle启动后，会有后台进程定时采集并保存系统快照信息，也可以手工创建快照。AWR通过对比两个时间点的快照信息，生成该时间段的AWR报告，帮助DBA或开发人员了解 Oracle 数据库的运行情况。Oracle 还提供了 ASH、ADDM等工具，本文不进行探讨。</p>
+<h2 id="AWR报告结构"><a href="#AWR报告结构" class="headerlink" title="AWR报告结构"></a>AWR报告结构</h2><p>AWR报告基本分为四部分：</p>
+<ul>
+<li>基本信息部分，包括了DB实例、主机的信息以及报告采集时间段的信息。</li>
+<li>Main Report部分，第一部分Report Summary被单独放在了基本信息后面，其他的信息则放在整个报告较后的位置，个人觉得最重要的部分是SQL Statistcs。</li>
+<li>RAC statistics部分，包括RAC相关的统计信息。</li>
+<li>Wait Event Statistics部分。</li>
+</ul>
+<img src="/2020/11/18/20201001-quick-view-of-oracle-awr-report/oracle-awr.png" class="" title="oracle-awr">
+
+<h2 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h2><p>报告一开始部分为基本信息，显示了DB实例、主机信息。DB Time 指标可以用来判断数据库是否繁忙，如果 Elapsed 时间乘以CPU个数小于DB Time 表示数据库比较繁忙。</p>
+<img src="/2020/11/18/20201001-quick-view-of-oracle-awr-report/image-20201114204633451.png" class="" title="image-20201114204633451">
+
+<h2 id="Report-Summary"><a href="#Report-Summary" class="headerlink" title="Report Summary"></a>Report Summary</h2><p>Report Summary 分为8个部分，最主要的是 Load Profile。</p>
+<img src="/2020/11/18/20201001-quick-view-of-oracle-awr-report/image-20201114210820610.png" class="" title="image-20201114210820610">
+
+<p>Load Profile 主要用来显示当前系统的一些指示性能的总体参数，部分介绍如下：</p>
+<ul>
+<li>Redo Size ：用来显示平均每秒的日志大小和平均每个事务的日志大小，有时候可以结合 Transactions 每秒事务数，<strong>分析当前事务的繁忙程度</strong>。</li>
+<li>Logical Read：逻辑读耗CPU，主频和CPU核数都很重要，逻辑读高则DB CPU往往高，也往往可以看到 <code>latch: cache buffer chains</code> 等待。</li>
+<li>Physical Read：物理读消耗IO读，体现在IOPS和吞吐量等不同纬度上。但减少物理读可能意味着消耗更多CPU。</li>
+<li>Parses：解析次数，包括软解析 + 硬解析，软解析优化得不好几乎等于每秒SQL执行次数， 即执行解析比1:1。理想状态是解析一次到处运行。</li>
+<li>Hard Parses：硬解析次数，最好少于每秒20次。</li>
+</ul>
+<blockquote>
+<p>注意 Load Profile 中的指标提供了 Per second 和 Per transaction 两个维度。Per second 主要是把快照抓到的值除以两个快照之间的秒数。这是我们用来判断性能的主要维度。Per transaction 是基于事务的维度，主要是把快照抓到的值除以两个快照之间的事务数。</p>
+</blockquote>
+<img src="/2020/11/18/20201001-quick-view-of-oracle-awr-report/image-20201114211235356.png" class="" title="image-20201114211235356">
+
+<p>Instance Efficiency Percentages 是一些命中率指标。Buffer Hit、Library Hit 等表示SGA ( System global area )的命中率。Soft Parse 指标表示共享池的软解析率，如果小于90%，就说明存在未绑定变量的情况。这些指标应当尽可能接近100%，如果过低一定是发生了性能问题。</p>
+<ul>
+<li><strong>Buffer Nowait ** 表示在内存获得数据的未等待比例。在缓冲区中获取Buffer的未等待比率。</strong>Buffer Nowait的这个值一般需要大于99%**。否则可能存在争用，可以在后面的等待事件中进一步确认。</li>
+<li><strong>Buffer Hit</strong> 表示进程从内存中找到数据块的比率，监视这个值是否发生重大变化比这个值本身更重要。对于一般的OLTP系统，如果此值低于80%，应该给数据库分配更多的内存。数据块在数据缓冲区中的命中率，通常应在95%以上。</li>
+<li><strong>Redo NoWait</strong> 表示在Log 缓冲区获得Buffer的未等待比例。如果太低可考虑增加Log Buffer。当redo buffer达到1M时就需要写到redo log文件，所以一般当redo buffer设置超过1M，不太可能存在等待buffer空间分配的情况。当前，一般设置为2M的redo buffer，对于内存总量来说，应该不是一个太大的值。</li>
+<li><strong>Library Hit</strong> 表示Oracle从Library Cache中检索到一个解析过的SQL或PL/SQL语句的比率，当应用程序调用SQL或存储过程时，Oracle检查Library Cache确定是否存在解析过的版本，如果存在Oracle立即执行语句；如果不存在Oracle解析此语句，并在Library Cache中为它分配共享SQL区。低的Library Hit Ratio会导致过多的解析，增加CPU消耗，降低性能。如果Library Hit Ratio低于90%，可能需要调大Shared pool区。</li>
+<li><strong>Latch Hit：</strong>Latch是一种保护内存结构的锁，可以认为是Server进程获取访问内存数据结构的许可。要确保Latch Hit&gt;99%，否则意味着Shared Pool latch争用，可能由于未共享的SQL，或者Library Cache太小，可使用绑定变更或调大Shared Pool解决。要确保&gt;99%，否则存在严重的性能问题。当该值出现问题的时候，我们可以借助后面的等待时间和latch分析来查找解决问题。</li>
+<li><strong>Parse CPU to Parse Elapsd：</strong>解析实际运行时间/(解析实际运行时间+解析中等待资源时间)，越高越好。如果该比率为100%，意味着CPU等待时间为0，没有任何等待。</li>
+<li><strong>Non-Parse CPU ：</strong>SQL实际运行时间/(SQL实际运行时间+SQL解析时间)，太低表示解析消耗时间过多。如果这个值比较小，表示解析消耗的CPU时间过多。</li>
+<li><strong>Execute to Parse：</strong>是语句执行与分析的比例，如果要SQL重用率高，则这个比例会很高。该值越高表示一次解析后被重复执行的次数越多。</li>
+<li><strong>In-memory Sort：</strong>在内存中排序的比率，如果过低说明有大量的排序在临时表空间中进行。考虑调大PGA(10g)。如果低于95%，可以通过适当调大初始化参数PGA_AGGREGATE_TARGET或者SORT_AREA_SIZE来解决，注意这两个参数设置作用的范围时不同的，SORT_AREA_SIZE是针对每个session设置的，PGA_AGGREGATE_TARGET则时针对所有的sesion的。</li>
+<li><strong>Soft Parse：</strong>软解析的百分比(Softs/Softs+Hards)，近似当作sql在共享区的命中率，太低则需要调整应用使用绑定变量。sql在共享区的命中率，小于&lt;95%,需要考虑绑定，如果低于80%，那么就可以认为sql基本没有被重用。</li>
+</ul>
+<h2 id="Main-Report"><a href="#Main-Report" class="headerlink" title="Main Report"></a>Main Report</h2><ul>
+<li>Report Summary 在上面一节已经说过，不再赘述。</li>
+<li>SQL Statistics 从 <code>11</code> 个维度对SQL进行排序并给出了Top SQL的详细内容，可以点击查看具体的SQL内容，进一步分析调优方案。<ul>
+<li>SQL ordered by Elapsed Time。记录了执行总和时间的 TOP SQL(请注意是监控范围内该SQL的执行时间总和，而不是单次SQL执行时间 Elapsed Time = CPU Time + Wait Time)。</li>
+<li>SQL ordered by CPU Time。记录了执行占CPU时间总和时间最长的TOP SQL(请注意是监控范围内该SQL的执行占CPU时间总和，而不是单次SQL执行时间)。</li>
+<li>SQL ordered by Gets。记录了执行占总 buffer gets (逻辑IO)的TOP SQL(请注意是监控范围内该SQL的执行占Gets总和，而不是单次SQL执行所占的Gets)。</li>
+<li>SQL ordered by Reads。记录了执行占总磁盘物理读(物理IO)的TOP SQL。</li>
+<li>SQL ordered by Executions。记录了按照SQL的执行次数排序的TOP SQL。该排序可以看出监控范围内的SQL执行次数。</li>
+<li>SQL ordered by Parse Calls。记录了SQL的软解析次数的TOP SQL。</li>
+<li>SQL ordered by Sharable Memory。记录了SQL占用library cache的大小的TOP SQL。Sharable Mem (b)：占用library cache的大小，单位是byte。</li>
+<li>SQL ordered by Version Count。记录了SQL的打开子游标的TOP SQL。</li>
+<li>SQL ordered by Cluster Wait Time。记录了集群的等待时间的TOP SQL。</li>
+</ul>
+</li>
+<li>Top 10 Foreground Events by Total Wait Time，等待事件是衡量数据库优化情况的重要指标，通过观察Event和%DB time两列就可以直观看出当前数据库的主要等待事件。</li>
+</ul>
+<h2 id="RAC-statistics"><a href="#RAC-statistics" class="headerlink" title="RAC statistics"></a>RAC statistics</h2><p>这一部分涉及RAC运行的相关统计信息，对于初学者来说不太常用，本文暂不赘述。</p>
+<h2 id="Wait-Event-Statistics"><a href="#Wait-Event-Statistics" class="headerlink" title="Wait Event Statistics"></a>Wait Event Statistics</h2><p>其中 Time Model Statistics 几个有用的指标解释如下：</p>
+<ul>
+<li>parse time elapsed 与 hard parse elapsed time 需要结合起来看解析是否是主要矛盾，若是则重点是软解析还是硬解析。</li>
+<li>sequence load elapsed time 序列争用</li>
+<li>PL/SQL compilation elapsed time PL/SQL对象编译的耗时</li>
+<li>connection management call elapsed time 数据库连接建立和断开的耗时</li>
+<li>failed parse elapsed time 解析失败的耗时</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/david-zhang-index/archive/2012/08/21/2649252.html">oracle11G AWR使用及分析</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/haojiubujian920416/article/details/81506982">等待事件：db file scattered read(离散读）</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/48pYtwLO1YpFnUtpMojbfQ">【深度长文】循序渐进解读Oracle AWR性能分析报告</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mzq123/p/10741208.html">Oracle AWR报告生成和性能分析</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.askmaclean.com/archives/performance-tuning-oracle-awr.html">Oracle AWR报告指标全解析</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2020/11/23/20201123-nginx-rewrite/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Nginx Rewrite 使用总结
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2020/11/12/20201111-build-java-devlopment-env-with-docker/" id="article-nav-older" class="article-nav-link-wrap">
+            利用 Docker 构建一个简单的 java 开发编译环境 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

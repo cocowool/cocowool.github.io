@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pandas删除数据的几种情况-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="python, pandas, pandas数据分析">
+    <meta name="description" content="Pandas数据分析快速入门。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Pandas删除数据的几种情况</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2022-04-25 14:27:37</span>
+        
+        <span class="post-time">发布于：2018-02-06 13:47:00</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <blockquote>
+<p>开始之前，pandas中DataFrame删除对象可能存在几种情况<br>1、删除具体列<br>2、删除具体行<br>3、删除包含某些数值的行或者列<br>4、删除包含某些字符、文字的行或者列<br>本文就针对这四种情况探讨一下如何操作。</p>
+</blockquote>
+<h3 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h3><p>模拟了一份股票交割的记录。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">In [1]: import pandas as pd</span><br><span class="line"></span><br><span class="line">In [2]: data = &#123;</span><br><span class="line">   ...:     <span class="string">&#x27;证券名称&#x27;</span> : [<span class="string">&#x27;格力电器&#x27;</span>,<span class="string">&#x27;视觉中国&#x27;</span>,<span class="string">&#x27;成都银行&#x27;</span>,<span class="string">&#x27;中国联通&#x27;</span>,<span class="string">&#x27;格力电器&#x27;</span>,<span class="string">&#x27;视觉中国&#x27;</span>,<span class="string">&#x27;成都银行&#x27;</span>,<span class="string">&#x27;中国联通&#x27;</span>],</span><br><span class="line">   ...:     <span class="string">&#x27;摘要&#x27;</span>: [<span class="string">&#x27;证券买入&#x27;</span>,<span class="string">&#x27;证券买入&#x27;</span>,<span class="string">&#x27;证券买入&#x27;</span>,<span class="string">&#x27;证券买入&#x27;</span>,<span class="string">&#x27;证券卖出&#x27;</span>,<span class="string">&#x27;证券卖出&#x27;</span>,<span class="string">&#x27;证券卖出&#x27;</span>,<span class="string">&#x27;证券卖出&#x27;</span>],</span><br><span class="line">   ...:     <span class="string">&#x27;成交数量&#x27;</span> : [500,1000,1500,2000,500,500,1000,1500],</span><br><span class="line">   ...:     <span class="string">&#x27;成交金额&#x27;</span> : [-5000,-10000,-15000,-20000,5500,5500,11000,15000]</span><br><span class="line">   ...: &#125;</span><br><span class="line">   ...: </span><br><span class="line"></span><br><span class="line">In [3]: df = pd.DataFrame(data, index = [<span class="string">&#x27;2018-2-1&#x27;</span>,<span class="string">&#x27;2018-2-1&#x27;</span>,<span class="string">&#x27;2018-2-1&#x27;</span>,<span class="string">&#x27;2018-2-1&#x27;</span>,<span class="string">&#x27;2018-2-2&#x27;</span>,<span class="string">&#x27;2018-2-2&#x27;</span>,<span class="string">&#x27;2018-2-2&#x27;</span>,<span class="string">&#x27;2018-2-3&#x27;</span>])</span><br><span class="line"></span><br><span class="line">In [4]: df</span><br><span class="line">Out[4]: </span><br><span class="line">          成交数量   成交金额    摘要  证券名称</span><br><span class="line">2018-2-1   500  -5000  证券买入  格力电器</span><br><span class="line">2018-2-1  1000 -10000  证券买入  视觉中国</span><br><span class="line">2018-2-1  1500 -15000  证券买入  成都银行</span><br><span class="line">2018-2-1  2000 -20000  证券买入  中国联通</span><br><span class="line">2018-2-2   500   5500  证券卖出  格力电器</span><br><span class="line">2018-2-2   500   5500  证券卖出  视觉中国</span><br><span class="line">2018-2-2  1000  11000  证券卖出  成都银行</span><br><span class="line">2018-2-3  1500  15000  证券卖出  中国联通</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除具体列"><a href="#删除具体列" class="headerlink" title="删除具体列"></a>删除具体列</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">In [5]: df.drop(<span class="string">&#x27;成交数量&#x27;</span>,axis=1)</span><br><span class="line">Out[5]: </span><br><span class="line">           成交金额    摘要  证券名称</span><br><span class="line">2018-2-1  -5000  证券买入  格力电器</span><br><span class="line">2018-2-1 -10000  证券买入  视觉中国</span><br><span class="line">2018-2-1 -15000  证券买入  成都银行</span><br><span class="line">2018-2-1 -20000  证券买入  中国联通</span><br><span class="line">2018-2-2   5500  证券卖出  格力电器</span><br><span class="line">2018-2-2   5500  证券卖出  视觉中国</span><br><span class="line">2018-2-2  11000  证券卖出  成都银行</span><br><span class="line">2018-2-3  15000  证券卖出  中国联通</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除具体行"><a href="#删除具体行" class="headerlink" title="删除具体行"></a>删除具体行</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">In [6]: df.drop(<span class="string">&#x27;2018-2-3&#x27;</span>)</span><br><span class="line">Out[6]: </span><br><span class="line">          成交数量   成交金额    摘要  证券名称</span><br><span class="line">2018-2-1   500  -5000  证券买入  格力电器</span><br><span class="line">2018-2-1  1000 -10000  证券买入  视觉中国</span><br><span class="line">2018-2-1  1500 -15000  证券买入  成都银行</span><br><span class="line">2018-2-1  2000 -20000  证券买入  中国联通</span><br><span class="line">2018-2-2   500   5500  证券卖出  格力电器</span><br><span class="line">2018-2-2   500   5500  证券卖出  视觉中国</span><br><span class="line">2018-2-2  1000  11000  证券卖出  成都银行</span><br></pre></td></tr></table></figure>
+<p>也可以根据行号删除记录，比如删除第三行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">In [22]: df.drop(df.index[7])</span><br><span class="line">Out[22]: </span><br><span class="line">          成交数量   成交金额    摘要  证券名称</span><br><span class="line">2018-2-1   500  -5000  证券买入  格力电器</span><br><span class="line">2018-2-1  1000 -10000  证券买入  视觉中国</span><br><span class="line">2018-2-1  1500 -15000  证券买入  成都银行</span><br><span class="line">2018-2-1  2000 -20000  证券买入  中国联通</span><br><span class="line">2018-2-2   500   5500  证券卖出  格力电器</span><br><span class="line">2018-2-2   500   5500  证券卖出  视觉中国</span><br><span class="line">2018-2-2  1000  11000  证券卖出  成都银行</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意，这个办法其实不是按照行号删除，而是按照索引删除。如果index为3，则会将前4条记录都删除。这个方法支持一个范围，以及用负数表示从末尾删除。</p>
+</blockquote>
+<h3 id="删除特定数值的行（删除成交金额小于10000"><a href="#删除特定数值的行（删除成交金额小于10000" class="headerlink" title="删除特定数值的行（删除成交金额小于10000)"></a>删除特定数值的行（删除成交金额小于10000)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">In [7]: df[ df[<span class="string">&#x27;成交金额&#x27;</span>] &gt; 10000]</span><br><span class="line">Out[7]: </span><br><span class="line">          成交数量   成交金额    摘要  证券名称</span><br><span class="line">2018-2-2  1000  11000  证券卖出  成都银行</span><br><span class="line">2018-2-3  1500  15000  证券卖出  中国联通</span><br></pre></td></tr></table></figure>
+<p>本例其实是筛选，如果需要保留，可以将筛选后的对象赋值给自己即可。</p>
+<h3 id="删除某列包含特殊字符的行"><a href="#删除某列包含特殊字符的行" class="headerlink" title="删除某列包含特殊字符的行"></a>删除某列包含特殊字符的行</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">In [11]: df[ ~ df[<span class="string">&#x27;证券名称&#x27;</span>].str.contains(<span class="string">&#x27;联通&#x27;</span>) ]</span><br><span class="line">Out[11]: </span><br><span class="line">          成交数量   成交金额    摘要  证券名称</span><br><span class="line">2018-2-1   500  -5000  证券买入  格力电器</span><br><span class="line">2018-2-1  1000 -10000  证券买入  视觉中国</span><br><span class="line">2018-2-1  1500 -15000  证券买入  成都银行</span><br><span class="line">2018-2-2   500   5500  证券卖出  格力电器</span><br><span class="line">2018-2-2   500   5500  证券卖出  视觉中国</span><br><span class="line">2018-2-2  1000  11000  证券卖出  成都银行</span><br></pre></td></tr></table></figure>
+<p>如果想取包含某些字符的记录，可以去掉<code>~</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">In [12]: df[ df[<span class="string">&#x27;证券名称&#x27;</span>].str.contains(<span class="string">&#x27;联通&#x27;</span>) ]</span><br><span class="line">Out[12]: </span><br><span class="line">          成交数量   成交金额    摘要  证券名称</span><br><span class="line">2018-2-1  2000 -20000  证券买入  中国联通</span><br><span class="line">2018-2-3  1500  15000  证券卖出  中国联通</span><br></pre></td></tr></table></figure>
+
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="https://chrisalbon.com/python/data_wrangling/pandas_dropping_column_and_rows/">Dropping Rows And Columns In pandas Dataframe</a><br>2、<a target="_blank" rel="noopener" href="https://www.cnblogs.com/xqnq2007/p/7728720.html">pandas过滤包含特定字符串的行</a><br>3、<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/ask/28010">Pandas dataframe怎么删除名称包含特定字符串的列？</a><br>4、<a target="_blank" rel="noopener" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.drop.html">Pandas Drop</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/03/08/20180308-bst-leetcode/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Binary Search Tree 以及一道 LeetCode 题目
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/02/05/20180205-pandas-introduce-2/" id="article-nav-older" class="article-nav-link-wrap">
+            Pandas 快速入门（二） &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

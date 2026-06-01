@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>对于运维工作的一些看法-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="运维">
+    <meta name="description" content="运维工作，重要的是要及时发现故障，快速恢复故障，尽量避免故障。本文总结了我对于运维工作的一点看法。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>对于运维工作的一些看法</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-07-02 08:37:35</span>
+        
+        <span class="post-time">发布于：2021-07-02 08:02:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>今天写一篇心得体会，关于运维人员成长的话题。</p>
+<p>运维这项工作，往往处于技术工作鄙视链的底端，也存在被一些人认为属于没什么技术含量的工作类型的意见和声音。我觉得随着现在IT基础设施规模越来越大，云化趋势越来越明显的情况下，运维工作也开始逐步与开发相融合，对于运维人员的要求也在不断的提高。</p>
+<p>2008年我刚开始参加工作，到2012年之间做了四年的研发工作。从2012年之后，开始参与大型数据中心的运维工作，到今年也快要有十年的时间了。从事运维工作时间越久，越觉得这项工作有其重要的价值，越来越觉得从事运维这群人的可爱。对于希望提升自身职业发展的运维人员来说，我总结了三个方面的能力，如果在这三个方面做深做细，就一定能够做好运维工作。</p>
+<h2 id="要能发现故障在什么地方"><a href="#要能发现故障在什么地方" class="headerlink" title="要能发现故障在什么地方"></a>要能发现故障在什么地方</h2><p>做运维最重要的就是确保安全稳定运行，那么就需要能够随时掌握运行过程中发生的问题。</p>
+<p>从小的方面来讲，如果做应用运维或者系统运维，当系统发生故障，诸如CPU使用率高、内存使用率高、系统不响应等，我们要熟练掌握系统性能查看的命令，能够定位到 <strong>计算、存储、网络</strong> 这三个方面具体是哪个方面存在问题。（参考 <a href="http://www.edulinks.cn/2021/05/27/20210528-linux-system-monitor/">Linux操作系统监控与关键指标</a>）定位问题的方法有很多，使用性能查看工具、查看日志等等。</p>
+<p>从大的方面来讲，我们要跳出单机、单应用系统，从整个交易链路角度来考虑故障所处的节点，判断故障的影响范围，进一步为我们后续处置策略的选择提供依据。</p>
+<h2 id="要能知道故障怎么恢复"><a href="#要能知道故障怎么恢复" class="headerlink" title="要能知道故障怎么恢复"></a>要能知道故障怎么恢复</h2><p>发生故障并不可怕，不能够快速恢复才可怕。</p>
+<p>发生故障后，我们的策略是快速的收集现场信息，快速的恢复业务正常运行。这里就提到了两个能力，一个故障信息收集能力，一个快速恢复能力。</p>
+<h3 id="故障信息收集"><a href="#故障信息收集" class="headerlink" title="故障信息收集"></a>故障信息收集</h3><p>应用运维、平台运维、网络运维不同领域的运维，收集故障信息的方法和手段不一样，但总体的思路却是相通的，例如应用运维收集故障信息主要依靠保留日志、保留内存现场数据等方式来实现，总的原则就是要保留尽可能多的现场信息。</p>
+<p>这就要求我们平时注意积累保留现场信息的命令和方法，有保留现场信息的手段和工具。还要更深入的去了解我们所运维的对象都有哪些信息可供我们查询，有什么手段进行保留，平时不断的练习。</p>
+<h3 id="快速恢复能力"><a href="#快速恢复能力" class="headerlink" title="快速恢复能力"></a>快速恢复能力</h3><p>快速恢复是要快速恢复业务的正常运行，按照对业务影响的程度，依次推荐三种方式：切换、限流、重启。</p>
+<p>有些能力需要对应的技术支持才行，如切换可能包括DNS切换、HA双机切换等。重启则是最后的手段，重启还分为应用重启、操作系统重启，可以根据情况选用。在这方面，随着我们运维经验丰富，可能会发现越来越多的快速恢复的能力，这些经验的总结对于下一步是非常重要的。</p>
+<h2 id="要能知道故障怎么避免"><a href="#要能知道故障怎么避免" class="headerlink" title="要能知道故障怎么避免"></a>要能知道故障怎么避免</h2><p>基于故障发现和故障恢复的不断重复迭代，我们能够积累足够的故障避免的手段和方法。</p>
+<p>在系统建设期，完善高可用和故障恢复手段，支持负载均衡、流量切换、冷热切换、无损重启等多种手段，越是重要的系统在这方面开发的投入越要重视。同时，还要完善故障发现的渠道。除了传统的基础监控（CPU、内存、磁盘、网络）外，增加交易监控（业务成功率、响应时间）对于提前发现故障非常有帮助。</p>
+<p>在系统运行期，熟练掌握监控工具、熟练掌握恢复手段，定期进行应急演练。定期关注容量情况，关注业务发展情况，做到未雨绸缪。</p>
+<p>以上，是我对于运维工作的一些看法。</p>
+<p>昨天刚观看了庆祝中国共产党成立一百周年庆典活动，总书记的讲话句句在理，应用到我们职业发展中也非常适用。从事运维工作，我们要看清楚过去成功的案例、弄明白未来怎样做才能继续成功，在个人学习和工作开展中要更加坚定，牢记初心使命、开创美好未来。</p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/07/04/20210706-ansible-startup/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Ansible 使用体验
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/06/30/20210701-leetcode-complex-number-multiplication/" id="article-nav-older" class="article-nav-link-wrap">
+            Leetcode:计算复数乘法 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

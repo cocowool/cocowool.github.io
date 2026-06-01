@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Robots.txt 协议详解及使用说明-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="robots, robots.txt, robots.txt协议">
+    <meta name="description" content="Robots协议，也称为爬虫协议、机器人协议等，其全称为“网络爬虫排除标准（Robots Exclusion Protocol）”。网站通过Robots协议告诉搜索引擎哪些页面可以抓取，哪些页面不能抓取。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Robots.txt 协议详解及使用说明</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2015-11-28 13:19:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>一、Robots.txt协议<br>Robots协议，也称为爬虫协议、机器人协议等，其全称为“网络爬虫排除标准（Robots Exclusion Protocol）”。网站通过Robots协议告诉搜索引擎哪些页面可以抓取，哪些页面不能抓取。也既是Robots的用法有两种，一种是告诉搜索引擎哪些页面你不能抓（默认其他的就可以抓）；一种是告诉搜索引擎你只能抓取哪些页面（默认其他的不可以抓）。</p>
+<p>当一个搜索机器人（蜘蛛）访问一个站点时，它会首先检查网站根目录下是否存在robots.txt，如果存在，就会按照文件中的内容确定访问范围，如果不存在，则沿着链接抓取。</p>
+<p><strong>协议的历史</strong></p>
+<p>Robots Exclusion Protocol协议是由<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Martijn_Koster">Martijn Koster</a>在1994年2月，于Nexor工作期间在 www-talk 邮件列表中提出的。该协议提出后，Koster的服务器甚至遭到了反对者的拒绝服务攻击。而该协议迅速成为事实上的标准，为大多数的人所接受。</p>
+<p><strong>文件的写法：</strong></p>
+<p>User-agent:*<br><em>是一个通配符，表示所有的搜索引擎种类<br>Disallow:/admin/<br>这表示禁止搜索引擎爬寻admin目录下的内容<br>Disallow:</em>?*<br>这表示禁止搜索引擎爬寻包含?的网页<br>Sitemap:sitemap.xml<br>这里通过Sitemap指定固定的网站地图页面。目前对此表示支持的搜索引擎公司有Google, Yahoo, Ask and MSN。而中文搜索引擎公司，显然不在这个圈子内。这样做的好处就是，站长不用到每个搜索引擎的站长工具或者相似的站长部分，去提交自己的sitemap文件，搜索引擎的蜘蛛自己就会抓取robots.txt文件，读取其中的sitemap路径，接着抓取其中相链接的网页。</p>
+<p><strong>京东的Robots.txt。（时间：2015-11-25）</strong></p>
+<img src="/2015/11/28/20151128-robots-reference/39469-20151128131803499-988227839.png" class="">
+
+<p>二、Robots.txt以外的内容</p>
+<p>除了Robots.txt以外，还可以使用Robots Meta来向搜索引擎传递信息，先看示例如下：<br>＜META NAME=”ROBOTS” CONTENT=”INDEX,FOLLOW”＞<br>content部分有四个选项：index、noindex、follow、nofollow，指令间用“,”分隔。</p>
+<p>共有四种组合：<br>＜META NAME=”ROBOTS” CONTENT=”INDEX,FOLLOW”＞<br>＜META NAME=”ROBOTS” CONTENT=”NOINDEX,FOLLOW”＞<br>＜META NAME=”ROBOTS” CONTENT=”INDEX,NOFOLLOW”＞<br>＜META NAME=”ROBOTS” CONTENT=”NOINDEX,NOFOLLOW”＞</p>
+<p>其中：<br>＜META NAME=”ROBOTS” CONTENT=”INDEX,FOLLOW”＞可以写成＜META NAME=”ROBOTS” CONTENT=”ALL”＞；<br>＜META NAME=”ROBOTS” CONTENT=”NOINDEX,NOFOLLOW”＞可以写成＜META NAME=”ROBOTS” CONTENT=”NONE”＞</p>
+<p>目前看来，绝大多数的搜索引擎机器人都遵守robots.txt的规则，而对于Robots META标签，目前支持的并不多，但是正在逐渐增加，如著名搜索引擎GOOGLE就完全支持，而且GOOGLE还增加了一个指令“archive”，可以限制GOOGLE是否保留网页快照。例如：<br>＜META NAME=”googlebot” CONTENT=”index,follow,noarchive”＞<br>表示抓取该站点中页面并沿着页面中链接抓取，但是不在GOOLGE上保留该页面的网页快照。</p>
+<p>三、Robots.txt使用上应注意的一些问题</p>
+<p>1、每当用户试图访问某个不存在的URL时，服务器都会在日志中记录404错误（无法找到文件）。每当搜索蜘蛛来寻找并不存在的robots.txt文件时，服务器也将在日志中记录一条404错误，所以你应该在网站中添加一个robots.txt。</p>
+<p>2、如果后台和前台在一个域名下，不希望爬虫抓取后台程序的，可以在Robots.txt明确不让爬虫抓取的目录。但这会不会被某些恶意分子一下子就能够知道后台目录呢？</p>
+<p>3、国内常见搜索机器人的名字</p>
+<img src="/2015/11/28/20151128-robots-reference/39469-20151128131749812-1855865919.png" class="">
+
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://baike.baidu.com/link?url=4bmJ0pVWcEcXFXr12RhSUQUErwFXlnBDTwTdoBgzln5Z7_f4w17iak5F1lARYjiqIg8oKP0j5wjvdNRTTbYNUPWqWShsXPG1UtmtrMgZq05FcchgcTsngyfrwLUKCLJ9">Robots协议</a><br>2、<a target="_blank" rel="noopener" href="http://www.cnblogs.com/yuzhongwusan/archive/2008/12/06/1348969.html">如何使用Robots及其详解</a><br>3、<a target="_blank" rel="noopener" href="http://www.chinaz.com/web/2011/1117/221058_2.shtml">详细的Robots.txt学习方法</a><br>4、<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Robots_exclusion_standard">Robots Exclusion standard</a><br>5、<a target="_blank" rel="noopener" href="http://www.robotstxt.org/">The web robots page</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2016/07/20/20160720-advertising-campaign/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 关于Advertising Campaign
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2015/06/28/20150628-make-object-center/" id="article-nav-older" class="article-nav-link-wrap">
+            如何让高度、宽度不定的容器保持水平、垂直居中 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

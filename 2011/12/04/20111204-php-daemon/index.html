@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>使用PHP脚本来写Daemon程序-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="daemon, php daemon, php">
+    <meta name="description" content="daemon进程有时人们也把它们称作&#34;后台服务进程&#34;,daemon进程的寿命很长。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>使用PHP脚本来写Daemon程序</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-03-25 19:32:53</span>
+        
+        <span class="post-time">发布于：2011-12-04 15:48:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p><strong>什么是Daemon进程</strong></p>
+<p>这又是一个有趣的概念，daemon在英语中是”精灵”的意思，就像我们经常在迪斯尼动画里见到的那些，有些会飞，有些不会，经常围着动画片的主人公转来转去，啰里啰唆地提一些忠告，时不时倒霉地撞在柱子上，有时候还会想出一些小小的花招，把主人公从敌人手中救出来，正因如此，daemon有时也被译作”守护神”。所以，daemon进程在国内也有两种译法，有些人译作”精灵进程”，有些人译作”守护进程”，这两种称呼的出现频率都很高。</p>
+<p>与真正的daemon相似，daemon进程也习惯于把自己隐藏在人们的视线之外，默默为系统做出贡献，有时人们也把它们称作”后台服务进程”。daemon进程的寿命很长，一般来说，从它们一被执行开始，直到整个系统关闭，它们才会退出。几乎所有的服务器程序，包括我们熟知的Apache和wu-FTP，都用daemon进程的形式实现。很多Linux下常见的命令如inetd和ftpd，末尾的字母d就是指daemon。</p>
+<p>为什么一定要使用daemon进程呢？Linux中每一个系统与用户进行交流的界面称为终端（terminal），每一个从此终端开始运行的进程都会依附于这个终端，这个终端就称为这些进程的控制终端（Controlling terminal），当控制终端被关闭时，相应的进程都会被自动关闭。关于这点，读者可以用X-Window中的XTerm试验一下，（每一个XTerm就是一个打开的终端，）我们可以通过键入命令启动应用程序，比如：$netscape 然后我们关闭XTerm窗口，刚刚启动的netscape窗口也会随之一同突然蒸发。但是daemon进程却能够突破这种限制，即使对应的终端关闭，它也能在系统中长久地存在下去，如果我们想让某个进程长命百岁，不因为用户或终端或其他的变化而受到影响，就必须把这个进程变成一个daemon进程。</p>
+<p><strong>Daemon进程的编程规则</strong></p>
+<p>如果想把自己的进程变成daemon进程，我们必须严格按照以下步骤进行：</p>
+<p>1、调用fork产生一个子进程，同时父进程退出。我们所有后续工作都在子进程中完成。这样做我们可以：</p>
+<p>1.1 如果我们是从命令行执行的该程序，这可以造成程序执行完毕的假象，shell会回去等待下一条命令；<br>1.2 刚刚通过fork产生的新进程一定不会是一个进程组的组长，这为第2步的执行提供了前提保障。</p>
+<p>这样做还会出现一种很有趣的现象：由于父进程已经先于子进程退出，会造成子进程没有父进程，变成一个孤儿进程（orphan）。每当系统发现一个孤儿进程，就会自动由1号进程收养它，这样，原先的子进程就会变成1号进程的子进程。</p>
+<p>2、调用setsid系统调用。这是整个过程中最重要的一步。setsid的介绍见附录2，它的作用是创建一个新的会话（session），并自任该会话的组长（session leader）。如果调用进程是一个进程组的组长，调用就会失败，但这已经在第1步得到了保证。调用setsid有3个作用：</p>
+<p>2.1 让进程摆脱原会话的控制；<br>2.2 让进程摆脱原进程组的控制；<br>2.3 让进程摆脱原控制终端的控制；</p>
+<p>总之，就是让调用进程完全独立出来，脱离所有其他进程的控制。</p>
+<p>3、把当前工作目录切换到根目录。</p>
+<p>如果我们是在一个临时加载的文件系统上执行这个进程的，比如：/mnt/floppy/，该进程的当前工作目录就会是/mnt/floppy/。在整个进程运行期间该文件系统都无法被卸下（umount），而无论我们是否在使用这个文件系统，这会给我们带来很多不便。解决的方法是使用chdir系统调用把当前工作目录变为根目录，应该不会有人想把根目录卸下吧。</p>
+<p>关于chdir的用法，参见附录1。</p>
+<p>当然，在这一步里，如果有特殊的需要，我们也可以把当前工作目录换成其他的路径，比如/tmp。</p>
+<p>4、将文件权限掩码设为0。</p>
+<p>这需要调用系统调用umask，参见附录3。每个进程都会从父进程那里继承一个文件权限掩码，当创建新文件时，这个掩码被用于设定文件的默认访问权限，屏蔽掉某些权限，如一般用户的写权限。当另一个进程用exec调用我们编写的daemon程序时，由于我们不知道那个进程的文件权限掩码是什么，这样在我们创建新文件时，就会带来一些麻烦。所以，我们应该重新设置文件权限掩码，我们可以设成任何我们想要的值，但一般情况下，大家都把它设为0，这样，它就不会屏蔽用户的任何操作。</p>
+<p>如果你的应用程序根本就不涉及创建新文件或是文件访问权限的设定，你也完全可以把文件权限掩码一脚踢开，跳过这一步。</p>
+<p>5、关闭所有不需要的文件。</p>
+<p>同文件权限掩码一样，我们的新进程会从父进程那里继承一些已经打开了的文件。这些被打开的文件可能永远不被我们的daemon进程读或写，但它们一样消耗系统资源，而且可能导致所在的文件系统无法卸下。需要指出的是，文件描述符为0、1和2的三个文件（文件描述符的概念将在下一章介绍），也就是我们常说的输入、输出和报错这三个文件也需要被关闭。很可能不少读者会对此感到奇怪，难道我们不需要输入输出吗？但事实是，在上面的第2步后，我们的daemon进程已经与所属的控制终端失去了联系，我们从终端输入的字符不可能达到daemon进程，daemon进程用常规的方法（如printf）输出的字符也不可能在我们的终端上显示出来。所以这三个文件已经失去了存在的价值，也应该被关闭。</p>
+<h3 id="使用PHP编写Gearman的Worker守护进程"><a href="#使用PHP编写Gearman的Worker守护进程" class="headerlink" title="使用PHP编写Gearman的Worker守护进程"></a>使用PHP编写Gearman的Worker守护进程</h3><p>在我之前的文章中，介绍过Gearman的使用。在我的项目中，我使用了PHP来编写一直运行的Worker。如果按照Gearman官方推荐的例子，只是简单的一个循环来等待任务，会有一些问题，包括：1、当代码进行过修改之后，如何让代码的修改生效；2、重启Worker的时候，如何保证当前的任务处理完成才重启。</p>
+<p>针对这个问题，我考虑了以下的解决方法：<br>1、每次修改完代码后，Worker需要手工重启（先杀死然后启动）。这个只能解决重新加载配置文件的问题。<br>2、在Worker中设置，单次任务循环完成后，就对Worker进行重启。这个方案的问题在于消耗比较大。<br>3、在Worker中添加一个退出函数，如果需要Worker退出的时候，在Client端发送一个优先级比较高的退出调用。这个需要客户端配合，在使用后台类任务时，不太适合。<br>4、在Worker中检查文件是否发生变化，如果发生了变化，退出并重启自身。<br>5、为Worker编写信号控制，接受重启指令，类似于 http restart graceful 指令。</p>
+<p>最后，结合4和5两种方法，可以实现这样一个Daemon，如果配置文件发生了变化，他就会自动重启；如果接受到了用户的 kill  -1 pid 信号，也会重新启动。</p>
+<p>代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">declare</span>( ticks = <span class="number">1</span> );</span><br><span class="line"><span class="comment">// This case will check the config file regularly, if the config file changed, it will restart it self</span></span><br><span class="line"><span class="comment">// If you want to restart the daemon gracefully, give it a HUP signal</span></span><br><span class="line"><span class="comment">// by shiqiang&lt;cocowool@gmail.com&gt; at 2011-12-04</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$init_md5 </span>= md5_file( <span class="string">&#x27;config.php&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// register signal handler</span></span><br><span class="line">pcntl_signal( SIGALRM, <span class="string">&quot;signal_handler&quot;</span>, <span class="literal">true</span> );</span><br><span class="line">pcntl_signal( SIGHUP, <span class="string">&#x27;signal_handler&#x27;</span>, <span class="literal">TRUE</span> );</span><br><span class="line"></span><br><span class="line"><span class="variable">$job_flag </span>= <span class="literal">FALSE</span>;    <span class="comment">//Job status flag, to justify if the job has been finished</span></span><br><span class="line"><span class="variable">$signal_flag </span>= <span class="literal">FALSE</span>;    <span class="comment">//Signal status flag, to justify whether we received the kill -1 signal</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>( <span class="number">1</span> )&#123;</span><br><span class="line">    <span class="variable">$job_flag </span>= <span class="literal">FALSE</span>;    <span class="comment">//Job status flag</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;Worker start running ... \n&quot;</span>;</span><br><span class="line">    sleep(<span class="number">5</span>);</span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;Worker&#x27;s task done ... \n&quot;</span>;</span><br><span class="line">    <span class="variable">$flag </span>= <span class="literal">TRUE</span>;    <span class="comment">//Job status flag</span></span><br><span class="line">    AutoStart( <span class="variable">$signal_flag </span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">signal_handler</span>(<span class="params"> <span class="variable">$signal </span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">global</span> <span class="variable">$job_flag</span>;</span><br><span class="line">    <span class="keyword">global</span> <span class="variable">$signal_flag</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span>( <span class="variable">$signal </span>)&#123;</span><br><span class="line">        <span class="keyword">case</span> SIGQUIT:</span><br><span class="line">            <span class="keyword">print</span> date(<span class="string">&#x27;y-m-d H:i:s&#x27;</span>, time() ) . <span class="string">&quot; Caught Signal : SIGQUIT - No : <span class="subst">$signal</span> \n&quot;</span>;</span><br><span class="line">            <span class="keyword">exit</span>(<span class="number">0</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> SIGSTOP:</span><br><span class="line">            <span class="keyword">print</span> date(<span class="string">&#x27;y-m-d H:i:s&#x27;</span>, time() ) . <span class="string">&quot; Caught Signal : SIGSTOP - No : <span class="subst">$signal</span> \n&quot;</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> SIGHUP:</span><br><span class="line">            <span class="keyword">print</span> date(<span class="string">&#x27;y-m-d H:i:s&#x27;</span>, time() ) . <span class="string">&quot; Caught Signal : SIGHUP - No : <span class="subst">$signal</span> \n&quot;</span>;</span><br><span class="line">            <span class="keyword">if</span>( <span class="variable">$flag </span>=== <span class="literal">TRUE</span> )&#123;</span><br><span class="line">                AutoStart( <span class="literal">TRUE</span> );</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="variable">$signal_flag </span>= <span class="literal">TRUE</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> SIGALRM:</span><br><span class="line">            <span class="keyword">print</span> date(<span class="string">&#x27;y-m-d H:i:s&#x27;</span>, time() ) . <span class="string">&quot; Caught Signal : SIGALRM - No : <span class="subst">$signal</span> \n&quot;</span>;</span><br><span class="line">            <span class="comment">//pcntl_exec( &#x27;/bin/ls&#x27; );</span></span><br><span class="line">            pcntl_alarm( <span class="number">5</span> );</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">AutoStart</span>(<span class="params"> <span class="variable">$signal </span>= <span class="literal">FALSE</span>, <span class="variable">$filename </span>= <span class="string">&#x27;config.php&#x27;</span> </span>)</span>&#123;</span><br><span class="line">    <span class="keyword">global</span> <span class="variable">$init_md5</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$signal </span>|| md5_file( <span class="variable">$filename </span>) != <span class="variable">$init_md5 </span>)&#123;</span><br><span class="line">        <span class="keyword">print</span> <span class="string">&quot;The config file has been changed, we are going to restart. \n&quot;</span>;</span><br><span class="line">        <span class="variable">$pid </span>= pcntl_fork();</span><br><span class="line">        <span class="keyword">if</span>( <span class="variable">$pid </span>== -<span class="number">1</span> )&#123;</span><br><span class="line">            <span class="keyword">print</span> <span class="string">&quot;Fork error \n&quot;</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>( <span class="variable">$pid </span>&gt; <span class="number">0</span> )&#123;</span><br><span class="line">            <span class="keyword">print</span> <span class="string">&quot;Parent exit \n&quot;</span>;</span><br><span class="line">            <span class="keyword">exit</span>(<span class="number">0</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="variable">$init_md5 </span>= md5_file( <span class="variable">$filename </span>);</span><br><span class="line">            <span class="keyword">print</span> <span class="string">&quot;Child continue to run \n&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="https://github.com/shaneharter/PHP-Daemon">PHP-Daemon</a><br>2、<a target="_blank" rel="noopener" href="http://www.ibm.com/developerworks/cn/java/kernel/syscall/part4/">IBM Developers 系统调用跟我学</a><br>3、<a target="_blank" rel="noopener" href="http://www.cnblogs.com/leoo2sk/archive/2011/11/09/write-daemon-with-php.html">如何用PHP编写Daemon Process</a><br>4、<a target="_blank" rel="noopener" href="http://php.net/manual/en/function.exit.php">Function exit</a><br>5、<a target="_blank" rel="noopener" href="http://phpdaemon.net/">PHPDaemon</a><br>6、<a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/2270323/stopping-gearman-workers-nicely">Stoping Gearman worker nicely</a><br>7、<a target="_blank" rel="noopener" href="http://topbit.co.uk/serendipity/archives/22-Doing-the-work-elsewhere-Sidebar-running-the-worker.html">Doing the worker elsewhere</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2011/12/08/20111208-centos-minimal/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Centos6最小化安装中设置网卡默认启动
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2011/12/03/20111203-php-gearman/" id="article-nav-older" class="article-nav-link-wrap">
+            Gearman的问题分析与深入研究 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

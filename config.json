@@ -1,0 +1,1 @@
+{"handle":[{"rewrite":"if (%{REQ:X-Forwarded-Proto} == \"https\") goto \"http://%{HTTP_HOST}%{REQUEST_URI}\""}]}

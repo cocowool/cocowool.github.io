@@ -1,0 +1,200 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>配置IIS7.0支持PHP+Mysql-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="PHP, Mysql, IIS7">
+    <meta name="description" content="IIS7也可以作为PHP运行的Web服务器，本文介绍如何进行配置。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>配置IIS7.0支持PHP+Mysql</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-06-21 08:22:38</span>
+        
+        <span class="post-time">发布于：2013-09-12 08:17:00</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>IIS7也可以作为PHP运行的Web服务器，本文介绍如何进行配置。</p>
+<p>一、准备PHP安装文件</p>
+<p>在PHP官方网站下载对应的版本。</p>
+<p><a target="_blank" rel="noopener" href="http://windows.php.net/download/#php-5.5">http://windows.php.net/download/#php-5.5</a></p>
+<p>二、Mysql配置</p>
+<p>从Mysql官方网站MSI的安装包，这样就不用自己再做自启动方面的配置了。</p>
+<img src="/2013/09/12/20130912-iis7-php-mysql/NSFileHandle.png" class="" title="NSFileHandle">
+
+<p>安装后，打开Workbench可以看到一些信息。</p>
+<img src="/2013/09/12/20130912-iis7-php-mysql/NSFileHandle-4234726.png" class="" title="NSFileHandle">
+
+<p>三、配置PHP</p>
+<p>1、登录 <a target="_blank" rel="noopener" href="http://phpmanager.codeplex.com/releases/view/69115">http://phpmanager.codeplex.com/releases/view/69115</a> 下载PHP Manager。</p>
+<p>2、在Windows 2008 Server中，选择程序和功能-&gt;打开和关闭Windows特性-&gt;角色-&gt;添加角色服务-&gt;增加CGI支持。</p>
+<p>3、将下载的PHP，解压缩放到 C:\php 下。修改PHP的配置文件，我将php-production.ini拷贝为php.ini，然后修改如下内容：</p>
+<p>fastcgi.impersonate = 1</p>
+<p>fastcgi.logging = 0</p>
+<p>cgi.fix_pathinfo = 1x</p>
+<p>cgi.force_redirect =0</p>
+<p>4、在IIS7中，使用PHP Manager配置PHP。我在处理的时候，选择“Register new PHP version”，遇到了“该对象的状态使当前处理无效”的错误。我查看“处理程序映射”中的设置，发现CGI-exe的功能显示为被禁用。</p>
+<p>然后，按照“<a target="_blank" rel="noopener" href="http://www.iis.net/ConfigReference/system.webServer/fastCgi">How to create a global fastcgi handler mapping for php</a>”中的步骤，添加一个映射。安装成功后，打开IIS服务器，双击“处理程序映射”</p>
+<img src="/2013/09/12/20130912-iis7-php-mysql/NSFileHandle-4234745.png" class="" title="NSFileHandle">
+
+<p>然后点击右侧的“添加模块映射”，按照下图进行配置。</p>
+<img src="/2013/09/12/20130912-iis7-php-mysql/NSFileHandle-4234758.png" class="" title="NSFileHandle">
+
+<p>这之后，就能能够成功的看到phpinfo()熟悉的界面了。</p>
+<p>四、IIS7权限配置中的问题。</p>
+<p>配置完成后，发现PHP对于文件夹没有写权限。</p>
+<img src="/2013/09/12/20130912-iis7-php-mysql/NSFileHandle-4234772.png" class="" title="NSFileHandle">
+
+<p>五、其他问题</p>
+<p>检查phpinfo时报错。</p>
+<img src="/2013/09/12/20130912-iis7-php-mysql/NSFileHandle-4234796.png" class="" title="NSFileHandle">
+
+<p>参考资料：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="http://www.jzxue.com/fuwuqi/http-iis-apache/201102/27-6390.html">让IIS7支持PHP（5.2.17及5.3.5）</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.csdn.net/senophen/article/details/6185494">Win7 IIS7.5+PHP Manager安装配置PHP5+Mysql教程</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.leapsoul.cn/?p=695">PHP环境搭建：WIndows 7下安装配置PHP+Apache+Mysql</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.sina.com.cn/s/blog_5546342701013kac.html">Windows Server 2008 R2 X64安装PHP</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.iis.net/configreference/system.webserver/fastcgi">Microsoft FastCGI</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2013/10/10/20131010-dede-cms-update/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Dede CMS 5.5 升级到 5.7 SP1
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2013/09/01/20130901-sed-introduce/" id="article-nav-older" class="article-nav-link-wrap">
+            SED入门 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

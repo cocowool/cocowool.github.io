@@ -1,0 +1,182 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Docker修改daemon.json后无法启动的问题-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="docker, daemon.json">
+    <meta name="description" content="本文介绍如何解决docker无法启动的错误。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Docker修改daemon.json后无法启动的问题</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-06 12:40:06</span>
+        
+        <span class="post-time">发布于：2018-08-30 09:05:00</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <blockquote>
+<p>本文的运行环境为Centos 7.3，Docker与Kubernetes的安装方式见<a target="_blank" rel="noopener" href="https://www.cnblogs.com/cocowool/p/kubeadm_install_kubernetes.html">kubeadm安装kubernetes V1.11.1 集群</a>。想要了解更多 Kubernetes 相关知识，可以阅读 <a href="http://www.edulinks.cn/2020/10/16/20201016-kubernetes-articles/">Kubernetes 系列学习文章</a>。</p>
+</blockquote>
+<p>最近在整理Docker和Kubernetes中的日志与相关配置，在尝试通过<code>/etc/docker/daemon.json</code>配置Docker的<code>log-driver</code>参数，遇到了Docker无法启动的错误。<br>配置信息如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;log-driver&quot;</span>: <span class="string">&quot;json-file&quot;</span>,</span><br><span class="line">    <span class="string">&quot;log-opts&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;max-size&quot;</span>: <span class="string">&quot;1m&quot;</span>,</span><br><span class="line">        <span class="string">&quot;max-file&quot;</span>: <span class="string">&quot;5&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>错误提示如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@devops-101 ~]<span class="comment"># journalctl -amu  docker</span></span><br><span class="line">-- Logs begin at Thu 2018-08-30 08:28:53 CST, end at Thu 2018-08-30 08:47:53 CST. --</span><br><span class="line">Aug 30 08:29:07 devops-101 systemd[1]: Starting Docker Application Container Engine...</span><br><span class="line">Aug 30 08:29:08 devops-101 dockerd-current[1102]: unable to configure the Docker daemon with file /etc/docker/daemon.json: the following directives are specified both as a flag and <span class="keyword">in</span> the configuration file: log-dri</span><br><span class="line">Aug 30 08:29:08 devops-101 systemd[1]: docker.service: main process exited, code=exited, status=1/FAILURE</span><br><span class="line">Aug 30 08:29:08 devops-101 systemd[1]: Failed to start Docker Application Container Engine.</span><br></pre></td></tr></table></figure>
+<p>这个含义应该是Docker启动的时候传入了命令行参数，同时也指定了配置文件，两个配置发生了冲突。那么就查看一下Docker服务启动文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">[root@devops-101 ~]<span class="comment"># vim /usr/lib/systemd/system/docker.service </span></span><br><span class="line">[Service]</span><br><span class="line">Type=notify</span><br><span class="line">NotifyAccess=all</span><br><span class="line">EnvironmentFile=-/run/containers/registries.conf</span><br><span class="line">EnvironmentFile=-/etc/sysconfig/docker</span><br><span class="line">EnvironmentFile=-/etc/sysconfig/docker-storage</span><br><span class="line">EnvironmentFile=-/etc/sysconfig/docker-network</span><br><span class="line">Environment=GOTRACEBACK=crash</span><br><span class="line">Environment=DOCKER_HTTP_HOST_COMPAT=1</span><br><span class="line">Environment=PATH=/usr/libexec/docker:/usr/bin:/usr/sbin</span><br><span class="line">ExecStart=/usr/bin/dockerd-current \</span><br><span class="line">          --add-runtime docker-runc=/usr/libexec/docker/docker-runc-current \</span><br><span class="line">          --default-runtime=docker-runc \</span><br><span class="line">          --exec-opt native.cgroupdriver=systemd \</span><br><span class="line">          --userland-proxy-path=/usr/libexec/docker/docker-proxy-current \</span><br><span class="line">          --init-path=/usr/libexec/docker/docker-init-current \</span><br><span class="line">          --seccomp-profile=/etc/docker/seccomp.json \</span><br><span class="line">          <span class="variable">$OPTIONS</span> \</span><br><span class="line">          <span class="variable">$DOCKER_STORAGE_OPTIONS</span> \</span><br><span class="line">          <span class="variable">$DOCKER_NETWORK_OPTIONS</span> \</span><br><span class="line">          <span class="variable">$ADD_REGISTRY</span> \</span><br><span class="line">          <span class="variable">$BLOCK_REGISTRY</span> \</span><br><span class="line">          <span class="variable">$INSECURE_REGISTRY</span> \</span><br><span class="line">          <span class="variable">$REGISTRIES</span></span><br></pre></td></tr></table></figure>
+<p>可以看到启动的时候会从<code>/etc/sysconfig/docker</code>中获取环境变量。<br>继续查看这个配置文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@devops-101 ~]<span class="comment"># vim /etc/sysconfig/docker</span></span><br><span class="line"><span class="comment"># /etc/sysconfig/docker</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Modify these options if you want to change the way the docker daemon runs</span></span><br><span class="line">OPTIONS=<span class="string">&#x27;--selinux-enabled --log-driver=journald --signature-verification=false&#x27;</span></span><br><span class="line"><span class="keyword">if</span> [ -z <span class="string">&quot;<span class="variable">$&#123;DOCKER_CERT_PATH&#125;</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    DOCKER_CERT_PATH=/etc/docker</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<p>可以看到参数中默认了<code>--log-driver=journald</code>，把这一段删掉就可以了。重启之后，就可以在<code>/var/log/containers</code>下看到容器产生的日志文件了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@devops-101 containers]<span class="comment"># pwd</span></span><br><span class="line">/var/<span class="built_in">log</span>/containers</span><br><span class="line">[root@devops-101 containers]<span class="comment"># ls </span></span><br><span class="line">coredns-78fcdf6894-52gp9_kube-system_coredns-6eea955dfaad8027b9382a9911817057c917e3187dee41502dcd687d8de18729.log</span><br><span class="line">coredns-78fcdf6894-mkvqn_kube-system_coredns-16ed56195ca55c613dec218cfd57c647f8bbe0341b38c446210db98d6ab78f3c.log</span><br><span class="line">etcd-devops-101_kube-system_etcd-42717aa4eda15817f05f35b68f84306ab83fd3f397426c2c9b47d71ebf61942b.log</span><br><span class="line">kube-apiserver-devops-101_kube-system_kube-apiserver-0df17d68a3b1742e9e34620b759b4617f1949bbe2d826b03216419b6994db42c.log</span><br><span class="line">kube-controller-manager-devops-101_kube-system_kube-controller-manager-ee1743e4a4c0114da1cfb32bd78f4f7a576bfc021aacd943e92d2e09cb41116d.log</span><br><span class="line">kube-flannel-ds-7sgps_kube-system_install-cni-92ce6121a1a5456752f502c07ae324676e0d1297261dad266b385a5e6522852c.log</span><br><span class="line">kube-flannel-ds-7sgps_kube-system_kube-flannel-e6eb715062314f175d9fbaa52323f93eeffbb9fa16eed95797c9950884f68b73.log</span><br><span class="line">kube-proxy-79gws_kube-system_kube-proxy-8ce96b3b403d0f7231ca6a004bfec162a093f85ea940867264f50530846d3e0a.log</span><br><span class="line">kube-scheduler-devops-101_kube-system_kube-scheduler-c7ce974eedbc3119320e729310e1b905f65df84dbe46624918dfc33628d9a864.log</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/08/30/20180830-docker-kubernetes-log-location/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 谈一下Docker与Kubernetes集群的日志和日志管理
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/08/27/20180827-kubernetes-namespace/" id="article-nav-older" class="article-nav-link-wrap">
+            Kubernetes命名空间 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>YUI3 CSS框架学习-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="yui3, yui3 css">
+    <meta name="description" content="yui3 css框架学习笔记。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>YUI3 CSS框架学习</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2012-09-01 20:03:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>YUI3的CSS与YUI2的CSS不同<br>改变最大的我觉得是Grids部分，YUI2中以模版的方式提供给我们调用，功能中多选项也很多，而且配合Grid Build Tool，可以快速的生成复杂的页面结构。但正因为其复杂，所以在一些需要自定义比较多的场景下使用起来就比较痛苦。YUI3一改以往的复杂性，仅仅是提供简单的页面逻辑结构单元，我们可以自由的定义页面的宽度，结构单元的分布。非常简单。当然，目前还处于Beta阶段，不知道后续会不会变的越来越强大。</p>
+<p>YUI3 CSS Base<br>Base可以将众多的HTML元素设置成一个基本的样式，同样，提供了全局和局部的选项，可以根据需要使用。</p>
+<p>YUI3 Reset<br>YUI3的Reset同YUI2.8中的Reset有些区别，在YUI3的CSS Reset中，我们可以对所有HTML资源重设其表现，以达到不同浏览器下的一致表现（Page Level）。同时，还提供了一个局部的特性（Contextual），通过引用一个 .yui3-cssreset 类，可以针对局部的HTML进行样式Reset（使用这种方法需要包含cssreset-context/cssreset-context-min.css文件）。这个特性对于开发人员是非常有用的。</p>
+<p>YUI3 Fonts<br>在YUI2的Fonts中，使用em来表示文字的大小。但是在YUI3中，这一规则被打破了，改为使用百分比来表示文字的大小。如下表，这样的表达方式对于平时的书写来说，是不太友好的。对于<pre>和<code>标签，会对里面的内容使用等宽字体（monospace）</p>
+<img src="/2012/09/01/20120901-yui3/201209012004565.png" class="">
+
+<p>YUI3 Grids<br>习惯了YUI2中的Grids System之后，初次转换到YUI3中非常不习惯。因为YUI2提供了一个非常强大的工具（<a target="_blank" rel="noopener" href="http://developer.yahoo.com/yui/grids/builder/">YUI Css Grid Builder</a>）。但同时，YUI2因为其强大，也带了较高的复杂度，曾经因为为了调整页面的宽度，而花费了不少的功夫。YUI3的Grids System却是相当的简单，看看下面这个列表，就能够明白一二。</p>
+<img src="/2012/09/01/20120901-yui3/20120901200459231.png" class="">
+<p>在YUI3中，所有的单位都转换为百分比，因此首先需要为页面制定一个总的宽度。最基本的方法是设置body的宽度，例如：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">	<span class="attribute">margin</span>: auto;</span><br><span class="line">	<span class="attribute">width</span>: <span class="number">960px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在构建自己的页面之前，我们需要在yui3-u*外面加一个yui3-g的容器。容器内的单元，可以根据自己的需要选择不同的比例。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">code</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;yui3-g&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;yui3-u-1-2&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;content&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;yui3-u-1-2&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;content&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">code</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，每个位置单元间都是紧挨着的，没有空间（这一点与YUI2也不同）。但是我们可以手工添加一个Gutter。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">code</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">    <span class="selector-class">.yui3-g</span> <span class="selector-class">.content</span> &#123;</span></span><br><span class="line"><span class="css">	    <span class="attribute">margin-right</span>:<span class="number">10px</span>;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css">  </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">code</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>流式布局的实现方式</strong></p>
+<p>流式布局，是指左右（或者只有一边）栏宽度固定，中间部分内容可以随着页面宽度发生变化的页面布局形式，可以通过设置Padding的方式来实现。</p>
+<p>Dom结构如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;yui3-g&quot;</span> <span class="attr">id</span>=<span class="string">&quot;layout&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;yui3-u&quot;</span> <span class="attr">id</span>=<span class="string">&quot;nag&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;yui3-u&quot;</span> <span class="attr">id</span>=<span class="string">&quot;main&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;yui3-u&quot;</span> <span class="attr">id</span>=<span class="string">&quot;extra&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Style如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">	<span class="selector-id">#layout</span> &#123;</span></span><br><span class="line"><span class="css">  	<span class="attribute">padding-left</span>:<span class="number">300px</span>; <span class="comment">/* &quot;left col&quot; width */</span></span></span><br><span class="line"><span class="css">  	<span class="attribute">padding-right</span>:<span class="number">150px</span>; <span class="comment">/* &quot;right col&quot; width */</span></span></span><br><span class="line"><span class="css">  &#125;</span></span><br><span class="line"><span class="css">  <span class="selector-id">#nav</span> &#123;</span></span><br><span class="line"><span class="css">  	<span class="attribute">margin-left</span>:-<span class="number">300px</span>; <span class="comment">/* &quot;left col&quot; width */</span></span></span><br><span class="line"><span class="css">  	<span class="attribute">width</span>:<span class="number">300px</span>;</span></span><br><span class="line"><span class="css">  &#125;</span></span><br><span class="line"><span class="css">  <span class="selector-id">#extra</span> &#123;</span></span><br><span class="line"><span class="css">  	<span class="attribute">width</span>:<span class="number">150px</span>;</span></span><br><span class="line"><span class="css">  	<span class="attribute">margin-right</span>:-<span class="number">150px</span>; <span class="comment">/* &quot;right col&quot; width */</span></span></span><br><span class="line"><span class="css">  &#125;</span></span><br><span class="line"><span class="css">  <span class="selector-id">#main</span> &#123;</span></span><br><span class="line"><span class="css">  	<span class="attribute">width</span>:<span class="number">100%</span>;</span></span><br><span class="line"><span class="css">  &#125;</span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>YUI3的官方网站上提供了配合MenuNav Node Plugin，可以创造出众多的菜单效果，非常值得一看。</p>
+<p>在网上看到了一个<a target="_blank" rel="noopener" href="http://www.goer.org/Journal/2010/10/yui_3_grids_are_dead_simple.html">国外的哥们总结的网页布局的历史</a>，非常有趣，翻译一下吧：</p>
+<ul>
+<li>1990－1993:黎明前的黑暗。黑暗骑士用有限的工具（headings、lists、paragraphs）为了部落的兴盛而努力。</li>
+<li>1994－1997:Table帝国。这一时期有了“Sidebar”这个重要发明。帝国的部落逐渐安定下来，并且开始建造各种复杂的页面布局。</li>
+<li>1998－1999:巴洛克时期。Table帝国时期建造的标志开始逐渐的破败，浏览器的战争威胁到了文明世界的每个人。同时，大草原上开始不断的出现使用“div”工具的野蛮人。</li>
+<li>2000－2002:黑暗时代。经济衰落了，Table帝国分崩离析，很多人被吸收到了野蛮人部落中，并且开始学习使用他们的工具。黑暗魔法开始流行，在这个时期，只有最伟大的萨满才能够建造一切。</li>
+<li>2003－2005:复兴。人们开始分享知识，讲授浏览器技巧的学校开始不断涌现。</li>
+<li>2006－2010:启蒙时期。CSS Framework出现了，对于浏览器的处理开始系统化。知识被写到了法典中。</li>
+</ul>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://yuilibrary.com/yui/docs/cssreset/">YUI3 CSS Reset</a><br>2、<a target="_blank" rel="noopener" href="http://yuilibrary.com/yui/docs/cssfonts/">YUI3 CSS Fonts</a><br>3、<a target="_blank" rel="noopener" href="http://yuilibrary.com/yui/docs/cssgrids/">YUI3 CSS Grids</a><br>4、<a target="_blank" rel="noopener" href="http://yuilibrary.com/yui/docs/cssgrids/cssgrids-align-example.html">YUI3 Alignment Example Page</a><br>5、<a target="_blank" rel="noopener" href="http://www.goer.org/Journal/2010/10/yui_3_grids_are_dead_simple.html">YUI3 Grids Are Dead Simple</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2012/09/19/20120919-content-mapping/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 如何为自己的网站规划内容图谱
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2012/08/29/20120829-codeigniter-white-screen/" id="article-nav-older" class="article-nav-link-wrap">
+            CodeIgniter 2.1.0 的白屏错误调试 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

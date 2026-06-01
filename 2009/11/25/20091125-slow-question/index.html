@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Apache服务器访问过慢分析及解决-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="apache, apache linux, apache访问慢, linux">
+    <meta name="description" content="线上的一台服务器，最近总是出现 访问 很慢的情况发生，点击一个链接要2秒钟以上才能打开，按照我们对于访问人数的估计，服务器应该不至于响应这么慢，从而需要针对这个问题进行分析，来解决网站访问过慢。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Apache服务器访问过慢分析及解决</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-17 14:57:46</span>
+        
+        <span class="post-time">发布于：2009-11-25 15:17:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>起因：线上的一台服务器，最近总是出现 访问 很慢的情况发生，点击一个链接要2秒钟以上才能打开，按照我们对于访问人数的估计，服务器应该不至于响应这么慢，从而需要针对这个问题进行分析，来解决网站访问过慢。</p>
+<p>分析：<br>1、首先，在页面访问变慢情况发生时，使用 top 命令查看了服务器的负载情况，发现负载并不高，初步估计不是程序的问题。</p>
+<p>2、然后，查看了线程中的 httpd 的数量， <code>ps -aux | grep httpd | wc -l </code>发现，线程数已经达到了 apache 设置的最大值。由此断定是网站访问人数过多造成了访问过慢。</p>
+<p>3、为了验证，查看了连接数和当前的连接数，分别是</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">netstat -ant | grep <span class="variable">$ip</span>:80 | wc -l</span><br><span class="line">netstat -ant | grep <span class="variable">$ip</span>:80 | grep EST | wc -l</span><br></pre></td></tr></table></figure>
+
+
+<p>发现果然，连接数特别多，远远超过我们的估计值。</p>
+<p>4、刚开始的时候，对于服务器的 MPM 配置方式不是特别的熟悉，认为修改服务器配置可以解决问题。主要的配置部分包括 prefork 模式 或者 work 模式的配置，下面是一些简单的介绍。</p>
+<p>prefork 模式：<br>以 prefork 模式工作的 apache 的默认配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;IfModule mpm_prefork_module&gt;</span><br><span class="line">ServerLimit             2000</span><br><span class="line">StartServers               5    #指定服务器启动时建立的子进程数量</span><br><span class="line">MinSpareServers            5    #指定空闲子进程的最小数量</span><br><span class="line">MaxSpareServers           10    #指定空闲子进程的最大数量</span><br><span class="line">MaxClients               150    #指定同一时间客户端最大接入请求的数量（单个进程并发线程数），任何超过该限制的请求都将进入等候队列，一旦一个连接被释放，队列中的请求将得到服务</span><br><span class="line">MaxRequestsPerChild        0    #指定每个子进程在其生存周期内允许伺服的最大请求数量，默认为10000，0表示子进程永远不结束</span><br><span class="line">&lt;/IfModule&gt;</span><br></pre></td></tr></table></figure>
+
+<p>prefork 控制进程在最初建立“StartServers”个子进程后，为了满足 MinSpareServers 设置的需要创建一个进程，等待一秒钟，继续创建两个，再等待一秒钟，继续创建四个……如此按指数级增加创建的进程数，最多达到每秒32个，直到满足MinSpareServers设置的值为止。这种模式可以不必在请求到来时再产生新的进程，从而减小了系统开销以增加性能。</p>
+<p>MaxSpareServers 设置了最大的空闲进程数，如果空闲进程数大于这个值，Apache会自动kill掉一些多余进程。这个值不要设得过大，但如果设的值比 MinSpareServers小，Apache会自动把其调整为 MinSpareServers+1。如果站点负载较大，可考虑同时加大MinSpareServers和MaxSpareServers。</p>
+<p>MaxClients是这些指令中最为重要的一个，设定的是 Apache可以同时处理的请求，是对Apache性能影响最大的参数。其缺省值150是远远不够的，如果请求总数已达到这个值（可通过ps -ef|grep httpd|wc -l来确认），那么后面的请求就要排队，直到某个已处理请求完毕。这就是系统资源还剩下很多而HTTP访问却很慢的主要原因。虽然理论上这个值越大，可以处理的请求就越多，但Apache默认的限制不能大于256。在 apache2 中通过ServerLimit指令无须重编译Apache就可以加大MaxClients。</p>
+<p>虽然通过设置ServerLimit，我们可以把MaxClients加得很大，但是往往会适得其反，系统耗光所有内存。以一台服务器为例：内存2G，每个apache进程消耗大约0.5%（可通过ps aux来确认）的内存，也就是10M，这样，理论上这台服务器最多跑200个apache进程就会耗光系统所有内存，所以，设置MaxClients要慎重。</p>
+<p>worker 模式：<br>以 worker 模式工作的 apache 的默认配置为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;IfModule mpm_worker_module&gt;</span><br><span class="line">StartServers               2</span><br><span class="line">MaxClients               150</span><br><span class="line">MinSpareThreads           25</span><br><span class="line">MaxSpareThreads           75</span><br><span class="line">ThreadsPerChild           25</span><br><span class="line">MaxRequestsPerChild        0</span><br><span class="line">&lt;/IfModule&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Worker 由主控制进程生成“StartServers”个子进程，每个子进程中包含固定的ThreadsPerChild线程数，各个线程独立地处理请求。同样，为了不在请求到来时再生成线程，MinSpareThreads和MaxSpareThreads设置了最少和最多的空闲线程数；而MaxClients 设置了同时连入的clients最大总数。如果现有子进程中的线程总数不能满足负载，控制进程将派生新的子进程。</p>
+<p>MinSpareThreads和 MaxSpareThreads的最大缺省值分别是75和250。这两个参数对Apache的性能影响并不大，可以按照实际情况相应调节。</p>
+<p>ThreadsPerChild是worker MPM中与性能相关最密切的指令。</p>
+<p>ThreadsPerChild的最大缺省值是64，如果负载较大，64也是不够的。这时要显式使用 ThreadLimit指令，它的最大缺省值是20000。</p>
+<p>Worker模式下所能同时处理的请求总数是由子进程总数乘以ThreadsPerChild 值决定的，应该大于等于MaxClients。如果负载很大，现有的子进程数不能满足时，控制进程会派生新的子进程。默认最大的子进程总数是16，加大时也需要显式声明ServerLimit（最大值是20000）。需要注意的是，如果显式声明了ServerLimit，那么它乘以 ThreadsPerChild的值必须大于等于MaxClients，而且MaxClients必须是ThreadsPerChild的整数倍，否则 Apache将会自动调节到一个相应值。</p>
+<p>服务器的apache采用的是 prefork 的工作模式，对 MaxClients 进行了相应的调整，发现服务启动后很短时间，连接数就能够达到最大。</p>
+<p>5、后来想到需要查看用户都是访问的那些页面，将配置中的 access_log 打开，发现85%以上的访问都是直接访问的资源文件，由此判定，用户可能使用了多线程的下载工具，或者这些资源遭受了盗链。</p>
+<p>6、找到了问题所在，进行解决也就比较好办了。想到了两个方法：<br>A、对单个IP进行连接的线程限制，不允许多线程连接资源。<br>对于IP限制，我采用了 mod_limitipconn 这个模块。这个模块的好处是比较简单，缺点是不能够针对单独的文件夹或者文件进行设置，而且不支持虚拟主机。<br>在 apache 中安装了这个模块后，在配置文件中添加如下几段就可以生效了：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">ExtendedStatus</span> <span class="literal">On</span></span><br><span class="line"><span class="section">&lt; IfModule mod_limitipconn.c &gt;</span></span><br><span class="line">  <span class="section">&lt; Location / &gt;</span>   <span class="comment"># 所有虚拟主机的/目录</span></span><br><span class="line">    <span class="attribute">MaxConnPerIP</span> <span class="number">3</span>     # 每IP只允许<span class="number">3</span>个并发连接</span><br><span class="line">    <span class="attribute">NoIPLimit</span> image/*  # 对图片不做IP限制</span><br><span class="line">  <span class="section">&lt; /Location &gt;</span></span><br><span class="line">  <span class="section">&lt; Location /mp3 &gt;</span>  <span class="comment"># 所有主机的/mp3目录</span></span><br><span class="line">    <span class="attribute">MaxConnPerIP</span> <span class="number">1</span>         # 每IP只允许一个连接请求</span><br><span class="line">    <span class="attribute">OnlyIPLimit</span> audio/mpeg video    # 该限制只对视频和音频格式的文件</span><br><span class="line">  <span class="section">&lt; /Location &gt;</span></span><br><span class="line"><span class="section">&lt; /IfModule &gt;</span></span><br></pre></td></tr></table></figure>
+<p>B、添加URL重写，防止盗链。<br>防止盗链，一个重要的方法就是判断请求的 refer，但是如果使用一些浏览器发出请求的时候将 refer 去掉，或者伪装，这个办法就无能为力了。但是貌似还有更高级的方法，还是可以实现这个功能。<br>安装apache的 mod_rewrite 模块后，在apache配置文件中添加</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">RewriteEngine On</span><br><span class="line">RewriteCond %&#123;HTTP_REFERER&#125; !^[http://abc.com/.*](http://abc.com/.*)$ [NC]</span><br><span class="line">RewriteCond %&#123;HTTP_REFERER&#125; !^[http://abc.com](http://abc.com)$ [NC]</span><br><span class="line">RewriteCond %&#123;HTTP_REFERER&#125; !^[http://www.abc.com/.*](http://www.abc.com/.*)$ [NC]</span><br><span class="line">RewriteCond %&#123;HTTP_REFERER&#125; !^[http://www.abc.com](http://www.abc.com)$ [NC]</span><br><span class="line">RewriteRule .*\.(gif|jpg|swf)$[http://www.abc.com/about/nolink.png](http://www.abc.com/about/nolink.png)[R,NC]</span><br></pre></td></tr></table></figure>
+
+<p>这样盗链的请求会被重定向到一个错误页面，从而减少下载带给服务器的压力。</p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://bbs.phpchina.com/viewthread.php?tid=99620">部署 Apache 的一些技巧。</a><br>2、<a target="_blank" rel="noopener" href="http://www.cnscn.org/htm_data/703/0806/15397.html">Apache Server 负载能力测试</a><br>3、<a target="_blank" rel="noopener" href="http://httpd.apache.org/docs/2.0/programs/ab.html">Apache AB</a><br>4、<a target="_blank" rel="noopener" href="http://blog.csdn.net/parine26/archive/2009/05/09/4162455.aspx">Apache的参数设置</a><br>5、<a target="_blank" rel="noopener" href="http://www.lc365.net/blog/b/8621/">Ab的用法</a><br>6、<a target="_blank" rel="noopener" href="http://www.diybl.com/course/6_system/linux/Linuxjs/2008927/146147.html">Apache限制连接数和并发数</a><br>7、<a target="_blank" rel="noopener" href="http://www.admin99.net/read.php/278.htm">Apache安装mod_rewrite模块</a><br>8、<a target="_blank" rel="noopener" href="http://www.xiaohui.com/dev/server/20070330-apache-anti-leech.htm">Apache防盗链的简单实现</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2009/12/02/20091202-comic-sans/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Comic Sans - 让人由爱到恨的字体
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2009/11/24/20091124-axure-tab/" id="article-nav-older" class="article-nav-link-wrap">
+            Axure制作Tab切换效果 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

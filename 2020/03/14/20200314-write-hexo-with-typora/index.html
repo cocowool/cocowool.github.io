@@ -1,0 +1,228 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hexo博客写作与图片处理的经验-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="hexo, hexo 博客, hexo 图片">
+    <meta name="description" content="Hexo是一款非常优秀的开源博客管理工具，所有的博客文档都通过Markdown格式编写，Markdown编辑器有很多，原来的时候我经常用Evernote编写，但是Evernote写Markdown经常会出现输入法响应缓慢的情况。最近我从Evernote转到了Typora，想到哪里就能够敲字写到哪里，而且输入后马上就能够转换为友好的显示样式，体验非常好。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Hexo博客写作与图片处理的经验</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2024-02-22 08:34:23</span>
+        
+        <span class="post-time">发布于：2020-03-14 08:07:13</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>Hexo是一款非常优秀的开源博客管理工具，所有的博客文档都通过Markdown格式编写，Markdown编辑器有很多，原来的时候我经常用Evernote编写，但是Evernote写Markdown经常会出现输入法响应缓慢的情况。最近我从Evernote转到了Typora，想到哪里就能够敲字写到哪里，而且输入后马上就能够转换为友好的显示样式，体验非常好。</p>
+<span id="more"></span>
+
+<p>[TOC]</p>
+<blockquote>
+<p>本文使用的Typora版本为0.9.9.32.1(4191)，Hexo版本为4.2.0。</p>
+</blockquote>
+<p>本文介绍了如何处理博客博客编写过程中插入图片，上传图片等一些问题，希望我的经验能够对大家有帮助。</p>
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>我的目标是使用Typora编写博客，编写过程中可能通过拷贝、粘贴插入图片，也可能从网络上下载图片。希望能够达到以下效果：</p>
+<ul>
+<li>使用Typora编写的时候能够实时看到图片</li>
+<li>本地使用<code>hexo server</code>浏览效果时，也能够看到图片</li>
+<li>图片和Markdown文件放一起都上传到GitHub pages。</li>
+</ul>
+<blockquote>
+<p>我没有选择图床作为图片的保存方式，一方面免费的图床很不稳定，另一方面使用图床在没有网络的情况下可能浏览器来还是不太方便。我还是习惯将所有笔记最终都归档保存在Evernote中。</p>
+</blockquote>
+<h2 id="Typora-编写博客"><a href="#Typora-编写博客" class="headerlink" title="Typora 编写博客"></a>Typora 编写博客</h2><p>Typora支持将插入的图片文件拷贝到指定路径，通过<code>Typora-&gt;偏好设置-&gt;图像</code>，然后参照下图选择<code>复制到指定路径</code>将图片拷贝到与Markdown文件同名目录下。</p>
+<img src="/2020/03/14/20200314-write-hexo-with-typora/image-20200314080935503.png" class="" title="image-20200314080935503">
+
+<p>这样我们在编辑博客的时候，就可以实时看到插入的图片。可以截图插入，也可以从网页上直接拖拽插入，非常方便。</p>
+<img src="/2020/03/14/20200314-write-hexo-with-typora/image-20200314195122981.png" class="" title="image-20200314195122981">
+
+<p>查看Markdown源代码，看到图片是以Markdown的图片格式插入的。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">{% asset_img "image-20200314195122981.png" "image</span><span class="number">-20200314195122981</span><span class="string">" %}</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Hexo配置"><a href="#Hexo配置" class="headerlink" title="Hexo配置"></a>Hexo配置</h2><p>首先修改 hexo 全局配置文件 <code>_config.yml</code> 中的配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>这样在我们每次新建Markdown文件的时候，都会创建一个与文件同名的文件夹用于存放图片。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new 20200314-es-monitoring-metric</span><br><span class="line">$ ls <span class="built_in">source</span>/_posts/</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x   4 shiqiang  staff   128B  3 14 07:58 ./</span><br><span class="line">drwx------+ 32 shiqiang  staff   1.0K  3 14 07:52 ../</span><br><span class="line">drwxr-xr-x   2 shiqiang  staff    64B  3 14 07:58 20200314-es-monitoring-metric/</span><br><span class="line">-rw-r--r--   1 shiqiang  staff    77B  3 14 07:58 20200314-es-monitoring-metric.md</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>hexo generate</code>生成静态文件后，可以观察到图片已经拷贝到了对应的目录下。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ ls public/2020/03/14/20200314-write-hexo-with-typora/</span><br><span class="line">total 424</span><br><span class="line">drwxr-xr-x  6 shiqiang  staff   192B  3 14 10:26 ./</span><br><span class="line">drwxr-xr-x  4 shiqiang  staff   128B  3 14 10:26 ../</span><br><span class="line">-rw-r--r--  1 shiqiang  staff    14K  3 14 10:26 Screenshot-150-1-20200314081849804.png</span><br><span class="line">-rw-r--r--  1 shiqiang  staff    79K  3 14 10:26 image-20200314080935503.png</span><br><span class="line">-rw-r--r--  1 shiqiang  staff   106K  3 14 10:26 image-20200314083152512.png</span><br><span class="line">-rw-r--r--  1 shiqiang  staff   5.3K  3 14 10:26 index.html</span><br></pre></td></tr></table></figure>
+
+<p>但是现在浏览的时候还不能够看到图片，可以看到是因为我们插入的时候用的是包含了一个与Markdown文件同名文件夹的相对路径，而生成的静态文件夹下没有那个同名文件夹所以造成了访问404。</p>
+<img src="/2020/03/14/20200314-write-hexo-with-typora/image-20200314103033223.png" class="" title="image-20200314103033223">
+
+<p>这时首先通过搜索引擎查到了有两个解决方案：<code>hexo-asset-image</code> 和 <code>hexo-simple-image</code>。</p>
+<h2 id="hexo-asset-image-的问题"><a href="#hexo-asset-image-的问题" class="headerlink" title="hexo-asset-image 的问题"></a>hexo-asset-image 的问题</h2><p>这个插件在处理图片路径时，看到更新的路径有问题，导致通过<code>hexo server</code> 还是不能够正确显示图片。</p>
+<img src="/2020/03/14/20200314-write-hexo-with-typora/image-20200314083152512.png" class="" title="image-20200314083152512">
+
+<h2 id="hexo-simple-image-的问题"><a href="#hexo-simple-image-的问题" class="headerlink" title="hexo-simple-image 的问题"></a>hexo-simple-image 的问题</h2><p>在 Hexo 官网上看到这个插件的描述也是解决图片路径问题的，但是安装尝试之后遇到如下报错。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">07:19:06.993 FATAL Something<span class="string">&#x27;s wrong. Maybe you can find the solution here: https://hexo.io/docs/troubleshooting.html</span></span><br><span class="line"><span class="string">TypeError: Cannot read property &#x27;</span>1<span class="string">&#x27; of null</span></span><br><span class="line"><span class="string">    at /Users/shiqiang/Projects/hexo-blog/blog/node_modules/hexo-simple-image/lib/index.js:9:20</span></span><br><span class="line"><span class="string">    at String.replace (&lt;anonymous&gt;)</span></span><br><span class="line"><span class="string">    at Hexo.module.exports (/Users/shiqiang/Projects/hexo-blog/blog/node_modules/hexo-simple-image/lib/index.js:2:31)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="解决方案-hexo-image-link-插件"><a href="#解决方案-hexo-image-link-插件" class="headerlink" title="解决方案 hexo-image-link 插件"></a>解决方案 hexo-image-link 插件</h2><p>参考<code>hexo-asset-image</code>和<code>hexo-simple-image</code>的源码，发现一个思路是在<code>after_post_render</code>之后将html中图片链接替换为绝对路径，一个是在<code>before_post_render</code>阶段将markdown文件中图片的路径转换为<code>asset_img</code>函数。</p>
+<p>经过分析，觉得还是 <code>hex-simple-image</code> 的处理方式比较简单，因此对插件内容做了修改，现在可以用我这个新的插件来解决图片显示的问题。</p>
+<p>具体可以按照下面的步骤操作。</p>
+<ul>
+<li>修改<code>post_asset_folder: true</code></li>
+<li>生成一篇新的博客 <code>hexo new blog-name</code></li>
+<li>通过typora向博客中插入一张图片，此时可以到<code>source/_posts</code>目录下看图片是否拷贝到了对应的目录</li>
+<li><code>npm install hexo-image-link --save</code> 安装插件</li>
+<li><code>hexo server -debug</code> 预览图片是否能正常显示</li>
+</ul>
+<blockquote>
+<p>本文提供的是一个全新安装的操作步骤，如果大家已经安装了 hexo-asset-image ，请先卸载插件，然后再安装 hexo-image-link 插件。</p>
+</blockquote>
+<p>2024年2月21日，我对这个插件的功能做了更新。最近发现在 typora 中调整图片的缩放时，typora 会自动将 <code>&#123;% asset_img "image.png" "" %&#125;</code> 格式的图片插入转化为 <code>&lt;img src=&quot;/2020/03/14/20200314-write-hexo-with-typora/image.png&quot;  style=&quot;zoom:30%&quot; /&gt;</code> 我猜测应该是 Markdown 语法不支持图片的缩放，所以 Typora 采用了一个曲线救国的方法。</p>
+<p>但这样会造成 hexo-image-link 插件处理图片时有遗漏，因此在代码逻辑中增加了对 img 标签的检查和处理，现在对于包含有 img 标签的文档，也能够支持既在 typora 中看到图片，也能够确保发布后正常显示了。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/81a40a2c6514">Hexo与typora结合</a></li>
+<li><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/front-matter.html">Front-matter 说明</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhangnew.com/Typora-Hexo.html">用 Typora 写 Hexo 博客</a></li>
+<li><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/plugins.html">Hexo 插件</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Aragakiiii/hexo-simple-image">hexo-simple-image</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/xcodebuild/hexo-asset-image">hexo-asset-image</a></li>
+<li><a target="_blank" rel="noopener" href="https://nodejs.org/en/">Node.js</a></li>
+<li><a target="_blank" rel="noopener" href="http://webreference.com/js/column26/lambda.html">JavaScript 1.3 Overview, Part II: Replace Method’s Lambda Expression - Doc JavaScript</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2020/03/15/20200315-es-monitoring-guide/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Elasticsearch监控指南
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2020/03/14/20200314-es-monitoring-metric/" id="article-nav-older" class="article-nav-link-wrap">
+            Elasticsearch几项关键告警指标 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

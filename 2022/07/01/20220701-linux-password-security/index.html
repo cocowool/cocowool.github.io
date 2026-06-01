@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Linux 用户口令的安全策略-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="Linux, Linux 用户口令, Linux 口令安全策略, 安全, 口令安全">
+    <meta name="description" content="大江小浪，关注数据中心运维、金融科技、互联网相关技术与行业发展趋势，擅长应用运维管理、Linux、Java、Elasticsearch、Kubernetes、PHP相关技术。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Linux 用户口令的安全策略</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2022-07-06 22:58:29</span>
+        
+        <span class="post-time">发布于：2022-07-01 18:52:24</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <blockquote>
+<p>本文在 CentOS 7 上测试通过。</p>
+</blockquote>
+<p>Linux 操作系统用户和口令是操作系统的重要信息，是操作系统安全的第一道防线，如果服务器暴露在互联网上允许 ssh 远程登录，则很容易被人尝试密码爆破，因此确保所有使用这台服务器的用户口令都符合安全的要求就非常重要。</p>
+<p>系统管理员必须采用必要的技术手段强制用户使用强密码，并定期修改口令，防止用户口令被爆破猜解，保证系统用户账号和密码的安全。</p>
+<p>Linux 操作系统所有的用户都存放在 <code>/etc/passwd</code> 文件中，首先要对 <code>/etc/passwd</code> 实行白名单管理，只有我们实际需要并且认可的用户才能长期存在，如果因为测试验证等原因，临时加的用户，我们务必做到及时清理。对于不需要远程登录，但确实需要保存在系统中的用户，可以将对应的用户登录 shell 设置为 <code>/sbin/nologin</code> 。</p>
+<p>在 Linux 中身份认证等功能是由 PAM (Pluggable Authentication Modules) 模块来负责的，它是一套提供不同认证模块的共享库，保存在 /lib64/security 目录下。PAM 的配置文件存放在 <code>/etc/pam.d/</code> 路径下。</p>
+<h2 id="密码复杂度"><a href="#密码复杂度" class="headerlink" title="密码复杂度"></a>密码复杂度</h2><p>人们设置密码的时候，很容易设置一些简单密码，如 password、123456、admin 之类，这些被称为弱口令，很容易被攻击者猜出来，因此我们需要对密码的复杂度做出要求，通常包括以下几个方面：</p>
+<ul>
+<li>密码的长度，如最短长度不能少于 8 位</li>
+<li>密码字符的种类，如至少需要包含小写字母、大写字母、数字、特殊符号</li>
+<li>密码与用户名的相似度，如密码中不允许包含用户名</li>
+<li>密码重复的次数，如不允许轮换使用 2 个密码，不允许和最近几次密码重复</li>
+<li>密码错误允许的次数</li>
+</ul>
+<p>CentOS 7 开始使用 pam_pwquality 模块进行密码复杂度策略管理，pam_pwquality 替换了 CentOS 6 中的 pam_cracklib 模块，并且向后兼容。pam_pwquality 的英文介绍是「PAM module to perform password quality checking」我理解主要是用来检查设置的密码质量，这个模块作用的英文描述如下：</p>
+<blockquote>
+<p>The action of this module is to prompt the user for a password and check its strength against a system dictionary and a set of rules for identifying poor choices.</p>
+<p>The first action is to prompt for a single password, check its strength and then, if it is considered strong, prompt for the password a second time (to verify that it was typed correctly on the first occasion). All being well, the password is passed on to subsequent modules to be installed as the new authentication token.</p>
+</blockquote>
+<p>密码复杂度策略配置文件默认位于 <code>/etc/pam.d/system-auth</code> 默认配置如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">password    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 authtok_type=</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>tray_first_pass 主要用来防止用户新设定的密码和以前的旧密码相同</li>
+<li>retry=3 表示修改密码重试 3 次后报错退出密码修改界面（三次修改密码都不成功）</li>
+<li>Local_users_only 表示仅对 /etc/passwd 列表中的用户密码进行校验，这个选项默认是关闭的</li>
+</ul>
+<p>也可以通过修改 <code>/etc/security/pwquality.conf</code> 配置文件来达到同样的效果。</p>
+<blockquote>
+<p><code>/etc/pam.d/system-auth</code> 是一个非常重要的安全配置文件，文件的具体内容可以见下面的代码，四列的含义分别为：第一列代表模块类型、第二列代表控制标记、第三列代表模块路径、第四列代表模块参数。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#%PAM-1.0</span></span><br><span class="line"><span class="comment"># This file is auto-generated.</span></span><br><span class="line"><span class="comment"># User changes will be destroyed the next time authconfig is run.</span></span><br><span class="line">auth        required      pam_env.so</span><br><span class="line">auth        required      pam_faildelay.so delay=2000000</span><br><span class="line">auth        sufficient    pam_unix.so nullok try_first_pass</span><br><span class="line">auth        requisite     pam_succeed_if.so uid &gt;= 1000 quiet_success</span><br><span class="line">auth        required      pam_deny.so</span><br><span class="line"></span><br><span class="line">account     required      pam_unix.so</span><br><span class="line">account     sufficient    pam_localuser.so</span><br><span class="line">account     sufficient    pam_succeed_if.so uid &lt; 1000 quiet</span><br><span class="line">account     required      pam_permit.so</span><br><span class="line"></span><br><span class="line">password    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 authtok_type=</span><br><span class="line">password    sufficient    pam_unix.so sha512 shadow nullok try_first_pass use_authtok</span><br><span class="line">password    required      pam_deny.so</span><br><span class="line"></span><br><span class="line">session     optional      pam_keyinit.so revoke</span><br><span class="line">session     required      pam_limits.so</span><br><span class="line">-session     optional      pam_systemd.so</span><br><span class="line">session     [success=1 default=ignore] pam_succeed_if.so service <span class="keyword">in</span> crond quiet use_uid</span><br><span class="line">session     required      pam_unix.so</span><br></pre></td></tr></table></figure>
+
+<p>PAM 模块一共有四种类型，包括认证（auth）、账号（account）、会话（session）和密码（password），一个类型可以有多行，按照配置文件中顺序由 PAM 模块调用。</p>
+</blockquote>
+<p>如果要增加密码的复杂度要求，我们可以将配置修改为</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">password    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 authtok_type=  lcredit=-1 ucredit=-1 dcredit=-1 ocredit=-1 minlen=8 </span><br></pre></td></tr></table></figure>
+
+<p>新增加的参数表示：</p>
+<ul>
+<li>lcredit=-1 表示密码至少需要 1 位小写字母</li>
+<li>ucredit=-1 表示密码至少需要 1 位大写字母</li>
+<li>dcredit=-1 表示密码至少需要 1 位数字</li>
+<li>ocredit=-1 表示密码至少需要 1 位特殊字符</li>
+<li>minlen=8 表示密码的最短长度为 8 位</li>
+</ul>
+<p>在 CentOS 6 中可以通过 <code>/etc/login.defs</code> 文件设置一些密码策略。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 省去了很多注释，只关注具体内容</span></span><br><span class="line">$ cat /etc/login.defs</span><br><span class="line"><span class="comment"># 密码允许使用的最大天数</span></span><br><span class="line">PASS_MAX_DAYS	99999</span><br><span class="line"><span class="comment"># 两次密码修改之间允许的最小天数</span></span><br><span class="line">PASS_MIN_DAYS	0</span><br><span class="line"><span class="comment"># 可接受的最小密码长度</span></span><br><span class="line">PASS_MIN_LEN	5</span><br><span class="line"><span class="comment"># 密码过期前 x 天开始金星个密码过期提醒</span></span><br><span class="line">PASS_WARN_AGE	7</span><br></pre></td></tr></table></figure>
+
+<h2 id="密码过期策略"><a href="#密码过期策略" class="headerlink" title="密码过期策略"></a>密码过期策略</h2><p>通过编辑 <code>/etc/login.defs</code> 可以设置 Linux 用户的密码策略，包括密码最小长度、密码最小更改周期、密码最大有效期、过期前警告天数等等，具体如下：</p>
+<h2 id="锁定策略"><a href="#锁定策略" class="headerlink" title="锁定策略"></a>锁定策略</h2><p>现在智能手机都有类似的锁定策略，例如密码输入错误 x 次后锁定 x 分钟。</p>
+<h2 id="其他安全措施"><a href="#其他安全措施" class="headerlink" title="其他安全措施"></a>其他安全措施</h2><ul>
+<li>限制 su 的使用</li>
+</ul>
+<h2 id="模块列表"><a href="#模块列表" class="headerlink" title="模块列表"></a>模块列表</h2><ul>
+<li>pam_pwquality PAM module to perform password quality checking</li>
+<li>pam_pwhistory PAM module to remember last passwords</li>
+<li>Pam_passwdqc Password quality-control PAM module</li>
+<li>Pam_permit The promiscuous module</li>
+<li>Pam_pkcsll PAM Authentication Module for PKCS#11 token libraries</li>
+<li>pam_postgresok simple check of real UID and corresponding account name</li>
+<li>pam_access PAM module for logdaemon style login access control</li>
+<li>Pam_cap PAM module to set inheritable capabilities</li>
+<li>Pam_ck_connector Register session with ConsoleKit</li>
+</ul>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>在整理这篇资料的时候，通过百度关键词搜索 pam_pwquality 几乎千篇一律的都是同一篇文章简单的复制粘贴，虽然我非常能理解大家这么做的初衷，一方面是为了自己笔记记录，另一方面也能够分享出来让更多人看到。可是对比 bing.com 搜索的结果，里面的内容质量就高很多了。希望今后中文技术博客世界能够更多一些认真的作者，不再仅仅是文字的搬运工。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_36446632/article/details/116630545">Linux 用户口令安全策略</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013930899/article/details/125380021">CentOS 7 设置账号密码复杂度</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.51cto.com/dongweizhen/3607450">CentOS 7 系统优化</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.systutorials.com/docs/linux/man/8-pam_pwquality/">pam_pwquality(8) Linux Man Page</a></li>
+<li><a target="_blank" rel="noopener" href="http://bbs.learnfuture.com/topic/7346">Linux PAM 认证机制</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.techrepublic.com/article/enforce-strong-passwords-with-pam-passwdqc/">Enforce strong passwords with passwdqc</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/dev-sec/chef-os-hardening/issues/102">pam_passwdqc is not fully compatible on centos 7</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2022/07/13/20220713-linux-cgroups/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 闲聊 namespace 和 cgroups
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2022/06/13/20220613-idv3-again/" id="article-nav-older" class="article-nav-link-wrap">
+            使用Python读取ID3信息的持续优化 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

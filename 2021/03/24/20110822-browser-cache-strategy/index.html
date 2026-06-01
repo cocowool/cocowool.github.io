@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>不同浏览器的缓存策略对比-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="浏览器缓存, 浏览器缓存策略, 缓存">
+    <meta name="description" content="为提高网站访问速度，不少浏览器都使用了本地缓存策略，本文对常见的浏览器缓存策略进行了初步的探索。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>不同浏览器的缓存策略对比</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-03-24 12:55:58</span>
+        
+        <span class="post-time">发布于：2021-03-24 12:50:28</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>为了提高用户访问网站的速度，不少的浏览器都使用了本地缓存的策略。所有的本地缓存策略，都应当是在遵循RFC2616的基础上来实现的。有了本地缓存之后，用户请求服务器的文件，如果本地缓存的文件和服务器上的文件仍一致（这种一致的判断规则遵循RFC2616中设定的原则），则服务器只需要返回一个 304 的状态码，浏览器仍使用本地缓存为用户服务。</p>
+<p>用户在浏览过程中，通常有三种操作：第一次访问一个页面、刷新页面、强制刷新页面（Deep Refresh）。不同的浏览器，其缓存策略在不同的用户浏览阶段发生。为了不同浏览器的缓存效果，设定了几种环境：浏览器缓存禁用时第一次浏览（或清空缓存后第一次浏览）、浏览器缓存启用的情况（用户正常浏览）、用户刷新页面、用户强制刷新页面，来察看不同情景下不同浏览器的反映。</p>
+<p>测试的页面选择了百度的一个JS文件：<a target="_blank" rel="noopener" href="http://www.baidu.com/js/bdsug.js?v=1.0.3.0">http://www.baidu.com/js/bdsug.js?v=1.0.3.0</a></p>
+<p>其第一次请求的响应头为：</p>
+<img src="/2021/03/24/20110822-browser-cache-strategy/NSFileHandle.png" class="" title="NSFileHandle">
+
+<p>其中携带了缓存控制信息，支持这些头信息的浏览器会进行缓存，第二次请求服务器就会返回304响应。</p>
+<p>下面是测试的结果：</p>
+<p>PS：对于Firefox对于Etag的头信息的解释，我和 教导主任 进行了一些交流和测试，发现一些问题。</p>
+<p>Firefox中访问文件时，在浏览器中输入地址后回车，和点击刷新按钮效果是不太一样的。</p>
+<p>例如对于Google的一个图片文件：<a target="_blank" rel="noopener" href="http://www.google.com/images/nav_logo83.png">http://www.google.com/images/nav_logo83.png</a></p>
+<p>访问过一次之后，如果点击刷新按钮，返回的是304。如果是从地址栏中输入地之后回车，则会返回200。</p>
+<p>但是百度的JS文件中，返回的头信息中带有ETag信息，在Firefox中进行刷新操作会返回304，从地址栏输入地址后回车，返回的也是304的状态码。</p>
+<p>这个区别，可能和Firefox内部的实现机制有关系，但是具体Firefox内部是如何来进行解释的，则不是十分清楚。如果有了解的朋友，还望不吝赐教。</p>
+<p>参考资料：</p>
+<p>1、<a target="_blank" rel="noopener" href="http://dev.robertmao.com/2007/06/30/cache-control-header-and-browser-cache-behaviours/">Cache control headers and browser cache behaviours</a></p>
+<p>2、<a target="_blank" rel="noopener" href="http://hi.baidu.com/tulalatu/blog/item/c00b12ee158ee6c4b21cb1b4.html">减少chrome的io，限制、禁用chrome硬盘缓存</a></p>
+<p>3、<a target="_blank" rel="noopener" href="http://www.mnot.net/blog/2006/05/11/browser_caching">The state of browser caching</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/03/24/20111024-php-set-header/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; PHP中使用Header函数设置http头的方法示例
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/03/23/20210323-network-bandwidth/" id="article-nav-older" class="article-nav-link-wrap">
+            带宽计算的知识点 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

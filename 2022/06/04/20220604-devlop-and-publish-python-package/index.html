@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>开发并发布 Python 包/模块-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="python, python package, python 包, python 包开发">
+    <meta name="description" content="本文总结了 Python 包发布到 pypi 的过程。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>开发并发布 Python 包/模块</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2022-10-27 20:10:02</span>
+        
+        <span class="post-time">发布于：2022-06-04 19:26:41</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <blockquote>
+<p>本文在 macOS Monterey 及 Python 3.9.6 环境下测试通过</p>
+<p>本文是面向百度编写的，如果你希望了解这些内容欢迎继续浏览，如果你希望避免踩坑快速通关，可以阅读官方文档 <a target="_blank" rel="noopener" href="https://packaging.python.org/en/latest/tutorials/packaging-projects/">Packaging Python Projects</a></p>
+</blockquote>
+<h2 id="模块与包"><a href="#模块与包" class="headerlink" title="模块与包"></a>模块与包</h2><p>在 Python 中一个文件就是一个 模块 Module，是 Python 中一个单独的命名空间，这个命名空间包括了下面的内容：类、函数、常量、变量等。当然，Python 中还支持使用 C 语言编写模块并实现运行时加载，本文不涉及这方面的内容。</p>
+<blockquote>
+<p>模块文件的代码中通常不能有任何输出，这些输出在执行 import 的时候就会被执行<br>如果希望以单独脚本形式执行时还是能够输出信息，可以添加 <code>if __name__ = &#39;__main__&#39;</code> 判断<br>这是因为 import 的时候，python 会给模块增加 <code>__name__</code> 属性，单独执行时 <code>__name__</code> 会等于 <code>__main__</code></p>
+</blockquote>
+<p>当模块越来越多时，我们需要包 Package 来帮我们组织管理，同时包也是 Pypi 上共享的最小单位。包通常对应一个文件夹，包括了一个或者多个模块。在包代码文件夹下一定要有 <code>__init__.py</code> 文件，另外可能还有一些 python 文件或者其他包的文件夹。相较于模块来说，包中的内容更多：文档、测试案例、安装方法以及必要的数据文件等等都可以放在包中。</p>
+<p>本文以  <a target="_blank" rel="noopener" href="https://github.com/cocowool/mp3tag">mp3tag</a> 为示例代码来说明一个包的开发与发布过程，看一下它的目录结构：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ tree .            </span><br><span class="line">.</span><br><span class="line">├── LICENSE</span><br><span class="line">├── README.md</span><br><span class="line">├── examples</span><br><span class="line">│   └── tag_example.py</span><br><span class="line">├── mp3tag</span><br><span class="line">│   ├── __init__.py</span><br><span class="line">│   ├── mp3tag.py</span><br><span class="line">│   ├── tag_reader.py</span><br><span class="line">│   └── tag_writer.py</span><br><span class="line">└── setup.py</span><br><span class="line"></span><br><span class="line">3 directories, 10 files</span><br></pre></td></tr></table></figure>
+
+<h2 id="本地开发测试"><a href="#本地开发测试" class="headerlink" title="本地开发测试"></a>本地开发测试</h2><p>几种方式</p>
+<ul>
+<li>使用 virtualenv</li>
+<li>使用集成了测试环境的 IDE，例如 pycharm</li>
+<li>使用 <code>sys.path</code> </li>
+</ul>
+<p>python 解析器在执行的时候，会从 <code>sys.path</code> 变量保存的路径中按顺序搜索引用的包，因此本地测试时，可以通过向这个变量追加路径，来实现本地测试。模块加载后，我们可以通过 <code>__file__</code> 属性获取模块所在的路径。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> adtk</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span>(adtk.__file__)</span><br><span class="line">/usr/local/lib/python3<span class="number">.9</span>/site-packages/adtk/__init__.py</span><br></pre></td></tr></table></figure>
+
+<p>在这个环节，我们除了编写我们的业务逻辑之外，还需要编写 <code>setup.py</code> 文件，还有一种编写 <code>setup.cfg</code> 的方法，本文没有采用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> setup, find_packages</span><br><span class="line"></span><br><span class="line">VERSION = <span class="string">&#x27;0.0.1&#x27;</span></span><br><span class="line">DESCRIPTION = <span class="string">&#x27;MP3 tag information reader and writer.&#x27;</span></span><br><span class="line">LONG_DESCRIPTION = <span class="string">&#x27;MP3 contains many information about the music and stored in the tag. This package support read and write id3v2 tag to the mp3 file.&#x27;</span></span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">    name=<span class="string">&#x27;mp3tag&#x27;</span>,</span><br><span class="line">    version=VERSION,</span><br><span class="line">    author=<span class="string">&#x27;Wang Shiqiang&#x27;</span>,</span><br><span class="line">    author_email=<span class="string">&#x27;cocowool@qq.com&#x27;</span>,</span><br><span class="line">    description=DESCRIPTION,</span><br><span class="line">    long_description=LONG_DESCRIPTION,</span><br><span class="line">    packages=find_packages(),</span><br><span class="line">    install_requires=[],</span><br><span class="line"></span><br><span class="line">    keywords=[<span class="string">&#x27;mp3&#x27;</span>,<span class="string">&#x27;id3&#x27;</span>,<span class="string">&#x27;id3v2&#x27;</span>],</span><br><span class="line">    classifiers=[]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建发布文件"><a href="#创建发布文件" class="headerlink" title="创建发布文件"></a>创建发布文件</h2><p>在项目的根文件夹下，执行下面的命令，需要提前安装 build 模块。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ python3 -m build</span><br><span class="line">* Creating venv isolated environment...</span><br><span class="line">* Installing packages <span class="keyword">in</span> isolated environment... (setuptools&gt;=42)</span><br></pre></td></tr></table></figure>
+
+<p>整个过程比较慢，执行完成后，可以看到 dist 文件夹下多了两个文件。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ ll dist                              </span><br><span class="line">total 64</span><br><span class="line">drwxr-xr-x   4 shiqiang  staff   128B Jun  5 15:18 .</span><br><span class="line">drwxr-xr-x  12 shiqiang  staff   384B Jun  5 15:17 ..</span><br><span class="line">-rw-r--r--   1 shiqiang  staff    16K Jun  5 15:18 mp3tag-0.0.1-py3-none-any.whl</span><br><span class="line">-rw-r--r--   1 shiqiang  staff    15K Jun  5 15:17 mp3tag-0.0.1.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>tar.gz</code> 文件是安装包，<code>whl</code> 结尾的文件是分发说明文件。</p>
+<h2 id="发布到-pypi"><a href="#发布到-pypi" class="headerlink" title="发布到 pypi"></a>发布到 pypi</h2><p><a target="_blank" rel="noopener" href="https://pypi.org/">pypi</a> 是一个公共的 python 包共享分发平台，全称「Python Package Index」，类似 npmjs。将开发的包发布到 pypi 之后，我们可以方便的通过 <code>pip3 install</code> 安装使用我们开发的包，这对于开源社区的发展繁荣是非常好的机制。当然，如果是你一名企业内部的开发者，对于任何引入到工程中的包还是需要注意进行安全检查，避免引入不必要的麻烦。</p>
+<blockquote>
+<p>发布到 pypi 需要首先有一个 pypi 的账号，还需要在 pypi 网站上生成 API Key。</p>
+<p>如果使用 twine 上传，需要按照网站的提示准备 .pypirc 文件。</p>
+<p>如果离上一个版本过去的时间比较长，可能存在上传失败的问题，官方提供了一个 <a target="_blank" rel="noopener" href="https://pypi.org/help/#invalid-auth">TroubleShooting</a> 的页面。</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ python3 -m twine upload dist/*</span><br><span class="line">Uploading distributions to https://upload.pypi.org/legacy/</span><br><span class="line">Enter your username: cocowool</span><br><span class="line">Enter your password: </span><br><span class="line">Uploading mp3tag-0.0.1-py3-none-any.whl</span><br><span class="line">100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 19.8/19.8 kB • 00:01 • 19.7 MB/s</span><br><span class="line">Uploading mp3tag-0.0.1.tar.gz</span><br><span class="line">100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 19.5/19.5 kB • 00:00 • 30.9 MB/s</span><br><span class="line"></span><br><span class="line">View at:</span><br><span class="line">https://pypi.org/project/mp3tag/0.0.1/</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装测试"><a href="#安装测试" class="headerlink" title="安装测试"></a>安装测试</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ pip3 install mp3tag                                            </span><br><span class="line">Collecting mp3tag</span><br><span class="line">  Downloading mp3tag-0.0.1-py3-none-any.whl (15 kB)</span><br><span class="line">Installing collected packages: mp3tag</span><br><span class="line">Successfully installed mp3tag-0.0.1</span><br></pre></td></tr></table></figure>
+
+<p>至此，一个自己开发的 Python 包就发布成功了。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.freecodecamp.org/news/build-your-first-python-package/">How to Build your very first python package</a></li>
+<li><a target="_blank" rel="noopener" href="https://pypi.org/">Pypi</a></li>
+<li><a target="_blank" rel="noopener" href="https://python-packaging-tutorial.readthedocs.io/en/latest/setup_py.html">Making a Python Package</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.pythoncentral.io/how-to-create-a-python-package/">How to Create a Python Package</a></li>
+<li><a target="_blank" rel="noopener" href="https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#working-in-development-mode">Packaging and distributing projects</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.python.org/3/tutorial/classes.html">python tutorial : class</a></li>
+<li><a target="_blank" rel="noopener" href="https://realpython.com/python-modules-packages/">Python Modules and Packages – An Introduction</a></li>
+<li><a target="_blank" rel="noopener" href="https://packaging.python.org/en/latest/tutorials/packaging-projects/">Packaging Python Projects</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b70068223a4e">解决TypeError: ‘module’ object is not callable问题</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/yangchao1125/article/details/106347462/"><strong>pycache</strong> 是个什么鬼？</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2022/06/13/20220613-idv3-again/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 使用Python读取ID3信息的持续优化
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2022/06/01/20220601-compress-hexo-images-with-python/" id="article-nav-older" class="article-nav-link-wrap">
+            使用 Python 压缩 Hexo 博客中的图片 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

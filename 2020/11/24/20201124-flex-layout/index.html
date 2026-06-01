@@ -1,0 +1,296 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>学好Flex布局并不容易-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="flex, 布局, layout, css">
+    <meta name="description" content="CSS的传统布局解决方案，基于盒状模型，依赖`display`属性、`position`属性、`float`属性，对于一些特殊的布局，例如垂直居中，往往要想很多hack的方法来解决。2009年，W3C提出了一种新的方案--Flex布局，可以简便、完整、响应式地实现各种页面布局。目前，它已经得到了所有浏览器的支持，这意味着，现在就能很安全地使用这项功能。Flex布局的主要思想是为容器赋予控制容器内元素的高度、宽度以及如何分割容器空间的能力。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>学好Flex布局并不容易</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2020-12-07 17:45:31</span>
+        
+        <span class="post-time">发布于：2020-11-24 18:47:56</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h2 id="1-Flex布局介绍"><a href="#1-Flex布局介绍" class="headerlink" title="1. Flex布局介绍"></a>1. Flex布局介绍</h2><p>CSS的传统布局解决方案，基于盒状模型，依赖<code>display</code>属性、<code>position</code>属性、<code>float</code>属性，对于一些特殊的布局，例如垂直居中，往往要想很多hack的方法来解决。</p>
+<p>2009年，W3C提出了一种新的方案–Flex布局，可以简便、完整、响应式地实现各种页面布局。目前，它已经得到了所有浏览器的支持，这意味着，现在就能很安全地使用这项功能。Flex布局的主要思想是为容器赋予控制容器内元素的高度、宽度以及如何分割容器空间的能力。</p>
+<p>Flex是Flexible Box的缩写，表示“弹性布局”的意思，能够为盒状模型提供最大的灵活性。任何一个容器都可以指定为flex布局，使用flex布局以后，子元素的<code>float</code>、<code>clear</code>和<code>vertical-align</code>元素都将失效。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>行内元素也可以使用Flex布局。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-flex;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Webkit内核的浏览器，必须加上-webkit前缀。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span>&#123;</span><br><span class="line">  <span class="attribute">display</span>: -webkit-flex; <span class="comment">/* Safari */</span></span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-基本概念"><a href="#2-基本概念" class="headerlink" title="2. 基本概念"></a>2. 基本概念</h2><p>采用Flex布局的元素，称为Flex容器（flex container），简称”容器”。它的所有子元素自动成为容器成员，称为Flex项目（flex item），简称”项目”。容器默认存在两根轴：<code>水平的主轴</code>（main axis）和<code>垂直的交叉轴</code>（cross axis）。主轴的开始位置（与边框的交叉点）叫做main start，结束位置叫做main end；交叉轴的开始位置叫做cross start，结束位置叫做cross end。项目默认沿主轴排列。单个项目占据的主轴空间叫做main size，占据的交叉轴空间叫做cross size。</p>
+<img src="/2020/11/24/20201124-flex-layout/1240.png" class="" title="1baaa865d658f00e45697c2a61fa4ab3.png">
+
+<p>下面对这几个概念作简要介绍：</p>
+<ul>
+<li>主轴 main-axis，flex容器的主轴是容器内项目 flex item的排列方向。主轴方向并不一定是水平的，这个由<code>flex-direction</code>属性决定。</li>
+<li>main-start | main-end ，容器内项目的排列是从main-start到main-end。</li>
+<li>main-size</li>
+<li>交叉轴 cross axis 与主轴垂直的交叉轴，它的方向由主轴的方向决定</li>
+<li>cross-start | cross-end </li>
+<li>cross-size</li>
+</ul>
+<h2 id="3-Flex容器的属性"><a href="#3-Flex容器的属性" class="headerlink" title="3. Flex容器的属性"></a>3. Flex容器的属性</h2><p>Flex容器具有以下六个属性。</p>
+<blockquote>
+<ul>
+<li>display 该属性决定flex布局的容器，<code>display:flex;</code></li>
+<li>flex-direction 该属性决定主轴的方向（即项目的排列方向）</li>
+<li>flex-wrap 该属性决定flex元素的换行方式，默认情况下容器内项目总是倾向于排列在一行内</li>
+<li>flex-flow 该属性是<code>direction</code>和<code>wrap</code>的组合属性，默认值是<code>row nowrap</code></li>
+<li>justify-content 该属性定义容器中项目在主轴上的对齐方式</li>
+<li>align-items</li>
+<li>align-content</li>
+</ul>
+</blockquote>
+<h3 id="3-1-flex-direction"><a href="#3-1-flex-direction" class="headerlink" title="3.1 flex-direction"></a>3.1 flex-direction</h3><p>flex-direction属性决定主轴的方向（即容器元素的排列方向），有四个取值。</p>
+<ul>
+<li>row（默认值），主轴为水平方向，起点在左端。</li>
+<li>row-reverse，主轴为水平方向，起点在右端。</li>
+<li>column，主轴为垂直方向，起点在上沿。</li>
+<li>column-reverse，主轴为垂直方向，起点在下沿。</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">  <span class="attribute">flex-direction</span>: row | row-reverse | column | column-reverse;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-flex-wrap"><a href="#3-2-flex-wrap" class="headerlink" title="3.2 flex-wrap"></a>3.2 flex-wrap</h3><p>熟悉wrap的同学应该知道，这个属性是决定如何处理一行显示不下的情况，有三个属性：</p>
+<ul>
+<li>nowrap 不换行</li>
+<li>wrap 换行，第一行在上，往下折行</li>
+<li>wrap-reverse 换行，第一行在下，往上折行<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">flex-wrap</span>: nowrap | wrap | wrap-reverse;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="3-3-flex-flow"><a href="#3-3-flex-flow" class="headerlink" title="3.3 flex-flow"></a>3.3 flex-flow</h3><p><code>flex-flow</code>是<code>flex-direction</code>和<code>flex-wrap</code>组合属性的简写，默认值为<code>row nowrap</code>。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">flex-flow</span>: &lt;flex-direction&gt; || &lt;flex-wrap&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-justify-content"><a href="#3-4-justify-content" class="headerlink" title="3.4 justify-content"></a>3.4 justify-content</h3><p><code>justify-content</code>定义项目在主轴上的对齐方式，还能够帮助我们分配容器项目以外的剩余空间，即便是没有剩余空间。有以下属性：</p>
+<ul>
+<li>flex-start(默认值): 主轴的起点对齐</li>
+<li>flex-end: 主轴的终点对齐</li>
+<li>center: 沿主轴居中对齐</li>
+<li>space-between:  两端对齐，项目之间的间隔相等</li>
+<li>space-around: 每个项目两侧的间隔相等，所以项目之间的间隔比左右两边的间隔大一倍</li>
+<li>space-evenly: 每个项目的间隔以及两侧的间隔都相等</li>
+<li>start: 容器内的项目堆在书写方向<code>writing-mode</code>的开始</li>
+<li>end: 容器内的项目堆在书写方向<code>writing-mode</code>的结束</li>
+<li>lfet: 容器内的项目堆在容器的左边</li>
+<li>right: 容器内的项目堆在容器的右边</li>
+<li>safe:</li>
+<li>unsafe:</li>
+</ul>
+<blockquote>
+<p>注意不同浏览器对这些属性的支持程度还不太一样，<code>space-between</code>从未在Edge浏览器上获得过支持，最安全的几个属性是<code>flex-start</code>，<code>flex-end</code>，<code>center</code>。</p>
+</blockquote>
+<img src="/2020/11/24/20201124-flex-layout/1240-20201124184649990.png" class="" title="image.png">
+
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">justify-content</span>: flex-start | flex-end | center | space-between | space-around;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-5-align-items"><a href="#3-5-align-items" class="headerlink" title="3.5 align-items"></a>3.5 align-items</h3><p><code>align-items</code> 该属性决定项目在交叉轴上如何对齐，有以下属性：</p>
+<ul>
+<li>flex-start 交叉轴的起点对齐</li>
+<li>flex-end 交叉轴的终点对齐</li>
+<li>center 交叉轴的中间对齐</li>
+<li>start 书写方向的起点对齐</li>
+<li>end 书写方向的终点对齐</li>
+<li>baseline 项目的第一行文字的基线对齐</li>
+<li>stretch(默认值) 如果项目未设置高度或设为auto，项目将占满整个容器的高度，这样做两列布局再也不用发愁高度不一致了。</li>
+</ul>
+<blockquote>
+<p>在flex布局中有主轴和侧轴的区分，和我们一般认为的横轴为主轴、纵轴为侧轴的固定认知不同，flex布局中主轴和侧轴会发生变化，这是由之前<code>flex-direction</code>属性决定的。当<code>flex-direction:row</code>的时候，主轴就是横轴，要调整元素在横轴的排列就需要使用<code>justify-content</code>属性。当<code>flex-direction:column</code>的时候，主轴就是纵轴，要调整元素在横轴的排列就需要使用<code>align-items</code>属性。</p>
+</blockquote>
+<h3 id="3-6-align-content"><a href="#3-6-align-content" class="headerlink" title="3.6 align-content"></a>3.6 align-content</h3><p>这个属性决定当容器在交叉轴方向还有剩余空间时，项目的排列方式。</p>
+<blockquote>
+<p>这个属性在只有一行容器内项目时无效，在设置了<code>nowrap</code>时也无效。</p>
+</blockquote>
+<ul>
+<li>flex-start</li>
+<li>flex-end</li>
+<li>center</li>
+<li>space-between</li>
+<li>space-around</li>
+<li>space-evenly</li>
+<li>stretch</li>
+<li>baseline</li>
+</ul>
+<h2 id="4-项目的属性"><a href="#4-项目的属性" class="headerlink" title="4. 项目的属性"></a>4. 项目的属性</h2><p>项目包括6个属性</p>
+<ul>
+<li>order 该属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。通过css就能控制DOM元素的顺序，简直太方便了。</li>
+<li>flex-grow 该属性定义项目放大的比例，默认为0，也就是项目的大小不会发生缩放。</li>
+<li>flex-shrink</li>
+<li>flex-basis</li>
+<li>flex</li>
+<li>align-self </li>
+</ul>
+<h3 id="4-1-order"><a href="#4-1-order" class="headerlink" title="4.1 order"></a>4.1 order</h3><p><code>order</code> 属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。通过css就能控制DOM元素的顺序，简直太方便了。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.item</span> &#123;</span><br><span class="line">    <span class="attribute">order</span>: &lt;integer&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-flex-grow"><a href="#4-2-flex-grow" class="headerlink" title="4.2 flex-grow"></a>4.2 flex-grow</h3><p><code>flex-grow</code>属性定义项目相对于其他项目进行扩展的量，默认为0。注意：如果项目不是flex item，则 flex-grow 属性不起作用。如果所有的项目都设置为1，则每个项目分到的空间都一样。如果有一个设置为2，则它分到的空间要比其他项目多一倍。负数无效。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.item</span> &#123;</span><br><span class="line">    <span class="attribute">flex-grow</span>: &lt;number&gt;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-3-flex-shrink"><a href="#4-3-flex-shrink" class="headerlink" title="4.3 flex-shrink"></a>4.3 flex-shrink</h3><p><code>flex-shrink</code> 属性定义项目相对于其他项目缩小的比例。负数无效。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.item</span> &#123;</span><br><span class="line">    <span class="attribute">flex-shrink</span>: &lt;number&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-4-flex-basis"><a href="#4-4-flex-basis" class="headerlink" title="4.4 flex-basis"></a>4.4 flex-basis</h3><p><code>flex-basis</code> 属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为<code>auto</code>，即项目的本来大小。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.item</span> &#123;</span><br><span class="line">    <span class="attribute">flex-basis</span>: &lt;length&gt; | auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-5-flex"><a href="#4-5-flex" class="headerlink" title="4.5 flex"></a>4.5 flex</h3><p><code>flex</code>属性是<code>flex-grow</code>,<code>flex-shrink</code>,<code>flex-basis</code>组合，默认值为<code>0 1 auto</code>后两个属性可选。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.item</span> &#123;</span><br><span class="line">    <span class="attribute">flex</span>: none | [ &lt;<span class="string">&#x27;flex-grow&#x27;</span>&gt; &lt;<span class="string">&#x27;flex-shrink&#x27;</span>&gt;? || &lt;<span class="string">&#x27;flex-basis&#x27;</span>&gt; ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-6-align-self属性"><a href="#4-6-align-self属性" class="headerlink" title="4.6 align-self属性"></a>4.6 align-self属性</h3><p><code>align-self</code>属性允许单个项目有与其他项目不一样的对齐方式，可覆盖<code>align-items</code>属性。默认值为<code>auto</code>，表示继承父元素的<code>align-items</code>属性，如果没有父元素，则等同于<code>stretch</code>。属性支持的值包括：</p>
+<ul>
+<li>auto</li>
+<li>flex-start</li>
+<li>flex-end</li>
+<li>center </li>
+<li>baseline</li>
+<li>stretch</li>
+</ul>
+<h2 id="5-浏览器支持"><a href="#5-浏览器支持" class="headerlink" title="5. 浏览器支持"></a>5. 浏览器支持</h2><p><code>flexbox</code>从出现到现在经历了多个版本，下图<code>new</code>的含义表示现在的语法<code>display:flex;</code>。<code>tweener</code>表示2011年后出现的一个非官方的写法<code>display:flexbox;</code>。<code>old</code>表示2009年出现后的旧语法<code>display:box;</code>。</p>
+<img src="/2020/11/24/20201124-flex-layout/1240-20201124184650027.png" class="" title="image.png">
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2020/12/03/20201203-system-disaster/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; RTO/RPO驱动的系统可靠性架构设计
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2020/11/23/20201123-nginx-rewrite/" id="article-nav-older" class="article-nav-link-wrap">
+            Nginx Rewrite 使用总结 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

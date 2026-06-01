@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fedora 12 正式发布-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="fedora, linux">
+    <meta name="description" content="Fedora 12 昨天正式发布了，而且最新的 Fedora 13 已经在平行的开发中了，感觉都快跟不上 Fedora 的脚步了。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Fedora 12 正式发布</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-17 14:52:57</span>
+        
+        <span class="post-time">发布于：2009-11-18 08:56:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>Fedora 12 昨天正式发布了，而且最新的 Fedora 13 已经在平行的开发中了，感觉都快跟不上 Fedora 的脚步了。</p>
+<p>来看一下新特性：</p>
+<ul>
+<li>性能优化：在 32 位平台上全部软件包<strong>针对 i686 架构</strong>重新编译，并对<strong>Intel Atom</strong>处理器进行性能调优。</li>
+<li>NetworkManager ：改善了对于<strong>宽带、蓝牙和 IPv6</strong>的连接配置过程。配合 PolicyKit ，网络配置只需要点击鼠标即可轻松完成。</li>
+<li>下一代 Theroa 编码支持：Fedora 12 集成了最新的<strong>开源视频编解码器 Theora</strong>1.1 版本（详情见本站<a target="_blank" rel="noopener" href="http://linuxtoy.org/archives/how-to-use-thoggen-to-backup-dvd-video-under-fedora.html">此文</a>）。</li>
+<li>更好的显卡支持：针对 Nvidia Nouveau 驱动和 AMD R600/700 系列的<strong>KMS</strong>支持，同时为 Intel 显卡引入<strong>DisplayPort</strong>支持。</li>
+<li>虚拟化支持：改善了 KVM 性能，并提供<strong>虚拟机磁盘镜像监控</strong>工具 guestfish。</li>
+<li>自动臭虫汇报系统和 SELinux：新的崩溃收集程序<strong>abrt</strong>只需要点击几下鼠标即可将遇到的软件或 SELinux 提交至 Bugzilla，方便开发者修复。</li>
+<li>新的 Dracut initrd 启动系统：并行、以事件为单位的<strong>Dracut</strong>系统进一步加快启动速度。</li>
+<li>PackageKit 插件：当用户尝试运行一个包含在尚未安装的软件包中的命令时，PackageKit 可以<strong>自动提示安装</strong>相应软件包。</li>
+<li>按需蓝牙服务：蓝牙服务会根据需要<strong>自动启动和停止</strong>。</li>
+<li>Moblin 桌面环境：增加了<strong>Moblin</strong>桌面环境软件包组以及Fedora Moblin Spin 。</li>
+<li>PulseAudio ：增添了<strong>UPnP 和 DLNA</strong>支持，可以直接将音频流发送至 PS3 等设备。同时改善了<strong>热拔插和蓝牙设备</strong>支持。</li>
+<li>更加安全：降低了部分系统文件和进程的运行访问权限，避免使用 root 权限访问。同时为 SELinux 增添了<strong>沙箱</strong>支持。</li>
+<li>Broadcom 固件：默认包含了<strong>Open Broadcom</strong>固件，对部分 Broadcom 无线网卡提供 out-of-the-box 支持。</li>
+<li>混合 Live 镜像：现在只需要使用 dd 即可创建光盘或者 USB Live 镜像，不过还是推荐使用 Livecd-tools 以获得诸如保留空间等功能。</li>
+<li>更好的摄像头支持：改善了部分摄像头的成象质量，尤其是很多廉价摄像头。</li>
+<li>GNOME 2.28：使用<strong>Gnote</strong>替代了 Tomboy 成为默认便签，用<strong>Empathy</strong>替代了 Pidgin 成为默认即时通讯客户端。</li>
+<li>GNOME-shell 预览：尽管 GNOME 3.0 延期了，但是依然可以在 Fedora 12 中提前体验下<strong>GNOME Shell</strong>的。</li>
+<li>KDE 4.3：升级版的 Air 主题，可配置的快捷键支持，新的窗口管理器特效以及更好的红外线遥控支持。</li>
+<li>开发者：Eclipse Galileo, Perl 6, PHP 5.3, Netbeans 6.7.1</li>
+<li>管理员：<strong>GFS2 集群</strong>Samba 管理</li>
+<li>X.org 1.7.1：包含支持<strong>多指点设备支持</strong>的 XI2。<br>蛮期待的几点包括： Selinux sandbox，希望能够简化 Selinux 的操作；Gnome 桌面的优化，希望能够带来更好的桌面体验；<br>不太喜欢的一点是 内置了 php5.3，据说还不稳定，看来安装的时候要把勾选去掉了。</li>
+</ul>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://fedoraproject.org/wiki/Releases/12/Schedule">Fedora 12 Schedule</a></p>
+<p>2、<a target="_blank" rel="noopener" href="http://linuxtoy.org/archives/fedora-12-unite-golden-released.html">Feodra 12 正式发布</a></p>
+<p>3、<a target="_blank" rel="noopener" href="http://fedoraproject.org/wiki/Fedora_12_Announcement">Fedora 12 Features</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2009/11/24/20091124-axure-tab/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Axure制作Tab切换效果
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2009/11/11/20091111-bing-video/" id="article-nav-older" class="article-nav-link-wrap">
+            Bing Video 来了 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IE对文档的解析模式及兼容性问题-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="IE, IE文档解析模式, IE兼容性, IE兼容性问题">
+    <meta name="description" content="大江小浪，关注数据中心运维、金融科技、互联网相关技术与行业发展趋势，擅长应用运维管理、Linux、Java、Elasticsearch、Kubernetes、PHP相关技术。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>IE对文档的解析模式及兼容性问题</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-26 21:12:20</span>
+        
+        <span class="post-time">发布于：2013-04-25 23:44:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>深入研究这个问题源于最近制作的几个页面，交给前端后，发现在IE8下，对于JS动态控制的内容，页面高度不能够随着动态的调整。</p>
+<p>仔细检查后发现问题在于 display:inline-block 这个属性。</p>
+<p>inline-block 这个属性确实帮我们解决了不少问题，但是IE8在动态内容的渲染支持上，还是会有奇怪的问题。</p>
+<p>最后的解决方法是使用 x-ua-compatible ，来强制IE8使用IE7的模式来解析页面。下面是整理的一些相关的资料。</p>
+<p><strong>IE的文档模式</strong><br>Document Compatibility 决定了IE如何渲染你的页面，IE支持不同的 document (compatibility) mode。IE6之后的所有IE浏览器都支持以下几种模式：<br>Standards mode：就是每个浏览器版本所提供的最新的功能，也是默认的模式；<br>Quirks mode：这个模式强调兼容性超过标准（<a target="_blank" rel="noopener" href="http://msdn.microsoft.com/en-us/library/gg558047(v=vs.85).aspx">影响可以看这里</a>）<br>Almost-standards mode：这个模式支持最新标准的API，但是界面渲染还是遵循旧版本的标准。</p>
+<p>如果一个页面包含了 &lt;!DOCTYPE&gt; 标签，那么IE浏览器会按照标准模式进行解析。如果一个不包含 &lt;!DOCTYPE&gt; 的页面，IE浏览器使用 Quirks mode 来进行解析，这种情况下可能会有奇怪的事情发生。</p>
+<p>大多数时候，我们都使用标准的模式来指定文档模式。这样能够确保适应尽可能多的标准。</p>
+<!DOCTYPE html>
+
+<p>有些时候，我们需要指定一些高版本的浏览器使用低版本的文档模式解析页面，这时我们可以使用  x-ua-compatible 头标签来实现。例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- Use Internet Explorer 9 Standards mode --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;x-ua-compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=9&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>My Page<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>Content goes here.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>上面这段代码，在不同的浏览器版本中，有不同的表现，如下表：</p>
+<p>记住以下几个规则：</p>
+<ul>
+<li>如果页面指定了DOCTYPE并且也使用了x-ua-compatible标签，则x-ua-compatible标签将覆盖DOCTYPE</li>
+<li>如果浏览器支持x-ua-compatible标签，浏览器会使用他所支持的最高模式显示，则未必是标签指定的版本</li>
+<li>对于不支持x-ua-compatible标签的老版本浏览器，使用&lt;!DOCTYPE&gt;来决定文档模式</li>
+<li>IE9和之前版本的浏览器，在遇到没有指定&lt;!DOCTYPE&gt;的页面时，使用IE5 Quirks模式解析文档，所以建议所有文档都要包含&lt;!DOCTYPE&gt;</li>
+</ul>
+<p><strong>注意：</strong>所有版本的浏览器在解析 <!DOCTYPE html> 时，都会使用各自版本所支持的最高的标准模式来解析，所以推荐都是用HTML5的标记方式。IE9中，包含框架Frameset的页面，子页面的模式和父页面一致。但是在IE10中，可以分别指定。</p>
+<p><strong>用法：</strong><br>x-ua-compatible 头标签大小写不敏感，必须用在 head 中，必须在除 title 外的其他 meta 之前使用。<br>1、使用一行代码来指定浏览器使用特定的文档模式。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;x-ua-compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=9&quot;</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;x-ua-compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=8&quot;</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;x-ua-compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=7&quot;</span> &gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>2、在一些情况下，我们需要限定浏览器对文档的解析到某一特定版本，或者将浏览器限定到一些旧版本的表现中。可以用如下的方式：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;x-ua-compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=EmulateIE9&quot;</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;x-ua-compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=EmulateIE8&quot;</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;x-ua-compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=EmulateIE7&quot;</span> &gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>使用这种写法，浏览器或者使用标准模式进行解析，或者使用 IE5 Quirks 模式进行解析。</p>
+<p>3、为了测试，我们也可以使用下面的语句指定浏览器按照最高的标准模式解析页面。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;x-ua-compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge&quot;</span> &gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>4、多个模式的指定。我们可以用逗号分割多个版本，这种情况下，浏览器会从这个列表中选择一个他所支持的最高版本来使用标准模式进行渲染。如下面的例子，在IE8进行浏览时，将会使用IE7的标准模式进行渲染，因为他本身不支持IE9和IE10。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;x-ua-compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=7,9,10&quot;</span> &gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://jhop.me/ie8-bugs">ie8 bugs</a><br>2、<a target="_blank" rel="noopener" href="http://foohack.com/2007/11/cross-browser-support-for-inline-block-styling/">Cross Browser Support for inline-block Styling</a><br>3、<a target="_blank" rel="noopener" href="http://www.cnblogs.com/nidilzhang/archive/2010/01/09/1642887.html">使用x-ua-compatible来设置IE兼容模式</a><br>4、<a target="_blank" rel="noopener" href="http://msdn.microsoft.com/en-us/library/cc288325(v=vs.85).aspx#SetMode">MSDN：Define Document compatibility</a><br>5、<a target="_blank" rel="noopener" href="http://msdn.microsoft.com/en-us/library/gg558047(v=vs.85).aspx">The effects of quirks mode emulation</a><br>6、<a target="_blank" rel="noopener" href="http://msdn.microsoft.com/en-us/library/jj676915(v=vs.85).aspx">Specifying legacy document modes</a><br>7、<a target="_blank" rel="noopener" href="http://www.iefans.net/ie9-xuanran-moshi-jianrong-jiuban/">IE9提供四种兼容模式</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2013/05/12/20130512-jquey-animate/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; jQuery的animate函数
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2013/04/20/20130420-ios-app-develop/" id="article-nav-older" class="article-nav-link-wrap">
+            Mac下使用Phonegap（Apache Cordorva）开发iOS应用 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

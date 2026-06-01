@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vimperator：玩酷你的Firefox-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="firefox, firefox扩展, vimperator">
+    <meta name="description" content="vimperator是一款firefox扩展，能够将firefox改造为vim浏览风格。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Vimperator：玩酷你的Firefox</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:42</span>
+        
+        <span class="post-time">发布于：2008-09-20 23:29:00</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <blockquote>
+<p><strong>First there was a Navigator, then there was an Explorer. Later it was time for a Konqueror. Now it’s time for an Imperator, the VIMperator :)</strong></p>
+</blockquote>
+<p>如果你是Firefox的用户，如果你不熟悉Vim，那么当你第一次面对下面的Firefox时，你的感觉会和我一样。</p>
+<img src="/2008/09/20/20080920-vimperator/092008_1528_Vimperator1.png" class="">
+
+<p>工具栏也没有了、地址栏也没有了、状态栏也没有了、左右的边框都没有了、天啊，这还是Firefox吗</p>
+<p>到了官方站点，看到了提示：</p>
+<img src="/2008/09/20/20080920-vimperator/092008_1528_Vimperator2.png" class="">
+<p>不过任凭 <code>Ctrl–q</code>，还是<code>Ctrl–z</code>都没有能够让我回到熟悉的FF界面，难道是火星</p>
+<p>接着往下看，终于找到：</p>
+<img src="/2008/09/20/20080920-vimperator/092008_1528_Vimperator3.png" class="">
+<p>通过设置，终于找回了亲切的菜单栏和地址栏。</p>
+<p>感谢主页的这些关键说明<br><a target="_blank" rel="noopener" href="http://vimperator.mozdev.org/index.html">http://vimperator.mozdev.org/index.html</a></p>
+<p>首先来看看他的Features吧：</p>
+<ul>
+<li>Vim-like keybindings (h,j,k,l,gg,G,0,$,ZZ,<C-f>,etc.)</li>
+<li>Ex commands (:quit, :open <a target="_blank" rel="noopener" href="http://www.foo.com/">www.foo.com</a>, …)</li>
+<li>Tab completion available for all commands with support for ‘longest’ matching when set in ‘wildmode’</li>
+<li>Hit-a-hint like navigation of links (start with ‘f’ to follow a link)</li>
+<li>Advanced completion of bookmark and history URLs (searching also in title, not only URL)</li>
+<li>Vim-like statusline with a wget-like progress bar</li>
+<li>Minimal GUI (easily hide useless menubar and toolbar with :set guioptions=)</li>
+<li>Ability to :source JavaScript files, and to use a ~/.vimperatorrc file with syntax highlighting if you install vimperator.vim</li>
+<li>Easy quick searches (:open foo will search for “foo” in google, :open ebay terminator will search for “terminator” on ebay) with support for Firefox keyword bookmarks and search engines</li>
+<li>Count supported for many commands (3<C-o> will go back 3 pages)</li>
+<li>Beep on errors</li>
+<li>Marks support (ma to set mark ‘a’ on a webpage, ‘a to go there)</li>
+<li>QuickMarks support (quickly go to previously marked web pages with go{a-zA-Z0-9})</li>
+<li>:map and :command support (and feedkeys() for script writers)</li>
+<li>:time support for profiling</li>
+<li>Move the text cursor and select text with vim keys and a visual mode.</li>
+<li>External editor support</li>
+<li>Macros to replay key strokes</li>
+<li>AutoCommands to execute action on certain events</li>
+<li>A comprehensive help file, explaining all commands, mappings and settings.</li>
+</ul>
+<p>通读过这个之后大概对于vimperator的功能也有了了解，真的是很强大的工具，用的熟练的话完全可以让旁人看傻的，这么酷的插件，我必须学会使用。</p>
+<ol>
+<li><p>恢复地址栏、菜单栏、书签栏<br><code>Set:guioptions+=mTb</code><br>或者<br><code>Set:go+=mTb</code><br>都可以达到打开以上项目的功能，m就是菜单、T就是地址栏、b就是书签栏，这三个参数可以单独使用；</p>
+</li>
+<li><p>Vimperator有两种状态，普通状态和命令行状态，我们可以通过：进入命令行状态，通过Esc返回到普通状态。</p>
+</li>
+<li><p>获得帮助。要想跟快速的学会Vimperator就必须学会使用：help，你还可以通过使用：help option 来获得针对特定选项的帮助，或者通过使用：viusage或者：exusage来获得快捷键的帮助；</p>
+</li>
+<li><p>脱离鼠标。<br>or how I learned to stop worrying and love the 80+ buttons I already have.<br>这一段没太仔细看，大意是有了Vimperator，你就可以不再用鼠标了。</p>
+</li>
+<li><p>滚动窗口。<br>像Fterm一样：<br>j / k    以行为单位滚动窗口；<br>h / l    左右滚动窗口；<br><space>/<C-b>    翻页；<br><C-d>/<C-u>    翻1/2页；</p>
+</li>
+<li><p>历史和标签。<br><C-o> / <C-i>    在当前的标签内实现前进和后退；<br>gt / <C-n>    移动至下一个标签；<br>gT / <C-p>    移动至前一个标签；<br>g0 / g$        移动至第一个标签；<br>d        关闭当前活动标签；</p>
+</li>
+</ol>
+<p>利用：tabopen实现在新标签中打开网页，也可以使用快捷键t；<br>利用：open在当前页中打开网址，也可以使用快捷键o；</p>
+<ol start="7">
+<li>获得提示和打开网页。<br>看起来我们已经能够使用Vimperator正常上网了，等等，我们如何打开网页中的链接、如何查看网页中的提示呢？是不是我们还需要带尾巴的小朋友的帮助。</li>
+</ol>
+<p>我们可以利用vimperator提供的提示功能，按下；并且按a就可以看到页面中的链接都会在黄色背景下出现白色数字，输入数字后就能够跳到相应链接，据说也可以输入文字，然后搜索到相应的链接，不过这个对于中文的支持仿佛没有那么好。</p>
+<p>还有一个快捷的方式f和F。利用小写的f，可以在当前的标签中打开选中的链接，利用大写的F可以在新的标签中打开选中的链接。</p>
+<ol start="8">
+<li><p>保存设置。<br>如果你想将你自定义的命令保存下来，你可以使用命令：mkv command，这个操作会生成一个简单的文本文件$HOME/.vimperatorrc。</p>
+</li>
+<li><p>寻找出口。<br>Vimperator提供vim的经典推出方法。<br>：xall        保存当前会话并退出；<br>：qall    不保存当前会话并推出；<br>ZZ        同：xall<br>ZQ        同：qall</p>
+</li>
+<li><p>够了，我不要用。</p>
+</li>
+</ol>
+<p>如果你真的受不了这样，那么：addons，然后乖乖的用你的带尾巴的小朋友把vimperator卸载吧。</p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2008/09/21/20080921-vimperator/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Vimperator的有用操作
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2008/09/18/20080918-aptana-crack/" id="article-nav-older" class="article-nav-link-wrap">
+            Aptana的破解 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

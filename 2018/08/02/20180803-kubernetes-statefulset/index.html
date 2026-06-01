@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kubernetes中StatefulSet介绍-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="kubernetes, k8s, statefulset">
+    <meta name="description" content="StatefulSet是Kubernetes提供的管理有状态应用的负载管理控制器API。在Pods管理的基础上，保证Pods的顺序和一致性。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Kubernetes中StatefulSet介绍</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-06 12:33:53</span>
+        
+        <span class="post-time">发布于：2018-08-02 16:06:00</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <blockquote>
+<p>StatefulSet 是Kubernetes1.9版本中稳定的特性，本文使用的环境为 Kubernetes 1.11。如何搭建环境可以参考<a href="https://www.edulinks.cn/2018/07/24/20180724-kubeadm-install-kubernetes/">kubeadm安装kubernetes V1.11.1 集群</a> 。想要了解更多 Kubernetes 相关知识，可以阅读 <a href="http://www.edulinks.cn/2020/10/16/20201016-kubernetes-articles/">Kubernetes 系列学习文章</a>。</p>
+</blockquote>
+<h2 id="0-介绍"><a href="#0-介绍" class="headerlink" title="0. 介绍"></a>0. 介绍</h2><p>使用Kubernetes来调度无状态的应用非常简单，那Kubernetes如何来管理调度有状态的应用呢？Kubernetes中提供了一个StatefulSet控制器来管理有状态的应用，本文就介绍StatefulSet的应用，解决以下几个问题：</p>
+<ul>
+<li>如何创建StatefulSet</li>
+<li>StatefulSet如何管理Pods</li>
+<li>如何删除StatefulSet</li>
+<li>如何对StatefulSet进行扩容</li>
+<li>如何更新StatefulSet中的Pods</li>
+</ul>
+<h2 id="1-StatefulSet-是什么"><a href="#1-StatefulSet-是什么" class="headerlink" title="1. StatefulSet 是什么"></a>1. StatefulSet 是什么</h2><p>StatefulSet是Kubernetes提供的管理有状态应用的负载管理控制器API。在Pods管理的基础上，保证Pods的顺序和一致性。与Deployment一样，StatefulSet也是使用容器的Spec来创建Pod，与之不同StatefulSet创建的Pods在生命周期中会保持持久的标记（例如Pod Name）。<br>StatefulSet适用于具有以下特点的应用：</p>
+<ul>
+<li>具有固定的网络标记（主机名）</li>
+<li>具有持久化存储</li>
+<li>需要按顺序部署和扩展</li>
+<li>需要按顺序终止及删除</li>
+<li>需要按顺序滚动更新</li>
+</ul>
+<h2 id="2-StatefulSet-创建"><a href="#2-StatefulSet-创建" class="headerlink" title="2. StatefulSet 创建"></a>2. StatefulSet 创建</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">web</span></span><br><span class="line">  <span class="attr">clusterIP:</span> <span class="string">None</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">StatefulSet</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">web</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">serviceName:</span> <span class="string">&quot;nginx&quot;</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">     <span class="attr">matchLabels:</span></span><br><span class="line">       <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">docker.io/nginx</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">80</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">web</span></span><br><span class="line">        <span class="attr">volumeMounts:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">www</span></span><br><span class="line">          <span class="attr">mountPath:</span> <span class="string">/usr/share/nginx/html</span></span><br><span class="line">  <span class="attr">volumeClaimTemplates:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">www</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">accessModes:</span> [<span class="string">&quot;ReadWriteOnce&quot;</span>]</span><br><span class="line">      <span class="attr">volumeMode:</span> <span class="string">Filesystem</span></span><br><span class="line">      <span class="attr">resources:</span></span><br><span class="line">        <span class="attr">requests:</span></span><br><span class="line">          <span class="attr">storage:</span> <span class="string">50Mi</span></span><br><span class="line">      <span class="attr">storageClassName:</span> <span class="string">local-storage</span></span><br></pre></td></tr></table></figure>
+<p>StatefulSet创建顺序是从0到N-1，终止顺序则是相反。如果需要对StatefulSet扩容，则之前的N个Pod必须已经存在。如果要终止一个Pod，则它的后序Pod必须全部终止。</p>
+<blockquote>
+<p>If web-0 should fail, after web-1 is Running and Ready, but before web-2 is launched, web-2 will not be launched until web-0 is successfully relaunched and becomes Running and Ready.</p>
+</blockquote>
+<blockquote>
+<p>在Kubernetes 1.7版本后，放松了顺序的保证策略，对应的参数为 .spec.podManagementPolicy</p>
+</blockquote>
+<p>执行创建命令，并且观察对象是否正常创建。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@devops-101 ~]<span class="comment"># kubectl create -f ss-nginx.yml </span></span><br><span class="line">service <span class="string">&quot;nginx&quot;</span> created</span><br><span class="line">statefulset <span class="string">&quot;web&quot;</span> created</span><br><span class="line">[root@devops-101 ~]<span class="comment"># kubectl get svc</span></span><br><span class="line">NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE</span><br><span class="line">kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   9d</span><br><span class="line">nginx        ClusterIP   None         &lt;none&gt;        80/TCP    1d</span><br><span class="line">[root@devops-101 ~]<span class="comment"># kubectl get statefulset </span></span><br><span class="line">NAME      DESIRED   CURRENT   AGE</span><br><span class="line">web       2         2         1d</span><br></pre></td></tr></table></figure>
+<p>看一下Pod是否是有顺序的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@devops-101 ~]<span class="comment"># kubectl get pods -l app=nginx</span></span><br><span class="line">NAME      READY     STATUS    RESTARTS   AGE</span><br><span class="line">web-0     1/1       Running   0          11m</span><br><span class="line">web-1     1/1       Running   0          11m</span><br></pre></td></tr></table></figure>
+<p>根据Pod的顺序，每个Pod拥有对应的主机名，在Pod中执行<code>hostname</code>命令确认下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@devops-101 ~]<span class="comment"># for i in 0 1; do kubectl exec web-$i -- sh -c &#x27;hostname&#x27;; done</span></span><br><span class="line">web-0</span><br><span class="line">web-1</span><br></pre></td></tr></table></figure>
+<p>使用带有nslookup命令的busybox镜像启动一个Pod，检查集群内的DNS地址设置。</p>
+<h2 id="3-扩缩容"><a href="#3-扩缩容" class="headerlink" title="3. 扩缩容"></a>3. 扩缩容</h2><p>将Pod实例扩充到5个。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">root@devops-101</span> <span class="string">~</span>]<span class="comment"># kubectl scale sts web --replicas=5</span></span><br><span class="line"><span class="string">statefulset.apps/web</span> <span class="string">scaled</span></span><br><span class="line">[<span class="string">root@devops-101</span> <span class="string">~</span>]<span class="comment"># kubectl get pods -w</span></span><br><span class="line"><span class="string">NAME</span>      <span class="string">READY</span>     <span class="string">STATUS</span>    <span class="string">RESTARTS</span>   <span class="string">AGE</span></span><br><span class="line"><span class="string">web-0</span>     <span class="number">1</span><span class="string">/1</span>       <span class="string">Running</span>   <span class="number">0</span>          <span class="string">5m</span></span><br><span class="line"><span class="string">web-1</span>     <span class="number">1</span><span class="string">/1</span>       <span class="string">Running</span>   <span class="number">0</span>          <span class="string">5m</span></span><br><span class="line"><span class="string">web-2</span>     <span class="number">0</span><span class="string">/1</span>       <span class="string">Pending</span>   <span class="number">0</span>         <span class="string">1s</span></span><br><span class="line"><span class="string">web-2</span>     <span class="number">0</span><span class="string">/1</span>       <span class="string">Pending</span>   <span class="number">0</span>         <span class="string">1s</span></span><br></pre></td></tr></table></figure>
+<p>因为我的集群PV不是动态供给的，所以扩容停留在等待PV的阶段，本文要按照后面的办法手工创建相应的PV。<br>将实例减少到2个。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">root@devops-101</span> <span class="string">~</span>]<span class="comment"># kubectl get pod</span></span><br><span class="line"><span class="string">NAME</span>      <span class="string">READY</span>     <span class="string">STATUS</span>    <span class="string">RESTARTS</span>   <span class="string">AGE</span></span><br><span class="line"><span class="string">web-0</span>     <span class="number">1</span><span class="string">/1</span>       <span class="string">Running</span>   <span class="number">0</span>          <span class="string">24m</span></span><br><span class="line"><span class="string">web-1</span>     <span class="number">1</span><span class="string">/1</span>       <span class="string">Running</span>   <span class="number">0</span>          <span class="string">23m</span></span><br><span class="line"><span class="string">web-2</span>     <span class="number">1</span><span class="string">/1</span>       <span class="string">Running</span>   <span class="number">0</span>          <span class="string">18m</span></span><br><span class="line"><span class="string">web-3</span>     <span class="number">1</span><span class="string">/1</span>       <span class="string">Running</span>   <span class="number">0</span>          <span class="string">10m</span></span><br><span class="line"><span class="string">web-4</span>     <span class="number">1</span><span class="string">/1</span>       <span class="string">Running</span>   <span class="number">0</span>          <span class="string">6m</span></span><br><span class="line">[<span class="string">root@devops-101</span> <span class="string">~</span>]<span class="comment"># kubectl patch sts web -p &#x27;&#123;&quot;spec&quot;:&#123;&quot;replicas&quot;:2&#125;&#125;&#x27;</span></span><br><span class="line"><span class="string">statefulset.apps/web</span> <span class="string">patched</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-更新策略"><a href="#4-更新策略" class="headerlink" title="4. 更新策略"></a>4. 更新策略</h2><h3 id="4-1-滚动更新"><a href="#4-1-滚动更新" class="headerlink" title="4.1 滚动更新"></a>4.1 滚动更新</h3><p>默认的更新策略，以相反的顺序依次更新Pod</p>
+<h3 id="4-2-Partition"><a href="#4-2-Partition" class="headerlink" title="4.2 Partition"></a>4.2 Partition</h3><h3 id="4-3-金丝雀发布-Canary"><a href="#4-3-金丝雀发布-Canary" class="headerlink" title="4.3 金丝雀发布 Canary"></a>4.3 金丝雀发布 Canary</h3><p>金丝雀发布。</p>
+<h2 id="5-删除-StatefulSet"><a href="#5-删除-StatefulSet" class="headerlink" title="5. 删除 StatefulSet"></a>5. 删除 StatefulSet</h2><p>StatefulSet支持级连删除和非级连删除，在非级连删除模式下，仅删除StatefulSet不删除Pod，级连删除则全部删除。<br>非级连删除StatefulSet后，如果删除Pod，就不会重新拉起原来的Pod，而是新建一个Pod。但是如果重新创建StatefulSet，则会对现有的Pod按照规则进行重新整理。<br>一些分布式系统，并不希望按照顺序来管理启停Pod，因此在1.7版本之后，提供了<code>.spec.podManagementPolicy</code>这个参数，默认为<code>OrderedReady</code>，可以设置为<code>Parallel</code>这样Pod的创建就不必等待，而是会同时创建、同时删除。</p>
+<h2 id="X-坑"><a href="#X-坑" class="headerlink" title="X. 坑"></a>X. 坑</h2><p>官方的文档没有创建PVC对应的PV，按照官方文档操作创建后会遇到下面的错误，需要提前创建PV及PVC。关于存储的更详细的内容，可以参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/cocowool/p/kubernetes_storage.html">Kubernetes 存储系统 Storage 介绍</a>。</p>
+<blockquote>
+<p>pod has unbound PersistentVolumeClaims</p>
+</blockquote>
+<p>官方文档里解释了，因为他所用的集群配置为动态提供PV，所以不用手工创建。</p>
+<blockquote>
+<p>As the cluster used in this tutorial is configured to dynamically provision PersistentVolumes, the PersistentVolumes were created and bound automatically.</p>
+</blockquote>
+<p>PV的创建脚本如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">kind:</span> <span class="string">List</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">items:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line">  <span class="attr">kind:</span> <span class="string">PersistentVolume</span></span><br><span class="line">  <span class="attr">metadata:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">es-storage-pv-01</span></span><br><span class="line">  <span class="attr">spec:</span></span><br><span class="line">    <span class="attr">capacity:</span></span><br><span class="line">      <span class="attr">storage:</span> <span class="string">100Mi</span></span><br><span class="line">    <span class="attr">volumeMode:</span> <span class="string">Filesystem</span></span><br><span class="line">    <span class="attr">accessModes:</span> [<span class="string">&quot;ReadWriteOnce&quot;</span>]</span><br><span class="line">    <span class="attr">persistentVolumeReclaimPolicy:</span> <span class="string">Delete</span></span><br><span class="line">    <span class="attr">storageClassName:</span> <span class="string">local-storage</span></span><br><span class="line">    <span class="attr">local:</span></span><br><span class="line">      <span class="attr">path:</span> <span class="string">/home/es</span></span><br><span class="line">    <span class="attr">nodeAffinity:</span></span><br><span class="line">      <span class="attr">required:</span></span><br><span class="line">        <span class="attr">nodeSelectorTerms:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">matchExpressions:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">key:</span> <span class="string">kubernetes.io/hostname</span></span><br><span class="line">            <span class="attr">operator:</span> <span class="string">In</span></span><br><span class="line">            <span class="attr">values:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">devops-102</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">devops-103</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line">  <span class="attr">kind:</span> <span class="string">PersistentVolume</span></span><br><span class="line">  <span class="attr">metadata:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">es-storage-pv-02</span></span><br><span class="line">  <span class="attr">spec:</span></span><br><span class="line">    <span class="attr">capacity:</span></span><br><span class="line">      <span class="attr">storage:</span> <span class="string">100Mi</span></span><br><span class="line">    <span class="attr">volumeMode:</span> <span class="string">Filesystem</span></span><br><span class="line">    <span class="attr">accessModes:</span> [<span class="string">&quot;ReadWriteOnce&quot;</span>]</span><br><span class="line">    <span class="attr">persistentVolumeReclaimPolicy:</span> <span class="string">Delete</span></span><br><span class="line">    <span class="attr">storageClassName:</span> <span class="string">local-storage</span></span><br><span class="line">    <span class="attr">local:</span></span><br><span class="line">      <span class="attr">path:</span> <span class="string">/home/es01</span></span><br><span class="line">    <span class="attr">nodeAffinity:</span></span><br><span class="line">      <span class="attr">required:</span></span><br><span class="line">        <span class="attr">nodeSelectorTerms:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">matchExpressions:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">key:</span> <span class="string">kubernetes.io/hostname</span></span><br><span class="line">            <span class="attr">operator:</span> <span class="string">In</span></span><br><span class="line">            <span class="attr">values:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">devops-102</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">devops-103</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/">StatefulSet Basics</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/">DNS for Services and Pods</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/services-networking/service/#headless-services">Services</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">Persistent Volumes</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/kubernetes/examples/tree/master/staging/persistent-volume-provisioning/">PersistentVolume Provisioning</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/">StatefulSet Concept</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/08/08/20180808-kubernetes-pod-detail/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Kubernetes基础：Pod的详细介绍
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/08/02/20180802-kubernetes-storage/" id="article-nav-older" class="article-nav-link-wrap">
+            Kubernetes 存储系统 Storage 介绍 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

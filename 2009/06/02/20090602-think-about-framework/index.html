@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>关于框架的一些思考-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="框架, 开发框架, PHP开发框架">
+    <meta name="description" content="软件的框架会包括支持程序、代码库、脚本语言以及一些其他的软件来帮助开发或者将项目中不同部分的组件联合起来。如何根据自己团队的情况选择框架的使用，本文整理了一些辅助决策的参考意见。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>关于框架的一些思考</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-14 19:51:05</span>
+        
+        <span class="post-time">发布于：2009-06-02 15:49:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>如果你的团队很小并且在软件开发领域也没什么经验，那么放下包袱使用开源框架吧(OSS Framework)，但是如果你有一个很大而且有丰富经验的团队，那么最好还是开发自己的框架。</p>
+<p>什么是框架，并没有明确的解释，但是似乎我们听到这个名词以后大概都知道是怎么回事。Wiki上是这么定义的：框架是一种可复用的系统化设计。</p>
+<p>软件的框架会包括支持程序、代码库、脚本语言以及一些其他的软件来帮助开发或者将项目中不同部分的组件联合起来。外界看来框架的不同部分就像是各种API。</p>
+<p>根据这个定义，框架最基本核心的思想就是可复用的设计，更进一步的框架才会包含辅助程序、代码库和粘合性的代码。</p>
+<p>“在代码可用这个层面上来讲，框架类似于API或者各种代码库，但与此不同的是，框架中流程控制不是由调用者，而是由框架本身决定的。”</p>
+<p>各种各样的框架定义都表明，框架就是定义在开发过程中事情通常是怎么做的，框架定义了代码的结构、通用的样式。</p>
+<p>在PHP开发中，框架通常都定义了一种MVC的实现，更进一步的会提供一个抽象的数据层、一套模版系统、一个测试框架或者其他的一些东西。</p>
+<p>框架必须提供应用开发指导，这是非常重要的。在指导下进行新模块的设计、建立通用的文件夹结构、命名空间设计、测试设计等等。框架一般都应该包含一些通用的任务，</p>
+<p>比如说邮件发送这样在WEB应用中非常常见的功能。另外有一些功能可能只有特定的框架中才有，比如说图像处理这样非常依赖应用类型的功能。有一点我们需要始终记住，选择我们需要的工具来完成任务。</p>
+<p>创建自己的框架。</p>
+<p>开发自己的框架并不意味着一定要重复的制造轮子，编写MVC这样的扩展代码是非常费时间的一项工作。我们可以根据自己的需要，选择一些开源框架中的组建来加入到自己的框架中。这就需要我们仔细考虑选用何种合适的开源框架组件。</p>
+<p>为自己的框架选择部件。</p>
+<p>下面这些原则可以帮助在选择框架部件中做出决策：<br>1、是否满足自己的功能需要；<br>2、是否理解功能概念，是否容易扩展。打破框架都是我们极力避免的，但有时候却避免不了这种情况；<br>3、是否有一个活跃的社区，是否有公司在背后支持；<br>4、社区是否稳定，能否提供稳定的支持；<br>5、管理是否规范，是否有版本控制和BUG跟踪；<br>6、当前版本是否未定；<br>7、当前公开的BUG和关闭的重要BUG的数量；<br>8、最后，是否有丰富的文档，是否有教程；</p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2009/06/30/20090630-firefox-3.5/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Firefox 3.5发布
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2009/05/23/20090523-firebug-command-line/" id="article-nav-older" class="article-nav-link-wrap">
+            Firebug Command Line 的使用技巧 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

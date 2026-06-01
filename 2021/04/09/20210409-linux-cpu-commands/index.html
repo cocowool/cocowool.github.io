@@ -1,0 +1,207 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>查看Linux CPU使用率的7种方法-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="Linux, Kubernetes, Docker, PHP, java, javascript, CSS, 科技互联网, IT, 开发, 研发, 计算机名人">
+    <meta name="description" content="大江小浪，关注数据中心运维、金融科技、互联网相关技术与行业发展趋势，擅长应用运维管理、Linux、Java、Elasticsearch、Kubernetes、PHP相关技术。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>查看Linux CPU使用率的7种方法</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-04-12 13:47:41</span>
+        
+        <span class="post-time">发布于：2021-04-09 09:40:53</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h2 id="1-uptime"><a href="#1-uptime" class="headerlink" title="1. uptime"></a>1. uptime</h2><p>uptime 能够显示系统运行了多长时间，同时也能显示最近的负载情况。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ uptime</span><br><span class="line">12:23  up  3:51, 2 users, load averages: 1.85 1.51 1.41</span><br></pre></td></tr></table></figure>
+
+<p>其中 load averages 的三个数字表示1分钟、5分钟、15分钟系统的平均负载。</p>
+<h2 id="2-top"><a href="#2-top" class="headerlink" title="2. top"></a>2. top</h2><p>top是最常用的查看系统资源使用情况的工具，包括CPU、内存等等资源。top中看到的load average取自<code>/proc/loadavg</code>，三个数字是1、5、15分钟内进程队列中平均进程数，包括正在运行的进程+准备好等待运行的进程。</p>
+<p>打开top，可以指定更新的周期。输入H，打开隐藏的线程；输入1，可以显示单核CPU使用情况。</p>
+<p><code>top -H -b -d 1 -n 200 &gt; top.txt</code>，每隔1秒统计一次，共200次，显示线程细节，并保存到top.txt中。</p>
+<p>其中CPU信息对应的含义如下：</p>
+<ul>
+<li>us是user的意思，统计nice小于等于0的用户空间进程，也即优先级为100~120。</li>
+<li>ni是nice的意思，统计nice大于0的用户空间进程，也即优先级为121~139。</li>
+<li>sys是system的意思，统计内核态运行时间，不包括中断。</li>
+<li>id是idle的意思，几系统处于空闲态。</li>
+<li>wa是iowait的意思，统计io等待时间。</li>
+<li>hi是hardware interrupt，统计硬件中断时间。</li>
+<li>si是software interrupt，统计软中断时间。</li>
+<li>最后的st是steal的意思。</li>
+</ul>
+<h2 id="3-sar"><a href="#3-sar" class="headerlink" title="3. sar"></a>3. sar</h2><p>sar 命令是 System Activity Reporter 的缩写，能够对系统活动情况给出详细的报告，包括文件系统读写情况、CPU使用情况、内存使用情况、磁盘I/O、进程活动等情况，本文只介绍查看CPU的方法和参数。</p>
+<blockquote>
+<p><code>sar</code>命令来自于<code>sysstat</code>工具包，如果提示<code>sar</code>命令不存在，需先安装<code>sysstat</code>。</p>
+</blockquote>
+<p>语法</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sar -u [ &lt;时间间隔&gt; [ &lt;次数 ] ]</span><br><span class="line">$ sar -u 1 3</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-perf"><a href="#4-perf" class="headerlink" title="4. perf"></a>4. perf</h2><p>perf 也是一款很厉害的综合性性能分析工具，能够提供更加详细的CPU占用数据分析报告。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ perf <span class="built_in">stat</span></span><br><span class="line">^C</span><br><span class="line"> Performance counter stats <span class="keyword">for</span> <span class="string">&#x27;system wide&#x27;</span>:</span><br><span class="line"></span><br><span class="line">          9,417.54 msec cpu-clock                 <span class="comment">#    2.000 CPUs utilized          </span></span><br><span class="line">               444      context-switches          <span class="comment">#    0.047 K/sec                  </span></span><br><span class="line">                 5      cpu-migrations            <span class="comment">#    0.001 K/sec                  </span></span><br><span class="line">                 0      page-faults               <span class="comment">#    0.000 K/sec                  </span></span><br><span class="line">   &lt;not supported&gt;      cycles                                                      </span><br><span class="line">   &lt;not supported&gt;      instructions                                                </span><br><span class="line">   &lt;not supported&gt;      branches                                                    </span><br><span class="line">   &lt;not supported&gt;      branch-misses                                               </span><br><span class="line"></span><br><span class="line">       4.708869128 seconds time elapsed</span><br></pre></td></tr></table></figure>
+
+<p>perf 适用于程序开发过程中，需要对某些进程的CPU占用做详细分析的场景。</p>
+<h2 id="5-mpstat"><a href="#5-mpstat" class="headerlink" title="5. mpstat"></a>5. mpstat</h2><p>mpstat 命令也是 sysstat 工具包中的一个命令，Multiprocessor Statistics的缩写，mstat 提供实时监控能力。在多CPU的操作系统里，mpstat 不仅能查看所有CPU的平均状况信息，而且能够查看特定cpu信息，mpstat最大的特点是可以查看多核心cpu中每个核心的统计数据。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ mpstat</span><br><span class="line">Linux 3.10.0-1160.el7.x86_64 (qking-101) 	2021年04月09日 	_x86_64_	(2 CPU)</span><br><span class="line"></span><br><span class="line">23时29分12秒  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">23时29分12秒  all    1.88    0.00    0.97    0.05    0.00    0.01    0.00    0.00    0.00   97.09</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-vmstat"><a href="#6-vmstat" class="headerlink" title="6. vmstat"></a>6. vmstat</h2><p>vmstat 命令可以展现指定时间间隔情况下服务器的状态值，包括CPU使用率，内存使用率，虚拟内存交换情况，IO读写情况等等。一般 vmstat 使用时结合两个数字参数来完成的，第一个参数是采样的时间间隔数，单位是秒，第二个参数是采样的次数。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ vmstat 1 5</span><br><span class="line">procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----</span><br><span class="line"> r  b   swpd   free   buff  cache   si   so    bi    bo   <span class="keyword">in</span>   cs us sy id wa st</span><br><span class="line"> 1  0      0 1230192   2108 445532    0    0   222   130   78  115  1  1 98  0  0</span><br><span class="line"> 0  0      0 1230224   2108 445532    0    0     0     0   44   63  0  0 100  0  0</span><br><span class="line"> 0  0      0 1230224   2108 445532    0    0     0     0   34   59  0  0 100  0  0</span><br><span class="line"> 0  0      0 1230224   2108 445532    0    0     0     0   37   59  0  0 100  0  0</span><br><span class="line"> 0  0      0 1230224   2108 445532    0    0     0     0   33   55  0  0 100  0  0</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="7-pidstat"><a href="#7-pidstat" class="headerlink" title="7. pidstat"></a>7. pidstat</h2><p>pidstat主要用于监控全部或指定进程占用系统资源的情况。pidstat首次运行时显示自系统启动开始的各项统计信息，之后运行pidstat将显示自上次运行该命令以后的统计信息。用户可以通过指定统计的次数和时间来获得所需的统计信息。</p>
+<blockquote>
+<p>pidstat -p ALL—————————显示所有的进程统计信息，包括idle进程。<br>pidstat -p ALL -t————————更加详细的显示了线程统计信息。<br>pidstat [option] interval [count]—–周期采样和采样次数</p>
+</blockquote>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/arnoldlu/p/9462221.html">Linux CPU占用率监控工具小结</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39591494/article/details/78418162">详解mpstat、iostat、sar、vmstat命令的使用</a></li>
+<li><a href=""></a></li>
+<li><a href=""></a></li>
+<li><a href=""></a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/04/11/20210411-herman-goldstine/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 赫曼·哥尔斯廷
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/04/08/20210408-make-java-to-docker/" id="article-nav-older" class="article-nav-link-wrap">
+            将Java程序制作为镜像 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

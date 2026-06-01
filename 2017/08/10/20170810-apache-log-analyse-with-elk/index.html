@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Filebeat+Logstash+ElasticSearch+Kibana搭建Apache访问日志解析平台-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="filebeat, logstash, Elasticsearch, kibana, apache, 日志解析">
+    <meta name="description" content="本文搭建了一套专门访问Apache的访问日志的ELK环境，能够实现访问日志的可视化分析。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Filebeat+Logstash+ElasticSearch+Kibana搭建Apache访问日志解析平台</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2017-08-10 11:39:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>对于ELK还不太熟悉的同学可以参考我前面的两篇文章<a target="_blank" rel="noopener" href="http://www.cnblogs.com/cocowool/p/7297749.html">ElasticSearch + Logstash + Kibana 搭建笔记</a>、<a target="_blank" rel="noopener" href="http://www.cnblogs.com/cocowool/p/7326527.html">Log stash学习笔记（一）</a>，本文搭建了一套专门访问Apache的访问日志的ELK环境，能够实现访问日志的可视化分析。</p>
+<h3 id="数据源-Filebeat-Logstash"><a href="#数据源-Filebeat-Logstash" class="headerlink" title="数据源 Filebeat + Logstash"></a>数据源 Filebeat + Logstash</h3><p>数据源对应Logstash中的Input部分，本文采用Filebeat来读取Apache日志提供给Logstash，Logstash进行日志解析输入到ES中进行存储。Filebeat的配置比较简单，参考文章<a target="_blank" rel="noopener" href="http://www.cnblogs.com/cocowool/p/7326527.html">Log stash学习笔记（一）</a>。需要注意的是，如果Filebeat之前发送过数据，需要执行<code>rm data/registry</code>删除缓存数据，强制filebeat从原始数据重新读取数据。<br>重点来看Logstash的配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">input &#123;</span><br><span class="line">  beats &#123;</span><br><span class="line">    port =&gt; <span class="string">&quot;5043&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">filter &#123;</span><br><span class="line">  grok &#123;</span><br><span class="line">    match =&gt; &#123; <span class="string">&quot;message&quot;</span> =&gt; <span class="string">&quot;%&#123;COMBINEDAPACHELOG&#125;&quot;</span> &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  date &#123;</span><br><span class="line">    match =&gt; [ <span class="string">&quot;timestamp&quot;</span>, <span class="string">&quot;dd/MMM/yyyy:HH:mm:ss Z&quot;</span> ]</span><br><span class="line">    target =&gt; [<span class="string">&quot;datetime&quot;</span>]</span><br><span class="line">  &#125;</span><br><span class="line">  geoip &#123;</span><br><span class="line">    <span class="built_in">source</span> =&gt; <span class="string">&quot;clientip&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">  elasticsearch &#123;</span><br><span class="line">    hosts =&gt; <span class="string">&quot;47.89.30.169:9200&quot;</span></span><br><span class="line">    index =&gt; <span class="string">&quot;access_log&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">  stdout &#123; codec =&gt; rubydebug &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>本文使用了grok插件，grok是Logstash默认自带的Filter插件，能够帮助我们将未结构化的日志数据转化为结构化、可查询的数据格式。grok对日志的解析基于特定的正则模式匹配，对于Apache的Access Log 访问日志，多数情况下我们都适用combined格式。</p>
+<img src="/2017/08/10/20170810-apache-log-analyse-with-elk/39469-20170810113709558-1693242570.png" class="">
+<p>可以看到现在logstash输出的内容包括原始日志信息，以及按照日志格式解析后的各字段信息。</p>
+<h4 id="GeoIP插件"><a href="#GeoIP插件" class="headerlink" title="GeoIP插件"></a>GeoIP插件</h4><p>配置参考上面，使用了GeoIP插件后，可以对访问IP进行反向解析，返回地址信息。可以用于后续做图。</p>
+<img src="/2017/08/10/20170810-apache-log-analyse-with-elk/39469-20170810113739917-1029447653.png" class="">
+<p>但是仅仅这样还不够，因为进入ES的数据会自动进行映射，而对于地理数据，需要映射为特殊的geo_point类型，本文未做详细阐述，后续会有文章专门解决这个问题。</p>
+<h4 id="timestamp"><a href="#timestamp" class="headerlink" title="timestamp"></a>timestamp</h4><p>logstash默认为每次导入的数据赋予当前的时间做为时间戳，如果我们希望能够使用日志中的时间做为记录的时间戳，主要用下面的配置。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">date &#123;</span><br><span class="line">    match =&gt; [ <span class="string">&quot;timestamp&quot;</span>, <span class="string">&quot;dd/MMM/yyyy:HH:mm:ss Z&quot;</span> ]</span><br><span class="line">    target =&gt; [<span class="string">&quot;datetime&quot;</span>]</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>这个配置匹配了日志中的时间，放入timestamp时间戳中，并且新创建了一个单独的datetime字段。<br>logstash配置完成后，首先确保ElasticSearch处于运行状态，再启动 logstash，最后启动Filebeat。这样，日志数据就会存放在ES中的<strong>access_log</strong>索引下。</p>
+<h3 id="ElasticSearch"><a href="#ElasticSearch" class="headerlink" title="ElasticSearch"></a>ElasticSearch</h3><p>ElasticSearch基本上无需做配置，安装可以参考我之前的文章<a target="_blank" rel="noopener" href="http://www.cnblogs.com/cocowool/p/7297749.html">ElasticSearch + Logstash + Kibana 搭建笔记</a>，这里补充几个常用的API。</p>
+<h4 id="列出可用的索引"><a href="#列出可用的索引" class="headerlink" title="列出可用的索引"></a><strong>列出可用的索引</strong></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl <span class="string">&#x27;localhost:9200/_cat/indices?v&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>结果如下图</p>
+<img src="/2017/08/10/20170810-apache-log-analyse-with-elk/39469-20170810113756777-35038291.png" class="">
+
+<h4 id="查询索引数据"><a href="#查询索引数据" class="headerlink" title="查询索引数据"></a><strong>查询索引数据</strong></h4><p>$DATE需要替换成具体的日期（格式YYYY.MM.DD)，本文就是logstash-2017.08.10。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET <span class="string">&#x27;localhost:9200/logstash-$DATE/_search?pretty&amp;q=response=200’</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Kibana"><a href="#Kibana" class="headerlink" title="Kibana"></a>Kibana</h3><p>首先在Kibana中创建Index Pattern，索引选择<strong>access_log</strong>，时间戳选择 timestamp 或者 datetime，然后在 Discover 中就可以看到数据了。</p>
+<img src="/2017/08/10/20170810-apache-log-analyse-with-elk/39469-20170810113809558-1044745789.png" class="">
+<p>结合Visualize和Dashboar，可以做出按时间统计的访问曲线和返回状态饼图。</p>
+<img src="/2017/08/10/20170810-apache-log-analyse-with-elk/39469-20170810113820824-1473160811.png" class="">
+
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/logstash/current/advanced-pipeline.html">Logstash Reference</a><br>2、<a target="_blank" rel="noopener" href="http://httpd.apache.org/docs/current/mod/mod_log_config.html">Apache mod_log_config</a><br>3、<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/31257595/logstash-modify-apache-date-format">Logstash: modify apache date format</a><br>4、<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html#plugins-outputs-elasticsearch-template">Elastic Output Plugin</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2017/08/11/20170811-elasticsearch-data-mapping-in-logstash/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Logstash中如何处理到ElasticSearch的数据映射
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2017/08/09/20170809-logstash-learning/" id="article-nav-older" class="article-nav-link-wrap">
+            Logstash学习笔记（一） &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

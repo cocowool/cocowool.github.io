@@ -1,0 +1,315 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Elasticsearch监控指南-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="elasticsearch, elasticsearch监控, elasticsearch监控指南">
+    <meta name="description" content="Elasticsearch的出现很好的提供了搜索与分析能力，并且具备了实时响应、快速扩展、海量数据存储等等能力，非常方便、快速的满足了用户场景的需求。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Elasticsearch监控指南</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-31 23:05:03</span>
+        
+        <span class="post-time">发布于：2020-03-15 10:28:31</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>在当今的软件应用和互联网应用中，搜索与分析能力都是是非常重要的功能，几乎所有的移动APP中都提供了包括输入提示、搜索建议、位置搜索等常见的应用功能。这种场景下，后台的搜索和分析服务能力要具备实时响应、快速扩展、海量数据存储等等能力，Elasticsearch的出现很好的提供了这些能力，非常方便、快速的满足了用户场景的需求。</p>
+<span id="more"></span>
+
+<p>[TOC]</p>
+<blockquote>
+<p>本文对Elasticsearch进行了简单的介绍，并总结了集群运行中监控所需注意的事项，总结出来与大家分享。</p>
+</blockquote>
+<h2 id="1-Elasticsearch介绍"><a href="#1-Elasticsearch介绍" class="headerlink" title="1. Elasticsearch介绍"></a>1. Elasticsearch介绍</h2><p>Elasticsearch是一款基于Lucene的构建的开源、分布式文本搜索引擎，还可以作为一个分布式文档数据库使用，由Shay Bannon于2010年创建。从使用角度来讲，ES提供了优秀的全文索引和查询性能；从运维和开发角度来讲，ES部署简单，水平扩展非常简单，同时还提供了灵活Rest API调用方式，因此相比其他复杂的分布式系统，ES的应用越来越广泛。</p>
+<img src="/2020/03/15/20200315-es-monitoring-guide/pngbase64bb339bcbe4ec5137.png" class="" title="pngbase64bb339bcbe4ec5137">
+
+<p>但是随着ES集群越来越大，对ES的运维管理就变得复杂起来，想要获得较好的性能就需要一些专业知识才能实现。要想做好ES集群的性能调优，监控就是必不可少的条件。本文关注Elasticsearch的监控和调优，同时也介绍了Elasticsearch的工作原理、系统设置以及常见的一些监控指标。</p>
+<h2 id="2-监控方法论"><a href="#2-监控方法论" class="headerlink" title="2. 监控方法论"></a>2. 监控方法论</h2><p>任何事情都要讲究方法，在软件开发领域有开发-&gt;质量保证-&gt;运维的循环，通过不断的迭代来提高软件的质量。最近也有通过DevOps不断提高研发、投产效率的潮流。而在ES集群运维领域，要想做好Elasticsearch的安装、使用、调优，也需要经过监控-&gt;分析-&gt;调优不断迭代循环的过程。在每个环节，都要有针对性的判断标准，这样才能不断提高Elasticsearch运维的水平。</p>
+<img src="/2020/03/15/20200315-es-monitoring-guide/pngbase64b6fee5cbbb720f73.png" class="" title="pngbase64b6fee5cbbb720f73">
+
+<h3 id="2-1-需要关注监控的场景"><a href="#2-1-需要关注监控的场景" class="headerlink" title="2.1 需要关注监控的场景"></a>2.1 需要关注监控的场景</h3><ul>
+<li>开发和POC阶段。通过用户案例和具体开发实现过程来观察系统性能的表现，分析对系统性能有影响的因素，可以针对性采取更优化的算法或者不同的应用架构来提高系统的性能。</li>
+<li>QA测试和压力测试阶段。观察系统在压力下的表现，寻找更好的配置参数，寻找基础设施上的优化措施。</li>
+<li>生产环境的运维阶段。观察系统的稳定性，寻找系统瓶颈，做好问题的根源分析并准备生产扩容。增加监控指标并对告警进行及时处理，避免影响业务运行的系统故障发生。</li>
+</ul>
+<h3 id="2-2-供参考的监控原则"><a href="#2-2-供参考的监控原则" class="headerlink" title="2.2 供参考的监控原则"></a>2.2 供参考的监控原则</h3><p>2.1 中提到的这些事项可能会被大家忽略，毕竟在一个项目中完成业务功能、赶工期可能是大多数人眼中更重要的事情。如果你对于产品的体验比较关注，包括对于系统性能的表现和日常监控，不妨看看下面这些原则，相信在我们日常开发、运维过程中坚持的话，一定能够取得很好的效果。</p>
+<ul>
+<li>保证生产集群的监控和日志完整。一个关键业务系统会持续快速的产生大量的监控指标和日志数据，当集群状态发生故障时，日志的量可能还会发生快速的增长。一方面我们要确保各产品的监控没有遗漏，日志收集都比较全面，另一方面还要做好海量日志管理的准备。</li>
+<li>关注操作系统事件、日志和异常指标。指标异常往往会导致问题发生，日志或系统事件中出现错误都会导致集群问题。</li>
+<li>对上下游的组件都进行监控。ES通常是作为数据存储和查询服务的组件，我们将监控范围扩大到业务的全流程时，往往能够更快的发现问题。</li>
+<li>在团队内部分享。包括测试报告、每日健康检查的结果或图表、补充文档等等。</li>
+<li>使用异常检测或智能告警技术。固定阈值的告警方法不适合随业务上线波动的指标，这时考虑采用机器学习等人工智能方法或算法来减少误告警的干扰。</li>
+<li>将告警和工作流程整合起来。典型的做法是告警后触发事件单，并由服务台分配到对应的支持团队去分析问题。</li>
+</ul>
+<h2 id="3-Elasticsearch监控"><a href="#3-Elasticsearch监控" class="headerlink" title="3. Elasticsearch监控"></a>3. Elasticsearch监控</h2><h3 id="3-1-Elasticsearch-工作原理"><a href="#3-1-Elasticsearch-工作原理" class="headerlink" title="3.1 Elasticsearch 工作原理"></a>3.1 Elasticsearch 工作原理</h3><p>安装、调优、故障排查ES集群需要了解一些ES集群的基本工作原理，以及对于一些重要函数和设置的深入理解。<code>Shared Nothing</code>是ES最基本的架构原则。</p>
+<blockquote>
+<p><code>Shared Nothing Architecture (SN)</code> 是一种分布式计算架构，其中的每个节点都是独立且自足的，整个系统不存在单点故障。</p>
+</blockquote>
+<p>换句话说，不同的节点保有各自独立的数据和运算，这也构成了ES集群易于弹性扩展的基础，在集群中我们只需要加进去一个节点就可以。ES采用了倒排索引的数据结构，这实际上是一个关键词到文档列表的映射，能够帮我们快速的找到所希望的文档内容。</p>
+<blockquote>
+<p>实际生产的情况并没有这么简单，我们还需要考虑新加入的节点对集群中其他节点的影响，这些可以在后面的文章中了解到。</p>
+</blockquote>
+<p>索引信息保存在一个或多个分区（也称为Shard）上。ES具有在集群范围内动态分配、调整每个节点上Shard的能力，这个机制使ES集群在数据分配上具有很多灵活性。通过将主分区（Primary Shards）的副本拷贝到其他节点来保证集群数据的冗余。索引动作操作主分区 Primary Shard，搜索动作则涉及主分区 Primary Shard和分区副本。增加节点和分区副本的数量能够提高集群的查询性能。ES提供了静态配置文件、动态HTTP API的方式来灵活调整集群的配置。</p>
+<h3 id="3-2-Elasticsearch基本术语"><a href="#3-2-Elasticsearch基本术语" class="headerlink" title="3.2 Elasticsearch基本术语"></a>3.2 Elasticsearch基本术语</h3><p>为了便于理解后续章节内容，我们先来了解一些名词。</p>
+<table>
+<thead>
+<tr>
+<th>名词</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>JVM</td>
+<td>Java Virtual Machine 跨平台的Java执行引擎</td>
+</tr>
+<tr>
+<td>Index</td>
+<td>索引是具有相似特征的文档集合，可以类比MongoDB或CouchDB的集合，一个索引可以支持一种数据类型，通过Mapping映射的方式定义数据的schema，一个索引由1-N个主分区 Primary Shards组成，包括0-N个副本 Replica shards。</td>
+</tr>
+<tr>
+<td>Shard</td>
+<td>一个Shard是一个单独的Lucene索引实例，由ES进行维护。Shard有两种类型，包括主分区Primary Shard和副本分区Replica Shards。</td>
+</tr>
+<tr>
+<td>Mapping</td>
+<td>Mapping 映射是定义在Index 索引上的数据结构定义（Schema）。Schema只能在空索引的情况下被修改，增加新字段和子字段则是随时可以的，但是修改字段的类型则会涉及到比较复杂的数据re-indexing操作</td>
+</tr>
+<tr>
+<td>automatic Mapping 自动映射</td>
+<td>如果没有定义映射规则，ES将自动探测字段类型（字符串、数字、IP、地理坐标）并创建自动映射、设置默认的字符串分析器、增加关键词字段。默认情况下，一个字符串即会被映射为一个text和keyword。这样你就既可以做全文检索，也可以做关键词搜索、排序和聚合。如果映射定义的有问题，那么在后续的查询阶段将会出现问题，或者由于自动识别的字段类型不正确如只包含数字的字符串识别为数字后，后续有其他字符时会造成插入错误。</td>
+</tr>
+<tr>
+<td>Segments</td>
+<td>一个分区 Shard的片段（Lucene Index）</td>
+</tr>
+<tr>
+<td>Document</td>
+<td>Document 文档是Elasticsearch的主要实体，是可以被索引的信息的基本单位，文档以JSON格式存储和索引，原始的内容保存在<code>_source</code>字段中，其他的内容被解析映射成不同的字段，只能对映射过的字段进行查询。</td>
+</tr>
+<tr>
+<td>Node</td>
+<td>一个Node 节点是一个运行的Elasticsearch实例，是集群的一部分，Node通过Cluster Name查找集群中的其他节点，可以配置采用多播multicast或单播的方法来发现其他节点。多个节点可以运行在同一台物理机、虚拟机或容器中。</td>
+</tr>
+<tr>
+<td>Cluster</td>
+<td>集群由一个或多个节点组成，每个集群拥有一个自动选择出来的主节点。</td>
+</tr>
+</tbody></table>
+<h3 id="3-3-ES集群扩展"><a href="#3-3-ES集群扩展" class="headerlink" title="3.3 ES集群扩展"></a>3.3 ES集群扩展</h3><p>ES一般有以下几种典型的需求：</p>
+<ul>
+<li>索引速度要快。</li>
+<li>查询耗时要短。</li>
+<li>存储容量要大。</li>
+</ul>
+<p>在大多数情况下，这三个需求往往是同时存在的。要同时满足为满足这样的需求，按照默认配置搭建的ES集群可能无法胜任，需要对ES集群做一下扩展，将节点的角色进行区分：<code>Master nodes 主节点</code>、<code>Clident Node 查询节点</code>、 <code>Data node 数据节点</code>。三个Master节点用于集群管理，减少可能造成集群不稳定的影响因素（如数据同步、查询等导致的脑裂）。然后还要对集群进行细致的调优，这样才能获得满足需求的索引速度、查询响应和容量。</p>
+<img src="/2020/03/15/20200315-es-monitoring-guide/Bildschirmfoto-2014-12-03-um-23.22.31.png" class="" title="Scaling Elasticsearch with different node types">
+
+<ul>
+<li>不同的节点类型。通过配置文件指定节点的类型</li>
+<li>查询节点/负载均衡节点：这种节点可以作为处理客户端HTTP查询请求的节点，不保留任何数据，也不作为主节点。<ul>
+<li><code>node.data: false</code></li>
+<li><code>node.master: false</code></li>
+</ul>
+</li>
+<li>主节点 Master Node：作为集群的主节点，不保存数据。<ul>
+<li><code>node.master: true</code></li>
+<li><code>node.data: false</code></li>
+</ul>
+</li>
+<li>数据节点 Data node：作为数据的存储节点，也响应查询请求。<ul>
+<li><code>node.master: false</code></li>
+<li><code>node.data: true</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="3-4-Elasticsearch-和-Java"><a href="#3-4-Elasticsearch-和-Java" class="headerlink" title="3.4 Elasticsearch 和 Java"></a>3.4 Elasticsearch 和 Java</h3><p>Elasticsearch由Java语言编写，运行在JVM之上，支持在不同的操作系统间迁移。每个Java程序都有Heap上限，可以通过启动命令来配置。与C/C++中需要自己管理内存不同，Java程序通过Garbage Collector 垃圾回收器管理内存，不需要手工释放内存。垃圾回收器追踪了没有被使用的对象，并且根据不同的垃圾回收策略进行垃圾回收。在不同的Java运行环境中，不同的垃圾回收策略的表现会有较大的差别。</p>
+<p>Elasticsearch运行在JVM之上，因此对于JVM的内存使用、垃圾回收的监控以及JVM的优化设置对于ES的稳定运行都很重要。我们总结了以下事项要给予关注：</p>
+<ul>
+<li>避免JVM进行SWAP入磁盘</li>
+<li>定义Elasticsearch的Heap内存大小</li>
+<li>监控内存指标，ES服务器索引合并耗时。Heap Size设置过大可能会导致索引合并和垃圾回收时间增长。</li>
+</ul>
+<img src="/2020/03/15/20200315-es-monitoring-guide/Bildschirmfoto-2015-05-20-um-00.10.29.png" class="" title="Bildschirmfoto 2015 05 20 um 00.10.29">
+
+<h3 id="3-5-索引如何工作"><a href="#3-5-索引如何工作" class="headerlink" title="3.5 索引如何工作"></a>3.5 索引如何工作</h3><p>通过HTTP POST发送包含JSON内容的请求来创建ES中的文档 Document。在请求的URL中明确了索引的名称和类型名称，文档ID是可选参数。通过<code>curl</code>命令来进行操作。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ curl -XPOST -H <span class="string">&quot;Content-Type: application/json&quot;</span> <span class="string">&#x27;localhost:9200/customer/_doc/1?pretty?&#x27;</span> -d</span><br><span class="line"><span class="string">&#x27;</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">	&quot;name&quot;: &quot;John Doe&quot;</span></span><br><span class="line"><span class="string">&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>响应信息</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;_index&quot;</span> : <span class="string">&quot;customer&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;_type&quot;</span> : <span class="string">&quot;_doc&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;_id&quot;</span> : <span class="string">&quot;1&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;_version&quot;</span> : <span class="number">1</span>,</span><br><span class="line">  <span class="attr">&quot;result&quot;</span> : <span class="string">&quot;created&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;_shards&quot;</span> : &#123;</span><br><span class="line">    <span class="attr">&quot;total&quot;</span> : <span class="number">2</span>,</span><br><span class="line">    <span class="attr">&quot;successful&quot;</span> : <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;failed&quot;</span> : <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;_seq_no&quot;</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">&quot;_primary_term&quot;</span> : <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>集群中发生了什么</strong></p>
+<p>用户发出请求后，Elasticsearch找到拥有主分区的节点进行索引文档的操作，该节点先接收数据并把数据写入 write-ahead 日志（也叫 transaction日志）中，然后再写入Lucene的段文件，参数<code>refresh interval</code>决定了写入段文件后支持查询的时间。主分区写入之后，副分区会进行更新。如果一个文档是更新操作，ES会先把原来的文档标记为删除，然后重新写入一个文档。ES会将比较小的段合并为大段，在这个过程中，会将标记为删除的文档彻底清除。由此可见，文档更新操作是非常消耗资源的操作。</p>
+<p>为了避免产生磁盘IO问题，ES集群中合并的流量会进行自动限制。如果需要，合并调度器可以多线程运行，可以通过参数控制通知合并的并发数量。</p>
+<img src="/2020/03/15/20200315-es-monitoring-guide/pngbase64f4454298ada263db.png" class="" title="pngbase64f4454298ada263db">
+
+<p>每个文档都是通过一个单独的HTTP请求创建的，当请求量增大时，会造成大量的交易，ES在不断的打开、写入、关闭文件。</p>
+<p>这就是为什么批量索引<code>_bulk</code>接口拥有相对而言更好的性能，通过这个接口可以在一次请求中操作多个文档。注意，默认的HTTP POST请求被限制在100MB，如果超过的话客户端请求会发生失败。</p>
+<p>提高索引速度的最佳实践就是增加<code>refresh interval</code>，它的默认值是<code>1秒钟</code>，也就是新增文档的请求在1秒中内会被处理并且能够被搜索到。在批量索引的场景下，这么短的刷新间隔会造成底层的Lucene索引每秒钟都被重新打开一次。增加<code>refresh_interval</code>的效果可以参考下面的值：</p>
+<ul>
+<li><code>refresh_interval: 1s</code> - 2.0K docs/s</li>
+<li><code>refresh_interval: 5s</code> - 2.5 docs/s</li>
+<li><code>refres_interval: 30s</code> - 3.4 docs/s</li>
+</ul>
+<p>另外一个<strong>至关重要</strong>的问题就是分区和副本的数量。副本分区在索引期间会被更新，从而降低了索引的吞吐量。但是拥有多个副本能够提高查询的响应速度。副本的数量可以动态改变。虽然ES集群中可以做到索引的拆分和合并，但是这项操作非常消耗资源。</p>
+<p>只要分区不是特别大，那么减少副本的数量能够提高响应的速度。</p>
+<blockquote>
+<p>有人会提到一种理想的<code>refesh</code>API，如在一次性的导入期间暂停索引的更新，等导入完成后再进行索引的更新。但实际上，后续的更新操作特别消耗资源，而且实际应用中我们的总是收到持续不断的插入请求。</p>
+</blockquote>
+<h3 id="3-6-查询操作"><a href="#3-6-查询操作" class="headerlink" title="3.6 查询操作"></a>3.6 查询操作</h3><p>客户端发送的请求到某个节点后，该节点会将请求转发到其他节点，收集到其他节点的返回结果并聚合后返回给客户端。ES提供了控制查询路由来提高查询效率的特性。</p>
+<img src="/2020/03/15/20200315-es-monitoring-guide/pngbase64e120198ad8b637b6.png" class="" title="pngbase64e120198ad8b637b6">
+
+<p>从运维的角度，以下几项与查询性能最为相关：</p>
+<ul>
+<li>Request Cache 和 Query Cache 的大小。监控你集群中的这两个值的情况。</li>
+<li>Maximus shard size 和 Shard的数量。如前所述，这项设置需要权衡并且必须在索引创建前确定。使用基于时间的索引和索引别名可以增加灵活性，根据情况动态调整索引的参数。<code>Curator</code>是这样一个工具。</li>
+<li>副本数量。只有副本能提高分布式查询的效率但是会降低索引的效率。与主分区不同，副本数量<code>number_of_replicas</code>可以在任何时间修改。</li>
+<li>客户端负载均衡。使用独立的负载均衡Nodes，既不要作为Master，也不要作为数据节点。</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://sematext.com/blog/elasticsearch-guide/">Elasticsearch Monitoring Guide</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/starzhou/article/details/87519973">什么是倒排索引？</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2b6f5eb5ac59">Elasticsearch介绍和基本概念</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.51cto.com/031028/1836875">[运维] 第七篇：数据中心监控体系建设方法论</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2020/03/29/20200326-google-adsense-error/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Google广告显示不正确的问题
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2020/03/14/20200314-write-hexo-with-typora/" id="article-nav-older" class="article-nav-link-wrap">
+            Hexo博客写作与图片处理的经验 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

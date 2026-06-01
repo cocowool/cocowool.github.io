@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Leetcode:Battleships in a board-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="leetcode">
+    <meta name="description" content="Leetcode 题目解答 Battleships in a board。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Leetcode:Battleships in a board</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-07-12 08:24:34</span>
+        
+        <span class="post-time">发布于：2021-07-12 08:23:34</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h3 id="题目要求"><a href="#题目要求" class="headerlink" title="题目要求"></a>题目要求</h3><p>Given an 2D board, count how many battleships are in it. The battleships are represented with ‘<strong>X</strong>‘s, empty slots are represented with ‘<strong>.</strong>‘s. You may assume the following rules:</p>
+<ul>
+<li>You receive a valid board, made of only battleships or empty slots.</li>
+<li>Battleships can only be placed horizontally or vertically. In other words, they can only be made of the shape 1xN (1 row, N columns) or Nx1 (N rows, 1 column), where N can be of any size.</li>
+<li>At least one horizontal or vertical cell separates between two battleships - there are no adjacent battleships.</li>
+</ul>
+<h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>注意这个题目里限定了甲板上存在的一定是符合规范的战舰，也就是不会存在相邻或者拐弯的情况。有了这个限定，解题就比较容易，遍历一下数组，我们只需要找到战舰起始点，就可以统计出来战舰的熟练。刚开始，我没有理解透这个限定，用了DFS的方法也能完成题目。</p>
+<h3 id="参考题解"><a href="#参考题解" class="headerlink" title="参考题解"></a>参考题解</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">countBattleships</span>(<span class="params">self, board</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type board: List[List[str]]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        count = <span class="number">0</span></span><br><span class="line">        rowStop = <span class="number">0</span></span><br><span class="line">        columnStop = <span class="number">0</span></span><br><span class="line">        x = <span class="number">0</span></span><br><span class="line">        y = <span class="number">0</span></span><br><span class="line">        rowSize = <span class="built_in">len</span>(board)</span><br><span class="line">        columnSize = <span class="built_in">len</span>(board[<span class="number">0</span>])</span><br><span class="line">                </span><br><span class="line">        <span class="comment">#print(self.findEnd(board,0,3) )   </span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">#return count</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(x &lt; rowSize):</span><br><span class="line">            <span class="keyword">while</span>(y &lt; columnSize):</span><br><span class="line">                <span class="comment"># DFS 算法</span></span><br><span class="line">                <span class="comment"># r = self.findEnd(board,x,y)</span></span><br><span class="line">                <span class="comment"># if(r != False):</span></span><br><span class="line">                <span class="comment">#    print(&quot;board[&quot; + str(x) + &quot;][&quot; + str(y) + &quot;]&quot;)</span></span><br><span class="line">                    <span class="comment"># print( &quot;Value = &quot; + board[x][y])                    </span></span><br><span class="line">                <span class="comment">#    count = count + r</span></span><br><span class="line"></span><br><span class="line">                <span class="comment"># 只考虑起始点的解法</span></span><br><span class="line">                <span class="keyword">if</span>( board[x][y] == <span class="string">&quot;X&quot;</span>):</span><br><span class="line">                    <span class="keyword">if</span>( ( y == <span class="number">0</span> <span class="keyword">or</span> board[x][y-<span class="number">1</span>] != <span class="string">&quot;X&quot;</span>) <span class="keyword">and</span> ( x == <span class="number">0</span> <span class="keyword">or</span> board[x-<span class="number">1</span>][y] != <span class="string">&quot;X&quot;</span>)  ):</span><br><span class="line">                        count = count + <span class="number">1</span></span><br><span class="line">                y = y + <span class="number">1</span></span><br><span class="line">            y = <span class="number">0</span></span><br><span class="line">            x = x + <span class="number">1</span></span><br><span class="line">                </span><br><span class="line">        <span class="keyword">return</span> count</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findEnd</span>(<span class="params">self, board, x, y, direction = <span class="string">&quot;&quot;</span></span>):</span></span><br><span class="line">        <span class="keyword">if</span>( x &gt;= <span class="built_in">len</span>(board) <span class="keyword">or</span> y &gt;= <span class="built_in">len</span>(board[x])):</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># print( &quot;board[&quot; + str(x) + &quot;][&quot; + str(y) + &quot;], len(board) = &quot; + str(len(board)) + &quot;, len(board[x]) = &quot; + str(len(board[x])))</span></span><br><span class="line">        <span class="comment"># print(board[x][y])</span></span><br><span class="line"></span><br><span class="line">        RightEnd = <span class="literal">None</span></span><br><span class="line">        DownEnd = <span class="literal">None</span></span><br><span class="line">        <span class="keyword">if</span>( direction == <span class="string">&quot;R&quot;</span>):</span><br><span class="line">            <span class="keyword">if</span>(board[x][y] == <span class="string">&quot;X&quot;</span>):</span><br><span class="line">                <span class="keyword">if</span>(y+<span class="number">1</span> == <span class="built_in">len</span>(board[x])):</span><br><span class="line">                    <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">                <span class="keyword">return</span> self.findEnd(board,x,y+<span class="number">1</span>,<span class="string">&quot;R&quot;</span>)</span><br><span class="line">            <span class="keyword">elif</span>(board[x][y] == <span class="string">&quot;.&quot;</span>):</span><br><span class="line">                <span class="keyword">return</span> y</span><br><span class="line">        <span class="keyword">elif</span>( direction == <span class="string">&quot;D&quot;</span>):</span><br><span class="line">            <span class="keyword">if</span>(board[x][y] == <span class="string">&quot;X&quot;</span>):</span><br><span class="line">                <span class="keyword">if</span>(x+<span class="number">1</span>==<span class="built_in">len</span>(board)):</span><br><span class="line">                    <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">                <span class="keyword">return</span> self.findEnd(board,x+<span class="number">1</span>,y,<span class="string">&quot;D&quot;</span>)</span><br><span class="line">            <span class="keyword">elif</span>(board[x][y] == <span class="string">&quot;.&quot;</span>):</span><br><span class="line">                <span class="keyword">return</span> x</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span>(board[x][y] == <span class="string">&quot;X&quot;</span>):</span><br><span class="line">                RightEnd = self.findEnd(board,x,y+<span class="number">1</span>, <span class="string">&quot;R&quot;</span>)</span><br><span class="line">                DownEnd = self.findEnd(board,x+<span class="number">1</span>,y, <span class="string">&quot;D&quot;</span>)</span><br><span class="line">                <span class="comment"># print( &quot;RightEnd = &quot; + str(RightEnd) + &quot;, DownEnd = &quot; + str(DownEnd))</span></span><br><span class="line">            <span class="keyword">elif</span>(board[x][y] == <span class="string">&quot;.&quot;</span>):</span><br><span class="line">                RightEnd = y</span><br><span class="line">                DownEnd = x</span><br><span class="line">    </span><br><span class="line">        <span class="comment"># Check Up</span></span><br><span class="line">        <span class="keyword">if</span>(DownEnd != x <span class="keyword">and</span> (x-<span class="number">1</span> &gt;= <span class="number">0</span>)):</span><br><span class="line">            <span class="keyword">if</span>(board[x-<span class="number">1</span>][y] == <span class="string">&quot;X&quot;</span>):</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># Check Left</span></span><br><span class="line">        <span class="keyword">if</span>(RightEnd != y <span class="keyword">and</span> (y-<span class="number">1</span> &gt;= <span class="number">0</span>)):</span><br><span class="line">            <span class="keyword">if</span>(board[x][y-<span class="number">1</span>] == <span class="string">&quot;X&quot;</span>):</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">                </span><br><span class="line">        <span class="comment"># Combine Both Right and Down</span></span><br><span class="line">        <span class="keyword">if</span>( RightEnd == y <span class="keyword">and</span> DownEnd == x ):</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">elif</span>( RightEnd &gt;= y + <span class="number">1</span> <span class="keyword">and</span> DownEnd &gt;= x + <span class="number">1</span> ):</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span>( RightEnd == -<span class="number">1</span> <span class="keyword">and</span> DownEnd == -<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span>( RightEnd == -<span class="number">1</span> <span class="keyword">and</span> DownEnd &gt;= x + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span>( RightEnd &gt;= y + <span class="number">1</span> <span class="keyword">and</span> DownEnd == -<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/70952b51f0c8">图的基本算法（BFS和DFS）</a><br>2、<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E9%82%BB%E6%8E%A5%E7%9F%A9%E9%98%B5/9796080?fr=aladdin">邻接矩阵</a><br>3、<a target="_blank" rel="noopener" href="https://leetcode.com/problems/battleships-in-a-board/description/">Battleships in a board</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/07/13/20210713-leetcode-binary-search-tree/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Leetcode:Binary Search Tree
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/07/09/20210709-ops-docs/" id="article-nav-older" class="article-nav-link-wrap">
+            运维文档的几点看法 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

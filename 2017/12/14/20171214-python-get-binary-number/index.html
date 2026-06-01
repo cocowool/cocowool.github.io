@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Python获取数字的二进制值-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="python, python获取数字二进制, 二进制">
+    <meta name="description" content="如何通过Python获取一个整形数字的二进制表示。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Python获取数字的二进制值</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2022-11-04 08:46:22</span>
+        
+        <span class="post-time">发布于：2017-12-14 14:58:11</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>想要获取一个整形数字的二进制表示</p>
+<blockquote>
+<p>本文在 Python 3.10.6 环境下验证通过，如果使用 Python 2 相关版本环境，需要适当调整。</p>
+</blockquote>
+<h2 id="bin-内置函数"><a href="#bin-内置函数" class="headerlink" title="bin 内置函数"></a>bin 内置函数</h2><p>看一下官方的解释<br>Convert an integer number to a binary string prefixed with “0b”. The result is a valid Python expression. If x is not a Python int object, it has to define an <strong>index</strong>() method that returns an integer. Some examples。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">bin</span>(<span class="number">3</span>)</span><br><span class="line"><span class="string">&#x27;0b11&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">bin</span>(-<span class="number">10</span>)</span><br><span class="line"><span class="string">&#x27;-0b1010&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>If prefix “0b” is desired or not, you can use either of the following ways.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">format</span>(<span class="number">14</span>, <span class="string">&#x27;#b&#x27;</span>), <span class="built_in">format</span>(<span class="number">14</span>, <span class="string">&#x27;b&#x27;</span>)</span><br><span class="line">(<span class="string">&#x27;0b1110&#x27;</span>, <span class="string">&#x27;1110&#x27;</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">f&#x27;<span class="subst">&#123;<span class="number">14</span>:#b&#125;</span>&#x27;</span>,<span class="string">f&#x27;<span class="subst">&#123;<span class="number">14</span>:b&#125;</span>&#x27;</span></span><br><span class="line">(<span class="string">&#x27;0b1110&#x27;</span>, <span class="string">&#x27;1110&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>可以看到bin函数返回二进制数字表示的形式是采用了负号，而不是补码的形式。那么如何获得补码形式的二进制表示呢，很简单只需要对数值进行与操作就可以。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">bin</span>(-<span class="number">27</span> &amp; <span class="number">0b1111111111111111</span>)</span><br><span class="line"><span class="string">&#x27;0b1111111111100101&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>这个例子手工指定了位数，也可以用下面带参数的形式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bindigits</span>(<span class="params">n, bits</span>):</span></span><br><span class="line">    s = <span class="built_in">bin</span>(n &amp; <span class="built_in">int</span>(<span class="string">&quot;1&quot;</span>*bits, <span class="number">2</span>))[<span class="number">2</span>:]</span><br><span class="line">    <span class="keyword">return</span> (<span class="string">&quot;&#123;0:0&gt;%s&#125;&quot;</span> % (bits)).<span class="built_in">format</span>(s)</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span>(bindigits(-<span class="number">31337</span>, <span class="number">24</span>))</span><br><span class="line"><span class="number">111111111000010110010111</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Python中的二进制数据类型"><a href="#Python中的二进制数据类型" class="headerlink" title="Python中的二进制数据类型"></a>Python中的二进制数据类型</h2><p>Python中提供了三种二进制数据类型：</p>
+<ul>
+<li>bytes</li>
+<li>bytearray</li>
+<li>memoryview</li>
+</ul>
+<h3 id="Bytes-Object"><a href="#Bytes-Object" class="headerlink" title="Bytes Object"></a>Bytes Object</h3><p>Bytes对象是不可改变顺序的字节串。</p>
+<p>Bytes语法与String类似，只不过需要以<code>b</code>开头。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 单引号</span></span><br><span class="line"><span class="string">b&#x27;still allows embedded &quot;double&quot; quotes&#x27;</span></span><br><span class="line"><span class="comment"># 双引号</span></span><br><span class="line"><span class="string">b&quot;still allows embedded &#x27;single&#x27; quotes&quot;</span></span><br><span class="line"><span class="comment"># 三引号</span></span><br><span class="line"><span class="string">b&#x27;&#x27;&#x27;3 single quotes&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">b&quot;&quot;&quot;3 double quotes&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>只有ASCII字符才可以这么写，除此之外的都必须用bytes的形式来写。<br>由于2个十六进制数字精确地对应于单个字节，所以十六进制数字是用于描述二进制数据的通常使用的格式。</p>
+<h3 id="Bytearray-Object"><a href="#Bytearray-Object" class="headerlink" title="Bytearray Object"></a>Bytearray Object</h3><p>bytearray 是bytes对象的可变对象。对于bytearray对象没有专用的字面值语法，只能通过构造函数创建。</p>
+<h3 id="memoryview-函数"><a href="#memoryview-函数" class="headerlink" title="memoryview 函数"></a>memoryview 函数</h3><p><strong>memoryview()</strong> 函数返回给定参数的内存查看对象(memory view)。</p>
+<p>代码示例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>v = <span class="built_in">memoryview</span>(<span class="built_in">bytearray</span>(<span class="string">&quot;abcefg&quot;</span>, <span class="string">&quot;utf-8&quot;</span>))</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span>(v[<span class="number">1</span>])</span><br><span class="line"><span class="number">98</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span>(v[-<span class="number">1</span>])</span><br><span class="line"><span class="number">103</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span>(v[<span class="number">1</span>:<span class="number">4</span>].tobytes())</span><br><span class="line"><span class="string">b&#x27;bce&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h2><p>1、<a target="_blank" rel="noopener" href="https://docs.python.org/3/library/functions.html#bin">Python bin</a><br>2、<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/12946116/twos-complement-binary-in-python">Two’s Complement Binary in Python?</a><br>3、<a target="_blank" rel="noopener" href="http://docs.python.org/reference/lexical_analysis.html#integers">integers</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2017/12/22/20171222-mysql-condition/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Mysql中的条件语句if、case
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2017/12/11/20171211-error-caused-by-bom/" id="article-nav-older" class="article-nav-link-wrap">
+            SQL文件的BOM问题导致的invalid character错误及解决 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

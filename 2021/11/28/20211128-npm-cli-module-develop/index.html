@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>基于 Node.js 写一个命令行工具-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="命令行工具, Node.js">
+    <meta name="description" content="本文介绍基于 Node.js 写一个命令行工具。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>基于 Node.js 写一个命令行工具</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2022-05-16 22:25:47</span>
+        
+        <span class="post-time">发布于：2021-11-28 22:12:27</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>虽然现在图形化开发工具发展的已经非常成熟，但我们日常的开发工作和生产支持中还是离不开命令行工具。毕竟服务器上不会安装图形界面，本地开发使用命令行工具也能够大大提高开发效率，例如 <code>git</code> 、<code>npm</code> 等等。</p>
+<p>Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。Node.js 使用事件驱动、非阻塞的 I/O 模型，使其具备轻量高效的特点。npm 目前是全球最大的 Node.js 生态系统开源仓库。</p>
+<p>本文目标是创建一个基于 Node.js 的命令行工具，将本地的 Markdown 文件转换为 html 文件，并保存到指定的目录，这个工具的名字叫做 **<a target="_blank" rel="noopener" href="https://github.com/cocowool/popsite">popsite</a>**。计划的使用方法</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pop markdown_file.md <span class="comment"># 将当前文件夹下的 markdown_file.md 文件转换为 markdown_file.html 文件</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="初始化工程"><a href="#初始化工程" class="headerlink" title="初始化工程"></a>初始化工程</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir popsite</span><br><span class="line">$ <span class="built_in">cd</span> popsite</span><br><span class="line">$ npm init			<span class="comment"># 初始化之后根据需要填写相关的内容，后续可以在 package.json 中进行修改</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="生效命令"><a href="#生效命令" class="headerlink" title="生效命令"></a>生效命令</h2><p>我们可以使用 <code>npm link</code> 将当前的模块发布到全局的环境中，方便在本地进行测试。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ <span class="built_in">pwd</span></span><br><span class="line">/Users/shiqiang</span><br><span class="line">➜  ~ pop</span><br><span class="line">Pop init <span class="keyword">in</span> ./bin/pop.js</span><br><span class="line">➜  ~ npx pop</span><br><span class="line">Pop init <span class="keyword">in</span> ./bin/pop.js</span><br></pre></td></tr></table></figure>
+
+<h2 id="处理参数"><a href="#处理参数" class="headerlink" title="处理参数"></a>处理参数</h2><p>建议使用 commander 来提速参数的处理、帮助文档的展示、版本显示等功能的开发。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">program</span><br><span class="line">    .version(<span class="built_in">require</span>(<span class="string">&#x27;../package.json&#x27;</span>).version)</span><br><span class="line">    .usage(<span class="string">&#x27;pop markdown_file&#x27;</span>)</span><br><span class="line">    .parse(process.argv)</span><br></pre></td></tr></table></figure>
+
+<h2 id="编写业务逻辑"><a href="#编写业务逻辑" class="headerlink" title="编写业务逻辑"></a>编写业务逻辑</h2><p>我将主要负责业务逻辑的模块放在了 <code>lib/popsite</code> 文件夹下，看了几天 hexo 的源码，感觉其基本思路也是将不同的功能模块，存放在 lib 下的不同文件夹中，通过一个模块调用的方法来根据模块名称实现相关功能的动态调用。</p>
+<p>下面是刚打好框架的源码内容：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&#x27;use strict&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Popsite = &#123;</span><br><span class="line">    <span class="attr">markdown2html</span> : <span class="function"><span class="keyword">function</span>(<span class="params"> file_name </span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;Begin Markdown to html, filename : &quot;</span> + file_name)</span><br><span class="line">        markdown_content = fs.readFile(file_name)</span><br><span class="line">        <span class="built_in">console</span>.log(markdown_content)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = Popsite;</span><br></pre></td></tr></table></figure>
+
+<h2 id="发布到npm"><a href="#发布到npm" class="headerlink" title="发布到npm"></a>发布到npm</h2><p>发布到 npm 可以让我们的工具更方便被更多的人使用。在 <a target="_blank" rel="noopener" href="https://www.npmjs.com/">npmjs</a> 官网可以注册账号，发布的过程可以在命令行中完成，只需要下面一个命令就可以完成。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> popsite</span><br><span class="line">$ npm publish</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="相关资料"><a href="#相关资料" class="headerlink" title="相关资料"></a>相关资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/buzhiqianduan/p/7655612.html">通过npm写一个cli命令行工具</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.twilio.com/blog/how-to-build-a-cli-with-node-js">How to build a CLI with Node.js</a></li>
+<li><a target="_blank" rel="noopener" href="https://hackernoon.com/how-to-build-a-command-line-utility-cli-with-nodejs-gm24315b">How to Build a Command-line Utility (CLI) with Node.js</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/li20081006/article/details/73319054">Hexo 源码解析</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ef88b5bbb914">5分钟带你读懂Hexo源码设计模式</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wmhuang/p/7052587.html">node.js如何制作命令行工具</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/henryhu712/article/details/84262290">用 nodejs 写命令行工具</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2cae952250d1">Node.js+commander开发命令行工具</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/mouday/article/details/105325635?utm_medium=distribute.pc_aggpage_search_result.none-task-blog-2~aggregatepage~first_rank_ecpm_v1~rank_v31_ecpm-1-105325635.pc_agg_new_rank&utm_term=nodejs%E8%8E%B7%E5%8F%96%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E7%9B%AE%E5%BD%95&spm=1000.2123.3001.4430">NodeJS获取当前目录和运行文件所在目录</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/11/30/20211201-convert-markdown-to-html-with-nodejs/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 构建一个转换 Markdown 文件的 Node.js 小工具
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/11/20/20211122-ken-thompson/" id="article-nav-older" class="article-nav-link-wrap">
+            肯·汤普森 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

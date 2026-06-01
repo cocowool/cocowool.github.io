@@ -1,0 +1,213 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>2021年第一届陇剑杯初赛题目整理-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="陇剑杯, CTF, CTF真题, 第一届陇剑杯, 陇剑杯真题">
+    <meta name="description" content="大江小浪，关注数据中心运维、金融科技、互联网相关技术与行业发展趋势，擅长应用运维管理、Linux、Java、Elasticsearch、Kubernetes、PHP相关技术。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>2021年第一届陇剑杯初赛题目整理</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2025-09-15 22:51:54</span>
+        
+        <span class="post-time">发布于：2025-08-30 17:33:36</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h3 id="赛事简介"><a href="#赛事简介" class="headerlink" title="赛事简介"></a>赛事简介</h3><p>「陇剑杯」被公安部网安局确定为是「网鼎杯」、「天府杯」之后的全国第三大网络安全赛事，与「网鼎杯」一样隔年举办，「陇剑杯」在「网鼎杯」的次年举办。「陇剑杯」是全国同类赛事中首次引入「人工智能人机对抗」，首个「以防为主」的网络安全大赛。2021年成功举行了第一届比赛，共3020支战队，1135人报名参赛。</p>
+<h3 id="签到题"><a href="#签到题" class="headerlink" title="签到题"></a>签到题</h3><p>网管小王在上网途中发现自己的网络访问异常缓慢，于是对网络出口捕获了流量，请您分析流量进行回答: 此时正在进行的可能是 <strong><strong>__</strong></strong> 协议的网络攻击。（如有字母请全部使用小写，填写样例：http、dns、ftp）。</p>
+<p>附件是 Good.pcapng 文件，用 Wireshark 打开分析，使用 Statistics -&gt; HTTP 下的 Packet Counter 和 Load Distribution，可以看到大部分是 HTTP 请求，状态码是 403，请求地址最多的是 192.168.241.147，对照提示看应该是 HTTP 协议。</p>
+<img src="/2025/08/30/20250830-2021-longjianbei/image-20250831213007001.png" class="" title="image-20250831213007001"> 
+
+
+<h3 id="jwt"><a href="#jwt" class="headerlink" title="jwt"></a>jwt</h3><p>第一问：昨天，单位流量系统捕获了黑客攻击流量，请您分析流量后进行回答：该网站使用了______认证方式。（如有字母请全部使用小写）。</p>
+<p>第二问：黑客绕过验证使用的jwt中，id和username是______。</p>
+<p>第三问：黑客获取webshell之后，权限是______？。</p>
+<p>第四问：黑客上传的恶意文件文件名是_____________。(请提交带有文件后缀的文件名，例如x.txt)。</p>
+<p>第五问：黑客在服务器上编译的恶意so文件，文件名是_____________。(请提交带有文件后缀的文件名，例如x.so)。</p>
+<p>第六问：黑客在服务器上修改了一个配置文件，文件的绝对路径为_____________。（请确认绝对路径后再提交）。</p>
+<h3 id="webshell"><a href="#webshell" class="headerlink" title="webshell"></a>webshell</h3><p>单位网站被黑客挂马，请您从流量中分析出webshell，进行回答：</p>
+<p>第一问：黑客登录系统使用的密码是_____________。</p>
+<p>第二问：黑客修改了一个日志文件，文件的绝对路径为_____________。</p>
+<p>第三问：黑客获取webshell之后，权限是____________？</p>
+<p>第四问：黑客写入的webshell文件名是_____________。(请提交带有文件后缀的文件名，例如x.txt)。</p>
+<p>第五问：黑客上传的代理工具客户端名字是_____________。（如有字母请全部使用小写）。</p>
+<p>第六问：黑客代理工具的回连服务端IP是_____________。</p>
+<p>第七问：黑客的socks5的连接账号、密码是______。</p>
+<h3 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h3><p>某应用程序被攻击，请分析日志后作答：</p>
+<p>第一问：黑客在注入过程中采用的注入手法叫_____________。（格式为4个汉字，例如“拼搏努力”）。</p>
+<p>第二问：黑客在注入过程中，最终获取flag的数据库名、表名和字段名是_____________。（格式为“数据库名#表名#字段名”，例如database#table#column）。</p>
+<p>第三问：黑客最后获取到的flag字符串为_____________。</p>
+<h3 id="简单日志分析"><a href="#简单日志分析" class="headerlink" title="简单日志分析"></a>简单日志分析</h3><p>某应用程序被攻击，请分析日志后作答：</p>
+<p>第一问：黑客攻击的参数是______。（如有字母请全部使用小写）。</p>
+<p>第二问：黑客查看的秘密文件的绝对路径是_____________。</p>
+<p>第三问：黑客反弹shell的ip和端口是_____________。（格式使用“ip:端口”，例如127.0.0.1:2333）。</p>
+<h3 id="ios"><a href="#ios" class="headerlink" title="ios"></a>ios</h3><p>一位ios的安全研究员在家中使用手机联网被黑，不仅被窃密还丢失比特币若干，请你通过流量和日志分析后作答：</p>
+<p>第一问：黑客所控制的C&amp;C服务器IP是_____________。</p>
+<p>第二问：黑客利用的Github开源项目的名字是______。</p>
+<p>第三问：通讯加密密钥的明文是____________。</p>
+<p>第四问：黑客通过SQL盲注拿到了一个敏感数据，内容是____________。</p>
+<p>第五问：黑客端口扫描的扫描器的扫描范围是____________。</p>
+<p>第六问：被害者手机上被拿走了的私钥文件内容是____________。</p>
+<p>第七问：黑客访问/攻击了内网的几个服务器，IP地址为____________。（多个IP之间按从小到大排序，使用#来分隔，例如127.0.0.1#192.168.0.1)。</p>
+<p>第八问：黑客写入了一个webshell，其密码为____________。</p>
+<h3 id="内存分析"><a href="#内存分析" class="headerlink" title="内存分析"></a>内存分析</h3><p>网管小王制作了一个虚拟机文件，让您来分析后作答：</p>
+<p>第一问：虚拟机的密码是_____________。（密码中为flag{xxxx}，含有空格，提交时不要去掉）。</p>
+<p>第二问：虚拟机中有一个某品牌手机的备份文件，文件里的图片里的字符串为______________。（解题过程中需要用到上一题答案中flag{}内的内容进行处理。本题的格式也是flag{xxx}，含有空格，提交时不要去掉）。</p>
+<h3 id="流量分析"><a href="#流量分析" class="headerlink" title="流量分析"></a>流量分析</h3><p>某天晚上，X单位的网站被黑客入侵了，管理员从单位网络出口捕获采样流量，请您分析流量进行回答：</p>
+<p>第一问：攻击者的IP是_____________。</p>
+<p>第二问：攻击者所使用的会话密钥是_____________。</p>
+<p>第三问：攻击者所控制的C&amp;C服务器IP是_____________。</p>
+<h3 id="机密内存"><a href="#机密内存" class="headerlink" title="机密内存"></a>机密内存</h3><p>一日网管中心的安全审计设备推送了一则高危入侵警报，经过了解发现有一台机密容器因违规操作遭遇入侵与破坏，容器宿主机内只留下了一段机密容器的内存与部分经过篡改的神秘文件，请你帮助还原容器的入侵过程。</p>
+<p>第一问：取证人员首先对容器的基本信息进行核实，经过确定该容器的基本信息为________。（答案为32位小写md5(容器操作系统系统的版本号+容器主机名+系统用户名），例如：操作系统的版本号为10.0.22449，容器主机名为DESKTOP-0521,系统登录用户名为admin，则该题答案为32位小写md5(10.0.22449DESKTOP-0521admin) 的值ae278d9bc4aa5ee84a4aed858d17d52a)。</p>
+<p>第二问：黑客入侵容器后曾通过木马控制端使用Messagebox发送过一段信息，该信息的内容是____________。（答案为Messagebox信息框内内容）。</p>
+<p>第三问：经过入侵分析发现该容器受到入侵的原因为容器使用人的违规进行游戏的行为，该使用人进行游戏程序的信息是____________。（答案为“32位小写md5(游戏程序注册邮箱+游戏程序登录用户名+游戏程序登录密码)，例如：注册邮箱为<a href="mailto:&#x61;&#x64;&#111;&#108;&#x40;&#x31;&#54;&#x33;&#46;&#99;&#111;&#x6d;">&#x61;&#x64;&#111;&#108;&#x40;&#x31;&#54;&#x33;&#46;&#99;&#111;&#x6d;</a>,登录用户名为user,密码为user1234，则该题答案为” <a href="mailto:&#x61;&#100;&#111;&#108;&#64;&#x31;&#x36;&#x33;&#x2e;&#x63;&#111;&#x6d;&#117;&#x73;&#101;&#x72;&#117;&#115;&#x65;&#x72;&#49;&#x32;&#51;&#x34;">&#x61;&#100;&#111;&#108;&#64;&#x31;&#x36;&#x33;&#x2e;&#x63;&#111;&#x6d;&#117;&#x73;&#101;&#x72;&#117;&#115;&#x65;&#x72;&#49;&#x32;&#51;&#x34;</a>”的小写md5值5f4505b7734467bfed3b16d5d6e75c16)。</p>
+<p>第四问：经过入侵分析发现该容器曾被黑客植入木马控制的信息是____________。（答案为“32位小写md5(木马程序进程名+木马回连ip地址+木马回连ip端口）”，例如：木马程序进程名为svhost.exe，木马回连ip为1.1.1.1，木马回连端口为1234，则该题答案为“svhost.exe1.1.1.11234”的32位小写md5值f02da74a0d78a13e7944277c3531bbea)。</p>
+<p>第五问：经过入侵分析，发现黑客曾经运行过痕迹清除工具，该工具运行的基本信息是________。（答案为“32为小写md5”(痕迹清除工具执行程序名+最后一次运行时间)，例如：黑客运行工具执行程序名为run.exe，运行时间为2021-07-10 10:10:13，则本题的答案为小写的32位md5(run.exe2021-07-10 10:10:13) 值为82d7aa7a3f1467b973505702beb35769，注意：本题中运行时间的格式为yy-mm-dd hh:mm:ss，时间时区为UTC+8）。</p>
+<h3 id="wifi"><a href="#wifi" class="headerlink" title="wifi"></a>wifi</h3><p>网管小王最近喜欢上了ctf网络安全竞赛，他使用“哥斯拉”木马来玩玩upload-labs，并且保存了内存镜像、wifi流量和服务器流量，让您来分析后作答：</p>
+<p>小王往upload-labs上传木马后进行了cat /flag，flag内容为_____________。（压缩包里有解压密码的提示，需要额外添加花括号）。</p>
+<h3 id="日志分析"><a href="#日志分析" class="headerlink" title="日志分析"></a>日志分析</h3><p>单位某应用程序被攻击，请分析日志，进行作答：</p>
+<p>第一问：网络存在源码泄漏，源码文件名是_____________。(请提交带有文件后缀的文件名，例如x.txt)。</p>
+<p>第二问：分析攻击流量，黑客往/tmp目录写入一个文件，文件名为_____________。</p>
+<p>第三问：分析攻击流量，黑客使用的是______类读取了秘密文件。</p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2025/08/31/20250831-2023-longjianbei/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 2023年第二届陇剑杯初赛题目整理
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2025/08/20/20250820-niklaus-wirth/" id="article-nav-older" class="article-nav-link-wrap">
+            尼古拉斯·沃斯 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

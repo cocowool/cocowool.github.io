@@ -1,0 +1,188 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>使用 Python 压缩 Hexo 博客中的图片-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="python, python 图片压缩, python PIL, python Image">
+    <meta name="description" content="Hexo 构建的博客文件系统占用有点高，发现图片占了很大一部分，有些图片是不适合在网上播放的，但是图片特别多，想到了使用 Python 批量压缩图片，手写了一份代码，支持批量压缩某个文件夹下的所有图片。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>使用 Python 压缩 Hexo 博客中的图片</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2024-12-10 19:11:27</span>
+        
+        <span class="post-time">发布于：2022-06-01 22:27:50</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <blockquote>
+<p>本文代码在 macOS Monterey 12.2.1 操作系统，Python 3.6 下测试通过</p>
+</blockquote>
+<p>Python 2 中提供了 PIL （Python Imaging Library）进行图像处理，Python3 中提供了 Pillow ，两个包的方法都完全一样，这样基本上没有迁移成本。我整理了一个 <code>image_tools.py</code> 脚本，可以将某个文件夹下的图片进行压缩，支持原地替换，或压缩后的图片输出到另外一个文件夹中，具体的代码可以在我的 <a target="_blank" rel="noopener" href="https://github.com/cocowool/">Github</a> 下载。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Pillow 的 Image 对于 jpg 格式图片，Image 压缩的效果较好。Quality 设置为 80 的情况下，一个 270K 的图片可以压缩到 60K 左右，图片质量没有损失。</p>
+<p>但是对于 PNG 存在一些问题：</p>
+<ul>
+<li>压缩比例还是不理想，一张 PNG 格式 2.7M 的原图，压缩后 1.6M 。而使用 Pixelmator 可以压缩到 500K 左右。</li>
+<li>处理 PNG 图片，处理后的图片反而变大了。</li>
+</ul>
+<p>对于 PNG 图片，采用了 <code>libimagequant</code> 进行压缩处理，优化后 PNG 图片的压缩比例大概能有 75%，效果很好。</p>
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><p>目前支持的功能：</p>
+<ul>
+<li>支持对 jpg / png 两种类型的图片进行压缩</li>
+<li>支持遍历某个文件夹下的所有图片</li>
+<li>支持将图片压缩后输出到一个单独的文件夹</li>
+<li>支持对大于某一尺寸的图片，按设定的比例缩放</li>
+</ul>
+<p>如果你有什么优化建议，欢迎与我取得联系或通过 github 贡献你的想法。</p>
+<p>使用方法如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ python3 ~/python/image_tools.py -m compress -f ~/Desktop/test-original/ -o ~/Desktop/test-compress/</span><br><span class="line">/Users/shiqiang/Desktop/test-original/211035560621176.jpg</span><br><span class="line">&#123;<span class="string">&#x27;original_size&#x27;</span>: 273884, <span class="string">&#x27;img_x&#x27;</span>: 595, <span class="string">&#x27;img_y&#x27;</span>: 339, <span class="string">&#x27;compress_size&#x27;</span>: 36349&#125;</span><br><span class="line">/Users/shiqiang/Desktop/test-original/image-20201014191941447.png</span><br><span class="line">&#123;<span class="string">&#x27;original_size&#x27;</span>: 136657, <span class="string">&#x27;img_x&#x27;</span>: 1552, <span class="string">&#x27;img_y&#x27;</span>: 1260, <span class="string">&#x27;s_x&#x27;</span>: 992, <span class="string">&#x27;s_y&#x27;</span>: 1007, <span class="string">&#x27;compress_size&#x27;</span>: 468176&#125;</span><br><span class="line">Total original size : 410541</span><br><span class="line">Total compress size : 504525</span><br></pre></td></tr></table></figure>
+
+<h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json, datetime, requests, os, time, random, getopt, sys</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> ImageFile</span><br><span class="line"><span class="keyword">import</span> libimagequant <span class="keyword">as</span> liq</span><br><span class="line"><span class="comment"># from pillow import Image</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Compress Images Under folder in place</span></span><br><span class="line"><span class="comment"># 原地压缩替换某一文件夹下的图片文件</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">compress_images</span>(<span class="params">image_input_folder = <span class="string">&#x27;&#x27;</span>, image_output_folder = <span class="literal">False</span></span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> image_input_folder:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;No Image Folder Given, Exit!&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Check Folder</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(image_input_folder):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Input Folder doesn&#x27;t exists! &quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Check Folder</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(image_output_folder):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Output Folder doesn&#x27;t exists! &quot;</span>)</span><br><span class="line"></span><br><span class="line">    total_size = <span class="number">0</span></span><br><span class="line">    compress_size = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> parent, _, file_names <span class="keyword">in</span> os.walk(image_input_folder):</span><br><span class="line">        <span class="keyword">for</span> file_name <span class="keyword">in</span> file_names:</span><br><span class="line">            output_file_name = image_output_folder + file_name</span><br><span class="line">            file_name = os.path.join(parent, file_name)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> file_name.endswith((<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;bmp&#x27;</span>)):</span><br><span class="line">                image_info = compress_single_image(file_name, output_file_name)</span><br><span class="line">                <span class="keyword">if</span> image_info:</span><br><span class="line">                    total_size += image_info[<span class="string">&#x27;original_size&#x27;</span>]</span><br><span class="line">                    compress_size += image_info[<span class="string">&#x27;compress_size&#x27;</span>]</span><br><span class="line">            <span class="keyword">elif</span> file_name.endswith((<span class="string">&#x27;png&#x27;</span>)):</span><br><span class="line">                image_info = compress_png_image( file_name, output_file_name)</span><br><span class="line">                <span class="keyword">if</span> image_info:</span><br><span class="line">                    total_size += image_info[<span class="string">&#x27;original_size&#x27;</span>]</span><br><span class="line">                    compress_size += image_info[<span class="string">&#x27;compress_size&#x27;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Total original size : &#x27;</span> + <span class="built_in">str</span>(total_size))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Total compress size : &#x27;</span> + <span class="built_in">str</span>(compress_size))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">to_liq</span>(<span class="params"> image, attr</span>):</span></span><br><span class="line">    <span class="keyword">if</span> image.mode != <span class="string">&#x27;RGBA&#x27;</span>:</span><br><span class="line">        image = image.convert(<span class="string">&#x27;RGBA&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> attr.create_rgba(image.tobytes(), image.width, image.height, image.info.get(<span class="string">&#x27;gamma&#x27;</span>, <span class="number">0</span>))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">from_liq</span>(<span class="params">result, image</span>):</span></span><br><span class="line">    out_img = Image.frombytes(<span class="string">&#x27;P&#x27;</span>, (image.width, image.height), result.remap_image(image))</span><br><span class="line"></span><br><span class="line">    palette_data = []</span><br><span class="line">    <span class="keyword">for</span> color <span class="keyword">in</span> result.get_palette():</span><br><span class="line">        palette_data.extend(color[:<span class="number">3</span>])</span><br><span class="line">    out_img.putpalette(palette_data)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> out_img</span><br><span class="line"></span><br><span class="line"><span class="comment"># Compress Png Image use libimagequant</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">compress_png_image</span>(<span class="params"> image_path, output_file_name = <span class="literal">False</span>, quality = <span class="number">80</span></span>):</span></span><br><span class="line">    <span class="comment"># Object Store Detail Inforamtion</span></span><br><span class="line">    c_obj = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    original_size = os.path.getsize( image_path )</span><br><span class="line">    c_obj[<span class="string">&#x27;original_size&#x27;</span>] = original_size</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        im = Image.<span class="built_in">open</span>(image_path)</span><br><span class="line">        x, y = im.size</span><br><span class="line">        c_obj[<span class="string">&#x27;img_x&#x27;</span>] = x</span><br><span class="line">        c_obj[<span class="string">&#x27;img_y&#x27;</span>] = y</span><br><span class="line"></span><br><span class="line">        attr = liq.Attr()</span><br><span class="line">        liq_image = to_liq(im, attr)</span><br><span class="line">        result = liq_image.quantize(attr)</span><br><span class="line">        pil_image = from_liq(result, liq_image)</span><br><span class="line">        pil_image.save(output_file_name, optimize = <span class="literal">True</span>, quality = quality)</span><br><span class="line">        c_obj[<span class="string">&#x27;compress_size&#x27;</span>] = os.path.getsize(output_file_name)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(image_path)</span><br><span class="line">        <span class="built_in">print</span>(c_obj)</span><br><span class="line">        <span class="comment"># time.sleep(1)</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> c_obj</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> r:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Compress Png Image Error : &quot;</span> + image_path)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Unknow Error : %s&quot;</span> %(r))</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Compress Single Image And Replace the original image</span></span><br><span class="line"><span class="comment"># 压缩单张图片并替换保存</span></span><br><span class="line"><span class="comment"># @TODO 小于一定大小的图片不处理；长度、宽度超过一定限度的，处理为适合 Web；默认为只压缩图片不缩放</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">compress_single_image</span>(<span class="params"> image_path, output_file_name = <span class="literal">False</span>, in_replace = <span class="literal">True</span>, quality = <span class="number">80</span>, size_scale = <span class="number">0.8</span> </span>):</span></span><br><span class="line">    image_x_threshold = <span class="number">1024</span></span><br><span class="line">    image_size_threshold = <span class="number">10240</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Object Store Detail Inforamtion</span></span><br><span class="line">    c_obj = &#123;&#125;</span><br><span class="line">    small_x = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    original_size = os.path.getsize( image_path )</span><br><span class="line">    c_obj[<span class="string">&#x27;original_size&#x27;</span>] = original_size</span><br><span class="line"></span><br><span class="line">    ImageFile.LOAD_TRUNCATED_IMAGES = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        im = Image.<span class="built_in">open</span>(image_path)</span><br><span class="line">        x, y = im.size</span><br><span class="line">        c_obj[<span class="string">&#x27;img_x&#x27;</span>] = x</span><br><span class="line">        c_obj[<span class="string">&#x27;img_y&#x27;</span>] = y</span><br><span class="line"></span><br><span class="line">        <span class="comment"># If image size is small, direct return</span></span><br><span class="line">        <span class="keyword">if</span> original_size &lt; image_size_threshold:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># If image is too wide, scale down</span></span><br><span class="line">        <span class="keyword">while</span> x &gt; image_x_threshold:</span><br><span class="line">            small_x = <span class="built_in">int</span>(x * size_scale)</span><br><span class="line">            small_y = <span class="built_in">int</span>(y * small_x / x)</span><br><span class="line">            c_obj[<span class="string">&#x27;s_x&#x27;</span>] = small_x</span><br><span class="line">            c_obj[<span class="string">&#x27;s_y&#x27;</span>] = small_y</span><br><span class="line"></span><br><span class="line">            x = small_x</span><br><span class="line">            y = small_y</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> small_x &gt; <span class="number">0</span>:</span><br><span class="line">            <span class="comment"># im = im.resize( (small_x, small_y), Image.CUBIC)</span></span><br><span class="line">            im = im.resize( (small_x, small_y), Image.ANTIALIAS)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> output_file_name:</span><br><span class="line">            <span class="comment"># print( &quot;input file : &quot; + image_path)</span></span><br><span class="line">            <span class="comment"># print( &quot;output file : &quot; + output_file_name )</span></span><br><span class="line">            <span class="comment"># time.sleep(10)</span></span><br><span class="line">            im.save(output_file_name, optimize = <span class="literal">True</span>, quality = quality)</span><br><span class="line">            c_obj[<span class="string">&#x27;compress_size&#x27;</span>] = os.path.getsize(output_file_name)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            im.save(image_path, optimize = <span class="literal">True</span>, quality = quality)</span><br><span class="line">            c_obj[<span class="string">&#x27;compress_size&#x27;</span>] = os.path.getsize(image_path)</span><br><span class="line">            </span><br><span class="line">        <span class="built_in">print</span>(image_path)</span><br><span class="line">        <span class="built_in">print</span>(c_obj)</span><br><span class="line">        <span class="comment"># time.sleep(1)</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> c_obj</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Image Read Error : &quot;</span> + image_path)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    opts, args = getopt.getopt(sys.argv[<span class="number">1</span>:], <span class="string">&quot;m:h:f:o:&quot;</span>, [<span class="string">&quot;mode&quot;</span>, <span class="string">&quot;help&quot;</span>, <span class="string">&quot;folder&quot;</span>, <span class="string">&quot;output&quot;</span>])</span><br><span class="line">    IMAGE_FOLDER = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    OUTPUT_FOLDER = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> user_option, user_parameter <span class="keyword">in</span> opts:</span><br><span class="line">        <span class="keyword">if</span> user_option <span class="keyword">in</span> (<span class="string">&quot;-h&quot;</span>, <span class="string">&quot;--help&quot;</span>):</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;Usage: python3 image_tools.py -m method -f image_folder_path [-o output_folder]&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> user_option <span class="keyword">in</span> (<span class="string">&quot;-m&quot;</span>, <span class="string">&quot;--method&quot;</span>):</span><br><span class="line">            PROCESS_METHOD = user_parameter</span><br><span class="line">        <span class="keyword">if</span> user_option <span class="keyword">in</span> (<span class="string">&quot;-f&quot;</span>, <span class="string">&quot;--folder&quot;</span>):</span><br><span class="line">            IMAGE_FOLDER = user_parameter</span><br><span class="line">        <span class="keyword">if</span> user_option <span class="keyword">in</span> (<span class="string">&quot;-o&quot;</span>, <span class="string">&quot;--output&quot;</span>):</span><br><span class="line">            OUTPUT_FOLDER = user_parameter</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> PROCESS_METHOD == <span class="string">&#x27;compress&#x27;</span>:</span><br><span class="line">        compress_images(IMAGE_FOLDER, OUTPUT_FOLDER)</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_50668086/article/details/123684321">Python压缩图片到指定大小</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/Rebacca122222/article/details/124918529">使用python对图片进行压缩</a></li>
+<li><a target="_blank" rel="noopener" href="https://progskillss.com/compress-images-with-python">How to compress images with Python and PIL</a></li>
+<li><a target="_blank" rel="noopener" href="https://pillow.readthedocs.io/en/latest/">pillow documents</a></li>
+<li><a target="_blank" rel="noopener" href="https://pngquant.org/lib/">pngquant</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2022/06/04/20220604-devlop-and-publish-python-package/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 开发并发布 Python 包/模块
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2022/05/28/20220528-forget-mobaxterm-host-password/" id="article-nav-older" class="article-nav-link-wrap">
+            MobaXterm 主机密码忘记后的找回 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

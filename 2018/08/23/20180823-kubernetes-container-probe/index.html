@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kubernetes中Pod的健康检查-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="kubernetes, pod, 健康检查">
+    <meta name="description" content="本文介绍了Kubernetes集群对Pod中容器应用的健康状况进行检查的相关场景与方法。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Kubernetes中Pod的健康检查</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2018-08-23 09:28:00</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <blockquote>
+<p>本文介绍 Pod 中容器健康检查相关的内容、配置方法以及实验测试，实验环境为 Kubernetes 1.11，搭建方法参考 <a href="https://www.edulinks.cn/2018/07/24/20180724-kubeadm-install-kubernetes/">kubeadm安装kubernetes V1.11.1 集群</a> 。想要了解更多 Kubernetes 相关知识，可以阅读 <a href="http://www.edulinks.cn/2020/10/16/20201016-kubernetes-articles/">Kubernetes 系列学习文章</a>。</p>
+</blockquote>
+<h2 id="0-什么是-Container-Probes"><a href="#0-什么是-Container-Probes" class="headerlink" title="0. 什么是 Container Probes"></a>0. 什么是 Container Probes</h2><p>我们先来看一下Kubernetes的架构图，每个Node节点上都有<code>kubelet</code>，Container Probe 也就是容器的健康检查是由<code>kubelet</code>定期执行的。<br>Kubelet通过调用Pod中容器的<a target="_blank" rel="noopener" href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.11/#probe-v1-core">Handler</a>来执行检查的动作，Handler有三种类型。</p>
+<ul>
+<li>ExecAction，在容器中执行特定的命令，命令退出返回0表示成功</li>
+<li>TCPSocketAction，根据容器IP地址及特定的端口进行TCP检查，端口开放表示成功</li>
+<li>HTTPGetAction，根据容器IP、端口及访问路径发起一次HTTP请求，如果返回码在200到400之间表示成功<br>每种检查动作都可能有三种返回状态。</li>
+<li>Success，表示通过了健康检查</li>
+<li>Failure，表示没有通过健康检查</li>
+<li>Unknown，表示检查动作失败<br>在创建Pod时，可以通过<code>liveness</code>和<code>readiness</code>两种方式来探测Pod内容器的运行情况。<code>liveness</code>可以用来检查容器内应用的存活的情况来，如果检查失败会杀掉容器进程，是否重启容器则取决于Pod的<a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy">重启策略</a>。<code>readiness</code>检查容器内的应用是否能够正常对外提供服务，如果探测失败，则Endpoint Controller会将这个Pod的IP从服务中删除。</li>
+</ul>
+<h2 id="1-应用场景"><a href="#1-应用场景" class="headerlink" title="1. 应用场景"></a>1. 应用场景</h2><p>我们都知道Kubernetes会维持Pod的状态及个数，因此如果你只是希望保持Pod内容器失败后能够重启，那么其实没有必要添加健康检查，只需要合理配置Pod的重启策略即可。更适合健康检查的场景是在我们根据检查结果需要主动杀掉容器并重启的场景，还有一些容器在正式提供服务之前需要加载一些数据，那么可以采用<code>readiness</code>来检查这些动作是否完成。</p>
+<h2 id="2-liveness-检查实例"><a href="#2-liveness-检查实例" class="headerlink" title="2. liveness 检查实例"></a>2. liveness 检查实例</h2><h3 id="2-1-Container-Exec"><a href="#2-1-Container-Exec" class="headerlink" title="2.1 Container Exec"></a>2.1 Container Exec</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">test:</span> <span class="string">liveness</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">liveness-exec</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">liveness</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.io/alpine</span></span><br><span class="line">    <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">/bin/sh</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">-c</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">touch</span> <span class="string">/tmp/healthy;</span> <span class="string">sleep</span> <span class="number">30</span><span class="string">;</span> <span class="string">rm</span> <span class="string">-rf</span> <span class="string">/tmp/healthy;</span> <span class="string">sleep</span> <span class="number">600</span></span><br><span class="line">    <span class="attr">livenessProbe:</span></span><br><span class="line">      <span class="attr">exec:</span></span><br><span class="line">        <span class="attr">command:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">cat</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">/tmp/healthy</span></span><br><span class="line">      <span class="attr">initialDelaySeconds:</span> <span class="number">5</span></span><br><span class="line">      <span class="attr">periodSeconds:</span> <span class="number">5</span></span><br></pre></td></tr></table></figure>
+<p>本例创建了一个容器，通过检查一个文件是否存在来判断容器运行是否正常。容器运行30秒后，将文件删除，这样容器的liveness检查失败从而会将容器重启。</p>
+<h3 id="2-2-HTTP-Health-Check"><a href="#2-2-HTTP-Health-Check" class="headerlink" title="2.2 HTTP Health Check"></a>2.2 HTTP Health Check</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">test:</span> <span class="string">liveness</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">httpd</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">liveness-http</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">liveness</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.io/httpd</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">80</span></span><br><span class="line">    <span class="attr">livenessProbe:</span></span><br><span class="line">      <span class="attr">httpGet:</span></span><br><span class="line">        <span class="attr">path:</span> <span class="string">/index.html</span></span><br><span class="line">        <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">        <span class="attr">httpHeaders:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">X-Custom-Header</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">Awesome</span></span><br><span class="line">      <span class="attr">initialDelaySeconds:</span> <span class="number">5</span></span><br><span class="line">      <span class="attr">periodSeconds:</span> <span class="number">5</span></span><br></pre></td></tr></table></figure>
+<p>本例通过创建一个Apache服务器，通过访问 index 来判断服务是否存活。通过手工删除这个文件的方式，可以导致检查失败，从而重启容器。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">[root@devops-101 ~]<span class="comment"># kubectl exec -it liveness-http /bin/sh</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># ls</span></span><br><span class="line">bin  build  cgi-bin  conf  error  htdocs  icons  include  logs	modules</span><br><span class="line"><span class="comment"># ps -ef</span></span><br><span class="line">UID        PID  PPID  C STIME TTY          TIME CMD</span><br><span class="line">root         1     0  0 11:39 ?        00:00:00 httpd -DFOREGROUND</span><br><span class="line">daemon       6     1  0 11:39 ?        00:00:00 httpd -DFOREGROUND</span><br><span class="line">daemon       7     1  0 11:39 ?        00:00:00 httpd -DFOREGROUND</span><br><span class="line">daemon       8     1  0 11:39 ?        00:00:00 httpd -DFOREGROUND</span><br><span class="line">root        90     0  0 11:39 ?        00:00:00 /bin/sh</span><br><span class="line">root        94    90  0 11:39 ?        00:00:00 ps -ef</span><br><span class="line"><span class="comment">#              </span></span><br><span class="line"><span class="comment"># cd /usr/local/apache2</span></span><br><span class="line"><span class="comment"># ls</span></span><br><span class="line">bin  build  cgi-bin  conf  error  htdocs  icons  include  logs	modules</span><br><span class="line"><span class="comment"># cd htdocs</span></span><br><span class="line"><span class="comment"># ls</span></span><br><span class="line">index.html</span><br><span class="line"><span class="comment"># rm index.html</span></span><br><span class="line"><span class="comment"># command terminated with exit code 137</span></span><br><span class="line">[root@devops-101 ~]<span class="comment"># kubectl describe pod liveness-http</span></span><br><span class="line">Events:</span><br><span class="line">  Type     Reason     Age               From                 Message</span><br><span class="line">  ----     ------     ----              ----                 -------</span><br><span class="line">  Normal   Scheduled  1m                default-scheduler    Successfully assigned default/liveness-http to devops-102</span><br><span class="line">  Warning  Unhealthy  8s (x3 over 18s)  kubelet, devops-102  Liveness probe failed: HTTP probe failed with statuscode: 404</span><br><span class="line">  Normal   Pulling    7s (x2 over 1m)   kubelet, devops-102  pulling image <span class="string">&quot;docker.io/httpd&quot;</span></span><br><span class="line">  Normal   Killing    7s                kubelet, devops-102  Killing container with id docker://liveness:Container failed liveness probe.. Container will be killed and recreated.</span><br><span class="line">  Normal   Pulled     1s (x2 over 1m)   kubelet, devops-102  Successfully pulled image <span class="string">&quot;docker.io/httpd&quot;</span></span><br><span class="line">  Normal   Created    1s (x2 over 1m)   kubelet, devops-102  Created container</span><br><span class="line">  Normal   Started    1s (x2 over 1m)   kubelet, devops-102  Started container</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-TCP-Socket"><a href="#2-3-TCP-Socket" class="headerlink" title="2.3 TCP Socket"></a>2.3 TCP Socket</h3><p>这种方式通过TCP连接来判断是否存活，Pod编排示例。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">test:</span> <span class="string">liveness</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">node</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">liveness-tcp</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">goproxy</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.io/googlecontainer/goproxy:0.1</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">readinessProbe:</span></span><br><span class="line">      <span class="attr">tcpSocket:</span></span><br><span class="line">        <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">      <span class="attr">initialDelaySeconds:</span> <span class="number">5</span></span><br><span class="line">      <span class="attr">periodSeconds:</span> <span class="number">10</span></span><br><span class="line">    <span class="attr">livenessProbe:</span></span><br><span class="line">      <span class="attr">tcpSocket:</span></span><br><span class="line">        <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">      <span class="attr">initialDelaySeconds:</span> <span class="number">15</span></span><br><span class="line">      <span class="attr">periodSeconds:</span> <span class="number">20</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-readiness-检查实例"><a href="#3-readiness-检查实例" class="headerlink" title="3. readiness 检查实例"></a>3. readiness 检查实例</h2><p>另一种<code>readiness</code>配置方式和<code>liveness</code>类似，只要修改<code>livenessProbe</code>改为<code>readinessProbe</code>即可。</p>
+<h2 id="4-配置参数"><a href="#4-配置参数" class="headerlink" title="4. 配置参数"></a>4. 配置参数</h2><p>我们可以通过<code>kubectl explain</code>命令来查看具体的配置属性，在这里还是简单列一下主要的属性。</p>
+<img src="/2018/08/23/20180823-kubernetes-container-probe/39469-20180823092634108-1558225741.png" class="">
+
+<ul>
+<li>initialDelaySeconds：检查开始执行的时间，以容器启动完成为起点计算</li>
+<li>periodSeconds：检查执行的周期，默认为10秒，最小为1秒</li>
+<li>timeoutSeconds：检查超时的时间，默认为1秒，最小为1秒</li>
+<li>successThreshold：从上次检查失败后重新认定检查成功的检查次数阈值（必须是连续成功），默认为1</li>
+<li>failureThreshold：从上次检查成功后认定检查失败的检查次数阈值（必须是连续失败），默认为1</li>
+<li>httpGet的属性<ul>
+<li>host：主机名或IP</li>
+<li>scheme：链接类型，HTTP或HTTPS，默认为HTTP</li>
+<li>path：请求路径</li>
+<li>httpHeaders：自定义请求头</li>
+<li>port：请求端口</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/tutorials/k8s201/">Kubernetes 201</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/user-guide/pod-states/#container-probes">Container Probes</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/">Kubernetes Task Probe</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/">Configure Liveness and Readiness Probes</a></li>
+<li><a target="_blank" rel="noopener" href="https://godoc.org/sigs.k8s.io/controller-runtime/pkg/handler">package handler</a></li>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.11/#probe-v1-core">Kubernetes Reference Probe</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/08/27/20180827-kubernetes-namespace/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Kubernetes命名空间
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/08/20/20180820-kubernetes-coredns/" id="article-nav-older" class="article-nav-link-wrap">
+            CoreDNS介绍 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>短链接算法收集与分析-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="短链接, 短链接算法, PHP短链接">
+    <meta name="description" content="PHP短链接算法。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>短链接算法收集与分析</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-24 22:33:39</span>
+        
+        <span class="post-time">发布于：2011-12-29 13:10:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>短链接就不说了，大家已经都清楚了，如下所示就是短链接：</p>
+<blockquote>
+<p>新浪微博<a target="_blank" rel="noopener" href="http://t.cn/SVpONM">http://t.cn/SVpONM</a><br>腾讯微博<a target="_blank" rel="noopener" href="http://url.cn/302yor?type=1&from=19&u=wonwang&s=3&f=1&skey=">http://url.cn/302yor</a><br>Yun.io<a target="_blank" rel="noopener" href="http://d.yun.io/PNri2v">http://d.yun.io/PNri2v</a></p>
+</blockquote>
+<p>短链接的好处：1、内容需要；2、用户友好；3、便于管理。<br>如何实现呢，大概有三个步骤：<br>1、定义一个URL映射算法，可以将长的URL映射成短字符串；<br>2、使用一个存储（数据库？NoSQL？）来存储完成的映射；<br>3、实现自己的URL映射算法；</p>
+<p>一般来说，第三步是我们比较头疼的，如何将一个长的URL字符串，映射成一个较短的字符串呢。我总结了三种办法：</p>
+<h3 id="普通实现"><a href="#普通实现" class="headerlink" title="普通实现"></a><strong>普通实现</strong></h3><p>我想以前大家学习过十进制和二进制的互相转换，或者十进制和十六进制的互相转换，那么为了更短，我们可以使用62进制，对于一个数字ID进行转码，转换成一个短字符串。<br>这种做法的缺点是没有办法保证所有链接都是固定的位数的长度，而且在高并发的情况下，如何保证能够快速分发是个问题。</p>
+<p>具体实现方法：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment">     * 利用62进制对数字ID进行短链接编码，缺点不能保证每个短链接是固定长度 </span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span>  wanshiqiang&lt;wangshiqiang@360.cn&gt; </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> integer $integer </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> string $base </span></span><br><span class="line"><span class="comment">     */</span> </span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">getShortenedURLFromID</span> (<span class="params"><span class="variable">$integer</span>, <span class="variable">$base</span> = ALLOWED_CHARS</span>) </span></span><br><span class="line"><span class="function">    </span>&#123;   </span><br><span class="line">        <span class="variable">$length</span> = strlen(<span class="variable">$base</span>); </span><br><span class="line">        <span class="keyword">while</span>(<span class="variable">$integer</span> &gt; <span class="variable">$length</span> - <span class="number">1</span>) </span><br><span class="line">        &#123;   </span><br><span class="line">            <span class="variable">$out</span> = <span class="variable">$base</span>[fmod(<span class="variable">$integer</span>, <span class="variable">$length</span>)] . <span class="variable">$out</span>; </span><br><span class="line">            <span class="variable">$integer</span> = floor( <span class="variable">$integer</span> / <span class="variable">$length</span> ); </span><br><span class="line">        &#125;   </span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$base</span>[<span class="variable">$integer</span>] . <span class="variable">$out</span>; </span><br><span class="line">    &#125;   </span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">     * 对62进制编码的短链接进行解码 </span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span>  wangshiqiang&lt;wangshiqiang@360.cn&gt; </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> string $string </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> string $base </span></span><br><span class="line"><span class="comment">     */</span> </span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">getIDFromShortenedURL</span> (<span class="params"><span class="variable">$string</span>, <span class="variable">$base</span> = ALLOWED_CHARS</span>) </span></span><br><span class="line"><span class="function">    </span>&#123;   </span><br><span class="line">        <span class="variable">$length</span> = strlen(<span class="variable">$base</span>); </span><br><span class="line">        <span class="variable">$size</span> = strlen(<span class="variable">$string</span>) - <span class="number">1</span>; </span><br><span class="line">        <span class="variable">$string</span> = str_split(<span class="variable">$string</span>); </span><br><span class="line">        <span class="variable">$out</span> = strpos(<span class="variable">$base</span>, array_pop(<span class="variable">$string</span>)); </span><br><span class="line">        <span class="keyword">foreach</span>(<span class="variable">$string</span> <span class="keyword">as</span> <span class="variable">$i</span> =&gt; <span class="variable">$char</span>) </span><br><span class="line">        &#123;   </span><br><span class="line">            <span class="variable">$out</span> += strpos(<span class="variable">$base</span>, <span class="variable">$char</span>) * pow(<span class="variable">$length</span>, <span class="variable">$size</span> - <span class="variable">$i</span>); </span><br><span class="line">        &#125;   </span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$out</span>; </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="文艺实现"><a href="#文艺实现" class="headerlink" title="文艺实现"></a><strong>文艺实现</strong></h3><p>算法描述：使用6个字符来表示短链接，我们使用ASCII字符中的’a’-‘z’,’0’-‘5’，共计32个字符做为集合。每个字符有32种状态，六个字符就可以表示32^6（1073741824），那么如何得到这六个字符，描述如下：<br>对传入的长URL进行Md5，得到一个32位的字符串，这个字符串变化很多，是16的32次方，基本上可以保证唯一性。将这32位分成四份，每一份8个字符，这时机率变成了16的8次方，是4294967296，这个数字碰撞的机率也比较小啦，关键是后面的一次处理。我们将这个8位的字符认为是16进制整数，也就是1*(‘0x’.$val)，然后取0-30位，每5个一组，算出他的整数值，然后映射到我们准备的32个字符中，最后就能够得到一个6位的短链接地址。<br>PHP实现如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shorten</span>(<span class="params"> <span class="variable">$long_url</span> </span>) </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">     <span class="variable">$base32</span> = <span class="string">&quot;abcdefghijklmnopqrstuvwxyz012345&quot;</span>; </span><br><span class="line">     <span class="variable">$hex</span> = md5( <span class="variable">$long_url</span> ); </span><br><span class="line">     <span class="variable">$hexLen</span> = strlen( <span class="variable">$hex</span> ); </span><br><span class="line">     <span class="variable">$subHexLen</span> = <span class="variable">$hexLen</span> / <span class="number">8</span>; </span><br><span class="line">     <span class="variable">$output</span> = <span class="keyword">array</span>(); </span><br><span class="line">     <span class="keyword">for</span>( <span class="variable">$i</span> = <span class="number">0</span>; <span class="variable">$i</span> &lt; <span class="variable">$subHexLen</span>; <span class="variable">$i</span>++ ) </span><br><span class="line">     &#123; </span><br><span class="line">          <span class="variable">$subHex</span> = substr( <span class="variable">$hex</span>, <span class="variable">$i</span> * <span class="number">8</span>, <span class="number">8</span> ); </span><br><span class="line">          <span class="variable">$subHex</span> = <span class="number">0x3FFFFFFF</span> &amp; ( <span class="number">1</span> * (<span class="string">&#x27;0x&#x27;</span> . <span class="variable">$subHex</span> ) );</span><br><span class="line"></span><br><span class="line">　　　 <span class="variable">$out</span> = <span class="string">&#x27;&#x27;</span>; </span><br><span class="line"></span><br><span class="line">          <span class="keyword">for</span>( <span class="variable">$j</span> = <span class="number">0</span>; <span class="variable">$j</span> &lt; <span class="number">6</span>; <span class="variable">$j</span>++ ) </span><br><span class="line">          &#123; </span><br><span class="line">               <span class="variable">$val</span> = <span class="number">0x0000001F</span> &amp; <span class="variable">$int</span>; </span><br><span class="line">               <span class="variable">$out</span> .= <span class="variable">$base32</span>[<span class="variable">$val</span>]; </span><br><span class="line">               <span class="variable">$int</span> = <span class="variable">$int</span> &gt;&gt; <span class="number">5</span>; </span><br><span class="line">          &#125; </span><br><span class="line">          <span class="variable">$output</span>[] = <span class="variable">$out</span>; </span><br><span class="line">     &#125; </span><br><span class="line">     <span class="keyword">return</span> <span class="variable">$output</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>二逼实现</strong><br>下面这个函数使用了纯随机的方式来生成一个短链接，虽然我们可以通过查询操作来确保不重复使用短链接，可是… 这样真的靠谱吗</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">random</span>(<span class="params"><span class="variable">$length</span>, <span class="variable">$pool</span> = <span class="string">&#x27;&#x27;</span></span>) </span>&#123; </span><br><span class="line">     <span class="variable">$random</span> = <span class="string">&#x27;&#x27;</span>; </span><br><span class="line">     <span class="keyword">if</span> (<span class="keyword">empty</span>(<span class="variable">$pool</span>)) &#123; <span class="variable">$pool</span>    = <span class="string">&#x27;abcdefghkmnpqrstuvwxyz&#x27;</span>; <span class="variable">$pool</span>   .= </span><br><span class="line">     <span class="string">&#x27;23456789&#x27;</span>; &#125; </span><br><span class="line">     srand ((<span class="keyword">double</span>)microtime()*<span class="number">1000000</span>); </span><br><span class="line">     <span class="keyword">for</span>(<span class="variable">$i</span> = <span class="number">0</span>; <span class="variable">$i</span> &lt; <span class="variable">$length</span>; <span class="variable">$i</span>++) &#123; <span class="variable">$random</span> .= </span><br><span class="line">     substr(<span class="variable">$pool</span>,(rand()%(strlen (<span class="variable">$pool</span>))), <span class="number">1</span>); &#125; </span><br><span class="line">     <span class="keyword">return</span> <span class="variable">$random</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://qn-lf.iteye.com/blog/1084516">微博短地址原理解析</a><br>2、<a target="_blank" rel="noopener" href="http://www.iteye.com/topic/973365?page=2">微博短域名原理及作用</a><br>3、<a target="_blank" rel="noopener" href="http://code.google.com/p/yourls/downloads/list">Yours.org</a><br>4、<a target="_blank" rel="noopener" href="http://briancray.com/2009/08/26/free-php-url-shortener-script/">Free PHP URL Shorten script that kicks ass</a><br>5、<a target="_blank" rel="noopener" href="http://www.snippetit.com/2009/04/php-short-url-algorithm-implementation/">PHP Short Url Algorithm Implementation</a><br>6、<a target="_blank" rel="noopener" href="http://www.snippetit.com/2008/10/implement-your-own-short-url/">Implement your own short URL</a><br>7、<a target="_blank" rel="noopener" href="http://hi.baidu.com/jok607/blog/item/a2258b25ce28827a35a80f6b.html">短网址算法初步汇总</a><br>8、<a target="_blank" rel="noopener" href="http://i.laoer.com/short-url.html">Short Url 实现方式</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2012/01/07/20120107-codeigniter-tips/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Codeigniter使用之进阶思考
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2011/12/20/20111220-hadoop-introduce/" id="article-nav-older" class="article-nav-link-wrap">
+            Hadoop学习笔记一：单节点安装 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

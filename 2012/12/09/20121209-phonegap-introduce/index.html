@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PhoneGap学习笔记-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="phonegap, 移动APP, Mobile Application">
+    <meta name="description" content="利用PhoneGap可以方便的开发跨平台的移动APP应用。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>PhoneGap学习笔记</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2012-12-09 20:04:00</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>Mobile Application与Web Application的区别：<br>1、屏幕尺寸区别很大。手机屏幕上是寸土寸金，UI设计还需要考虑到用户手指点击的舒适度。<br>2、使用的场景不同，手机用户多数在户外的时候使用应用，希望能够在尽可能快的时间内完成任务。<br>3、用户交互的方式不同。因为手机拥有传感器、指南针等物理部件，因此我们开发程序的时候所需要考虑的会完全不同。<br>4、手机平台的差异性更加大，不仅操作系统有差异，每个操作系统上的特性都有所不同。</p>
+<h3 id="PhoneGap架构"><a href="#PhoneGap架构" class="headerlink" title="PhoneGap架构"></a>PhoneGap架构</h3><img src="/2012/12/09/20121209-phonegap-introduce/201212092003294705.png" class="">
+
+<h3 id="Android开发环境准备"><a href="#Android开发环境准备" class="headerlink" title="Android开发环境准备"></a>Android开发环境准备</h3><p>PhoneGap只是一个框架（Framework），因此并不提供集成开发环境和工具，所有的都需要我们自己准备。<br>为Android开发所需要准备的材料包括：<br>1、JDK1.6+<br>2、Eclipse 3.4 到 3.6<br>3、Android SDK（Android的SDK可以支持所有版本的OS，需要调试的话还要下载单独的Platform，即AVD）<br>4、Android ADT Eclipse插件<br>5、Android AVD for Android 2.2（Android Virtual Device，相当于Platform）<br>6、PhoneGap SDk for Android</p>
+<h3 id="具体步骤："><a href="#具体步骤：" class="headerlink" title="具体步骤："></a>具体步骤：</h3><p>1、下载安装Eclipse。假设你已经在本机安装了JDK1.6+，因为要使用Java Development Environment的支持，所以需要Ecplise版本在3.2以上。Eclipse的下载页面地址：<a target="_blank" rel="noopener" href="http://www.eclipse.org/downloads/">http://www.eclipse.org/downloads/</a><br>2、安装Android SDK。下载地址：<a target="_blank" rel="noopener" href="http://developer.android.com/sdk/index.html">http://developer.android.com/sdk/index.html</a><br>3、安装Eclipse的Android ADT插件<br>4、如果没有物理的测试机，还需要使用AVD创建模拟器<br>5、安装PhoneGap库文件（Cordova），PhoneGap捐赠给Apache基金会后，名字改为了Cordova，我们需要从网站上下载源码<br>现在Google的Android网站上提供了集成环境的下载，这样我们只需要下载一个集成环境，就可以方便de开始开发了。</p>
+<h3 id="实际的开发案例（Mac-OS-X下）："><a href="#实际的开发案例（Mac-OS-X下）：" class="headerlink" title="实际的开发案例（Mac OS X下）："></a>实际的开发案例（Mac OS X下）：</h3><p>1、将Android的平台工具（platform-tools）和工具（tools）两个目录加入环境变量中<br>2、进入到Cordova对应的Android版本bin目录下，执行工程创建命令 ./create project_folder package project_name<br>3、然后再将工程导入到Eclipse中，就可以进行编辑和测试了。</p>
+<p>参考资料：<br>1、Begin PhoneGap<br>2、PhoneGap<br>3、Getting Started with Android<br>4、Cordova</p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2012/12/11/20121211-javascript-mobile-framework/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; JavaScript Mobile开发框架汇总
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2012/11/25/20121125-remote-css-font/" id="article-nav-older" class="article-nav-link-wrap">
+            CSS调用远程字体 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

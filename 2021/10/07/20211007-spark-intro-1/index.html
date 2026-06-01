@@ -1,0 +1,241 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Spark 系列一-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="spark, 流式计算">
+    <meta name="description" content="大江小浪，关注数据中心运维、金融科技、互联网相关技术与行业发展趋势，擅长应用运维管理、Linux、Java、Elasticsearch、Kubernetes、PHP相关技术。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Spark 系列一</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-10-14 10:27:50</span>
+        
+        <span class="post-time">发布于：2021-10-07 22:00:39</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h2 id="快速示例"><a href="#快速示例" class="headerlink" title="快速示例"></a>快速示例</h2><blockquote>
+<p>本文基于Spark 2.4.1</p>
+</blockquote>
+<h3 id="python-交互式分析"><a href="#python-交互式分析" class="headerlink" title="python 交互式分析"></a>python 交互式分析</h3><p>Spark支持交互式分析数据，但是仅支持<code>scala</code>和<code>python</code>语言。<br>下面是使用python来分析一段莎士比亚小说文字的示例。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ ./<span class="built_in">bin</span>/pyspark </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>textFile = spark.read.text(<span class="string">&quot;/Users/shiqiang/Desktop/shakespeare.txt&quot;</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>textFile.count()</span><br><span class="line"><span class="number">1995</span>                                                                            </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>textFile.first()</span><br><span class="line">Row(value=<span class="string">u&quot;Scanner&#x27;s Notes: What this is and isn&#x27;t. This was taken from&quot;</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lineWithNo = textFile.<span class="built_in">filter</span>(textFile.value.contains(<span class="string">&quot;no&quot;</span>))</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lineWithNo.count()</span><br><span class="line"><span class="number">331</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Java示例程序"><a href="#Java示例程序" class="headerlink" title="Java示例程序"></a>Java示例程序</h3><p>一个简单的在本地运行的处理本地文件的演示程序。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.spark.sql.SparkSession;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.api.java.function.FilterFunction;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.sql.Dataset;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleApp</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        String logFile = <span class="string">&quot;/Users/shiqiang/Desktop/shakespeare.txt&quot;</span>;</span><br><span class="line"></span><br><span class="line">        SparkSession spark = SparkSession.builder().appName(<span class="string">&quot;Simple Application&quot;</span>).getOrCreate();</span><br><span class="line">        Dataset&lt;String&gt; logData = spark.read().textFile(logFile).cache();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> numNos = logData.filter((FilterFunction&lt;String&gt;) x -&gt; x.contains(<span class="string">&quot;no&quot;</span>)).count();   </span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> numYes = logData.filter((FilterFunction&lt;String&gt;) s-&gt;s.contains(<span class="string">&quot;yes&quot;</span>)).count();</span><br><span class="line">        System.out.println(<span class="string">&quot;Lines with no : &quot;</span> + numNos + <span class="string">&quot;, with yes : &quot;</span> + numYes);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        spark.stop();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>具体代码可以参考我的<a href="">Github</a></p>
+<h3 id="Maser日志"><a href="#Maser日志" class="headerlink" title="Maser日志"></a>Maser日志</h3><p>Spark启动后，默认会在程序的<code>logs</code>目录下产生名为<code>spark-&#123;username&#125;-org.apache-spark.deploy.master.Master-1-&#123;hostname&#125;.out</code>的日志。</p>
+<p>日志中可以看到spark master的启动命令。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ java -cp /Users/rousseau/Projects/tools/spark-2.4.1-bin-hadoop2.7/conf/:/Users/rousseau/Projects/tools/spark-2.4.1-bin-hadoop2.7/jars/* -Xmx1g org.apache.spark.deploy.master.Master --host bogon --port 7077 --webui-port 8080</span><br></pre></td></tr></table></figure>
+
+<h3 id="Worker日志"><a href="#Worker日志" class="headerlink" title="Worker日志"></a>Worker日志</h3><p>Spark启动后，默认会在程序的<code>logs</code>目录下产生名为<code>spark-&#123;username&#125;-org.apache-spark.deploy.master.Worker-1-&#123;hostname&#125;.out</code>的日志。</p>
+<p>日志中可以看到spark worker的启动命令。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ java -cp /Users/rousseau/Projects/tools/spark-2.4.1-bin-hadoop2.7/conf/:/Users/rousseau/Projects/tools/spark-2.4.1-bin-hadoop2.7/jars/* -Xmx1g org.apache.spark.deploy.worker.Worker --webui-port 8081 spark://bogon:7077</span><br></pre></td></tr></table></figure>
+
+<h2 id="Spark-模型"><a href="#Spark-模型" class="headerlink" title="Spark 模型"></a>Spark 模型</h2><p>Spark模型包含了几个重要概念。</p>
+<blockquote>
+<ul>
+<li><strong>Application</strong>: 是我们编写的程序，用于生成SparkContext。</li>
+<li><strong>Job</strong>: 所谓 job，就是由一个 rdd 的 action算子触发的动作，可以简单的理解为，当你需要执行一个 rdd 的 action 的时候，会生成一个 job。</li>
+<li><strong>Satge</strong>: stage 是一个 job 的组成单位，就是说，一个 job 会被切分成 1 个或多个 stage，然后各个 stage 会按照执行顺序依次执行。</li>
+<li><strong>Task</strong>: stage 下的一个任务执行单元，一般来说，一个 rdd 有多少个 partition，就会有多少个 task，因为每一个 task 只是处理一个 partition 上的数据。</li>
+</ul>
+</blockquote>
+<p>简单来说就是以RDD为基准，每触发一个action操作，就会生成一个job。job内部有一个或多个stage顺序执行，组成stage的是一系列task，即任务执行单元。</p>
+<h2 id="RDD"><a href="#RDD" class="headerlink" title="RDD"></a>RDD</h2><p>RDD（Resilient Distributed Datasets，弹性分布式数据集），是Spark最为核心的概念，自然也是理解Apache Spark 工作原理的最佳入口之一。</p>
+<p>RDD是一个只读的有属性的数据集，属性用来描述当前数据集的状态，数据集是由数据的分区（partition）组成，并（由block）映射成真实数据。</p>
+<p>RDD 内部的数据集合在逻辑上和物理上被划分成多个小子集合，这样的每一个子集合我们将其称为分区（partitions），分区的个数会决定并行计算的粒度，而每一个分区数值的计算都是在一个单独的任务中进行，因此并行任务的个数，也是由 RDD分区的个数决定的。 </p>
+<h3 id="RDD依赖关系"><a href="#RDD依赖关系" class="headerlink" title="RDD依赖关系"></a>RDD依赖关系</h3><p>一个作业从开始到结束的计算过程中产生了多个RDD，RDD之间是彼此相互依赖的，我们把这种父子依赖的关系，称之为“血统”。如果父RDD的每个分区最多只能被子RDD的一个分区使用，我们称之为（narrow dependency）窄依赖；若一个父RDD的每个分区可以被子RDD的多个分区使用，我们称之为（wide dependency）宽依赖。简单来讲窄依赖就是父子RDD分区间”一对一“的关系，宽依赖就是”一对多“关系，具体理解可参考下图：</p>
+<img src="/2021/10/07/20211007-spark-intro-1/image-20211007220239907.png" class="" title="image-20211007220239907">
+
+<h3 id="RDD属性"><a href="#RDD属性" class="headerlink" title="RDD属性"></a>RDD属性</h3><p>RDD属性包括名称、分区类型、父RDD指针、数据本地化、数据依赖关系等，主要属性可以分为3类：</p>
+<ul>
+<li><p>与其它RDD的关系（parents）</p>
+</li>
+<li><p>数据(partitioner，checkpoint，sotragelevel，iterator）</p>
+</li>
+<li><p>RDD自身属性（rddname，sparkcontext，sparkconf，parent、dependency、partitioner、checkpoint、storageLevel）</p>
+</li>
+<li><p>rddname </p>
+</li>
+<li><p>sparkcontext SparkContext为Spark job的入口，由Spark driver创建在client端，包括集群连接，RddID，创建抽样，累加器，广播变量等信息。</p>
+</li>
+<li><p>sparkconf 配置信息，即sc.conf</p>
+<blockquote>
+<p>Spark参数配置信息<br>提供三个位置用来配置系统：<br>Spark api：控制大部分的应用程序参数，可以用SparkConf对象或者Java系统属性设置<br>环境变量：可以通过每个节点的conf/spark-env.sh脚本设置。例如IP地址、端口等信息<br>日志配置：可以通过log4j.properties配置</p>
+</blockquote>
+</li>
+<li><p>parent</p>
+</li>
+<li><p>iterator</p>
+</li>
+<li><p>prisist</p>
+</li>
+</ul>
+<h3 id="RDD操作算子"><a href="#RDD操作算子" class="headerlink" title="RDD操作算子"></a>RDD操作算子</h3><p>RDD有两种操作算子<code>Transfromation</code>和<code>Action</code>。</p>
+<ul>
+<li>Transformation。即一个rdd数据集经过数据转换变成一个新的rdd数据集。常用的Transformation操作有：map、filter、union、distinct、groupByKey 等。Transformation 属于延迟计算，当触发Transformation算子时rdd并没有立即进行转换，仅仅是记住了数据集的逻辑操作。</li>
+<li>Action。触发Spark作业的运行，真正触发转换算子的计算。常用的操作有：reduce、collect、count、countByKey、reduceByKey等等。</li>
+</ul>
+<h3 id="创建RDD的几种方式"><a href="#创建RDD的几种方式" class="headerlink" title="创建RDD的几种方式"></a>创建RDD的几种方式</h3><ul>
+<li>sc.parallelize(data)</li>
+<li>sc.textfile</li>
+</ul>
+<h3 id="RDD-cache-的几种情况"><a href="#RDD-cache-的几种情况" class="headerlink" title="RDD cache 的几种情况"></a>RDD cache 的几种情况</h3><ul>
+<li>using an RDD many times</li>
+<li>performing multiple actions on the same RDD</li>
+<li>for long chains of (or very expensive) transformations</li>
+<li>for debug memory issues</li>
+</ul>
+<h2 id="广播变量"><a href="#广播变量" class="headerlink" title="广播变量"></a>广播变量</h2><blockquote>
+<p>Broadcast variables allow the programmer to keep a read-only variable cached on each machine rather than shipping a copy of it with tasks. They can be used, for example, to give every node a copy of a large input dataset in an efficient manner. Spark also attempts to distribute broadcast variables using efficient broadcast algorithms to reduce communication cost.</p>
+</blockquote>
+<p>广播变量是Spark中另一种共享变量，允许程序将一个只读的变量发送到Executor，一个Executor只需要在第一个Task启动时，获得一份Broadcast数据，之后的Task都从本节点的BlockManager中获取相关数据。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011094454/article/details/78992293">Spark之深入理解RDD结构</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/dd7c7243e7f9?from=singlemessage">Spark盖中盖（一篇顶五篇）-1 RDD的数据结构模型</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/59b0601d7ad2">初识Apache Spark</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/71556ae22508">Java Spark 简单示例（一）</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/73b39f423a8b">Java Spark 简单示例（二）累加器 广播变量</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/10/11/20211011-spark-intro-2/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Spark 系列二
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/09/15/20210915-kafka-basics-03/" id="article-nav-older" class="article-nav-link-wrap">
+            Kafka学习笔记三：常用参数以及调优配置 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

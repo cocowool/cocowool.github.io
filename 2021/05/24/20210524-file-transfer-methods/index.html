@@ -1,0 +1,201 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>几种文件传输常用方法的比较-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="ftp, rcp, scp, linux scp, wget, rsync, 文件传输">
+    <meta name="description" content="往服务器上方文件有一万种方法，本文介绍6种。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>几种文件传输常用方法的比较</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-25 10:44:52</span>
+        
+        <span class="post-time">发布于：2021-05-24 11:12:06</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>在开发和运维过程中，相信每个同学都遇到过这样的问题：</p>
+<blockquote>
+<p>我想往服务器 serverA 上传一个文件 FileA，谁能帮帮我。</p>
+</blockquote>
+<p>对于运维工作管理比较严格的单位，一般只有相关系统的运维人员才具备向服务器上传文件的权限。上传文件是否合规、合乎审计的要求不是本文讨论的重点，本文主要讨论集中常见的向服务器上传输文件的方法，不管流程或界面包装的如何花哨，万变不离其宗，基本的方法相信不外乎这么几种。</p>
+<img src="/2021/05/24/20210524-file-transfer-methods/image-20210524172218343.png" class="" title="image-20210524172218343">
+
+<h2 id="FTP"><a href="#FTP" class="headerlink" title="FTP"></a>FTP</h2><p>FTP是File Transfer Protocol的缩写，是一种文件传输协议。FTP是一种C/S架构的服务，这种方式需要服务端启动ftpd服务。</p>
+<p>ftp 的具体使用方法本文就不多说了，ftp 的优点是使用简单，管理规范（如区分用户、文件只能存放到指定目录），也支持脚本自动化的方式上传文件。</p>
+<h2 id="rcp"><a href="#rcp" class="headerlink" title="rcp"></a>rcp</h2><p>rcp 是 rsh 包提供的命令，另外还提供了rsh、rlogin两个命令。rsh 工具允许用户在远程计算机上执行单条命令，而无需在该远程计算机上进行登录。</p>
+<p>rsh 工具是一套比较古老的工具，在写这篇文章时，百度上搜索相关介绍文章已经很少，因为还需要单独配置服务，使用起来也不如下面的 scp 命令方便。因此它的缺点就很明显了。</p>
+<h2 id="scp"><a href="#scp" class="headerlink" title="scp"></a>scp</h2><p>scp 是 secure copy的缩写，是Linux系统下基于ssh协议进行安全远程文件拷贝的命令，也是非常常用的远程文件复制命令。</p>
+<p>其基本的语法为</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ scp -r local_folder remote_sername@remote_ip:remote_folder</span><br></pre></td></tr></table></figure>
+
+<p>scp 命令使用起来非常方便，还可以通过配置主机互信做成免密码的方式。支持通过脚本内的命令实现文件拷贝。</p>
+<p>scp有个比较明显的缺点，即对于链接文件不能正常识别，会将链接文件作为目录对待。</p>
+<blockquote>
+<p>Note that scp follows symbolic links encountered in the tree traversal.</p>
+</blockquote>
+<p>另外，一般位于服务器区的设备，不会对办公区开放22的访问关系，因此适用于生产服务区内部服务器之间的文件传输。</p>
+<p>每种文件传输方法基于其自身的特点与优势均有其典型的适用场景：</p>
+<h2 id="rsync"><a href="#rsync" class="headerlink" title="rsync"></a>rsync</h2><p>rsync （remote synchroniz）是一个远程数据同步工具，rsync在文件传输过程中不会每次发送全量文件，而只是发送文件不同的部分，因此速度非常快。它有以下几个特点：</p>
+<ul>
+<li>可以镜像保存整个目录树和文件系统</li>
+<li>可以保持原来文件的权限、时间、软硬链接等</li>
+<li>安装不需要特殊权限</li>
+<li>文件传输效率非常高</li>
+<li>可以基于ssh协议，也可以通过socket连接</li>
+</ul>
+<p>rsync 的基本命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">rsync [OPTION]... SRC DEST </span><br><span class="line">rsync [OPTION]... SRC [USER@]host:DEST </span><br><span class="line">rsync [OPTION]... [USER@]HOST:SRC DEST </span><br><span class="line">rsync [OPTION]... [USER@]HOST::SRC DEST </span><br><span class="line">rsync [OPTION]... SRC [USER@]HOST::DEST </span><br><span class="line">rsync [OPTION]... </span><br><span class="line">rsync://[USER@]HOST[:PORT]/SRC [DEST]</span><br></pre></td></tr></table></figure>
+
+<p>使用 rsync 工具也需要安装服务端和客户端，总体上来讲这个工具非常优秀，可以满足我们大多数的文件传输需求。</p>
+<h2 id="wget"><a href="#wget" class="headerlink" title="wget"></a>wget</h2><p>使用 wget 或者 curl 向目标服务器传输文件，其基本原理都是通过HTTP服务将目标文件下载到目标机器上。</p>
+<p>wget命令可以实现递归下载，可跟踪 HTML 页面上的链接依次下载来创建远程服务器的本地版本，完全重建原始站点的目录结构，适合实现远程网站的镜像。</p>
+<p>wget 还有下面几个特点：</p>
+<ul>
+<li>支持断点下载功能</li>
+<li>支持HTTP、HTTPS、FTP多种协议</li>
+<li>支持代理服务器</li>
+</ul>
+<h2 id="curl"><a href="#curl" class="headerlink" title="curl"></a>curl</h2><p>curl 适合用来进行自动的文件传输或操作序列，是一个很好的模拟用户在网页浏览器上的行为的工具。curl 的长处在于模拟提交HTTP请求数据，curl 支持在URL中加入变量，因此可以实现批量下载。</p>
+<p>curl 的缺点在于不支持多线程，在下载速度上可能无法与 wget 相比。</p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/05/27/20210528-linux-system-monitor/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Linux操作系统监控与关键指标
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2021/05/21/20210521-ops-tradeoff/" id="article-nav-older" class="article-nav-link-wrap">
+            应急事件处置中的权衡 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

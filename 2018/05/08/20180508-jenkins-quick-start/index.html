@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jenkins 快速搭建-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="Jenkins, jenkins linux">
+    <meta name="description" content="Jenkins 作为持续集成的重要工具，在DevOps整个工具链中有重要的地位。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Jenkins 快速搭建</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        
+        <span class="post-time">发布于：2018-05-08 08:49:00</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <h3 id="Jenkins-介绍"><a href="#Jenkins-介绍" class="headerlink" title="Jenkins 介绍"></a>Jenkins 介绍</h3><p>Jenkins 作为持续集成的重要工具，在DevOps整个工具链中有重要的地位。Jenkins 一般作为独立的应用运行在Java Servlet容器中如Jetty，也可以运行在其它容器如Apache Tomcat 或者 GlassFish 中。</p>
+<h3 id="安装-Jenkins"><a href="#安装-Jenkins" class="headerlink" title="安装 Jenkins"></a>安装 Jenkins</h3><p>Jenkins可以被安装在多种环境中，可以跑在Tomcat容器、Docker中、也可以本地运行，本文介绍本地运行的情况，如果需要了解更多安装方式，访问<a target="_blank" rel="noopener" href="https://jenkins.io/doc/book/installing">Install Jenkins</a></p>
+<h4 id="环境要求"><a href="#环境要求" class="headerlink" title="环境要求"></a>环境要求</h4><p>Jenkins安装的最小环境要求为：<br>1 256MB 内存<br>2 1G的磁盘空间（如果在容器中运行Jenkins，则推荐至少有10G空间）<br>3 Java 8 的运行环境</p>
+<h4 id="快速搭建方式一：RPM安装"><a href="#快速搭建方式一：RPM安装" class="headerlink" title="快速搭建方式一：RPM安装"></a>快速搭建方式一：RPM安装</h4><p>Jenkins提供可以独立安装运行的RPM包，从<a target="_blank" rel="noopener" href="https://pkg.jenkins.io/redhat-stable/">这里</a>下载。我在这个页面下载的时候发现一个问题，rpm包并不完全是按照时间排序的，希望官方能够解决这个问题。</p>
+<img src="/2018/05/08/20180508-jenkins-quick-start/39469-20180508085029775-1298626335.png" class="">
+
+<blockquote>
+<p>RPM安装方法采用的环境是<br>Redhat Linux 7.3<br>Jenkins-2.89.4-1.1.noarch.rpm<br>jdk-8u171-linux-x64.rpm</p>
+</blockquote>
+<p>安装过程：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 首先将安装文件拷贝到虚拟机的用户目录下</span></span><br><span class="line">bogon:Downloads rousseau$ scp jenkins-2.89.4-1.1.noarch.rpm root@192.168.0.101:~</span><br><span class="line"><span class="comment"># 检查主机的Java版本是否满足要求，如果不满足则需要安装对应版本的JDK</span></span><br><span class="line">[root@bogon ~]<span class="comment"># java -version</span></span><br><span class="line">java version <span class="string">&quot;1.8.0_171&quot;</span></span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_171-b11)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.171-b11, mixed mode)</span><br><span class="line"><span class="comment"># 登录到虚拟机主机中，进行安装</span></span><br><span class="line">[root@bogon ~]<span class="comment"># rpm -ivh jenkins-2.89.4-1.1.noarch.rpm</span></span><br><span class="line"><span class="comment"># 启动 Jenkins</span></span><br><span class="line">[root@bogon ~]<span class="comment"># systemctl start jenkins </span></span><br><span class="line">[root@bogon ~]<span class="comment"># ps -ef | grep jenkins-2.89.4-1.1.noarch.rpm </span></span><br><span class="line">root      2829  2392  0 17:05 pts/0    00:00:00 grep --color=auto jenkins-2.89.4-1.1.noarch.rpm</span><br><span class="line"><span class="comment"># 此时应该可以正常访问了，如果没办法访问，可能是防火墙的问题。Redhat 7之后关闭防火墙的命令有所变化，需要注意</span></span><br><span class="line">[root@bogon ~]<span class="comment"># systemctl status firewalld</span></span><br><span class="line">● firewalld.service - firewalld - dynamic firewall daemon</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/firewalld.service; enabled; vendor preset: enabled)</span><br><span class="line">   Active: active (running) since Mon 2018-05-07 16:53:24 CST; 14min ago</span><br><span class="line">     Docs: man:firewalld(1)</span><br><span class="line"> Main PID: 753 (firewalld)</span><br><span class="line">   CGroup: /system.slice/firewalld.service</span><br><span class="line">           └─753 /usr/bin/python -Es /usr/sbin/firewalld --nofork --nopid</span><br><span class="line"></span><br><span class="line">May 07 16:53:23 localhost.localdomain systemd[1]: Starting firewalld - dynamic firewall daemon...</span><br><span class="line">May 07 16:53:24 localhost.localdomain systemd[1]: Started firewalld - dynamic firewall daemon.</span><br><span class="line">[root@bogon ~]<span class="comment"># systemctl stop firewalld</span></span><br></pre></td></tr></table></figure>
+<img src="/2018/05/08/20180508-jenkins-quick-start/39469-20180508085103438-1435698666.png" class="">
+<p>插件安装的过程。</p>
+<h4 id="快速搭建方式二：Docker运行"><a href="#快速搭建方式二：Docker运行" class="headerlink" title="快速搭建方式二：Docker运行"></a>快速搭建方式二：Docker运行</h4><p>本文是在Mac环境下运行的，首先需要确保你的Mac上安装了 Virtualbox 以及 Docker。</p>
+<blockquote>
+<p>我的环境版本如下：<br>Mac OS X EI Caption 10.11.6<br>Virtualbox 5.1.26<br>Docker 18.03.1-ce</p>
+</blockquote>
+<p>使用Docker来运行 Jenkins 真的是太方便了，不用准备虚拟机节省了很多时间，具体步骤如下。昨天参加的DevOps大会上，JFrog的中国区负责人给出的Jenkins使用建议也是跑在容器中。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bogon:docker rousseau$ docker pull jenkinsci/blueocean</span><br><span class="line">bogon:docker rousseau$ docker run -p 8080:8080 jenkinsci/blueocean</span><br></pre></td></tr></table></figure>
+<p>首先从docker hub上请求 jenkinsci/blueocean 的镜像，这一步骤会花一点时间，全部请求完成后，就可以执行第二步。<br>第一次启动 jenkins 的时候，会将初始密码以 log 的形式输出到终端上，要注意观察。后续的界面上也有密码存放文件位置的提示。<br>根据界面操作，我们就能到Jenkins的欢迎界面了。</p>
+<img src="/2018/05/08/20180508-jenkins-quick-start/39469-20180508085002672-1082837803.png" class="">
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="https://jenkins.io/doc/book/installing">Install Jenkins</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/05/08/20180508-maven-tutorial/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Maven 快速入门
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2018/04/21/20180421-sre-reading-tips/" id="article-nav-older" class="article-nav-link-wrap">
+            Google SRE 读书笔记 扒一扒SRE用的那些工具 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

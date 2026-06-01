@@ -1,0 +1,187 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>快速启动一个容器化Kafka-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="Linux, Kubernetes, Docker, PHP, java, javascript, CSS, 科技互联网, IT, 开发, 研发, 计算机名人">
+    <meta name="description" content="大江小浪，关注数据中心运维、金融科技、互联网相关技术与行业发展趋势，擅长应用运维管理、Linux、Java、Elasticsearch、Kubernetes、PHP相关技术。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>快速启动一个容器化Kafka</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2024-03-22 21:05:30</span>
+        
+        <span class="post-time">发布于：2024-03-15 09:53:27</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <blockquote>
+<p>本文基于 macOS Monterey 和 Docker 20.10.8，使用了 wurstmeister/kafka 和 wurstmeister/ zookeeper 镜像来搭建服务，读者至少需要准备一个 Docker 环境并提前下载好相关的镜像。</p>
+</blockquote>
+<h2 id="简单环境分步操作"><a href="#简单环境分步操作" class="headerlink" title="简单环境分步操作"></a>简单环境分步操作</h2><p>最简单的 Kafka 服务运行起来需要一个 Zookeeper 应用和一个 Kafka 应用。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动 zookeeper 容器，例子里是在前台启动，加上 -d 后可以变为后台</span></span><br><span class="line">$ docker run --rm --name zookeeper -p 2181:2181 wurstmeister/zookeeper</span><br><span class="line"><span class="comment"># 新开一个终端窗口启动 Kafka</span></span><br><span class="line">$ ocker run --rm --name kafka -p 9092:9092 -e KAFKA_BROKER_ID=0 -e KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181 --link zookeeper -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://11.136.164.13:9092 -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092 -t wurstmeister/kafka</span><br></pre></td></tr></table></figure>
+
+<p>利用命令行工具做消息的生产和接收验证。开两个终端窗口，一个窗口观察收到的消息，一个窗口发送消息。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 接收消息的终端</span></span><br><span class="line">$ docker <span class="built_in">exec</span> -it kafka sh</span><br><span class="line"><span class="comment"># kafka-console-consumer.sh --bootstrap-server 11.136.164.13:9092 --topic tran_raw --from-beginning</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 发送消息的终端</span></span><br><span class="line">$ docker <span class="built_in">exec</span> -it kafka sh</span><br><span class="line"><span class="comment"># kafka-console-producer.sh --broker-list 11.136.164.13:9092 --topic tran_raw </span></span><br><span class="line">&gt; Hello world</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>&gt;</code> 符号后面输入 Hello World 回车后，就可以在另外一个窗口中看到收到的消息。</p>
+<h2 id="使用Python验证"><a href="#使用Python验证" class="headerlink" title="使用Python验证"></a>使用Python验证</h2><p>通过 msg_sender.py 程序代码验证发送消息。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> confluent_kafka <span class="keyword">import</span> Producer</span><br><span class="line"></span><br><span class="line">p = Producer(&#123;<span class="string">&#x27;bootstrap.servers&#x27;</span>: <span class="string">&#x27;localhost:9092&#x27;</span>&#125;)</span><br><span class="line">p.produce(<span class="string">&#x27;tran_raw&#x27;</span>, <span class="string">b&#x27;hello world&#x27;</span>)</span><br><span class="line">p.flush(timeout=<span class="number">30</span>)</span><br></pre></td></tr></table></figure>
+
+<p>通过 msg_consumer.py 程序代码验证消费消息。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> confluent_kafka <span class="keyword">import</span> Consumer</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">c = Consumer(&#123;<span class="string">&#x27;bootstrap.servers&#x27;</span>: <span class="string">&#x27;localhost:9092&#x27;</span>, <span class="string">&#x27;group.id&#x27;</span> : <span class="string">&#x27;test-group&#x27;</span>&#125;)</span><br><span class="line">c.subscribe([<span class="string">&#x27;tran_raw&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        msg = c.poll(timeout=<span class="number">1.0</span>)</span><br><span class="line">        <span class="keyword">if</span> msg <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">if</span> msg.error():</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;Error occured: &#123;&#125;&#x27;</span>.<span class="built_in">format</span>(msg.error()))</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;Message: &#123;&#125;&#x27;</span>.<span class="built_in">format</span>(msg.value().decode(<span class="string">&#x27;utf-8&#x27;</span>)))</span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    c.close()</span><br></pre></td></tr></table></figure>
+
+<h2 id="compose-方式"><a href="#compose-方式" class="headerlink" title="compose 方式"></a>compose 方式</h2><p>利用 docker-composed 可以实现一键启动容器化的 Kafka 环境，方便本地调试。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;2&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">zookeeper:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">wurstmeister/zookeeper</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">zookeeper</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;2181:2181&quot;</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">zookeeper</span></span><br><span class="line">  <span class="attr">kafka:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">wurstmeister/kafka</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;9092:9092&quot;</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">KAFKA_ADVERTISED_HOST_NAME:</span> <span class="string">kafka</span></span><br><span class="line">      <span class="attr">KAFKA_ADVERTISED_PORT:</span> <span class="number">9092</span></span><br><span class="line">      <span class="attr">KAFKA_ZOOKEEPER_CONNECT:</span> <span class="string">&quot;zookeeper:2181&quot;</span></span><br><span class="line">      <span class="attr">KAFKA_BROKER_ID:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">KAFKA_CREATE_TOPICS:</span> <span class="string">&quot;test_flink_input&quot;</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">zookeeper</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">kafka</span></span><br></pre></td></tr></table></figure>
+
+<p>将这个文件保存为 docker-copose.yml 放在一个单独文件夹中，终端环境下 cd 到这个目录执行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker-compose up</span><br><span class="line"><span class="comment"># 如果放入后台执行需要 -d 参数</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42971035/article/details/129697736">Docker 安装 Kafka_docker bitnami/kafka</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2091266">Kafka入门实战教程（2）基于Docker搭建Kafka环境-腾讯云开发者社区</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/omaidb/article/details/107845466">docker –link容器互联_docker link</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/106859654">利用docker和docker-compose部署单机kafka</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2024/03/27/20240327-marvin-minsky/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; 马文·明斯基
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2024/03/08/20240308-manuel-blum/" id="article-nav-older" class="article-nav-link-wrap">
+            曼纽尔·布鲁姆 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Apache环境下页面乱码的几种可能总结-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="apache, 乱码, 页面编码">
+    <meta name="description" content="采用典型的LAMP架构开发的时候，环境中多处涉及到编码的指定，有一个地方忽略，都有可能造成页面汉字乱码的产生，本文将总结这些乱码产生的可能的原因，方便我们排查。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <script>
+    //百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>    
+    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">链接</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Apache环境下页面乱码的几种可能总结</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2021-01-18 13:21:29</span>
+        
+        <span class="post-time">发布于：2010-02-05 09:01:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>采用典型的LAMP架构开发的时候，环境中多处涉及到编码的指定，有一个地方忽略，都有可能造成页面汉字乱码的产生，本文将总结这些乱码产生的可能的原因，方便我们排查。</p>
+<p>1、页面中的问题。</p>
+<p>每个网页文件都有其编码，同时网页文件的源码中，也有一个位置会告诉浏览器，这个页面应该用什么样的编码去解释。</p>
+<blockquote>
+<meta http-equiv=”Content-Type” content=”text/html; charset=UTF-8” />
+</blockquote>
+<p>这里指定的编码应该和页面本身的编码一致，否则就会产生乱码。</p>
+<p>还有一个需要注意的问题：当在ie浏览器下面浏览网页面的时候使用 utf-8 编码，<title>标签被放在<meta>标签前面。当title为中文的时(比如Blog名为中文或者文章标题为中文)，在 IE下会出现显示空白页的问题。而使用gbk或者gb2312等编码就不会有什么问题了。</p>
+<p>这个问题是由于 utf-8 使用3个字节表示一个汉字，而GB2312或BIG5使用两个字节。页面输出时，由于上述原因，使浏览器解析、输出<title> </title>的内容时，如果在</title>前有奇数个全角字符时，IE把 UTF-8 当作两个字节解析时出现半个汉字的情况，这时该半个汉字会和</title>的&lt;结合成一个乱码字，导致IE无法读完&lt; title&gt;部分，致使整个页面为空百输出。此时查看源文件，会发现实际上整个页面全部已经下载了。</p>
+<p><strong>浏览器获得编码的方式</strong>：</p>
+<p>HTTP Header中的”Content-Type”项；<br>返回的html代码开头是否有BOM（Byte of Marker）；<br>html代码中的 meta 标签；</p>
+<p><strong>浏览器解码解析网页的过程</strong>：</p>
+<p>浏览器(无论是IE还是Firefox)在解析页面时，首先取HTTP Header中的Content-Type项，如果有写明charset的话就认定页面的编码方式为charset指定的值。如果没有指明，则认定为默认值。根据上表，IE中文版的默认值是GB2312，Firefox中文版的默认值是GBK，不过IE的GB2312好像和GBK没啥区别。然后，浏览器会看一下有没有BOM。一旦发现有UTF-8的3字节BOM，则重新认定页面的编码方式为UTF-8。</p>
+<p>解码阶段，解码完成后是解析html的阶段。解析html的过程中，当解析到head部分的meta标签时，浏览器会根据&lt;meta http-equiv=”Content-Type” content=”text/html; charset=UTF-8″ /&gt;这个语句中的说明，重新认定编码方式为charset后面的方式，中断html解析过程，返回到解码步骤重新解码。</p>
+<p><strong>meta标签的作用</strong>：<br>“meta是用来在HTML文档中模拟HTTP协议的响应头报文。”在meta标签中写和在HTTP头里写是一样的，这也是为了解决用普通 HTML写网页的人无法自行定义HTTP头的问题。但是，meta是一个html标签，所以必须进入到html解析的步骤才能生效，而生效后，浏览器会退回几步，重新设置好HTTP头从头再开始解码、解析html。所以meta中写的内容会覆盖HTTP头里的内容，无论哪个浏览器都是这样的。</p>
+<p>2、Apache的DefaultCharset配置。</p>
+<p>Apache2的配置中有这么一项 AddDefaultCharset ，默认这项设置在配置文件中并没有指定的。</p>
+<blockquote>
+<p>AddDefaultCharset 指令<br>说明     当应答内容是text/plain或text/html时，在HTTP应答头中加入的默认字符集<br>语法     AddDefaultCharset On|Off|charset<br>默认值     AddDefaultCharset Off<br>作用域     server config, virtual host, directory, .htaccess<br>覆盖项     FileInfo<br>状态     核心(C)<br>模块     core</p>
+</blockquote>
+<p>当且仅当应答内容是text/plain或text/html时，此指令将会在HTTP应答头中加入的默认字符集。理论上这将覆盖在文档体中通过<meta>标 签指定的字符集，但是实际的行为通常取决于用户浏览器的设置。AddDefaultCharset Off 将会禁用此功能。 AddDefaultCharset On 将启用Apache内部的默认字符集iso-8859-1 。您也可以指定使用在IANA注册过的字符集名字 中的另外一个charset 。比如说： AddDefaultCharset utf-8</p>
+<p>也就是说，当Apache不指定defaultcharset的时候，页面编码由页面自己的meta标签指定。 当Apache指定的时候，将忽略页面中的meta标签指定的编码. 但是容许脚本直接header编码方式给客户端。<br>这样，我们就清楚了，服务器配置一般不选择这一项，就给我们页面编写带来了很多灵活性。同一个服务器中，可以存在不同编码的网页。当然，这并不是一个很好的习惯。</p>
+<p>参考资料：</p>
+<blockquote>
+<p>1、<a target="_blank" rel="noopener" href="http://www.iefans.net/utf-8-bianma-wangye-title-kongbai/">IE中打开UTF-8编码的页面中title显示空白的问题</a><br>2、<a target="_blank" rel="noopener" href="http://www.svnspot.com/thread-11354-1-1.html">解决一个乱码问题</a></p>
+</blockquote>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2010/02/06/20100206-php-timezone/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; PHP中如何处理时区
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2010/01/26/20100126-yui-grids/" id="article-nav-older" class="article-nav-link-wrap">
+            YUI Grids实现自定义宽度的Template &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+  
+            </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A FULL STACK DREAMER!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>
