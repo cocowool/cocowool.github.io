@@ -10,16 +10,6 @@
     <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
     <link rel="stylesheet" href="/css/main.css" />
     
-    <script>
-    //百度统计代码
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
-      var s = document.getElementsByTagName("script")[0]; 
-      s.parentNode.insertBefore(hm, s);
-    })();
-</script>    
     <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
 <meta name="generator" content="Hexo 5.4.0"></head>
 <body class="wave">
@@ -37,7 +27,7 @@
                     </li>
                 
                     <li class="nav-item">
-                        <a class="nav-link" href="/links/">链接</a>
+                        <a class="nav-link" href="/links/">独立博客</a>
                     </li>
                 
                     <li class="nav-item">
@@ -79,11 +69,11 @@
 <p>_config.yml 是博客的配置文件，能够定义博客名称、作者等各种全局的参数。<br>package.json 应用数据，EJS、Sylus、Markdown三个渲染工具是默认安装的，如果不需要刻意卸载。但是对于最终要是使用 Markdown 来编辑博客的我来说，那是必不可少的。<br>source 文件夹，文章原始的 md 文件都放在这个文件夹下面。通过生成器会对该文件夹下的 markdown、html 文件进行解析，其他的文件只做拷贝，放入 public 文件夹。<br>themes 主题文件夹，默认的主题为 landscape。</p>
 <h3 id="二、必备插件的安装"><a href="#二、必备插件的安装" class="headerlink" title="二、必备插件的安装"></a>二、必备插件的安装</h3><ul>
 <li>Hexo-deployer-git 如果要以 git 方式部署项目，必须安装这个插件，在 Blog 目录下执行  <code>npm install hexo-deployer-git --save</code> </li>
-<li>hexo-renderer-sass 因为我选择的插件需要sass支持，因此必须安装。对于 node 版本是 16.0 的环境，默认从 npmjs 下载这个插件安装会报错，可以参考 <a href="http://www.edulinks.cn/2021/07/27/20210727-node-sass-problem/">node-sass安装遇到的错误</a> 解决问题。</li>
-<li>hexo-image-link 这个是我自己写的一个插件，在使用 Typora 编辑 Markdown 过程中，支持插入相对路径的图片，可以在 Typora 中预览。支持在发布过程中转换为绝对路径，支持正常在页面上显示。具体可以参考 <a href="http://www.edulinks.cn/2020/03/14/20200314-write-hexo-with-typora/">Hexo博客写作与图片处理的经验</a> ，安装命令 <code>npm install hexo-image-link --save</code></li>
+<li>hexo-renderer-sass 因为我选择的插件需要sass支持，因此必须安装。对于 node 版本是 16.0 的环境，默认从 npmjs 下载这个插件安装会报错，可以参考 <a target="_blank" rel="noopener" href="http://www.edulinks.cn/2021/07/27/20210727-node-sass-problem/">node-sass安装遇到的错误</a> 解决问题。</li>
+<li>hexo-image-link 这个是我自己写的一个插件，在使用 Typora 编辑 Markdown 过程中，支持插入相对路径的图片，可以在 Typora 中预览。支持在发布过程中转换为绝对路径，支持正常在页面上显示。具体可以参考 <a target="_blank" rel="noopener" href="http://www.edulinks.cn/2020/03/14/20200314-write-hexo-with-typora/">Hexo博客写作与图片处理的经验</a> ，安装命令 <code>npm install hexo-image-link --save</code></li>
 </ul>
 <blockquote>
-<p>hexo-renderer-sass 安装过程中遇到了一些问题，记录在 <a href="http://www.edulinks.cn/2021/07/27/20210727-node-sass-problem/">node-sass安装遇到的错误</a> 中</p>
+<p>hexo-renderer-sass 安装过程中遇到了一些问题，记录在 <a target="_blank" rel="noopener" href="http://www.edulinks.cn/2021/07/27/20210727-node-sass-problem/">node-sass安装遇到的错误</a> 中</p>
 </blockquote>
 <h3 id="三、主题更换。"><a href="#三、主题更换。" class="headerlink" title="三、主题更换。"></a>三、主题更换。</h3><p>默认的主题美观性基本上没有，hexo 支持自己开发博客主题，但是刚开始的时候最好还是选择一个比较成熟的主题先上手。hexo 官方有一个提供预览图的<a target="_blank" rel="noopener" href="https://hexo.io/themes/">列表</a>，也有一个更完整的<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/wiki/Themes">列表</a>，我这里要使用的是<a target="_blank" rel="noopener" href="https://github.com/litten/hexo-theme-yilia">yilia</a>，后续考虑自己定义一个。<br>更换theme的步骤包括获取 theme 文件，修改配置，可以参考 yilia 的文档进行。</p>
 <h3 id="四、生成与发布"><a href="#四、生成与发布" class="headerlink" title="四、生成与发布"></a>四、生成与发布</h3><p>编辑完自己的文章后，本地预览觉得效果还可以的话，就可以生成等待发布的页面了。</p>
@@ -94,7 +84,7 @@
 
       <div class="blog-post-footer">
         <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
       </div>
     </div>
     
@@ -157,17 +147,13 @@
                 
                 
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
-                </div>
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
                 </div>
                 
             </div>
             <div class="row">
                 <div class="blog-copyright">
-                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
                 </div>    
             </div>
         </div>

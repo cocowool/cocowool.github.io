@@ -10,16 +10,6 @@
     <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
     <link rel="stylesheet" href="/css/main.css" />
     
-    <script>
-    //百度统计代码
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
-      var s = document.getElementsByTagName("script")[0]; 
-      s.parentNode.insertBefore(hm, s);
-    })();
-</script>    
     <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
 <meta name="generator" content="Hexo 5.4.0"></head>
 <body class="wave">
@@ -37,7 +27,7 @@
                     </li>
                 
                     <li class="nav-item">
-                        <a class="nav-link" href="/links/">链接</a>
+                        <a class="nav-link" href="/links/">独立博客</a>
                     </li>
                 
                     <li class="nav-item">
@@ -68,7 +58,7 @@
           <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
         </div> -->
       </div>
-      <h2 id="背景需求"><a href="#背景需求" class="headerlink" title="背景需求"></a>背景需求</h2><p>我的<a href="http://www.edulinks.cn/">站点</a>使用 hexo 生成静态文件存放在新浪云服务器上，因为静态文件都做为代码存放上传，新浪云默认提供的代码空间是100M，因此我经常关注 hexo 生成的 public 文件夹的使用情况。</p>
+      <h2 id="背景需求"><a href="#背景需求" class="headerlink" title="背景需求"></a>背景需求</h2><p>我的<a target="_blank" rel="noopener" href="http://www.edulinks.cn/">站点</a>使用 hexo 生成静态文件存放在新浪云服务器上，因为静态文件都做为代码存放上传，新浪云默认提供的代码空间是100M，因此我经常关注 hexo 生成的 public 文件夹的使用情况。</p>
 <p>最近发现 public 使用已经到了 91M，感觉很快就会超过 100M 的上限了。因此需要对生成的静态文件做一些分析，看是否还有优化压缩的空间。</p>
 <p>hexo 生成的静态文件主要有两类，一类是 markdown 转换后的 html 文件，另一大块主要是 文章中引用的图片。由此产生了一个需求，我需要统计 <code>pubic</code> 文件夹下（包括子文件夹）图片占用的空间大小。</p>
 <h2 id="统计脚本"><a href="#统计脚本" class="headerlink" title="统计脚本"></a>统计脚本</h2><p>经过几个小时的编写，终于完成了这个统计脚本 <a target="_blank" rel="noopener" href="https://github.com/cocowool/code-space/blob/master/shell/count_file.sh"><code>count_file.sh</code></a> 。支持统计某个文件夹下（包含子文件夹）某一类文件的大小，或者除某一类文件外其他文件的大小。</p>
@@ -79,7 +69,7 @@
 <li>getopts 是 Linux 系统中的一个内置变量，一般通过循环的方式使用，每次循环 getopts 都会检查命令行选项，并将命令行选项的值爆存在 OPTARG 变量中</li>
 <li>getopt 是一个外部命令，相较于 <code>getopts</code> 命令能够支持长参数，但是使用起来较 getopts 复杂</li>
 </ul>
-<p>本文中因为参数比较少且没计划使用长参数，因此采用了 <code>getopts</code> 来处理选项和参数问题。如果不熟悉 shell 的使用，可以查看 <a href="http://www.edulinks.cn/2020/07/22/20200722-shell-quick-start/">Shell 入门详解（一）</a> ，希望能有所帮助。</p>
+<p>本文中因为参数比较少且没计划使用长参数，因此采用了 <code>getopts</code> 来处理选项和参数问题。如果不熟悉 shell 的使用，可以查看 <a target="_blank" rel="noopener" href="http://www.edulinks.cn/2020/07/22/20200722-shell-quick-start/">Shell 入门详解（一）</a> ，希望能有所帮助。</p>
 <h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>最后统计发现，我写了 470 篇博客，引用了 700 多张图片。其中 html 文件大小占用了 11M 的空间，而图片占用了 79M 的空间。如果后续的文章还要放很多图片的话，很快源码空间就会使用完，看来是要考虑准备用图床的方案来存放博客的图片了。</p>
 <p>各位自己有独立博客的小伙伴，有没有图床服务提供，欢迎给我些指导。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
@@ -92,7 +82,7 @@
 
       <div class="blog-post-footer">
         <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
       </div>
     </div>
     
@@ -155,17 +145,13 @@
                 
                 
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
-                </div>
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
                 </div>
                 
             </div>
             <div class="row">
                 <div class="blog-copyright">
-                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
                 </div>    
             </div>
         </div>

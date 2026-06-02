@@ -10,16 +10,6 @@
     <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
     <link rel="stylesheet" href="/css/main.css" />
     
-    <script>
-    //百度统计代码
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?768e225ca43b028a6d15124a73b5c8d2";
-      var s = document.getElementsByTagName("script")[0]; 
-      s.parentNode.insertBefore(hm, s);
-    })();
-</script>    
     <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
 <meta name="generator" content="Hexo 5.4.0"></head>
 <body class="wave">
@@ -37,7 +27,7 @@
                     </li>
                 
                     <li class="nav-item">
-                        <a class="nav-link" href="/links/">链接</a>
+                        <a class="nav-link" href="/links/">独立博客</a>
                     </li>
                 
                     <li class="nav-item">
@@ -68,7 +58,7 @@
           <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
         </div> -->
       </div>
-      <p>上周一的时候，对为我服务了9年的Macbook Pro做了一次重启（因为想刷新一下路由，关于双网卡路由配置可以参考我的<a href="https://www.edulinks.cn/2020/05/19/20200519-macos-route/">这篇文章</a>），然后悲剧来了，当出现小苹果和进度条后，进度条走的一直很慢，等进度条都走完了也一直没有办法启动系统。</p>
+      <p>上周一的时候，对为我服务了9年的Macbook Pro做了一次重启（因为想刷新一下路由，关于双网卡路由配置可以参考我的<a target="_blank" rel="noopener" href="https://www.edulinks.cn/2020/05/19/20200519-macos-route/">这篇文章</a>），然后悲剧来了，当出现小苹果和进度条后，进度条走的一直很慢，等进度条都走完了也一直没有办法启动系统。</p>
 <p>这时我的第一感觉是SSD硬盘坏了，现在的MBP有两块硬盘，一块1T的普通机械硬盘安装在硬盘位，一块256G的SSD硬盘安装在光驱位。前不久我老婆的联想电脑也是因为SSD硬盘的故障导致操作系统启动停留在Windows图标那里。</p>
 <p>怀疑磁盘故障，那么第一反应就是更换一块磁盘，火速的从某东上购买了一块240G金士顿SSD硬盘，然后一顿折腾将就硬盘换下来、新硬盘换上去，使用<code>Command + Option + R</code>重启操作系统进入恢复工具后，首先对磁盘进行分区操作，<strong>重点在这个地方</strong>，当时我将磁盘分区方式选择为<code>Mac OS 扩展（日志式）</code>，然后分好区后重新安装操作系统提示我<code>**将安装器信息下载到目标宗卷失败**</code>，不管是用新的SSD还是旧的SSD，都是同样的报错。</p>
 <p>这时就有点蒙圈了，不知道问题出在哪里，一度打了两个Apple Care的支持电话，客服的小姑娘很热情、耐心的知道了我如何抹盘及重装，但是对于仍然出现的报错信息也并没有提供很好的办法。在快要灰心失望准备掏腰包更换新的MBP的时候，无意间通过<code>macOS实用工具</code>中的<code>获得在线帮助</code>点了进去，发现在某一个页面介绍重装操作系统时（忘记页面的具体标题了），选择的分区类型是<code>**APFS**</code>。这时好像印象中某次操作系统版本升级，苹果把文件系统都换成了APFS，于是重新抹盘格式化为APFS，然后重新安装<code>macOS High Sierra</code>等待了半个小时左右，操作系统重新安装完成了。</p>
@@ -86,7 +76,7 @@
 
       <div class="blog-post-footer">
         <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
       </div>
     </div>
     
@@ -149,17 +139,13 @@
                 
                 
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.edulinks.cn">大江小浪</a>
-                </div>
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">Popsite</a>
+                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
                 </div>
                 
             </div>
             <div class="row">
                 <div class="blog-copyright">
-                    <p>&copy; 2020 - 2025 All rights reserved. 大江小浪  - <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备15058613-2号</a>   - <a href="http://www.beian.gov.cn/portal/index.do" target="_blank">京公安网备案11010802035682号</a></p>
+                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
                 </div>    
             </div>
         </div>
