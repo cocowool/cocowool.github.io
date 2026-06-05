@@ -103,6 +103,44 @@ table td {
 .blog-content {
   margin-top: 1em;
 }
+.blog-content .featured-bloger {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e5e8ed;
+}
+.blog-content .featured-bloger h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #333;
+}
+.blog-content .featured-bloger .featured-bloger-lists {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.blog-content .featured-bloger .featured-bloger-item {
+  display: inline-block;
+}
+.blog-content .featured-bloger .featured-bloger-link {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  background-color: #f5f7fa;
+  border: 1px solid #e5e8ed;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #333;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+.blog-content .featured-bloger .featured-bloger-link:hover {
+  background-color: #076dd0;
+  border-color: #076dd0;
+  color: #fff;
+}
+.blog-content .featured-bloger .featured-bloger-name {
+  font-weight: 500;
+}
 .blog-content .blog-post-lists .blog-post {
   border-bottom: 1px solid #ddd;
   padding: 2rem 0 1rem;
