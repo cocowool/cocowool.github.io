@@ -318,5 +318,13 @@
         "rss": "https://blog.heysh.xyz/feed.xml",
         "status": "active",
         "added_date": "2026-06-16"
+    },
+    {
+        "name": "Jiajun的技术笔记",
+        "url": "https://jiajunhuang.com/",
+        "description": "享受技术带来的快乐~分布式系统/高并发处理/Golang/Python/Haskell/C/微服务/Android/安卓/Kotlin/软件工程/源码阅读与分析",
+        "rss": "https://jiajunhuang.com/rss",
+        "status": "active",
+        "added_date": "2026-06-16"
     }
 ]

@@ -1,0 +1,38 @@
+name: Auto Deploy Popsite
+
+on:
+  push:
+    branches:
+      - master  # 监听 master 分支
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Sync Blog Data
+        run: |
+          mkdir -p source/data
+          # ⚠️ 请确认这个 URL 是你数据仓库的真实 Raw 地址
+          curl -o source/data/blogs.json https://raw.githubusercontent.com/cocowool/popsite-discover/main/tech-blog-lists-cn.json
+          curl -o source/data/latest_posts.json https://raw.githubusercontent.com/cocowool/popsite-discover/main/source/data/latest_posts_cn.json
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Generate Static Files
+        run: npx hexo clean && npx hexo generate
+
+      - name: Deploy to githubpages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          cname: popsite.cn  # 确保域名绑定不丢失
