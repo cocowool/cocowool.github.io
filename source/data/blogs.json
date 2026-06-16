@@ -1,0 +1,100 @@
+[
+    {
+        "blog_name": "王登科-DK博客",
+        "blog_url": "https://greatdk.com/",
+        "title": "3 天 100 万注册用户，日烧千亿 token，一次意外的里程碑",
+        "link": "https://greatdk.com/2149.html",
+        "pub_date": "未知时间"
+    },
+    {
+        "blog_name": "Debug客栈",
+        "blog_url": "https://blog.debuginn.com/",
+        "title": "做了一款家庭资产管理 App — 知盈 iAssets",
+        "link": "https://blog.debuginn.com/p/iassets-app/",
+        "pub_date": "2026-06-08"
+    },
+    {
+        "blog_name": "MacTalk-池建强的 Blog",
+        "blog_url": "https://macshuo.com/",
+        "title": "谁说 ChatGTP 和 Codex 合体了？",
+        "link": "https://macshuo.com/?p=2063",
+        "pub_date": "2026-06-06"
+    },
+    {
+        "blog_name": "阮一峰的网络日志",
+        "blog_url": "https://www.ruanyifeng.com/blog/",
+        "title": "科技爱好者周刊（第 399 期）：中国 AI 大厂访问记",
+        "link": "http://www.ruanyifeng.com/blog/2026/06/weekly-issue-399.html",
+        "pub_date": "2026-06-05"
+    },
+    {
+        "blog_name": "追梦人物",
+        "blog_url": "https://www.zmrenwu.com/",
+        "title": "0x05：Merkle Tree & Patricia Trie",
+        "link": "https://zmrenwu.com/columns/ethereum-design-and-implementation/articles/6/",
+        "pub_date": "2026-05-26"
+    },
+    {
+        "blog_name": "依云's Blog",
+        "blog_url": "https://blog.lilydjwg.me/",
+        "title": "自定义系统默认中文字体",
+        "link": "https://blog.lilydjwg.me/posts/217026.html",
+        "pub_date": "2026-05-11"
+    },
+    {
+        "blog_name": "开源实验室",
+        "blog_url": "https://kymjs.com/",
+        "title": "01",
+        "link": "https://www.kymjs.com/2026/04/01/01/",
+        "pub_date": "2026-04-01"
+    },
+    {
+        "blog_name": "winliang",
+        "blog_url": "https://windliang.wang/",
+        "title": "杀死那个写代码的人",
+        "link": "https://windliang.wang/2026/03/31/%E6%9D%80%E6%AD%BB%E9%82%A3%E4%B8%AA%E5%86%99%E4%BB%A3%E7%A0%81%E7%9A%84%E4%BA%BA/",
+        "pub_date": "2026-03-31"
+    },
+    {
+        "blog_name": "Piglei",
+        "blog_url": "https://www.piglei.com/",
+        "title": "一份关于 AI 编程的简明行为指南",
+        "link": "https://www.piglei.com/articles/a-simple-ai-coding-guide-for-engineers/",
+        "pub_date": "2026-03-20"
+    },
+    {
+        "blog_name": "国光",
+        "blog_url": "https://www.sqlsec.com/",
+        "title": "国光的 Kindle（第八代）基础折腾记录",
+        "link": "https://www.sqlsec.com/2026/03/kindle.html",
+        "pub_date": "2026-03-13"
+    },
+    {
+        "blog_name": "罗磊的独立博客",
+        "blog_url": "https://luolei.org/luolei-ai",
+        "title": "开启我的「人生 AI」计划",
+        "link": "https://luolei.org/life-ai",
+        "pub_date": "2026-03-10"
+    },
+    {
+        "blog_name": "lucifer",
+        "blog_url": "https://lucifer.ren/blog/",
+        "title": "Claude Code 高级指南：驾驭上下文的艺术",
+        "link": "https://lucifer.ren/blog/2026/01/25/ai-claude-code-advanced-skills/",
+        "pub_date": "2026-01-24"
+    },
+    {
+        "blog_name": "Dorad",
+        "blog_url": "https://blog.cuger.cn/",
+        "title": "2026第一场日出日落-黄山",
+        "link": "https://blog.cuger.cn/p/fdcc/",
+        "pub_date": "2026-01-07"
+    },
+    {
+        "blog_name": "Randy's Blog",
+        "blog_url": "https://lutaonan.com/",
+        "title": "让 AI 戴着镣铐跳舞",
+        "link": "https://lutaonan.com/blog/ai-coding-principle",
+        "pub_date": "2025-12-27"
+    }
+]
