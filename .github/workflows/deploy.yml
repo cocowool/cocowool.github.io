@@ -16,9 +16,14 @@ jobs:
         run: |
           mkdir -p source/data
           # ⚠️ 请确认这个 URL 是你数据仓库的真实 Raw 地址
-          curl -o source/data/blogs.json https://raw.githubusercontent.com/cocowool/popsite-discover/main/tech-blog-lists-cn.json
-          curl -o source/data/latest_posts.json https://raw.githubusercontent.com/cocowool/popsite-discover/main/source/data/latest_posts_cn.json
+          echo "Downloading blogs.json and latest_posts.json from GitHub..."
+          curl -f -o source/data/blogs.json https://raw.githubusercontent.com/cocowool/popsite-discover/main/tech-blog-lists-cn.json
+          curl -f -o source/data/latest_posts.json https://raw.githubusercontent.com/cocowool/popsite-discover/main/source/data/latest_posts_cn.json
 
+          # 调试内容
+          echo "Validating downloaded files..."
+          head -n 5 source/data/blogs.json || echo "Failed to download blogs.json"
+          head -n 5 source/data/latest_posts.json || echo "Failed to download latest_posts
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
