@@ -41,3 +41,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
           cname: popsite.cn  # 确保域名绑定不丢失
+          publish_branch: main  # 发布到 main 分支
