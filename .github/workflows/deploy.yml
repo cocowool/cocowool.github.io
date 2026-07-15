@@ -36,7 +36,7 @@ jobs:
       - name: Generate Static Files
         run: npx hexo clean && npx hexo generate
 
-      - name: Deploy to githubpages
+      - name: Deploy to github pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
