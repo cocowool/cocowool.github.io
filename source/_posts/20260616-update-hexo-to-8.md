@@ -2,7 +2,7 @@
 title: 升级到 Hexo 8
 date: 2026-06-16 08:32:17
 keywords: Hexo, Hexo 升级, Hexo8
-description: 记录一下折腾博客升级，以及实现部分博客内容自动更新的过程。
+description: 记录一下折腾博客升级，以及实现部分博客内容自动更新的过程。支持Githubpage自动部署。
 ---
 
 前一段时间因为新浪停止云服务，我把原来托管在SAE的静态博客搬到了 [Github Page](https://www.popsite.cn) 上。仍然是通过本地编辑文章上传的方式更新，原始的博客文章放在了一个 Github 仓库中作为备份。
