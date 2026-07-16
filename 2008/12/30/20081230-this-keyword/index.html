@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-11 18:53:54</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2008-12-30 09:46:01</span>
     </div>
@@ -67,19 +67,19 @@ var _hmt = _hmt || [];
       </div>
       <p><code>this</code> 是 Javascript 中一个非常重要的关键字，正确的使用this能够使我们的程序效率得到提升。之前，对于 <code>this</code> 的认识还存在一些误区，今天看了一篇文章之后又有了一些深入的了解。</p>
 <h2 id="this-的所有者。"><a href="#this-的所有者。" class="headerlink" title="this 的所有者。"></a><code>this</code> 的所有者。</h2><p>一般情况下，this是指向正在执行的函数本身，或者是，指向函数所属的对象。如</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dosomething</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.style.color = <span class="string">&#x27;red&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">dosomething</span>(<span class="params"></span>)&#123;</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">style</span>.<span class="property">color</span> = <span class="string">&#x27;red&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>函数执行时，this指向的就是window对象。而：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dosomething = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.style.color = <span class="string">&#x27;red&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dosomething = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">style</span>.<span class="property">color</span> = <span class="string">&#x27;red&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>this 是指向 dosomething 这个对象的；</p>
 <p>很不幸，window对象没有style属性，所以这个dosomething这个函数直接执行就会导致错误，我们如果想正确应用this，我们就需要将函数复制到对象的属性上去。</p>
-<p>例如：element.onclick = dosomething;</p>
+<p>例如：element.onclick &#x3D; dosomething;</p>
 <p>总结一下，通过复制正确使用this的例子有：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">element.onclick = dosomething;</span><br><span class="line">element.addEventListener(<span class="string">&#x27;click&#x27;</span>,dosomething,<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">element.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="built_in">this</span>.style.color = <span class="string">&#x27;red&#x27;</span>; &#125;;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">element</span> <span class="attr">onclick</span>=<span class="string">&#x27;javascript:this.style.color = red;&#x27;</span> /&gt;</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">element.<span class="property">onclick</span> = dosomething;</span><br><span class="line">element.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>,dosomething,<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">element.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123; <span class="variable language_">this</span>.<span class="property">style</span>.<span class="property">color</span> = <span class="string">&#x27;red&#x27;</span>; &#125;;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">element</span> <span class="attr">onclick</span>=<span class="string">&#x27;javascript:this.style.color = red;&#x27;</span> /&gt;</span></span></span><br></pre></td></tr></table></figure>
 
 <p>通过直接引用使用this的例子：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">element.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; dosomething(); &#125;;</span><br><span class="line"></span><br><span class="line">element.attachEvent(<span class="string">&#x27;onclick&#x27;</span>,dosomething);</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">element</span> <span class="attr">onclick</span> = <span class="string">&quot;dosomething();&quot;</span> /&gt;</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">element.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123; <span class="title function_">dosomething</span>(); &#125;;</span><br><span class="line"></span><br><span class="line">element.<span class="title function_">attachEvent</span>(<span class="string">&#x27;onclick&#x27;</span>,dosomething);</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">element</span> <span class="attr">onclick</span> = <span class="string">&quot;dosomething();&quot;</span> /&gt;</span></span></span><br></pre></td></tr></table></figure>
 
 <p>这样的引用，this 都会被指向 window 对象而导致，执行失败，所以在平时的应用中是要引起注意的。</p>
 
@@ -118,7 +118,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

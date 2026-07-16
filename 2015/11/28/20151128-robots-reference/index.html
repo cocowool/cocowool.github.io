@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2015-11-28 13:19:01</span>
     </div>
@@ -70,21 +70,17 @@ var _hmt = _hmt || [];
 <p><strong>协议的历史</strong></p>
 <p>Robots Exclusion Protocol协议是由<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Martijn_Koster">Martijn Koster</a>在1994年2月，于Nexor工作期间在 www-talk 邮件列表中提出的。该协议提出后，Koster的服务器甚至遭到了反对者的拒绝服务攻击。而该协议迅速成为事实上的标准，为大多数的人所接受。</p>
 <p><strong>文件的写法：</strong></p>
-<p>User-agent:*<br><em>是一个通配符，表示所有的搜索引擎种类<br>Disallow:/admin/<br>这表示禁止搜索引擎爬寻admin目录下的内容<br>Disallow:</em>?*<br>这表示禁止搜索引擎爬寻包含?的网页<br>Sitemap:sitemap.xml<br>这里通过Sitemap指定固定的网站地图页面。目前对此表示支持的搜索引擎公司有Google, Yahoo, Ask and MSN。而中文搜索引擎公司，显然不在这个圈子内。这样做的好处就是，站长不用到每个搜索引擎的站长工具或者相似的站长部分，去提交自己的sitemap文件，搜索引擎的蜘蛛自己就会抓取robots.txt文件，读取其中的sitemap路径，接着抓取其中相链接的网页。</p>
-<p><strong>京东的Robots.txt。（时间：2015-11-25）</strong></p>
-<img src="/2015/11/28/20151128-robots-reference/39469-20151128131803499-988227839.png" class="">
-
+<p>User-agent:*<br><em>是一个通配符，表示所有的搜索引擎种类<br>Disallow:&#x2F;admin&#x2F;<br>这表示禁止搜索引擎爬寻admin目录下的内容<br>Disallow:</em>?*<br>这表示禁止搜索引擎爬寻包含?的网页<br>Sitemap:sitemap.xml<br>这里通过Sitemap指定固定的网站地图页面。目前对此表示支持的搜索引擎公司有Google, Yahoo, Ask and MSN。而中文搜索引擎公司，显然不在这个圈子内。这样做的好处就是，站长不用到每个搜索引擎的站长工具或者相似的站长部分，去提交自己的sitemap文件，搜索引擎的蜘蛛自己就会抓取robots.txt文件，读取其中的sitemap路径，接着抓取其中相链接的网页。</p>
+<p><strong>京东的Robots.txt。（时间：2015-11-25）</strong><br><img src="/20151128-robots-reference/39469-20151128131803499-988227839.png"></p>
 <p>二、Robots.txt以外的内容</p>
-<p>除了Robots.txt以外，还可以使用Robots Meta来向搜索引擎传递信息，先看示例如下：<br>＜META NAME=”ROBOTS” CONTENT=”INDEX,FOLLOW”＞<br>content部分有四个选项：index、noindex、follow、nofollow，指令间用“,”分隔。</p>
-<p>共有四种组合：<br>＜META NAME=”ROBOTS” CONTENT=”INDEX,FOLLOW”＞<br>＜META NAME=”ROBOTS” CONTENT=”NOINDEX,FOLLOW”＞<br>＜META NAME=”ROBOTS” CONTENT=”INDEX,NOFOLLOW”＞<br>＜META NAME=”ROBOTS” CONTENT=”NOINDEX,NOFOLLOW”＞</p>
-<p>其中：<br>＜META NAME=”ROBOTS” CONTENT=”INDEX,FOLLOW”＞可以写成＜META NAME=”ROBOTS” CONTENT=”ALL”＞；<br>＜META NAME=”ROBOTS” CONTENT=”NOINDEX,NOFOLLOW”＞可以写成＜META NAME=”ROBOTS” CONTENT=”NONE”＞</p>
-<p>目前看来，绝大多数的搜索引擎机器人都遵守robots.txt的规则，而对于Robots META标签，目前支持的并不多，但是正在逐渐增加，如著名搜索引擎GOOGLE就完全支持，而且GOOGLE还增加了一个指令“archive”，可以限制GOOGLE是否保留网页快照。例如：<br>＜META NAME=”googlebot” CONTENT=”index,follow,noarchive”＞<br>表示抓取该站点中页面并沿着页面中链接抓取，但是不在GOOLGE上保留该页面的网页快照。</p>
+<p>除了Robots.txt以外，还可以使用Robots Meta来向搜索引擎传递信息，先看示例如下：<br>＜META NAME&#x3D;”ROBOTS” CONTENT&#x3D;”INDEX,FOLLOW”＞<br>content部分有四个选项：index、noindex、follow、nofollow，指令间用“,”分隔。</p>
+<p>共有四种组合：<br>＜META NAME&#x3D;”ROBOTS” CONTENT&#x3D;”INDEX,FOLLOW”＞<br>＜META NAME&#x3D;”ROBOTS” CONTENT&#x3D;”NOINDEX,FOLLOW”＞<br>＜META NAME&#x3D;”ROBOTS” CONTENT&#x3D;”INDEX,NOFOLLOW”＞<br>＜META NAME&#x3D;”ROBOTS” CONTENT&#x3D;”NOINDEX,NOFOLLOW”＞</p>
+<p>其中：<br>＜META NAME&#x3D;”ROBOTS” CONTENT&#x3D;”INDEX,FOLLOW”＞可以写成＜META NAME&#x3D;”ROBOTS” CONTENT&#x3D;”ALL”＞；<br>＜META NAME&#x3D;”ROBOTS” CONTENT&#x3D;”NOINDEX,NOFOLLOW”＞可以写成＜META NAME&#x3D;”ROBOTS” CONTENT&#x3D;”NONE”＞</p>
+<p>目前看来，绝大多数的搜索引擎机器人都遵守robots.txt的规则，而对于Robots META标签，目前支持的并不多，但是正在逐渐增加，如著名搜索引擎GOOGLE就完全支持，而且GOOGLE还增加了一个指令“archive”，可以限制GOOGLE是否保留网页快照。例如：<br>＜META NAME&#x3D;”googlebot” CONTENT&#x3D;”index,follow,noarchive”＞<br>表示抓取该站点中页面并沿着页面中链接抓取，但是不在GOOLGE上保留该页面的网页快照。</p>
 <p>三、Robots.txt使用上应注意的一些问题</p>
 <p>1、每当用户试图访问某个不存在的URL时，服务器都会在日志中记录404错误（无法找到文件）。每当搜索蜘蛛来寻找并不存在的robots.txt文件时，服务器也将在日志中记录一条404错误，所以你应该在网站中添加一个robots.txt。</p>
 <p>2、如果后台和前台在一个域名下，不希望爬虫抓取后台程序的，可以在Robots.txt明确不让爬虫抓取的目录。但这会不会被某些恶意分子一下子就能够知道后台目录呢？</p>
-<p>3、国内常见搜索机器人的名字</p>
-<img src="/2015/11/28/20151128-robots-reference/39469-20151128131749812-1855865919.png" class="">
-
+<p>3、国内常见搜索机器人的名字<br><img src="/20151128-robots-reference/39469-20151128131749812-1855865919.png"></p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://baike.baidu.com/link?url=4bmJ0pVWcEcXFXr12RhSUQUErwFXlnBDTwTdoBgzln5Z7_f4w17iak5F1lARYjiqIg8oKP0j5wjvdNRTTbYNUPWqWShsXPG1UtmtrMgZq05FcchgcTsngyfrwLUKCLJ9">Robots协议</a><br>2、<a target="_blank" rel="noopener" href="http://www.cnblogs.com/yuzhongwusan/archive/2008/12/06/1348969.html">如何使用Robots及其详解</a><br>3、<a target="_blank" rel="noopener" href="http://www.chinaz.com/web/2011/1117/221058_2.shtml">详细的Robots.txt学习方法</a><br>4、<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Robots_exclusion_standard">Robots Exclusion standard</a><br>5、<a target="_blank" rel="noopener" href="http://www.robotstxt.org/">The web robots page</a></p>
 
       <div class="blog-post-footer">
@@ -122,7 +118,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

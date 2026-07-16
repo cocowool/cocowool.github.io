@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2010-08-14 23:42:01</span>
     </div>
@@ -67,50 +67,39 @@ var _hmt = _hmt || [];
       </div>
       <p>先看一下基本的时间。</p>
 <p>现在服务器上建立一个文件 time.php</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt; [root@d10045105 tools]<span class="comment"># touch time.php</span></span><br><span class="line">[root@d10045105 tools]<span class="comment"># stat time.php</span></span><br><span class="line">File: `time.php<span class="string">&#x27;</span></span><br><span class="line"><span class="string">Size: 0               Blocks: 0          IO Block: 4096   regular empty file</span></span><br><span class="line"><span class="string">Device: 807h/2055d      Inode: 119408329   Links: 1</span></span><br><span class="line"><span class="string">Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)</span></span><br><span class="line"><span class="string">Access: 2010-08-06 15:56:01.000000000 +0800</span></span><br><span class="line"><span class="string">Modify: 2010-08-06 15:56:01.000000000 +0800</span></span><br><span class="line"><span class="string">Change: 2010-08-06 15:56:01.000000000 +0800</span></span><br><span class="line"><span class="string">[root@d10045105 tools]# date</span></span><br><span class="line"><span class="string">Fri Aug  6 15:56:04 CST 2010</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt; [root@d10045105 tools]# <span class="built_in">touch</span> time.php</span><br><span class="line">[root@d10045105 tools]# <span class="built_in">stat</span> time.php</span><br><span class="line">File: `time.php<span class="string">&#x27;</span></span><br><span class="line"><span class="string">Size: 0               Blocks: 0          IO Block: 4096   regular empty file</span></span><br><span class="line"><span class="string">Device: 807h/2055d      Inode: 119408329   Links: 1</span></span><br><span class="line"><span class="string">Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)</span></span><br><span class="line"><span class="string">Access: 2010-08-06 15:56:01.000000000 +0800</span></span><br><span class="line"><span class="string">Modify: 2010-08-06 15:56:01.000000000 +0800</span></span><br><span class="line"><span class="string">Change: 2010-08-06 15:56:01.000000000 +0800</span></span><br><span class="line"><span class="string">[root@d10045105 tools]# date</span></span><br><span class="line"><span class="string">Fri Aug  6 15:56:04 CST 2010</span></span><br></pre></td></tr></table></figure>
 
 <p>编辑文件 vim time.php</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;time.php&quot;</span> 5L, 24C written</span><br><span class="line">[root@d10045105 tools]<span class="comment"># stat time.php</span></span><br><span class="line">File: `time.php<span class="string">&#x27;</span></span><br><span class="line"><span class="string">Size: 24              Blocks: 8          IO Block: 4096   regular file</span></span><br><span class="line"><span class="string">Device: 807h/2055d      Inode: 119409505   Links: 1</span></span><br><span class="line"><span class="string">Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)</span></span><br><span class="line"><span class="string">Access: 2010-08-06 15:56:59.000000000 +0800</span></span><br><span class="line"><span class="string">Modify: 2010-08-06 15:56:59.000000000 +0800</span></span><br><span class="line"><span class="string">Change: 2010-08-06 15:56:59.000000000 +0800</span></span><br><span class="line"><span class="string">[root@d10045105 tools]# date</span></span><br><span class="line"><span class="string">Fri Aug  6 15:57:02 CST 2010</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;time.php&quot;</span> 5L, 24C written</span><br><span class="line">[root@d10045105 tools]# <span class="built_in">stat</span> time.php</span><br><span class="line">File: `time.php<span class="string">&#x27;</span></span><br><span class="line"><span class="string">Size: 24              Blocks: 8          IO Block: 4096   regular file</span></span><br><span class="line"><span class="string">Device: 807h/2055d      Inode: 119409505   Links: 1</span></span><br><span class="line"><span class="string">Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)</span></span><br><span class="line"><span class="string">Access: 2010-08-06 15:56:59.000000000 +0800</span></span><br><span class="line"><span class="string">Modify: 2010-08-06 15:56:59.000000000 +0800</span></span><br><span class="line"><span class="string">Change: 2010-08-06 15:56:59.000000000 +0800</span></span><br><span class="line"><span class="string">[root@d10045105 tools]# date</span></span><br><span class="line"><span class="string">Fri Aug  6 15:57:02 CST 2010</span></span><br></pre></td></tr></table></figure>
 
-<p>通过URL进行访问 url/tools/time.php, 再查看 time 的时间</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@d10045105 tools]<span class="comment"># stat time.php</span></span><br><span class="line">File: `time.php<span class="string">&#x27;</span></span><br><span class="line"><span class="string">Size: 24              Blocks: 8          IO Block: 4096   regular file</span></span><br><span class="line"><span class="string">Device: 807h/2055d      Inode: 119409505   Links: 1</span></span><br><span class="line"><span class="string">Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)</span></span><br><span class="line"><span class="string">Access: 2010-08-06 15:58:27.000000000 +0800</span></span><br><span class="line"><span class="string">Modify: 2010-08-06 15:56:59.000000000 +0800</span></span><br><span class="line"><span class="string">Change: 2010-08-06 15:56:59.000000000 +0800</span></span><br></pre></td></tr></table></figure>
+<p>通过URL进行访问 url&#x2F;tools&#x2F;time.php, 再查看 time 的时间</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@d10045105 tools]# <span class="built_in">stat</span> time.php</span><br><span class="line">File: `time.php<span class="string">&#x27;</span></span><br><span class="line"><span class="string">Size: 24              Blocks: 8          IO Block: 4096   regular file</span></span><br><span class="line"><span class="string">Device: 807h/2055d      Inode: 119409505   Links: 1</span></span><br><span class="line"><span class="string">Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)</span></span><br><span class="line"><span class="string">Access: 2010-08-06 15:58:27.000000000 +0800</span></span><br><span class="line"><span class="string">Modify: 2010-08-06 15:56:59.000000000 +0800</span></span><br><span class="line"><span class="string">Change: 2010-08-06 15:56:59.000000000 +0800</span></span><br></pre></td></tr></table></figure>
 
 <p>由此可见，通过Apache的访问会改变文件的Access Time。那么文件包含的情况呢？修改time.php，设置一个$time变量，使用 include_time.php 包含 time.php文件，使用相对路径。先看一下两个文件的时间。</p>
-<img src="/2010/08/14/20100814-time-test/image_thumb.png" class="">
-
+<p><img src="/20100814-time-test/image_thumb.png"></p>
 <p>通过URL访问后的时间</p>
-<img src="/2010/08/14/20100814-time-test/image_thumb_1.png" class="">
-
+<p><img src="/20100814-time-test/image_thumb_1.png"></p>
 <p>可以看到两个文件的进入时间是一样的。有些Apache配置了APC或者其他的缓存机制，这样再重新刷新页面时，文件的时间并不会改变。</p>
 <p>测试一下VFS进行代码部署和同步时的时间问题，现在本地创建类似的两个文件<br>创建后，部署到服务器上。<br>先查看中转机中文件的状态：</p>
-<img src="/2010/08/14/20100814-time-test/image_thumb_2.png" class="">
-
+<p><img src="/20100814-time-test/image_thumb_2.png"></p>
 <p>同时看了一下，内网代码发布机上文件的时间</p>
-<img src="/2010/08/14/20100814-time-test/image_thumb_3.png" class="">
-
+<p><img src="/20100814-time-test/image_thumb_3.png"></p>
 <p>在没有进行URL请求的时候，查看一下244.21服务器上的文件时间</p>
-<img src="/2010/08/14/20100814-time-test/image_thumb_4.png" class="">
-
+<p><img src="/20100814-time-test/image_thumb_4.png"></p>
 <p>可以看到在，rsync代码到生产环境的时候，保留了文件的创建时间，同时变动了修改时间和访问时间。下面做一次url访问。时间发生了变化。</p>
-<img src="/2010/08/14/20100814-time-test/image_thumb_5.png" class="">
-
+<p><img src="/20100814-time-test/image_thumb_5.png"></p>
 <p>这时，重命名 time.php ，刷新页面，出现了白屏。日志错误为：</p>
-<img src="/2010/08/14/20100814-time-test/image_thumb_6.png" class="">
-
+<p><img src="/20100814-time-test/image_thumb_6.png"></p>
 <p>这时重新发布一下两个文件，部署时显示两个文件没有修改，都没有被部署。</p>
-<img src="/2010/08/14/20100814-time-test/image_thumb_7.png" class="">
-
+<p><img src="/20100814-time-test/image_thumb_7.png"></p>
 <p>但是这个时候，中转机上的文件时间发生了变化。</p>
-<img src="/2010/08/14/20100814-time-test/image_thumb_8.png" class="">
-
+<p><img src="/20100814-time-test/image_thumb_8.png"></p>
 <p>这个时候，前端机器上的文件时间没有更改，文件也没有部署到。</p>
-<img src="/2010/08/14/20100814-time-test/image_thumb_9.png" class="">
-
+<p><img src="/20100814-time-test/image_thumb_9.png"></p>
 <p>也就是说，代码部署机从SVN获取代码时，认为代码没有更新，就没有去获取代码，但是却通知了转发机发送文件，其使用的文件是代码部署机上存放的代码。下图可见</p>
-<img src="/2010/08/14/20100814-time-test/image_thumb_10.png" class="">
-
+<p><img src="/20100814-time-test/image_thumb_10.png"></p>
 <p>查看转发机种的发送日志，可以看到，多次部署的md5值保持不变，所以没有进行发送</p>
-<img src="/2010/08/14/20100814-time-test/image_thumb_11.png" class="">
+<p><img src="/20100814-time-test/image_thumb_11.png"></p>
 
       <div class="blog-post-footer">
         <p><img src="/image/qrcode.jpg" alt=""></p>
@@ -147,7 +136,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

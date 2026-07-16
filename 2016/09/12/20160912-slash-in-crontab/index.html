@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-06 12:38:59</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2016-09-12 16:57:01</span>
     </div>
@@ -68,20 +68,20 @@ var _hmt = _hmt || [];
       <p>crontab 是Linux中配置定时任务的工具，如果对于 crontab 还不太熟悉的朋友，可以参考 <a target="_blank" rel="noopener" href="http://www.edulinks.cn/2009/04/22/20090422-crontab/">Crontab的格式</a> 。</p>
 <p>在各种配置中，我们经常会看到除号（Slash）的使用，那么这个除号到底标示什么意思，使用中有哪些需要注意的地方呢？</p>
 <p>在定时任务中，我们经常有这样的需求，比如每5分钟查看一下日志，我们可以这么写：</p>
-<p>0,5,10,15,20,25,30,35,40,45,50,55 * * * * /command</p>
+<p>0,5,10,15,20,25,30,35,40,45,50,55 * * * * &#x2F;command</p>
 <p>这样肯定是没有问题的，但是就写书写起来非常复杂，简化一下可以这么写：</p>
-<p>0-55/5 * * * * /command</p>
+<p>0-55&#x2F;5 * * * * &#x2F;command</p>
 <p>这样的写法已经简化了很多，大家还是觉得麻烦，那么可以这样写：</p>
-<p>*/5 * * * *　/command</p>
+<p>*&#x2F;5 * * * *　&#x2F;command</p>
 <p>怎么样，是不是非常简单明了。这句就表示在0，5,10,15,20,25,30,35,40,45,50,55分钟的时候执行命令，即每隔5分钟执行命令。</p>
 <p>由此我们得出除号与范围搭配使用，表示命令执行的步长。</p>
 <p>那么我下面这种写法，是否标示每13分钟执行一次命令呢？</p>
-<p>*/13 * * * *　/command</p>
-<p>这里就是需要注意的地方。有一些步长是无法用这种方式表达的。只有能够被整除的步长值才能表达与我们理解相一致确切的含义，对于分钟来说只有 <em>/2,</em>/3,<em>/4,</em>/5,<em>/6,</em>/10,<em>/12,</em>/15,<em>/30，对于小时来说则只有</em>/2,<em>/3,</em>/4,<em>/6,</em>/8,<em>/12。对于日期来说，如果使用</em>/5，则不能保证每5天执行一次，到月底的时候可能只执行1天、2天或3天后就停止了，这取决与大小月与平闰年。这是因为 cron 是没有状态的，它不能够记录上次执行的是什么时间，只能根据当前的时间来判断是否需要执行。</p>
-<p>而对于*/13这个例子来说，表示在分钟这个范围内，即0-59分钟，任务会每13分钟执行一次。即：0,13,26,39,52，之后再间隔8分钟，就会又重新执行。</p>
+<p>*&#x2F;13 * * * *　&#x2F;command</p>
+<p>这里就是需要注意的地方。有一些步长是无法用这种方式表达的。只有能够被整除的步长值才能表达与我们理解相一致确切的含义，对于分钟来说只有 <em>&#x2F;2,</em>&#x2F;3,<em>&#x2F;4,</em>&#x2F;5,<em>&#x2F;6,</em>&#x2F;10,<em>&#x2F;12,</em>&#x2F;15,<em>&#x2F;30，对于小时来说则只有</em>&#x2F;2,<em>&#x2F;3,</em>&#x2F;4,<em>&#x2F;6,</em>&#x2F;8,<em>&#x2F;12。对于日期来说，如果使用</em>&#x2F;5，则不能保证每5天执行一次，到月底的时候可能只执行1天、2天或3天后就停止了，这取决与大小月与平闰年。这是因为 cron 是没有状态的，它不能够记录上次执行的是什么时间，只能根据当前的时间来判断是否需要执行。</p>
+<p>而对于*&#x2F;13这个例子来说，表示在分钟这个范围内，即0-59分钟，任务会每13分钟执行一次。即：0,13,26,39,52，之后再间隔8分钟，就会又重新执行。</p>
 <p>再看下面一个例子：</p>
-<p>0 6 */2 * * /command</p>
-<p>看到这个我们如果理解成每xx执行就是，每两天的6点钟执行命令。在这里<em>的范围是1-31，</em>/2表示任务在奇数天执行，那么在1、3、5、7、8、10、12月，月末最后一天执行后，紧接着第二天仍然后执行，那这就不是每2天执行一次。</p>
+<p>0 6 *&#x2F;2 * * &#x2F;command</p>
+<p>看到这个我们如果理解成每xx执行就是，每两天的6点钟执行命令。在这里<em>的范围是1-31，</em>&#x2F;2表示任务在奇数天执行，那么在1、3、5、7、8、10、12月，月末最后一天执行后，紧接着第二天仍然后执行，那这就不是每2天执行一次。</p>
 <p>参考资料：</p>
 <p>1、<a target="_blank" rel="noopener" href="http://unix.stackexchange.com/questions/32027/whats-the-meaning-of-the-slash-in-crontab">What’s the meaning of slash in crontab</a><br>2、Man 5 crontab<br>3、<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cron">Wiki Cron</a><br>4、<a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/6094999/crontab-syntax-query">StackOverflow Cron Syntax Query</a><br>5、<a target="_blank" rel="noopener" href="https://binblog.info/2014/10/17/what-does-the-slash-in-crontab-actually-do/">What does the slash in crontab actually do？</a></p>
 
@@ -120,7 +120,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

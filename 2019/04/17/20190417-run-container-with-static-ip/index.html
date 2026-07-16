@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-06 10:22:19</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2019-04-17 19:50:00</span>
     </div>
@@ -71,7 +71,7 @@ var _hmt = _hmt || [];
 <span id="more"></span>
 
 <p>Docker安装后，默认会创建三种网络</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker network ls</span><br><span class="line">NETWORK ID          NAME                DRIVER              SCOPE</span><br><span class="line">6bdc00ad2a8d        bridge              bridge              <span class="built_in">local</span></span><br><span class="line">e373574073e9        host                host                <span class="built_in">local</span></span><br><span class="line">d3d47c52f57b        none                null                <span class="built_in">local</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker network <span class="built_in">ls</span></span><br><span class="line">NETWORK ID          NAME                DRIVER              SCOPE</span><br><span class="line">6bdc00ad2a8d        bridge              bridge              <span class="built_in">local</span></span><br><span class="line">e373574073e9        host                host                <span class="built_in">local</span></span><br><span class="line">d3d47c52f57b        none                null                <span class="built_in">local</span></span><br></pre></td></tr></table></figure>
 <p>网络类型的介绍</p>
 <ul>
 <li>bridge： 默认情况下启动的Docker容器，都是使用 bridge，Docker安装时创建的桥接网络，每次Docker容器重启时，会按照顺序获取对应的IP地址，这个就导致重启下，Docker的IP地址就变了</li>
@@ -82,7 +82,7 @@ var _hmt = _hmt || [];
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -itd --name test1 --network bridge --ip 172.17.0.2 tomcat</span><br></pre></td></tr></table></figure>
 <h3 id="创建自定义网络并设置固定IP"><a href="#创建自定义网络并设置固定IP" class="headerlink" title="创建自定义网络并设置固定IP"></a>创建自定义网络并设置固定IP</h3><p>在搭建一些集群软件的时候，组件和组件之间需要进行网络通信，这个时候如果每次重启IP都发生变化会很不方便，因此希望能够将容器IP固定下来，这也是可以实现的，具体参考下面的方法。</p>
 <p><strong>1.创建自定义网络</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ docker network create --subnet=172.18.0.0/16 es-network</span><br><span class="line">1e3e1eb702176df3e44111970292deaf5def7564135439fae21be489d6a8dcef</span><br><span class="line">$ docker network ls</span><br><span class="line">NETWORK ID          NAME                DRIVER              SCOPE</span><br><span class="line">6bdc00ad2a8d        bridge              bridge              <span class="built_in">local</span></span><br><span class="line">1e3e1eb70217        es-network          bridge              <span class="built_in">local</span></span><br><span class="line">e373574073e9        host                host                <span class="built_in">local</span></span><br><span class="line">d3d47c52f57b        none                null                <span class="built_in">local</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ docker network create --subnet=172.18.0.0/16 es-network</span><br><span class="line">1e3e1eb702176df3e44111970292deaf5def7564135439fae21be489d6a8dcef</span><br><span class="line">$ docker network <span class="built_in">ls</span></span><br><span class="line">NETWORK ID          NAME                DRIVER              SCOPE</span><br><span class="line">6bdc00ad2a8d        bridge              bridge              <span class="built_in">local</span></span><br><span class="line">1e3e1eb70217        es-network          bridge              <span class="built_in">local</span></span><br><span class="line">e373574073e9        host                host                <span class="built_in">local</span></span><br><span class="line">d3d47c52f57b        none                null                <span class="built_in">local</span></span><br></pre></td></tr></table></figure>
 <p><strong>2.创建Docker容器</strong></p>
 <p>在创建容器的时候，使用<code>--net</code>和<code>--ip</code>参数将IP固定为刚才创建的网段内的地址。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -e ES_JAVA_OPTS=<span class="string">&quot;-Xms256m -Xmx256m&quot;</span> -d -p 9202:9202 -p 9302:9302 -v ~/Projects/elk/elk-cluster/data3/es3.yml:/usr/share/elasticsearch/config/elasticsearch.yml -v ~/Projects/elk/elk-cluster/data3:/usr/share/elasticsearch/data --name ES03 --net=es-network --ip=172.18.0.12 --hostname=es-node3 docker.elastic.co/elasticsearch/elasticsearch:6.7.0</span><br></pre></td></tr></table></figure>
@@ -124,7 +124,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

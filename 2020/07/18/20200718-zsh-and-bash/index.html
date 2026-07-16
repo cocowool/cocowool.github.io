@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2020-12-17 17:19:59</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2020-07-18 10:01:57</span>
     </div>
@@ -67,8 +67,7 @@ var _hmt = _hmt || [];
       </div>
       <p>[TOC]</p>
 <h2 id="zsh-成为默认-shell"><a href="#zsh-成为默认-shell" class="headerlink" title="zsh 成为默认 shell"></a>zsh 成为默认 shell</h2><p>淘汰掉我的旧MBP换新后，欢天喜地打开Terminal，感觉有点不对，提示符什么时候变成了 <code>%</code>。</p>
-<img src="/2020/07/18/20200718-zsh-and-bash/image-20200718223437348.png" class="" title="image-20200718223437348">
-
+<p><img src="/20200718-zsh-and-bash/image-20200718223437348.png" alt="image-20200718223437348"></p>
 <p>查询了一些资料发现，原来在2019年WWDC期间，苹果推出了macOS Catalina，并且将zsh设置为操作系统默认shell。因为之前我的笔记本都是从EI Captin一路升级上来的，所以没体会到shell的变化，最近新换了笔记本后，才发现默认shell的变化。</p>
 <p>苹果在其官网上，也提供了如何更改默认 Shell 的<a target="_blank" rel="noopener" href="https://support.apple.com/zh-cn/HT208050">操作步骤</a>。</p>
 <h2 id="bash"><a href="#bash" class="headerlink" title="bash"></a>bash</h2><p>shell 俗称壳，是用来与 kernel 内核做区分，作用是给计算机使用者提供操作界面，与计算机内核进行交互。它接收用户命令，对命令做解析，然后调用系统中的应用。</p>
@@ -83,15 +82,15 @@ var _hmt = _hmt || [];
 <li>通过扩展的文件通配符，可以不利用外部命令达到find命令一般展开文件名。</li>
 <li>改进的变量与数组处理。</li>
 <li>在缓冲区中编辑多行命令。</li>
-<li>多种兼容模式，例如使用/bin/sh运行时可以伪装成Bourne shell。</li>
+<li>多种兼容模式，例如使用&#x2F;bin&#x2F;sh运行时可以伪装成Bourne shell。</li>
 <li>可以定制呈现形式的提示符；包括在屏幕右端显示信息，并在键入长命令时自动隐藏。</li>
 <li>可加载的模块，提供其他各种支持：完整的TCP与Unix域套接字控制，FTP客户端与扩充过的数学函数。</li>
 <li>完全可定制化。</li>
 </ul>
-<h3 id="zsh-自动完成"><a href="#zsh-自动完成" class="headerlink" title="zsh-自动完成"></a>zsh-自动完成</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">% <span class="built_in">autoload</span> -U compinit &amp;&amp; compinit</span><br><span class="line">% cp -&lt;TAB&gt;</span><br><span class="line">-H  -- follow symlinks on the <span class="built_in">command</span> line <span class="keyword">in</span> recursive mode</span><br><span class="line">-L  -- follow all symlinks <span class="keyword">in</span> recursive mode</span><br><span class="line">-P  -- <span class="keyword">do</span> not follow symlinks <span class="keyword">in</span> recursive mode (default)</span><br><span class="line">-R  -- copy directories recursively</span><br><span class="line">-X  -- don<span class="string">&#x27;t copy extended attributes or resource forks</span></span><br><span class="line"><span class="string">-a  -- archive mode, same as -RpP</span></span><br><span class="line"><span class="string">-f  -- force overwriting existing file</span></span><br><span class="line"><span class="string">-i  -- confirm before overwriting existing file</span></span><br><span class="line"><span class="string">-n  -- don&#x27;</span>t overwrite existing file</span><br><span class="line">-p  -- preserve timestamps, mode, owner, flags, ACLs, and extended attributes</span><br><span class="line">-v  -- show file names as they are copied</span><br><span class="line">% <span class="built_in">kill</span> &lt;TAB&gt;</span><br><span class="line"> 2630 ttys000    0:00.09 -zsh                                                                                                                                  </span><br><span class="line"> 2663 ttys000    0:00.00 -zsh   </span><br></pre></td></tr></table></figure>
+<h3 id="zsh-自动完成"><a href="#zsh-自动完成" class="headerlink" title="zsh-自动完成"></a>zsh-自动完成</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">% <span class="built_in">autoload</span> -U compinit &amp;&amp; compinit</span><br><span class="line">% <span class="built_in">cp</span> -&lt;TAB&gt;</span><br><span class="line">-H  -- follow symlinks on the <span class="built_in">command</span> line <span class="keyword">in</span> recursive mode</span><br><span class="line">-L  -- follow all symlinks <span class="keyword">in</span> recursive mode</span><br><span class="line">-P  -- <span class="keyword">do</span> not follow symlinks <span class="keyword">in</span> recursive mode (default)</span><br><span class="line">-R  -- copy directories recursively</span><br><span class="line">-X  -- don<span class="string">&#x27;t copy extended attributes or resource forks</span></span><br><span class="line"><span class="string">-a  -- archive mode, same as -RpP</span></span><br><span class="line"><span class="string">-f  -- force overwriting existing file</span></span><br><span class="line"><span class="string">-i  -- confirm before overwriting existing file</span></span><br><span class="line"><span class="string">-n  -- don&#x27;</span>t overwrite existing file</span><br><span class="line">-p  -- preserve timestamps, mode, owner, flags, ACLs, and extended attributes</span><br><span class="line">-v  -- show file names as they are copied</span><br><span class="line">% <span class="built_in">kill</span> &lt;TAB&gt;</span><br><span class="line"> 2630 ttys000    0:00.09 -zsh                                                                                                                                  </span><br><span class="line"> 2663 ttys000    0:00.00 -zsh   </span><br></pre></td></tr></table></figure>
 
 <p>由上面的例子可以看到，在打开自动完成功能后，使用Tab键可以自动提示<code>cp</code>命令的可选参数，也能够自动提示出<code>kill</code>命令可以杀掉的用户进程的pid。</p>
-<h3 id="zsh-自动切换文件夹"><a href="#zsh-自动切换文件夹" class="headerlink" title="zsh-自动切换文件夹"></a>zsh-自动切换文件夹</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">shiqiang@QKing ~ % ls</span><br><span class="line">Desktop		Documents	Downloads	Library		Movies		Music		Parallels	Pictures	Projects	Public</span><br><span class="line">shiqiang@QKing ~ % <span class="built_in">setopt</span> auto_cd  </span><br><span class="line">shiqiang@QKing ~ % Projects      </span><br><span class="line">shiqiang@QKing Projects % <span class="built_in">pwd</span></span><br><span class="line">/Users/shiqiang/Projects</span><br><span class="line">shiqiang@QKing Projects % <span class="built_in">unsetopt</span> auto_cd</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="zsh-自动切换文件夹"><a href="#zsh-自动切换文件夹" class="headerlink" title="zsh-自动切换文件夹"></a>zsh-自动切换文件夹</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">shiqiang@QKing ~ % <span class="built_in">ls</span></span><br><span class="line">Desktop		Documents	Downloads	Library		Movies		Music		Parallels	Pictures	Projects	Public</span><br><span class="line">shiqiang@QKing ~ % <span class="built_in">setopt</span> auto_cd  </span><br><span class="line">shiqiang@QKing ~ % Projects      </span><br><span class="line">shiqiang@QKing Projects % <span class="built_in">pwd</span></span><br><span class="line">/Users/shiqiang/Projects</span><br><span class="line">shiqiang@QKing Projects % <span class="built_in">unsetopt</span> auto_cd</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>打开这个选项后，就可以省略cd命令来实现自动切换文件夹。</p>
 <h2 id="Fish-Shell"><a href="#Fish-Shell" class="headerlink" title="Fish Shell"></a>Fish Shell</h2><blockquote>
@@ -148,7 +147,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-14 20:09:07</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2009-08-19 19:32:01</span>
     </div>
@@ -75,10 +75,10 @@ var _hmt = _hmt || [];
 <p>arpwatch    arpwatch是一款用来监测计算机网络中arp活动的开源软件。当它运行时会产生一个带时间戳的IP-MAC对，监测ARP活动的原因是为了防止ARP欺骗，这款软件由伯克利国家实验室开发(Lawrence Berkeley National Laboratory)。</p>
 <p>ARP欺骗    ARP欺骗也被称为Arp Posioning，是一种用来攻击有线或者无线网络的攻击手法。ARP欺骗允许攻击者探测网络中的数据帧、修改数据流量或者停止数据流量。这种攻击方法只能使用在利用ARP进行IP-Mac映射的网络中。<br>ARP攻击的主要就是向局域网发送伪装过的ARP信息，从而将攻击者的Mac地址和网络中的另一个节点IP链接起来（比如默认的网关）。这样，所有送往这个地址的信息都会被错误的投递到攻击者的Mac地址，攻击者可以查看这些信息并决定如何处理。他可以不加修改的送往这些数据原本要送往的地址，也可以将修改后的信息发送到原地址，还可以将所有的流量导入到另外一个IP，从而发起DOS进攻。</p>
 <p>ARP欺骗工具    Arpspoof、Arppoison、Cain and Abel、Ettercap都可以用来发起Arp攻击。</p>
-<p>arpoison        arpoison的安装需要libnet的支持，有了这些下载arpoison的源文件进行编译，在fedora下编译时需要引用/usr/lib/libnet.so，编译成功后就可以使用arpoison了。<br>使用方法    Usage: -i <device> -d <dest IP> -s <src IP> -t <target MAC> -r <src MAC> [-a] [-w time between packets] [-n number to send]</p>
-<p>补充资料：修改Mac地址<br>操作方法是先把网卡禁掉，ifconfig eth0 down，否则会报告系统忙，无法更改；然后用ifconfig etho hw ether 新的mac地址就可以；最后再启用网卡 ifconfig eth0 up；<br>如果想永久修改Mac地址，也可以将上面的命令写在 /etc/rc.d/rc.local 中，这样每次重启后就会执行这个脚本</p>
+<p>arpoison        arpoison的安装需要libnet的支持，有了这些下载arpoison的源文件进行编译，在fedora下编译时需要引用&#x2F;usr&#x2F;lib&#x2F;libnet.so，编译成功后就可以使用arpoison了。<br>使用方法    Usage: -i <device> -d <dest IP> -s <src IP> -t <target MAC> -r <src MAC> [-a] [-w time between packets] [-n number to send]</p>
+<p>补充资料：修改Mac地址<br>操作方法是先把网卡禁掉，ifconfig eth0 down，否则会报告系统忙，无法更改；然后用ifconfig etho hw ether 新的mac地址就可以；最后再启用网卡 ifconfig eth0 up；<br>如果想永久修改Mac地址，也可以将上面的命令写在 &#x2F;etc&#x2F;rc.d&#x2F;rc.local 中，这样每次重启后就会执行这个脚本</p>
 <p>参考资料</p>
-<p>1、ARP            <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Address_Resolution_Protocol">http://en.wikipedia.org/wiki/Address_Resolution_Protocol</a><br>2、RFC826        <a target="_blank" rel="noopener" href="http://tools.ietf.org/html/rfc826">http://tools.ietf.org/html/rfc826</a><br>3、Arptables        <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Arptables">http://en.wikipedia.org/wiki/Arptables</a><br>4、Arpwatch        <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Arpwatch">http://en.wikipedia.org/wiki/Arpwatch</a><br>5、ARP防范与攻击    <a target="_blank" rel="noopener" href="http://home.phpchina.com/space.php?uid=13636&amp;do=blog&amp;id=55489">http://home.phpchina.com/space.php?uid=13636&amp;do=blog&amp;id=55489</a></p>
+<p>1、ARP            <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Address_Resolution_Protocol">http://en.wikipedia.org/wiki/Address_Resolution_Protocol</a><br>2、RFC826        <a target="_blank" rel="noopener" href="http://tools.ietf.org/html/rfc826">http://tools.ietf.org/html/rfc826</a><br>3、Arptables        <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Arptables">http://en.wikipedia.org/wiki/Arptables</a><br>4、Arpwatch        <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Arpwatch">http://en.wikipedia.org/wiki/Arpwatch</a><br>5、ARP防范与攻击    <a target="_blank" rel="noopener" href="http://home.phpchina.com/space.php?uid=13636&do=blog&id=55489">http://home.phpchina.com/space.php?uid=13636&amp;do=blog&amp;id=55489</a></p>
 
       <div class="blog-post-footer">
         <p><img src="/image/qrcode.jpg" alt=""></p>
@@ -115,7 +115,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

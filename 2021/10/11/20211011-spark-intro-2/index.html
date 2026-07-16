@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-10-16 22:46:45</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-10-11 20:49:04</span>
     </div>
@@ -97,8 +97,8 @@ var _hmt = _hmt || [];
 <h2 id="高可用集群搭建"><a href="#高可用集群搭建" class="headerlink" title="高可用集群搭建"></a>高可用集群搭建</h2><p>Spark高可用集群，是指搭建多个Master，其中一个为ALIVE，另外几个为STANDBY。Master之间状态的同步和切换通过Zookeeper来实现。</p>
 <p>主要依靠修改<code>spark-env.sh</code>文件中的参数。</p>
 <ul>
-<li>Dspark.deployrecoveryMode=ZOOKEEPER</li>
-<li>Dspark.deploy.zookeeper.url=zk:2181,zk2:2181</li>
+<li>Dspark.deployrecoveryMode&#x3D;ZOOKEEPER</li>
+<li>Dspark.deploy.zookeeper.url&#x3D;zk:2181,zk2:2181</li>
 </ul>
 <h2 id="Spark-Submit-的两种方式"><a href="#Spark-Submit-的两种方式" class="headerlink" title="Spark Submit 的两种方式"></a>Spark Submit 的两种方式</h2><h3 id="Local模式"><a href="#Local模式" class="headerlink" title="Local模式"></a>Local模式</h3><p>Local模式通常用于测试，直接<code>bin/spark-shell</code>启动即可。</p>
 <h3 id="client-模式"><a href="#client-模式" class="headerlink" title="client 模式"></a>client 模式</h3><p>client模式使用6066端口</p>
@@ -113,7 +113,7 @@ var _hmt = _hmt || [];
 </thead>
 <tbody><tr>
 <td>–master</td>
-<td>master 的地址，提交任务到哪里执行，例如 spark://host:port,  yarn,  local</td>
+<td>master 的地址，提交任务到哪里执行，例如 spark:&#x2F;&#x2F;host:port,  yarn,  local</td>
 <td></td>
 </tr>
 <tr>
@@ -152,13 +152,13 @@ var _hmt = _hmt || [];
 <td></td>
 </tr>
 <tr>
-<td>–conf PROP=VALUE</td>
-<td>指定 spark 配置属性的值， 例如 -conf spark.executor.extraJavaOptions=”-XX:MaxPermSize=256m”</td>
+<td>–conf PROP&#x3D;VALUE</td>
+<td>指定 spark 配置属性的值， 例如 -conf spark.executor.extraJavaOptions&#x3D;”-XX:MaxPermSize&#x3D;256m”</td>
 <td></td>
 </tr>
 <tr>
 <td>–properties-file</td>
-<td>加载的配置文件，默认为 conf/spark-defaults.conf</td>
+<td>加载的配置文件，默认为 conf&#x2F;spark-defaults.conf</td>
 <td></td>
 </tr>
 <tr>
@@ -297,7 +297,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-21 23:02:04</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2011-03-08 23:58:01</span>
     </div>
@@ -69,12 +69,12 @@ var _hmt = _hmt || [];
 <p>具体的步骤如下：</p>
 <p>1、找到SVN项目的HOOKS目录。目录中默认会几个对应操作的钩子模板，我们需要创建一个post-commit的文件。</p>
 <p>2、post-commit的主要内容</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#/bin/bash</span></span><br><span class="line">REPOS=<span class="string">&quot;<span class="variable">$1</span>&quot;</span></span><br><span class="line">REV=<span class="string">&quot;<span class="variable">$2</span>&quot;</span></span><br><span class="line">WEB_PATH=<span class="string">&quot;/home/fltrpsrv2/www&quot;</span></span><br><span class="line">TEST_PATH=<span class="string">&quot;/home/apache/testx/www.h.cn&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> LANG=zh_CN.UTF-8</span><br><span class="line"></span><br><span class="line">CURDATE=`date`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Code Deployed By at <span class="variable">$CURDATE</span>&quot;</span> &gt;&gt; /home/fltrpsrv2/svn/www.h.cn/hooks/code_deploy_log</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/svn update --username xxx --password xxx /home/apache/htdocs/ &gt;&gt; /home/fltrpsrv2/svn/www.h.cn/hooks/</span><br><span class="line">code_deploy_log</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#/bin/bash</span></span><br><span class="line">REPOS=<span class="string">&quot;<span class="variable">$1</span>&quot;</span></span><br><span class="line">REV=<span class="string">&quot;<span class="variable">$2</span>&quot;</span></span><br><span class="line">WEB_PATH=<span class="string">&quot;/home/fltrpsrv2/www&quot;</span></span><br><span class="line">TEST_PATH=<span class="string">&quot;/home/apache/testx/www.h.cn&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> LANG=zh_CN.UTF-8</span><br><span class="line"></span><br><span class="line">CURDATE=`<span class="built_in">date</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Code Deployed By at <span class="variable">$CURDATE</span>&quot;</span> &gt;&gt; /home/fltrpsrv2/svn/www.h.cn/hooks/code_deploy_log</span><br><span class="line">/usr/local/bin/svn update --username xxx --password xxx /home/apache/htdocs/ &gt;&gt; /home/fltrpsrv2/svn/www.h.cn/hooks/</span><br><span class="line">code_deploy_log</span><br></pre></td></tr></table></figure>
 
 <p>3、接下来需要我们首先Checkout一份代码到WEB的服务目录中。</p>
-<p>4、代码CO出来之后，可以进行post-commit脚本的测试了。因为svn的hooks执行的时候不带有任何的环境变量，所以我们不能通过简单的 ./post-commit 进行代码的测试。必须要使用sudo su 等命令切换到svn或者apache服务器运行用户下，用下面的方法进行测试</p>
+<p>4、代码CO出来之后，可以进行post-commit脚本的测试了。因为svn的hooks执行的时候不带有任何的环境变量，所以我们不能通过简单的 .&#x2F;post-commit 进行代码的测试。必须要使用sudo su 等命令切换到svn或者apache服务器运行用户下，用下面的方法进行测试</p>
 <blockquote>
-<p>env – ./post-commit</p>
+<p>env – .&#x2F;post-commit</p>
 </blockquote>
 <p>这样，执行svn update 命令的用户就是svn或者apache服务器的运行用户，因此，我们需要保证代码的存放目录必须有对应用户的权限，否则，这个脚本是不能执行的。我就是因为这个权限的问题，耽误了很多时间。</p>
 <p>关于权限问题，在SVN的官方站点中也有说明，大家可以参考后面的资料。</p>
@@ -117,7 +117,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

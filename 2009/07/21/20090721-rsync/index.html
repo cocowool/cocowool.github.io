@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-14 20:00:20</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2009-07-21 13:17:01</span>
     </div>
@@ -73,9 +73,9 @@ var _hmt = _hmt || [];
 <p>rsync安装</p>
 <p>rsync的安装通过了Fedora的yum源，yum install rsync.i386 即可安装。</p>
 <p>rsync工作原理</p>
-<p>在两台电脑间同步数据时，必须设置其中一台安装”rsync server”(rsync必须以daemon的方式运行，关于daemon，可以参考后面的资料)，同时配置 /etc/rsyncd.conf。<br>有了一台rsync服务器以后，我们就可以向其他多台机器上同步数据，来建立数据的备份或者镜像。由于使用了“同步算法”和文件比较压缩机制，所以rsync的工作效率非常高。<br>使用rsync离不开ssh(如果对于ssh不熟悉的，可以参考资料中的链接)。</p>
+<p>在两台电脑间同步数据时，必须设置其中一台安装”rsync server”(rsync必须以daemon的方式运行，关于daemon，可以参考后面的资料)，同时配置 &#x2F;etc&#x2F;rsyncd.conf。<br>有了一台rsync服务器以后，我们就可以向其他多台机器上同步数据，来建立数据的备份或者镜像。由于使用了“同步算法”和文件比较压缩机制，所以rsync的工作效率非常高。<br>使用rsync离不开ssh(如果对于ssh不熟悉的，可以参考资料中的链接)。</p>
 <p>服务器配置</p>
-<p>通过配置一个rsync服务器，我们就可以将他的文件同步回来，如果在两台机器上都配置了rsync服务，我们就可以实现双向的同步。rsync作为daemon运行有两种方式，一种是通过inet daemon，一种是采用单独运行的方法。<br>建议使用单独运行的方法，通过一个cron来定期的同步文件，这种方法可以应对比通过inet方式大得多的访问量。<br>rsync的配置文件存放在 /etc/rsyncd.conf中，下面是一份样例：</p>
+<p>通过配置一个rsync服务器，我们就可以将他的文件同步回来，如果在两台机器上都配置了rsync服务，我们就可以实现双向的同步。rsync作为daemon运行有两种方式，一种是通过inet daemon，一种是采用单独运行的方法。<br>建议使用单独运行的方法，通过一个cron来定期的同步文件，这种方法可以应对比通过inet方式大得多的访问量。<br>rsync的配置文件存放在 &#x2F;etc&#x2F;rsyncd.conf中，下面是一份样例：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">motd file = /etc/rsyncd.motd</span><br><span class="line">log file = /var/log/rsyncd.log</span><br><span class="line">pid file = /var/run/rsyncd.pid</span><br><span class="line">lock file = /var/run/rsync.lock</span><br><span class="line"></span><br><span class="line">[simple_path_name]</span><br><span class="line">path = /rsync_files_here</span><br><span class="line">comment = My Very Own Rsync Server</span><br><span class="line">uid = nobody</span><br><span class="line">gid = nobody</span><br><span class="line">read only = no</span><br><span class="line">list = yes</span><br><span class="line">auth users = username</span><br><span class="line">secrets file = /etc/rsyncd.scrt</span><br></pre></td></tr></table></figure>
 
 <p>下面来介绍下这个配置文件，第一行是message of the day（motd），文件内的内容会在用户进行连接的时候显示。第二个文件显而易见是日志文件，记录程序执行的日志。</p>
@@ -86,7 +86,7 @@ var _hmt = _hmt || [];
 <p>auth users 存放允许访问的用户名， secrets file 存放访问的密码，文件内容很简单，形式为 username:password。</p>
 <p>如果希望通过地址来限制访问，则需要添加 hosts allow 和 hosts deny。</p>
 <p>使用Rsync</p>
-<p>使用rsync的方式很简单，对于没有用户权限限制的访问，如下：<br>rsync -rv 10.210.141.125::path_name /home/cipher/rsyncdata/<br>就可以同步服务器上的文件了。</p>
+<p>使用rsync的方式很简单，对于没有用户权限限制的访问，如下：<br>rsync -rv 10.210.141.125::path_name &#x2F;home&#x2F;cipher&#x2F;rsyncdata&#x2F;<br>就可以同步服务器上的文件了。</p>
 <p>如果需要设置rsync的密码文件，需要对该文件的权限特别注意，文件的属主必须为root:root,而且文件权限为600，即不能被其他人读取。</p>
 <p>rsync的选项很多，灵活运用这些选项我们就能够完成各种各样的同步需求，最常用的有 -r 递归、-l 同步链接、 -t 同步文件时间（这个选项需要确保两台服务器的时间同步）、-p 同步权限<br>–exclude 同步中不包括某些文件。</p>
 <p>如果你想了解更多的配置选项，可以通过 man rsyncd.conf 来了解更多的内容。</p>
@@ -128,7 +128,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-11 17:43:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2008-11-13 16:18:01</span>
     </div>
@@ -73,7 +73,7 @@ var _hmt = _hmt || [];
 <p>Remote Host Identification Has Changed</p>
 </blockquote>
 <p>每一个SSH服务器都使用的是一个随机的KEY，当SSH被重新安装过以后，这个KEY就发生了变化，但是我们登录的时候，会从本机寻找之前使用过的KEY，这个时候就会出现上面的提示，这种情况大多出现在服务器或者SSH服务被重新安装以后。</p>
-<p>解决这个问题的最简单的办法就是删除known-hosts文件，该文件位于~/.ssh/known-hosts</p>
+<p>解决这个问题的最简单的办法就是删除known-hosts文件，该文件位于~&#x2F;.ssh&#x2F;known-hosts</p>
 <p>当我们再次登录的时候，会重新创建这个文件，并把新的KEY加到里面去。</p>
 <p>拷贝远程服务器的文件到本地，利用scp。</p>
 <p>scp就是secure copy，是用来进行远程文件拷贝的，数据传输使用ssh1，并且和ssh1使用相同的认证方式，提供相同的安全保证，与rcp不同的是scp会要求你输入密码，如果需要的话。<br>最简单的应用如下：<br>scp 本地用户名@IP地址：文件名1 远程用户名@IP地址：文件名2<br>[本地用户名@IP地址:]可以不输入,可能需要输入远程用户名所对应的密码.</p>
@@ -114,7 +114,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

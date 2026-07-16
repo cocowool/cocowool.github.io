@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-18 08:52:12</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2010-01-26 23:26:01</span>
     </div>
@@ -66,11 +66,11 @@ var _hmt = _hmt || [];
         </div> -->
       </div>
       <p>也许有些人不喜欢用YUI的CSS，但是我觉得这个对我来说，简直是太方便了，特别是如果你赞同Yahoo的栅格理论的话，YUI Css几乎可以用在你所有的项目上。但是也有缺陷，YUI预设的Template中只为我们提供了六种预设的模板，并没有像整个页面那样提供一个可以自定义的标签，那么当我们的需求需要实现不同的宽度的时候，就只有自定义了，我的目标是实现一个符合yui-t规则的自定义样式。</p>
-<p>在进行之前，首先了解一下YUI所使用的尺寸单位：em。作为一个相对单位，1em是指当前一个字体的大小，例如你将一个字体设置为14px，那么1em=14px了。选用相对度量单位的好处就是我们可以更改网页中文字的大小，而且这个好像是美国的 803 法案要求网页必须对于视力弱的人所具有的功能。但并不是px就没有了作用，我们的页面必须限制在一个宽度范围内以防止变形，所以 min-width 的设置就必须用px了。</p>
+<p>在进行之前，首先了解一下YUI所使用的尺寸单位：em。作为一个相对单位，1em是指当前一个字体的大小，例如你将一个字体设置为14px，那么1em&#x3D;14px了。选用相对度量单位的好处就是我们可以更改网页中文字的大小，而且这个好像是美国的 803 法案要求网页必须对于视力弱的人所具有的功能。但并不是px就没有了作用，我们的页面必须限制在一个宽度范围内以防止变形，所以 min-width 的设置就必须用px了。</p>
 <blockquote>
 <p>#doc,#doc2,#doc3,#doc4,.yui-t1,.yui-t2,.yui-t3,.yui-t4,.yui-t5,.yui-t6,.yui-t7 {<br>margin:auto;text-align:left;<br>width:57.69em;<br>*width:56.301em;<br>min-width:750px;}</p>
 </blockquote>
-<p>下面进入正题，我需要设置一个页面宽度800px，然后右边有一个350px宽的侧栏，如何写呢？<br>先计算一下页面宽度：800/13 = 61.54em; (For None IE) 800/13.3333 = 60.00em; (For IE)<br>侧栏宽度：350/13 = 26.92em (For None IE) 350/13.3333 = 26.25em; (For IE)<br>那么参考 yui-t1 的写法，我们可以知道了：</p>
+<p>下面进入正题，我需要设置一个页面宽度800px，然后右边有一个350px宽的侧栏，如何写呢？<br>先计算一下页面宽度：800&#x2F;13 &#x3D; 61.54em; (For None IE) 800&#x2F;13.3333 &#x3D; 60.00em; (For IE)<br>侧栏宽度：350&#x2F;13 &#x3D; 26.92em (For None IE) 350&#x2F;13.3333 &#x3D; 26.25em; (For IE)<br>那么参考 yui-t1 的写法，我们可以知道了：</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.yui-t-custom</span>, doc-custom &#123; <span class="attribute">margin</span>:auto; <span class="attribute">text-align</span><span class="selector-pseudo">:left</span>; <span class="attribute">width</span>:<span class="number">69.46em</span>; *<span class="attribute">width</span>:<span class="number">67.73em</span>; <span class="attribute">min-width</span>:<span class="number">750px</span>; &#125;</span><br><span class="line"><span class="selector-class">.yui-t-custom</span> <span class="selector-id">#yui-main</span> &#123; <span class="attribute">float</span><span class="selector-pseudo">:left</span>; <span class="attribute">margin-right</span>:-<span class="number">25em</span>; &#125;</span><br><span class="line"><span class="selector-class">.yui-t-custom</span> <span class="selector-class">.yui-b</span> &#123; <span class="attribute">float</span><span class="selector-pseudo">:right</span>; <span class="attribute">width</span>:<span class="number">26.92em</span>; *<span class="attribute">width</span>:<span class="number">26.25em</span>; &#125;</span><br><span class="line"><span class="selector-class">.yui-t-custom</span> <span class="selector-id">#yui-main</span> <span class="selector-class">.yui-b</span> &#123; <span class="attribute">margin-right</span>:<span class="number">27.92em</span>; *<span class="attribute">margin-right</span>:<span class="number">27.25em</span>; &#125;</span><br></pre></td></tr></table></figure>
 
 <p>Ok，大功告成</p>
@@ -111,7 +111,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

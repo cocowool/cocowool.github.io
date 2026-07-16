@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-18 15:19:21</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2010-02-07 23:54:01</span>
     </div>
@@ -67,15 +67,14 @@ var _hmt = _hmt || [];
       </div>
       <p>YUI3的Overlay为我们提供了一个创建叠加层的方便的方式（从名字就可以看出来），他扩展自Widget类。目前的版本，仅支持简单的页面XY定位、相对于一个Node或者viewport对其或居中。下面来体验一下Overlay。<br>最简单的引用YUI3的方法自然是引用Yahoo服务器上的种子文件，地址如下：</p>
 <blockquote>
-<script src="http://yui.yahooapis.com/3.0.0/build/yui/yui-min.js"></script>
-</blockquote>
+<script src="http://yui.yahooapis.com/3.0.0/build/yui/yui-min.js"></script></blockquote>
 <p>引用了种子文件之后，我们就可以在我们的应用中使用Overlay了，建立一个新的YUI的命名空间，如下：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">YUI()<span class="selector-class">.use</span>(‘overlay’,function(Y)&#123;</span><br><span class="line">  <span class="selector-tag">var</span> overlay = Y<span class="selector-class">.Overlay</span>(&#123;</span><br><span class="line">    contentBox:“#MyContent”,</span><br><span class="line">    visible:true,</span><br><span class="line">    width:“<span class="number">20em</span>”,</span><br><span class="line">    height:“<span class="number">20em</span>”,</span><br><span class="line">    xy:[<span class="number">200</span>,<span class="number">200</span>]</span><br><span class="line">  &#125;);</span><br><span class="line">  overlay<span class="selector-class">.render</span>();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">YUI()<span class="selector-class">.use</span>(‘<span class="attribute">overlay</span>’,function(<span class="attribute">Y</span>)&#123;</span><br><span class="line">  <span class="selector-tag">var</span> <span class="attribute">overlay</span> = <span class="attribute">Y</span><span class="selector-class">.Overlay</span>(&#123;</span><br><span class="line">    contentBox:“#MyContent”,</span><br><span class="line">    visible:true,</span><br><span class="line">    width:“<span class="number">20em</span>”,</span><br><span class="line">    height:“<span class="number">20em</span>”,</span><br><span class="line">    xy:[<span class="number">200</span>,<span class="number">200</span>]</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="attribute">overlay</span><span class="selector-class">.render</span>();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>先来熟悉一下overlay所支持的属性：</p>
 <p><strong>内容</strong>：<br>overlay的内容既可以是我们事先写在页面中的，也可以通过script在后期创建。因为使用了标准的模块，所以内容基本上有三个部分：headerContent、bodyContent、footerContent。通过脚本设置内容的时候，既可以直接填入innerHTML，也可以通过传入一个node对象来实现，使用的方式非常的灵活。</p>
 <p><strong>定位</strong>：<br>Overlay的定位有三种方式，xy、对齐、居中。<br>xy定位的方式是通过指定x,y或者xy来为叠加层定位，这个定位是基于页面的xy坐标，比如[200,200]是相对于页面左上角分别200px的位置。<br>对齐(align)，可以将overlay与页面中的某个node进行对齐，通过传入一个两个属性的对象来实现，如下例：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">YUI()<span class="selector-class">.use</span>(‘overlay’,function(Y)&#123;</span><br><span class="line">  <span class="selector-tag">var</span> overlay = Y<span class="selector-class">.overlay</span>(&#123;</span><br><span class="line">  contentBox:“MyContent”</span><br><span class="line">  align:&#123;</span><br><span class="line">  node:“MyAchor”</span><br><span class="line">  points:[Y.WidgetPositionExt.TL,Y.WidgetPositionExt.TR]</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">YUI()<span class="selector-class">.use</span>(‘<span class="attribute">overlay</span>’,function(<span class="attribute">Y</span>)&#123;</span><br><span class="line">  <span class="selector-tag">var</span> <span class="attribute">overlay</span> = <span class="attribute">Y</span><span class="selector-class">.overlay</span>(&#123;</span><br><span class="line">  contentBox:“MyContent”</span><br><span class="line">  align:&#123;</span><br><span class="line">  node:“MyAchor”</span><br><span class="line">  points:[Y.WidgetPositionExt.TL,Y.WidgetPositionExt.TR]</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
 <p>其中points表示叠加层和要对其的node的位置关系，第一个参数为叠加层，第二个为对齐node，上例的参数表示叠加层的左上角和node的右上角对齐。</p>
 <p><strong>层叠顺序</strong>：</p>
@@ -118,7 +117,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-06-19 18:02:36</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2012-09-29 17:31:02</span>
     </div>
@@ -77,30 +77,25 @@ var _hmt = _hmt || [];
 <li>Oracle 实例（Oracle Instance）所使用的逻辑内存结构；</li>
 <li>物理文件结构，我们称之为 database；</li>
 </ul>
-<img src="/2012/09/29/20120929-oracle-notes/NSFileHandle.png" class="" title="NSFileHandle">
-
+<p><img src="/20120929-oracle-notes/NSFileHandle.png" alt="NSFileHandle"></p>
 <h3 id="用户进程与服务进程"><a href="#用户进程与服务进程" class="headerlink" title="用户进程与服务进程"></a>用户进程与服务进程</h3><p>用户想要连接Oracle数据库，必须通过User Process才能连接。User Process可以存在于客户端或者中间层上，对应User Process连接请求的是Server Process。用户进程与服务器进程建立连接（Connection）后，服务器上会有一个专门的Server Process来响应用户的请求。连接建立后，用户就创建了一个 Session。同时，会在内存区域创建一个PGA（Program Global Area）区域，存储一些用户相关的会话变量和信息。具体的结构如下图所示。</p>
-<img src="/2012/09/29/20120929-oracle-notes/NSFileHandle-4095472.png" class="" title="NSFileHandle">
-
+<p><img src="/20120929-oracle-notes/NSFileHandle-4095472.png" alt="NSFileHandle"></p>
 <h3 id="Oracle-Instance"><a href="#Oracle-Instance" class="headerlink" title="Oracle Instance"></a>Oracle Instance</h3><p>Oracle Instance由SGA以及一些后台进程组成。SGA是Oracle的主要内存结构，全称为System Global Area。</p>
 <h3 id="物理文件结构"><a href="#物理文件结构" class="headerlink" title="物理文件结构"></a>物理文件结构</h3><p>Oracle中的MetaData以及数据字典视图（Data Dictionary View）：除了用户的数据表之外，Oracle中包含了大量的系统表，这些表的名字多数为OBJ$、FILE$、X$KSMSP等难以记忆的名字。为了便于使用，Oracle中还包含很多视图，具体信息如下：</p>
 <p>动态的性能视图，与Oracle安装的特性有关系，包括：V$DATABASE、V$VERSION、V$OPTION、V$SQL、V$SGA、V$SGA_DYNAMIC_COMPONENTS。</p>
 <p>Oracle中Segment的类型：</p>
-<img src="/2012/09/29/20120929-oracle-notes/NSFileHandle-4095560.png" class="" title="NSFileHandle">
-
+<p><img src="/20120929-oracle-notes/NSFileHandle-4095560.png" alt="NSFileHandle"></p>
 <p>Oracle中Segment、Extent、Blocks和System Blocks之间的关系。</p>
-<img src="/2012/09/29/20120929-oracle-notes/NSFileHandle-4095575.png" class="" title="NSFileHandle">
-
-<h2 id="PL-SQL"><a href="#PL-SQL" class="headerlink" title="PL/SQL"></a>PL/SQL</h2><p>PL/SQL是Oracle Procedural Language for SQL的缩写，是Oracle提供的一个SQL的变种，针对SQL的缺点，提供了循环、判断等众多的功能。</p>
-<img src="/2012/09/29/20120929-oracle-notes/NSFileHandle-4095623.png" class="" title="NSFileHandle">
-
+<p><img src="/20120929-oracle-notes/NSFileHandle-4095575.png" alt="NSFileHandle"></p>
+<h2 id="PL-SQL"><a href="#PL-SQL" class="headerlink" title="PL&#x2F;SQL"></a>PL&#x2F;SQL</h2><p>PL&#x2F;SQL是Oracle Procedural Language for SQL的缩写，是Oracle提供的一个SQL的变种，针对SQL的缺点，提供了循环、判断等众多的功能。</p>
+<p><img src="/20120929-oracle-notes/NSFileHandle-4095623.png" alt="NSFileHandle"></p>
 <h2 id="表空间及数据文件管理"><a href="#表空间及数据文件管理" class="headerlink" title="表空间及数据文件管理"></a>表空间及数据文件管理</h2><h3 id="查看表空间信息"><a href="#查看表空间信息" class="headerlink" title="查看表空间信息"></a>查看表空间信息</h3><p>我们可以通过 DBA_TABLESPACES、DBA_DATA_FILES、DBA_TEMP_FILES、V$TABLESPACE几个视图查看数据库的表空间。</p>
 <h3 id="表空间的管理"><a href="#表空间的管理" class="headerlink" title="表空间的管理"></a>表空间的管理</h3><p>索引（Indexes）、约束（Constrains）、触发器（Triggers）和Tables使用不同的命名空间，Tables和Views、Sequences、functions等共用命名空间。在同一个命名空间下，名字不能够重复。</p>
 <p>1、新建表空间</p>
 <p>2、移除表空间</p>
 <p>3、修改表空间</p>
 <p>使用 ALTER TABLESPACE 命令来修改表空间的属性，可以进行包括： 修改表空间名称、向表空间中增加数据文件、下线一个表空间、改变表空间的读写状态等。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span>SPACE  xxx  RENAME <span class="keyword">TO</span> yyy;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span>SPACE xxx OFFLINE;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span>SPACE xxx READ <span class="keyword">ONLY</span>;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span>SPACE xxx READ WRITE;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> TABLESPACE  xxx  RENAME <span class="keyword">TO</span> yyy;</span><br><span class="line"><span class="keyword">ALTER</span> TABLESPACE xxx OFFLINE;</span><br><span class="line"><span class="keyword">ALTER</span> TABLESPACE xxx READ <span class="keyword">ONLY</span>;</span><br><span class="line"><span class="keyword">ALTER</span> TABLESPACE xxx READ WRITE;</span><br></pre></td></tr></table></figure>
 
 <h3 id="数据文件管理（Datafile-Management）"><a href="#数据文件管理（Datafile-Management）" class="headerlink" title="数据文件管理（Datafile Management）"></a><strong>数据文件管理（Datafile Management）</strong></h3><p>如果没有使用OMF，我们就需要手工对数据文件进行管理，一个数据文件在某一时间只能属于一个数据库、一个表空间。对于数据文件，常见的操作包括：调整大小（Resize）、上线或下线、移动（重命名）、恢复。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> DATABASE DATAFILE <span class="string">&#x27;/xxx/yyy/ddd.dbf&#x27;</span> RESIZE <span class="number">2000</span>M;</span><br><span class="line"><span class="keyword">ALTER</span> DATABASE DATAFILE <span class="string">&#x27;/xxx/yyy/ddd.dbf&#x27;</span> AUTOEXTEND <span class="keyword">ON</span> NEXT <span class="number">100</span>M MAXSIZE <span class="number">8000</span>M;</span><br><span class="line"><span class="keyword">ALTER</span> DATABASE DATAFILE <span class="string">&#x27;/xxx/yyy/ddd.dbf&#x27;</span> OFFLINE;</span><br><span class="line"><span class="keyword">ALTER</span> DATABASE RENAME FILE <span class="string">&#x27;/xxx/yyy/ddd.dbf&#x27;</span> <span class="keyword">TO</span> <span class="string">&#x27;/xxx/yyy/aaa.dbf&#x27;</span></span><br><span class="line"><span class="keyword">ALTER</span> DATABASE DATAFILE <span class="string">&#x27;/xxx/yyy/ddd.dbf&#x27;</span> ONLINE;</span><br></pre></td></tr></table></figure>
@@ -108,19 +103,19 @@ var _hmt = _hmt || [];
 <h3 id="Schema-Objects"><a href="#Schema-Objects" class="headerlink" title="Schema Objects"></a>Schema Objects</h3><p>Schema是数据库中归属于某个特定用户的所有数据库对象的集合，包括 Tables、Indexes、Views、Constrains等等。</p>
 <p>4.1 Oracle数据库中的数据类型。Oracle 10g提供了六种主要的数据类型，分别是：Character、Numeric、Datetime、LOB（Large Object）、ROWID、Binary。</p>
 <p>4.2 创建表格</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> (</span><br><span class="line">id   NUMBER,</span><br><span class="line">who   <span class="type">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line"><span class="keyword">WHEN</span>   <span class="type">timestamp</span> <span class="keyword">DEFAULT</span> SYSTIMESTAMP</span><br><span class="line">) TABLESPACE xxx;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> (</span><br><span class="line">id   NUMBER,</span><br><span class="line">who   <span class="type">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line"><span class="keyword">WHEN</span>   <span class="type">timestamp</span> <span class="keyword">DEFAULT</span> SYSTIMESTAMP</span><br><span class="line">) TABLESPACE xxx;</span><br></pre></td></tr></table></figure>
 
 <p>4.3 修改表定义</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> xxx MODIFY who <span class="type">VARCHAR</span>(<span class="number">64</span>) <span class="keyword">DEFAULT</span> <span class="keyword">USER</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER TABLE</span> xxx MODIFY who <span class="type">VARCHAR</span>(<span class="number">64</span>) <span class="keyword">DEFAULT</span> <span class="keyword">USER</span>;</span><br></pre></td></tr></table></figure>
 
 <p>4.4 给表重命名</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RENAME xxx <span class="keyword">TO</span> yyy;</span><br></pre></td></tr></table></figure>
 
 <p>4.5 增加修改列</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> xxx <span class="keyword">ADD</span> how <span class="type">VARCHAR</span>(<span class="number">64</span>);</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> xxx <span class="keyword">DROP</span> how;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER TABLE</span> xxx <span class="keyword">ADD</span> how <span class="type">VARCHAR</span>(<span class="number">64</span>);</span><br><span class="line"><span class="keyword">ALTER TABLE</span> xxx <span class="keyword">DROP</span> how;</span><br></pre></td></tr></table></figure>
 
 <p>4.6 修改列定义</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> xxx MODIFY how <span class="type">VARCHAR</span>(<span class="number">100</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER TABLE</span> xxx MODIFY how <span class="type">VARCHAR</span>(<span class="number">100</span>);</span><br></pre></td></tr></table></figure>
 
 <p>4.7 查看表信息</p>
 <p>DESCRIBE xxx;</p>
@@ -162,7 +157,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

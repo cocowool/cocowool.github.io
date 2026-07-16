@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2011-03-18 16:39:01</span>
     </div>
@@ -71,35 +71,31 @@ var _hmt = _hmt || [];
 <p>accepting_conns 这个参数与上一个有关，我们可以简单的查看这个值是 1 或者 0 来判断服务器是否达到过最大连接。</p>
 <p>curr_connections 这个状态显示了当前连接到服务器上的数量，注意这个数字不要超过设置的最大值limit_maxbytes 当前服务器可以使用的最大内存数量，实际上服务器中的 memcached 进程占用的内存会比这个数字大一些 cmd_flush 服务器上执行了 flush_all 的次数 evictions 这个数字表示一些项目还没有过期，但是因为 slab 中已经没有可用的空间，导致最后根据LRU算法被剔除的情况</p>
 <p><strong>一些统计数值</strong></p>
-<p>缓存命中率：计算公式 get_hits / ( get_hits + get_misses ) 服务器的缓存命中率，越高越好</p>
+<p>缓存命中率：计算公式 get_hits &#x2F; ( get_hits + get_misses ) 服务器的缓存命中率，越高越好</p>
 <p>另外，可以使用下面这个脚本进行服务器的测试<br>测试脚本：<a target="_blank" rel="noopener" href="http://consoleninja.net/code/memcached/mc_conn_tester.pl">http://consoleninja.net/code/memcached/mc_conn_tester.pl</a></p>
 <p><strong>利用Cacti监控Memcached</strong></p>
 <p>Cacti作为一套成熟的系统，可以用来绘制与Memcached相关的各种统计图表。下面提供的插件可以结合Cacti进行绘图，但是需要下面几个要求：<br>1、系统已经安装了Cacti；<br>2、已经安装好了Memcached；<br>3、Cacti的机器上同时安装了Python；<br>4、安装了Python的Memcached客户端。</p>
 <p>下面是一些截图</p>
-<img src="/2011/03/18/20110318-memcache/201103181638445355.png" class="">
-
+<p><img src="/20110318-memcache/201103181638445355.png"></p>
 <p>下载Cacti取数据的脚本：<a target="_blank" rel="noopener" href="http://s1.dlnws.com/dealnews/developers/cacti-memcached-1.0.tar.gz">Cacti-memcached-1.0.tar.gz</a></p>
 <p>安装配置过程：<br>1、下载Python的客户端API，<a href="ftp://ftp.tummy.com/pub/python-memcached/old-releases/python-memcached-1.47.tar.gz">python-memcached-1.47.tar.gz</a></p>
 <p>2、解压后安装</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar –xvzf python-memcached-1.47.tar.gz</span><br><span class="line">python setup.py install</span><br></pre></td></tr></table></figure>
 
 <p>3、下载Cacti的模板，<a target="_blank" rel="noopener" href="http://s1.dlnws.com/dealnews/developers/cacti-memcached-1.0.tar.gz">Cacti-memcached-1.0.tar.gz</a></p>
-<p>4、解压缩，然后将 memcached.py 拷贝到 cacti 的 /scripts/ 目录中</p>
+<p>4、解压缩，然后将 memcached.py 拷贝到 cacti 的 &#x2F;scripts&#x2F; 目录中</p>
 <p>5、为了确认这个脚本是否能够正常运行，可以运行脚本进行测试</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python memcached.py hostname</span><br></pre></td></tr></table></figure>
 
-<img src="/2011/03/18/20110318-memcache/201103181638473040.png" class="">
-
+<p><img src="/20110318-memcache/201103181638473040.png"></p>
 <p>正常情况下，我们可以取得所连接服务器的一些数据。</p>
 <p>6、登录进入Cacti系统，选择导入模板，选择我们下载的模板中的 cacti_memcached_host_template.xml 文件，其它选项保持默认，进行保存</p>
 <p>此时，我们在Cacti系统中引入模板就已经完成了，你会看到成功的提示，并且有一些相关的信息显式或者一些报错的界面。如果没有成功，可以参考这里的<a target="_blank" rel="noopener" href="http://dealnews.com/developers/cacti/memcached.html#help">帮助</a>。</p>
 <p>7、系统的配置和使用</p>
 <p>安装完成后，我们可以在新建Device时看到对应的模板，如下图</p>
-<img src="/2011/03/18/20110318-memcache/201103181638524115.png" class="">
-
+<p><img src="/20110318-memcache/201103181638524115.png"></p>
 <p>对于已经存在的Device，也可以在Associated Graph Templates中选择对应的模板</p>
-<img src="/2011/03/18/20110318-memcache/201103181638589932.png" class="">
-
+<p><img src="/20110318-memcache/201103181638589932.png"></p>
 <p>8、之后就可以在Graph中看到对应图表了。</p>
 <p>参考资料<br>1、<a target="_blank" rel="noopener" href="http://code.google.com/p/memcached/wiki/Timeouts">Memcached Wiki Timeouts</a><br>2、<a target="_blank" rel="noopener" href="http://dealnews.com/developers/cacti/memcached.html">利用Cacti监控Memcached</a><br>3、<a target="_blank" rel="noopener" href="http://timyang.net/data/memcached-lru-evictions/">Memcached数据被踢现象分析(evicitions&gt;0)</a></p>
 
@@ -138,7 +134,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

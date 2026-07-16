@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2010-12-17 11:14:01</span>
     </div>
@@ -72,35 +72,31 @@ var _hmt = _hmt || [];
 <p>不通过命令行修改rrd的最简单的办法是使用The Toolsmith。这个工具有商业版和免费版，感兴趣的同学可以点击下面的链接试用一下。</p>
 <p>在参考资料1中可以下载一个resize.pl。是用来在命令行下修改rrd大小的工具，这个工具刚开始执行的时候，可能会提示一些perl模块的缺失。这个时候，一般只要按照提示进行安装就行了，我使用的是 perl –MCAPN –e shell 的方法。但是最后有一个提示找不到 RRDp.pm 的，这个在CPAN中找不到，需要下载安装 rrdtool-perl 的包，才能够提供这个模块。</p>
 <p>完成这些之后，就可以正常使用 resize.pl 了。</p>
-<img src="/2010/12/17/20101217-modify-cacti-rrd/201012171113395024.png" class="">
-
+<p><img src="/20101217-modify-cacti-rrd/201012171113395024.png"></p>
 <p>开始之前，可以先查看一下rrd文件的信息。使用下面的命令：</p>
 <blockquote>
-<p>perl resize.pl -f “original_data/cacti/rra/tianjin_dpool_web_21_traffic_in_22.rrd” -r 0 -o output_data/ -g 8000 -i</p>
+<p>perl resize.pl -f “original_data&#x2F;cacti&#x2F;rra&#x2F;tianjin_dpool_web_21_traffic_in_22.rrd” -r 0 -o output_data&#x2F; -g 8000 -i</p>
 </blockquote>
 <p>可以看到这个文件的详细信息</p>
-<img src="/2010/12/17/20101217-modify-cacti-rrd/20101217111342234.png" class="">
-
+<p><img src="/20101217-modify-cacti-rrd/20101217111342234.png"></p>
 <p>1、<strong>改变单个RRD中的RRA属性</strong>。<br>最简单的办法就是把 –i 参数去掉就可以。</p>
 <blockquote>
-<p>perl resize.pl -f “original_data/cacti/rra/tianjin_dpool_web_21_-_test_rra_traffic_in_1563.rrd” -r 0 -o output_data/ -g 8000</p>
+<p>perl resize.pl -f “original_data&#x2F;cacti&#x2F;rra&#x2F;tianjin_dpool_web_21_-_test_rra_traffic_in_1563.rrd” -r 0 -o output_data&#x2F; -g 8000</p>
 </blockquote>
 <p>之后查看存放在 output_data 下的输出文件，可以看到rrd确实增长了。</p>
-<img src="/2010/12/17/20101217-modify-cacti-rrd/201012171113472148.png" class="">
-
+<p><img src="/20101217-modify-cacti-rrd/201012171113472148.png"></p>
 <p>使用 –g 参数，表示将 row 的行数增长多少行。如果需要明确指定多少行，可以使用 –s 参数。</p>
 <p>2、<strong>改变单个RRD中的多个RRA</strong>。<br>如果需要改变一个RRD中的多个RRA，可以使用下面的命令。</p>
 <blockquote>
-<p>perl resize.pl -f “original_data/tianjin_dpool_web_21_resize_rra_traffic_in_1579.rrd” -r “0 4” -o output_data/ -g 8000</p>
+<p>perl resize.pl -f “original_data&#x2F;tianjin_dpool_web_21_resize_rra_traffic_in_1579.rrd” -r “0 4” -o output_data&#x2F; -g 8000</p>
 </blockquote>
 <p>这样输出的文件，其中的第0行和第4行已经被修改过了。</p>
 <p>3、<strong>修改多个RRD中的多个RRA</strong>。<br>resize.pl 在文件名参数中可以支持通配符，这样就可以非常方便的修改多个RRD文件。</p>
 <blockquote>
-<p>perl resize.pl -f “original_data/tianjin_dpool_web_21_resize_rra_traffic_in_*.rrd” -r “0 4” -o output_data/ -g 8000</p>
+<p>perl resize.pl -f “original_data&#x2F;tianjin_dpool_web_21_resize_rra_traffic_in_*.rrd” -r “0 4” -o output_data&#x2F; -g 8000</p>
 </blockquote>
 <p>执行的结果是：</p>
-<img src="/2010/12/17/20101217-modify-cacti-rrd/201012171113552227.png" class="">
-
+<p><img src="/20101217-modify-cacti-rrd/201012171113552227.png"></p>
 <p>同样，在查询的时候我们也可以在文件名参数中使用通配符，这样就可以一次查询多个文件的信息了。</p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://docs.cacti.net/manual:088:8_rrdtool.04_resize#resize_rrd_files">Resize rrd files</a><br>2、<a target="_blank" rel="noopener" href="http://www.thetoolsmith.com/">The Toolsmith</a></p>
 
@@ -139,7 +135,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

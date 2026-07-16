@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-24 22:15:36</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2011-10-17 13:56:01</span>
     </div>
@@ -83,7 +83,7 @@ var _hmt = _hmt || [];
 <p><strong>PHP中是如何处理引用的</strong></p>
 <p>在 Zend 引擎 1 代，它驱动了 PHP4，对于变量的 static 和 global 定义是以 references 的方式实现的。例如，在一个函数域内部用 global 语句导入的一个真正的全局变量实际上是建立了一个到全局变量的引用。这有可能导致预料之外的行为。</p>
 <p>在 PHP 中引用意味着用不同的名字访问同一个变量内容。这并不像 C 的指针，替代的是，引用是符号表别名。注意在 PHP 中，变量名和变量内容是不一样的，因此同样的内容可以有不同的名字。最接近的比喻是 Unix 的文件名和文件本身――变量名是目录条目，而变量内容则是文件本身。引用可以被看作是 Unix 文件系统中的 hardlink。</p>
-<p>如果具有引用的数组被拷贝，其值不会解除引用。对于数组传值给函数也是如此。自 PHP 5 起，new 自动返回引用，因此在此使用 =&amp; 已经过时了并且会产生 E_STRICT 级别的消息。</p>
+<p>如果具有引用的数组被拷贝，其值不会解除引用。对于数组传值给函数也是如此。自 PHP 5 起，new 自动返回引用，因此在此使用 &#x3D;&amp; 已经过时了并且会产生 E_STRICT 级别的消息。</p>
 <p>引用做的第二件事是用引用传递变量。这是通过在函数内建立一个本地变量并且该变量在呼叫范围内引用了同一个内容来实现的。</p>
 <p><strong>PHP中的类</strong></p>
 <p>类是变量与作用于这些变量的函数的集合。PHP 5 引入了新的对象模型（Object Model）。完全重写了 PHP 处理对象的方式，允许更佳性能和更多特性。</p>
@@ -98,9 +98,9 @@ var _hmt = _hmt || [];
 <p>Type Hints can only be of the object and array (since PHP 5.1) type. Traditional type hinting with int and string isn’t supported.</p>
 <p><strong>还有这样的事情？</strong></p>
 <p>在读手册的过程中，也发现了平时可能不会想到的一些问题，也许大家看到了也有这样的感受，居然有这样的事情！</p>
-<p>赋值语句本身求值为被赋的值，即 5。实际上这意味着“$a = 5”，不必管它是做什么的，是一个值为 5 的表达式。因而，这样写“$b = ($a = 5)”和这样写“$a =5; $b=5”（分号标志着语句的结束）是一样的。</p>
+<p>赋值语句本身求值为被赋的值，即 5。实际上这意味着“$a &#x3D; 5”，不必管它是做什么的，是一个值为 5 的表达式。因而，这样写“$b &#x3D; ($a &#x3D; 5)”和这样写“$a &#x3D;5; $b&#x3D;5”（分号标志着语句的结束）是一样的。</p>
 <p>如果比较一个整数和字符串，则字符串会被转换为整数。如果比较两个数字字符串，则作为整数比较。此规则也适用于 switch 语句。</p>
-<p>在处理字符变量的算数运算时，PHP 沿袭了 Perl 的习惯，而非 C 的。例如，在 Perl 中 ‘Z’+1 将得到 ‘AA’，而在 C 中，’Z’+1 将得到 ‘[‘（ord(‘Z’) == 90，ord(‘[‘) == 91）。注意字符变量只能递增，不能递减，并且只支持纯字母（a-z 和 A-Z）。</p>
+<p>在处理字符变量的算数运算时，PHP 沿袭了 Perl 的习惯，而非 C 的。例如，在 Perl 中 ‘Z’+1 将得到 ‘AA’，而在 C 中，’Z’+1 将得到 ‘[‘（ord(‘Z’) &#x3D;&#x3D; 90，ord(‘[‘) &#x3D;&#x3D; 91）。注意字符变量只能递增，不能递减，并且只支持纯字母（a-z 和 A-Z）。</p>
 <p>在 PHP 中可以调用递归函数。但是要避免递归函数／方法调用超过 100-200 层，因为可能会破坏堆栈从而使当前脚本终止。</p>
 <p>从函数返回一个引用，必须在函数声明和指派返回值给一个变量时都使用引用操作符 &amp; ：</p>
 <p>PHP 支持变量函数的概念。这意味着如果一个变量名后有圆括号，PHP 将寻找与变量的值同名的函数，并且将尝试执行它。除了别的事情以外，这个可以被用于实现回调函数，函数表等等。</p>
@@ -149,7 +149,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

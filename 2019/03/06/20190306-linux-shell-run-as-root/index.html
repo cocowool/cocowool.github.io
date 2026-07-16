@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2022-11-27 10:09:46</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2019-03-06 08:36:00</span>
     </div>
@@ -70,12 +70,12 @@ var _hmt = _hmt || [];
 </blockquote>
 <span id="more"></span>
 
-<h2 id="chmod-u-s"><a href="#chmod-u-s" class="headerlink" title="chmod u+s"></a><code>chmod u+s</code></h2><p>“为了方便普通用户执行一些特权命令，SUID/SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。” chmod u+s 就是给某个程序的所有者以suid权限，可以像root用户一样操作。</p>
+<h2 id="chmod-u-s"><a href="#chmod-u-s" class="headerlink" title="chmod u+s"></a><code>chmod u+s</code></h2><p>“为了方便普通用户执行一些特权命令，SUID&#x2F;SGID程序允许普通用户以root身份暂时执行该程序，并在执行结束后再恢复身份。” chmod u+s 就是给某个程序的所有者以suid权限，可以像root用户一样操作。</p>
 <h3 id="具体的操作方法"><a href="#具体的操作方法" class="headerlink" title="具体的操作方法"></a>具体的操作方法</h3><p>操作这些标志与操作文件权限的命令是一样的, 都是通过<code>chmod</code>命令，有两种具体的方法：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ chmod u+s temp <span class="comment">#为temp文件加上setuid标志. (setuid 只对文件有效)</span></span><br><span class="line">$ chmod g+s tempdir <span class="comment">#为tempdir目录加上setgid标志 (setgid 只对目录有效)</span></span><br><span class="line">$ chmod o+t temp <span class="comment">#为temp文件加上sticky标志 (sticky只对文件有效)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">chmod</span> u+s temp <span class="comment">#为temp文件加上setuid标志. (setuid 只对文件有效)</span></span><br><span class="line">$ <span class="built_in">chmod</span> g+s tempdir <span class="comment">#为tempdir目录加上setgid标志 (setgid 只对目录有效)</span></span><br><span class="line">$ <span class="built_in">chmod</span> o+t temp <span class="comment">#为temp文件加上sticky标志 (sticky只对文件有效)</span></span><br></pre></td></tr></table></figure>
 
 <p>设置完成后，可以通过<code>ls -l</code>查看效果。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ ls -l</span><br><span class="line">rwsrw-r--   1 rousseau  staff   85 Sep 22  2017 test1   <span class="comment">#表示有setuid标志</span></span><br><span class="line">rwxrwsrw-   1 rousseau  staff   85 Sep 22  2017 test2   <span class="comment">#表示有setgid标志</span></span><br><span class="line">rwxrw-rwt   1 rousseau  staff   85 Sep 22  2017 test3   <span class="comment">#表示有sticky标志</span></span><br><span class="line">rwSr--r--   1 rousseau  staff   85 Sep 22  2017 test4</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span> -l</span><br><span class="line">rwsrw-r--   1 rousseau  staff   85 Sep 22  2017 test1   <span class="comment">#表示有setuid标志</span></span><br><span class="line">rwxrwsrw-   1 rousseau  staff   85 Sep 22  2017 test2   <span class="comment">#表示有setgid标志</span></span><br><span class="line">rwxrw-rwt   1 rousseau  staff   85 Sep 22  2017 test3   <span class="comment">#表示有sticky标志</span></span><br><span class="line">rwSr--r--   1 rousseau  staff   85 Sep 22  2017 test4</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>系统是这样规定的, 如果本来在该位上有x, 则这些特殊标志显示为小写字母 (s, s, t). 否则, 显示为大写字母 (S, S, T)</p>
@@ -125,7 +125,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

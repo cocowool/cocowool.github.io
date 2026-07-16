@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-30 20:43:04</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2017-07-13 16:54:01</span>
     </div>
@@ -70,7 +70,7 @@ var _hmt = _hmt || [];
 <li>允许我们定义项目 Project 依赖的第三方库</li>
 <li>自动帮我们查找到哪些库可以下载，并且下载安装</li>
 </ol>
-<h3 id="安装-Linux-Unix-mac"><a href="#安装-Linux-Unix-mac" class="headerlink" title="安装(Linux/Unix/mac)"></a>安装(Linux/Unix/mac)</h3><blockquote>
+<h3 id="安装-Linux-Unix-mac"><a href="#安装-Linux-Unix-mac" class="headerlink" title="安装(Linux&#x2F;Unix&#x2F;mac)"></a>安装(Linux&#x2F;Unix&#x2F;mac)</h3><blockquote>
 <p>Composer 需要PHP 5.3.2+ 版本的支持</p>
 </blockquote>
 <p>Composer的安装文件很简单，直接下载一个PHP文件，然后在命令行执行就可以。安装过程实际上是下载一个 composer.phar 的文件到项目文件夹。这个文件是 Composer 的库文件。</p>
@@ -81,7 +81,7 @@ var _hmt = _hmt || [];
 <p>Composer 会根据 composer.json 的配置从 资源库 中查找。资源库可以是 Packagist 或者指定的资源库。</p>
 <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php composer.phar install</span><br></pre></td></tr></table></figure>
 <p>执行上面的命令，可以将monolog安装（下载）到项目中。下载完成后，项目中多一个 composer.lock 文件以及一个 vendor 文件夹。vendor 文件夹中包含了下载的 monolog 库以及一个 autoload.php、composer文件夹。<br>第一次安装时，Composer 根据 composer.json 文件来决定需要哪些依赖，之后会将安装过程中的相关信息收集写入 composer.lock 文件，该文件将我们依赖的第三方库的版本进行锁定。composer.lock 文件应当提交到版本库中，以确保其他用户都使用相同的第三方库。</p>
-<h4 id="Autoload"><a href="#Autoload" class="headerlink" title="Autoload"></a>Autoload</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="keyword">__DIR__</span> . <span class="string">&#x27;/vendor/autoload.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable">$log</span> = <span class="keyword">new</span> Monolog\Logger(<span class="string">&#x27;name&#x27;</span>);</span><br><span class="line"><span class="variable">$log</span>-&gt;pushHandler(<span class="keyword">new</span> Monolog\Handler\StreamHandler(<span class="string">&#x27;app.log&#x27;</span>, Monolog\Logger::WARNING));</span><br><span class="line"><span class="variable">$log</span>-&gt;addWarning(<span class="string">&#x27;Foo&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="Autoload"><a href="#Autoload" class="headerlink" title="Autoload"></a>Autoload</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="keyword">__DIR__</span> . <span class="string">&#x27;/vendor/autoload.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable">$log</span> = <span class="keyword">new</span> <span class="title class_">Monolog\Logger</span>(<span class="string">&#x27;name&#x27;</span>);</span><br><span class="line"><span class="variable">$log</span>-&gt;<span class="title function_ invoke__">pushHandler</span>(<span class="keyword">new</span> <span class="title class_">Monolog\Handler\StreamHandler</span>(<span class="string">&#x27;app.log&#x27;</span>, <span class="title class_">Monolog\Logger</span>::<span class="variable constant_">WARNING</span>));</span><br><span class="line"><span class="variable">$log</span>-&gt;<span class="title function_ invoke__">addWarning</span>(<span class="string">&#x27;Foo&#x27;</span>);</span><br></pre></td></tr></table></figure>
 <p>Composer 会产生一个 autoload.php 文件，代码中包含该文件后就可以正常使用第三方库。也可以自己在 composer.json 中配置 Autoload的信息。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;autoload&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;psr-4&quot;</span>: &#123;<span class="string">&quot;Acme\\&quot;</span>: <span class="string">&quot;src/“&#125;    //注册psr-4的自动加载器，命名空间为 Acme</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
 <p>配置之后，执行<code>php composer.phar dump-autoload</code>来重新生成autoload。</p>
@@ -124,7 +124,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

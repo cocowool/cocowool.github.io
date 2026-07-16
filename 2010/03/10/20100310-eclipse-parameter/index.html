@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-18 15:46:40</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2010-03-10 16:31:01</span>
     </div>
@@ -65,9 +65,9 @@ var _hmt = _hmt || [];
           <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
         </div> -->
       </div>
-      <p>要崩溃了，下载了 eclipse-jee-galileo-SR2-win32.zip ，解压缩，运行后提示：<br>JVM   terminated. Exit   code=-1<br>Google了一下，问题出在 eclipse.ini 上，但是发现大家解决这个问题的方法真是千奇百怪：<br>先来看一下原始的配置文件</p>
+      <p>要崩溃了，下载了 eclipse-jee-galileo-SR2-win32.zip ，解压缩，运行后提示：<br>JVM   terminated. Exit   code&#x3D;-1<br>Google了一下，问题出在 eclipse.ini 上，但是发现大家解决这个问题的方法真是千奇百怪：<br>先来看一下原始的配置文件</p>
 <blockquote>
-<p>-startup<br>plugins/org.eclipse.equinox.launcher_1.0.201.R35x_v20090715.jar<br>–launcher.library<br>plugins/org.eclipse.equinox.launcher.win32.win32.x86_1.0.200.v20090519<br>-product<br>org.eclipse.epp.package.jee.product<br>–launcher.XXMaxPermSize<br>256M<br>-showsplash<br>org.eclipse.platform<br>–launcher.XXMaxPermSize<br>256m<br>-vmargs<br>-Dosgi.requiredJavaVersion=1.5<br>-Xms40m<br>-Xmx512m</p>
+<p>-startup<br>plugins&#x2F;org.eclipse.equinox.launcher_1.0.201.R35x_v20090715.jar<br>–launcher.library<br>plugins&#x2F;org.eclipse.equinox.launcher.win32.win32.x86_1.0.200.v20090519<br>-product<br>org.eclipse.epp.package.jee.product<br>–launcher.XXMaxPermSize<br>256M<br>-showsplash<br>org.eclipse.platform<br>–launcher.XXMaxPermSize<br>256m<br>-vmargs<br>-Dosgi.requiredJavaVersion&#x3D;1.5<br>-Xms40m<br>-Xmx512m</p>
 </blockquote>
 <p>方法一：<br>将换行的部分改成不换行+空格</p>
 <blockquote>
@@ -75,7 +75,7 @@ var _hmt = _hmt || [];
 </blockquote>
 <p>方法二：<br>调整内存设置</p>
 <blockquote>
-<p>-vmargs<br>-Dosgi.requiredJavaVersion=1.5<br>-Xms40m<br>-Xmx256m</p>
+<p>-vmargs<br>-Dosgi.requiredJavaVersion&#x3D;1.5<br>-Xms40m<br>-Xmx256m</p>
 </blockquote>
 <p>方法三：<br>添加虚拟机</p>
 <blockquote>
@@ -83,7 +83,7 @@ var _hmt = _hmt || [];
 </blockquote>
 <p>这三个方法都可以使 Galileo 正常启动，由此可见，这个配置文件实在是很难搞明白。<br>最后，经过试验，如果我希望能够调整 vm 的内存限制的话，必须采用第三种方法，最后的配置文件如下：</p>
 <blockquote>
-<p>-startup<br>plugins/org.eclipse.equinox.launcher_1.0.201.R35x_v20090715.jar<br>–launcher.library<br>plugins/org.eclipse.equinox.launcher.win32.win32.x86_1.0.200.v20090519<br>-product<br>org.eclipse.epp.package.jee.product<br>–launcher.XXMaxPermSize<br>256M<br>-showsplash<br>org.eclipse.platform<br>–launcher.XXMaxPermSize<br>256m<br>-vm<br>E:\Program Files\Java\jdk1.6.0_16\bin\javaw.exe<br>-vmargs<br>-Dosgi.requiredJavaVersion=1.5<br>-Xms512m<br>-Xmx1024m<br>-XX:+UseParallelGC<br>-XX:PermSize=256M<br>-XX:MaxPermSize=512M</p>
+<p>-startup<br>plugins&#x2F;org.eclipse.equinox.launcher_1.0.201.R35x_v20090715.jar<br>–launcher.library<br>plugins&#x2F;org.eclipse.equinox.launcher.win32.win32.x86_1.0.200.v20090519<br>-product<br>org.eclipse.epp.package.jee.product<br>–launcher.XXMaxPermSize<br>256M<br>-showsplash<br>org.eclipse.platform<br>–launcher.XXMaxPermSize<br>256m<br>-vm<br>E:\Program Files\Java\jdk1.6.0_16\bin\javaw.exe<br>-vmargs<br>-Dosgi.requiredJavaVersion&#x3D;1.5<br>-Xms512m<br>-Xmx1024m<br>-XX:+UseParallelGC<br>-XX:PermSize&#x3D;256M<br>-XX:MaxPermSize&#x3D;512M</p>
 </blockquote>
 
       <div class="blog-post-footer">
@@ -121,7 +121,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-25 13:33:48</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2012-07-28 08:57:01</span>
     </div>
@@ -67,7 +67,7 @@ var _hmt = _hmt || [];
       </div>
       <p>给老婆买了iPhone4s之后，开始在Mac上用iTunes下载软件，发现速度龟速，好歹家里也是10M光纤啊，这个小水管的下载速度绝对不能忍受，于是百度了一下，发现可能是域名解析造成的问题。苹果为App Store准备了a1.phobos.apple.com到a2000.phobos.apple.com一群服务器，如果连接到比较慢的服务器上，那肯定是小水管了。</p>
 <p>解决方案就是探测一个最快的IP，然后在HOSTS文件中将所有的域名都指向这个IP。看网上的一些资料，都是使用一个Windows下的工具来探测，可是我这里是Mac没有Windows啊，想想这个问题不难，写了一个脚本来探测最快的IP。代码如下：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#Findthe fastest apple store hosts</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;%-20s\t%-16s\t%-10s\n&quot;</span> <span class="string">&quot;Domain&quot;</span> <span class="string">&quot;Ip&quot;</span> <span class="string">&quot;Avg Ping&quot;</span></span><br><span class="line"><span class="comment">#printf &quot;Domain\tIp\tAvg Ping\n&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>((I=1 ;I &lt; 2001; I++ ));<span class="keyword">do</span></span><br><span class="line">	HOST=<span class="string">&quot;a<span class="variable">$I</span>.phobos.apple.com&quot;</span></span><br><span class="line">	TEMP=$(ping -c 4 <span class="variable">$HOST</span>)</span><br><span class="line">	IP=$(<span class="built_in">echo</span><span class="variable">$TEMP</span> | grep -oE <span class="string">&#x27;[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;&#x27;</span> | uniq)</span><br><span class="line">	TIME=$(<span class="built_in">echo</span><span class="variable">$TEMP</span> | grep -oE <span class="string">&#x27;\/([0-9]*\.[0-9]*)\/&#x27;</span> | grep -oE <span class="string">&#x27;[0-9]*\.[0-9]*&#x27;</span>)</span><br><span class="line">	<span class="built_in">printf</span> <span class="string">&quot;%-20s\t%-16s\t%-10s\n&quot;</span> <span class="variable">$HOST</span> <span class="variable">$IP</span> <span class="variable">$TIME</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#Findthe fastest apple store hosts</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;%-20s\t%-16s\t%-10s\n&quot;</span> <span class="string">&quot;Domain&quot;</span> <span class="string">&quot;Ip&quot;</span> <span class="string">&quot;Avg Ping&quot;</span></span><br><span class="line"><span class="comment">#printf &quot;Domain\tIp\tAvg Ping\n&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>((I=<span class="number">1</span> ;I &lt; <span class="number">2001</span>; I++ ));<span class="keyword">do</span></span><br><span class="line">	HOST=<span class="string">&quot;a<span class="variable">$I</span>.phobos.apple.com&quot;</span></span><br><span class="line">	TEMP=$(ping -c 4 <span class="variable">$HOST</span>)</span><br><span class="line">	IP=$(<span class="built_in">echo</span><span class="variable">$TEMP</span> | grep -oE <span class="string">&#x27;[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;&#x27;</span> | <span class="built_in">uniq</span>)</span><br><span class="line">	TIME=$(<span class="built_in">echo</span><span class="variable">$TEMP</span> | grep -oE <span class="string">&#x27;\/([0-9]*\.[0-9]*)\/&#x27;</span> | grep -oE <span class="string">&#x27;[0-9]*\.[0-9]*&#x27;</span>)</span><br><span class="line">	<span class="built_in">printf</span> <span class="string">&quot;%-20s\t%-16s\t%-10s\n&quot;</span> <span class="variable">$HOST</span> <span class="variable">$IP</span> <span class="variable">$TIME</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
 
 
 <p>使用这种提速的方法有个问题需要注意，万一哪天你所指向的那个IP停机维护了，可能你都无法访问iTunes的App Store了，这时只需要找一个可用的IP，替换一下HOSTS中的内容就可以了。</p>
@@ -111,7 +111,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

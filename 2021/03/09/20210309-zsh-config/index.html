@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2022-06-15 08:13:32</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-03-09 16:11:53</span>
     </div>
@@ -75,11 +75,11 @@ var _hmt = _hmt || [];
 <h2 id="zshrc"><a href="#zshrc" class="headerlink" title=".zshrc"></a>.zshrc</h2><p>先把我的配置文件分享出来</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置zsh的家目录</span></span><br><span class="line"><span class="built_in">export</span> ZSH=<span class="variable">$HOME</span>/.oh-my-zsh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置使用的主题</span></span><br><span class="line">ZSH_THEME=<span class="string">&#x27;robbyrussell&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开自动完成功能</span></span><br><span class="line"><span class="built_in">autoload</span> -U compinit &amp;&amp; compinit</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开启自动切换目录功能</span></span><br><span class="line"><span class="built_in">setopt</span> auto_cd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 消除重复的历史命令</span></span><br><span class="line"><span class="built_in">setopt</span> HIST_IGNORE_DUPS</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置history的时间戳，默认为Unix秒</span></span><br><span class="line">HIST_STAMPS=<span class="string">&quot;mm/dd/yyyy&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置启用的插件</span></span><br><span class="line">plugins=(git autojump zsh-syntax-highlighting zsh-autosuggestions)</span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> <span class="variable">$ZSH</span>/oh-my-zsh.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># ls 别名，默认显示详细信息</span></span><br><span class="line"><span class="comment"># alias ls=&#x27;ls -lha&#x27;</span></span><br><span class="line"><span class="built_in">alias</span> ll=<span class="string">&#x27;ls -lha&#x27;</span></span><br><span class="line"><span class="built_in">alias</span> grep=<span class="string">&#x27;grep --color=auto&#x27;</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="ssh-config"><a href="#ssh-config" class="headerlink" title=".ssh/config"></a>.ssh/config</h2><p>日常使用中，ssh 连接服务器空闲超过一段时间后，会自动退出服务器，并有如下提示</p>
+<h2 id="ssh-config"><a href="#ssh-config" class="headerlink" title=".ssh&#x2F;config"></a>.ssh&#x2F;config</h2><p>日常使用中，ssh 连接服务器空闲超过一段时间后，会自动退出服务器，并有如下提示</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client_loop: send disconnect: Broken pipe</span><br></pre></td></tr></table></figure>
 
 <p>如果是个人使用，可以在 <code>.ssh/config</code> 文件中增加如下配置</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ cat ~/.ssh/config                                                             </span><br><span class="line">Host *</span><br><span class="line">  AddKeysToAgent yes</span><br><span class="line">  UseKeychain yes</span><br><span class="line">  IdentityFile ~/.ssh/id_rsa</span><br><span class="line"></span><br><span class="line">  <span class="comment"># 每隔5秒自动发送一个空的请求以保持连接</span></span><br><span class="line">  ServerAliveInterval 60</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> ~/.ssh/config                                                             </span><br><span class="line">Host *</span><br><span class="line">  AddKeysToAgent <span class="built_in">yes</span></span><br><span class="line">  UseKeychain <span class="built_in">yes</span></span><br><span class="line">  IdentityFile ~/.ssh/id_rsa</span><br><span class="line"></span><br><span class="line">  <span class="comment"># 每隔5秒自动发送一个空的请求以保持连接</span></span><br><span class="line">  ServerAliveInterval 60</span><br></pre></td></tr></table></figure>
 
 
 
@@ -138,7 +138,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

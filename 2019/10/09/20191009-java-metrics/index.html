@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2024-07-20 08:36:30</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2019-10-09 20:26:48</span>
     </div>
@@ -103,7 +103,7 @@ var _hmt = _hmt || [];
 <p>本文发表时，最新版本是4.1.0</p>
 </blockquote>
 <h3 id="MetricRegistry"><a href="#MetricRegistry" class="headerlink" title="MetricRegistry"></a>MetricRegistry</h3><p>使用MetricRegistry注册一个或多个metrics。如果需要多个报告，则需要声明多个MetricRegistry对象。<br>有两种注册方式</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">MetricRegistry metricRegistry = <span class="keyword">new</span> MetricRegistry();</span><br><span class="line"></span><br><span class="line">Meter meter1 = <span class="keyword">new</span> Meter();</span><br><span class="line">metricRegistry.register(<span class="string">&quot;meter1&quot;</span>, meter1);</span><br><span class="line"> </span><br><span class="line">Meter meter2 = metricRegistry.meter(<span class="string">&quot;meter2&quot;</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">MetricRegistry</span> <span class="variable">metricRegistry</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MetricRegistry</span>();</span><br><span class="line"></span><br><span class="line"><span class="type">Meter</span> <span class="variable">meter1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Meter</span>();</span><br><span class="line">metricRegistry.register(<span class="string">&quot;meter1&quot;</span>, meter1);</span><br><span class="line"> </span><br><span class="line"><span class="type">Meter</span> <span class="variable">meter2</span> <span class="operator">=</span> metricRegistry.meter(<span class="string">&quot;meter2&quot;</span>);</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>更为详细的代码示例可以参考<a target="_blank" rel="noopener" href="https://github.com/cocowool/code-space/tree/main/java/java-metric">我的Git</a></p>
 </blockquote>
@@ -157,7 +157,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

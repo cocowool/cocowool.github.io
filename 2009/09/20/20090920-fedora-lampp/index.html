@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2009-09-20 19:58:00</span>
     </div>
@@ -69,7 +69,7 @@ var _hmt = _hmt || [];
 <h2 id="一、安装系统"><a href="#一、安装系统" class="headerlink" title="一、安装系统"></a>一、安装系统</h2><p>这个很简单，我使用的是Fedora Live cd KDE 的版本，其实是喜欢和习惯gnome的，只是手边上没有现成的。系统安装完成后，稍微体验了一下KDE的dolphine和Konquer，还是不是很习惯，需要上gnome</p>
 <p>yum groupinstall ‘GNOME Desktop Environment’</p>
 <p>安装完成后，Logout 然后重新登录进来就能看到熟悉的 gnome 界面了，只不过，这样安装的 gnome 很多默认的软件还是和直接的 gnome 不太一样，比如Office 套件就保留了 Koffice，游戏也有很多是K下的，这个影响不大，暂且不表。</p>
-<h2 id="二、配置权限和网络连接及其他"><a href="#二、配置权限和网络连接及其他" class="headerlink" title="二、配置权限和网络连接及其他"></a>二、配置权限和网络连接及其他</h2><p>(1)、配置权限<br>需要为经常使用的用户配置权限，需要修改 /etc/sudoers ，添加：</p>
+<h2 id="二、配置权限和网络连接及其他"><a href="#二、配置权限和网络连接及其他" class="headerlink" title="二、配置权限和网络连接及其他"></a>二、配置权限和网络连接及其他</h2><p>(1)、配置权限<br>需要为经常使用的用户配置权限，需要修改 &#x2F;etc&#x2F;sudoers ，添加：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cipher  				ALL=(ALL)       ALL</span><br><span class="line">cipher          ALL=(ALL)       NOPASSWD: ALL</span><br></pre></td></tr></table></figure>
 
 <p>这样，用户 cipher 就获得了 sudo 权限而且不需要输入每次都输入密码。</p>
@@ -79,7 +79,7 @@ var _hmt = _hmt || [];
 <li>一个被命名为“自由”，主要是开源软件（开源软件的含义通过 Fedora授权指引定义），但因为美国专利保护法案又不能包含在 Fedora 中。</li>
 <li>另一个被命名为“非自由”，主要是非自由软件，就是其它所有那些不能非自由软件，包括公开源代码的软件，但是有“非商业使用”之类的限制。</li>
 </ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo rpm -ivh http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-stable.noarch.rpm</span><br><span class="line">$ sudo rpm -ivh http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-stable.noarch.rpm</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> rpm -ivh http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-stable.noarch.rpm</span><br><span class="line">$ <span class="built_in">sudo</span> rpm -ivh http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-stable.noarch.rpm</span><br></pre></td></tr></table></figure>
 
 <p>安装presto插件：sudo yum install yum-presto<br>安装镜像自动选择插件：sudo yum install yum-fastestmirror</p>
 <h2 id="三、安装常用软件"><a href="#三、安装常用软件" class="headerlink" title="三、安装常用软件"></a>三、安装常用软件</h2><p>(0)、输入法 – SCIM</p>
@@ -92,9 +92,9 @@ var _hmt = _hmt || [];
 <p>(2)、QQ</p>
 <p>qq 的安装需要从官方下载 Linux 的安装包：<a target="_blank" rel="noopener" href="http://im.qq.com/qq/linux/download.shtml%EF%BC%8C%E5%AE%8C%E6%88%90%E5%90%8E%E6%89%A7%E8%A1%8C%EF%BC%9A">http://im.qq.com/qq/linux/download.shtml，完成后执行：</a><br>rpm -ivh linuxqq-v1.0.2-beta1.i386.rpm<br>Linux版的QQ自发布到现在一直都没有更新过，不知道是不是现在这个版本就是为了挡当时北航学生的提问的，有了以后就不思更新了。</p>
 <p>(3)、邮件客户端 Thunderbird</p>
-<p>邮件客户端选用了 Thunderbird，系统自带的 Evolution 虽然也可以用，但是你终究会发现有些功能他无法支持的那一天，下载地址为：<a target="_blank" rel="noopener" href="http://www.mozillamessaging.com/en-US/thunderbird/">http://www.mozillamessaging.com/en-US/thunderbird/</a><br>完成后对包进行解压缩：tar -xvzf thunderbird-2.0.0.23.tar.gz<br>解压完成后：cd thunderbird<br>执行：./thunderbird 的时候提示：./thunderbird-bin: error while loading shared libraries: libstdc++.so.5: cannot open shared object file: No such file or directory</p>
-<p>看来是一些基础的库不存在，按照提示：    sudo yum install libstdc++.so.5 完成后，通过：./thunderbird 就可以打开邮件客户端，进行用户名和POP、SMTP服务器配置后就可以使用进行邮件的发送。</p>
-<p>我们可以为其建立桌面的快捷方式<br>命令行方式为：    ln -s   ~/Download/software/misc/thunderbird/thunderbird ./thunderbird<br>图形界面的方式为点击右键-&gt;Create Launcher-&gt;选择相应的位置和图标，这样建立的好处是没有那个快捷键。</p>
+<p>邮件客户端选用了 Thunderbird，系统自带的 Evolution 虽然也可以用，但是你终究会发现有些功能他无法支持的那一天，下载地址为：<a target="_blank" rel="noopener" href="http://www.mozillamessaging.com/en-US/thunderbird/">http://www.mozillamessaging.com/en-US/thunderbird/</a><br>完成后对包进行解压缩：tar -xvzf thunderbird-2.0.0.23.tar.gz<br>解压完成后：cd thunderbird<br>执行：.&#x2F;thunderbird 的时候提示：.&#x2F;thunderbird-bin: error while loading shared libraries: libstdc++.so.5: cannot open shared object file: No such file or directory</p>
+<p>看来是一些基础的库不存在，按照提示：    sudo yum install libstdc++.so.5 完成后，通过：.&#x2F;thunderbird 就可以打开邮件客户端，进行用户名和POP、SMTP服务器配置后就可以使用进行邮件的发送。</p>
+<p>我们可以为其建立桌面的快捷方式<br>命令行方式为：    ln -s   ~&#x2F;Download&#x2F;software&#x2F;misc&#x2F;thunderbird&#x2F;thunderbird .&#x2F;thunderbird<br>图形界面的方式为点击右键-&gt;Create Launcher-&gt;选择相应的位置和图标，这样建立的好处是没有那个快捷键。</p>
 <p>(4)、VPN连接</p>
 <p>因为单位有的时候需要 VPN 连接，所以安装了 pptp 方式的VPN连接：yum install NetworkManager-pptp<br>安装完成后要重新启动才可以进行VPN连接的设置，否则不会生效，这个问题的原因暂时不明。</p>
 <p>(5)、飞信</p>
@@ -114,14 +114,12 @@ var _hmt = _hmt || [];
 <p>Compiz Fusion， 非常酷的3d立方体桌面，在很多截图和视频中你应该看到过了，Fedora 10 自带 Compiz-Fusion ，但不包含它所有的特性。你可以通过运行 系统 -&gt; 首选项-&gt; 感官 -&gt; 桌面特效找到它。<br>如果需要所有的特效，需要先检查系统是否支持 direct 渲染：glxinfo | grep direct<br>如果结果是yes我们就可以直接安装 Compiz-Fusion：sudo yum install ccsm emerald-themes compizconfig-backend-gconf fusion-icon-gtk emerald compiz-fusion compiz-fusion-gnome libcompizconfig compiz-gnome compiz-bcop compiz compizconfig-python compiz-fusion-extras compiz-fusion-extras-gnome</p>
 <p>(4)、安装 avant-window-navigator</p>
 <p>这个类似于Mac的Dock，可以将底部的 Panel删除掉，而且可以自动隐藏，用起来十分方便。</p>
-<p>完成后，将3和4两个加入到系统启动里。<br>启动进程的添加，可以从菜单里找到 SESSION 进行添加，也可以编辑 /etc/rc.local，也可以编辑 ~/.config/ ，方法很多，就看个人爱好了。</p>
+<p>完成后，将3和4两个加入到系统启动里。<br>启动进程的添加，可以从菜单里找到 SESSION 进行添加，也可以编辑 &#x2F;etc&#x2F;rc.local，也可以编辑 ~&#x2F;.config&#x2F; ，方法很多，就看个人爱好了。</p>
 <p>(5)、安装 gnome-do</p>
 <p>这个工具可以让我们快速搜索菜单中的工具，而无须使用鼠标去点击，能够提高工作的效率，很实用。<br>sudo yum install gnome-do gonme-do-plugins*</p>
 <p>最后，附上现在的桌面和主题。</p>
-<img src="/2009/09/20/20090920-fedora-lampp/Screenshot-1.png" class="">
-
-<img src="/2009/09/20/20090920-fedora-lampp/Screenshot.png" class="">
-
+<p><img src="/20090920-fedora-lampp/Screenshot-1.png"></p>
+<p><img src="/20090920-fedora-lampp/Screenshot.png"></p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://www.ownlinux.cn/2009/06/14/fedora-11-install-configure.html">Fedora11 安装配置指南中文版</a><br>2、<a target="_blank" rel="noopener" href="http://www.mplayerhq.hu/DOCS/HTML/en/rtc.html">Mpalyer</a><br>3、<a target="_blank" rel="noopener" href="http://audacity.sourceforge.net/help/faq?s=install&item=lame-mp3">Lame Install</a><br>4、<a target="_blank" rel="noopener" href="http://fixunix.com/slackware/513045-did-you-compiled-mplayer-1-0rc2-slack-12-1-a.html">Mplayer Compile Error</a><br>5、<a target="_blank" rel="noopener" href="http://slackbuilds.org/repository/12.1/multimedia/mplayer/">Mplayer Slack Build</a><br>6、<a target="_blank" rel="noopener" href="http://www.virtualbox.org/manual/UserManual.html#hostossupport">Sun Virtual Box</a><br>7、<a target="_blank" rel="noopener" href="http://hi.baidu.com/yonggangli/blog/item/30087eed2f0970d0b21cb158.html">Yum 补充用法</a><br>8、<a target="_blank" rel="noopener" href="http://hi.baidu.com/yxdark/blog/item/98d5ed1fe484f616413417db.html">Linux下编译安装飞信</a></p>
 
       <div class="blog-post-footer">
@@ -159,7 +157,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

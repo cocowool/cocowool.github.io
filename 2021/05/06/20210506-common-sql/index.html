@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-07 08:49:06</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-05-06 08:40:14</span>
     </div>
@@ -66,34 +66,34 @@ var _hmt = _hmt || [];
         </div> -->
       </div>
       <p>1、修改已有的列名。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> s_project CHANGE p_owner p_name <span class="type">varchar</span>(<span class="number">250</span>) <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 修改已有列的顺序也可以用这个方法</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> s_domain modify log_path <span class="type">varchar</span>(<span class="number">250</span>) <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span> after status;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER TABLE</span> s_project CHANGE p_owner p_name <span class="type">varchar</span>(<span class="number">250</span>) <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 修改已有列的顺序也可以用这个方法</span></span><br><span class="line"><span class="keyword">alter table</span> s_domain modify log_path <span class="type">varchar</span>(<span class="number">250</span>) <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span> after status;</span><br></pre></td></tr></table></figure>
 
 <p>2、修改字符集。Mysql的数据库、表、列都可以单独定义字符集，所以如果字符集定义不一致，会给程序带来很多问题。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 修改数据库的字符集 </span></span><br><span class="line"><span class="keyword">alter</span> database mydb <span class="type">character</span> <span class="keyword">set</span> utf<span class="number">-8</span>;</span><br><span class="line"><span class="comment">-- 修改数据表的字符集 </span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> mytable <span class="type">character</span> <span class="keyword">set</span> utf<span class="number">-8</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 修改数据库的字符集 </span></span><br><span class="line"><span class="keyword">alter</span> database mydb <span class="keyword">character set</span> utf<span class="number">-8</span>;</span><br><span class="line"><span class="comment">-- 修改数据表的字符集 </span></span><br><span class="line"><span class="keyword">alter table</span> mytable <span class="keyword">character set</span> utf<span class="number">-8</span>;</span><br></pre></td></tr></table></figure>
 
 <p>3、增加主键索引</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Alter</span> <span class="keyword">table</span> table_name <span class="keyword">add</span> <span class="keyword">primary</span> key (`<span class="keyword">column</span>`);</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Alter table</span> table_name <span class="keyword">add</span> <span class="keyword">primary key</span> (`<span class="keyword">column</span>`);</span><br></pre></td></tr></table></figure>
 
 <p>4、增加唯一索引</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Alter</span> <span class="keyword">table</span> table_name <span class="keyword">add</span> uniuqe(`<span class="keyword">column</span>`);</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Alter table</span> table_name <span class="keyword">add</span> uniuqe(`<span class="keyword">column</span>`);</span><br></pre></td></tr></table></figure>
 
 <p>5、增加普通索引</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Alter</span> <span class="keyword">table</span> table_name <span class="keyword">add</span> index index_name(`<span class="keyword">column</span>`);</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Alter table</span> table_name <span class="keyword">add</span> index index_name(`<span class="keyword">column</span>`);</span><br></pre></td></tr></table></figure>
 
 <p>6、增加全文索引</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Alter</span> <span class="keyword">table</span> table_name <span class="keyword">add</span> fulltext (`<span class="keyword">column</span>`);</span><br><span class="line"><span class="comment">-- 注意应当使用反引号，而不是单引号</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Alter table</span> table_name <span class="keyword">add</span> fulltext (`<span class="keyword">column</span>`);</span><br><span class="line"><span class="comment">-- 注意应当使用反引号，而不是单引号</span></span><br></pre></td></tr></table></figure>
 
 <p>7、修改列为自增长</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> think_score modify id <span class="type">int</span>(<span class="number">11</span>) auto_increment;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter table</span> think_score modify id <span class="type">int</span>(<span class="number">11</span>) auto_increment;</span><br></pre></td></tr></table></figure>
 
 <p>8、删除列</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> table_name <span class="keyword">drop</span> <span class="keyword">column</span> columnname;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter table</span> table_name <span class="keyword">drop</span> <span class="keyword">column</span> columnname;</span><br></pre></td></tr></table></figure>
 
 <p>9、清理binlog日志</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">purge master logs  before <span class="string">&#x27;2010-12-31&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
 <p>10、修改表的编码方式</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> type <span class="type">character</span> <span class="keyword">set</span> utf8;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter table</span> type <span class="keyword">character set</span> utf8;</span><br></pre></td></tr></table></figure>
 
 <p>11、批量清空多个表的内容</p>
 <p>这个问题的解决思路在于从数据库的information_schema中找到所有表的名字，然后构造清空操作进行清空</p>
@@ -136,7 +136,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

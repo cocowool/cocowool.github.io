@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-18 08:30:21</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2009-12-28 16:27:01</span>
     </div>
@@ -69,10 +69,10 @@ var _hmt = _hmt || [];
 <p>本文写于2009年，可能因技术发展，导致相应操作流程在新版本的环境中无法正常执行，欢迎大家通过公众号与我联系分析，不断完善本文。</p>
 </blockquote>
 <p>首先使用 Virtualbox 安装一台 CentOS 5.2 的虚拟机，网络连接采用 Host-only Adapter，这样主客机之间可以互相访问，但是客机不能够上广域网。</p>
-<h2 id="系统初步配置"><a href="#系统初步配置" class="headerlink" title="系统初步配置"></a>系统初步配置</h2><p>源文件位置    /root/software<br>编译安装位置    /usr/local/{software_name}<br>数据存放        /data1/<br>Apache运行账户    www:www<br>mysql运行账户    mysql:mysql</p>
-<h3 id="关闭-Selinux"><a href="#关闭-Selinux" class="headerlink" title="关闭 Selinux"></a>关闭 Selinux</h3><p>Selinux 经常会对系统的运行产生一些奇怪的影响，如果不是特别熟悉的话，建议关掉 Selinux。<br>Selinux 的配置文件位于 /etc/selinux/config，我们需要修改的部分在：</p>
+<h2 id="系统初步配置"><a href="#系统初步配置" class="headerlink" title="系统初步配置"></a>系统初步配置</h2><p>源文件位置    &#x2F;root&#x2F;software<br>编译安装位置    &#x2F;usr&#x2F;local&#x2F;{software_name}<br>数据存放        &#x2F;data1&#x2F;<br>Apache运行账户    www:www<br>mysql运行账户    mysql:mysql</p>
+<h3 id="关闭-Selinux"><a href="#关闭-Selinux" class="headerlink" title="关闭 Selinux"></a>关闭 Selinux</h3><p>Selinux 经常会对系统的运行产生一些奇怪的影响，如果不是特别熟悉的话，建议关掉 Selinux。<br>Selinux 的配置文件位于 &#x2F;etc&#x2F;selinux&#x2F;config，我们需要修改的部分在：</p>
 <p><code>SELINUX=enforcing</code></p>
-<p>修改为    SELINUX=disabled，然后重启服务器，SELINUX 的配置救生效了。</p>
+<p>修改为    SELINUX&#x3D;disabled，然后重启服务器，SELINUX 的配置救生效了。</p>
 <h3 id="配置-iptables"><a href="#配置-iptables" class="headerlink" title="配置 iptables"></a>配置 iptables</h3><p>安装必要的软件<br>如果能够连上网络，可以通过 yum 来安装这些必要的工具；如果不能连上网络，则需要使用本地的安装源或者安装文件。</p>
 <p>下面列出一些必须的工具：</p>
 <ul>
@@ -85,7 +85,7 @@ var _hmt = _hmt || [];
 <li>automake</li>
 <li>bzip2-devel</li>
 </ul>
-<p>通过本地的源来进行安装，首先在 Virtualbox 的 Devices -&gt; Mount CD/DVD-Rom -&gt; CD/DVD-Rom image，加载安装的镜像文件。</p>
+<p>通过本地的源来进行安装，首先在 Virtualbox 的 Devices -&gt; Mount CD&#x2F;DVD-Rom -&gt; CD&#x2F;DVD-Rom image，加载安装的镜像文件。</p>
 <p>计划安装的软件及其版本：</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="http://apache.freelamp.com/httpd/apache_1.3.41.tar.gz">apache 1.3.41</a></li>
@@ -99,7 +99,7 @@ var _hmt = _hmt || [];
 <li><a target="_blank" rel="noopener" href="http://downloads.sourceforge.net/project/pcre/pcre/7.9/pcre-7.9.tar.gz?use_mirror=jaist">pecre 7.9</a></li>
 <li><a target="_blank" rel="noopener" href="http://sysoev.ru/nginx/nginx-0.7.62.tar.gz">nginx 0.7.62</a></li>
 <li><a target="_blank" rel="noopener" href="http://mysql.byungsoo.net/Downloads/MySQL-5.0/mysql-5.0.51b.tar.gz">mysql 5.0.51</a></li>
-<li><a target="_blank" rel="noopener" href="http://au.php.net/distributions/php-5.2.9.tar.gz">php 5.2.9/4.4.9</a></li>
+<li><a target="_blank" rel="noopener" href="http://au.php.net/distributions/php-5.2.9.tar.gz">php 5.2.9&#x2F;4.4.9</a></li>
 <li><a target="_blank" rel="noopener" href="http://memcached.googlecode.com/files/memcached-1.4.1.tar.gz">memcached 1.4.1</a></li>
 <li><a target="_blank" rel="noopener" href="http://pecl.php.net/get/memcache-2.2.5.tgz">memcache 2.2.5</a></li>
 <li><a target="_blank" rel="noopener" href="http://xcache.lighttpd.net/pub/Releases/1.2.2/xcache-1.2.2.tar.gz">xcache 1.2.2</a></li>
@@ -108,54 +108,54 @@ var _hmt = _hmt || [];
 <li><a target="_blank" rel="noopener" href="http://ftp.isc.org/isc/bind9/9.4.2/bind-9.4.2.tar.gz">bind 9.4.2</a></li>
 </ul>
 <h2 id="安装其他软件"><a href="#安装其他软件" class="headerlink" title="安装其他软件"></a>安装其他软件</h2><p>安装 OpenSSL：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ./config --prefix=/usr/<span class="built_in">local</span>/openssl/</span><br><span class="line">$ make</span><br><span class="line">$ make <span class="built_in">test</span></span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ./config --prefix=/usr/local/openssl/</span><br><span class="line">$ make</span><br><span class="line">$ make <span class="built_in">test</span></span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure>
 
 
 <p>安装GD2</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ar jxvf gd-2.0.35.tar.bz2</span><br><span class="line"><span class="built_in">cd</span> gd-2.0.35</span><br><span class="line">./configure --prefix=/usr/<span class="built_in">local</span>/gd2</span><br><span class="line">make &amp;&amp;make install</span><br><span class="line"><span class="built_in">cd</span> ..</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ar jxvf gd-2.0.35.tar.bz2</span><br><span class="line"><span class="built_in">cd</span> gd-2.0.35</span><br><span class="line">./configure --prefix=/usr/local/gd2</span><br><span class="line">make &amp;&amp;make install</span><br><span class="line"><span class="built_in">cd</span> ..</span><br></pre></td></tr></table></figure>
 
 <p>安装libiconv</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf libiconv-1.12.tar.gz</span><br><span class="line"><span class="built_in">cd</span> libiconv-1.12</span><br><span class="line">./configure --prefix=/usr &amp;&amp;make &amp;&amp;make install</span><br><span class="line"><span class="built_in">cd</span> ..</span><br></pre></td></tr></table></figure>
 
 <p>安装libmcrypt</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tar jxvf libmcrypt-2.5.8.tar.bz2</span><br><span class="line"><span class="built_in">cd</span> libmcrypt-2.5.8</span><br><span class="line">./configure --prefix=/usr/<span class="built_in">local</span>/libmcrypt &amp;&amp;make &amp;&amp;make install</span><br><span class="line"><span class="built_in">cd</span> ..</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tar jxvf libmcrypt-2.5.8.tar.bz2</span><br><span class="line"><span class="built_in">cd</span> libmcrypt-2.5.8</span><br><span class="line">./configure --prefix=/usr/local/libmcrypt &amp;&amp;make &amp;&amp;make install</span><br><span class="line"><span class="built_in">cd</span> ..</span><br></pre></td></tr></table></figure>
 
 <p>安装 cronolog</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/local/cronolog</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
 
 <h2 id="安装mysql"><a href="#安装mysql" class="headerlink" title="安装mysql"></a>安装mysql</h2><p>本文采用的是二进制安装的方式进行的，基本的顺序和 mysql 官方的顺序差不多，只不过有些地方做一些说明。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; groupadd mysql</span><br><span class="line">shell&gt; useradd -g mysql mysql</span><br><span class="line">shell&gt; <span class="built_in">cd</span> /usr/<span class="built_in">local</span></span><br><span class="line">shell&gt; tar -xvzf /path/to/mysql-VERSION-OS.tar.gz</span><br><span class="line">shell&gt; mkdir /usr/<span class="built_in">local</span>/mysql</span><br><span class="line">shell&gt; cp -rf /path/to/mysql-VERSION-OS /usr/<span class="built_in">local</span>/mysql</span><br><span class="line">shell&gt; <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/mysql</span><br><span class="line">shell&gt; chown -R mysql .</span><br><span class="line">shell&gt; chgrp -R mysql .</span><br><span class="line">shell&gt; scripts/mysql_install_db --user=mysql</span><br><span class="line">shell&gt; chown -R root .</span><br><span class="line">shell&gt; chown -R mysql data</span><br><span class="line">shell&gt; bin/mysqld_safe --user=mysql &amp;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; groupadd mysql</span><br><span class="line">shell&gt; useradd -g mysql mysql</span><br><span class="line">shell&gt; <span class="built_in">cd</span> /usr/local</span><br><span class="line">shell&gt; tar -xvzf /path/to/mysql-VERSION-OS.tar.gz</span><br><span class="line">shell&gt; <span class="built_in">mkdir</span> /usr/local/mysql</span><br><span class="line">shell&gt; <span class="built_in">cp</span> -rf /path/to/mysql-VERSION-OS /usr/local/mysql</span><br><span class="line">shell&gt; <span class="built_in">cd</span> /usr/local/mysql</span><br><span class="line">shell&gt; <span class="built_in">chown</span> -R mysql .</span><br><span class="line">shell&gt; <span class="built_in">chgrp</span> -R mysql .</span><br><span class="line">shell&gt; scripts/mysql_install_db --user=mysql</span><br><span class="line">shell&gt; <span class="built_in">chown</span> -R root .</span><br><span class="line">shell&gt; <span class="built_in">chown</span> -R mysql data</span><br><span class="line">shell&gt; bin/mysqld_safe --user=mysql &amp;</span><br></pre></td></tr></table></figure>
 
-<p>前面几步一般不会有问题，只是最后一步执行 bin/mysqld_safe –user=mysql &amp; 的时候，系统出错了：</p>
+<p>前面几步一般不会有问题，只是最后一步执行 bin&#x2F;mysqld_safe –user&#x3D;mysql &amp; 的时候，系统出错了：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Starting mysqld daemon with databases from /var/lib/mysql</span><br><span class="line">STOPPING server from pid file /var/run/mysqld/mysqld.pid</span><br><span class="line">090930 12:19:32  mysqld ended</span><br></pre></td></tr></table></figure>
-<p>然后就结束了，这个问题的原因，我们可以在日志文件 /var/log/mysqld.log 中看到</p>
+<p>然后就结束了，这个问题的原因，我们可以在日志文件 &#x2F;var&#x2F;log&#x2F;mysqld.log 中看到</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">090930 12:19:31  mysqld started</span><br><span class="line">090930 12:19:31 [Warning] option &#x27;thread_stack&#x27;: unsigned value 126976 adjusted to 131072</span><br><span class="line">090930 12:19:32  InnoDB: Started; log sequence number 0 43655</span><br><span class="line">090930 12:19:32 [ERROR] /usr/local/mysql/bin/mysqld: Can&#x27;t create/write to file &#x27;/var/run/mysqld/mysqld.pid&#x27; (Errcode: 2)</span><br><span class="line">090930 12:19:32 [ERROR] Can&#x27;t start server: can&#x27;t create PID file: No such file or directory</span><br><span class="line">090930 12:19:32  mysqld ended</span><br></pre></td></tr></table></figure>
 
-<p>也就是权限不够，解决的办法有两个，一个是建立一个 mysql 有权限读写的 /var/run/mysqld/ 文件夹；另一个方法，我们可以使用 /usr/local/mysql/support-files/mysql.server 来进行服务的启动。<br>这样 mysql 安装完成以后，文件的存放结构都是按照默认的设定来的，比如一些常见的：<br>配置文件    /etc/my.cnf<br>basedir    /usr/local/mysql</p>
-<p>最后需要配置一下mysql随系统启动服务，拷贝 /usr/local/mysql/support-files/mysql.server -&gt; /etc/rc.d/init.d/mysql 中，然后添加 chkconfig –add mysql<br>这样就可以通过 service mysql start 来启动 mysql 服务了</p>
+<p>也就是权限不够，解决的办法有两个，一个是建立一个 mysql 有权限读写的 &#x2F;var&#x2F;run&#x2F;mysqld&#x2F; 文件夹；另一个方法，我们可以使用 &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;support-files&#x2F;mysql.server 来进行服务的启动。<br>这样 mysql 安装完成以后，文件的存放结构都是按照默认的设定来的，比如一些常见的：<br>配置文件    &#x2F;etc&#x2F;my.cnf<br>basedir    &#x2F;usr&#x2F;local&#x2F;mysql</p>
+<p>最后需要配置一下mysql随系统启动服务，拷贝 &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;support-files&#x2F;mysql.server -&gt; &#x2F;etc&#x2F;rc.d&#x2F;init.d&#x2F;mysql 中，然后添加 chkconfig –add mysql<br>这样就可以通过 service mysql start 来启动 mysql 服务了</p>
 <h2 id="安装Apache"><a href="#安装Apache" class="headerlink" title="安装Apache"></a>安装Apache</h2><p>这篇里 apache 选择经典的 1.3.41 版本。</p>
 <p>apache 的安装方法不止一种，无论哪一种，首先我们必须确认当前系统中没有 httpd 服务正在运行：ps -aux | grep httpd，如果我们发现结果中有的话，应该将他杀掉。</p>
-<p>然后到 apache 的安装目录下，这里是 /root/software/source_lamp/apache_1.3.41，整个目录内的结构和文件介绍如下：</p>
+<p>然后到 apache 的安装目录下，这里是 &#x2F;root&#x2F;software&#x2F;source_lamp&#x2F;apache_1.3.41，整个目录内的结构和文件介绍如下：</p>
 <ul>
-<li>cgi-bin/ ――用于测试CGI的脚本。随后，安装过程将把这些文件复制到服务器的/cgi-bin目录中。如果启动了Apache的CGI功能，这些脚本可以用于测试那些功能。</li>
-<li>conf/ ――配置文件。这些发布时的配置不应该进行编辑。安装过程把这些文件复制到服务器的配置目录中，对这些复制文件将进行扩展编辑。</li>
-<li>htdocs/ ――第一个Web站点。安装过程把这些文件复制到服务器的文档根目录中。浏览器第一次测试服务器时将显示这些网页。</li>
-<li>icons/ ――目录索引图标。这些图像文件将成为由Web服务器用来提供特别路径索引功能的图标。</li>
-<li>logs/ ――日志工具。这个目录是空的，安装过程将为安装好的服务器创建一个日志目录。</li>
-<li>src/ ――源代码。这个目录（和它的子目录）包含了C语言源代码文件，你编译它们以创建出Apache Web服务器。</li>
+<li>cgi-bin&#x2F; ――用于测试CGI的脚本。随后，安装过程将把这些文件复制到服务器的&#x2F;cgi-bin目录中。如果启动了Apache的CGI功能，这些脚本可以用于测试那些功能。</li>
+<li>conf&#x2F; ――配置文件。这些发布时的配置不应该进行编辑。安装过程把这些文件复制到服务器的配置目录中，对这些复制文件将进行扩展编辑。</li>
+<li>htdocs&#x2F; ――第一个Web站点。安装过程把这些文件复制到服务器的文档根目录中。浏览器第一次测试服务器时将显示这些网页。</li>
+<li>icons&#x2F; ――目录索引图标。这些图像文件将成为由Web服务器用来提供特别路径索引功能的图标。</li>
+<li>logs&#x2F; ――日志工具。这个目录是空的，安装过程将为安装好的服务器创建一个日志目录。</li>
+<li>src&#x2F; ――源代码。这个目录（和它的子目录）包含了C语言源代码文件，你编译它们以创建出Apache Web服务器。</li>
 </ul>
-<p>首先执行 configure，这里将 bin/data/log，三个目录进行了自定义：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/<span class="built_in">local</span>/lampsrv/apache/ --datadir=/data1/www/data/htdocs/ --logfiledir=/data1/www/applogs/ --enable-shared=max --enable-module=most</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<p>首先执行 configure，这里将 bin&#x2F;data&#x2F;log，三个目录进行了自定义：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/local/lampsrv/apache/ --datadir=/data1/www/data/htdocs/ --logfiledir=/data1/www/applogs/ --enable-shared=max --enable-module=most</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
 
 <h2 id="安装PHP"><a href="#安装PHP" class="headerlink" title="安装PHP"></a>安装PHP</h2><p>解压下载的安装包，然后执行配置。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/<span class="built_in">local</span>/lampsrv/php --with-apxs=/usr/<span class="built_in">local</span>/lampsrv/apache/bin/apxs  --with-config-file-path=/usr/<span class="built_in">local</span>/lampsrv/etc/php/ --enable-track-vars --with-xml --with-mysql</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/local/lampsrv/php --with-apxs=/usr/local/lampsrv/apache/bin/apxs  --with-config-file-path=/usr/local/lampsrv/etc/php/ --enable-track-vars --with-xml --with-mysql</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
 
 <p>安装完成后，在 apache 的配置文件中添加对于 php 后缀的解析。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AddType application/x-httpd-php .php .php3 .inc</span><br><span class="line">AddType application/x-httpd-php-source .phps</span><br></pre></td></tr></table></figure>
 
-<p>然后重启 apache 服务:/usr/local/lampsrv/apache/bin/apachectl restart<br>启动的时候，有可能会遇到这样的错误：Cannot load /usr/local/apache2/modules/libphp4.so into server: /usr/local/apache2/modules/libphp4.so : cannot restore segment prot after reloc: Permission Denied</p>
-<p>这种情况一般是由于 selinux 的安全设置引起的，可以考虑关闭掉 selinux，在 /etc/selinux/config 中进行设置。</p>
-<h2 id="安装总结"><a href="#安装总结" class="headerlink" title="安装总结"></a>安装总结</h2><p>至此，我们已经配置了基本的 Linux + Apache + Mysql + PHP 的运行环境，但是仍有很多的配置文件散落在各处，比如 mysql 的配置文件和数据文件。如何将这些配置文件和数据文件归拢在一个统一的位置，比如 /data1/www/etc ，还是一个需要不断总结积累的问题，另外还有一个就是如何形成一个快速安装配置的模式，是通过编写脚本还是通过搭建 yum 源来实现多台机器的快速配置是一个很需要经验的问题，在这两个方面，今后要不断的总结。</p>
+<p>然后重启 apache 服务:&#x2F;usr&#x2F;local&#x2F;lampsrv&#x2F;apache&#x2F;bin&#x2F;apachectl restart<br>启动的时候，有可能会遇到这样的错误：Cannot load &#x2F;usr&#x2F;local&#x2F;apache2&#x2F;modules&#x2F;libphp4.so into server: &#x2F;usr&#x2F;local&#x2F;apache2&#x2F;modules&#x2F;libphp4.so : cannot restore segment prot after reloc: Permission Denied</p>
+<p>这种情况一般是由于 selinux 的安全设置引起的，可以考虑关闭掉 selinux，在 &#x2F;etc&#x2F;selinux&#x2F;config 中进行设置。</p>
+<h2 id="安装总结"><a href="#安装总结" class="headerlink" title="安装总结"></a>安装总结</h2><p>至此，我们已经配置了基本的 Linux + Apache + Mysql + PHP 的运行环境，但是仍有很多的配置文件散落在各处，比如 mysql 的配置文件和数据文件。如何将这些配置文件和数据文件归拢在一个统一的位置，比如 &#x2F;data1&#x2F;www&#x2F;etc ，还是一个需要不断总结积累的问题，另外还有一个就是如何形成一个快速安装配置的模式，是通过编写脚本还是通过搭建 yum 源来实现多台机器的快速配置是一个很需要经验的问题，在这两个方面，今后要不断的总结。</p>
 <h2 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h2><ol>
 <li>CentOS 5.2 编译安装](<a target="_blank" rel="noopener" href="http://www.linuxsky.org/doc/network/200811/345.html">http://www.linuxsky.org/doc/network/200811/345.html</a>)</li>
 <li><a target="_blank" rel="noopener" href="http://httpd.apache.org/">Apache httpd project</a></li>
@@ -211,7 +211,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2018-04-04 11:29:00</span>
     </div>
@@ -67,11 +67,7 @@ var _hmt = _hmt || [];
       </div>
       <p>最近在读《SRE Google运维解密》第20章提到数据中心内部服务器的负载均衡方法，文章对比了几种负载均衡的算法，其中随机选择算法，非常适合用 Numpy 模拟并且用 Matplotlib 画图，下面是我的代码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用 numpy 模拟 GRE 中的随机选择算法，并使用 pyplot绘图</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">r = random.randint(<span class="number">1</span>,<span class="number">301</span>,size = (<span class="number">300</span>,<span class="number">225</span>) )</span><br><span class="line">a = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> r:</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> i:</span><br><span class="line">        <span class="keyword">if</span>(j <span class="keyword">in</span> a.keys()):</span><br><span class="line">            a[j] = a[j] + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            a[j] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">height = []</span><br><span class="line">z = a.values()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> z:</span><br><span class="line">    height.append(i)</span><br><span class="line"></span><br><span class="line">height.sort()</span><br><span class="line">x = np.arange(<span class="number">1</span>,<span class="number">301</span>)</span><br><span class="line"></span><br><span class="line">plt.bar(x,height)</span><br><span class="line">plt.axis([<span class="number">0</span>,<span class="number">301</span>,<span class="number">0</span>,<span class="number">280</span>])</span><br><span class="line">plt.grid(<span class="literal">True</span>)</span><br><span class="line">plt.title(<span class="string">&quot;75%子集，225个后端&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p>整个模拟的思路就是首先随机生成一个二维数组，然后再统计每台服务器被选中的次数，并对次数排序并画图，然后就能够出来书中的图的样式。整个代码感觉还是有些繁琐，如果有更好的想法的朋友，欢迎与我沟通改进。<br>刚开始还想用直方图来绘制，仔细看了之后发现图上的并不是直方图，直方图能够反映每台前端连接后端服务器的分布情况，但是未经过排序，所以无法明显的看出最大和最小的区别。所以要对数据做一下处理，排序后再重新做图。<br>我按照三个参数模拟了一下，感觉随机选择算法不管子集的大小如何，负载的情况都不是很均衡。子集小的情况下，能够偏出平均值50%，子集大的时候（75％）仍能偏出平均值15%左右。</p>
-<img src="/2018/04/04/20180404-numpy-and-matplotlib/39469-20180404112753811-250894648.png" class="">
-<img src="/2018/04/04/20180404-numpy-and-matplotlib/39469-20180404112802212-846524274.png" class="">
-<img src="/2018/04/04/20180404-numpy-and-matplotlib/39469-20180404112809119-2024751661.png" class="">
-
+<p>整个模拟的思路就是首先随机生成一个二维数组，然后再统计每台服务器被选中的次数，并对次数排序并画图，然后就能够出来书中的图的样式。整个代码感觉还是有些繁琐，如果有更好的想法的朋友，欢迎与我沟通改进。<br>刚开始还想用直方图来绘制，仔细看了之后发现图上的并不是直方图，直方图能够反映每台前端连接后端服务器的分布情况，但是未经过排序，所以无法明显的看出最大和最小的区别。所以要对数据做一下处理，排序后再重新做图。<br>我按照三个参数模拟了一下，感觉随机选择算法不管子集的大小如何，负载的情况都不是很均衡。子集小的情况下，能够偏出平均值50%，子集大的时候（75％）仍能偏出平均值15%左右。<br><img src="/20180404-numpy-and-matplotlib/39469-20180404112753811-250894648.png"><br><img src="/20180404-numpy-and-matplotlib/39469-20180404112802212-846524274.png"><br><img src="/20180404-numpy-and-matplotlib/39469-20180404112809119-2024751661.png"></p>
 <p>参考资料：<br>1、[SRE Google 运维解密](SRE Google 运维解密)<br>2、<a target="_blank" rel="noopener" href="https://www.cnblogs.com/python-life/articles/6084059.html">Python中plt.hist参数详解</a><br>3、<a target="_blank" rel="noopener" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.title.html#matplotlib.pyplot.title">Matplotlib</a><br>4、<a target="_blank" rel="noopener" href="http://www.cnblogs.com/xiaojikuaipao/p/8465834.html">彻底解决matplotlib中文乱码问题</a><br>5、<a target="_blank" rel="noopener" href="https://www.cnblogs.com/td15980891505/p/6198036.html">numpy中的随机数模块</a></p>
 
       <div class="blog-post-footer">
@@ -109,7 +105,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-18 15:17:13</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2010-02-06 15:48:01</span>
     </div>
@@ -71,9 +71,9 @@ var _hmt = _hmt || [];
 <li>date_default_timezone_set()</li>
 <li>date_default_timezone_get()</li>
 </ul>
-<p>如果我们希望更改服务器默认的时区，修改 php.ini 文件中的 ;date.timezone = ，添加自己需要的时区，例如 date.timezone = Asia/Chongqing，然后重启服务器就可以了。PHP支持的 timezone 的字符串在参考资料[<a target="_blank" rel="noopener" href="http://www.php.net/manual/en/timezones.php">1</a>]中可以看到。</p>
+<p>如果我们希望更改服务器默认的时区，修改 php.ini 文件中的 ;date.timezone &#x3D; ，添加自己需要的时区，例如 date.timezone &#x3D; Asia&#x2F;Chongqing，然后重启服务器就可以了。PHP支持的 timezone 的字符串在参考资料[<a target="_blank" rel="noopener" href="http://www.php.net/manual/en/timezones.php">1</a>]中可以看到。</p>
 <p>用下面这一段代码，可以比较清楚的看到时区变化的影响：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$now</span> = time();</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;The GMT now is : &quot;</span> . date(<span class="string">&#x27;Y-m-d H:i:s&#x27;</span>, now()) . <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;The local time is : &quot;</span> . date(<span class="string">&#x27;Y-m-d H:i:s&#x27;</span>, gmt_to_local(<span class="variable">$now</span>) ) . <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line">date_default_timezone_set(<span class="string">&#x27;Asia/Chongqing&#x27;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;Set the timezone to :&#x27;</span> . date_default_timezone_get() . <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;The GMT now is : &quot;</span> . date(<span class="string">&#x27;Y-m-d H:i:s&#x27;</span>, now()) . <span class="string">&quot;&lt;br /&gt;&quot;</span> ;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;The local time is : &quot;</span> . date(<span class="string">&#x27;Y-m-d H:i:s&#x27;</span>, gmt_to_local(<span class="variable">$now</span>) ) . <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$now</span> = <span class="title function_ invoke__">time</span>();</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;The GMT now is : &quot;</span> . <span class="title function_ invoke__">date</span>(<span class="string">&#x27;Y-m-d H:i:s&#x27;</span>, <span class="title function_ invoke__">now</span>()) . <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;The local time is : &quot;</span> . <span class="title function_ invoke__">date</span>(<span class="string">&#x27;Y-m-d H:i:s&#x27;</span>, <span class="title function_ invoke__">gmt_to_local</span>(<span class="variable">$now</span>) ) . <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line"><span class="title function_ invoke__">date_default_timezone_set</span>(<span class="string">&#x27;Asia/Chongqing&#x27;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;Set the timezone to :&#x27;</span> . <span class="title function_ invoke__">date_default_timezone_get</span>() . <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;The GMT now is : &quot;</span> . <span class="title function_ invoke__">date</span>(<span class="string">&#x27;Y-m-d H:i:s&#x27;</span>, <span class="title function_ invoke__">now</span>()) . <span class="string">&quot;&lt;br /&gt;&quot;</span> ;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;The local time is : &quot;</span> . <span class="title function_ invoke__">date</span>(<span class="string">&#x27;Y-m-d H:i:s&#x27;</span>, <span class="title function_ invoke__">gmt_to_local</span>(<span class="variable">$now</span>) ) . <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br></pre></td></tr></table></figure>
 
 <p>如果我们的站点是面向单一时区的用户，我想采用这个时区的时间来记载没什么问题，或者网站应用的类型并不 Care 时间的差别，那么我们用什么时间做存储都没关系。一旦我们的用户对于时区的影响有较大关系的时候，我想应该统一使用GMT的标准时间来进行存储，在显示的时候再根据用户所在的时区进行显示，这样虽然前端显示每次都需要去计算用户当前的时间，但是对于后台逻辑的统一性应该是大有裨益的。</p>
 <p>目前，我们国家已经废除了<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Daylight_saving_time">夏令时</a>的使用，但是世界上仍有其他一些国家在使用<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Daylight_saving_time">夏令时</a>，我们在程序处理的时候应该注意这个问题，具体的资料可以参考<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Daylight_saving_time">Daylight Saving</a>。</p>
@@ -114,7 +114,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

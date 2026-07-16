@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2023-02-15 19:29:39</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2018-09-14 11:11:00</span>
     </div>
@@ -109,9 +109,7 @@ var _hmt = _hmt || [];
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bogon:go.my rousseau$ go run hello.go</span><br><span class="line">Hello, world!</span><br></pre></td></tr></table></figure>
 <figure class="highlight go"><figcaption><span>run```命令将编译、链接、 运行三个步骤合为一步，运行后不会再当前目录看到任何中间文件和可执行文件。使用```go build```命令会生成可执行文件。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">``</span><span class="string">`bash</span></span><br><span class="line"><span class="string">bogon:go.my rousseau$ go build hello.go </span></span><br><span class="line"><span class="string">bogon:go.my rousseau$ ls</span></span><br><span class="line"><span class="string">hello		hello.go</span></span><br><span class="line"><span class="string">bogon:go.my rousseau$ ./hello </span></span><br><span class="line"><span class="string">Hello, world!</span></span><br></pre></td></tr></table></figure>
 <p>关于开发工具的选择，这个第一要看个人习惯，第二要结合项目的规模和最多使用的一些功能。可以用来编程的工具包括 vim、VS Code、liteIDE、goland等，目前我水平还比较菜，感觉Vim或者VS Code就能满足需求了。</p>
-<h2 id="6-Go的工程管理"><a href="#6-Go的工程管理" class="headerlink" title="6. Go的工程管理"></a>6. Go的工程管理</h2><p>Go消除了工程文件的概念，完全用目录结构和包名来推导工程结构和构建顺序。<br>看一个简单的命令行计算器工程的目录结构，代码在<a target="_blank" rel="noopener" href="https://github.com/cocowool/k8s-go/tree/master/golearn/calcproject">这里</a></p>
-<img src="/2018/09/14/20180914-go-introduce/39469-20180914111126339-138017365.png" class="">
-<p>想要编译这个工程，执行以下命令。</p>
+<h2 id="6-Go的工程管理"><a href="#6-Go的工程管理" class="headerlink" title="6. Go的工程管理"></a>6. Go的工程管理</h2><p>Go消除了工程文件的概念，完全用目录结构和包名来推导工程结构和构建顺序。<br>看一个简单的命令行计算器工程的目录结构，代码在<a target="_blank" rel="noopener" href="https://github.com/cocowool/k8s-go/tree/master/golearn/calcproject">这里</a><br><img src="/20180914-go-introduce/39469-20180914111126339-138017365.png"><br>想要编译这个工程，执行以下命令。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">bogon:calcproject rousseau$ <span class="built_in">export</span> GOPATH=$(<span class="built_in">pwd</span>)</span><br><span class="line">bogon:calcproject rousseau$ <span class="built_in">cd</span> bin</span><br><span class="line">bogon:bin rousseau$ go build calc</span><br><span class="line">bogon:bin rousseau$ ./calc </span><br><span class="line">Usage: calc <span class="built_in">command</span> [arguments] ... </span><br><span class="line"></span><br><span class="line">The commands are:</span><br><span class="line">	add	Addition of two values.</span><br><span class="line">	sqrt	Square root of a non-negative value.</span><br></pre></td></tr></table></figure>
 
 <h2 id="7-问题追踪和调试"><a href="#7-问题追踪和调试" class="headerlink" title="7. 问题追踪和调试"></a>7. 问题追踪和调试</h2><h3 id="7-1-打印日志"><a href="#7-1-打印日志" class="headerlink" title="7.1 打印日志"></a>7.1 打印日志</h3><p>Go语言中包含了一个fmt包，包含了大量的打印函数，主要用到的是<code>Printf()</code>和<code>Println()</code>两个函数。区别就是一个能够换行一个不能换行。</p>
@@ -159,7 +157,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

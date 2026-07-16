@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-20 11:52:29</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2010-07-12 15:16:01</span>
     </div>
@@ -65,19 +65,19 @@ var _hmt = _hmt || [];
           <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
         </div> -->
       </div>
-      <p>莫笑我老土，因为我确实是最近才听说REST风格的，以前就是觉得 /category/product/pid<br>这样的地址非常的漂亮，但是那只是表象罢了，了解深入以后，发现必须有一个客户端的Ajax Engine和Server端的服务配合，才能实现一个REST风格的应用，下面就是我的实验。</p>
+      <p>莫笑我老土，因为我确实是最近才听说REST风格的，以前就是觉得 &#x2F;category&#x2F;product&#x2F;pid<br>这样的地址非常的漂亮，但是那只是表象罢了，了解深入以后，发现必须有一个客户端的Ajax Engine和Server端的服务配合，才能实现一个REST风格的应用，下面就是我的实验。</p>
 <p><strong>问题？</strong></p>
 <p>要对外提供哪些服务。服务器端的服务可能会被众多的浏览器请求，也可能被第三方应用程序所调用，所以需要从总体上来考虑这个对外的“应用程序接口”（API），尽量保持接口的稳定性。REST是一种风格，并且形成了自己的规则，构建这样的应用，应尽量遵循REST的原则。</p>
 <p>以一个足球服务为例，众多的观众会要求观看比赛的记录，上传新比赛记录，更新比赛记录，更正现有的比赛或者删除比赛等等。像这样描述的话，我们需要提供众多不同的服务，并且最终会倒在维护一致性的工作上。那么应该怎么做呢，考虑一下客户可能的请求方式：</p>
 <blockquote>
-<p>GET方式请求一个新建比赛服务：<br><a target="_blank" rel="noopener" href="http://example.com/newMatch?id=995&bluebaggers=150&redlegs=60">http://example.com/newMatch?id=995&amp;bluebaggers=150&amp;redlegs=60</a><br>POST或PUT方式请求一个新建比赛服务：<br><a target="_blank" rel="noopener" href="http://example.com/newMatch">http://example.com/newMatch</a><br>附加的XML为：<br><match id="995"><br><score team="bluebaggers">150</score><br><score team="redlegs">60</score><br></match><br>CGI风格的POST或PUT请求：<br><a target="_blank" rel="noopener" href="http://example.com/newMatch">http://example.com/newMatch</a><br>请求体：<br>id=995&amp;bluebaggers=150&amp;redlegs=60<br>或者一个维护服务的GET请求：<br><a target="_blank" rel="noopener" href="http://example.com/matchMaintenance/command=newMatch&id=995&bluebaggers=150&redlegs=60">http://example.com/matchMaintenance/command=newMatch&amp;id=995&amp;bluebaggers=150&amp;redlegs=60</a><br>或者POST请求<br><a target="_blank" rel="noopener" href="http://example.com/matchMaintenance/command=newMatch">http://example.com/matchMaintenance/command=newMatch</a><br><match id="995"><score team="bluebaggers">150</score><score team="redlegs">60</score></match></p>
+<p>GET方式请求一个新建比赛服务：<br><a target="_blank" rel="noopener" href="http://example.com/newMatch?id=995&bluebaggers=150&redlegs=60">http://example.com/newMatch?id=995&amp;bluebaggers=150&amp;redlegs=60</a><br>POST或PUT方式请求一个新建比赛服务：<br><a target="_blank" rel="noopener" href="http://example.com/newMatch">http://example.com/newMatch</a><br>附加的XML为：<br><match id="995"><br><score team="bluebaggers">150</score><br><score team="redlegs">60</score><br></match><br>CGI风格的POST或PUT请求：<br><a target="_blank" rel="noopener" href="http://example.com/newMatch">http://example.com/newMatch</a><br>请求体：<br>id&#x3D;995&amp;bluebaggers&#x3D;150&amp;redlegs&#x3D;60<br>或者一个维护服务的GET请求：<br><a target="_blank" rel="noopener" href="http://example.com/matchMaintenance/command=newMatch&id=995&bluebaggers=150&redlegs=60">http://example.com/matchMaintenance/command=newMatch&amp;id=995&amp;bluebaggers=150&amp;redlegs=60</a><br>或者POST请求<br><a target="_blank" rel="noopener" href="http://example.com/matchMaintenance/command=newMatch">http://example.com/matchMaintenance/command=newMatch</a><br><match id="995"><score team="bluebaggers">150</score><score team="redlegs">60</score></match></p>
 </blockquote>
 <p>以此类推，可以有很多这样的功能。有些人觉得这并不是什么问题，对越来越多的请求，我们只要建立服务，然后给出相应的说明就可以了。但是，他还是存在缺点的。</p>
 <p>也许我们会假设访问只是来自脚本，那么这种情况可能会简单一点。但实际上，还有很多的因素会涉及到，例如网页浏览器（会存在后撤和刷新按钮的问题）、Web服务器（可能会有缓存和编译问题）、网络路由和缓存问题、应对爬虫的骚扰、一些个人站点对网站内容的抓取。如果我们考虑这些不同的请求，我们的程序就可以表现的更健壮。</p>
 <p>理想的情况下，一个服务应该有自我说明的能力。如果一个服务建立在一种约定俗成的条件下，那么大家就很容易适应并且进行后续的开发。</p>
 <p>REST就是考虑了这些因素，可以使用RESTful API来实现上面的服务。</p>
-<h2 id="RESTful-原则介绍"><a href="#RESTful-原则介绍" class="headerlink" title="RESTful 原则介绍"></a><strong>RESTful 原则介绍</strong></h2><p>REST的主要原则有：<br><strong>用URL表示资源。</strong>资源就像商业实体一样，是我们希望作为API实体呈现的一部分。通常是一个名词，每个资源都用一个独一无二的URL来表示。</p>
-<p><strong>HTTP方法表示操作。</strong>REST充分利用了HTTP的方法，特别是GET、POST、PUT和DELETE。注意XMLHttpRequest对象实现了全部的方法，具体可以参看<a target="_blank" rel="noopener" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">W3C HTTP 1.1 Specification</a>。</p>
+<h2 id="RESTful-原则介绍"><a href="#RESTful-原则介绍" class="headerlink" title="RESTful 原则介绍"></a><strong>RESTful 原则介绍</strong></h2><p>REST的主要原则有：<br>**用URL表示资源。**资源就像商业实体一样，是我们希望作为API实体呈现的一部分。通常是一个名词，每个资源都用一个独一无二的URL来表示。</p>
+<p>**HTTP方法表示操作。**REST充分利用了HTTP的方法，特别是GET、POST、PUT和DELETE。注意XMLHttpRequest对象实现了全部的方法，具体可以参看<a target="_blank" rel="noopener" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">W3C HTTP 1.1 Specification</a>。</p>
 <p>也就是说，客户端的任何请求都包含一个URL和一个HTTP方法。回到上面的例子中，比赛显然是一个实体，那么对于一个特定比赛的请求就表示为：</p>
 <blockquote>
 <p><a target="_blank" rel="noopener" href="http://example.com/matches/995">http://example.com/matches/995</a></p>
@@ -130,7 +130,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2024-11-15 20:57:28</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2020-07-22 19:42:57</span>
     </div>
@@ -69,8 +69,7 @@ var _hmt = _hmt || [];
 <blockquote>
 <p>其实这篇文章最早想起名《30分钟学会shell》但是仔细梳理了shell的相关知识后，发现如果想把所有的细节都掌握的，真的不可能30分钟学完。但是通过30分钟的时间，过一遍相关的知识点还是可能的，整理了一份相关知识点的思维导图，想要真的学好，还要静下心来花点功夫哦。</p>
 </blockquote>
-<img src="/2020/07/22/20200722-shell-quick-start/image-20200809154352060.png" class="" title="image-20200809154352060">
-
+<p><img src="/20200722-shell-quick-start/image-20200809154352060.png" alt="image-20200809154352060"></p>
 <h2 id="Shell-简介"><a href="#Shell-简介" class="headerlink" title="Shell 简介"></a>Shell 简介</h2><p>shell是一种特殊的程序，是 <code>用户与Linux系统内核间的接口</code>，它解释运行由命令行或文件输入的命令，从而实现用户与内核间的交互。</p>
 <h2 id="内部命令"><a href="#内部命令" class="headerlink" title="内部命令"></a>内部命令</h2><p>内部命令是shell命令的一部分，驻留在系统内存中，不需要创建子进程，例如 <code>cd exit echo history</code> 这些命令。使用 <code>man builtins</code> 可以看到 shell 中自带的内部命令。</p>
 <blockquote>
@@ -82,8 +81,7 @@ var _hmt = _hmt || [];
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">% <span class="built_in">type</span> <span class="built_in">echo</span></span><br><span class="line"><span class="built_in">echo</span> is a shell <span class="built_in">builtin</span></span><br></pre></td></tr></table></figure>
 
 <p>如果是外部命令，则 <code>type</code> 会给出该命令的执行路径。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">% <span class="built_in">type</span> node</span><br><span class="line">node is /usr/<span class="built_in">local</span>/bin/node</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">% <span class="built_in">type</span> node</span><br><span class="line">node is /usr/local/bin/node</span><br></pre></td></tr></table></figure>
 
 </blockquote>
 <h2 id="外部命令"><a href="#外部命令" class="headerlink" title="外部命令"></a>外部命令</h2><p>外部命令其实并不是 shell 的内容，它们往往都是脚本文件或者二进制文件，需要的时候会加载到内存并创建对应的子进程，通常位于 <code>/bin</code> 或者 <code>/usr/bin</code> 等目录下。</p>
@@ -91,18 +89,18 @@ var _hmt = _hmt || [];
 <blockquote>
 <p>注意变量赋值语句前后一定不要有空格！</p>
 </blockquote>
-<p>使用变量要通过 <code>$</code> ，例如打印变量 <code>echo $var_name</code> 。还以加上花括号来引用变量，例如 <code>echo $&#123;var_name&#125;</code> 这种方式能够给出明确的变量边界，推荐在实际工作中都使用这种方式。</p>
+<p>使用变量要通过 <code>$</code> ，例如打印变量 <code>echo $var_name</code> 。还以加上花括号来引用变量，例如 <code>echo ${var_name}</code> 这种方式能够给出明确的变量边界，推荐在实际工作中都使用这种方式。</p>
 <p><strong>一些常用的变量</strong>：</p>
 <ul>
-<li>命令行参数：<code>$0、$1......$&#123;10&#125;</code></li>
+<li>命令行参数：<code>$0、$1......${10}</code></li>
 <li>命令行或者位置参数的个数：<code>$#</code></li>
 <li><code>$*</code>：所有位置参数，被作为一个单词。必须被””引用</li>
-<li>$@    ：同$*，但每个参数都是一个独立的””引用。必须被引用</li>
-<li><code>$!</code>    ：在后台运行的最后的工作的 PID(进程ID)</li>
-<li><code>$_</code>    ：保存之前执行的命令的最后一个参数</li>
-<li><code>$?</code>    ：命令、函数或者脚本本身的退出状态，用来判断脚本是否正常退出，正常退出返回为0。</li>
-<li><code>$$</code>    ：脚本自身进程ID，常用来构造一个”unique”的临时文件名</li>
-<li><code>$BASH</code>    ：指向 Bash 的二进制执行文件的位置</li>
+<li>$@	：同$*，但每个参数都是一个独立的””引用。必须被引用</li>
+<li><code>$!</code>	：在后台运行的最后的工作的 PID(进程ID)</li>
+<li><code>$_</code>	：保存之前执行的命令的最后一个参数</li>
+<li><code>$?</code>	：命令、函数或者脚本本身的退出状态，用来判断脚本是否正常退出，正常退出返回为0。</li>
+<li><code>$$</code>	：脚本自身进程ID，常用来构造一个”unique”的临时文件名</li>
+<li><code>$BASH</code>	：指向 Bash 的二进制执行文件的位置</li>
 <li><code>FUNCNAME</code>：当前函数的名字</li>
 <li><code>LINENO</code>：当前行号</li>
 <li><code>HOME</code>：用户的 home 目录</li>
@@ -118,8 +116,7 @@ var _hmt = _hmt || [];
 <blockquote>
 <p><code>test</code> 命令可以简写为 [ ] ，注意 [ ] 与 expression 之间的空格是必须的。[ ] 的写法更加简洁，[[ ]] 是 [ ] 的扩充，能支持 <code>&lt;、&gt;</code> 运算，不需要转义，内支持逻辑运算符，是性能最高的表达式。</p>
 </blockquote>
-<img src="/2020/07/22/20200722-shell-quick-start/image-20200809091643796.png" class="" title="image-20200809091643796">
-
+<p><img src="/20200722-shell-quick-start/image-20200809091643796.png" alt="image-20200809091643796"></p>
 <h3 id="文件测试操作"><a href="#文件测试操作" class="headerlink" title="文件测试操作"></a>文件测试操作</h3><ul>
 <li><code>-e</code> : 检测文件（包括目录）是否存在</li>
 <li><code>-b</code> : 检测文件是否为块设备文件</li>
@@ -174,13 +171,10 @@ var _hmt = _hmt || [];
 <li>逗号运算符：逗号操作符可以连接2个或多个算术运算，所有的操作都会被执行，但只有最后一个操作作为结果。</li>
 </ul>
 <p>具体算术运算的例子如下：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试一些算术表达式的使用</span></span><br><span class="line">A=4</span><br><span class="line">B=5</span><br><span class="line"></span><br><span class="line"><span class="comment"># 直接使用+号会将数字作为字符串拼接起来</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$A</span> + <span class="variable">$B</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用expr命令能够执行数学运算</span></span><br><span class="line"><span class="built_in">echo</span> `expr <span class="variable">$A</span> + <span class="variable">$B</span>`</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用$[]也可以执行数字运算</span></span><br><span class="line"><span class="built_in">echo</span> $[ <span class="variable">$A</span> + <span class="variable">$B</span> ]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用$(())也可以执行数字运算</span></span><br><span class="line"><span class="built_in">echo</span> $(( <span class="variable">$A</span> + <span class="variable">$B</span> ))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用let</span></span><br><span class="line"><span class="built_in">let</span> <span class="string">&quot;r=<span class="variable">$A</span>+<span class="variable">$B</span>&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$r</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试一些算术表达式的使用</span></span><br><span class="line">A=4</span><br><span class="line">B=5</span><br><span class="line"></span><br><span class="line"><span class="comment"># 直接使用+号会将数字作为字符串拼接起来</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$A</span> + <span class="variable">$B</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用expr命令能够执行数学运算</span></span><br><span class="line"><span class="built_in">echo</span> `<span class="built_in">expr</span> <span class="variable">$A</span> + <span class="variable">$B</span>`</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用$[]也可以执行数字运算</span></span><br><span class="line"><span class="built_in">echo</span> $[ <span class="variable">$A</span> + <span class="variable">$B</span> ]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用$(())也可以执行数字运算</span></span><br><span class="line"><span class="built_in">echo</span> $(( <span class="variable">$A</span> + <span class="variable">$B</span> ))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用let</span></span><br><span class="line"><span class="built_in">let</span> <span class="string">&quot;r=<span class="variable">$A</span>+<span class="variable">$B</span>&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$r</span></span><br></pre></td></tr></table></figure>
 
 <p>执行结果</p>
-<img src="/2020/07/22/20200722-shell-quick-start/image-20200809104349131.png" class="" title="image-20200809104349131">
-
-
-
+<p><img src="/20200722-shell-quick-start/image-20200809104349131.png" alt="image-20200809104349131"></p>
 <blockquote>
 <p>到这里基本上把shell变量、运算符介绍完了，下一篇计划把控制语句介绍一下，这样两篇结合起来就能够实现基本的shell脚本编写了。</p>
 </blockquote>
@@ -225,7 +219,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

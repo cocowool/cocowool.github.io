@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-30 20:56:42</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2017-10-25 23:35:00</span>
     </div>
@@ -67,13 +67,9 @@ var _hmt = _hmt || [];
       </div>
       <h3 id="需求及应用场景"><a href="#需求及应用场景" class="headerlink" title="需求及应用场景"></a>需求及应用场景</h3><p>1、<strong>简化操作</strong>。一般的软件安装过程，如果想要精简步骤，我们一般会将需要在命令行中输入的命令写成一个脚本，同时将安装介质准备好。我们将脚本和安装介质上传到生产环境，然后通过执行脚本来完成安装。如果能够将这两个文件合并为一个可执行文件，那安装的过程就更简单明了。<br>2、<strong>代码保护</strong>。对于一段脚本，提供给用户使用，但是不希望用户看到脚本的内容，可以通过将脚本发布为.bin的形式。这样用户在环境中可以执行、安装，但是无法看到里面的内容，也无法修改，从而达到保护脚本内容的目的。</p>
 <h3 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h3><p>1、本文以在Redhat系统中安装ftp命令为例说明，如何将安装脚本和安装介质整合成一个文件，简化操作。<br>首先，编写一个脚本，包含安装的命令。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Hello World&quot;</span></span><br><span class="line">dir_installation=/root/create_bin</span><br><span class="line">sed -n -e <span class="string">&#x27;1,/^exit 0$/!p&#x27;</span> <span class="variable">$0</span> &gt; <span class="string">&quot;<span class="variable">$&#123;dir_installation&#125;</span>/ftp-0.17-54.el6.x86_64.rpm&quot;</span> 2&gt;/dev/null</span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$dir_installation</span></span><br><span class="line">rpm -ivh ftp-0.17-54.el6.x86_64.rpm</span><br><span class="line">rm ftp-0.17-54.el6.x86_64.rpm</span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure>
-<p>注意，这个脚本的关键在于<code>sed</code>，他会把exit 0后面的内容提取出来，另存为rpm包，然后执行安装，安装完成后删掉rpm。<br>最后，我们用<code>cat</code>命令将脚本和安装包生成一个新的文件。</p>
-<img src="/2017/10/25/20171025-convert-sh-to-bin/1240-20200811063507393.png" class="">
-<p>这时，如果用<code>file</code>命令查看install-rpm.bin文件，可以发现它的类型还是文本类型，用vim编辑器打开，还是可以看到脚本内容的，也可进行修改。</p>
-<img src="/2017/10/25/20171025-convert-sh-to-bin/1240-20200811063512911.png" class="">
-<p>2、对于第二个隐藏代码内容的需求，有一款工具叫做<a target="_blank" rel="noopener" href="http://www.datsi.fi.upm.es/~frosal/sources/shc-3.8.9b.tgz">shc</a>，可以用它来将脚本编程二进制文件。<br>shc的用法比较简单，下载后make生成可执行文件，然后直接对脚本进行加密，会生成两个文件。一个以.x结尾，为可执行的二进制文件。另一个以.x.c结尾，为生成的中间c文件。shc还能指定可执行脚本的过期时间。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">wget http://www.datsi.fi.upm.es/~frosal/sources/shc-3.8.9b.tgz</span><br><span class="line"></span><br><span class="line">tar xvfz shc-3.8.9b.tgz</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> shc-3.8.9b</span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">./shc -v</span><br><span class="line">shc parse(-f): No <span class="built_in">source</span> file specified</span><br><span class="line"></span><br><span class="line">shc Usage: shc [-e date] [-m addr] [-i iopt] [-x cmnd] [-l lopt] [-rvDTCAh] -f script</span><br><span class="line"></span><br><span class="line">./shc -f install-rpm.bin</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Hello World&quot;</span></span><br><span class="line">dir_installation=/root/create_bin</span><br><span class="line">sed -n -e <span class="string">&#x27;1,/^exit 0$/!p&#x27;</span> <span class="variable">$0</span> &gt; <span class="string">&quot;<span class="variable">$&#123;dir_installation&#125;</span>/ftp-0.17-54.el6.x86_64.rpm&quot;</span> 2&gt;/dev/null</span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$dir_installation</span></span><br><span class="line">rpm -ivh ftp-0.17-54.el6.x86_64.rpm</span><br><span class="line"><span class="built_in">rm</span> ftp-0.17-54.el6.x86_64.rpm</span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure>
+<p>注意，这个脚本的关键在于<code>sed</code>，他会把exit 0后面的内容提取出来，另存为rpm包，然后执行安装，安装完成后删掉rpm。<br>最后，我们用<code>cat</code>命令将脚本和安装包生成一个新的文件。<br><img src="/20171025-convert-sh-to-bin/1240-20200811063507393.png"><br>这时，如果用<code>file</code>命令查看install-rpm.bin文件，可以发现它的类型还是文本类型，用vim编辑器打开，还是可以看到脚本内容的，也可进行修改。<br><img src="/20171025-convert-sh-to-bin/1240-20200811063512911.png"><br>2、对于第二个隐藏代码内容的需求，有一款工具叫做<a target="_blank" rel="noopener" href="http://www.datsi.fi.upm.es/~frosal/sources/shc-3.8.9b.tgz">shc</a>，可以用它来将脚本编程二进制文件。<br>shc的用法比较简单，下载后make生成可执行文件，然后直接对脚本进行加密，会生成两个文件。一个以.x结尾，为可执行的二进制文件。另一个以.x.c结尾，为生成的中间c文件。shc还能指定可执行脚本的过期时间。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">wget http://www.datsi.fi.upm.es/~frosal/sources/shc-3.8.9b.tgz</span><br><span class="line"></span><br><span class="line">tar xvfz shc-3.8.9b.tgz</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> shc-3.8.9b</span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">./shc -v</span><br><span class="line">shc parse(-f): No <span class="built_in">source</span> file specified</span><br><span class="line"></span><br><span class="line">shc Usage: shc [-e <span class="built_in">date</span>] [-m addr] [-i iopt] [-x cmnd] [-l lopt] [-rvDTCAh] -f script</span><br><span class="line"></span><br><span class="line">./shc -f install-rpm.bin</span><br></pre></td></tr></table></figure>
 <p>通过 shc 可以将脚本文件编译成二进制文件，隐藏了脚本的内容，对于一般的用户是没办法查看和修改的。当然，还是有办法可以再将二进制文件转换为纯文本的脚本的，具体的方法大家可以关注我的微信号获得。</p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://www.cnblogs.com/itech/archive/2010/02/01/1661248.html">Linux .bin安装文件制作</a><br>2、<a target="_blank" rel="noopener" href="http://codingstandards.iteye.com/blog/810900">dos2unix</a><br>3、<a target="_blank" rel="noopener" href="http://blog.sina.com.cn/s/blog_4d3833cf0100yjen.html">linux下制作二进制bin 文件制做方法</a><br>4、<a target="_blank" rel="noopener" href="http://www.datsi.fi.upm.es/~frosal/">shc</a><br>5、<a target="_blank" rel="noopener" href="http://www.thegeekstuff.com/2012/05/encrypt-bash-shell-script/">How to Encrypt Your Bash Shell Script on Linux Using SHC</a></p>
 
@@ -112,7 +108,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

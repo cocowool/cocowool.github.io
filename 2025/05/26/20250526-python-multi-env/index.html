@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2025-09-17 08:44:09</span>
+        <span class="post-time">更新于：2026-07-16 18:34:02</span>
         
         <span class="post-time">发布于：2025-05-26 08:47:49</span>
     </div>
@@ -70,28 +70,29 @@ var _hmt = _hmt || [];
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">error: externally-managed-environment</span><br><span class="line"></span><br><span class="line">× This environment is externally managed</span><br><span class="line">╰─&gt; To install Python packages system-wide, try brew install</span><br><span class="line">    xyz, <span class="built_in">where</span> xyz is the package you are trying to</span><br><span class="line">    install.</span><br></pre></td></tr></table></figure>
 
 <p>在 Linux 环境中，也存在全局版本安装的提示，如 kali 中的提示</p>
-<img src="/2025/05/26/20250526-python-multi-env/image-20250917084403724.png" class="" title="image-20250917084403724">
-
+<p><img src="/20250526-python-multi-env/image-20250917084403724.png" alt="image-20250917084403724"></p>
 <h2 id="使用虚拟环境（推荐）"><a href="#使用虚拟环境（推荐）" class="headerlink" title="使用虚拟环境（推荐）"></a>使用虚拟环境（推荐）</h2><p>虚拟环境「Virtual Environment」是 Python 开发的标准实践，可为每个项目创建隔离的依赖环境。</p>
 <ol>
-<li><p>创建虚拟环境，在项目所在目录中执行</p>
+<li>创建虚拟环境，在项目所在目录中执行</li>
+</ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python3 -m venv myenv	<span class="comment">#创建一个命名为 myenv 的虚拟环境</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>激活虚拟环境</p>
+
+<ol start="2">
+<li>激活虚拟环境</li>
+</ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">source</span> myenv/bin/activate</span><br><span class="line">(myenv) ➜   </span><br></pre></td></tr></table></figure>
 
-</li>
-</ol>
 <p>激活后，终端提示符会显示环境名称。</p>
 <ol start="3">
-<li><p>安装依赖包</p>
+<li>安装依赖包</li>
+</ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple pytest</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>退出虚拟环境</p>
+
+<ol start="4">
+<li>退出虚拟环境</li>
+</ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ dactivate</span><br></pre></td></tr></table></figure>
 
-</li>
-</ol>
 <p>这个方案的优点：</p>
 <ul>
 <li>安全隔离项目依赖</li>
@@ -101,17 +102,20 @@ var _hmt = _hmt || [];
 <p>缺点当然也很明显，每个工程都要对依赖的包重新安装一遍，是不是要考虑工程运行环境的初始化脚本？</p>
 <h2 id="使用-pipx（适合全局工具）"><a href="#使用-pipx（适合全局工具）" class="headerlink" title="使用 pipx（适合全局工具）"></a>使用 pipx（适合全局工具）</h2><p><code>pipx</code> 专门用于安装可执行的 Python 工具（如 black, pytest 等），自动管理独立虚拟环境。</p>
 <ol>
-<li><p>安装 pipx</p>
+<li>安装 pipx</li>
+</ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ brew install pipx</span><br><span class="line">$ pipx ensurepath</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>通过 pipx 安装Python工具</p>
+
+<ol start="2">
+<li>通过 pipx 安装Python工具</li>
+</ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pipx install pytest</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看已安装工具</p>
+
+<ol start="3">
+<li>查看已安装工具</li>
+</ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pipx list</span><br></pre></td></tr></table></figure>
 
-</li>
-</ol>
 <p>这个方案适用于安装需要全局使用的命令行工具，可以避免与项目本地依赖冲突。</p>
 <h2 id="用户级安装"><a href="#用户级安装" class="headerlink" title="用户级安装"></a>用户级安装</h2><p>这个方案将包安装到当前用户目录，避免写入系统路径。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip3 install --user -i https://pypi.tuna.tsinghua.edu.cn/simple pytest</span><br></pre></td></tr></table></figure>
@@ -162,7 +166,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

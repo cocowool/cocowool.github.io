@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-09 00:07:05</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2020-10-30 22:40:47</span>
     </div>
@@ -91,14 +91,8 @@ var _hmt = _hmt || [];
 <h2 id="删除文件的内容"><a href="#删除文件的内容" class="headerlink" title="删除文件的内容"></a>删除文件的内容</h2><p>通过 <code>d</code> 参数加匹配规则，我们可以方便的删除文件中的内容。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$ sed <span class="string">&#x27;3d&#x27;</span> fileName.txt   <span class="comment">#删除第3行，并将修改打到标准输出</span></span><br><span class="line">$ sed -i <span class="string">&#x27;3d&#x27;</span> fileName.txt <span class="comment">#删除第3行，并在文件内生效，后面的命令不再加这个参数</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除最后一行</span></span><br><span class="line">$ sed <span class="string">&#x27;$d&#x27;</span> fileName.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除7-9行</span></span><br><span class="line">$ sed <span class="string">&#x27;7,9d&#x27;</span> fileName.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除所有空行</span></span><br><span class="line">$ sed <span class="string">&#x27;/^$/d&#x27;</span> fileName.txt </span><br><span class="line">$ sed <span class="string">&#x27;/./!d&#x27;</span> fileName.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除匹配到字符串的行</span></span><br><span class="line">$ sed <span class="string">&#x27;/awk/d&#x27;</span> fileName.txt </span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除两个匹配之间所有的行</span></span><br><span class="line">$ sed <span class="string">&#x27;/patternA/,/patternB/d&#x27;</span> fileName.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除匹配的行到第 n(5) 行之间的内容，同理也可以反过来，删除某一行到匹配行之间的内容</span></span><br><span class="line">$ sed <span class="string">&#x27;/pattern/,5d&#x27;</span> fileName.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除符合多个条件的行</span></span><br><span class="line">$ sed <span class="string">&#x27;/patternA/d;/patternB/d&#x27;</span> fileName.txt</span><br></pre></td></tr></table></figure>
 
-<img src="/2020/10/30/20201024-use-sed-replace-text/image-20201030194502145.png" class="" title="image-20201030194502145">
-
-
-
-<img src="/2020/10/30/20201024-use-sed-replace-text/image-20201030194207582.png" class="" title="image-20201030194207582">
-
-
-
+<p><img src="/20201024-use-sed-replace-text/image-20201030194502145.png" alt="image-20201030194502145"></p>
+<p><img src="/20201024-use-sed-replace-text/image-20201030194207582.png" alt="image-20201030194207582"></p>
 <h2 id="替换文件的内容"><a href="#替换文件的内容" class="headerlink" title="替换文件的内容"></a>替换文件的内容</h2><p>如果只是想修改某一行的部分内容，可以使用 <code>g</code> 参数，具体示例如下。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ sed <span class="string">&#x27;s/^/ABC /&#x27;</span> fileName.txt <span class="comment">#在每一行增加ABC</span></span><br><span class="line"></span><br><span class="line">$ sed <span class="string">&#x27;s/patternA/String/&#x27;</span> fileName.txt <span class="comment">#将匹配的内容替换为指定的字符串</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将查找到包含查找字符串的所有文件中的字符串都进行替换</span></span><br><span class="line">$ sed -i <span class="string">&quot;&quot;</span> <span class="string">&#x27;s/(\.\//(\//g&#x27;</span> `grep -rl <span class="string">&quot;(\./&quot;</span> <span class="built_in">source</span>/_posts/*md`</span><br></pre></td></tr></table></figure>
 
@@ -144,7 +138,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

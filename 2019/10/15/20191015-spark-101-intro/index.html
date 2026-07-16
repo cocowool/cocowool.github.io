@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-04-05 21:44:24</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2019-10-15 13:16:17</span>
     </div>
@@ -84,7 +84,7 @@ var _hmt = _hmt || [];
 </ul>
 <h2 id="Spark运行模式"><a href="#Spark运行模式" class="headerlink" title="Spark运行模式"></a>Spark运行模式</h2><ul>
 <li>local : 主要用于开发调试Spark应用程序</li>
-<li>Standlone : 利用Spark自带的资源管理与调度器运行Spark集群，采用Master/Slave结构，为解决单点故障，可以采用Xookeeper实现高可靠(High Availability, HA)</li>
+<li>Standlone : 利用Spark自带的资源管理与调度器运行Spark集群，采用Master&#x2F;Slave结构，为解决单点故障，可以采用Xookeeper实现高可靠(High Availability, HA)</li>
 <li>Apache Mesos : 运行在著名的Mesos资源管理框架基础之上，该集群运行模式将资源管理管理交给Mesos,Spark只负责运行任务调度和计算</li>
 <li>Hadoop YARN : 集群运行在Yarn资源管理器上，资源管理交给YARN，Spark只负责进行任务调度和计算</li>
 </ul>
@@ -105,8 +105,7 @@ var _hmt = _hmt || [];
 <li>BLinkDB : 用于在海量数据上进行交互式SQL的近似查询引擎。</li>
 <li>Tachyon : 以内存为中心高容错的的分布式文件系统。</li>
 </ul>
-<h2 id="Spark组件"><a href="#Spark组件" class="headerlink" title="Spark组件"></a>Spark组件</h2><img src="/2019/10/15/20191015-spark-101-intro/spark.jpg" class="" title="Spark组件">
-
+<h2 id="Spark组件"><a href="#Spark组件" class="headerlink" title="Spark组件"></a>Spark组件</h2><p><img src="/20191015-spark-101-intro/spark.jpg" alt="Spark组件"></p>
 <p>每个Spark应用都由一个驱动器程序(drive program)来发起集群上的各种并行操作。驱动器程序包含应用的main函数，驱动器负责创建SparkContext,SparkContext可以与不同种类的集群资源管理器(Cluster Manager)，例如Hadoop YARN，Mesos进行通信，获取到集群进行所需的资源后，SparkContext将得到集群中工作节点(Worker Node)上对应的Executor(不同的Spark程序有不同的Executor,他们之间是相互独立的进程，Executor为应用程序提供分布式计算以及数据存储功能)，之后SparkContext将应用程序代码发送到各Executor,最后将任务(Task)分配给executors执行。</p>
 <ul>
 <li>ClusterManager:在Standalone模式中即为Master节点（主节点），控制整个集群，监控Worker.在YARN中为ResourceManager</li>
@@ -133,7 +132,7 @@ var _hmt = _hmt || [];
 <li>Driver向Master或者资源管理器申请资源，之后将应用转化为RDD Graph。</li>
 <li>再由DAGSchedule将RDD Graph转化为Stage的有向无环图提交给TaskSchedule。  </li>
 <li>再由TaskSchedule提交任务给Executor执行。  </li>
-<li>其它组件协同工作，确保整个应用顺利执行。 </li>
+<li>其它组件协同工作，确保整个应用顺利执行。</li>
 </ol>
 <p>参考资料：</p>
 <ol>
@@ -179,7 +178,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

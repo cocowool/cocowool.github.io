@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2017-05-26 08:37:01</span>
     </div>
@@ -69,9 +69,7 @@ var _hmt = _hmt || [];
 <p>现在的任务是想在域控服务器中列出纳入域管理的所有机器，以及最近登陆的时间。</p>
 <p>可以通过PowerShell来进行查询。</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-ADComputer</span> <span class="literal">-Filter</span> * <span class="literal">-Property</span> * | <span class="built_in">Format-Table</span> Name,OperatingSystem,OperatingSystemServicePack,OperatingSystemVersion <span class="literal">-Wrap</span> –Auto</span><br><span class="line"></span><br><span class="line"><span class="built_in">Import-Module</span> ActiveDirectory</span><br><span class="line"><span class="built_in">Get-ADComputer</span> <span class="literal">-Filter</span> &#123;enabled <span class="operator">-eq</span> <span class="variable">$true</span>&#125; <span class="literal">-properties</span> *|<span class="built_in">select</span> Name, DNSHostName, OperatingSystem, LastLogonDate</span><br><span class="line"></span><br><span class="line"><span class="built_in">get-adcomputer</span> <span class="literal">-filter</span> &#123;enabled <span class="operator">-eq</span> <span class="variable">$true</span>&#125; <span class="literal">-properties</span> * | <span class="built_in">ft</span> name, dnshostname, operating system, <span class="selector-tag">@</span>&#123;n=‘lastlogontimestamp’;e=&#123;[<span class="built_in">DateTime</span>]::FromFileTime(<span class="variable">$_</span>.Lastlogontimestamp)&#125;&#125;</span><br></pre></td></tr></table></figure>
-<p>查询的结果是这样的。</p>
-<img src="/2017/05/26/20170526-list-domain-machines/39469-20170526083642122-543815414.png" class="">
-
+<p>查询的结果是这样的。<br><img src="/20170526-list-domain-machines/39469-20170526083642122-543815414.png"></p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="https://social.technet.microsoft.com/Forums/windowsserver/en-US/452bd87c-f802-447c-91fb-e98b1b6ddb0e/how-to-get-all-active-computer-list-in-domain-with-some-attributes?forum=winserverDS">How to get all active computer list in domain with some attributes?</a><br>2、<a target="_blank" rel="noopener" href="http://portal.sivarajan.com/2010/07/aduc-and-ldap-reference-sheet.html">Active Directory Reference Sheet</a><br>3、<a target="_blank" rel="noopener" href="http://www.joeware.net/freetools/tools/oldcmp/">Oldcmp工具</a></p>
 
       <div class="blog-post-footer">
@@ -109,7 +107,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

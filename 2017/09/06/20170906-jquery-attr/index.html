@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2017-09-06 15:05:01</span>
     </div>
@@ -66,7 +66,7 @@ var _hmt = _hmt || [];
         </div> -->
       </div>
       <h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><p>使用了 jQuery 1.10 的版本，想实现 checkbox 的全部选中和全部取消选中，使用了 attr 的方法，如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(elem).attr(“checked”)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(elem).<span class="title function_">attr</span>(“checked”)</span><br></pre></td></tr></table></figure>
 <p>测试过程中发现，第一次从未选中状态变为选中，再从选中变为未选中，是可以的。但是第二次界面上就没有任何变化了，但是查看元素，发现 checked 属性实际上已经改变了。这是什么情况呢？</p>
 <h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>看一下官方对这个函数的解释</p>
 <blockquote>
@@ -76,13 +76,11 @@ var _hmt = _hmt || [];
 <blockquote>
 <p>As of jQuery 1.6, the .attr() method returns undefined for attributes that have not been set.<strong>To retrieve and change DOM properties such as the checked, selected, or disabled state of form elements, use the .prop() method.</strong></p>
 </blockquote>
-<p>文档还特别对 attr() 和 prop() 进行了对比，总体来说 jQuery 1.6 版本之后，为了保证函数在不同环境下表现的一致性，建议对于获取 DOM 元素的固有属性，使用 prop() 方法，如果需要修改个性化（自定义）的属性字段，则需要使用 attr 方法。</p>
-<img src="/2017/09/06/20170906-jquery-attr/39469-20170906150427897-1646491621.png" class="">
-<p>关于 checked 属性，还特别说了一下，我也不知道如何用汉字区分 attribute 和 property，还是摘抄下来吧。</p>
+<p>文档还特别对 attr() 和 prop() 进行了对比，总体来说 jQuery 1.6 版本之后，为了保证函数在不同环境下表现的一致性，建议对于获取 DOM 元素的固有属性，使用 prop() 方法，如果需要修改个性化（自定义）的属性字段，则需要使用 attr 方法。<br><img src="/20170906-jquery-attr/39469-20170906150427897-1646491621.png"><br>关于 checked 属性，还特别说了一下，我也不知道如何用汉字区分 attribute 和 property，还是摘抄下来吧。</p>
 <blockquote>
 <p>Nevertheless, the most important concept to remember about the checked attribute is that it does not correspond to the checked property. The attribute actually corresponds to the defaultChecked property and should be used only to set the initial value of the checkbox. The checked attribute value does not change with the state of the checkbox, while the checked property does. Therefore, the cross-browser-compatible way to determine if a checkbox is checked is to use the property</p>
 </blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( elem.checked )</span><br><span class="line">    <span class="keyword">if</span> ( $( elem ).prop( <span class="string">&quot;checked&quot;</span> ) )</span><br><span class="line">    <span class="keyword">if</span> ( $( elem ).is( <span class="string">&quot;:checked&quot;</span> ) )</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( elem.<span class="property">checked</span> )</span><br><span class="line">    <span class="keyword">if</span> ( $( elem ).<span class="title function_">prop</span>( <span class="string">&quot;checked&quot;</span> ) )</span><br><span class="line">    <span class="keyword">if</span> ( $( elem ).<span class="title function_">is</span>( <span class="string">&quot;:checked&quot;</span> ) )</span><br></pre></td></tr></table></figure>
 
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://api.jquery.com/attr/">jQuery attr</a><br>2、<a target="_blank" rel="noopener" href="http://api.jquery.com/prop/">jQuery prop</a><br>3、<a target="_blank" rel="noopener" href="https://www.w3.org/TR/html401/interact/forms.html#h-17.4">W3C Forms</a></p>
 
@@ -121,7 +119,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

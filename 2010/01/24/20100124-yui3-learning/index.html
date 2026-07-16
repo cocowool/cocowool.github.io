@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2010-01-24 22:02:01</span>
     </div>
@@ -72,7 +72,7 @@ var _hmt = _hmt || [];
 <p>2、 IO的使用。</p>
 <p>YUI3中封装的IO具备了强大的功能，不仅能够通过GET、POST方式提交数据。而且支持整个Form数据的提交，这个方法对于希望全站都是用Ajax来做的同学无疑提供了极大地便利。</p>
 <p>但是，现在由于不是十分的熟悉YUI3的API，绑定IO事件的时候，都是在初始页面中进行的编码，这样必须能够了解到这个页面中可能会出现多少个Form，并分别把Form的提交事件绑定好。我在考虑，能否将JS代码写在每个表单中，通过IO将表单调入到当前页面，然后JS生效，再进行提交呢？ 这样对应的表单带着自己的JS，逻辑上就比较清楚。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Y<span class="selector-class">.io</span>(&quot;/foo/bar/some_widget&quot;, &#123;</span><br><span class="line">  method: <span class="string">&#x27;GET&#x27;</span>,</span><br><span class="line">  on: &#123;</span><br><span class="line">    complete: <span class="built_in">function</span>(id, respdata) &#123;</span><br><span class="line">      thediv.innerHTML = respdata.responseText;</span><br><span class="line">      initWidget();// this function is embedded in the responseText// and doesn&#x27;t get evaluated. <span class="selector-tag">I</span><span class="selector-class">.e</span>. it doesn&#x27;t exist.&#125;,</span><br><span class="line">    failure: <span class="built_in">function</span>(id, respdata) &#123;</span><br><span class="line">      <span class="built_in">alert</span>(<span class="string">&#x27;Feed failed to load!&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Y</span><span class="selector-class">.io</span>(&quot;/foo/bar/some_widget&quot;, &#123;</span><br><span class="line">  method: <span class="string">&#x27;GET&#x27;</span>,</span><br><span class="line">  on: &#123;</span><br><span class="line">    complete: <span class="built_in">function</span>(id, respdata) &#123;</span><br><span class="line">      thediv<span class="selector-class">.innerHTML</span> = respdata<span class="selector-class">.responseText</span>;</span><br><span class="line">      initWidget();// this function is embedded in the responseText// and doesn&#x27;t get evaluated. <span class="selector-tag">I</span><span class="selector-class">.e</span>. it doesn&#x27;t exist.&#125;,</span><br><span class="line">    failure: <span class="built_in">function</span>(id, respdata) &#123;</span><br><span class="line">      alert(&#x27;Feed failed <span class="selector-tag">to</span> load!&#x27;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
 <p>这里作者提供了一个解决的办法，但是提到了一个缺点，用户在被搜索引擎导向到这个页面后这些代码还是不能够执行。</p>
 <p>那么有什么办法解决呢？</p>
@@ -82,8 +82,7 @@ var _hmt = _hmt || [];
 <p>3、YUI3还是不够稳定。</p>
 <p>还是使用IO的时候，当通过POST方式提交数据时，第二次点击提交表单按钮，就会发出双份的数据，第三次，发送出去的数据就会变成三份。这个在YUI的论坛里有人反映了，是一个bug，已经解决，但是官方的那个build还没有更新。</p>
 <p>在排查这个错误的时候因为不了解 YUI Loader 的工作原理，所以费了一些周折，同样不了解的同学可以去<a target="_blank" rel="noopener" href="http://www.zhuoqun.net/html/y2008/1118.html">这里</a>看一下，补充一下相关知识。我将 io-base.js 的最新版本下载下来，覆盖了本地文件之后，发现问题并没有解决，使用firebug查看，如下：</p>
-<img src="/2010/01/24/20100124-yui3-learning/image_thumb.png" class="">
-
+<p><img src="/20100124-yui3-learning/image_thumb.png"></p>
 <p>原来这些模块都还是通过combo调用的远程的，很奇怪的是为什么在firebug的网络中没有看到这个链接消耗的时间呢，难道他不消耗带宽？</p>
 <p>至此，发现了原来将 YUI(combine:true) 配置去掉，就可以调用本地文件了。但同时丧失了 combo 的这个节省带宽的优势，本地有办法自己搭建一个 combo 么?</p>
 <p>参考资料<br>1、<a target="_blank" rel="noopener" href="http://ued.taobao.com/blog/2010/01/11/yui3%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%BF%80%E8%BF%9B%E5%92%8C%E5%A6%A5%E5%8D%8F/">YUI3设计中的激进与妥协</a><br>2、<a target="_blank" rel="noopener" href="http://blog.fredrikbostrom.net/2008/10/29/executing-embedded-javascript-after-ajax-call">Excute embedded javascript after ajax-call</a><br>3、<a target="_blank" rel="noopener" href="http://starcatcher.ca/?p=636">Post-Ajax Javascripts Calls</a><br>4、<a target="_blank" rel="noopener" href="http://yuilibrary.com/forum/viewtopic.php?f=92&t=2058&p=6793">YUI Library</a><br>5、<a target="_blank" rel="noopener" href="http://www.zhuoqun.net/html/y2008/1118.html">YUI Loader 学习笔记</a></p>
@@ -104,7 +103,7 @@ var _hmt = _hmt || [];
       
       
         <div class="nav-link col-md-6">
-          <a href="/2010/01/09/20100109-redesign-logs/" id="article-nav-older" class="article-nav-link-wrap">
+          <a href="/2010/01/08/20100109-redesign-logs/" id="article-nav-older" class="article-nav-link-wrap">
             2009年重新设计过的著名的Logo &gt;&gt;
           </a>
         </div>
@@ -123,7 +122,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

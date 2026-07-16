@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-03-24 13:32:54</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2017-03-14 14:51:01</span>
     </div>
@@ -73,7 +73,7 @@ var _hmt = _hmt || [];
 <h2 id="典型用法"><a href="#典型用法" class="headerlink" title="典型用法"></a>典型用法</h2><p>rsync 可以用来同步本地与远程服务器，包括将本地文件上传至远程服务器、将远程文件同步到本地等等。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync local-file user@remote-host:remote-file</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>使用方法<br>rsync [OPTION] … SRC … [USER@]HOST:DEST<br>rsync [OPTION] … [USER@]HOST:SRC [DEST]<br>rsync –verbose  –progress –stats –compress –rsh=/usr/local/bin/ssh<br>–recursive –times –perms –links –delete<br>–exclude “<strong>bak” –exclude “</strong>~”<br>/www/* webserver:simple_path_name</p>
+<p>使用方法<br>rsync [OPTION] … SRC … [USER@]HOST:DEST<br>rsync [OPTION] … [USER@]HOST:SRC [DEST]<br>rsync –verbose  –progress –stats –compress –rsh&#x3D;&#x2F;usr&#x2F;local&#x2F;bin&#x2F;ssh<br>–recursive –times –perms –links –delete<br>–exclude “**bak” –exclude “*<em>~”<br>&#x2F;www&#x2F;</em> webserver:simple_path_name</p>
 </blockquote>
 <h2 id="守护进程-rsync-—daemon"><a href="#守护进程-rsync-—daemon" class="headerlink" title="守护进程 rsync —daemon"></a>守护进程 rsync —daemon</h2><p>以守护模式启动rsync的命令为</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -daemon</span><br></pre></td></tr></table></figure>
@@ -82,8 +82,8 @@ var _hmt = _hmt || [];
 <p>Note that you should not send the rsync daemon a HUP signal to force it to reread the rsyncd.conf file. The file is re-read on each client connection.</p>
 </blockquote>
 <h2 id="配置文件-rsyncd-conf"><a href="#配置文件-rsyncd-conf" class="headerlink" title="配置文件 rsyncd.conf"></a>配置文件 rsyncd.conf</h2><p>文件包含模块和参数，模块的格式为**[module_name]**，模块包含的内容至到下一个模块开始结束。配置文件是基于行的，每一行可能是模块名称、注释或者参数。</p>
-<h3 id="全局参数"><a href="#全局参数" class="headerlink" title="全局参数"></a>全局参数</h3><p>出现在配置文件前面的内容为全局参数，rsync也允许使用**[global]<strong>的形式来指定全局参数。<br>**1. motd file</strong><br>表示message of the day文件配置，文件中的内容会显示在每个链接建立后。具体形式为<strong>motdfile=FILE</strong><br><strong>2. pid file</strong><br>为rsync指定pid。<br><strong>3. port</strong><br>默认端口为873，可以在配置文件中重新指定。<br><strong>4. address</strong><br>可以指定rsync监听的地址。</p>
-<h3 id="模块参数"><a href="#模块参数" class="headerlink" title="模块参数"></a>模块参数</h3><p><strong>1. comment</strong><br>默认为空，展示在用户获取所有的模块后，显示模块的描述信息。<br><strong>2. path</strong><br>该参数必须设置，指定模块对应的文件夹位置。<br><strong>3. use chroot</strong><br><strong>4. max connections</strong><br>设置同时链接的数量。<br><strong>5. log file</strong><br>指定日志文件位置。<br><strong>6. lock file</strong><br>默认为 /var/run/rsyncd.lock，必须与 max connections 参数同时使用。用来记录当前链接的数量。<br><strong>7. read only</strong><br>该参数指定客户端能否向服务端上传文件，默认为no。<br><strong>8. write only</strong><br>该参数指定客户端能否从服务端下载文件。</p>
+<h3 id="全局参数"><a href="#全局参数" class="headerlink" title="全局参数"></a>全局参数</h3><p>出现在配置文件前面的内容为全局参数，rsync也允许使用**[global]<strong>的形式来指定全局参数。<br><strong>1. motd file</strong><br>表示message of the day文件配置，文件中的内容会显示在每个链接建立后。具体形式为</strong>motdfile&#x3D;FILE**<br><strong>2. pid file</strong><br>为rsync指定pid。<br><strong>3. port</strong><br>默认端口为873，可以在配置文件中重新指定。<br><strong>4. address</strong><br>可以指定rsync监听的地址。</p>
+<h3 id="模块参数"><a href="#模块参数" class="headerlink" title="模块参数"></a>模块参数</h3><p><strong>1. comment</strong><br>默认为空，展示在用户获取所有的模块后，显示模块的描述信息。<br><strong>2. path</strong><br>该参数必须设置，指定模块对应的文件夹位置。<br><strong>3. use chroot</strong><br><strong>4. max connections</strong><br>设置同时链接的数量。<br><strong>5. log file</strong><br>指定日志文件位置。<br><strong>6. lock file</strong><br>默认为 &#x2F;var&#x2F;run&#x2F;rsyncd.lock，必须与 max connections 参数同时使用。用来记录当前链接的数量。<br><strong>7. read only</strong><br>该参数指定客户端能否向服务端上传文件，默认为no。<br><strong>8. write only</strong><br>该参数指定客户端能否从服务端下载文件。</p>
 <h2 id="无密码同步的几种方法"><a href="#无密码同步的几种方法" class="headerlink" title="无密码同步的几种方法"></a>无密码同步的几种方法</h2><h3 id="1-使用daemon方式"><a href="#1-使用daemon方式" class="headerlink" title="1.使用daemon方式"></a>1.使用daemon方式</h3><p>服务端以daemon方式启动rsync。<br>客户端使用指定 password-file 的方式实现不用密码进行同步，如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -arv —password-file=/etc/rsyncd.secrets /local_file user@remote_host::remote_module</span><br></pre></td></tr></table></figure>
 
@@ -131,7 +131,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

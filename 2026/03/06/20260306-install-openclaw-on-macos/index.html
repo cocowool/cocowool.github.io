@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2026-03-16 19:17:33</span>
+        <span class="post-time">更新于：2026-07-16 18:34:02</span>
         
         <span class="post-time">发布于：2026-03-06 08:38:30</span>
     </div>
@@ -67,15 +67,14 @@ var _hmt = _hmt || [];
       </div>
       <p>最近 OpenClaw 真的太火了，连我们平时不怎么谈技术的大领导在工作交流时，也要求我们去学习学习 OpenClaw，于是我开始连夜看起了 OpenClaw 相关的技术资料、博客和各种短视频。</p>
 <p>我在本地的 macOS 环境中也搭建了一个 2026.3.2 版本的 OpenClaw，配置了一个 Agent，对接了 qwen-portal 模型，简单体验了下 OpenClaw 的相关功能。</p>
-<img src="/2026/03/06/20260306-install-openclaw-on-macos/image-20260316101603247.png" class="" title="image-20260316101603247">
-
+<p><img src="/20260306-install-openclaw-on-macos/image-20260316101603247.png" alt="image-20260316101603247"></p>
 <p>OpenClaw 的安装确实比较简单，只要依赖的基础环境（Node、Python）都具备的话，只需要一条命令行就能够安装。安装完成后，也提供了快速启动的命令（通过<code>openclaw</code>），很快就能在网页端体验。我这个版本的 OpenClaw  默认了提供了 51个Skills，每个 Skills 依赖不同的 Tools 权限。</p>
 <p>Tools 是和 Agent 绑定的，默认的 Agent 提供了几类 Tools，包括：</p>
 <ul>
 <li>Files 文件类：可以操作 OpenClaw 所在机器的本地文件；</li>
 <li>Runtime 命令执行类：可以操作 OpenClaw 所在机器的命令行，执行相关命令；</li>
 <li>Web 网站搜索和网页获取；</li>
-<li>Memory 子系统为 OpenClaw 提供了「代码+文档+会话」的长期/短期记忆检索能力，这部分我的理解还不是很透彻；</li>
+<li>Memory 子系统为 OpenClaw 提供了「代码+文档+会话」的长期&#x2F;短期记忆检索能力，这部分我的理解还不是很透彻；</li>
 <li>Session 是 OpenClaw 的记忆容器，有三种类型：会话Session、执行Session、子代理Session；</li>
 <li>UI 系统我理解是可以用图形界面的方式做一些 Web操作；</li>
 <li>Messaging 系统是 OpenClaw 的亮点，能快速的支持用户通过主流的 IM 软件接入 OpenClaw，这样就可以实现以远程聊天的方式驱动 OpenClaw，真正达到随时服务用户；</li>
@@ -98,8 +97,7 @@ var _hmt = _hmt || [];
 <p>在本地应用之前，看了网上的一些教程，首先提醒的是注意数据安全，尤其是自己的密钥、个人文档之类的材料。在OpenClaw运行模式选择上，为了安全肯定使用容器方式运行更安全受控。如果是本地运行，注意进行相关代码的审核。</p>
 </blockquote>
 <p>我想实现一个通过聊天工具（如钉钉），联动大模型解答问题，提供天气查询服务的简单场景。</p>
-<img src="/2026/03/06/20260306-install-openclaw-on-macos/image-20260309110203859.png" class="" title="Openclaw网页对话界面">
-
+<p><img src="/20260306-install-openclaw-on-macos/image-20260309110203859.png" alt="Openclaw网页对话界面"></p>
 <h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>ChatGPT和DeepSeek自从2025年大火之后，开发人员方面已经大量的在实际工作中使用大模型来辅助提高工作效率，比如协助来进行代码编写、代码测试等工作，开发人员往往是在 IDE 中使用集成的大模型对会窗口。但是对于普通大众来说，仍然需要通过 Web 页面或者手机 APP 的传统方式使用大模型。</p>
 <p>OpenClaw提供的功能，对于科技公司或者研发实力较强的公司来说，应该已经通过MCP等方式，将大模型能力与企业内部的IM工具做了集成。对于研发力量比较弱的企业和个人来说，OpenClaw的出现，提供了一个快速构建个人助理的工具，能够帮助一些有想法，使用 AI 产品较多的用户提高大模型的使用效率。</p>
 <p>首先是可以在离开办公电脑的场景下，通过对接的APP，以发送文字或语音消息的方式驱动OpenClaw工作，实现了 AI Agent 24小时为主人服务。另外也能够将交互历史、个人常用APP、个人资料与大模型结合起来，利用大模型的推理能力完成过去很多需要自己亲自完成的琐碎工作。</p>
@@ -146,7 +144,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

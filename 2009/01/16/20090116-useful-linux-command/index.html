@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -67,7 +67,7 @@ var _hmt = _hmt || [];
       </div>
       <h3 id="mount"><a href="#mount" class="headerlink" title="mount"></a>mount</h3><p>将某个硬盘设备或者硬盘分区挂载到某个目录下，这个命令方便在系统中存在多个linux时，在不同的linux之间拷贝文件。</p>
 <p>格式如下：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount [-t vfstype] [-o options] device dir</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount [-t vfstype] [-o options] device <span class="built_in">dir</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="fdisk"><a href="#fdisk" class="headerlink" title="fdisk"></a>fdisk</h3><p>当我们需要了解硬盘的分区结构时，我们可以通过这个命令来完成任务。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l</span><br></pre></td></tr></table></figure>
@@ -75,7 +75,7 @@ var _hmt = _hmt || [];
 <h3 id="tar"><a href="#tar" class="headerlink" title="tar"></a>tar</h3><p>经常从网上下载的一些文件后缀为tar或者gz，这些都是压缩格式的文件，想要用他们就离不开tar了。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf xxxx.tar</span><br></pre></td></tr></table></figure>
 
-<p>想要将/home目录下的文件压缩到home.tar中，使用如下命令：</p>
+<p>想要将&#x2F;home目录下的文件压缩到home.tar中，使用如下命令：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar cvf home.tar /home/</span><br></pre></td></tr></table></figure>
 
 <p>tar的参数非常的多，这个就需要我们在使用的过程中注意利用man这个助手，来帮助我们更改好的使用每个命令。</p>
@@ -118,7 +118,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

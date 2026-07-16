@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2018-06-01 09:59:00</span>
     </div>
@@ -65,17 +65,9 @@ var _hmt = _hmt || [];
           <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
         </div> -->
       </div>
-      <h3 id="Windows-安装"><a href="#Windows-安装" class="headerlink" title="Windows 安装"></a>Windows 安装</h3><p>Tomcat 在官方网站中提供了两个 Windows 安装版本，一个是普通安装版，一个是解压版。普通安装版带了安装器，像我们安装其他Windows程序一样，可以通过安装界面下一步下一步直到安装完成。解压版就相当于绿色版，直接解压即可使用。因为安装版可以自动注册Windows服务，所以对于小白用户，安装版更友好一些。</p>
-<img src="/2018/06/01/20180601-install-tomcat-under-windows/39469-20180601095756908-1308989679.png" class="">
-<p>zip 包就是解压后可以直接用，相当于绿色版。Installer 带了安装器，能够安装为 Windows 服务。</p>
+      <h3 id="Windows-安装"><a href="#Windows-安装" class="headerlink" title="Windows 安装"></a>Windows 安装</h3><p>Tomcat 在官方网站中提供了两个 Windows 安装版本，一个是普通安装版，一个是解压版。普通安装版带了安装器，像我们安装其他Windows程序一样，可以通过安装界面下一步下一步直到安装完成。解压版就相当于绿色版，直接解压即可使用。因为安装版可以自动注册Windows服务，所以对于小白用户，安装版更友好一些。<br><img src="/20180601-install-tomcat-under-windows/39469-20180601095756908-1308989679.png"><br>zip 包就是解压后可以直接用，相当于绿色版。Installer 带了安装器，能够安装为 Windows 服务。</p>
 <h4 id="安装-JDK"><a href="#安装-JDK" class="headerlink" title="安装 JDK"></a>安装 JDK</h4><p>从 Oracle 网站下载合适的 JDK 或者 JRE。<a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">JDK下载地址</a></p>
-<h4 id="以普通方式启动"><a href="#以普通方式启动" class="headerlink" title="以普通方式启动"></a>以普通方式启动</h4><p>Tomcat 的启动是一个 bat 脚本，在 tomcat_path\bin 目录下，可以通过双击或者在命令行窗口执行的方式启动。<br>双击启动时，如果遇到窗口一闪就关闭，说明Tomca没有找到JAVA运行环境，这个时候检查系统的JAVA_HOME变量是否设置了。<br>如果是命令行方式启动，则会看到明确的提示信息。</p>
-<img src="/2018/06/01/20180601-install-tomcat-under-windows/39469-20180601095823734-322940177.png" class="">
-<p>启动成功后，可以看到新开了一个窗口，并且有提示信息。</p>
-<img src="/2018/06/01/20180601-install-tomcat-under-windows/39469-20180601095845467-1922887476.png" class="">
-<p>这时就可以通过浏览器进行访问，看到这只猫就可以了。</p>
-<img src="/2018/06/01/20180601-install-tomcat-under-windows/39469-20180601095856198-423016843.png" class="">
-
+<h4 id="以普通方式启动"><a href="#以普通方式启动" class="headerlink" title="以普通方式启动"></a>以普通方式启动</h4><p>Tomcat 的启动是一个 bat 脚本，在 tomcat_path\bin 目录下，可以通过双击或者在命令行窗口执行的方式启动。<br>双击启动时，如果遇到窗口一闪就关闭，说明Tomca没有找到JAVA运行环境，这个时候检查系统的JAVA_HOME变量是否设置了。<br>如果是命令行方式启动，则会看到明确的提示信息。<br><img src="/20180601-install-tomcat-under-windows/39469-20180601095823734-322940177.png"><br>启动成功后，可以看到新开了一个窗口，并且有提示信息。<br><img src="/20180601-install-tomcat-under-windows/39469-20180601095845467-1922887476.png"><br>这时就可以通过浏览器进行访问，看到这只猫就可以了。<br><img src="/20180601-install-tomcat-under-windows/39469-20180601095856198-423016843.png"></p>
 <h4 id="配置-Tomcat-以服务方式启动"><a href="#配置-Tomcat-以服务方式启动" class="headerlink" title="配置 Tomcat 以服务方式启动"></a>配置 Tomcat 以服务方式启动</h4><p>如果是用安装器安装的 Tomcat 那么在服务中会自动注册 Tomcat 服务，如果是用 zip 的方式，也可以注册服务，需要执行下面的命令。</p>
 <figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> tomcat_path\bin</span><br><span class="line">service install tomcat</span><br></pre></td></tr></table></figure>
 <p>其中服务的名称可以自己定义，如果需要启动多个Tomcat，只要能够通过名字区分开就可以。举例如下：</p>
@@ -128,7 +120,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

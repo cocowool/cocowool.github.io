@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2011-12-03 14:35:01</span>
     </div>
@@ -72,27 +72,23 @@ var _hmt = _hmt || [];
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tar xzf gearmand-X.Y.tar.gz</span><br><span class="line">cd gearmand-X.Y</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
 
 <p>安装需要系统提供了 libevent，如果没有编译就会报错。编译安装完成后的提示如下：</p>
-<img src="/2011/12/03/20111203-php-gearman/111.png" class="">
-
+<p><img src="/20111203-php-gearman/111.png"></p>
 <p>其中 libsqlite3、lbdrizzle、libmemcached、libpq、tokyocabinet的支持都是对于持久化来说的，如果需要要确保系统中安装了这些数据库。</p>
 <p>安装完成后，gearmand 提供了以下这些配置参数</p>
-<img src="/2011/12/03/20111203-php-gearman/222.jpg" class="">
-
+<p><img src="/20111203-php-gearman/222.jpg"></p>
 <p><strong>性能的问题：</strong></p>
 <p>gearmand 中使用到了多线程模型，其线程分为三种：</p>
-<p>Listening and management thread 监听和管理线程 － 只有一个：主要负责接受连接请求，并分配给I/O线程<br>I/O Thread I/O 线程 － 可以有很多个：主要负责读写系统调用，解析数据包<br>Processing Thread 处理线程  － 只有一个：负责管理列表和Hash表，管理唯一Key、任务的Handle、函数、任务队列</p>
-<p>刚才在  gearmand 的参数中看到，-t 可以指定I/O线程的数量。如果 没有指定 t 或者 t = 0，则三个线程合为一个，所有的事情都在一个线程中处理。如果 -t 1 则有一个监听和管理线程、一个I/O和处理线程；如果 -t 2 则每个类别一个线程，如果大于2，则创建更多的I/O线程。</p>
+<p>Listening and management thread 监听和管理线程 － 只有一个：主要负责接受连接请求，并分配给I&#x2F;O线程<br>I&#x2F;O Thread I&#x2F;O 线程 － 可以有很多个：主要负责读写系统调用，解析数据包<br>Processing Thread 处理线程  － 只有一个：负责管理列表和Hash表，管理唯一Key、任务的Handle、函数、任务队列</p>
+<p>刚才在  gearmand 的参数中看到，-t 可以指定I&#x2F;O线程的数量。如果 没有指定 t 或者 t &#x3D; 0，则三个线程合为一个，所有的事情都在一个线程中处理。如果 -t 1 则有一个监听和管理线程、一个I&#x2F;O和处理线程；如果 -t 2 则每个类别一个线程，如果大于2，则创建更多的I&#x2F;O线程。</p>
 <p>官方提到，a 16 core Intel machine is able to process upwards of 50k jobs per second。</p>
 <p><strong>使用中应当关注的几个问题</strong>：</p>
 <p>1、Job Server 的单点问题。</p>
 <p>实际上 Job Server 是存在单点问题的，我们只能通过增加冗余 Job Server 的方式来解决这个问题。就如官方的图例所示，下图：</p>
-<img src="/2011/12/03/20111203-php-gearman/333.jpg" class="">
-
+<p><img src="/20111203-php-gearman/333.jpg"></p>
 <p>我们可以通过配置域名、多个服务器配置列表等方法，在遇到其中一个 Job Server 失败时，将 Client 的请求转向另外的 Job Server。这种情况下，Job Server 中原来存在的任务会发生丢失，除非使用了数据库或其他类似的持久化方法。</p>
 <p>2、Job Server 重启后，Worker会自动重新注册。</p>
 <p>通过 gearmand -vvvvvvv  分析发现，如果 gearmand 关闭并重新启动后，原来的 worker 会马上与 Job Server 建立连接，并询问是否有任务。</p>
-<img src="/2011/12/03/20111203-php-gearman/444.jpg" class="">
-
+<p><img src="/20111203-php-gearman/444.jpg"></p>
 <p>3、使用持久队列避免任务的丢失</p>
 <p>因为 Gearmand 的队列是放在内存中的，所以宕机或重启事件会导致队列的丢失。为了避免这种情况，可以使用持久队列，将队列存储在一个相对中立的位置。注意，持久队列只对于后台任务有效。</p>
 <p>4、Gearman Worker 的无缝重启</p>
@@ -102,7 +98,7 @@ var _hmt = _hmt || [];
 <p>另外，也可以使用 supervisord 。这个工具暂时还没有了解，有兴趣的朋友可以分享一下。</p>
 <p>下面是我在部门内部分享时制作的PPT</p>
 <p>**<a target="_blank" rel="noopener" href="http://www.slideshare.net/Wonwang/gearman-introduction-10452050">Gearman Introduction</a>**View more<a target="_blank" rel="noopener" href="http://www.slideshare.net/">presentations</a>from<a target="_blank" rel="noopener" href="http://www.slideshare.net/Wonwang">Wonwang</a>.</p>
-<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://william.shallum.net/random-notes/usingmemcachetogetresultsfromagearmanbackgroundjob">Using memcache to get results from a gearman background job</a><br>2、<a target="_blank" rel="noopener" href="http://gearman.org/">Gearman</a><br>3、<a target="_blank" rel="noopener" href="http://groups.google.com/group/gearman/msg/5314505c52e92b74?dmode=source">PHP Worker Script Automatically Restart On Crash/Exit</a><br>4、<a target="_blank" rel="noopener" href="http://www.supervisord.org/">http://www.supervisord.org</a></p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://william.shallum.net/random-notes/usingmemcachetogetresultsfromagearmanbackgroundjob">Using memcache to get results from a gearman background job</a><br>2、<a target="_blank" rel="noopener" href="http://gearman.org/">Gearman</a><br>3、<a target="_blank" rel="noopener" href="http://groups.google.com/group/gearman/msg/5314505c52e92b74?dmode=source">PHP Worker Script Automatically Restart On Crash&#x2F;Exit</a><br>4、<a target="_blank" rel="noopener" href="http://www.supervisord.org/">http://www.supervisord.org</a></p>
 
       <div class="blog-post-footer">
         <p><img src="/image/qrcode.jpg" alt=""></p>
@@ -139,7 +135,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

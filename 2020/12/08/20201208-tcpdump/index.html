@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2020-12-09 10:43:21</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2020-12-08 18:31:31</span>
     </div>
@@ -67,8 +67,7 @@ var _hmt = _hmt || [];
       </div>
       <h2 id="命令介绍"><a href="#命令介绍" class="headerlink" title="命令介绍"></a>命令介绍</h2><p><code>tcpdump</code> 从字面上理解是 dump the traffic on a network，是命令行下对网络进行抓包分析的工具。不仅提供了根据网络层、协议、主机、网络或端口等多个条件进行过滤的能力，还能够通过 and、or、not逻辑语句，以及表达式来满足用户多种多样的网络抓包需求。</p>
 <p>Linux 下的命令格式：</p>
-<img src="/2020/12/08/20201208-tcpdump/image-20201208180212950.png" class="" title="image-20201208180212950">
-
+<p><img src="/20201208-tcpdump/image-20201208180212950.png" alt="image-20201208180212950"></p>
 <p>常用的参数：</p>
 <ul>
 <li>-D：列出可用于抓包的接口；</li>
@@ -82,8 +81,7 @@ var _hmt = _hmt || [];
 </ul>
 <blockquote>
 <p>Unix、Mac下tcpdump命令的参数有所不同，在具体使用过程中要查阅文档进行相应的调整。如Mac下的命令格式：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">NAME</span><br><span class="line">       tcpdump - dump traffic on a network</span><br><span class="line"></span><br><span class="line">SYNOPSIS</span><br><span class="line">       tcpdump [ -AbdDefhHIJKlLnNOpqStuUvxX<span class="comment"># ] [ -B buffer_size ]</span></span><br><span class="line">               [ -c count ]</span><br><span class="line">               [ -C file_size ] [ -G rotate_seconds ] [ -F file ]</span><br><span class="line">               [ -i interface ] [ -j tstamp_type ] [ -k (metadata_arg) ]</span><br><span class="line">               [ -m module ] [ -M secret ]</span><br><span class="line">               [ --number ] [ -Q <span class="keyword">in</span>|out|inout ]</span><br><span class="line">               [ -r file ] [ -V file ] [ -s snaplen ] [ -T <span class="built_in">type</span> ] [ -w file ]</span><br><span class="line">               [ -W filecount ]</span><br><span class="line">               [ -E spi@ipaddr algo:secret,...  ]</span><br><span class="line">               [ -y datalinktype ] [ -z postrotate-command ] [ -Z user ]</span><br><span class="line">               [ -Q packet-metadata-filter ] [ -Q <span class="keyword">in</span>|out|inout ]</span><br><span class="line">               [ --time-stamp-precision=tstamp_precision ]</span><br><span class="line">               [ --immediate-mode ] [ --version ]</span><br><span class="line">               [ expression ]</span><br></pre></td></tr></table></figure>
-</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">NAME</span><br><span class="line">       tcpdump - dump traffic on a network</span><br><span class="line"></span><br><span class="line">SYNOPSIS</span><br><span class="line">       tcpdump [ -AbdDefhHIJKlLnNOpqStuUvxX# ] [ -B buffer_size ]</span><br><span class="line">               [ -c count ]</span><br><span class="line">               [ -C file_size ] [ -G rotate_seconds ] [ -F file ]</span><br><span class="line">               [ -i interface ] [ -j tstamp_type ] [ -k (metadata_arg) ]</span><br><span class="line">               [ -m module ] [ -M secret ]</span><br><span class="line">               [ --number ] [ -Q <span class="keyword">in</span>|out|inout ]</span><br><span class="line">               [ -r file ] [ -V file ] [ -s snaplen ] [ -T <span class="built_in">type</span> ] [ -w file ]</span><br><span class="line">               [ -W filecount ]</span><br><span class="line">               [ -E spi@ipaddr algo:secret,...  ]</span><br><span class="line">               [ -y datalinktype ] [ -z postrotate-command ] [ -Z user ]</span><br><span class="line">               [ -Q packet-metadata-filter ] [ -Q <span class="keyword">in</span>|out|inout ]</span><br><span class="line">               [ --time-stamp-precision=tstamp_precision ]</span><br><span class="line">               [ --immediate-mode ] [ --version ]</span><br><span class="line">               [ expression ]</span><br></pre></td></tr></table></figure></blockquote>
 <h2 id="表达式"><a href="#表达式" class="headerlink" title="表达式"></a>表达式</h2><p>表达式的基本格式为：<code>proto dir type ID</code> 。表达式之间可以使用逻辑语句进行连接。分别介绍如下：</p>
 <ul>
 <li>协议。包括：tcp、udp、icmp，如果为空则可以匹配所有协议。</li>
@@ -104,13 +102,11 @@ var _hmt = _hmt || [];
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump ip host 10.208.0.10 and ! 10.208.1.10</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>监听某个IP所有80端口的流量</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump tcp port 80 and host 10.208.0.10</span><br></pre></td></tr></table></figure>
-
-</li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump tcp port 80 and host 10.208.0.10</span><br></pre></td></tr></table></figure></li>
 </ol>
 <p>本文无法列举所有的使用场景，还需要各位同学根据自己需求分析实践，如果愿意与楼主交流，欢迎通过关注公众号找到我。如果不习惯使用命令行下的抓包工具，也可以使用图形界面的抓包工具，通过 <a target="_blank" rel="noopener" href="http://www.edulinks.cn/2019/06/23/20190623-wireshark-tcp-http/">Wireshark使用入门</a> 可以了解更多信息。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li><a target="_blank" rel="noopener" href="http://www.cyberciti.biz/faq/tcpdump-capture-record-protocols-port/">TCPDump：Capture and Record Specific Protocols / Port</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cyberciti.biz/faq/tcpdump-capture-record-protocols-port/">TCPDump：Capture and Record Specific Protocols &#x2F; Port</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/sunlong88/articles/11834795.html">centos下使用tcpdump来抓包查看服务器上的get或post请求</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ggjucheng/archive/2012/01/14/2322659.html">Linux tcpdump命令详解</a></li>
 </ol>
@@ -150,7 +146,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

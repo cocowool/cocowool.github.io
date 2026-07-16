@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-06-21 08:22:38</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2013-09-12 08:17:00</span>
     </div>
@@ -71,35 +71,29 @@ var _hmt = _hmt || [];
 <p><a target="_blank" rel="noopener" href="http://windows.php.net/download/#php-5.5">http://windows.php.net/download/#php-5.5</a></p>
 <p>二、Mysql配置</p>
 <p>从Mysql官方网站MSI的安装包，这样就不用自己再做自启动方面的配置了。</p>
-<img src="/2013/09/12/20130912-iis7-php-mysql/NSFileHandle.png" class="" title="NSFileHandle">
-
+<p><img src="/20130912-iis7-php-mysql/NSFileHandle.png" alt="NSFileHandle"></p>
 <p>安装后，打开Workbench可以看到一些信息。</p>
-<img src="/2013/09/12/20130912-iis7-php-mysql/NSFileHandle-4234726.png" class="" title="NSFileHandle">
-
+<p><img src="/20130912-iis7-php-mysql/NSFileHandle-4234726.png" alt="NSFileHandle"></p>
 <p>三、配置PHP</p>
 <p>1、登录 <a target="_blank" rel="noopener" href="http://phpmanager.codeplex.com/releases/view/69115">http://phpmanager.codeplex.com/releases/view/69115</a> 下载PHP Manager。</p>
 <p>2、在Windows 2008 Server中，选择程序和功能-&gt;打开和关闭Windows特性-&gt;角色-&gt;添加角色服务-&gt;增加CGI支持。</p>
 <p>3、将下载的PHP，解压缩放到 C:\php 下。修改PHP的配置文件，我将php-production.ini拷贝为php.ini，然后修改如下内容：</p>
-<p>fastcgi.impersonate = 1</p>
-<p>fastcgi.logging = 0</p>
-<p>cgi.fix_pathinfo = 1x</p>
-<p>cgi.force_redirect =0</p>
+<p>fastcgi.impersonate &#x3D; 1</p>
+<p>fastcgi.logging &#x3D; 0</p>
+<p>cgi.fix_pathinfo &#x3D; 1x</p>
+<p>cgi.force_redirect &#x3D;0</p>
 <p>4、在IIS7中，使用PHP Manager配置PHP。我在处理的时候，选择“Register new PHP version”，遇到了“该对象的状态使当前处理无效”的错误。我查看“处理程序映射”中的设置，发现CGI-exe的功能显示为被禁用。</p>
 <p>然后，按照“<a target="_blank" rel="noopener" href="http://www.iis.net/ConfigReference/system.webServer/fastCgi">How to create a global fastcgi handler mapping for php</a>”中的步骤，添加一个映射。安装成功后，打开IIS服务器，双击“处理程序映射”</p>
-<img src="/2013/09/12/20130912-iis7-php-mysql/NSFileHandle-4234745.png" class="" title="NSFileHandle">
-
+<p><img src="/20130912-iis7-php-mysql/NSFileHandle-4234745.png" alt="NSFileHandle"></p>
 <p>然后点击右侧的“添加模块映射”，按照下图进行配置。</p>
-<img src="/2013/09/12/20130912-iis7-php-mysql/NSFileHandle-4234758.png" class="" title="NSFileHandle">
-
+<p><img src="/20130912-iis7-php-mysql/NSFileHandle-4234758.png" alt="NSFileHandle"></p>
 <p>这之后，就能能够成功的看到phpinfo()熟悉的界面了。</p>
 <p>四、IIS7权限配置中的问题。</p>
 <p>配置完成后，发现PHP对于文件夹没有写权限。</p>
-<img src="/2013/09/12/20130912-iis7-php-mysql/NSFileHandle-4234772.png" class="" title="NSFileHandle">
-
+<p><img src="/20130912-iis7-php-mysql/NSFileHandle-4234772.png" alt="NSFileHandle"></p>
 <p>五、其他问题</p>
 <p>检查phpinfo时报错。</p>
-<img src="/2013/09/12/20130912-iis7-php-mysql/NSFileHandle-4234796.png" class="" title="NSFileHandle">
-
+<p><img src="/20130912-iis7-php-mysql/NSFileHandle-4234796.png" alt="NSFileHandle"></p>
 <p>参考资料：</p>
 <ol>
 <li><a target="_blank" rel="noopener" href="http://www.jzxue.com/fuwuqi/http-iis-apache/201102/27-6390.html">让IIS7支持PHP（5.2.17及5.3.5）</a></li>
@@ -144,7 +138,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

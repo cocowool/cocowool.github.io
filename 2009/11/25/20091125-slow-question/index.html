@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-17 14:57:46</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2009-11-25 15:17:01</span>
     </div>
@@ -69,7 +69,7 @@ var _hmt = _hmt || [];
 <p>分析：<br>1、首先，在页面访问变慢情况发生时，使用 top 命令查看了服务器的负载情况，发现负载并不高，初步估计不是程序的问题。</p>
 <p>2、然后，查看了线程中的 httpd 的数量， <code>ps -aux | grep httpd | wc -l </code>发现，线程数已经达到了 apache 设置的最大值。由此断定是网站访问人数过多造成了访问过慢。</p>
 <p>3、为了验证，查看了连接数和当前的连接数，分别是</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">netstat -ant | grep <span class="variable">$ip</span>:80 | wc -l</span><br><span class="line">netstat -ant | grep <span class="variable">$ip</span>:80 | grep EST | wc -l</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">netstat -ant | grep <span class="variable">$ip</span>:80 | <span class="built_in">wc</span> -l</span><br><span class="line">netstat -ant | grep <span class="variable">$ip</span>:80 | grep EST | <span class="built_in">wc</span> -l</span><br></pre></td></tr></table></figure>
 
 
 <p>发现果然，连接数特别多，远远超过我们的估计值。</p>
@@ -134,7 +134,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

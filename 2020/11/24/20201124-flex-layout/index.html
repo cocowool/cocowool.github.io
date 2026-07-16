@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2020-12-07 17:45:31</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2020-11-24 18:47:56</span>
     </div>
@@ -77,8 +77,7 @@ var _hmt = _hmt || [];
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span>&#123;</span><br><span class="line">  <span class="attribute">display</span>: -webkit-flex; <span class="comment">/* Safari */</span></span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="2-基本概念"><a href="#2-基本概念" class="headerlink" title="2. 基本概念"></a>2. 基本概念</h2><p>采用Flex布局的元素，称为Flex容器（flex container），简称”容器”。它的所有子元素自动成为容器成员，称为Flex项目（flex item），简称”项目”。容器默认存在两根轴：<code>水平的主轴</code>（main axis）和<code>垂直的交叉轴</code>（cross axis）。主轴的开始位置（与边框的交叉点）叫做main start，结束位置叫做main end；交叉轴的开始位置叫做cross start，结束位置叫做cross end。项目默认沿主轴排列。单个项目占据的主轴空间叫做main size，占据的交叉轴空间叫做cross size。</p>
-<img src="/2020/11/24/20201124-flex-layout/1240.png" class="" title="1baaa865d658f00e45697c2a61fa4ab3.png">
-
+<p><img src="/20201124-flex-layout/1240.png" alt="1baaa865d658f00e45697c2a61fa4ab3.png"></p>
 <p>下面对这几个概念作简要介绍：</p>
 <ul>
 <li>主轴 main-axis，flex容器的主轴是容器内项目 flex item的排列方向。主轴方向并不一定是水平的，这个由<code>flex-direction</code>属性决定。</li>
@@ -113,10 +112,10 @@ var _hmt = _hmt || [];
 <ul>
 <li>nowrap 不换行</li>
 <li>wrap 换行，第一行在上，往下折行</li>
-<li>wrap-reverse 换行，第一行在下，往上折行<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">flex-wrap</span>: nowrap | wrap | wrap-reverse;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
+<li>wrap-reverse 换行，第一行在下，往上折行</li>
 </ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">flex-wrap</span>: nowrap | wrap | wrap-reverse;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="3-3-flex-flow"><a href="#3-3-flex-flow" class="headerlink" title="3.3 flex-flow"></a>3.3 flex-flow</h3><p><code>flex-flow</code>是<code>flex-direction</code>和<code>flex-wrap</code>组合属性的简写，默认值为<code>row nowrap</code>。</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">flex-flow</span>: &lt;flex-direction&gt; || &lt;flex-wrap&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -138,9 +137,7 @@ var _hmt = _hmt || [];
 <blockquote>
 <p>注意不同浏览器对这些属性的支持程度还不太一样，<code>space-between</code>从未在Edge浏览器上获得过支持，最安全的几个属性是<code>flex-start</code>，<code>flex-end</code>，<code>center</code>。</p>
 </blockquote>
-<img src="/2020/11/24/20201124-flex-layout/1240-20201124184649990.png" class="" title="image.png">
-
-
+<p><img src="/20201124-flex-layout/1240-20201124184649990.png" alt="image.png"></p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">justify-content</span>: flex-start | flex-end | center | space-between | space-around;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="3-5-align-items"><a href="#3-5-align-items" class="headerlink" title="3.5 align-items"></a>3.5 align-items</h3><p><code>align-items</code> 该属性决定项目在交叉轴上如何对齐，有以下属性：</p>
@@ -177,7 +174,7 @@ var _hmt = _hmt || [];
 <li>flex-shrink</li>
 <li>flex-basis</li>
 <li>flex</li>
-<li>align-self </li>
+<li>align-self</li>
 </ul>
 <h3 id="4-1-order"><a href="#4-1-order" class="headerlink" title="4.1 order"></a>4.1 order</h3><p><code>order</code> 属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。通过css就能控制DOM元素的顺序，简直太方便了。</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.item</span> &#123;</span><br><span class="line">    <span class="attribute">order</span>: &lt;integer&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -204,7 +201,8 @@ var _hmt = _hmt || [];
 <li>stretch</li>
 </ul>
 <h2 id="5-浏览器支持"><a href="#5-浏览器支持" class="headerlink" title="5. 浏览器支持"></a>5. 浏览器支持</h2><p><code>flexbox</code>从出现到现在经历了多个版本，下图<code>new</code>的含义表示现在的语法<code>display:flex;</code>。<code>tweener</code>表示2011年后出现的一个非官方的写法<code>display:flexbox;</code>。<code>old</code>表示2009年出现后的旧语法<code>display:box;</code>。</p>
-<img src="/2020/11/24/20201124-flex-layout/1240-20201124184650027.png" class="" title="image.png">
+<p><img src="/20201124-flex-layout/1240-20201124184650027.png" alt="image.png"></p>
+
       <div class="blog-post-footer">
         <p><img src="/image/qrcode.jpg" alt=""></p>
         <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
@@ -240,7 +238,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

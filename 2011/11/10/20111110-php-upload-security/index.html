@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-24 22:17:56</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2011-11-10 23:31:01</span>
     </div>
@@ -66,21 +66,21 @@ var _hmt = _hmt || [];
         </div> -->
       </div>
       <p>在使用PHP进行开发时，经常遇到文件上传的场景。其中会隐藏很多我们平时注意不到的安全问题，我总结了一下，主要有几个方面：</p>
-<p>1、检查用户传来的文件名，避免 ../etc/passwd 这样的探测<br>2、有些应用使用了用户名做为路径名，那么也需要对用户名进行详细的检查<br>3、有些人提到了文件上传的Dos攻击，这个我觉得主要是依靠网络层面去解决，禁掉频繁访问的IP，但是对于僵尸网络的攻击，貌似没什么好的办法</p>
+<p>1、检查用户传来的文件名，避免 ..&#x2F;etc&#x2F;passwd 这样的探测<br>2、有些应用使用了用户名做为路径名，那么也需要对用户名进行详细的检查<br>3、有些人提到了文件上传的Dos攻击，这个我觉得主要是依靠网络层面去解决，禁掉频繁访问的IP，但是对于僵尸网络的攻击，貌似没什么好的办法</p>
 <p>下面这篇文章中介绍的内容有些老，因为现在已经不是PHP3和PHP4的那个时代，虽然如此，关于文件上传中的安全处理，我们还是需要多加注意。</p>
 <p>正常的表单没有提供文件上传的功能，所以在 RFC 1867 中提出了《HTML中基于表单的文件上传》这个规范。看下面的列子：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">FORM</span> <span class="attr">METHOD</span>=<span class="string">&quot;POST&quot;</span> <span class="attr">ENCTYPE</span>=<span class="string">&quot;multipart/form-data&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">INPUT</span> <span class="attr">TYPE</span>=<span class="string">&quot;FILE&quot;</span> <span class="attr">NAME</span>=<span class="string">&quot;hello&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">INPUT</span> <span class="attr">TYPE</span>=<span class="string">&quot;HIDDEN&quot;</span> <span class="attr">NAME</span>=<span class="string">&quot;MAX_FILE_SIZE&quot;</span> <span class="attr">VALUE</span>=<span class="string">&quot;10240&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">INPUT</span> <span class="attr">TYPE</span>=<span class="string">&quot;SUBMIT&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">FORM</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>上面的代码让用户从本地机器选择一个文件，当点击提交后，文件就会被上载到服务器。这显然是很有用的功能，但是PHP的响应方式使这项功能变的不安全。当PHP第一次接到这种请求，甚至在它开始解析被调用的PHP代码之前，它会先接受远程用户的文件，检查文件的长度是否超过 “$MAX_FILE_SIZE” 变量定义的值，如果通过这些测试的话，文件就会被存在本地的一个临时目录中。因此，攻击者可以发送任意文件给运行PHP的主机，在PHP程序还没有决定是否接受文件上载时，文件已经被存在服务器上了。这里我就不讨论利用文件上载来对服务器进行DOS攻击的可能性了。</p>
-<p>让我们考虑一下处理文件上载的PHP程序，正如我们上面说的，文件被接收并且存在服务器上（位置是在配置文件中指定的，一般是/tmp），扩展名一般是随机的，类似“phpxXuoXG”的形式。PHP程序需要上载文件的信息以便处理它，这可以通过两种方式，一种方式是在PHP 3中已经使用的，另一种是在我们对以前的方法提出安全公告后引入的。</p>
+<p>让我们考虑一下处理文件上载的PHP程序，正如我们上面说的，文件被接收并且存在服务器上（位置是在配置文件中指定的，一般是&#x2F;tmp），扩展名一般是随机的，类似“phpxXuoXG”的形式。PHP程序需要上载文件的信息以便处理它，这可以通过两种方式，一种方式是在PHP 3中已经使用的，另一种是在我们对以前的方法提出安全公告后引入的。</p>
 <p>但是，我们可以肯定的说，问题还是存在的，大多数PHP程序还是使用老的方式来处理上载文件。<br>PHP设置了四个全局变量来描述上载文件，比如说上面的例子：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$hello</span> = Filename on local machine (e.g <span class="string">&quot;/tmp/phpxXuoXG&quot;</span>)</span><br><span class="line"><span class="variable">$hello_size</span> = Size in bytes of file (e.g <span class="number">1024</span>)</span><br><span class="line"><span class="variable">$hello_name</span> = The original name of the file on the remote system (e.g <span class="string">&quot;c:\\temp\\hello.txt&quot;</span>)</span><br><span class="line"><span class="variable">$hello_type</span> = Mime type of uploaded file (e.g <span class="string">&quot;text/plain&quot;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$hello</span> = Filename on local <span class="title function_ invoke__">machine</span> (e.g <span class="string">&quot;/tmp/phpxXuoXG&quot;</span>)</span><br><span class="line"><span class="variable">$hello_size</span> = Size in bytes of <span class="title function_ invoke__">file</span> (e.g <span class="number">1024</span>)</span><br><span class="line"><span class="variable">$hello_name</span> = The original name of the file on the remote <span class="title function_ invoke__">system</span> (e.g <span class="string">&quot;c:\\temp\\hello.txt&quot;</span>)</span><br><span class="line"><span class="variable">$hello_type</span> = Mime type of uploaded <span class="title function_ invoke__">file</span> (e.g <span class="string">&quot;text/plain&quot;</span>)</span><br></pre></td></tr></table></figure>
 
-<p>然后PHP程序开始处理根据“$hello”指定的文件，问题在于“$hello”不一定是一个PHP设置的变量，任何远程用户都可以指定它。如果我们使用下面的方式：<br><a target="_blank" rel="noopener" href="http://vulnhost/vuln.php?hello=/etc/passwd&amp;hello_size=10240&amp;hello_type=text/plain&amp;hello_name=hello.txt">http://vulnhost/vuln.php?hello=/etc/passwd&amp;hello_size=10240&amp;hello_type=text/plain&amp;hello_name=hello.txt</a><br>就导致了下面的PHP全局变量（当然POST方式也可以（甚至是Cookie））：</p>
+<p>然后PHP程序开始处理根据“$hello”指定的文件，问题在于“$hello”不一定是一个PHP设置的变量，任何远程用户都可以指定它。如果我们使用下面的方式：<br><a target="_blank" rel="noopener" href="http://vulnhost/vuln.php?hello=/etc/passwd&hello_size=10240&hello_type=text/plain&hello_name=hello.txt">http://vulnhost/vuln.php?hello=/etc/passwd&amp;hello_size=10240&amp;hello_type=text/plain&amp;hello_name=hello.txt</a><br>就导致了下面的PHP全局变量（当然POST方式也可以（甚至是Cookie））：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$hello</span> = <span class="string">&quot;/etc/passwd&quot;</span></span><br><span class="line"><span class="variable">$hello_size</span> = <span class="number">10240</span></span><br><span class="line"><span class="variable">$hello_type</span> = <span class="string">&quot;text/plain&quot;</span></span><br><span class="line"><span class="variable">$hello_name</span> = <span class="string">&quot;hello.txt&quot;</span></span><br></pre></td></tr></table></figure>
 
-<p>上面的表单数据正好满足了PHP程序所期望的变量，但是这时PHP程序不再处理上载的文件，而是处理“/etc/passwd”（通常会导致内容暴露）。这种攻击可以用于暴露任何敏感文件的内容。</p>
-<p>PHP手册中提到“PHP 遵从大多数服务器系统中关于文件和目录权限的安全机制。这就使管理员可以控制哪些文件在文件系统内是可读的。必须特别注意的是全局的可读文件，并确保每一个有权限的用户对这些文件的读取动作都是安全的。” 我们知道，/etc/passwd 是全局可读的…。</p>
+<p>上面的表单数据正好满足了PHP程序所期望的变量，但是这时PHP程序不再处理上载的文件，而是处理“&#x2F;etc&#x2F;passwd”（通常会导致内容暴露）。这种攻击可以用于暴露任何敏感文件的内容。</p>
+<p>PHP手册中提到“PHP 遵从大多数服务器系统中关于文件和目录权限的安全机制。这就使管理员可以控制哪些文件在文件系统内是可读的。必须特别注意的是全局的可读文件，并确保每一个有权限的用户对这些文件的读取动作都是安全的。” 我们知道，&#x2F;etc&#x2F;passwd 是全局可读的…。</p>
 <p>参考资料：<br>1、PHP中文件上传中的安全问题<br>2、RFC1867 HTML中基于表单的文件上传<br>3、PHP手册，文件系统安全<br>4、PHP安全基础 表单及URL上传攻击</p>
 
       <div class="blog-post-footer">
@@ -118,7 +118,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

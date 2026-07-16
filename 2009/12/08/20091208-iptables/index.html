@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-18 08:20:03</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2009-12-08 16:31:01</span>
     </div>
@@ -76,11 +76,11 @@ var _hmt = _hmt || [];
 </blockquote>
 <p>3、基本的防火墙政策</p>
 <blockquote>
-<p>iptables 使用政策（Policy, –P）来创建规则。<br>iptables –P INPUT DROP<br>iptables –P OUTPUT DROP<br>iptables –P FORWARD DROP<br>以上三条规则的应用可以使服务器拒绝所有的网络通信。编写规则后，规则只在服务器处于启动状态时才有效，如果系统被重新引导，这些规则就会失效。如果希望保留，则需要执行：<br>/sbin/service iptables save</p>
+<p>iptables 使用政策（Policy, –P）来创建规则。<br>iptables –P INPUT DROP<br>iptables –P OUTPUT DROP<br>iptables –P FORWARD DROP<br>以上三条规则的应用可以使服务器拒绝所有的网络通信。编写规则后，规则只在服务器处于启动状态时才有效，如果系统被重新引导，这些规则就会失效。如果希望保留，则需要执行：<br>&#x2F;sbin&#x2F;service iptables save</p>
 </blockquote>
 <p>4、常用 iptables 过滤规则。</p>
 <blockquote>
-<p>iptables –A INPUT –p tcp –m tcp –sport 80 –j ACCEPT<br>iptables –A OUTPUT –p tcp –m tcp –dport 80 –j ACCEPT<br>但是在 CentOs 5.2 中，情况稍有不同。默认的 INPUT、OUTPUT、FORWARD 都是 ACCEPT 的，但是另外还有一个 RH-Firewall-1-INPUT 的规则链，我们可以通过修改 /etc/sysconfig/iptables 文件来实现打开80端口。</p>
+<p>iptables –A INPUT –p tcp –m tcp –sport 80 –j ACCEPT<br>iptables –A OUTPUT –p tcp –m tcp –dport 80 –j ACCEPT<br>但是在 CentOs 5.2 中，情况稍有不同。默认的 INPUT、OUTPUT、FORWARD 都是 ACCEPT 的，但是另外还有一个 RH-Firewall-1-INPUT 的规则链，我们可以通过修改 &#x2F;etc&#x2F;sysconfig&#x2F;iptables 文件来实现打开80端口。</p>
 </blockquote>
 
       <div class="blog-post-footer">
@@ -118,7 +118,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

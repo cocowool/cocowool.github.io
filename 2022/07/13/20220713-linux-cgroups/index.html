@@ -6,7 +6,7 @@
     <title>闲聊 namespace 和 cgroups-大江小浪</title>
     <meta name="baidu-site-verification" content="y4EEfl1oRM" />
     <meta name="keywords" content="namespace, cgroups, control group, linux, linux cgroups">
-    <meta name="description" content="大江小浪，关注数据中心运维、金融科技、互联网相关技术与行业发展趋势，擅长应用运维管理、Linux、Java、Elasticsearch、Kubernetes、PHP相关技术。">
+    <meta name="description" content="世事如潮人如水，一入江湖几时回">
     <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
     <link rel="stylesheet" href="/css/main.css" />
     <script>
@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2022-08-03 23:11:14</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2022-07-13 20:53:46</span>
     </div>
@@ -83,8 +83,7 @@ var _hmt = _hmt || [];
 <li>ipc namespace，进程间通信的相关资源隔离，细节比较复杂</li>
 <li>Cgroups namespace，用于控制命名空间中系统资源使用限制</li>
 </ul>
-<img src="/2022/07/13/20220713-linux-cgroups/Namespace_inheritance.png" class="" title="Namespaces inheritance">
-
+<p><img src="/20220713-linux-cgroups/Namespace_inheritance.png" alt="Namespaces inheritance"></p>
 <p>使用 <code>lsns</code> 命令可以查看操作系统中命名空间的情况。NS 是 inode number，即命名空间指向的链接文件，如果两个命令空间的ID相同，则表示这两种资源在同一个命名空间中。也可以使用 <code>ls /proc/[pid]/ns</code> 命令，以进程的视角查看对应的命名空间。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ lsns</span><br><span class="line">        NS TYPE  NPROCS   PID USER COMMAND</span><br><span class="line">4026531836 pid      126     1 root /usr/lib/systemd/systemd --switched-root --system --deserialize 22</span><br><span class="line">4026531837 user     126     1 root /usr/lib/systemd/systemd --switched-root --system --deserialize 22</span><br><span class="line">4026531838 uts      126     1 root /usr/lib/systemd/systemd --switched-root --system --deserialize 22</span><br><span class="line">4026531839 ipc      126     1 root /usr/lib/systemd/systemd --switched-root --system --deserialize 22</span><br><span class="line">4026531840 mnt      123     1 root /usr/lib/systemd/systemd --switched-root --system --deserialize 22</span><br><span class="line">4026531856 mnt        1    18 root kdevtmpfs</span><br><span class="line">4026531956 net      126     1 root /usr/lib/systemd/systemd --switched-root --system --deserialize 22</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -96,10 +95,9 @@ var _hmt = _hmt || [];
 <p>建议网上的示例都在 Ubuntu 环境下学习测试。</p>
 </blockquote>
 <h2 id="cgroups"><a href="#cgroups" class="headerlink" title="cgroups"></a>cgroups</h2><p>cgroups 的全称是 control groups，是 Linux 内核（自2.6版本之后）提供的物理资源隔离机制，从而实现对 Linux 进程或者进程组的资源限制、隔离和统计功能。cgroups 引入了 任务 Task、控制组 control group、层级 hierachy、子系统 subsystem 几个概念。引用知乎 lecury 的一张图来快速了解这几个概念之间的关系。</p>
-<img src="/2022/07/13/20220713-linux-cgroups/v2-206ab019ab2d93cd771b545914c0e6ea_1440w.jpg" class="" title="img">
-
+<p><img src="/20220713-linux-cgroups/v2-206ab019ab2d93cd771b545914c0e6ea_1440w.jpg" alt="img"></p>
 <p>得益于 Linux 的虚拟文件系统（VFS），Linux 为用户提供了一个统一的文件系统 API 接口，将 cgroups 的功能和配置暴露给用户。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看系统的 cgroup 目录</span></span><br><span class="line">$ ls /sys/fs/cgroup</span><br><span class="line">blkio  cpu  cpuacct  cpu,cpuacct  cpuset  devices  freezer  hugetlb  memory  net_cls  net_cls,net_prio  net_prio  perf_event  pids  systemd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 subsystem</span></span><br><span class="line">$ cat /proc/cgroups </span><br><span class="line"><span class="comment">#subsys_name	hierarchy	num_cgroups	enabled</span></span><br><span class="line">cpuset	7	1	1</span><br><span class="line">cpu	11	1	1</span><br><span class="line">cpuacct	11	1	1</span><br><span class="line">memory	4	1	1</span><br><span class="line">devices	10	20	1</span><br><span class="line">freezer	8	1	1</span><br><span class="line">net_cls	5	1	1</span><br><span class="line">blkio	6	1	1</span><br><span class="line">perf_event	2	1	1</span><br><span class="line">hugetlb	9	1	1</span><br><span class="line">pids	3	1	1</span><br><span class="line">net_prio	5	1	1</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看系统的 cgroup 目录</span></span><br><span class="line">$ <span class="built_in">ls</span> /sys/fs/cgroup</span><br><span class="line">blkio  cpu  cpuacct  cpu,cpuacct  cpuset  devices  freezer  hugetlb  memory  net_cls  net_cls,net_prio  net_prio  perf_event  pids  systemd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 subsystem</span></span><br><span class="line">$ <span class="built_in">cat</span> /proc/cgroups </span><br><span class="line"><span class="comment">#subsys_name	hierarchy	num_cgroups	enabled</span></span><br><span class="line">cpuset	7	1	1</span><br><span class="line">cpu	11	1	1</span><br><span class="line">cpuacct	11	1	1</span><br><span class="line">memory	4	1	1</span><br><span class="line">devices	10	20	1</span><br><span class="line">freezer	8	1	1</span><br><span class="line">net_cls	5	1	1</span><br><span class="line">blkio	6	1	1</span><br><span class="line">perf_event	2	1	1</span><br><span class="line">hugetlb	9	1	1</span><br><span class="line">pids	3	1	1</span><br><span class="line">net_prio	5	1	1</span><br></pre></td></tr></table></figure>
 
 <p>可以使用 cgexec 命令，在程序运行时指定使用的资源组，来限制程序的资源使用。</p>
 <blockquote>
@@ -111,7 +109,7 @@ var _hmt = _hmt || [];
 <li><a target="_blank" rel="noopener" href="https://tech.meituan.com/2015/03/31/cgroups.html">Linux资源管理之 cgroups 简介</a></li>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/81668069">浅谈 linux cgroups 机制</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35745940/article/details/119900634">nsenter 命令简单介绍</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.it1352.com/695828.html">centos - 内核3.10的linux中执行unshare –user /bin/bash报错Invalid argument，是什么原因？</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.it1352.com/695828.html">centos - 内核3.10的linux中执行unshare –user &#x2F;bin&#x2F;bash报错Invalid argument，是什么原因？</a></li>
 </ol>
 
       <div class="blog-post-footer">
@@ -149,7 +147,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

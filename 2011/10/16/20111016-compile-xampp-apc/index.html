@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-24 22:14:46</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2011-10-16 11:22:01</span>
     </div>
@@ -66,13 +66,13 @@ var _hmt = _hmt || [];
         </div> -->
       </div>
       <p>平时在Mac下使用XAMPP进行开发，最近需要用到APC扩展，从PECL上下载了扩展的源文件，在本地进行了编译安装。下面是安装步骤。</p>
-<p>1、首先从<a target="_blank" rel="noopener" href="http://pecl.php.net/package/APC">http://pecl.php.net/package/APC</a>下载源码包，目前的稳定版本是 3.1.9。<br>2、解压缩后进入到源码目录<br>3、sudo /Applications/XAMPP/xamppfiles/bin/phpize<br>4、sudo MACOSX_DEPLOYMENT_TARGET=10.7 CFLAGS=”-arch i386 -arch x86_64 -g -Os -pipe -no-cpp-precomp” CCFLAGS=”-arch i386 -arch x86_64 -g -Os -pipe” CXXFLAGS=”-arch i386 -arch x86_64 -g -Os -pipe” LDFLAGS=”-arch i386 -arch x86_64 -bind_at_load” ./configure –with-apxs=/Applications/XAMPP/xamppfiles/bin/apxs –with-php-config=/Applications/XAMPP/xamppfiles/bin/php-config<br>5、sudo make<br>6、sudo make install</p>
+<p>1、首先从<a target="_blank" rel="noopener" href="http://pecl.php.net/package/APC">http://pecl.php.net/package/APC</a>下载源码包，目前的稳定版本是 3.1.9。<br>2、解压缩后进入到源码目录<br>3、sudo &#x2F;Applications&#x2F;XAMPP&#x2F;xamppfiles&#x2F;bin&#x2F;phpize<br>4、sudo MACOSX_DEPLOYMENT_TARGET&#x3D;10.7 CFLAGS&#x3D;”-arch i386 -arch x86_64 -g -Os -pipe -no-cpp-precomp” CCFLAGS&#x3D;”-arch i386 -arch x86_64 -g -Os -pipe” CXXFLAGS&#x3D;”-arch i386 -arch x86_64 -g -Os -pipe” LDFLAGS&#x3D;”-arch i386 -arch x86_64 -bind_at_load” .&#x2F;configure –with-apxs&#x3D;&#x2F;Applications&#x2F;XAMPP&#x2F;xamppfiles&#x2F;bin&#x2F;apxs –with-php-config&#x3D;&#x2F;Applications&#x2F;XAMPP&#x2F;xamppfiles&#x2F;bin&#x2F;php-config<br>5、sudo make<br>6、sudo make install</p>
 <p>完成后修改 php.ini 文件，添加如下一行</p>
-<p>apc.shm_size = 32M</p>
+<p>apc.shm_size &#x3D; 32M</p>
 <p>注意，如果不写M，则会出现下面的警告：</p>
-<p>PHP Warning:  PHP Startup: apc.shm_size now uses M/G suffixes, please update your ini files in Unknown on line 0</p>
+<p>PHP Warning:  PHP Startup: apc.shm_size now uses M&#x2F;G suffixes, please update your ini files in Unknown on line 0</p>
 <p>在第四步中如果不添加一些编译参数，则会出现下面的错误：</p>
-<p>PHP Warning:  PHP Startup: Unable to load dynamic library ‘/Applications/XAMPP/xamppfiles/lib/php/php-5.3.1/extensions/no-debug-non-zts-20090626/apc.so’ - dlopen(/Applications/XAMPP/xamppfiles/lib/php/php-5.3.1/extensions/no-debug-non-zts-20090626/apc.so, 9): no suitable image found.  Did find:\n\t/Applications/XAMPP/xamppfiles/lib/php/php-5.3.1/extensions/no-debug-non-zts-20090626/apc.so: mach-o, but wrong architecture in Unknown on line 0</p>
+<p>PHP Warning:  PHP Startup: Unable to load dynamic library ‘&#x2F;Applications&#x2F;XAMPP&#x2F;xamppfiles&#x2F;lib&#x2F;php&#x2F;php-5.3.1&#x2F;extensions&#x2F;no-debug-non-zts-20090626&#x2F;apc.so’ - dlopen(&#x2F;Applications&#x2F;XAMPP&#x2F;xamppfiles&#x2F;lib&#x2F;php&#x2F;php-5.3.1&#x2F;extensions&#x2F;no-debug-non-zts-20090626&#x2F;apc.so, 9): no suitable image found.  Did find:\n\t&#x2F;Applications&#x2F;XAMPP&#x2F;xamppfiles&#x2F;lib&#x2F;php&#x2F;php-5.3.1&#x2F;extensions&#x2F;no-debug-non-zts-20090626&#x2F;apc.so: mach-o, but wrong architecture in Unknown on line 0</p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://blog.elinkmedia.net.au/2010/05/04/compile-apc-for-xampp-on-snow-leopard/">Compile Apc for XAMPP on Snow Leopard</a><br>2、<a target="_blank" rel="noopener" href="http://pecl.php.net/package/APC">http://pecl.php.net/package/APC</a><br>3、<a target="_blank" rel="noopener" href="http://snipt.net/mik/compile-php-extension-on-mac-pro-64-bit-os-x-leopard/">http://snipt.net/mik/compile-php-extension-on-mac-pro-64-bit-os-x-leopard/</a></p>
 
       <div class="blog-post-footer">
@@ -110,7 +110,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

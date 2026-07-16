@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2013-10-10 23:00:01</span>
     </div>
@@ -68,16 +68,14 @@ var _hmt = _hmt || [];
       <p>Dede CMS 5.5 的漏洞实在是太多了，三天两头被Hacker们挂马。话说挂这些破网址真的能带来丰厚的回报吗？做人要厚道啊。</p>
 <p>闲话少说，我按照网上的<a target="_blank" rel="noopener" href="http://www.moke8.com/article-9011-1.html">升级到5.5升级到5.7不出错的方法</a>，升级后编辑文章看起来没什么问题。但是在编辑栏目属性时，发现了以下问题：</p>
 <p>原来的<strong>确定和返回</strong>按钮不见了。不知道什么原因，后来也没有再仔细查找原因。</p>
-<img src="/2013/10/10/20131010-dede-cms-update/10230108-55db209340de4bfe8f87e5d3870cf9ab.png" class="">
-
+<p><img src="/20131010-dede-cms-update/10230108-55db209340de4bfe8f87e5d3870cf9ab.png"></p>
 <p>所以开始考虑从5.5一路升级到5.7。</p>
-<p>升级过程，还比较顺利。升级后，<a target="_blank" rel="noopener" href="http://www.sinotefl.ac.cn/cnadmin/catalog_do.php?cid=37&dopost=listArchives">http://www.sinotefl.ac.cn/cnadmin/catalog_do.php?cid=37&amp;dopost=listArchives</a>这个链接点击后页面空白。定位代码，原来是一个 header 调用出了问题，页面不能够正常跳转。</p>
+<p>升级过程，还比较顺利。升级后，<a target="_blank" rel="noopener" href="http://www.sinotefl.ac.cn/cnadmin/catalog_do.php?cid=37&dopost=listArchives">http://www.sinotefl.ac.cn/cnadmin/catalog_do.php?cid&#x3D;37&amp;dopost&#x3D;listArchives</a>这个链接点击后页面空白。定位代码，原来是一个 header 调用出了问题，页面不能够正常跳转。</p>
 <p>查了下原因，可能是由于<a target="_blank" rel="noopener" href="http://zhidao.baidu.com/link?url=C4ffLz-jJKc9apwjiP_nUAV-NRiqGP8EEXtdemcWBfjHmlhC1THnKFa97Tr3aDVprzuKbt9XU13YYBrXCThj-a">文件编码的问题</a>。哎，DedeCMS的问题真的是很多啊。</p>
 <p>在登录后台时，又发现验证码不能够正常显示，问题真是多，按照网上的方法搜索一遍都没什么效果，最后重新覆盖了后台文件后，才能够正常显示。</p>
 <p>2013-10-8 又发现了新情况，后台生产文件时无法生成首页文件，最后排查代码，终于发现是因为模板问题导致。</p>
 <p>DedeCMS 5.7中，不再支持下面的这段代码：</p>
-<img src="/2013/10/10/20131010-dede-cms-update/10230046-132e2ed29db84500a30209abeb2f464c.png" class="">
-<p>这个问题在于5.7的标签进行了更新。</p>
+<p><img src="/20131010-dede-cms-update/10230046-132e2ed29db84500a30209abeb2f464c.png"><br>这个问题在于5.7的标签进行了更新。</p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://bbs.dedecms.com/simple/?t359612.html">5.5升级到5.7怎么办？</a><br>2、<a target="_blank" rel="noopener" href="http://bbs.dedecms.com/232740.html">DedeCMS V5.6正式版发布（含升级说明)</a><br>3、<a target="_blank" rel="noopener" href="http://www.moke8.com/article-9011-1.html">织梦DEDECMS网站5.5升级到5.7 SP1不出错的方法</a><br>4、<a target="_blank" rel="noopener" href="http://bbs.dedecms.com/simple/?t435947.html">5.5有漏洞 我怎么升级到5.7</a><br>5、<a target="_blank" rel="noopener" href="http://bbs.dedecms.com/simple/?t233022.html">Dede5.5升级5.6成功演示</a><br>7、<a target="_blank" rel="noopener" href="http://www.jb51.net/cms/54979.html">DedeCMS 你所选择的栏目与当前模型不相符,请选择白色的选项!完美解决方法</a><br>8、<a target="_blank" rel="noopener" href="http://www.weste.net/2011/6-15/75525.html">Dedecms 5.7的后台验证码不显示的解决办法</a><br>9、<a target="_blank" rel="noopener" href="http://www.jb51.net/cms/68157.html">Dede后台验证码不显示解决方法详解（5.7）</a><br>10、<a target="_blank" rel="noopener" href="http://bbs.dedecms.com/simple/?t394825.html">UTF8白屏问题有没有人管啊</a><br>11、<a target="_blank" rel="noopener" href="http://jingyan.baidu.com/article/29697b91c8c118ab21de3c54.html">Dede5.7标签大全</a></p>
 
       <div class="blog-post-footer">
@@ -115,7 +113,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

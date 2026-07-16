@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-06 12:33:53</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2018-08-02 16:06:00</span>
     </div>
@@ -93,11 +93,11 @@ var _hmt = _hmt || [];
 <p>在Kubernetes 1.7版本后，放松了顺序的保证策略，对应的参数为 .spec.podManagementPolicy</p>
 </blockquote>
 <p>执行创建命令，并且观察对象是否正常创建。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@devops-101 ~]<span class="comment"># kubectl create -f ss-nginx.yml </span></span><br><span class="line">service <span class="string">&quot;nginx&quot;</span> created</span><br><span class="line">statefulset <span class="string">&quot;web&quot;</span> created</span><br><span class="line">[root@devops-101 ~]<span class="comment"># kubectl get svc</span></span><br><span class="line">NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE</span><br><span class="line">kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   9d</span><br><span class="line">nginx        ClusterIP   None         &lt;none&gt;        80/TCP    1d</span><br><span class="line">[root@devops-101 ~]<span class="comment"># kubectl get statefulset </span></span><br><span class="line">NAME      DESIRED   CURRENT   AGE</span><br><span class="line">web       2         2         1d</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@devops-101 ~]# kubectl create -f ss-nginx.yml </span><br><span class="line">service <span class="string">&quot;nginx&quot;</span> created</span><br><span class="line">statefulset <span class="string">&quot;web&quot;</span> created</span><br><span class="line">[root@devops-101 ~]# kubectl get svc</span><br><span class="line">NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE</span><br><span class="line">kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   9d</span><br><span class="line">nginx        ClusterIP   None         &lt;none&gt;        80/TCP    1d</span><br><span class="line">[root@devops-101 ~]# kubectl get statefulset </span><br><span class="line">NAME      DESIRED   CURRENT   AGE</span><br><span class="line">web       2         2         1d</span><br></pre></td></tr></table></figure>
 <p>看一下Pod是否是有顺序的</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@devops-101 ~]<span class="comment"># kubectl get pods -l app=nginx</span></span><br><span class="line">NAME      READY     STATUS    RESTARTS   AGE</span><br><span class="line">web-0     1/1       Running   0          11m</span><br><span class="line">web-1     1/1       Running   0          11m</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@devops-101 ~]# kubectl get pods -l app=nginx</span><br><span class="line">NAME      READY     STATUS    RESTARTS   AGE</span><br><span class="line">web-0     1/1       Running   0          11m</span><br><span class="line">web-1     1/1       Running   0          11m</span><br></pre></td></tr></table></figure>
 <p>根据Pod的顺序，每个Pod拥有对应的主机名，在Pod中执行<code>hostname</code>命令确认下。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@devops-101 ~]<span class="comment"># for i in 0 1; do kubectl exec web-$i -- sh -c &#x27;hostname&#x27;; done</span></span><br><span class="line">web-0</span><br><span class="line">web-1</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@devops-101 ~]# <span class="keyword">for</span> i <span class="keyword">in</span> 0 1; <span class="keyword">do</span> kubectl <span class="built_in">exec</span> web-<span class="variable">$i</span> -- sh -c <span class="string">&#x27;hostname&#x27;</span>; <span class="keyword">done</span></span><br><span class="line">web-0</span><br><span class="line">web-1</span><br></pre></td></tr></table></figure>
 <p>使用带有nslookup命令的busybox镜像启动一个Pod，检查集群内的DNS地址设置。</p>
 <h2 id="3-扩缩容"><a href="#3-扩缩容" class="headerlink" title="3. 扩缩容"></a>3. 扩缩容</h2><p>将Pod实例扩充到5个。</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">root@devops-101</span> <span class="string">~</span>]<span class="comment"># kubectl scale sts web --replicas=5</span></span><br><span class="line"><span class="string">statefulset.apps/web</span> <span class="string">scaled</span></span><br><span class="line">[<span class="string">root@devops-101</span> <span class="string">~</span>]<span class="comment"># kubectl get pods -w</span></span><br><span class="line"><span class="string">NAME</span>      <span class="string">READY</span>     <span class="string">STATUS</span>    <span class="string">RESTARTS</span>   <span class="string">AGE</span></span><br><span class="line"><span class="string">web-0</span>     <span class="number">1</span><span class="string">/1</span>       <span class="string">Running</span>   <span class="number">0</span>          <span class="string">5m</span></span><br><span class="line"><span class="string">web-1</span>     <span class="number">1</span><span class="string">/1</span>       <span class="string">Running</span>   <span class="number">0</span>          <span class="string">5m</span></span><br><span class="line"><span class="string">web-2</span>     <span class="number">0</span><span class="string">/1</span>       <span class="string">Pending</span>   <span class="number">0</span>         <span class="string">1s</span></span><br><span class="line"><span class="string">web-2</span>     <span class="number">0</span><span class="string">/1</span>       <span class="string">Pending</span>   <span class="number">0</span>         <span class="string">1s</span></span><br></pre></td></tr></table></figure>
@@ -163,7 +163,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

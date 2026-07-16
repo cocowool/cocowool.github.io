@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-21 23:09:02</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2011-04-09 15:27:01</span>
     </div>
@@ -66,13 +66,13 @@ var _hmt = _hmt || [];
         </div> -->
       </div>
       <p>为了方便，一般在本地的测试环境中我都使用了 XAMPP 或者 LAMPP 。（<a target="_blank" rel="noopener" href="http://www.apachefriends.org/en/xampp.html">Apache Friends XAMPP</a>）但是默认的XAMPP中没有提供xhprof的支持，为此需要自己独立编译。下面记录了编译的过程。</p>
-<p>1、如果你的XAMPP没有 DEVEL包，那么编译是通不过的。我就是因为编译时遇到 include php.h 时就失败了。所以需要先确保下载并安装了 xampp 的 devel packages。下载地址：<a target="_blank" rel="noopener" href="http://www.apachefriends.org/download.php?xampp-linux-devel-1.7.4.tar.gz">xampp-linux-devel</a>，然后解压到安装的目录  tar -xvzf file -C /opt。下载 xampp 的 devel 包的时候，注意要选择和自己当前的版本一致的 devel 包，因为 php 的扩展编译的时候，会附加版本信息，启动时进行检查，如果不一致，即便能够编译成功，也是不能够使用的。<br>完成后，你会发现lampp的目录下多了个include目录，里面是一些必要的头文件。</p>
-<p>2、下载 xhprof 的<a target="_blank" rel="noopener" href="http://pecl.php.net/get/xhprof-0.9.2.tgz">源代码</a>。 解压缩，然后进入 xhprof/extension/ 目录</p>
+<p>1、如果你的XAMPP没有 DEVEL包，那么编译是通不过的。我就是因为编译时遇到 include php.h 时就失败了。所以需要先确保下载并安装了 xampp 的 devel packages。下载地址：<a target="_blank" rel="noopener" href="http://www.apachefriends.org/download.php?xampp-linux-devel-1.7.4.tar.gz">xampp-linux-devel</a>，然后解压到安装的目录  tar -xvzf file -C &#x2F;opt。下载 xampp 的 devel 包的时候，注意要选择和自己当前的版本一致的 devel 包，因为 php 的扩展编译的时候，会附加版本信息，启动时进行检查，如果不一致，即便能够编译成功，也是不能够使用的。<br>完成后，你会发现lampp的目录下多了个include目录，里面是一些必要的头文件。</p>
+<p>2、下载 xhprof 的<a target="_blank" rel="noopener" href="http://pecl.php.net/get/xhprof-0.9.2.tgz">源代码</a>。 解压缩，然后进入 xhprof&#x2F;extension&#x2F; 目录</p>
 <p>3、依次执行以下命令：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/opt/lampp/bin/phpize</span><br><span class="line">./configure --with-php-config=/opt/lampp/bin/php-config --prefix=/opt/lampp/</span><br><span class="line">make</span><br><span class="line">make <span class="built_in">test</span></span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
 
-<p>之后就会看到安装完成的提示。之后去 /opt/lampp/lib/php/extensions/no-debug-on-zts-20060613/ 下查看，会看到已经有 xhprof.so 了。</p>
-<p>4、 在 /opt/lampp/etc/php.ini 中添加 extension=”xhprof.so” 重启lampp。</p>
+<p>之后就会看到安装完成的提示。之后去 &#x2F;opt&#x2F;lampp&#x2F;lib&#x2F;php&#x2F;extensions&#x2F;no-debug-on-zts-20060613&#x2F; 下查看，会看到已经有 xhprof.so 了。</p>
+<p>4、 在 &#x2F;opt&#x2F;lampp&#x2F;etc&#x2F;php.ini 中添加 extension&#x3D;”xhprof.so” 重启lampp。</p>
 <p>5、 重启服务器后，就可以看到phpinfo中xhprof的信息了。</p>
 <p>PS：我在使用lampp 1.7 的时候，编译得到的 xhprof.so 不能够够正常加载，提示版本号不对，可能是</p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://www.apachefriends.org/en/xampp.html">Apache Friends XAMPP</a><br>2、<a target="_blank" rel="noopener" href="http://www.apachefriends.org/download.php?xampp-linux-devel-1.7.4.tar.gz">XAMPP Devel Packages</a></p>
@@ -112,7 +112,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

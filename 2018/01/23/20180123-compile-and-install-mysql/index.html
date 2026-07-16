@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2022-04-25 14:27:48</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2018-01-23 10:17:11</span>
     </div>
@@ -69,37 +69,38 @@ var _hmt = _hmt || [];
 <p>本文基于 Redhat Linux 6.7 的环境，Mysql 版本为 5.5.37</p>
 </blockquote>
 <h3 id="安装前的检查"><a href="#安装前的检查" class="headerlink" title="安装前的检查"></a>安装前的检查</h3><p>必备的组件，如果没有使用 yum 进行安装，可以使用网上的源，也可以使用本地光盘作为 Yum 源。<br>1、CMake<br>2、make<br>3、gcc<br>4、ncurses<br>5、Perl</p>
-<h3 id="默认-Layout-与相关的配置参数。"><a href="#默认-Layout-与相关的配置参数。" class="headerlink" title="默认 Layout 与相关的配置参数。"></a>默认 Layout 与相关的配置参数。</h3><p>Mysql默认安装在 /usr/local/mysql 下，可以根据下面几个参数对安装目录做自定义。</p>
+<h3 id="默认-Layout-与相关的配置参数。"><a href="#默认-Layout-与相关的配置参数。" class="headerlink" title="默认 Layout 与相关的配置参数。"></a>默认 Layout 与相关的配置参数。</h3><p>Mysql默认安装在 &#x2F;usr&#x2F;local&#x2F;mysql 下，可以根据下面几个参数对安装目录做自定义。</p>
 <p>标粗的三个是最重要和常用的目录。</p>
-<h3 id="下载、编译和安装"><a href="#下载、编译和安装" class="headerlink" title="下载、编译和安装"></a>下载、编译和安装</h3><p>从<a target="_blank" rel="noopener" href="https://downloads.mysql.com/archives/community/">这里</a>下载源代码，版本选择 5.5.37、Operating System 选择 Source Code，找到 (mysql-5.5.37.tar.gz) 然后下载。下载后解压缩到用户目录下，我的用户为eccs，用户目录为 **/home/ap/eccs。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf mysql-5.5.37.tar.gz .</span><br><span class="line"><span class="built_in">cd</span> mysql-5.5.37</span><br><span class="line">mkdir bld</span><br><span class="line"><span class="built_in">cd</span> bld</span><br></pre></td></tr></table></figure>
+<h3 id="下载、编译和安装"><a href="#下载、编译和安装" class="headerlink" title="下载、编译和安装"></a>下载、编译和安装</h3><p>从<a target="_blank" rel="noopener" href="https://downloads.mysql.com/archives/community/">这里</a>下载源代码，版本选择 5.5.37、Operating System 选择 Source Code，找到 (mysql-5.5.37.tar.gz) 然后下载。下载后解压缩到用户目录下，我的用户为eccs，用户目录为 **&#x2F;home&#x2F;ap&#x2F;eccs。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf mysql-5.5.37.tar.gz .</span><br><span class="line"><span class="built_in">cd</span> mysql-5.5.37</span><br><span class="line"><span class="built_in">mkdir</span> bld</span><br><span class="line"><span class="built_in">cd</span> bld</span><br></pre></td></tr></table></figure>
 <p>我们所有的编译操作都在<strong>bld</strong>文件夹内进行，编译和安装的步骤是很简单的，使用camke编译，然后生成 make，最后 make install。重要的是在编译这一步指定相关的参数。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cmake .. -DCMAKE_INSTALL_PREFIX=/home/ap/eccs/mysql -DMYSQL_DATADIR=/home/ap/eccs/mysql_data -DSYSCONFDIR=/home/ap/eccs/mysql_conf -DMYSQL_UNIX_ADDR=/home/ap/eccs/mysql_conf/mysql.sock</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
 
 <h3 id="安装数据库、启动数据库"><a href="#安装数据库、启动数据库" class="headerlink" title="安装数据库、启动数据库"></a>安装数据库、启动数据库</h3><p>编译安装完成后，需要首先安装数据库，执行以下命令。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod +x scripts/mysql_install_db</span><br><span class="line">./scripts/mysql_install_db --basedir=/home/ap/eccs/mysql --datadir=/home/ap/eccs/mysql_data --user=eccs</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x scripts/mysql_install_db</span><br><span class="line">./scripts/mysql_install_db --basedir=/home/ap/eccs/mysql --datadir=/home/ap/eccs/mysql_data --user=eccs</span><br></pre></td></tr></table></figure>
 <p>到这一步就可以启动Mysql了，但是还没有指定配置文件的位置，如果没有指定配置文件，mysql按照以下数据自动从路径中查找配置文件，分别是：</p>
 <ul>
-<li>/etc/my.cnf</li>
-<li>/etc/mysql/my.cnf</li>
-<li>/usr/local/mysql/etc/my.cnf</li>
-<li>~/.my.cnf<br>如果不知道默认的位置，可以使用下面的命来查找(<a target="_blank" rel="noopener" href="https://www.cnblogs.com/cyun/p/5553667.html">青云</a>)<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[eccs@bj1eccap02 ~]$ /home/ap/eccs/mysql/bin/mysqld --verbose --<span class="built_in">help</span> | grep -A 1 <span class="string">&#x27;Default options&#x27;</span></span><br><span class="line">Default options are <span class="built_in">read</span> from the following files <span class="keyword">in</span> the given order:</span><br><span class="line">/etc/my.cnf /etc/mysql/my.cnf /home/ap/eccs/mysql_conf/my.cnf ~/.my.cnf</span><br></pre></td></tr></table></figure>
-明确了配置文件的位置，将配置文件按我们的要求修改，然后就可以启动数据库了。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/home/ap/eccs/mysql/support-files/mysql.server start</span><br><span class="line">Starting MySQL                                             [  OK  ]</span><br><span class="line">[eccs@bj1eccap02 ~]$ ps -ef | grep mysql</span><br><span class="line">eccs       717     1  0 19:23 pts/0    00:00:00 /bin/sh /home/ap/eccs/mysql/bin/mysqld_safe --datadir=/home/ap/eccs/mysql_data --pid-file=/home/ap/eccs/mysql_conf/mysqld.pid</span><br><span class="line">eccs      1081   717  0 19:23 pts/0    00:00:00 /home/ap/eccs/mysql/bin/mysqld --basedir=/home/ap/eccs/mysql --datadir=/home/ap/eccs/mysql_data --plugin-dir=/home/ap/eccs/mysql/lib/plugin --log-error=/home/ap/eccs/mysql_data/mysql_error.log --pid-file=/home/ap/eccs/mysql_conf/mysqld.pid --socket=/home/ap/eccs/mysql_conf/mysql.sock --port=33065</span><br><span class="line">eccs      1498  1801  0 19:26 pts/0    00:00:00 grep mysql</span><br></pre></td></tr></table></figure>
-
-</li>
+<li>&#x2F;etc&#x2F;my.cnf</li>
+<li>&#x2F;etc&#x2F;mysql&#x2F;my.cnf</li>
+<li>&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;etc&#x2F;my.cnf</li>
+<li>~&#x2F;.my.cnf<br>如果不知道默认的位置，可以使用下面的命来查找(<a target="_blank" rel="noopener" href="https://www.cnblogs.com/cyun/p/5553667.html">青云</a>)</li>
 </ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[eccs@bj1eccap02 ~]$ /home/ap/eccs/mysql/bin/mysqld --verbose --<span class="built_in">help</span> | grep -A 1 <span class="string">&#x27;Default options&#x27;</span></span><br><span class="line">Default options are <span class="built_in">read</span> from the following files <span class="keyword">in</span> the given order:</span><br><span class="line">/etc/my.cnf /etc/mysql/my.cnf /home/ap/eccs/mysql_conf/my.cnf ~/.my.cnf</span><br></pre></td></tr></table></figure>
+<p>明确了配置文件的位置，将配置文件按我们的要求修改，然后就可以启动数据库了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/home/ap/eccs/mysql/support-files/mysql.server start</span><br><span class="line">Starting MySQL                                             [  OK  ]</span><br><span class="line">[eccs@bj1eccap02 ~]$ ps -ef | grep mysql</span><br><span class="line">eccs       717     1  0 19:23 pts/0    00:00:00 /bin/sh /home/ap/eccs/mysql/bin/mysqld_safe --datadir=/home/ap/eccs/mysql_data --pid-file=/home/ap/eccs/mysql_conf/mysqld.pid</span><br><span class="line">eccs      1081   717  0 19:23 pts/0    00:00:00 /home/ap/eccs/mysql/bin/mysqld --basedir=/home/ap/eccs/mysql --datadir=/home/ap/eccs/mysql_data --plugin-dir=/home/ap/eccs/mysql/lib/plugin --log-error=/home/ap/eccs/mysql_data/mysql_error.log --pid-file=/home/ap/eccs/mysql_conf/mysqld.pid --socket=/home/ap/eccs/mysql_conf/mysql.sock --port=33065</span><br><span class="line">eccs      1498  1801  0 19:26 pts/0    00:00:00 grep mysql</span><br></pre></td></tr></table></figure>
+
 <h3 id="设置口令"><a href="#设置口令" class="headerlink" title="设置口令"></a>设置口令</h3><p>默认安装的mysql口令为空，需要手工设置。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/ap/eccs/mysql/bin/mysqladmin -u root password <span class="string">&#x27;123456&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>前面几次安装的时候，到启动服务器的环节，都会报错，提示找不到pid之类的问题，总结下来发现就是因为默认 my.cnf 的问题。</p>
 <blockquote>
-<p>To avoid a possible security hole where a user adds a –user=root option to a my.cnf file (thus causing the server to run as root), mysqld uses only the first –user option specified and produces a warning if there are multiple –useroptions. Options in /etc/my.cnf and $MYSQL_HOME/my.cnf are processed before command-line options, so it is recommended that you put a –user option in /etc/my.cnf and specify a value other than root. The option in/etc/my.cnf is found before any other –user options, which ensures that the server runs as a user other than root, and that a warning results if any other –user option is found.</p>
+<p>To avoid a possible security hole where a user adds a –user&#x3D;root option to a my.cnf file (thus causing the server to run as root), mysqld uses only the first –user option specified and produces a warning if there are multiple –useroptions. Options in &#x2F;etc&#x2F;my.cnf and $MYSQL_HOME&#x2F;my.cnf are processed before command-line options, so it is recommended that you put a –user option in &#x2F;etc&#x2F;my.cnf and specify a value other than root. The option in&#x2F;etc&#x2F;my.cnf is found before any other –user options, which ensures that the server runs as a user other than root, and that a warning results if any other –user option is found.</p>
 </blockquote>
-<p>如上所述，默认Mysql启动的时候，会从 /etc/my.cnf 或者安装目录的根目录下寻找my.cnf配置文件，如果发现就会使用配置文件中的参数而忽略命令行中的参数，这个特性是困扰很多人或造成问题的根源。我发现在 Redhat 6.7 中，即使我仅仅安装 Basic Server 选项，在没有安装 Mysql 的情况下，系统中也存在 /etc/my.cnf 文件，此时查询了系统的RPM包，发现存在这样一个包。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@bj1eccap01 ~]<span class="comment"># rpm -qa | grep -i mysql</span></span><br><span class="line">mysql-libs-5.1.73-5.el6_6.x86_64</span><br></pre></td></tr></table></figure>
-<p>删掉 /etc/my.cnf 之后，就一切正常了。</p>
-<h3 id="设置随系统自启动"><a href="#设置随系统自启动" class="headerlink" title="设置随系统自启动"></a>设置随系统自启动</h3><p>让应用随系统自启动一般有两种方法，一种是放到rc.local下面，一种是放在/etc/init.d下面作为系统服务，两种方法都是 root 用户执行的，这里列出第二种方法。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@bj1eccap02 ~]<span class="comment"># cp /home/ap/eccs/mysql/support-files/mysql.server /etc/init.d/mysqld</span></span><br><span class="line">[root@bj1eccap02 ~]<span class="comment"># chkconfig --add mysqld</span></span><br><span class="line">[root@bj1eccap02 ~]<span class="comment"># chkconfig --list mysqld</span></span><br><span class="line">mysqld             0:off    1:off    2:on    3:on    4:on    5:on    6:off</span><br><span class="line">[eccs@bj1eccap02 ~]$ service mysqld start</span><br><span class="line">Starting MySQL..                                           [  OK  ]</span><br></pre></td></tr></table></figure>
+<p>如上所述，默认Mysql启动的时候，会从 &#x2F;etc&#x2F;my.cnf 或者安装目录的根目录下寻找my.cnf配置文件，如果发现就会使用配置文件中的参数而忽略命令行中的参数，这个特性是困扰很多人或造成问题的根源。我发现在 Redhat 6.7 中，即使我仅仅安装 Basic Server 选项，在没有安装 Mysql 的情况下，系统中也存在 &#x2F;etc&#x2F;my.cnf 文件，此时查询了系统的RPM包，发现存在这样一个包。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@bj1eccap01 ~]# rpm -qa | grep -i mysql</span><br><span class="line">mysql-libs-5.1.73-5.el6_6.x86_64</span><br></pre></td></tr></table></figure>
+<p>删掉 &#x2F;etc&#x2F;my.cnf 之后，就一切正常了。</p>
+<h3 id="设置随系统自启动"><a href="#设置随系统自启动" class="headerlink" title="设置随系统自启动"></a>设置随系统自启动</h3><p>让应用随系统自启动一般有两种方法，一种是放到rc.local下面，一种是放在&#x2F;etc&#x2F;init.d下面作为系统服务，两种方法都是 root 用户执行的，这里列出第二种方法。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@bj1eccap02 ~]# <span class="built_in">cp</span> /home/ap/eccs/mysql/support-files/mysql.server /etc/init.d/mysqld</span><br><span class="line">[root@bj1eccap02 ~]# chkconfig --add mysqld</span><br><span class="line">[root@bj1eccap02 ~]# chkconfig --list mysqld</span><br><span class="line">mysqld             0:off    1:off    2:on    3:on    4:on    5:on    6:off</span><br><span class="line">[eccs@bj1eccap02 ~]$ service mysqld start</span><br><span class="line">Starting MySQL..                                           [  OK  ]</span><br></pre></td></tr></table></figure>
 <p>以后就可以使用 service 命令起停了。</p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.5/en/installing-source-distribution.html">installing standar source</a><br>2、<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.5/en/source-configuration-options.html">source configuration options</a><br>3、<br>4、<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.5/en/server-options.html#option_mysqld_basedir">Ignoring user change</a><br>5、<a target="_blank" rel="noopener" href="http://www.jb51.net/article/59255.htm">脚本中实现切换用户并</a><br>6、<a target="_blank" rel="noopener" href="http://blog.csdn.net/sinboy/article/details/2466225">在Linux中，开机自动运行普通用户的脚本程序</a></p>
 
@@ -138,7 +139,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-06-02 18:03:17</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-06-02 16:09:22</span>
     </div>
@@ -70,7 +70,7 @@ var _hmt = _hmt || [];
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># -q quiet</span></span><br><span class="line"><span class="comment"># -c nb of pings to perform</span></span><br><span class="line"> </span><br><span class="line">ping -q -c5 google.com &gt; /dev/null</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> [ $? -eq 0 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">&quot;ok&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
 
 <p>如果想要获得并展示 <code>ping</code> 的结果，因为Ping的结果没有办法管道给其他命令直接处理，所以先将Ping的结果存放到变量或者临时文件中，然后再进行后续的处理。在输出的过程中使用了printf进行输出结果的格式化。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># Find the fastest apple store hosts</span></span><br><span class="line"> </span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;%-20s\t%-16s\t%-10s\n&quot;</span> <span class="string">&quot;Domain&quot;</span> <span class="string">&quot;Ip&quot;</span> <span class="string">&quot;Avg Ping&quot;</span></span><br><span class="line"><span class="comment">#printf &quot;Domain\tIp\tAvg Ping\n&quot;</span></span><br><span class="line"><span class="keyword">for</span> ((I=1 ;I &lt; 2001; I++ ));<span class="keyword">do</span></span><br><span class="line">    HOST=<span class="string">&quot;a<span class="variable">$I</span>.phobos.apple.com&quot;</span></span><br><span class="line">    TEMP=$(ping -c 4 <span class="variable">$HOST</span>)</span><br><span class="line">    IP=$(<span class="built_in">echo</span> <span class="variable">$TEMP</span> | grep -oE <span class="string">&#x27;[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;&#x27;</span> | uniq)</span><br><span class="line">    TIME=$(<span class="built_in">echo</span> <span class="variable">$TEMP</span> | grep -oE <span class="string">&#x27;\/([0-9]*\.[0-9]*)\/&#x27;</span> | grep -oE <span class="string">&#x27;[0-9]*\.[0-9]*&#x27;</span>)</span><br><span class="line">    <span class="built_in">printf</span> <span class="string">&quot;%-20s\t%-16s\t%-10s\n&quot;</span> <span class="variable">$HOST</span> <span class="variable">$IP</span> <span class="variable">$TIME</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># Find the fastest apple store hosts</span></span><br><span class="line"> </span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;%-20s\t%-16s\t%-10s\n&quot;</span> <span class="string">&quot;Domain&quot;</span> <span class="string">&quot;Ip&quot;</span> <span class="string">&quot;Avg Ping&quot;</span></span><br><span class="line"><span class="comment">#printf &quot;Domain\tIp\tAvg Ping\n&quot;</span></span><br><span class="line"><span class="keyword">for</span> ((I=<span class="number">1</span> ;I &lt; <span class="number">2001</span>; I++ ));<span class="keyword">do</span></span><br><span class="line">    HOST=<span class="string">&quot;a<span class="variable">$I</span>.phobos.apple.com&quot;</span></span><br><span class="line">    TEMP=$(ping -c 4 <span class="variable">$HOST</span>)</span><br><span class="line">    IP=$(<span class="built_in">echo</span> <span class="variable">$TEMP</span> | grep -oE <span class="string">&#x27;[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;\.[0-9]&#123;1,3&#125;&#x27;</span> | <span class="built_in">uniq</span>)</span><br><span class="line">    TIME=$(<span class="built_in">echo</span> <span class="variable">$TEMP</span> | grep -oE <span class="string">&#x27;\/([0-9]*\.[0-9]*)\/&#x27;</span> | grep -oE <span class="string">&#x27;[0-9]*\.[0-9]*&#x27;</span>)</span><br><span class="line">    <span class="built_in">printf</span> <span class="string">&quot;%-20s\t%-16s\t%-10s\n&quot;</span> <span class="variable">$HOST</span> <span class="variable">$IP</span> <span class="variable">$TIME</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
 
 
       <div class="blog-post-footer">
@@ -108,7 +108,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -6,7 +6,7 @@
     <title>Spark 系列一-大江小浪</title>
     <meta name="baidu-site-verification" content="y4EEfl1oRM" />
     <meta name="keywords" content="spark, 流式计算">
-    <meta name="description" content="大江小浪，关注数据中心运维、金融科技、互联网相关技术与行业发展趋势，擅长应用运维管理、Linux、Java、Elasticsearch、Kubernetes、PHP相关技术。">
+    <meta name="description" content="世事如潮人如水，一入江湖几时回">
     <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
     <link rel="stylesheet" href="/css/main.css" />
     <script>
@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-10-14 10:27:50</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-10-07 22:00:39</span>
     </div>
@@ -72,16 +72,16 @@ var _hmt = _hmt || [];
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ ./<span class="built_in">bin</span>/pyspark </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>textFile = spark.read.text(<span class="string">&quot;/Users/shiqiang/Desktop/shakespeare.txt&quot;</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>textFile.count()</span><br><span class="line"><span class="number">1995</span>                                                                            </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>textFile.first()</span><br><span class="line">Row(value=<span class="string">u&quot;Scanner&#x27;s Notes: What this is and isn&#x27;t. This was taken from&quot;</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lineWithNo = textFile.<span class="built_in">filter</span>(textFile.value.contains(<span class="string">&quot;no&quot;</span>))</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lineWithNo.count()</span><br><span class="line"><span class="number">331</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="Java示例程序"><a href="#Java示例程序" class="headerlink" title="Java示例程序"></a>Java示例程序</h3><p>一个简单的在本地运行的处理本地文件的演示程序。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.spark.sql.SparkSession;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.api.java.function.FilterFunction;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.sql.Dataset;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleApp</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        String logFile = <span class="string">&quot;/Users/shiqiang/Desktop/shakespeare.txt&quot;</span>;</span><br><span class="line"></span><br><span class="line">        SparkSession spark = SparkSession.builder().appName(<span class="string">&quot;Simple Application&quot;</span>).getOrCreate();</span><br><span class="line">        Dataset&lt;String&gt; logData = spark.read().textFile(logFile).cache();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> numNos = logData.filter((FilterFunction&lt;String&gt;) x -&gt; x.contains(<span class="string">&quot;no&quot;</span>)).count();   </span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> numYes = logData.filter((FilterFunction&lt;String&gt;) s-&gt;s.contains(<span class="string">&quot;yes&quot;</span>)).count();</span><br><span class="line">        System.out.println(<span class="string">&quot;Lines with no : &quot;</span> + numNos + <span class="string">&quot;, with yes : &quot;</span> + numYes);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        spark.stop();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.spark.sql.SparkSession;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.api.java.function.FilterFunction;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.sql.Dataset;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SimpleApp</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">logFile</span> <span class="operator">=</span> <span class="string">&quot;/Users/shiqiang/Desktop/shakespeare.txt&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">SparkSession</span> <span class="variable">spark</span> <span class="operator">=</span> SparkSession.builder().appName(<span class="string">&quot;Simple Application&quot;</span>).getOrCreate();</span><br><span class="line">        Dataset&lt;String&gt; logData = spark.read().textFile(logFile).cache();</span><br><span class="line"></span><br><span class="line">        <span class="type">long</span> <span class="variable">numNos</span> <span class="operator">=</span> logData.filter((FilterFunction&lt;String&gt;) x -&gt; x.contains(<span class="string">&quot;no&quot;</span>)).count();   </span><br><span class="line"></span><br><span class="line">        <span class="type">long</span> <span class="variable">numYes</span> <span class="operator">=</span> logData.filter((FilterFunction&lt;String&gt;) s-&gt;s.contains(<span class="string">&quot;yes&quot;</span>)).count();</span><br><span class="line">        System.out.println(<span class="string">&quot;Lines with no : &quot;</span> + numNos + <span class="string">&quot;, with yes : &quot;</span> + numYes);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        spark.stop();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>具体代码可以参考我的<a href="">Github</a></p>
-<h3 id="Maser日志"><a href="#Maser日志" class="headerlink" title="Maser日志"></a>Maser日志</h3><p>Spark启动后，默认会在程序的<code>logs</code>目录下产生名为<code>spark-&#123;username&#125;-org.apache-spark.deploy.master.Master-1-&#123;hostname&#125;.out</code>的日志。</p>
+<h3 id="Maser日志"><a href="#Maser日志" class="headerlink" title="Maser日志"></a>Maser日志</h3><p>Spark启动后，默认会在程序的<code>logs</code>目录下产生名为<code>spark-{username}-org.apache-spark.deploy.master.Master-1-{hostname}.out</code>的日志。</p>
 <p>日志中可以看到spark master的启动命令。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ java -cp /Users/rousseau/Projects/tools/spark-2.4.1-bin-hadoop2.7/conf/:/Users/rousseau/Projects/tools/spark-2.4.1-bin-hadoop2.7/jars/* -Xmx1g org.apache.spark.deploy.master.Master --host bogon --port 7077 --webui-port 8080</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ java -<span class="built_in">cp</span> /Users/rousseau/Projects/tools/spark-2.4.1-bin-hadoop2.7/conf/:/Users/rousseau/Projects/tools/spark-2.4.1-bin-hadoop2.7/jars/* -Xmx1g org.apache.spark.deploy.master.Master --host bogon --port 7077 --webui-port 8080</span><br></pre></td></tr></table></figure>
 
-<h3 id="Worker日志"><a href="#Worker日志" class="headerlink" title="Worker日志"></a>Worker日志</h3><p>Spark启动后，默认会在程序的<code>logs</code>目录下产生名为<code>spark-&#123;username&#125;-org.apache-spark.deploy.master.Worker-1-&#123;hostname&#125;.out</code>的日志。</p>
+<h3 id="Worker日志"><a href="#Worker日志" class="headerlink" title="Worker日志"></a>Worker日志</h3><p>Spark启动后，默认会在程序的<code>logs</code>目录下产生名为<code>spark-{username}-org.apache-spark.deploy.master.Worker-1-{hostname}.out</code>的日志。</p>
 <p>日志中可以看到spark worker的启动命令。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ java -cp /Users/rousseau/Projects/tools/spark-2.4.1-bin-hadoop2.7/conf/:/Users/rousseau/Projects/tools/spark-2.4.1-bin-hadoop2.7/jars/* -Xmx1g org.apache.spark.deploy.worker.Worker --webui-port 8081 spark://bogon:7077</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ java -<span class="built_in">cp</span> /Users/rousseau/Projects/tools/spark-2.4.1-bin-hadoop2.7/conf/:/Users/rousseau/Projects/tools/spark-2.4.1-bin-hadoop2.7/jars/* -Xmx1g org.apache.spark.deploy.worker.Worker --webui-port 8081 spark://bogon:7077</span><br></pre></td></tr></table></figure>
 
 <h2 id="Spark-模型"><a href="#Spark-模型" class="headerlink" title="Spark 模型"></a>Spark 模型</h2><p>Spark模型包含了几个重要概念。</p>
 <blockquote>
@@ -97,8 +97,7 @@ var _hmt = _hmt || [];
 <p>RDD是一个只读的有属性的数据集，属性用来描述当前数据集的状态，数据集是由数据的分区（partition）组成，并（由block）映射成真实数据。</p>
 <p>RDD 内部的数据集合在逻辑上和物理上被划分成多个小子集合，这样的每一个子集合我们将其称为分区（partitions），分区的个数会决定并行计算的粒度，而每一个分区数值的计算都是在一个单独的任务中进行，因此并行任务的个数，也是由 RDD分区的个数决定的。 </p>
 <h3 id="RDD依赖关系"><a href="#RDD依赖关系" class="headerlink" title="RDD依赖关系"></a>RDD依赖关系</h3><p>一个作业从开始到结束的计算过程中产生了多个RDD，RDD之间是彼此相互依赖的，我们把这种父子依赖的关系，称之为“血统”。如果父RDD的每个分区最多只能被子RDD的一个分区使用，我们称之为（narrow dependency）窄依赖；若一个父RDD的每个分区可以被子RDD的多个分区使用，我们称之为（wide dependency）宽依赖。简单来讲窄依赖就是父子RDD分区间”一对一“的关系，宽依赖就是”一对多“关系，具体理解可参考下图：</p>
-<img src="/2021/10/07/20211007-spark-intro-1/image-20211007220239907.png" class="" title="image-20211007220239907">
-
+<p><img src="/20211007-spark-intro-1/image-20211007220239907.png" alt="image-20211007220239907"></p>
 <h3 id="RDD属性"><a href="#RDD属性" class="headerlink" title="RDD属性"></a>RDD属性</h3><p>RDD属性包括名称、分区类型、父RDD指针、数据本地化、数据依赖关系等，主要属性可以分为3类：</p>
 <ul>
 <li><p>与其它RDD的关系（parents）</p>
@@ -113,7 +112,7 @@ var _hmt = _hmt || [];
 </li>
 <li><p>sparkconf 配置信息，即sc.conf</p>
 <blockquote>
-<p>Spark参数配置信息<br>提供三个位置用来配置系统：<br>Spark api：控制大部分的应用程序参数，可以用SparkConf对象或者Java系统属性设置<br>环境变量：可以通过每个节点的conf/spark-env.sh脚本设置。例如IP地址、端口等信息<br>日志配置：可以通过log4j.properties配置</p>
+<p>Spark参数配置信息<br>提供三个位置用来配置系统：<br>Spark api：控制大部分的应用程序参数，可以用SparkConf对象或者Java系统属性设置<br>环境变量：可以通过每个节点的conf&#x2F;spark-env.sh脚本设置。例如IP地址、端口等信息<br>日志配置：可以通过log4j.properties配置</p>
 </blockquote>
 </li>
 <li><p>parent</p>
@@ -185,7 +184,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

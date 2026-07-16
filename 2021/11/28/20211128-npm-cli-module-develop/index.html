@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2022-05-16 22:25:47</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-11-28 22:12:27</span>
     </div>
@@ -66,21 +66,21 @@ var _hmt = _hmt || [];
         </div> -->
       </div>
       <p>虽然现在图形化开发工具发展的已经非常成熟，但我们日常的开发工作和生产支持中还是离不开命令行工具。毕竟服务器上不会安装图形界面，本地开发使用命令行工具也能够大大提高开发效率，例如 <code>git</code> 、<code>npm</code> 等等。</p>
-<p>Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。Node.js 使用事件驱动、非阻塞的 I/O 模型，使其具备轻量高效的特点。npm 目前是全球最大的 Node.js 生态系统开源仓库。</p>
-<p>本文目标是创建一个基于 Node.js 的命令行工具，将本地的 Markdown 文件转换为 html 文件，并保存到指定的目录，这个工具的名字叫做 **<a target="_blank" rel="noopener" href="https://github.com/cocowool/popsite">popsite</a>**。计划的使用方法</p>
+<p>Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。Node.js 使用事件驱动、非阻塞的 I&#x2F;O 模型，使其具备轻量高效的特点。npm 目前是全球最大的 Node.js 生态系统开源仓库。</p>
+<p>本文目标是创建一个基于 Node.js 的命令行工具，将本地的 Markdown 文件转换为 html 文件，并保存到指定的目录，这个工具的名字叫做 <strong><a target="_blank" rel="noopener" href="https://github.com/cocowool/popsite">popsite</a></strong>。计划的使用方法</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pop markdown_file.md <span class="comment"># 将当前文件夹下的 markdown_file.md 文件转换为 markdown_file.html 文件</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="初始化工程"><a href="#初始化工程" class="headerlink" title="初始化工程"></a>初始化工程</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir popsite</span><br><span class="line">$ <span class="built_in">cd</span> popsite</span><br><span class="line">$ npm init			<span class="comment"># 初始化之后根据需要填写相关的内容，后续可以在 package.json 中进行修改</span></span><br></pre></td></tr></table></figure>
+<h2 id="初始化工程"><a href="#初始化工程" class="headerlink" title="初始化工程"></a>初始化工程</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mkdir</span> popsite</span><br><span class="line">$ <span class="built_in">cd</span> popsite</span><br><span class="line">$ npm init			<span class="comment"># 初始化之后根据需要填写相关的内容，后续可以在 package.json 中进行修改</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="生效命令"><a href="#生效命令" class="headerlink" title="生效命令"></a>生效命令</h2><p>我们可以使用 <code>npm link</code> 将当前的模块发布到全局的环境中，方便在本地进行测试。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ <span class="built_in">pwd</span></span><br><span class="line">/Users/shiqiang</span><br><span class="line">➜  ~ pop</span><br><span class="line">Pop init <span class="keyword">in</span> ./bin/pop.js</span><br><span class="line">➜  ~ npx pop</span><br><span class="line">Pop init <span class="keyword">in</span> ./bin/pop.js</span><br></pre></td></tr></table></figure>
 
 <h2 id="处理参数"><a href="#处理参数" class="headerlink" title="处理参数"></a>处理参数</h2><p>建议使用 commander 来提速参数的处理、帮助文档的展示、版本显示等功能的开发。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">program</span><br><span class="line">    .version(<span class="built_in">require</span>(<span class="string">&#x27;../package.json&#x27;</span>).version)</span><br><span class="line">    .usage(<span class="string">&#x27;pop markdown_file&#x27;</span>)</span><br><span class="line">    .parse(process.argv)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">program</span><br><span class="line">    .<span class="title function_">version</span>(<span class="built_in">require</span>(<span class="string">&#x27;../package.json&#x27;</span>).<span class="property">version</span>)</span><br><span class="line">    .<span class="title function_">usage</span>(<span class="string">&#x27;pop markdown_file&#x27;</span>)</span><br><span class="line">    .<span class="title function_">parse</span>(process.<span class="property">argv</span>)</span><br></pre></td></tr></table></figure>
 
 <h2 id="编写业务逻辑"><a href="#编写业务逻辑" class="headerlink" title="编写业务逻辑"></a>编写业务逻辑</h2><p>我将主要负责业务逻辑的模块放在了 <code>lib/popsite</code> 文件夹下，看了几天 hexo 的源码，感觉其基本思路也是将不同的功能模块，存放在 lib 下的不同文件夹中，通过一个模块调用的方法来根据模块名称实现相关功能的动态调用。</p>
 <p>下面是刚打好框架的源码内容：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&#x27;use strict&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Popsite = &#123;</span><br><span class="line">    <span class="attr">markdown2html</span> : <span class="function"><span class="keyword">function</span>(<span class="params"> file_name </span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;Begin Markdown to html, filename : &quot;</span> + file_name)</span><br><span class="line">        markdown_content = fs.readFile(file_name)</span><br><span class="line">        <span class="built_in">console</span>.log(markdown_content)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = Popsite;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&#x27;use strict&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="title class_">Popsite</span> = &#123;</span><br><span class="line">    markdown2html : <span class="keyword">function</span>(<span class="params"> file_name </span>)&#123;</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Begin Markdown to html, filename : &quot;</span> + file_name)</span><br><span class="line">        markdown_content = fs.<span class="title function_">readFile</span>(file_name)</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(markdown_content)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="title class_">Popsite</span>;</span><br></pre></td></tr></table></figure>
 
 <h2 id="发布到npm"><a href="#发布到npm" class="headerlink" title="发布到npm"></a>发布到npm</h2><p>发布到 npm 可以让我们的工具更方便被更多的人使用。在 <a target="_blank" rel="noopener" href="https://www.npmjs.com/">npmjs</a> 官网可以注册账号，发布的过程可以在命令行中完成，只需要下面一个命令就可以完成。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> popsite</span><br><span class="line">$ npm publish</span><br></pre></td></tr></table></figure>
@@ -134,7 +134,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

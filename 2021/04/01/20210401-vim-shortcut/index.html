@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-04-01 13:43:04</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-04-01 12:45:48</span>
     </div>
@@ -71,49 +71,43 @@ var _hmt = _hmt || [];
 <li>单词间移动光标：使用 <code>w</code> 向后跳转一个单词到下一个单词的开始，使用 <code>e</code> 向后跳转一个单词到单词的末尾，使用 <code>b</code> 向前跳转一个单词到单词的开头。</li>
 <li>插入模式：vim 打开文件后默认是只读模式，使用 <code>i</code> 能够进入插入模式，这时就可以向文件中写入内容。写入完成后，按 Esc 键即可退回到只读模式。</li>
 <li>替换模式：使用 <code>R</code> 进入替换模式，所有的内容都会被新输入的内容原地替换。</li>
-<li>删除字符：只读模式下我们想要删除某个字符，不需要转换到插入模式 + Delete。只需要使用 <code>x</code> / <code>X</code> 就能够快速的删除光标后一个字符或光标前一个字符，避免在两种模式间频繁切换。</li>
+<li>删除字符：只读模式下我们想要删除某个字符，不需要转换到插入模式 + Delete。只需要使用 <code>x</code> &#x2F; <code>X</code> 就能够快速的删除光标后一个字符或光标前一个字符，避免在两种模式间频繁切换。</li>
 <li>在行尾插入内容：<code>A</code> 可以将光标移动到行尾并且进入插入模式，方便快速的在行尾插入内容。</li>
 <li>撤销和重做：使用 <code>u</code> 能够快速撤销上一步操作，使用 <code>Ctrl + R</code> 能够重做刚才的动作。</li>
-<li>保存和推出：<code>:w</code> 保存对文件的修改，<code>:q</code> 退出文件。 </li>
+<li>保存和推出：<code>:w</code> 保存对文件的修改，<code>:q</code> 退出文件。</li>
 </ul>
-<img src="/2021/04/01/20210401-vim-shortcut/NSFileHandle.gif" class="" title="Vim 快捷键基础篇">
-
+<p><img src="/20210401-vim-shortcut/NSFileHandle.gif" alt="Vim 快捷键基础篇"></p>
 <h2 id="操作进阶"><a href="#操作进阶" class="headerlink" title="操作进阶"></a>操作进阶</h2><ul>
 <li>行内查找：<code>f</code> 在只读模式下，输入f后再加上要查找的内容，回车在行内进行查找，并将光标移动到行内内容上。<code>F</code> 是按照反方向在行内进行查找。<code>t</code> 和 <code>T</code> 也是做行内查找，只不过光标停留在查找内容的前面。</li>
 <li>删除内容：<code>d</code> 是删除的快捷键。<code>d + w</code> 表示向后删除一个单词，<code>d + fs</code> 表示向后删除到下一个字母s。<code>c</code> 与 <code>d</code> 的作用相同，只是完成删除操作后停留在插入模式。删除快捷键可以和很多移动光标的快捷键结合使用，来达到快速删除的目的，还可以加上数字来提高删除速度，这个操作真的需要大家自己认真体会一下。</li>
 <li>重复动作：<code>.</code> 键可以重复上一个编辑动作，包括删除内容、新建行等。</li>
 </ul>
-<img src="/2021/04/01/20210401-vim-shortcut/NSFileHandle-7253371.gif" class="" title="Vim 快捷键操作进阶">
-
+<p><img src="/20210401-vim-shortcut/NSFileHandle-7253371.gif" alt="Vim 快捷键操作进阶"></p>
 <h2 id="复制粘贴"><a href="#复制粘贴" class="headerlink" title="复制粘贴"></a>复制粘贴</h2><ul>
 <li>复制内容：<code>y</code> 快捷键+移动操作表示复制相关的内容，例如 <code>yw</code> 表示复制光标后面一个单词，<code>y$</code> 表示复制从光标到行尾的内容，<code>yy</code> 表示复制光标所在行的全部内容。</li>
 <li>粘贴内容：<code>p</code> 粘贴刚刚复制的内容，如果为一段文字则向光标后插入，如果是一行文字则向下插入。<code>P</code> 与 <code>p</code> 的粘贴方向相反。</li>
 <li>插入空行：<code>o</code> 可以向下插入空行，<code>O</code> 可以向上插入空行。</li>
 </ul>
-<img src="/2021/04/01/20210401-vim-shortcut/NSFileHandle-7254328.gif" class="" title="Vim 快捷键复制粘贴">
-
+<p><img src="/20210401-vim-shortcut/NSFileHandle-7254328.gif" alt="Vim 快捷键复制粘贴"></p>
 <h2 id="查找功能"><a href="#查找功能" class="headerlink" title="查找功能"></a>查找功能</h2><ul>
 <li>查找：<code>/</code> 是查找的快捷键，输入 <code>/</code> 后再输入需要查找的内容然后回车，匹配到的内容会高亮显示。使用 <code>n</code> 和 <code>N</code> 可以向前或向后移动匹配的内容。<code>?</code> 与 <code>/</code> 功能相同，只是查找的方向默认为向前查找。</li>
 </ul>
-<img src="/2021/04/01/20210401-vim-shortcut/NSFileHandle-7254607.gif" class="" title="Vim 快捷键查找功能">
-
+<p><img src="/20210401-vim-shortcut/NSFileHandle-7254607.gif" alt="Vim 快捷键查找功能"></p>
 <h2 id="标记与宏"><a href="#标记与宏" class="headerlink" title="标记与宏"></a>标记与宏</h2><ul>
 <li>标记：使用 <code>m</code> 加字母，可以将光标所在的位置进行标记。</li>
 <li>录制宏：使用 <code>q</code> 开启和停止一段录制，使用 <code>@</code> 重放一段录制的动作。</li>
 </ul>
-<img src="/2021/04/01/20210401-vim-shortcut/NSFileHandle-7254999.gif" class="" title="Vim 快捷键标记与宏">
-
+<p><img src="/20210401-vim-shortcut/NSFileHandle-7254999.gif" alt="Vim 快捷键标记与宏"></p>
 <h2 id="移动进阶"><a href="#移动进阶" class="headerlink" title="移动进阶"></a>移动进阶</h2><ul>
 <li>在配对的括号间跳转。<code>%</code> 可以在配对的括号、大括号、方括号间跳转。</li>
 <li>在屏幕上快速移动。使用 <code>H</code> 可以快速移动到屏幕顶端、使用 <code>M</code> 可以快速移动到屏幕中间，使用 <code>L</code> 可以快速移动到屏幕底部。</li>
 <li>指定位置跳转：使用 <code>G</code> 默认跳转到行尾，也可以指定需要跳转到的行号，即 <code>#15G</code> 就会跳转到第15行。</li>
 <li>跳转到帮助文档：<code>K</code> 可以跳转到光标当前所在命令的帮助文档。</li>
 </ul>
-<img src="/2021/04/01/20210401-vim-shortcut/NSFileHandle-7255373.gif" class="" title="Vim 快捷键标记与宏">
+<p><img src="/20210401-vim-shortcut/NSFileHandle-7255373.gif" alt="Vim 快捷键标记与宏"></p>
+<h2 id="其他技巧"><a href="#其他技巧" class="headerlink" title="其他技巧"></a>其他技巧</h2><p><img src="/20210401-vim-shortcut/NSFileHandle-7255761.gif" alt="Vim 快捷键"></p>
+<p><img src="/20210401-vim-shortcut/NSFileHandle-7255770.gif" alt="Vim 快捷键"></p>
 
-<h2 id="其他技巧"><a href="#其他技巧" class="headerlink" title="其他技巧"></a>其他技巧</h2><img src="/2021/04/01/20210401-vim-shortcut/NSFileHandle-7255761.gif" class="" title="Vim 快捷键">
-
-<img src="/2021/04/01/20210401-vim-shortcut/NSFileHandle-7255770.gif" class="" title="Vim 快捷键">
       <div class="blog-post-footer">
         <p><img src="/image/qrcode.jpg" alt=""></p>
         <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
@@ -149,7 +143,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

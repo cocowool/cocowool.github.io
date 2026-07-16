@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2012-04-05 10:37:01</span>
     </div>
@@ -70,18 +70,14 @@ var _hmt = _hmt || [];
 <p>PowerHA最多可以支持32台Computer或者节点Node，可以主动的在节点上运行应用（Active），也可以被动的接管失败的节点（Passive）。文件系统中的数据也可以在集群之间共享。</p>
 <p>PowerHA高度依赖 IBM RSCT（IBM Reliable Scalable Cluster Technology, RSCT,是为AIX和Linux集群环境管理，提供的一组全面的软件[<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/IBM_RSCT">2</a>]）</p>
 <p>下面探讨一下关于HACMP中实现高可用的方式，如下图是一个高可用的系统，在每个可能出现问题的节点上增加了冗余。</p>
-<img src="/2012/04/05/20120405-ibm-hacmp/20120405103659153.png" class="">
-
+<p><img src="/20120405-ibm-hacmp/20120405103659153.png"></p>
 <p>为了实现系统的高可用，避免单点故障（Single Points Of Failure，SPOF），我们需要考察一个系统中的以下节点：<br>1、服务器节点；<br>2、服务器电源；<br>3、网络适配器 Network Adapter；<br>4、网络通路 Network；<br>5、磁盘 Disk Adapter；<br>6、应用程序 Application；</p>
 <p>在HACMP中，通常将集群资源配置为一个个资源组 Resource Groups。这些资源组具有以下的属性：可以配置启动 Startup、切换 Failover、回撤 Fall back策略，设置处理时间和分布策略等。</p>
-<img src="/2012/04/05/20120405-ibm-hacmp/201204051037065871.png" class="" title="HACMP Hot standby configuration">
-
+<p><img src="/20120405-ibm-hacmp/201204051037065871.png" alt="HACMP Hot standby configuration"></p>
 <p>Mutal takeover</p>
-<img src="/2012/04/05/20120405-ibm-hacmp/201204051037109553.png" class="" title="Mutal takeover">
-
+<p><img src="/20120405-ibm-hacmp/201204051037109553.png" alt="Mutal takeover"></p>
 <p>Third party takeover</p>
-<img src="/2012/04/05/20120405-ibm-hacmp/20120405103715420.png" class="" title="Third party takeover">
-
+<p><img src="/20120405-ibm-hacmp/20120405103715420.png" alt="Third party takeover"></p>
 <p>最近的版本信息：</p>
 <ul>
 <li>PowerHA 7.1 发布于2010年，可用于AIX V6.1 TL6 以及 AIX V7.1</li>
@@ -126,7 +122,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

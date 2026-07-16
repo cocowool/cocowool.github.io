@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-06 12:39:31</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-01-06 19:16:27</span>
     </div>
@@ -68,7 +68,7 @@ var _hmt = _hmt || [];
       <p>一般情况下我们可以从公共渠道诸如 <a target="_blank" rel="noopener" href="https://hub.docker.com/">DockerHub</a> 获取镜像上获取镜像，但是在实际生产过程中，往往需要定制化的镜像，例如修改一些配置文件，增加一些特殊的命令或软件等需求，这时就需要通过编写 Dockerfile 来生成自定义的镜像文件。</p>
 <h2 id="Dockerfile介绍"><a href="#Dockerfile介绍" class="headerlink" title="Dockerfile介绍"></a>Dockerfile介绍</h2><p>Dockerfile 是一个文本格式的配置文件，通过编写 Dockerfile 脚本来定义自己需要的镜像。Dockerfile 文件由一行行命令语句组成，文件中的注释信息以 # 开头。编辑好 Dcokerfile 文件之后，我们可以通过 <code>docker build -t .</code> 命令生成自己定义的镜像文件。</p>
 <h2 id="Dockerfile基本结构"><a href="#Dockerfile基本结构" class="headerlink" title="Dockerfile基本结构"></a>Dockerfile基本结构</h2><p>我们看一下 <a target="_blank" rel="noopener" href="https://github.com/alpinelinux/docker-alpine/blob/f3d17bcb7b1fa51cf9b011403cd58e00fbbcd000/x86_64/Dockerfile">alpine</a> 的 Dockerfile 文件：</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> scratch</span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> alpine-minirootfs-20201218-x86_64.tar.gz /</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;/bin/sh&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> scratch</span><br><span class="line"><span class="keyword">ADD</span><span class="language-bash"> alpine-minirootfs-20201218-x86_64.tar.gz /</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;/bin/sh&quot;</span>]</span></span><br></pre></td></tr></table></figure>
 
 <p>Dockerfile 文件主要由三部分组成：</p>
 <ul>
@@ -110,14 +110,14 @@ var _hmt = _hmt || [];
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker build -t <span class="built_in">test</span>:0.1 .</span><br></pre></td></tr></table></figure>
 
 <p>当 Dockerfile 所在的文件夹文件过多时，为避免向服务端上传上下文过大，可以通过 .dockerignore 文件来让 Docker 忽略无关的文件。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ cat .dockerignore</span><br><span class="line">*xls</span><br><span class="line">*docx</span><br><span class="line">README.md</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> .dockerignore</span><br><span class="line">*xls</span><br><span class="line">*docx</span><br><span class="line">README.md</span><br></pre></td></tr></table></figure>
 
 <h2 id="实战案例"><a href="#实战案例" class="headerlink" title="实战案例"></a>实战案例</h2><p>总的来说，通过编写 Dockerfile 生成自定义镜像的过程不复杂，但是能生成高效的镜像还需要不断的尝试和联系，一般来说用于生产的镜像都尽量保证用途单一，减少镜像的层数，选择合适的基础镜像减小镜像文件大小，形成自己的版本号和标签管理规则，这样能提高自己生成镜像的质量。</p>
 <p>下面就以一个简单定义 python 基础镜像的例子，基础的 python 镜像缺少很多包例如爬虫常用的 requests ，自己定义一个包含 requests 包的镜像，编写的 Dockerfile 如下：</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> python:<span class="number">3.6</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple requests  </span></span><br></pre></td></tr></table></figure>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> python:<span class="number">3.6</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple requests  </span></span><br></pre></td></tr></table></figure>
 
 <p>执行镜像的创建命令</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ docker build -t python-requests-3.6:0.1 .</span><br><span class="line">$ docker images</span><br><span class="line">REPOSITORY                                      TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">python-requests-3.6                             0.1                 3c2bb72b2066        2 minutes ago       884MB</span><br><span class="line">python                                          3.6                 85146760634c        7 weeks ago         874MB</span><br><span class="line">$ docker run --rm -it -v <span class="string">&quot;<span class="variable">$PWD</span>&quot;</span>:/usr/src -w /usr/src python-requests-3.6:0.1 python3</span><br><span class="line">Python 3.6.12 (default, Nov 18 2020, 14:46:32) </span><br><span class="line">[GCC 8.3.0] on linux</span><br><span class="line">Type <span class="string">&quot;help&quot;</span>, <span class="string">&quot;copyright&quot;</span>, <span class="string">&quot;credits&quot;</span> or <span class="string">&quot;license&quot;</span> <span class="keyword">for</span> more information.</span><br><span class="line">&gt;&gt;&gt; import requests</span><br><span class="line">&gt;&gt;&gt; response = requests.get(<span class="string">&quot;http://baidu.com&quot;</span>)</span><br><span class="line">&gt;&gt;&gt; <span class="built_in">print</span>(response.text)</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">&quot;refresh&quot;</span> content=<span class="string">&quot;0;url=http://www.baidu.com/&quot;</span>&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ docker build -t python-requests-3.6:0.1 .</span><br><span class="line">$ docker images</span><br><span class="line">REPOSITORY                                      TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">python-requests-3.6                             0.1                 3c2bb72b2066        2 minutes ago       884MB</span><br><span class="line">python                                          3.6                 85146760634c        7 weeks ago         874MB</span><br><span class="line">$ docker run --<span class="built_in">rm</span> -it -v <span class="string">&quot;<span class="variable">$PWD</span>&quot;</span>:/usr/src -w /usr/src python-requests-3.6:0.1 python3</span><br><span class="line">Python 3.6.12 (default, Nov 18 2020, 14:46:32) </span><br><span class="line">[GCC 8.3.0] on linux</span><br><span class="line">Type <span class="string">&quot;help&quot;</span>, <span class="string">&quot;copyright&quot;</span>, <span class="string">&quot;credits&quot;</span> or <span class="string">&quot;license&quot;</span> <span class="keyword">for</span> more information.</span><br><span class="line">&gt;&gt;&gt; import requests</span><br><span class="line">&gt;&gt;&gt; response = requests.get(<span class="string">&quot;http://baidu.com&quot;</span>)</span><br><span class="line">&gt;&gt;&gt; <span class="built_in">print</span>(response.text)</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">&quot;refresh&quot;</span> content=<span class="string">&quot;0;url=http://www.baidu.com/&quot;</span>&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>可以看到镜像内的 python 环境已经支持 requests 包了。利用这种方式，我们不用在本地维护开发环境，特别是多个版本的开发环境，通过 Docker 生成不同版本的镜像能够快速的实现多版本的开发环境，大家可以参考 <a target="_blank" rel="noopener" href="http://www.edulinks.cn/2020/11/12/20201111-build-java-devlopment-env-with-docker/">利用 Docker 构建一个简单的 java 开发编译环境</a> 。自己定义的各种镜像，可以上传到 DockerHub，更换电脑后仅需要安装 Docker，之前的各种开发环境就回来了。</p>
 <p>对于 Docker 有进一步兴趣的，可以参考我的其他文章：</p>
@@ -131,7 +131,8 @@ var _hmt = _hmt || [];
 <li><a target="_blank" rel="noopener" href="http://www.edulinks.cn/2020/01/15/20200115-docker-compose-elk-cluster/">Docker Compose 建立ELK集群</a></li>
 </ul>
 <p>最后说点杂事，2021年刚开始没几天，年前立下的雄心壮志马上被各种无计划的事打乱了，感觉总是被打断，感觉总是时间不够用，原来以为是自己能力不够用，最近在云+社区上读了一个时间管理系列文章，才发现原来是自己坚持不够，给了自己点信心，2021刚开始还要继续加油才是，附上这个系列文章的链接，感兴趣的朋友可以读一读。</p>
-<img src="/2021/01/06/20210106-dockerfile/IMG_2772.JPG" class="" title="IMG_2772">
+<p><img src="/20210106-dockerfile/IMG_2772.JPG" alt="IMG_2772"></p>
+
       <div class="blog-post-footer">
         <p><img src="/image/qrcode.jpg" alt=""></p>
         <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
@@ -167,7 +168,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

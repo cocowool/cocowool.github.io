@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2022-11-04 22:11:36</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2017-12-26 17:27:00</span>
     </div>
@@ -79,13 +79,9 @@ var _hmt = _hmt || [];
 <h3 id="Mac-下的安装"><a href="#Mac-下的安装" class="headerlink" title="Mac 下的安装"></a>Mac 下的安装</h3><p>安装非常简单，我的Python版本时3.6，所以用了 pip3，如果需要jupyter notebook或者Qt支持，也需要同步安装jupyter。Python数据分析这本书中推荐使用<a target="_blank" rel="noopener" href="https://www.enthought.com/product/enthought-python-distribution">EDM</a>这是一个集成环境，可能对软件依赖管理的比较好，其实自己安装也没什么问题。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pip3 install ipython</span><br><span class="line">pip3 install jupyter</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果需要交互式的可视化终端，还需要安装pytq5</span></span><br><span class="line">pip3 install pyqt5</span><br></pre></td></tr></table></figure>
 
-<h3 id="交互式Shell环境"><a href="#交互式Shell环境" class="headerlink" title="交互式Shell环境"></a>交互式Shell环境</h3><p>命令行输入IPython就可以进入ipython的环境，输入前面包含In和行号，输出包含Out和行号。</p>
-<img src="/2017/12/26/20171226-ipython-introduce/39469-20171226172630698-924361539.png" class="">
-
+<h3 id="交互式Shell环境"><a href="#交互式Shell环境" class="headerlink" title="交互式Shell环境"></a>交互式Shell环境</h3><p>命令行输入IPython就可以进入ipython的环境，输入前面包含In和行号，输出包含Out和行号。<br><img src="/20171226-ipython-introduce/39469-20171226172630698-924361539.png"></p>
 <h4 id="与操作系统交互"><a href="#与操作系统交互" class="headerlink" title="与操作系统交互"></a>与操作系统交互</h4><p>IPython和操作系统结合的非常紧密，可以直接在命令行中执行操作系统的命令。</p>
-<h4 id="Tab补齐与提示"><a href="#Tab补齐与提示" class="headerlink" title="Tab补齐与提示"></a>Tab补齐与提示</h4><p>在IPython的界面中，按Tab键可以做很多工作，如果执行Shell命令，tab可以补齐文件名，如果是Python代码，可以补齐变量名，用<code>.</code>之后，可以提示对象包含的属性和方法。</p>
-<img src="/2017/12/26/20171226-ipython-introduce/39469-20171227105214354-667896144.png" class="">
-
+<h4 id="Tab补齐与提示"><a href="#Tab补齐与提示" class="headerlink" title="Tab补齐与提示"></a>Tab补齐与提示</h4><p>在IPython的界面中，按Tab键可以做很多工作，如果执行Shell命令，tab可以补齐文件名，如果是Python代码，可以补齐变量名，用<code>.</code>之后，可以提示对象包含的属性和方法。<br><img src="/20171226-ipython-introduce/39469-20171227105214354-667896144.png"></p>
 <h4 id="记录命令历史"><a href="#记录命令历史" class="headerlink" title="记录命令历史"></a>记录命令历史</h4><p>IPython在本地磁盘维护了一个小型的数据库来记录用户输入的历史以及输出的日志，并且提供了几个快捷键，方便大家快速查找历史命令。还可以用<code>%hist</code>来查看输入的历史记录。</p>
 <h4 id="输入和输出变量"><a href="#输入和输出变量" class="headerlink" title="输入和输出变量"></a>输入和输出变量</h4><p>IPython环境对用户的输入和输出都会记录。输入变量保存在<code>_iX</code>格式的变量中，X表示行号。如果我们想查看第2行的输入内容，可以使用<code>_i2</code>。</p>
 <h4 id="目录书签系统"><a href="#目录书签系统" class="headerlink" title="目录书签系统"></a>目录书签系统</h4><p>IPython提供了一个简单的目录书签系统，可以方便我们快速切换目录。书签会被自动初始化，这样可以在不同会话间保留。</p>
@@ -95,11 +91,7 @@ var _hmt = _hmt || [];
 <h3 id="魔术命令"><a href="#魔术命令" class="headerlink" title="魔术命令"></a>魔术命令</h3><p>IPython中提供了一些以<code>%</code>开头的特殊命令，我们称这些命令为魔术命令 Magic Command。魔术命令可以认为是IPython系统中的命令行程序，使用<code>?</code>可以查看选项。魔术命令也可以不带百分号直接使用，只要没有定义与其同名的变量就可以，这个技术叫做 automagic ，可以通过<code>%automagic</code>打开或关闭。可以在IPython中查看相关文档，输入<code>%magic</code>即可。</p>
 <h4 id="常用的魔术命令"><a href="#常用的魔术命令" class="headerlink" title="常用的魔术命令"></a>常用的魔术命令</h4><h4 id="run-命令"><a href="#run-命令" class="headerlink" title="%run 命令"></a>%run 命令</h4><p>在IPython环境中，所有文件都可以通过%run命令当作Python程序来运行。我理解就是把Python脚本放到一个新的命名空间中进行后台运行，通过IPython交互环境，可以调用现实Python程序中的变量。</p>
 <h4 id="执行剪贴板中的代码"><a href="#执行剪贴板中的代码" class="headerlink" title="执行剪贴板中的代码"></a>执行剪贴板中的代码</h4><p>对于一线代码片段，可以拷贝到IPython的环境中执行查看结果，但是对于有空行的代码，直接使用操作系统的复制粘贴快捷键会报错，这个时候需要使用<code>%paste</code>和<code>%cpaste</code>这两个魔术函数。<code>%paste</code>函数会将粘贴板中的代码粘贴到交互式命令行中。<code>%cpaste</code>函数执行后，进入一个交互环境，只有输入<code>__</code>或者Ctrl+D才结束代码的复制。</p>
-<h3 id="交互式数据可视化"><a href="#交互式数据可视化" class="headerlink" title="交互式数据可视化"></a>交互式数据可视化</h3><p>IPython支持给予Qt框架的GUI控制台，如下图所示。如果需要交互环境，需要安装PyQt5。</p>
-<img src="/2017/12/26/20171226-ipython-introduce/39469-20171226172644354-1818808889.png" class="">
-<p>IPython可以与matplotlib密切结合。</p>
-<img src="/2017/12/26/20171226-ipython-introduce/39469-20171227105155104-1875327084.png" class="">
-
+<h3 id="交互式数据可视化"><a href="#交互式数据可视化" class="headerlink" title="交互式数据可视化"></a>交互式数据可视化</h3><p>IPython支持给予Qt框架的GUI控制台，如下图所示。如果需要交互环境，需要安装PyQt5。<br><img src="/20171226-ipython-introduce/39469-20171226172644354-1818808889.png"><br>IPython可以与matplotlib密切结合。<br><img src="/20171226-ipython-introduce/39469-20171227105155104-1875327084.png"></p>
 <h3 id="开发调试利器"><a href="#开发调试利器" class="headerlink" title="开发调试利器"></a>开发调试利器</h3><p>%debug<br>%pdb</p>
 <p>%time</p>
 <h3 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h3><p>1、<a target="_blank" rel="noopener" href="http://ipython.org/">IPython</a><br>2、<a target="_blank" rel="noopener" href="https://jupyter.org/">Jupyter</a><br>3、<a target="_blank" rel="noopener" href="http://matplotlib.org/">matplotlib</a></p>
@@ -139,7 +131,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

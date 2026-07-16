@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-30 20:53:12</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2017-08-25 13:46:01</span>
     </div>
@@ -68,7 +68,7 @@ var _hmt = _hmt || [];
       <p>今天在使用Logstash的jdbc_input插件同步Mysql数据时，本来应该能搜索出10条数据，结果在Elasticsearch中只看到了4条，终端中只给出了如下信息</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[2017-08-25T13:31:04,084][INFO ][logstash.pipeline ]Pipeline terminated &lt;“pipeline.id”=&gt;”main”&gt;</span><br></pre></td></tr></table></figure>
 <p>看不出所以然，到 logstash 的日志 logs 目录下看最新的日志，发现了一些信息。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[2017-08-25T13:28:02,076][WARN ][logstash.inputs.jdbc ] Exception when executing JDBC query &#123;“exception=&gt;<span class="comment">#&lt;Sequel::DatabaseError: Java::JavaSql::SQLException: Value ‘0000-00-00 00:00:00’ can not be represented as java.sql.Timestamp&gt;&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[2017-08-25T13:28:02,076][WARN ][logstash.inputs.jdbc ] Exception when executing JDBC query &#123;“exception=&gt;#&lt;Sequel::DatabaseError: Java::JavaSql::SQLException: Value ‘0000-00-00 00:00:00’ can not be represented as java.sql.Timestamp&gt;&#125;</span><br></pre></td></tr></table></figure>
 <p>原来是JDBC无法处理Mysql中默认的空时间，这个可以通过JDBC连接串中指定配置来将空时间转换为Null，如下：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">input</span> &#123;</span><br><span class="line">  <span class="string">jdbc</span> &#123;</span><br><span class="line">    <span class="string">jdbc_driver_library</span> <span class="string">=&gt;</span> <span class="string">“”</span></span><br><span class="line">    <span class="string">jdbc_driver_class</span> <span class="string">=&gt;</span> <span class="string">“com.mysql.jdbc.Driver”</span></span><br><span class="line">    <span class="string">jdbc_connection_string</span> <span class="string">=&gt;</span> <span class="string">“jdbc:mysql://localhost:3306/dcod?zeroDateTimeBehaviro=convertToNull”</span></span><br><span class="line">    <span class="string">jdbc_user</span> <span class="string">=&gt;</span> <span class="string">“root”</span></span><br><span class="line">    <span class="string">jdbc_password</span> <span class="string">=&gt;</span> <span class="string">“”</span></span><br><span class="line">    <span class="string">statement</span> <span class="string">=&gt;</span> <span class="string">“select</span> <span class="string">*</span> <span class="string">from</span> <span class="string">table&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>重新跑一下 Logstash，OK问题解决。</p>
@@ -112,7 +112,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

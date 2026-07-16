@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Linux下使用awk命令使用-大江小浪</title>
     <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="Linux, Kubernetes, Docker, PHP, java, javascript, CSS, 科技互联网, IT, 开发, 研发, 计算机名人">
-    <meta name="description" content="大江小浪，关注数据中心运维、金融科技、互联网相关技术与行业发展趋势，擅长应用运维管理、Linux、Java、Elasticsearch、Kubernetes、PHP相关技术。">
+    <meta name="keywords" content="">
+    <meta name="description" content="世事如潮人如水，一入江湖几时回">
     <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
     <link rel="stylesheet" href="/css/main.css" />
     <script>
@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2022-04-12 21:53:29</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-06-04 15:46:38</span>
     </div>
@@ -74,23 +74,23 @@ var _hmt = _hmt || [];
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ awk [ -F fs ] [ -v var=value ] [ <span class="string">&#x27;prog&#x27;</span> | -f progfile ] [ file ...  ]</span><br><span class="line">$ awk <span class="string">&#x27;[ pattern ] &#123;action&#125;&#x27;</span> [ filename ... ]</span><br></pre></td></tr></table></figure>
 
 <p>用单引号引起来的部分称为 programs，包括样式和动作两个部分。看下面一个简单的例子，这个例子将 <code>who</code> 命令输出的内容第一列打印出来。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ who</span><br><span class="line">shiqiang console  May 29 08:26 </span><br><span class="line">shiqiang ttys000  May 30 12:05</span><br><span class="line">$ who | awk <span class="string">&#x27;&#123;print $1&#125;&#x27;</span></span><br><span class="line">shiqiang</span><br><span class="line">shiqiang</span><br><span class="line">$ who | awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span></span><br><span class="line">console</span><br><span class="line">ttys000</span><br><span class="line">$ who | awk <span class="string">&#x27;&#123;print $1 , $4&#125;&#x27;</span></span><br><span class="line">shiqiang 29</span><br><span class="line">shiqiang 30</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">who</span></span><br><span class="line">shiqiang console  May 29 08:26 </span><br><span class="line">shiqiang ttys000  May 30 12:05</span><br><span class="line">$ <span class="built_in">who</span> | awk <span class="string">&#x27;&#123;print $1&#125;&#x27;</span></span><br><span class="line">shiqiang</span><br><span class="line">shiqiang</span><br><span class="line">$ <span class="built_in">who</span> | awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span></span><br><span class="line">console</span><br><span class="line">ttys000</span><br><span class="line">$ <span class="built_in">who</span> | awk <span class="string">&#x27;&#123;print $1 , $4&#125;&#x27;</span></span><br><span class="line">shiqiang 29</span><br><span class="line">shiqiang 30</span><br></pre></td></tr></table></figure>
 
 <p>awk 处理文本以行为单位，默认情况下处理所有行的文本，上面例子中有两行文本，全部进行了处理。默认情况下，awk 采用空格来分割单词，<code>$1</code> 表示按照空格分割后的第1个单词。<code>$NF</code> 表示最后一个单词。根据需要，我们可以打印一个或多个单词。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ cat dennis-ritchie.txt </span><br><span class="line">Unix is basically a simple operating system, but you have to be genius to understand the simplicity.</span><br><span class="line">$ awk <span class="string">&#x27;&#123;print $1,$5,$NF&#125;&#x27;</span> dennis-ritchie.txt</span><br><span class="line">Unix simple simplicity.</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> dennis-ritchie.txt </span><br><span class="line">Unix is basically a simple operating system, but you have to be genius to understand the simplicity.</span><br><span class="line">$ awk <span class="string">&#x27;&#123;print $1,$5,$NF&#125;&#x27;</span> dennis-ritchie.txt</span><br><span class="line">Unix simple simplicity.</span><br></pre></td></tr></table></figure>
 
 <p>如果想将输入的内容用连接字符接起来，可以使用 <code>OFS</code> 参数（Output Field Separator）。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ date               </span><br><span class="line">2021年 6月 8日 星期二 10时41分51秒 CST</span><br><span class="line">$ date | awk <span class="string">&#x27;OFS=&quot;-&quot; &#123;print $2,$3,$1&#125;&#x27;</span></span><br><span class="line">6月-8日-2021年</span><br><span class="line">$ date | awk <span class="string">&#x27;OFS=&quot;/&quot; &#123;print $2,$3,$1&#125;&#x27;</span></span><br><span class="line">6月/8日/2021年</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">date</span>               </span><br><span class="line">2021年 6月 8日 星期二 10时41分51秒 CST</span><br><span class="line">$ <span class="built_in">date</span> | awk <span class="string">&#x27;OFS=&quot;-&quot; &#123;print $2,$3,$1&#125;&#x27;</span></span><br><span class="line">6月-8日-2021年</span><br><span class="line">$ <span class="built_in">date</span> | awk <span class="string">&#x27;OFS=&quot;/&quot; &#123;print $2,$3,$1&#125;&#x27;</span></span><br><span class="line">6月/8日/2021年</span><br></pre></td></tr></table></figure>
 
 <h3 id="BEGIN-和-END"><a href="#BEGIN-和-END" class="headerlink" title="BEGIN 和 END"></a>BEGIN 和 END</h3><p>我们常有一些在文本出来开始之前的准备工作，或者文本处理完成之后的总结工作，利用 <code>BEGIN\END</code> 这两个规则可以快速的满足需求。awk 支持多个BEGIN或END，并按照他们的顺序依次执行。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ who</span><br><span class="line">shiqiang console  May 29 08:26 </span><br><span class="line">shiqiang ttys000  May 30 12:05</span><br><span class="line">$ who | awk <span class="string">&#x27;BEGIN &#123;print &quot;Active Sessions&quot;&#125; &#123;print $1,$5&#125;&#x27;</span></span><br><span class="line">Active Sessions</span><br><span class="line">shiqiang 08:26</span><br><span class="line">shiqiang 12:05</span><br><span class="line">$ who | awk <span class="string">&#x27;BEGIN &#123;print &quot;Active Sessions&quot;&#125; &#123;print $1,$5&#125; END &#123;print &quot;The End&quot;&#125;&#x27;</span></span><br><span class="line">Active Sessions</span><br><span class="line">shiqiang 08:26</span><br><span class="line">shiqiang 12:05</span><br><span class="line">The End</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">who</span></span><br><span class="line">shiqiang console  May 29 08:26 </span><br><span class="line">shiqiang ttys000  May 30 12:05</span><br><span class="line">$ <span class="built_in">who</span> | awk <span class="string">&#x27;BEGIN &#123;print &quot;Active Sessions&quot;&#125; &#123;print $1,$5&#125;&#x27;</span></span><br><span class="line">Active Sessions</span><br><span class="line">shiqiang 08:26</span><br><span class="line">shiqiang 12:05</span><br><span class="line">$ <span class="built_in">who</span> | awk <span class="string">&#x27;BEGIN &#123;print &quot;Active Sessions&quot;&#125; &#123;print $1,$5&#125; END &#123;print &quot;The End&quot;&#125;&#x27;</span></span><br><span class="line">Active Sessions</span><br><span class="line">shiqiang 08:26</span><br><span class="line">shiqiang 12:05</span><br><span class="line">The End</span><br></pre></td></tr></table></figure>
 
 <h3 id="单词分隔符"><a href="#单词分隔符" class="headerlink" title="单词分隔符"></a>单词分隔符</h3><p>有些文件中的单词或数据并不以空格分割，例如 <code>/etc/passwd</code> 文件或者一些 csv 文件。我们可以使用 <code>-F</code> 参数指定分割字符串。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ awk -F: <span class="string">&#x27;&#123;print $1,$5&#125;&#x27;</span> /etc/passwd</span><br></pre></td></tr></table></figure>
 
 <h3 id="增加Pattern"><a href="#增加Pattern" class="headerlink" title="增加Pattern"></a>增加Pattern</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ awk <span class="string">&#x27;[ pattern ] &#123;action&#125;&#x27;</span> [ filename ... ]</span><br></pre></td></tr></table></figure>
 
-<p>如果需要对 action 的内容做过滤，可以添加 pattern。如下例，在 /etc/passwd 文件中，将UID大于1000的用户打印出来。</p>
+<p>如果需要对 action 的内容做过滤，可以添加 pattern。如下例，在 &#x2F;etc&#x2F;passwd 文件中，将UID大于1000的用户打印出来。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ awk -F: <span class="string">&#x27;$3 &gt;= 1000 &#123;print $1,$6&#125;&#x27;</span> /etc/passwd</span><br></pre></td></tr></table></figure>
 
 <p>还可以利用 BEGIN 命令，打印一个简单的表头。</p>
@@ -107,13 +107,12 @@ var _hmt = _hmt || [];
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/awk -f</span></span><br><span class="line"></span><br><span class="line">BEGIN &#123;</span><br><span class="line">	<span class="comment"># 设置分隔符和输出连接符</span></span><br><span class="line">	FS=<span class="string">&quot;:&quot;</span></span><br><span class="line">	OFS=<span class="string">&quot;:&quot;</span></span><br><span class="line">	<span class="comment"># 初始化变量</span></span><br><span class="line">	accounts=0</span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">	<span class="variable">$2</span>=<span class="string">&quot;&quot;</span></span><br><span class="line">	<span class="built_in">print</span> <span class="variable">$0</span></span><br><span class="line">	accounts++</span><br><span class="line">&#125;</span><br><span class="line">END &#123;</span><br><span class="line">	<span class="built_in">print</span> accounts <span class="string">&quot; accounts.\n&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>将内容保存为 awk.sh 文件，看一下执行效果</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ chmod +x awk.sh</span><br><span class="line">$ ./awk.sh /etc/passwd</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">chmod</span> +x awk.sh</span><br><span class="line">$ ./awk.sh /etc/passwd</span><br></pre></td></tr></table></figure>
 
-<img src="/2021/06/04/20210605-how-to-use-awk-on-linux/image-20210610083102919.png" class="" title="image-20210610083102919">    
-
+<p><img src="/20210605-how-to-use-awk-on-linux/image-20210610083102919.png" alt="image-20210610083102919">	</p>
 <h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>本文总结了AWK的一些常见用法。</p>
 <p>1、打印文件的前两列（空格为分隔符）   </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ awk ‘&#123;<span class="built_in">print</span> <span class="variable">$1</span>,<span class="variable">$2</span>&#125;’ awkfile</span><br><span class="line">$ grep <span class="string">&quot;fangdudu&quot;</span> * | cut -d <span class="string">&quot; &quot;</span> -f3-</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ awk ‘&#123;<span class="built_in">print</span> <span class="variable">$1</span>,<span class="variable">$2</span>&#125;’ awkfile</span><br><span class="line">$ grep <span class="string">&quot;fangdudu&quot;</span> * | <span class="built_in">cut</span> -d <span class="string">&quot; &quot;</span> -f3-</span><br></pre></td></tr></table></figure>
 
 <p>2、逗号为分隔符，打印指定的列</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ awk -F , <span class="string">&#x27;&#123;print $1,$2,$20,$21,$22&#125;&#x27;</span> n_epm_user.sql</span><br></pre></td></tr></table></figure>
@@ -164,7 +163,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

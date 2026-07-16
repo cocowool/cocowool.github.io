@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-31 23:05:52</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2020-03-29 17:47:54</span>
     </div>
@@ -74,12 +74,11 @@ var _hmt = _hmt || [];
 <h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>如果有需求要求在PC版上显示广告，而在移动版上隐藏广告内容，这就会与Google Adsense的要求冲突，因为在服务条例中不允许对广告单元使用<code>display:none</code>或者使用其他的HTML元素。</p>
 <p>这时会报出以下错误。</p>
 <blockquote>
-<p>Uncaught TagError: adsbygoogle.push() error: No slot size for availableWidth=0</p>
+<p>Uncaught TagError: adsbygoogle.push() error: No slot size for availableWidth&#x3D;0</p>
 </blockquote>
 <p>这个错误在容器没有可计算出的<code>width</code>属性时发生，例如将元素隐藏、元素使用了绝对或者浮动布局。</p>
 <p>最近我更换了博客模板，在向自己的博客添加Google Adsense时，也不小心触发了这个错误。</p>
-<img src="/2020/03/29/20200326-google-adsense-error/WX20200327-090646.png" class="" title="WX20200327-090646">
-
+<p><img src="/20200326-google-adsense-error/WX20200327-090646.png" alt="WX20200327-090646"></p>
 <h2 id="官方方案"><a href="#官方方案" class="headerlink" title="官方方案"></a>官方方案</h2><p>为满足上面的需求，Google Adsense允许通过CSS3的<code>media queries</code>来对广告单元做特定的修改，具体要求如下：</p>
 <ol>
 <li>不能使用响应式广告控制的特性，例如需要移除广告代码中的<code>data-ad-format</code>。</li>
@@ -127,7 +126,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2023-12-27 08:32:56</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-01-26 14:24:51</span>
     </div>
@@ -67,8 +67,7 @@ var _hmt = _hmt || [];
       </div>
       <p>nmap(Network Mapper)是一款用于网络扫描和安全审计软件开源软件，支持Windows、Mac、Linux等多个平台。同时，很多网络管理员也用它来进行网络设备管理、服务升级和主机监控。NMAP使用原始的IP包来探测网络上存活的主机、服务、操作系统等各种信息。NMAP被设计用来进行大型网络的扫描，但也可以用来对单个目标进行扫描。Nmap还曾在20部电影大屏幕上出现过。</p>
 <h2 id="一、下载安装。"><a href="#一、下载安装。" class="headerlink" title="一、下载安装。"></a>一、下载安装。</h2><p>Windows下有exe安装包以及图形界面，我感觉使用起来最方便。Linux和Mac下也都有RPM和DMG安装包，安装相对简单，使用上可能命令行的场景比较多，具体使用哪个版本就看各人喜好了。</p>
-<img src="/2021/01/26/20210126-nmap-notes/NSFileHandle.png" class="" title="NSFileHandle">
-
+<p><img src="/20210126-nmap-notes/NSFileHandle.png" alt="NSFileHandle"></p>
 <h2 id="二、主机发现"><a href="#二、主机发现" class="headerlink" title="二、主机发现"></a>二、主机发现</h2><h3 id="2-1-常规扫描"><a href="#2-1-常规扫描" class="headerlink" title="2.1 常规扫描"></a>2.1 常规扫描</h3><p>简单的在命令后加ip地址，可以进行常规扫描，查看主机是否存活以及开放的端口。</p>
 <p><code>nmap 11.133.171.200</code></p>
 <h3 id="2-2-Ping-扫描"><a href="#2-2-Ping-扫描" class="headerlink" title="2.2 Ping 扫描"></a>2.2 Ping 扫描</h3><p>类似于Ping命令，仅执行Ping扫描，可以快速发现主机是否存活。</p>
@@ -76,7 +75,7 @@ var _hmt = _hmt || [];
 <p>如果想看具体的过程，可以加上 <code>--packet-trace</code> 参数，这样在返回结果之前，可以看到每一步的交互过程。</p>
 <h3 id="2-3-TCP-SYN-Ping-扫描"><a href="#2-3-TCP-SYN-Ping-扫描" class="headerlink" title="2.3 TCP SYN Ping 扫描"></a>2.3 TCP SYN Ping 扫描</h3><p>通常情况下，Nmap默认Ping扫描是使用TCP ACK和ICMP Echo请求对目标进行是否存活的响应，当目标主机的防火墙阻止这些请求时，可以使用TCP Syn Ping扫描。</p>
 <blockquote>
-<p>TCP协议是TCP/IP协议族中的面向连接的、可靠的传输层协议，允许发送和接收字节流形式的数据。为了使服务器和客户端以不同的速度产生和消费数据，TCP提供了发送和接收两个缓冲区。TCP提供全双工服务，数据同时能双向流动。通信的每一方都有发送和接收两个缓冲区，可以双向发送数据。</p>
+<p>TCP协议是TCP&#x2F;IP协议族中的面向连接的、可靠的传输层协议，允许发送和接收字节流形式的数据。为了使服务器和客户端以不同的速度产生和消费数据，TCP提供了发送和接收两个缓冲区。TCP提供全双工服务，数据同时能双向流动。通信的每一方都有发送和接收两个缓冲区，可以双向发送数据。</p>
 </blockquote>
 <p><code>nmap -PS -v 11.133.171.1-254</code></p>
 <h3 id="2-4-TCP-ACK-Ping-扫描"><a href="#2-4-TCP-ACK-Ping-扫描" class="headerlink" title="2.4 TCP ACK Ping 扫描"></a>2.4 TCP ACK Ping 扫描</h3><p><code>nmap -PA -v 11.133.171.1-254</code></p>
@@ -84,7 +83,7 @@ var _hmt = _hmt || [];
 <h3 id="2-5-UDP-Ping-扫描"><a href="#2-5-UDP-Ping-扫描" class="headerlink" title="2.5 UDP Ping 扫描"></a>2.5 UDP Ping 扫描</h3><p><code>nmap -PU -v 11.133.171.1-254</code></p>
 <p><code>-PU</code> 选项是发送一个空的UDP报文到指定端口，如果目标主机响应则返回一个ICMP端口不可达错误，如果目标主机不是存活状态则会返回各种ICMP报错信息。</p>
 <h3 id="2-6-ICMP-Ping-Types-扫描"><a href="#2-6-ICMP-Ping-Types-扫描" class="headerlink" title="2.6 ICMP Ping Types 扫描"></a>2.6 ICMP Ping Types 扫描</h3><blockquote>
-<p>ICMP (Internet Control Message Protocol)是Internet控制报文协议。它是TCP/IP协议族的一个子协议用于在IP主机、路由器之间传递控制消息。控制消息是指网络通不通、主机是否可达、路由是否可用等网络本身的消息。这些消息虽然并不传输用户数据，但是对于用户数据的传递起着重要作用。</p>
+<p>ICMP (Internet Control Message Protocol)是Internet控制报文协议。它是TCP&#x2F;IP协议族的一个子协议用于在IP主机、路由器之间传递控制消息。控制消息是指网络通不通、主机是否可达、路由是否可用等网络本身的消息。这些消息虽然并不传输用户数据，但是对于用户数据的传递起着重要作用。</p>
 </blockquote>
 <p>ICMP Echo 方式扫描</p>
 <p><code>nmap -PE -v 11.133.171.1-254</code></p>
@@ -95,7 +94,7 @@ var _hmt = _hmt || [];
 <h3 id="2-7-ARP-Ping-扫描"><a href="#2-7-ARP-Ping-扫描" class="headerlink" title="2.7 ARP Ping 扫描"></a>2.7 ARP Ping 扫描</h3><p><code>nmap -PR 11.133.171.1-254</code></p>
 <p>这个选项通常用在扫描局域网时，在本地局域网中防火墙不会禁止ARP请求，这就使它的扫描更加高效。</p>
 <blockquote>
-<p>地址解析协议，即ARP（Address Resolution Protocol），是根据IP地址获取物理地址的一个TCP/IP协议，其功能：主机将ARP请求广播到网络上的所有主机，并接收返回消息，确定目标IP地址的物理地址，同时将IP地址和硬件地址存入本机ARP缓存中，下次请求时直接查询ARP缓存。</p>
+<p>地址解析协议，即ARP（Address Resolution Protocol），是根据IP地址获取物理地址的一个TCP&#x2F;IP协议，其功能：主机将ARP请求广播到网络上的所有主机，并接收返回消息，确定目标IP地址的物理地址，同时将IP地址和硬件地址存入本机ARP缓存中，下次请求时直接查询ARP缓存。</p>
 </blockquote>
 <h2 id="三、端口扫描"><a href="#三、端口扫描" class="headerlink" title="三、端口扫描"></a>三、端口扫描</h2><p>端口是指接口电路中的一些寄存器，这些寄存器分别用来存放数据信息、控制信息和状态信息，相应的端口分别称为数据端口、控制端口和状态端口。</p>
 <p>端口状态。NMAP提供了6个端口状态，分别是Open、Closed、Filtered、Unfiltered、Open|Filtered、Closed|Filtered。</p>
@@ -206,7 +205,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

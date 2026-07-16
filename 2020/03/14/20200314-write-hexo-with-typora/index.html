@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2024-02-22 08:34:23</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2020-03-14 08:07:13</span>
     </div>
@@ -83,31 +83,27 @@ var _hmt = _hmt || [];
 <p>我没有选择图床作为图片的保存方式，一方面免费的图床很不稳定，另一方面使用图床在没有网络的情况下可能浏览器来还是不太方便。我还是习惯将所有笔记最终都归档保存在Evernote中。</p>
 </blockquote>
 <h2 id="Typora-编写博客"><a href="#Typora-编写博客" class="headerlink" title="Typora 编写博客"></a>Typora 编写博客</h2><p>Typora支持将插入的图片文件拷贝到指定路径，通过<code>Typora-&gt;偏好设置-&gt;图像</code>，然后参照下图选择<code>复制到指定路径</code>将图片拷贝到与Markdown文件同名目录下。</p>
-<img src="/2020/03/14/20200314-write-hexo-with-typora/image-20200314080935503.png" class="" title="image-20200314080935503">
-
+<p><img src="/20200314-write-hexo-with-typora/image-20200314080935503.png" alt="image-20200314080935503"></p>
 <p>这样我们在编辑博客的时候，就可以实时看到插入的图片。可以截图插入，也可以从网页上直接拖拽插入，非常方便。</p>
-<img src="/2020/03/14/20200314-write-hexo-with-typora/image-20200314195122981.png" class="" title="image-20200314195122981">
-
+<p><img src="/20200314-write-hexo-with-typora/image-20200314195122981.png" alt="image-20200314195122981"></p>
 <p>查看Markdown源代码，看到图片是以Markdown的图片格式插入的。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">{% asset_img "image-20200314195122981.png" "image</span><span class="number">-20200314195122981</span><span class="string">" %}</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">![image</span><span class="number">-20200314195122981</span><span class="string">](20200314-write-hexo-with-typora/image-20200314195122981.png)</span></span><br></pre></td></tr></table></figure>
 
 
 
 <h2 id="Hexo配置"><a href="#Hexo配置" class="headerlink" title="Hexo配置"></a>Hexo配置</h2><p>首先修改 hexo 全局配置文件 <code>_config.yml</code> 中的配置：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 <p>这样在我们每次新建Markdown文件的时候，都会创建一个与文件同名的文件夹用于存放图片。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new 20200314-es-monitoring-metric</span><br><span class="line">$ ls <span class="built_in">source</span>/_posts/</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x   4 shiqiang  staff   128B  3 14 07:58 ./</span><br><span class="line">drwx------+ 32 shiqiang  staff   1.0K  3 14 07:52 ../</span><br><span class="line">drwxr-xr-x   2 shiqiang  staff    64B  3 14 07:58 20200314-es-monitoring-metric/</span><br><span class="line">-rw-r--r--   1 shiqiang  staff    77B  3 14 07:58 20200314-es-monitoring-metric.md</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new 20200314-es-monitoring-metric</span><br><span class="line">$ <span class="built_in">ls</span> <span class="built_in">source</span>/_posts/</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x   4 shiqiang  staff   128B  3 14 07:58 ./</span><br><span class="line">drwx------+ 32 shiqiang  staff   1.0K  3 14 07:52 ../</span><br><span class="line">drwxr-xr-x   2 shiqiang  staff    64B  3 14 07:58 20200314-es-monitoring-metric/</span><br><span class="line">-rw-r--r--   1 shiqiang  staff    77B  3 14 07:58 20200314-es-monitoring-metric.md</span><br></pre></td></tr></table></figure>
 
 <p>使用<code>hexo generate</code>生成静态文件后，可以观察到图片已经拷贝到了对应的目录下。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ ls public/2020/03/14/20200314-write-hexo-with-typora/</span><br><span class="line">total 424</span><br><span class="line">drwxr-xr-x  6 shiqiang  staff   192B  3 14 10:26 ./</span><br><span class="line">drwxr-xr-x  4 shiqiang  staff   128B  3 14 10:26 ../</span><br><span class="line">-rw-r--r--  1 shiqiang  staff    14K  3 14 10:26 Screenshot-150-1-20200314081849804.png</span><br><span class="line">-rw-r--r--  1 shiqiang  staff    79K  3 14 10:26 image-20200314080935503.png</span><br><span class="line">-rw-r--r--  1 shiqiang  staff   106K  3 14 10:26 image-20200314083152512.png</span><br><span class="line">-rw-r--r--  1 shiqiang  staff   5.3K  3 14 10:26 index.html</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span> public/2020/03/14/20200314-write-hexo-with-typora/</span><br><span class="line">total 424</span><br><span class="line">drwxr-xr-x  6 shiqiang  staff   192B  3 14 10:26 ./</span><br><span class="line">drwxr-xr-x  4 shiqiang  staff   128B  3 14 10:26 ../</span><br><span class="line">-rw-r--r--  1 shiqiang  staff    14K  3 14 10:26 Screenshot-150-1-20200314081849804.png</span><br><span class="line">-rw-r--r--  1 shiqiang  staff    79K  3 14 10:26 image-20200314080935503.png</span><br><span class="line">-rw-r--r--  1 shiqiang  staff   106K  3 14 10:26 image-20200314083152512.png</span><br><span class="line">-rw-r--r--  1 shiqiang  staff   5.3K  3 14 10:26 index.html</span><br></pre></td></tr></table></figure>
 
 <p>但是现在浏览的时候还不能够看到图片，可以看到是因为我们插入的时候用的是包含了一个与Markdown文件同名文件夹的相对路径，而生成的静态文件夹下没有那个同名文件夹所以造成了访问404。</p>
-<img src="/2020/03/14/20200314-write-hexo-with-typora/image-20200314103033223.png" class="" title="image-20200314103033223">
-
+<p><img src="/20200314-write-hexo-with-typora/image-20200314103033223.png" alt="image-20200314103033223"></p>
 <p>这时首先通过搜索引擎查到了有两个解决方案：<code>hexo-asset-image</code> 和 <code>hexo-simple-image</code>。</p>
 <h2 id="hexo-asset-image-的问题"><a href="#hexo-asset-image-的问题" class="headerlink" title="hexo-asset-image 的问题"></a>hexo-asset-image 的问题</h2><p>这个插件在处理图片路径时，看到更新的路径有问题，导致通过<code>hexo server</code> 还是不能够正确显示图片。</p>
-<img src="/2020/03/14/20200314-write-hexo-with-typora/image-20200314083152512.png" class="" title="image-20200314083152512">
-
+<p><img src="/20200314-write-hexo-with-typora/image-20200314083152512.png" alt="image-20200314083152512"></p>
 <h2 id="hexo-simple-image-的问题"><a href="#hexo-simple-image-的问题" class="headerlink" title="hexo-simple-image 的问题"></a>hexo-simple-image 的问题</h2><p>在 Hexo 官网上看到这个插件的描述也是解决图片路径问题的，但是安装尝试之后遇到如下报错。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">07:19:06.993 FATAL Something<span class="string">&#x27;s wrong. Maybe you can find the solution here: https://hexo.io/docs/troubleshooting.html</span></span><br><span class="line"><span class="string">TypeError: Cannot read property &#x27;</span>1<span class="string">&#x27; of null</span></span><br><span class="line"><span class="string">    at /Users/shiqiang/Projects/hexo-blog/blog/node_modules/hexo-simple-image/lib/index.js:9:20</span></span><br><span class="line"><span class="string">    at String.replace (&lt;anonymous&gt;)</span></span><br><span class="line"><span class="string">    at Hexo.module.exports (/Users/shiqiang/Projects/hexo-blog/blog/node_modules/hexo-simple-image/lib/index.js:2:31)</span></span><br></pre></td></tr></table></figure>
 
@@ -124,7 +120,7 @@ var _hmt = _hmt || [];
 <blockquote>
 <p>本文提供的是一个全新安装的操作步骤，如果大家已经安装了 hexo-asset-image ，请先卸载插件，然后再安装 hexo-image-link 插件。</p>
 </blockquote>
-<p>2024年2月21日，我对这个插件的功能做了更新。最近发现在 typora 中调整图片的缩放时，typora 会自动将 <code>&#123;% asset_img "image.png" "" %&#125;</code> 格式的图片插入转化为 <code>&lt;img src=&quot;/2020/03/14/20200314-write-hexo-with-typora/image.png&quot;  style=&quot;zoom:30%&quot; /&gt;</code> 我猜测应该是 Markdown 语法不支持图片的缩放，所以 Typora 采用了一个曲线救国的方法。</p>
+<p>2024年2月21日，我对这个插件的功能做了更新。最近发现在 typora 中调整图片的缩放时，typora 会自动将 <code>![](img_path/image.png)</code> 格式的图片插入转化为 <code>&lt;img src=&quot;img_path/image.png&quot; style=&quot;zoom:30%&quot; /&gt;</code> 我猜测应该是 Markdown 语法不支持图片的缩放，所以 Typora 采用了一个曲线救国的方法。</p>
 <p>但这样会造成 hexo-image-link 插件处理图片时有遗漏，因此在代码逻辑中增加了对 img 标签的检查和处理，现在对于包含有 img 标签的文档，也能够支持既在 typora 中看到图片，也能够确保发布后正常显示了。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
 <li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/81a40a2c6514">Hexo与typora结合</a></li>
@@ -153,7 +149,7 @@ var _hmt = _hmt || [];
       
       
         <div class="nav-link col-md-6">
-          <a href="/2020/03/14/20200314-es-monitoring-metric/" id="article-nav-older" class="article-nav-link-wrap">
+          <a href="/2020/03/13/20200314-es-monitoring-metric/" id="article-nav-older" class="article-nav-link-wrap">
             Elasticsearch几项关键告警指标 &gt;&gt;
           </a>
         </div>
@@ -172,7 +168,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

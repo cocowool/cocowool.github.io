@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2010-03-15 21:53:01</span>
     </div>
@@ -67,17 +67,16 @@ var _hmt = _hmt || [];
       </div>
       <p>写了很多年的CSS，但是对于页面中的第一段话从来都是模模糊糊的认识。仿佛是记得，不同doctype模式，就会触发不同的验证级别。实际的编码过程中，貌似遇到过一两次模式不同，代码解释不一样的情况，但是并没有去细细的追究。今天想起来，这个问题乃是一个最基本的问题，所以花了点时间整理一些知识，消化一下，今后不能够在这个方面有半点的马虎。</p>
 <p>首先，看一段典型的Doctype</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span> <span class="meta-keyword">PUBLIC</span> <span class="meta-string">&quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;</span> <span class="meta-string">&quot;[http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;</span>](<span class="meta-keyword">http</span>://<span class="meta-keyword">www</span>.<span class="meta-keyword">w3</span>.<span class="meta-keyword">org</span>/<span class="meta-keyword">TR</span>/<span class="meta-keyword">xhtml1</span>/<span class="meta-keyword">DTD</span>/<span class="meta-keyword">xhtml1-transitional</span>.<span class="meta-keyword">dtd</span>&quot;)&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span> <span class="keyword">PUBLIC</span> <span class="string">&quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;</span> <span class="string">&quot;[http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;</span>](<span class="keyword">http</span>://<span class="keyword">www</span>.<span class="keyword">w3</span>.<span class="keyword">org</span>/<span class="keyword">TR</span>/<span class="keyword">xhtml1</span>/<span class="keyword">DTD</span>/<span class="keyword">xhtml1-transitional</span>.<span class="keyword">dtd</span>&quot;)&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>DOCTYPE是document type的简写，在网页制作中，用来说明你用的XHTML或者HTML是什么版本。其作用是指出阅读程序应该用什么规则集来解释文档中的标记。要建立符合标准的网页，DOCTYPE声明是必不可少的关键部分，如果没有正确的DOCTYPE，你的标识和CSS可能都不会正常工作。</p>
 <p>其中的DTD，例如上例中的xhtml1-transitional.dtd，叫做文档类型定义，里面包含了文档的规则，浏览器就根据你定义的DTD来解释你页面的标识，并展现出来。<br>完整的DOCTYPE类型如下图所示：</p>
-<img src="/2010/03/15/20100315-doctype/0021_thumb.png" class="">
-
+<p><img src="/20100315-doctype/0021_thumb.png"></p>
 <p>XHTML 1.0 提供了三种DTD声明可供选择：<br>1、过渡的（Transitional）：要求非常宽松的DTD，它允许你继续使用HTML4.01的标识（但是要符合xhtml的写法），完整代码如下：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span> <span class="meta-keyword">PUBLIC</span> “-//W3C//DTD <span class="meta-keyword">XHTML</span> 1.0 <span class="meta-keyword">Transitional</span>//EN” <span class="meta-string">&quot;</span></span></span><br><span class="line"><span class="meta-string"><span class="meta">&quot;</span>http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd<span class="meta-string">&quot;&gt;</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span> <span class="keyword">PUBLIC</span> “-//W3C//DTD <span class="keyword">XHTML</span> 1.0 <span class="keyword">Transitional</span>//EN” <span class="string">&quot;</span></span></span><br><span class="line"><span class="string"><span class="meta">&quot;</span>http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd<span class="string">&quot;&gt;</span></span></span><br></pre></td></tr></table></figure>
 
 <p>2、严格的（Strict）：要求严格的DTD，不能使用任何表现层的标识和属性，完整的代码如下：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span> <span class="meta-keyword">PUBLIC</span> <span class="meta-string">&quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot;</span></span></span><br><span class="line"><span class="meta"><span class="meta-string">&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span> <span class="keyword">PUBLIC</span> <span class="string">&quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot;</span></span></span><br><span class="line"><span class="meta"><span class="string">&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>那么表现层的标识和属性都有哪些呢，<a target="_blank" rel="noopener" href="http://tech.163.com/06/1023/09/2U41FR4R000918BL.html">资料1</a>中说 <br>不能够正常识别，但是笔者实验过后，发现在IE6和Firefox3.5中，即使使用strict模式，<br>仍能够被正常解析为一个换行。而且，<b>、<em>这些标签都可以正常生效，所以这里就存疑了，什么属于表现层的标识和属性呢？</p>
 <p>“表现层的标识和属性”是指那些纯粹用来控制表现的tag。</p>
@@ -90,14 +89,13 @@ var _hmt = _hmt || [];
 <p>Opera 浏览器 (Opera 7+) 支持与 Internet Explorer 相同的两种呈现模式：Quirks 和 Standards（有关详细信息，请参阅<a target="_blank" rel="noopener" href="http://www.opera.com/docs/specs/doctype/">http://www.opera.com/docs/specs/doctype/</a>）。</p>
 </blockquote>
 <blockquote>
-<p>Mozilla Firefox 1+ 支持三种呈现模式：Quirks 模式、Almost Standards 模式和 Standards 模式。Firefox 的 Almost Standards 模式对应于 Internet Explorer 和 Opera 的 Standards 模式。当页包含有效的 XHTML 1.0 Transitional DOCTYPE（并且该页被分配为 text/html MIME 类型）时，Firefox 会以 Almost Standards 模式呈现该页。当页包含 XHTML 1.0 Strict 或 XHTML 1.1 DOCTYPE（或者该页被分配为 XML MIME 类型）时，该页将以 Standards 模式呈现（有关详细信息，请参阅<a target="_blank" rel="noopener" href="http://www.mozilla.org/docs/web-developer/quirks/doctypes.html">http://www.mozilla.org/docs/web-developer/quirks/doctypes.html</a>）。</p>
+<p>Mozilla Firefox 1+ 支持三种呈现模式：Quirks 模式、Almost Standards 模式和 Standards 模式。Firefox 的 Almost Standards 模式对应于 Internet Explorer 和 Opera 的 Standards 模式。当页包含有效的 XHTML 1.0 Transitional DOCTYPE（并且该页被分配为 text&#x2F;html MIME 类型）时，Firefox 会以 Almost Standards 模式呈现该页。当页包含 XHTML 1.0 Strict 或 XHTML 1.1 DOCTYPE（或者该页被分配为 XML MIME 类型）时，该页将以 Standards 模式呈现（有关详细信息，请参阅<a target="_blank" rel="noopener" href="http://www.mozilla.org/docs/web-developer/quirks/doctypes.html">http://www.mozilla.org/docs/web-developer/quirks/doctypes.html</a>）。</p>
 </blockquote>
 <p>可以通过脚本来检测浏览器当前的呈现模式</p>
 <blockquote>
-<script type='text/javascript'>alert(document.compatMode);</script>
-</blockquote>
+<script type='text/javascript'>alert(document.compatMode);</script></blockquote>
 <p>3、框架的（Frameset）：专门针对框架页面设计使用的DTD，如果页面中包含有框架，最好使用这种DTD，完整代码如下：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span> <span class="meta-keyword">PUBLIC</span> <span class="meta-string">&quot;-//W3C//DTD XHTML 1.0 Frameset//EN&quot;</span> <span class="meta-string">&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span> <span class="keyword">PUBLIC</span> <span class="string">&quot;-//W3C//DTD XHTML 1.0 Frameset//EN&quot;</span> <span class="string">&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>关于DOCTYPE切换</strong><br>顶部的doctype声明是让浏览器进入正确呈现模式的关键，理论上浏览器应该能够正确的识别出doctype并作出自然地切换。实际上，由于多方面的原因，有的时候浏览器并不能够正常的进行doctype的切换，原因如下：</p>
 <p><strong>1、doctype声明不在第一行。</strong></p>
@@ -148,7 +146,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

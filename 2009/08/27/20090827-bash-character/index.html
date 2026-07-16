@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-15 13:37:37</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2009-08-27 23:30:01</span>
     </div>
@@ -67,7 +67,7 @@ var _hmt = _hmt || [];
       </div>
       <p>bash中的字符串引用是一件很简单的事情，我们大多数人对此看一眼就能明了，但是今天这个技巧，也许能够帮你在未来节省不少时间。</p>
 <p>bash 中的引用符包括<code> “</code>（双引号）和 <code>&#39;</code> （单引号），引用符最基本的用法就是引用字符串。单引号同双引号稍有不同，单引号不支持转义，但是双引号支持。例如：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ a=<span class="string">&quot;hello \&quot;the\&quot; world&quot;</span>            输出:hello <span class="string">&quot;the&quot;</span> world</span><br><span class="line">$ a=<span class="string">&#x27;hello &quot;the&quot; world&#x27;</span>              输出:hello <span class="string">&quot;the&quot;</span> world</span><br><span class="line">$ a=<span class="string">&#x27;hello \&#x27;</span>the\<span class="string">&#x27; world&#x27;</span>            输出:报错 unexpected EOF <span class="keyword">while</span> looking <span class="keyword">for</span> matching ‘</span><br><span class="line">$ a=<span class="string">&quot;hello &#x27;the&#x27; world&quot;</span>              输出:hello <span class="string">&#x27;the&#x27;</span> world</span><br><span class="line"></span><br><span class="line">$ b=<span class="string">&quot;the&quot;</span></span><br><span class="line">$ a=<span class="string">&#x27;hello \&quot;$b\&quot; world&#x27;</span>             输出:hello \&quot;<span class="variable">$b</span>\&quot; world</span><br><span class="line">$ a=<span class="string">&quot;hello \&quot;<span class="variable">$b</span>\&quot; world&quot;</span>             输出:hello <span class="string">&quot;the&quot;</span> world</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ a=<span class="string">&quot;hello \&quot;the\&quot; world&quot;</span>            输出:hello <span class="string">&quot;the&quot;</span> world</span><br><span class="line">$ a=<span class="string">&#x27;hello &quot;the&quot; world&#x27;</span>              输出:hello <span class="string">&quot;the&quot;</span> world</span><br><span class="line">$ a=<span class="string">&#x27;hello \&#x27;</span>the\&#x27; world<span class="string">&#x27;            输出:报错 unexpected EOF while looking for matching ‘</span></span><br><span class="line"><span class="string">$ a=&quot;hello &#x27;</span>the<span class="string">&#x27; world&quot;              输出:hello &#x27;</span>the<span class="string">&#x27; world</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">$ b=&quot;the&quot;</span></span><br><span class="line"><span class="string">$ a=&#x27;</span>hello \&quot;<span class="variable">$b</span>\&quot; world<span class="string">&#x27;             输出:hello \&quot;$b\&quot; world</span></span><br><span class="line"><span class="string">$ a=&quot;hello \&quot;$b\&quot; world&quot;             输出:hello &quot;the&quot; world</span></span><br></pre></td></tr></table></figure>
 
 <p>OK，以上的这些使用都没有问题，我们经常遇到问题的地方是在处理文件名中有空格的文件时。例如：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#/bin/bash</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> $(find .)</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="variable">$i</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
@@ -121,7 +121,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

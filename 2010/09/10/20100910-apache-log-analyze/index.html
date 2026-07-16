@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2010-09-10 17:33:01</span>
     </div>
@@ -70,40 +70,39 @@ var _hmt = _hmt || [];
 <p>不同版本的Apache httpd使用了不同的模块和指令来控制对访问的记录，包括mod_log_referer, mod_log_agent和<code>TransferLog</code>指令。现在，<code>CustomLog</code>指令包含了旧版本中相关指令的所有功能。日志分析与服务器产生的日志形式紧密相关，下面就是总结的一些常用的Apache访问日志的形式。</p>
 <p>1、Common Log Format（CLF log format）<br>这是一种典型的记录格式：</p>
 <blockquote>
-<p>LogFormat “%h %l %u %t \”%r\” %&gt;s %b” common<br>CustomLog logs/access_log common</p>
+<p>LogFormat “%h %l %u %t \”%r\” %&gt;s %b” common<br>CustomLog logs&#x2F;access_log common</p>
 </blockquote>
 <p>上例中第一行先定义了日志的格式，后面一行再定义日志产生的位置和格式。最后产生的结果如下：</p>
 <blockquote>
-<p>127.0.0.1 - frank [10/Oct/2000:13:55:36 -0700] “GET /apache_pb.gif HTTP/1.0” 200 2326</p>
+<p>127.0.0.1 - frank [10&#x2F;Oct&#x2F;2000:13:55:36 -0700] “GET &#x2F;apache_pb.gif HTTP&#x2F;1.0” 200 2326</p>
 </blockquote>
 <p>日志格式中具体字符代表的含义，我们可以在参考资料2中看到。</p>
 <p>2、NCSA Combined log format<br>组合日志格式是另外一种常用的日志格式，如下：</p>
 <blockquote>
-<p>LogFormat “%h %l %u %t &quot;%r&quot; %&gt;s %b &quot;%{Referer}i&quot; &quot;%{User-agent}i&quot;“ combined<br>CustomLog log/access_log combined</p>
+<p>LogFormat “%h %l %u %t &quot;%r&quot; %&gt;s %b &quot;%{Referer}i&quot; &quot;%{User-agent}i&quot;“ combined<br>CustomLog log&#x2F;access_log combined</p>
 </blockquote>
 <p>记录的形式如下：</p>
 <blockquote>
-<p>127.0.0.1 - frank [10/Oct/2000:13:55:36 -0700] “GET /apache_pb.gif HTTP/1.0” 200 2326 “<a target="_blank" rel="noopener" href="http://www.example.com/start.html&quot;">http://www.example.com/start.html&quot;</a> “Mozilla/4.08 [en] (Win98; I ;Nav)”</p>
+<p>127.0.0.1 - frank [10&#x2F;Oct&#x2F;2000:13:55:36 -0700] “GET &#x2F;apache_pb.gif HTTP&#x2F;1.0” 200 2326 “<a target="_blank" rel="noopener" href="http://www.example.com/start.html">http://www.example.com/start.html</a>“ “Mozilla&#x2F;4.08 [en] (Win98; I ;Nav)”</p>
 </blockquote>
 <p><strong>AWStat的安装</strong></p>
 <p>AWStat的安装比较简单。可以使用tools文件下的配置工具，按照提示一步步进行安装，也可以自行创建一个配置文件并且进行配置。具体的过程<a target="_blank" rel="noopener" href="http://awstats.sourceforge.net/docs/awstats_setup.html">官方网站</a>上介绍的都比较清楚，就不再赘述了。</p>
-<p>安装完成后，配置好 LogFile/LogFormat等几个必须配置的选项，确保你所要分析的Apache访问日志的格式和定义的格式一致，如果已经预定义的几种格式不能满足你的要求，也可以进行自己定义。例如我自己的Apache日志不属于某种规范，所以必须自己定义。</p>
+<p>安装完成后，配置好 LogFile&#x2F;LogFormat等几个必须配置的选项，确保你所要分析的Apache访问日志的格式和定义的格式一致，如果已经预定义的几种格式不能满足你的要求，也可以进行自己定义。例如我自己的Apache日志不属于某种规范，所以必须自己定义。</p>
 <blockquote>
-<p>Apache日志：<br>LogFormat “%h %l %u %t %T &quot;%r&quot; %&gt;s %b &quot;%{Referer}i&quot; &quot;%{User-Agent}i&quot; &quot;%{Cookie}i&quot;“ combined<br>AWStats日志格式：<br>LogFormat=”%host %other %logname %time1 %other %methodurl %code %bytesd %refererquot %uaquot %otherquota”</p>
+<p>Apache日志：<br>LogFormat “%h %l %u %t %T &quot;%r&quot; %&gt;s %b &quot;%{Referer}i&quot; &quot;%{User-Agent}i&quot; &quot;%{Cookie}i&quot;“ combined<br>AWStats日志格式：<br>LogFormat&#x3D;”%host %other %logname %time1 %other %methodurl %code %bytesd %refererquot %uaquot %otherquota”</p>
 </blockquote>
 <p>这样就确保了AWStats可以正确分析我的日志，然后就执行日志分析命令。</p>
 <blockquote>
-<p>perl awstats.pl -config=baiduleju update</p>
+<p>perl awstats.pl -config&#x3D;baiduleju update</p>
 </blockquote>
-<p>我所分析的日志，是从各个Web服务器上统一汇总过来的，所以LogFile配置中如果写成固定的文件名，则会不能适应日志文件的变化，我们日志文件存放的格式为：自定义目录/100910/100910_log_1[2.3.4].gz。与日期相关，并且进行了压缩，为此，我编写了一个脚本，让他来处理这些日志文件。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">DAY=<span class="variable">$1</span></span><br><span class="line"><span class="keyword">if</span> [[ ! <span class="variable">$DAY</span> ]]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">	DAY=`date -d <span class="string">&#x27;1 day ago&#x27;</span> +%y%m%d`</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">`<span class="built_in">cd</span> /awstats的目录/awstats/wwwroot/cgi-bin`</span><br><span class="line">`cp /data0/dpoolapachelog/<span class="variable">$DAY</span>/<span class="variable">$DAY</span>.house.baidu.com_* ./log_tmp/`</span><br><span class="line">`gzip -d ./log_tmp/*`</span><br><span class="line">`/awstats的目录/awstats/tools/logresolvemerge.pl ./log_tmp/* &gt; ./log_tmp/newlog`</span><br><span class="line">perl awstats.pl -config=baiduleju -update</span><br><span class="line">`rm log_tmp/*`</span><br></pre></td></tr></table></figure>
+<p>我所分析的日志，是从各个Web服务器上统一汇总过来的，所以LogFile配置中如果写成固定的文件名，则会不能适应日志文件的变化，我们日志文件存放的格式为：自定义目录&#x2F;100910&#x2F;100910_log_1[2.3.4].gz。与日期相关，并且进行了压缩，为此，我编写了一个脚本，让他来处理这些日志文件。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">DAY=<span class="variable">$1</span></span><br><span class="line"><span class="keyword">if</span> [[ ! <span class="variable">$DAY</span> ]]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">	DAY=`<span class="built_in">date</span> -d <span class="string">&#x27;1 day ago&#x27;</span> +%y%m%d`</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">`<span class="built_in">cd</span> /awstats的目录/awstats/wwwroot/cgi-bin`</span><br><span class="line">`<span class="built_in">cp</span> /data0/dpoolapachelog/<span class="variable">$DAY</span>/<span class="variable">$DAY</span>.house.baidu.com_* ./log_tmp/`</span><br><span class="line">`gzip -d ./log_tmp/*`</span><br><span class="line">`/awstats的目录/awstats/tools/logresolvemerge.pl ./log_tmp/* &gt; ./log_tmp/newlog`</span><br><span class="line">perl awstats.pl -config=baiduleju -update</span><br><span class="line">`<span class="built_in">rm</span> log_tmp/*`</span><br></pre></td></tr></table></figure>
 
-<p>主要过程就是将日志文件先拷贝到一个临时目录，然后利用logresolvemerge合并后进行分析，完成后删除。<br>最后在我指定的数据目录 ./data/ 下得到更新后的分析日志。</p>
+<p>主要过程就是将日志文件先拷贝到一个临时目录，然后利用logresolvemerge合并后进行分析，完成后删除。<br>最后在我指定的数据目录 .&#x2F;data&#x2F; 下得到更新后的分析日志。</p>
 <p>分析完成后，其实就可以通过web方式或者脚本生成静态的分析报告来查看结果了，但是awstats分析出来的结果呈现方式确实不是太好看，于是就用到了JAWStat。</p>
 <p><strong>JAWStat的安装</strong></p>
 <p>JAWStat需要Apache和PHP的支持，所以需要已经配置了相应的环境。它提供了一个非常友好的界面和方便的操作服务，而且支持不同的语言版本。截图如下：</p>
-<img src="/2010/09/10/20100910-apache-log-analyze/image_thumb.png" class="">
-
+<p><img src="/20100910-apache-log-analyze/image_thumb.png"></p>
 <p>配置也非常简单，只需要在程序的config.php文件中修改相应的参数就可以了。但是我发现在分析日志文件大的时候，会产生内存溢出的问题，需要修改一下最大内存限制。感觉处理方式上海由改进的可能，但是作者对这个的开发已经停滞了好久了。</p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://lamp.linux.gov.cn/Apache/ApacheMenu/logs.html">Apache日志文件</a><br>2、<a target="_blank" rel="noopener" href="http://lamp.linux.gov.cn/Apache/ApacheMenu/mod/mod_log_config.html">Apache模块mod_log_config</a><br>3、<a target="_blank" rel="noopener" href="http://awstats.sourceforge.net/">AWStats</a><br>4、<a target="_blank" rel="noopener" href="http://www.jawstats.com/">JAWStats</a></p>
 
@@ -142,7 +141,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

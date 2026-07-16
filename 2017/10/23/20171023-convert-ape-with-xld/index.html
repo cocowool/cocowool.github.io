@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-30 20:56:15</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2017-10-23 23:02:11</span>
     </div>
@@ -65,21 +65,12 @@ var _hmt = _hmt || [];
           <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
         </div> -->
       </div>
-      <p>最近想要给音乐库增加一些音乐，下载了一些Ape格式的无损音乐，但是无法直接导入到iTunes中，必须经过其他工具转换成苹果的无损格式，XLD就是这样一款工具。XLD的<a target="_blank" rel="noopener" href="http://tmkk.undo.jp/xld/index_e.html">下载</a>和安装非常方便，直接将APP拖入到/Application文件夹下就可以。</p>
-<h3 id="XLD图形界面转换方法"><a href="#XLD图形界面转换方法" class="headerlink" title="XLD图形界面转换方法"></a>XLD图形界面转换方法</h3><p>打开XLD后，并不能看到任何窗口，我们可以先通过<code>⌘+,</code>调出配置窗口，修改一些参数，包括输出的目录、输出的格式、转换前修改Metadata等。</p>
-<img src="/2017/10/23/20171023-convert-ape-with-xld/1240-20200811071153867.png" class="">
-<p>然后就可以通过File-&gt;Open打开Ape的cue文件，来按照专辑模式进行转换。如下图，补充专辑图片和其他信息后，点击<code>Transcode</code>就可以看到转换界面。如果打开cue的时候报错，一般是编码不正确，修改为GB2312或者UTF8就能够解决。</p>
-<img src="/2017/10/23/20171023-convert-ape-with-xld/1240-20200811071158417.png" class="">
-<img src="/2017/10/23/20171023-convert-ape-with-xld/1240-20200811071202699.png" class="">
-<p>XLD的安装包中通时提供了一个命令行脚本，对于Ape文件较多时通过脚本批量转换还是非常方便的。</p>
+      <p>最近想要给音乐库增加一些音乐，下载了一些Ape格式的无损音乐，但是无法直接导入到iTunes中，必须经过其他工具转换成苹果的无损格式，XLD就是这样一款工具。XLD的<a target="_blank" rel="noopener" href="http://tmkk.undo.jp/xld/index_e.html">下载</a>和安装非常方便，直接将APP拖入到&#x2F;Application文件夹下就可以。</p>
+<h3 id="XLD图形界面转换方法"><a href="#XLD图形界面转换方法" class="headerlink" title="XLD图形界面转换方法"></a>XLD图形界面转换方法</h3><p>打开XLD后，并不能看到任何窗口，我们可以先通过<code>⌘+,</code>调出配置窗口，修改一些参数，包括输出的目录、输出的格式、转换前修改Metadata等。<br><img src="/20171023-convert-ape-with-xld/1240-20200811071153867.png"><br>然后就可以通过File-&gt;Open打开Ape的cue文件，来按照专辑模式进行转换。如下图，补充专辑图片和其他信息后，点击<code>Transcode</code>就可以看到转换界面。如果打开cue的时候报错，一般是编码不正确，修改为GB2312或者UTF8就能够解决。<br><img src="/20171023-convert-ape-with-xld/1240-20200811071158417.png"><br><img src="/20171023-convert-ape-with-xld/1240-20200811071202699.png"><br>XLD的安装包中通时提供了一个命令行脚本，对于Ape文件较多时通过脚本批量转换还是非常方便的。</p>
 <blockquote>
-<p>本来想将xld的脚本放入系统的/bin、/sbin或者/usr/bin、/usr/sbin下，但是cp的时候提示”Operation not permitted”，即便使用<code>sudo</code>也是如此。原来是因为系统启动了SIP(System Integrity Protection)，可以参考<a target="_blank" rel="noopener" href="http://blog.csdn.net/a547720714/article/details/52678643">资料1</a>屏蔽，也可以放在用户目录中，我采用了第二种办法。</p>
+<p>本来想将xld的脚本放入系统的&#x2F;bin、&#x2F;sbin或者&#x2F;usr&#x2F;bin、&#x2F;usr&#x2F;sbin下，但是cp的时候提示”Operation not permitted”，即便使用<code>sudo</code>也是如此。原来是因为系统启动了SIP(System Integrity Protection)，可以参考<a target="_blank" rel="noopener" href="http://blog.csdn.net/a547720714/article/details/52678643">资料1</a>屏蔽，也可以放在用户目录中，我采用了第二种办法。</p>
 </blockquote>
-<p>首先在自己的用户目录下创建一个bin文件夹，例如<code>~/bin</code>。修改用户的profile，位置<code>~/.bash_profile</code>，增加如下代码<code>export PATH=$HOME/bin/:$PATH</code>然后保存退出。然后将xld的脚本拷贝到这个目录下，就可以在命令行使用xld了。</p>
-<img src="/2017/10/23/20171023-convert-ape-with-xld/1240-20200811071208036.png" class="">
-<p><strong>本文为作者原创，如果您觉得本文对您有帮助，请随意打赏，您的支持将鼓励我继续创作。</strong></p>
-<img src="/2017/10/23/20171023-convert-ape-with-xld/1240-20200811071212712.png" class="">
-<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://blog.csdn.net/a547720714/article/details/52678643">关于MAC系统没有修改/usr/bin和/usr/sbin文件夹权限问题</a><br>2、<a target="_blank" rel="noopener" href="http://www.freebuf.com/articles/system/97411.html">OSX SIP机制的“那些事”</a><br>3、<a target="_blank" rel="noopener" href="http://blog.csdn.net/cjh965063777/article/details/53196388">Mac系统10.11之后/usr/bin 不能拷贝进去class-dump该怎么办</a><br>4、<a target="_blank" rel="noopener" href="http://tieba.baidu.com/p/3015601318">XLD实用教程</a><br>5、<a target="_blank" rel="noopener" href="http://tmkk.undo.jp/xld/index_e.html">XLD Download</a></p>
+<p>首先在自己的用户目录下创建一个bin文件夹，例如<code>~/bin</code>。修改用户的profile，位置<code>~/.bash_profile</code>，增加如下代码<code>export PATH=$HOME/bin/:$PATH</code>然后保存退出。然后将xld的脚本拷贝到这个目录下，就可以在命令行使用xld了。<br><img src="/20171023-convert-ape-with-xld/1240-20200811071208036.png"><br><strong>本文为作者原创，如果您觉得本文对您有帮助，请随意打赏，您的支持将鼓励我继续创作。</strong><br><img src="/20171023-convert-ape-with-xld/1240-20200811071212712.png"><br>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://blog.csdn.net/a547720714/article/details/52678643">关于MAC系统没有修改&#x2F;usr&#x2F;bin和&#x2F;usr&#x2F;sbin文件夹权限问题</a><br>2、<a target="_blank" rel="noopener" href="http://www.freebuf.com/articles/system/97411.html">OSX SIP机制的“那些事”</a><br>3、<a target="_blank" rel="noopener" href="http://blog.csdn.net/cjh965063777/article/details/53196388">Mac系统10.11之后&#x2F;usr&#x2F;bin 不能拷贝进去class-dump该怎么办</a><br>4、<a target="_blank" rel="noopener" href="http://tieba.baidu.com/p/3015601318">XLD实用教程</a><br>5、<a target="_blank" rel="noopener" href="http://tmkk.undo.jp/xld/index_e.html">XLD Download</a></p>
 
       <div class="blog-post-footer">
         <p><img src="/image/qrcode.jpg" alt=""></p>
@@ -116,7 +107,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

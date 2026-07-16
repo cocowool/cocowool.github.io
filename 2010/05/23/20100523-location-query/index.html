@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2010-05-23 22:55:01</span>
     </div>
@@ -68,8 +68,7 @@ var _hmt = _hmt || [];
       <p>现在，越来越多的 Location Based 应用，或者Geolocation的应用出现在网络、手机等各种各样的终端上，为人们的日常生活、出行和工作都提供了不少的便利。最常见的就是出门前，利用地图工具，看看合适的公共交通路线，寻找一个自己最满意的方案，既方便有低碳环保。有时候，对周边环境不熟悉，想要找到周边的医院、银行、学校等一些单位的时候，地图同样可以帮上我们的大忙。</p>
 <p>今天，我就做了一个基于Mapabc地图API的周边查询工具，利用Mapabc详尽的基础地物信息，为我查找周边的便民信息提供了有利的帮助。</p>
 <p>开始之前，我大概需要知道最后的结果是什么样子的，可以借助传统的纸和笔，也可以用现代的原型工具，当然PS这样的重量级工具就不太需要了。下面是效果图：</p>
-<img src="/2010/05/23/20100523-location-query/1131_thumb.jpg" class="">
-
+<p><img src="/20100523-location-query/1131_thumb.jpg"></p>
 <p>有了效果图，接下来需要稍微规划一下代码。Mapabc的API在页面加载完成后，需要初始化地图，所以初始化的操作放在一个函数 pageInit() 中。周边查询的操作，希望通过用户输入一个关键词，然后通过点选地图设置中心点的方式实现。那么就需要一个函数来监听鼠标在地图上的单击事件，然后一个负责查询的函数和一个负责显示结果的函数。程序的结构大致如此，接下来就进入实质的编码过程。</p>
 <p>编码的重点函数有以下几个：</p>
 <blockquote>
@@ -79,7 +78,7 @@ var _hmt = _hmt || [];
 <blockquote>
 <p>mls.poiSearchByCenterXY(new MLngLat(cordx, cordy),keyword,citycode,mlsp);</p>
 </blockquote>
-<p>利用中心点坐标查询查找周边信息<br>利用这两个函数，加上参考Mapabc官方的示例，我们就可以完成这个应用。<br><a target="_blank" rel="noopener" href="http://images.cnblogs.com/cnblogs_com/cocowool/WindowsLiveWriter/MapabcAPI_120A8/1132_2.jpg"><img src="20100523-location-query/1132_thumb.jpg"></a><br>通过修改区号和关键字，可以在不同城市之间切换，怎么样，简单吧。</p>
+<p>利用中心点坐标查询查找周边信息<br>利用这两个函数，加上参考Mapabc官方的示例，我们就可以完成这个应用。<br><a target="_blank" rel="noopener" href="http://images.cnblogs.com/cnblogs_com/cocowool/WindowsLiveWriter/MapabcAPI_120A8/1132_2.jpg"><img src="/20100523-location-query/1132_thumb.jpg"></a><br>通过修改区号和关键字，可以在不同城市之间切换，怎么样，简单吧。</p>
 
       <div class="blog-post-footer">
         <p><img src="/image/qrcode.jpg" alt=""></p>
@@ -116,7 +115,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

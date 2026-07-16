@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-30 20:38:54</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2017-05-22 10:52:01</span>
     </div>
@@ -65,7 +65,7 @@ var _hmt = _hmt || [];
           <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
         </div> -->
       </div>
-      <p>最近项目需要统计一段日期范围内，根据每分钟、几分钟、每天分别统计汇总某些事件/指标的发生总次数，平均发生次数，因此总结了Mysql中与时间处理、统计相关的资料。</p>
+      <p>最近项目需要统计一段日期范围内，根据每分钟、几分钟、每天分别统计汇总某些事件&#x2F;指标的发生总次数，平均发生次数，因此总结了Mysql中与时间处理、统计相关的资料。</p>
 <h3 id="按分钟统计某一时间段内的数据"><a href="#按分钟统计某一时间段内的数据" class="headerlink" title="按分钟统计某一时间段内的数据"></a>按分钟统计某一时间段内的数据</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">count</span>(<span class="number">1</span>), date_format(a5_firsttime, &quot;%H:%i&quot;) <span class="keyword">as</span> t <span class="keyword">from</span> ccb_alerts <span class="keyword">group</span> <span class="keyword">by</span> t <span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">null</span></span><br></pre></td></tr></table></figure>
 <p>这个统计汇总方法，可以按照每天、工作日（周一至周五）、小时、分钟、月等维度来汇总统计。Mysql的日期输出格式可以参考下面：</p>
 <p>如果想要统计一天之内，按照一定的分钟间隔汇总的数据，用SQL实现，还不知道有什么方便的方式，如果大家有相关的解决方案，可以分享一下。</p>
@@ -75,7 +75,7 @@ var _hmt = _hmt || [];
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="number">1</span>), from_unixtime( round(unix_timestamp(a5_firsttime)<span class="operator">/</span>(<span class="number">15</span><span class="operator">*</span><span class="number">60</span>)) <span class="operator">*</span> <span class="number">15</span><span class="operator">*</span><span class="number">60</span>) <span class="keyword">from</span> ccb_alerts <span class="keyword">where</span> a5_firsttime <span class="operator">&gt;=</span> <span class="string">&#x27;2017-03-20 00:00:00&#x27;</span> <span class="keyword">group</span> <span class="keyword">by</span> round(unix_timestamp(a5_firsttime)<span class="operator">/</span>(<span class="number">15</span><span class="operator">*</span><span class="number">60</span>))</span><br></pre></td></tr></table></figure>
 
 
-<h3 id="日期格式化函数"><a href="#日期格式化函数" class="headerlink" title="日期格式化函数"></a>日期格式化函数</h3><p>Mysql日期、时间转换函数：date_format(date, format)、time_format(time,format)能够把一个日期/时间转换成各种各样的字符串。</p>
+<h3 id="日期格式化函数"><a href="#日期格式化函数" class="headerlink" title="日期格式化函数"></a>日期格式化函数</h3><p>Mysql日期、时间转换函数：date_format(date, format)、time_format(time,format)能够把一个日期&#x2F;时间转换成各种各样的字符串。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">date_fromat(<span class="type">date</span>, format)</span><br></pre></td></tr></table></figure>
 
 <h3 id="TIMSTAMPADD"><a href="#TIMSTAMPADD" class="headerlink" title="TIMSTAMPADD"></a>TIMSTAMPADD</h3><p>按照输入的间隔对日期进行计算。</p>
@@ -121,7 +121,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-12 21:23:24</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2009-04-10 14:32:01</span>
     </div>
@@ -68,15 +68,15 @@ var _hmt = _hmt || [];
       <p>以前在Win下使用Aptana Stdio的时候进行过破解，最近一段时间的工作环境切换到了Linux下，而且使用了Aptana的Plugin For Eclipse，过期了一直没有去管，今天花了点时间将他破解掉了。</p>
 <span id="more"></span>
 
-<p>首先是找到Aptana的核心jar包，在eclipse/plugin/com.aptana.ide.core_1.2.1.020234.jar<br>这个包中包含了破解的核心文件，这里你要确定你使用的版本，版本号上有细微的差别不会影响破解的进行。</p>
+<p>首先是找到Aptana的核心jar包，在eclipse&#x2F;plugin&#x2F;com.aptana.ide.core_1.2.1.020234.jar<br>这个包中包含了破解的核心文件，这里你要确定你使用的版本，版本号上有细微的差别不会影响破解的进行。</p>
 <p>接下来要对这个文件进行操作，谨慎起见最好做一份备份，这是一个很好的习惯。</p>
 <p>1、解压缩jar包。<br>利用jar工具进行<br><code>jar -xvf com.aptana.ide.core_1.2.1.020234.jar</code></p>
 <p>2、反编译类文件。这里使用jad这个工具来进行java类的反编译，在fedora的源里可以找到这个工具。<br><code>jad -r -ff -d src -s java classes/com/aptana/ide/core/licensing/*.class</code><br>-d 后接的是输出的路径<br>最后跟要反编译的类文件地址</p>
 <p>3、修改ClientKey.java文件<br><code>gedit ./src/com/aptana/ide/core/licensing/ClientKey.java</code></p>
 <p>这个文件从1.0到1.1有了一些变化，但是不用管<br>我们主要修改文件中的两个地方：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getEmail</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> email;    <span class="comment">//修改为自己的地址</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> Calendar <span class="title">getExpiration</span><span class="params">()</span></span>&#123;</span><br><span class="line">	Calendar expirationCal = Calendar.getInstance(GMT);</span><br><span class="line">	<span class="comment">//expirationCal.setTimeInMillis(expiration);</span></span><br><span class="line">	expirationCal.set(<span class="number">2020</span>,<span class="number">11</span>,<span class="number">1</span>);    <span class="comment">//设置一个过期日期</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> expirationCal;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String <span class="title function_">getEmail</span><span class="params">()</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> email;    <span class="comment">//修改为自己的地址</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> Calendar <span class="title function_">getExpiration</span><span class="params">()</span>&#123;</span><br><span class="line">	<span class="type">Calendar</span> <span class="variable">expirationCal</span> <span class="operator">=</span> Calendar.getInstance(GMT);</span><br><span class="line">	<span class="comment">//expirationCal.setTimeInMillis(expiration);</span></span><br><span class="line">	expirationCal.set(<span class="number">2020</span>,<span class="number">11</span>,<span class="number">1</span>);    <span class="comment">//设置一个过期日期</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> expirationCal;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>4、编译并替换包中ClientKey.class。<br>使用javac ClientKey.java编译，生成ClientKey.class，然后拷贝到我们解压缩出来的文件夹中</p>
-<p>5、重新压缩为jar包，替换原文件。<br><code>jar -cvf com.aptana.ide.core_1.2.2.020234.jar ./*</code><br>将生成的文件替换原来位于eclipse/plugin下的jar包</p>
+<p>5、重新压缩为jar包，替换原文件。<br><code>jar -cvf com.aptana.ide.core_1.2.2.020234.jar ./*</code><br>将生成的文件替换原来位于eclipse&#x2F;plugin下的jar包</p>
 <p>6、重启eclipse后，你就可以在aptana的licensing中看到过期日期已经设置成了自己想要的时间。</p>
 
       <div class="blog-post-footer">
@@ -114,7 +114,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

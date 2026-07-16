@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-14 20:07:04</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2009-08-01 23:40:01</span>
     </div>
@@ -75,20 +75,20 @@ var _hmt = _hmt || [];
 
 <p>先来考虑第一个问题，SESSION多久会过期，他是如何过期的？如果要在PHP程序中使用SESSION，一定要先引用session_start()，这个函数一执行，就会在SESSION的存储目录（如果使用了file handler)生成一个SESSION文件，里面内容是空的，同时浏览器会见里一个name为PHPSESSID的cookie，里面存储着一个hash出来的SESSION的名字。</p>
 <p>SESSION的过期依赖于一个垃圾回收机制（Garbage Collection），SESSION创建后作为一个文件存放在服务器上，客户端脚本每访问一次SESSION中的变量，SESSION文件的访问时间就会进行更新。每次访问都是根据客户端存储的SESSIONID去请求服务器中存储的唯一的SESSION，当客户端的cookie过期后，就无法知道要访问的是哪一个SESSION，尽管此时服务器上的SESSION文件还没有被过期收回，这样就会造成服务器资源的浪费。</p>
-<p>但是同时，如果我们希望用户的session马上过期的话，我们就可以通过设置cookie的办法来实现。SESSION的回收是在每次访问页面的时候进行的，回收的机率由session.gc_probability，session_gc_divisor指定，默认士1/100。如果设置为1，则每次超过了SESSION的生存周期去访问的话，SESSION一定会被回收。</p>
+<p>但是同时，如果我们希望用户的session马上过期的话，我们就可以通过设置cookie的办法来实现。SESSION的回收是在每次访问页面的时候进行的，回收的机率由session.gc_probability，session_gc_divisor指定，默认士1&#x2F;100。如果设置为1，则每次超过了SESSION的生存周期去访问的话，SESSION一定会被回收。</p>
 <p>两种需求：1、保持SESSION不过期或延长SESSION过期时间；2、使SESSION立即过期。<br>1、保持SESSION不过期和延长SESSION过期时间非常必要，特别是在内部应用系统中或者有很大的表单的时候。想想你的老板在填写一个表单，刚好碰上午饭时间，留着这个表单等吃饭回来，填写完剩余的内容，提交后他看到什么，一般来说都是一个登录界面。想要提高用户体验，关键是要让老板的表单不出问题，我们就必须延长SESSION的生存周期。</p>
 <p>保持SESSION不过期和延长SESSION过期时间，可以通过设置session.gc_maxlifetime来实现，不过首先需要保证客户端的cookie不会在gc执行回收之前失效。通过设置一个较长的gc_maxlifetime可以实现延长session的生存周期，可是对于不是所有请求都会保持很久的应用来说，这么做对于服务器配置显然不是一个最佳的选择。</p>
 <p>我们知道SESSION的回收机制是根据SESSION文件的最后访问时间来判断的，如果超过了maxlifetime，则根据回收机率进行回收。所以我们只需要定期的去访问一下SESSION就可以了，而这可以通过刷新页面来实现，根据这个思路，解决的方法就有了。</p>
 <p>通过JS定期的去访问页面；<br>利用Iframe定期的刷新页面；<br>直接利用程序发送HTTP请求，这样就可以避免在页面中嵌入其他的元素；</p>
 <p>下面是利用JS发送请求实现的保持SESSION不过期的实现方法，这样我们就只需要在需要SESSION保持长时间的页面（比如大表单页面）。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="function"><span class="keyword">function</span> <span class="title">keepMeAlive</span>(<span class="params">imgName</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">myImg = <span class="built_in">document</span>.getElementById(imgName);</span></span><br><span class="line"><span class="javascript"><span class="keyword">if</span>(myImg) myImg.src = myImg.src.replace(<span class="regexp">/\?.*$/</span>, <span class="string">&#x27;?&#x27;</span> + <span class="built_in">Math</span>.random());</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="built_in">window</span>.setInterval(<span class="string">&quot;keepMeAlive(&#x27;phpImg&#x27;);&quot;</span>, <span class="number">4000</span>);</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">id</span>=<span class="string">&quot;phpImg&quot;</span> <span class="attr">src</span>=<span class="string">&quot;http://www.phpplot.com/phpplot/session/sess_refresh.php?&quot;</span> <span class="attr">width</span>=<span class="string">&quot;1&quot;</span> <span class="attr">height</span>=<span class="string">&quot;1&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">function</span> <span class="title function_">keepMeAlive</span>(<span class="params">imgName</span>)&#123;</span></span><br><span class="line"><span class="language-javascript">myImg = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(imgName);</span></span><br><span class="line"><span class="language-javascript"><span class="keyword">if</span>(myImg) myImg.<span class="property">src</span> = myImg.<span class="property">src</span>.<span class="title function_">replace</span>(<span class="regexp">/\?.*$/</span>, <span class="string">&#x27;?&#x27;</span> + <span class="title class_">Math</span>.<span class="title function_">random</span>());</span></span><br><span class="line"><span class="language-javascript">&#125;</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="variable language_">window</span>.<span class="built_in">setInterval</span>(<span class="string">&quot;keepMeAlive(&#x27;phpImg&#x27;);&quot;</span>, <span class="number">4000</span>);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">id</span>=<span class="string">&quot;phpImg&quot;</span> <span class="attr">src</span>=<span class="string">&quot;http://www.phpplot.com/phpplot/session/sess_refresh.php?&quot;</span> <span class="attr">width</span>=<span class="string">&quot;1&quot;</span> <span class="attr">height</span>=<span class="string">&quot;1&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>其中URL后加入一个随机数是为了避免这个链接的请求被浏览器缓存。</p>
 <p>2、使SESSION立即过期的方法就比较多了，我们可以session_destroy()，也可以用上面的思路，请求一个session_destroy的页面。</p>
 <p>SESSION安全吗？</p>
 <p>PHP的手册中明确写出：SESSION并不能保证储存在SESSION中的信息一定只能被他的创建者所看到。<br>如果想要安全的处理一些远程的操作，那么HTTPS是唯一的选择。最基本的，不要认为一个用户信息在SESSION中存在就认为这个用户一定就是他本人，虽然SESSION中的信息会给你他已经经过了用户名和密码验证的假象。所以，如果需要做一些修改密码或者类似的事情的时候，让用户重新输入密码是一个比较好的选择。</p>
-<p>早期的Apache版本并没有采用COOKIE的方式来存储PHPSESSID，而是采用的URL-rewrite，也就是每个URL后面都会加上PHPSESSID=<sessionid>来表明它属于那个激活的SESSION，新版的Apache已经将这个属性设置为默认关闭。</p>
-<p>session.use_trans_id = 0;</p>
+<p>早期的Apache版本并没有采用COOKIE的方式来存储PHPSESSID，而是采用的URL-rewrite，也就是每个URL后面都会加上PHPSESSID&#x3D;<sessionid>来表明它属于那个激活的SESSION，新版的Apache已经将这个属性设置为默认关闭。</p>
+<p>session.use_trans_id &#x3D; 0;</p>
 <p>所以从这个意义上来讲，延长SESSION的时间过长或者保持SESSION一直在线对于安全来说始终不是一件好事情。终极的解决办法就是用户提交跳转到登录窗口，登录后又能够回到填写页面，并且所有的数据都还在。这个的实现方式现在用Ajax来解决应该没什么困难，每隔一定时间就把当前的用户数据POST到一个存储位置，不管是XML或者JSON。</p>
 <p>拾遗：</p>
 <p>对于客户端不支持JavaScript的情况可以采用的方法：<br>1、写一个浮层，显示在最顶层，如果用户未禁用JS，则让浮层消失；<br>2、将所有的INPUT都设置为disable，然后再用JS设置为enabled；<br>以上这两种方式都是在JS被禁用的时候，所有功能都不能用，如何在JS被禁用的情况下使我们的应用仍然正常工作，这个貌似就比较困难。实现这个的所花的时间和所收到的效果大家要权衡一下。</p>
@@ -129,7 +129,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

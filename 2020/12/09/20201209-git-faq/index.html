@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2023-11-29 12:02:40</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2020-12-09 18:48:51</span>
     </div>
@@ -69,7 +69,7 @@ var _hmt = _hmt || [];
 <h3 id="1-如何使用Git导出项目"><a href="#1-如何使用Git导出项目" class="headerlink" title="1. 如何使用Git导出项目"></a>1. 如何使用Git导出项目</h3><p>Git没有SVN的导出功能，不能像 svn export url 那样，将某个版本的代码导出为不带版本控制文件的文件夹。</p>
 <p>Git提供了archive命令，可以把版本的文件流导出。</p>
 <p>可以将Git的特征值加入到导出的文件名中，例如：</p>
-<p>git archive –format zip -o site-$(git log –pretty=format:”%h” -1).zip HEAD</p>
+<p>git archive –format zip -o site-$(git log –pretty&#x3D;format:”%h” -1).zip HEAD</p>
 <p>对于打过tag的历史版本，我们可以使用tag导出，例如：</p>
 <p>git archive v1.0 | gzip &gt; xxxx.tgz </p>
 <h3 id="2-提交时忽略某些更改"><a href="#2-提交时忽略某些更改" class="headerlink" title="2. 提交时忽略某些更改"></a>2. 提交时忽略某些更改</h3><h4 id="对于没有入库的文件"><a href="#对于没有入库的文件" class="headerlink" title="对于没有入库的文件"></a>对于没有入库的文件</h4><p>命令：touch .gitignore<br>创建.gitignore文件<br>在文件中写入需要忽略的文件（如：*.diff  ……具体见链接），或者不遵循忽略原则的特例（文件前加“！”）（注：只对untracked files有效）</p>
@@ -96,7 +96,7 @@ var _hmt = _hmt || [];
 <p>Git做任何修改之前，最好先 git pull。</p>
 <hr>
 <p>如果提交的时候遇到<code>Automatic merge failed; fix conflicts and then commit the result.</code>则表示有无法自动合并的冲突，需要手工处理。</p>
-<p>其中&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD 到 ======= 中间的内容是local提交的。<br>======= 到 &gt;&gt;&gt;&gt;&gt;&gt;&gt; commit-id 是远程仓库中的内容。</p>
+<p>其中&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD 到 &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; 中间的内容是local提交的。<br>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; 到 &gt;&gt;&gt;&gt;&gt;&gt;&gt; commit-id 是远程仓库中的内容。</p>
 <p>手工解决文件中的冲突后，重新<code>git add 并且 git commit</code>。</p>
 <p>最后再进行<code>git push</code>这时远程仓库的内容就已经更新了。</p>
 <p>如果在执行 <code>git pull</code>的时候，本地也已经做过修改，可能会出现下面的提示</p>
@@ -105,7 +105,7 @@ var _hmt = _hmt || [];
 <p>此时可通过下面的步骤即实现内容的更新，又保留自己本地的修改。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git stash</span><br><span class="line">$ git pull</span><br><span class="line">$ git stash pop</span><br></pre></td></tr></table></figure>
 
-<h3 id="7-如何从版本库中移除文件但不删除"><a href="#7-如何从版本库中移除文件但不删除" class="headerlink" title="7. 如何从版本库中移除文件但不删除"></a>7. 如何从版本库中移除文件但不删除</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$  git rm -r node_modules --cached</span><br><span class="line">$  git commit -m <span class="string">&quot;remove node_modules&quot;</span></span><br><span class="line">$  git status</span><br><span class="line">$  git push origin master</span><br></pre></td></tr></table></figure>
+<h3 id="7-如何从版本库中移除文件但不删除"><a href="#7-如何从版本库中移除文件但不删除" class="headerlink" title="7. 如何从版本库中移除文件但不删除"></a>7. 如何从版本库中移除文件但不删除</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$  git <span class="built_in">rm</span> -r node_modules --cached</span><br><span class="line">$  git commit -m <span class="string">&quot;remove node_modules&quot;</span></span><br><span class="line">$  git status</span><br><span class="line">$  git push origin master</span><br></pre></td></tr></table></figure>
 
 <h3 id="8-查看某次提交的内容"><a href="#8-查看某次提交的内容" class="headerlink" title="8. 查看某次提交的内容"></a>8. 查看某次提交的内容</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git show 6edc4bdcc1c966dc07cb5649f3be6a125ff01d4a [file]  </span><br></pre></td></tr></table></figure>
 
@@ -124,7 +124,7 @@ var _hmt = _hmt || [];
 <h4 id="已经git-commit提交的情况"><a href="#已经git-commit提交的情况" class="headerlink" title="已经git commit提交的情况"></a>已经git commit提交的情况</h4><p>回退到上一次commit的状态</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git reset --hard HEAD^</span><br></pre></td></tr></table></figure>
 <p>回退到任意版本</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git reset --hard commit id</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git reset --hard commit <span class="built_in">id</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="10-创建分支"><a href="#10-创建分支" class="headerlink" title="10. 创建分支"></a>10. 创建分支</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看当前本地分支</span></span><br><span class="line">$ git branch -a</span><br><span class="line">* master</span><br><span class="line">  remotes/origin/HEAD -&gt; origin/master</span><br><span class="line">  remotes/origin/master</span><br><span class="line"><span class="comment"># 查看远程分支</span></span><br><span class="line">$ git branch -r</span><br><span class="line">  origin/HEAD -&gt; origin/master</span><br><span class="line">  origin/master</span><br><span class="line"><span class="comment"># 创建本地分支并切换到分支</span></span><br><span class="line">$ git branch v0.0.1</span><br><span class="line">$ git checkout v0.0.1</span><br><span class="line"><span class="comment"># 将本地分支内容推送到 Github</span></span><br><span class="line">$ git push origin v0.0.1</span><br></pre></td></tr></table></figure>
 
@@ -137,7 +137,7 @@ var _hmt = _hmt || [];
 <li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/VergiLyn/p/6701642.html">【Git】git使用 - 冲突conflict的解决演示</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u014062332/article/details/36388815">从git版本库中移出文件但不删除</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_21358401/article/details/79384525">Git 查看某次commit的内容</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/920ad324fe64">Git出现冲突error: Your local changes to the following files would be overwritten by merge: xxx/…</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/920ad324fe64">Git出现冲突error: Your local changes to the following files would be overwritten by merge: xxx&#x2F;…</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c0f7e4ac14c7">git放弃本地文件修改</a></li>
 </ol>
 
@@ -176,7 +176,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Kali安装Parallels Tools过程记录-大江小浪</title>
     <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="Linux, Kubernetes, Docker, PHP, java, javascript, CSS, 科技互联网, IT, 开发, 研发, 计算机名人">
+    <meta name="keywords" content="">
     <meta name="description" content="Kali 2021.3a 安装 Parallels Desktop 踩坑及问题解决记录。">
     <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
     <link rel="stylesheet" href="/css/main.css" />
@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-11-07 15:38:05</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-11-07 14:34:52</span>
     </div>
@@ -76,30 +76,27 @@ var _hmt = _hmt || [];
 </ul>
 <h2 id="安装-Kali-Linux"><a href="#安装-Kali-Linux" class="headerlink" title="安装 Kali Linux"></a>安装 Kali Linux</h2><p>Kali Linux 的过程比较简单，反正是在虚拟机中使用，基本上都是按照推荐设置一路Next下来就可以。</p>
 <p>系统安装成功后，先做下必要的系统更新，因为我用的是普通用户，所以命令前都要加 <code>sudo</code>。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get upgrade -y</span><br><span class="line">$ sudo apt-get dist-upgrade -y</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt-get update</span><br><span class="line">$ <span class="built_in">sudo</span> apt-get upgrade -y</span><br><span class="line">$ <span class="built_in">sudo</span> apt-get dist-upgrade -y</span><br></pre></td></tr></table></figure>
 
 <p>更新过程中觉得速度特别慢，更换到了国内的源。编辑 <code>/etc/apt/sources.list</code> 添加国内的源。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free</span><br><span class="line">deb-src https://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free</span><br></pre></td></tr></table></figure>
 
 <h2 id="安装-Paralles-Tools"><a href="#安装-Paralles-Tools" class="headerlink" title="安装 Paralles Tools"></a>安装 Paralles Tools</h2><p>系统更新完成后，点击虚拟机右上角黄色叹号，提示将 Parallles Tools 光盘挂载到操作性上。在 Kali 虚拟机中，右键点击光盘选择 「挂载」，然后再次右键选择「在新窗口打开」，在新窗口中右键选择「在这里打开终端」。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建新的文件夹，并把 pdtools 内容拷贝过来</span></span><br><span class="line">$ mkdir ~/pdtools </span><br><span class="line">$ cp -rvf /media/cdrom0/* ~/pdtools</span><br><span class="line">$ sudo chmod -R 777 ~/pdtools</span><br><span class="line">$ <span class="built_in">cd</span> ~/pdtools</span><br><span class="line">$ sudo ./install</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建新的文件夹，并把 pdtools 内容拷贝过来</span></span><br><span class="line">$ <span class="built_in">mkdir</span> ~/pdtools </span><br><span class="line">$ <span class="built_in">cp</span> -rvf /media/cdrom0/* ~/pdtools</span><br><span class="line">$ <span class="built_in">sudo</span> <span class="built_in">chmod</span> -R 777 ~/pdtools</span><br><span class="line">$ <span class="built_in">cd</span> ~/pdtools</span><br><span class="line">$ <span class="built_in">sudo</span> ./install</span><br></pre></td></tr></table></figure>
 
 <p>安装过程到最后，会遇到下面这个错误提示。</p>
-<img src="/2021/11/07/20211107-kali-install-pdtools/image-20211107145909638.png" class="" title="image-20211107145909638">
-
+<p><img src="/20211107-kali-install-pdtools/image-20211107145909638.png" alt="image-20211107145909638"></p>
 <p>然后按照提示安装相关的组件。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install libelf-dev</span><br><span class="line">$ sudo apt-get install dkms</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt-get install libelf-dev</span><br><span class="line">$ <span class="built_in">sudo</span> apt-get install dkms</span><br></pre></td></tr></table></figure>
 
 <p>安装完成后重新尝试安装 Parallels Tools，最后仍然失败报错。</p>
-<img src="/2021/11/07/20211107-kali-install-pdtools/image-20211107150045553.png" class="" title="image-20211107150045553">
-
+<p><img src="/20211107-kali-install-pdtools/image-20211107150045553.png" alt="image-20211107150045553"></p>
 <p>这里报错网上很多资料，多数是需要修改几个文件，尝试几次之后没有成功。</p>
 <p>这时想到了更新 Paralles Desktop 试试，点击「检查更新」发现有一个 17.1.0 版本，果断更新。</p>
 <p>更新后，将原来拷贝的 pdtools 文件删除，重新点击黄色叹号安装，最后就成功了。</p>
-<img src="/2021/11/07/20211107-kali-install-pdtools/image-20211107150313116.png" class="" title="image-20211107150313116">
-
+<p><img src="/20211107-kali-install-pdtools/image-20211107150313116.png" alt="image-20211107150313116"></p>
 <h2 id="xfce-切换到-GNOME"><a href="#xfce-切换到-GNOME" class="headerlink" title="xfce 切换到 GNOME"></a>xfce 切换到 GNOME</h2><p>如果不习惯 xfce 的桌面，可以切换到 GNOME 桌面。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install kali-desktop-gnome</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt-get install kali-desktop-gnome</span><br></pre></td></tr></table></figure>
 
 <p>安装完成后重启操作系统，就能够在登录的时候选择想要的桌面了。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
@@ -143,7 +140,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

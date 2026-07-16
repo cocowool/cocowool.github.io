@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2024-11-17 22:18:32</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2020-11-23 15:30:37</span>
     </div>
@@ -77,8 +77,7 @@ var _hmt = _hmt || [];
 <li>方便URL的重用一记后台服务的调整。如果我们后台进行了版本升级或者地址变更，都可以通过URL Rewrite对外部用户屏蔽这些变化，极大的方便了网站的维护。</li>
 </ul>
 <p>这些场景可以用下图来概括说明。</p>
-<img src="/2020/11/23/20201123-nginx-rewrite/image-20201123141130287.png" class="" title="image-20201123141130287">
-
+<p><img src="/20201123-nginx-rewrite/image-20201123141130287.png" alt="image-20201123141130287"></p>
 <p>有的朋友会发出疑问，在PC时代，大家首先面对的就是网站的地址，但是2020已经快要步入5G时代，大多数人都是通过手机APP来访问互联网上的各种内容。根据 CNNIC 《<a target="_blank" rel="noopener" href="http://www.cnnic.net.cn/hlwfzyj/hlwxzbg/hlwtjbg/202009/P020200929546215182514.pdf">第46次中国互联网络发展状况统计报告</a>》显示我国网民使用手机上网的比例达99.2%，而使用台式机和笔记本上网的网民比例分别是37.3%和31.8%。使用手机上网，很多情况下我们都是扫描一个二维码或者点击分享的链接就能打开页面，而无需再记忆复杂的URL，那么是否可以说在5G时代，URL Rewrite 就不重要了呢？</p>
 <p>实际上，网站服务除了被用户访问外，每天都会被搜索引擎、黑产分子不停的访问，在5G时代即便用户不需要手工输入URL来访问，合理利用URL Rewrite这项技术仍是每个网站开发人员、网站维护人员不可缺少的技能。</p>
 <p>URL Rewrite的方法有很多，可以利用Apache、Nginx等中间件，也可以使用支持单入口的程序框架（例如PHP的Codeigniter）等，本文介绍如何使用Nginx来实现URL Rewrite的需求，毕竟Nginx近年来的发展势头那真是势不可挡。</p>
@@ -86,7 +85,7 @@ var _hmt = _hmt || [];
 <blockquote>
 <p>如果需要正则功能，在编译Nginx之前，需要编译安装PCRE库。</p>
 </blockquote>
-<p>rewrite 规则只能放在<code>server&#123;&#125;</code>,<code>location&#123;&#125;</code>,<code>if&#123;&#125;</code>中，并且只能对域名后边除去传递的参数外的字符串起作用。。</p>
+<p>rewrite 规则只能放在<code>server{}</code>,<code>location{}</code>,<code>if{}</code>中，并且只能对域名后边除去传递的参数外的字符串起作用。。</p>
 <h3 id="rewrite-语法"><a href="#rewrite-语法" class="headerlink" title="rewrite 语法"></a>rewrite 语法</h3><p>rewrite 是实现URL重写的关键，根据正则表达式的内容，重新定向到replacement指定的URL，根据末尾的flag参数不同，决定后续的处理动作。</p>
 <table>
 <thead>
@@ -132,15 +131,13 @@ var _hmt = _hmt || [];
 <td>返回301永久重定向，浏览器地址栏会显示跳转后的URL地址</td>
 </tr>
 </tbody></table>
-<p>在flag标记中，<code>last</code> 和 <code>break</code> 实现功能类似，使用 <code>alias</code> 指令时必须用 <code>last</code> 标记，使用 <code>proxy_pass</code> 指令时要使用 <code>break</code> 标记。<code>last</code> 标记在本条 rewrite 规则执行完毕后，会对其所在的 <code>server&#123;…&#125;</code> 标签重新发起请求，而 <code>break</code> 标记则会在本条规则匹配完成后，终止匹配，不再匹配后面的规则。</p>
+<p>在flag标记中，<code>last</code> 和 <code>break</code> 实现功能类似，使用 <code>alias</code> 指令时必须用 <code>last</code> 标记，使用 <code>proxy_pass</code> 指令时要使用 <code>break</code> 标记。<code>last</code> 标记在本条 rewrite 规则执行完毕后，会对其所在的 <code>server{…}</code> 标签重新发起请求，而 <code>break</code> 标记则会在本条规则匹配完成后，终止匹配，不再匹配后面的规则。</p>
 <h3 id="实战案例"><a href="#实战案例" class="headerlink" title="实战案例"></a>实战案例</h3><p>本文提供了一个基于 docker 的演示案例，将上文的场景一一演示出来。通过访问 <a target="_blank" rel="noopener" href="https://github.com/cocowool/code-space">我的Github</a> 可以获得全部的 docker 编排文件及代码。</p>
 <blockquote>
 <p>不太熟悉 Docker 的同学可以参考 <a target="_blank" rel="noopener" href="http://www.edulinks.cn/2020/04/17/20200415-qucik-lnmp-dev-environment/">使用 Docker 快速搭建LNMP开发环境</a>，让你在安装了 Docker 的情况下，使用一条命令就快速搭建LNMP开发环境。还要了解更多 Docker 的内容，可以查看 <a target="_blank" rel="noopener" href="http://www.edulinks.cn/2020/10/16/20201016-kubernetes-articles/#Docker-%E7%B3%BB%E5%88%97%E6%96%87%E7%AB%A0">Docker 系列文章</a></p>
 </blockquote>
-<img src="/2020/11/23/20201123-nginx-rewrite/image-20201123151805246.png" class="" title="image-20201123151805246">
-
-<img src="/2020/11/23/20201123-nginx-rewrite/image-20201123151856940.png" class="" title="image-20201123151856940">
-
+<p><img src="/20201123-nginx-rewrite/image-20201123151805246.png" alt="image-20201123151805246"></p>
+<p><img src="/20201123-nginx-rewrite/image-20201123151856940.png" alt="image-20201123151856940"></p>
 <p>主要的语法如下</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">rewrite</span><span class="regexp"> ^/login$</span> /login.php <span class="literal">last</span>;</span><br><span class="line"><span class="attribute">rewrite</span><span class="regexp"> ^/register$</span> /register.php <span class="literal">last</span>;</span><br><span class="line"><span class="attribute">rewrite</span><span class="regexp"> ^/search$</span> /search.php <span class="literal">last</span>;</span><br><span class="line"><span class="attribute">rewrite</span><span class="regexp"> ^/discount/student$</span> /discount.php?u=d <span class="literal">last</span>;</span><br><span class="line"><span class="attribute">rewrite</span><span class="regexp"> ^/discount/teacher$</span> /discount.php?u=t <span class="literal">last</span>;</span><br></pre></td></tr></table></figure>
 
@@ -188,7 +185,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

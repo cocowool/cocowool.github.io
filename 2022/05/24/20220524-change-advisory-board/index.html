@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2022-05-25 22:26:35</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2022-05-24 22:05:28</span>
     </div>
@@ -74,7 +74,7 @@ var _hmt = _hmt || [];
 <li>变更时长控制是否合适</li>
 <li>变更操作步骤是否清晰、简便</li>
 <li>变更验证是否完备</li>
-<li>变更回退方案是否完善 </li>
+<li>变更回退方案是否完善</li>
 </ul>
 <h2 id="变更影响"><a href="#变更影响" class="headerlink" title="变更影响"></a>变更影响</h2><p>在执行一个变更之前，我们首先要非常确切的知道变更的影响，例如是否会引起联机业务中断，会影响哪些用户，和批量业务的时间是否冲突，是否会影响上下游的系统。</p>
 <p>这就要求我们运维一个系统时，不管要知道自己运维的技术组件，还要深刻理解系统之上运行的各项业务。</p>
@@ -84,8 +84,8 @@ var _hmt = _hmt || [];
 <thead>
 <tr>
 <th>阶段</th>
-<th>操作内容/目的</th>
-<th>目标主机/目标网址</th>
+<th>操作内容&#x2F;目的</th>
+<th>目标主机&#x2F;目标网址</th>
 <th>用户名</th>
 <th>详细操作步骤</th>
 <th>开始时间</th>
@@ -149,7 +149,7 @@ var _hmt = _hmt || [];
 <h2 id="验证方案"><a href="#验证方案" class="headerlink" title="验证方案"></a>验证方案</h2><p>验证方案是在变更控制表中验证阶段执行的步骤，版本投产往往是开发项目组进行功能上的验证，这就包含很多的方法本文不再赘述。对于非版本类的变更，运维人员尽量将验证方案规范化、细致化，例如本次变更是对一份有问题的数据进行清理，那就需要明确本次执行的SQL会影响多少条数据，实际执行完后，检查是否确实修改了多少条数据。</p>
 <p>严丝合缝的完成整个变更过程。</p>
 <h2 id="回退方案"><a href="#回退方案" class="headerlink" title="回退方案"></a>回退方案</h2><p>任何变更都有失败的可能，也随时有可能收到回退的指令。因此一个没有考虑回退方案的变更是不完整的。</p>
-<p>在某些极特殊的场景下，可能确实没有办法做到完全回退，例如我们要对用户系统的ID生成规则做一次转换的变更，当数据转换完成开始接收新的业务时，就可能无法再回退了。这种情况下，我们需要设置好必要的决策点，在决策点到来后，进行必要的技术/业务验证，来决定是继续还是回退。</p>
+<p>在某些极特殊的场景下，可能确实没有办法做到完全回退，例如我们要对用户系统的ID生成规则做一次转换的变更，当数据转换完成开始接收新的业务时，就可能无法再回退了。这种情况下，我们需要设置好必要的决策点，在决策点到来后，进行必要的技术&#x2F;业务验证，来决定是继续还是回退。</p>
 <p>关于变更的内容，其实还有很多实用的技巧，也欢迎大家与我沟通在实际运维过程中，如何避免犯错。</p>
 
       <div class="blog-post-footer">
@@ -187,7 +187,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -1,0 +1,207 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Linux 在链接极限场景下的丢包现象-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="长连接, 10万连接, 瓶颈">
+    <meta name="description" content="本文目的是测试单台服务器网络连接数超过10万时，网卡的各项性能是否会发生变化。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 8.1.2"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">独立博客</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">我的文章</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于我</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>Linux 在链接极限场景下的丢包现象</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
+        
+        <span class="post-time">发布于：2022-01-31 03:26:57</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <blockquote>
+<p>本文测试环境信息如下：</p>
+<p>OS: MacOS Monterey 12.2.1</p>
+<p>Python: 3.9.6</p>
+<p>Locust: 2.7.3</p>
+</blockquote>
+<h2 id="场景需求"><a href="#场景需求" class="headerlink" title="场景需求"></a>场景需求</h2><p>想要测试一台服务器链接数很多的情况下（如超过1万、10万），其他的网络操作（诸如 Ping）是否会发生异常。</p>
+<p>使用 Python 来构建服务端和客户端。</p>
+<p>服务端代码：tcpserver.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#codeing: utf-8</span></span><br><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"><span class="keyword">from</span> gevent.server <span class="keyword">import</span> StreamServer</span><br><span class="line"><span class="keyword">import</span> signal</span><br><span class="line"><span class="keyword">import</span> gevent</span><br><span class="line"><span class="keyword">from</span> gevent.signal <span class="keyword">import</span> signal</span><br><span class="line"><span class="comment"># import signal</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># sleeptime = 60</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">handle</span>(<span class="params">socket, address</span>):</span><br><span class="line">    <span class="comment"># print(address)</span></span><br><span class="line">    <span class="comment"># data = socket.recv(1024)</span></span><br><span class="line">    <span class="comment"># print(data)</span></span><br><span class="line">    socket.sendall( <span class="built_in">bytes</span>(<span class="string">&#x27;Welcome to the echo server! Type quit to exit.\r\n&#x27;</span>, <span class="string">&#x27;utf-8&#x27;</span>) )</span><br><span class="line">    fileobj = socket.makefile()</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="comment"># line = fileobj.readline()</span></span><br><span class="line">        <span class="comment"># if line.strip().lower() == &#x27;quit&#x27;:</span></span><br><span class="line">        <span class="comment">#     print (&quot;client quit&quot;)</span></span><br><span class="line">        <span class="comment">#     break</span></span><br><span class="line">        <span class="comment"># fileobj.write(line)</span></span><br><span class="line">        <span class="comment"># fileobj.flush()</span></span><br><span class="line">        <span class="comment"># print (&quot;echoed %r&quot; % line)</span></span><br><span class="line"></span><br><span class="line">        gevent.sleep(sleeptime)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            socket.send( <span class="built_in">bytes</span>(<span class="string">&quot;ok\n&quot;</span>,<span class="string">&#x27;utf-8&#x27;</span>) )</span><br><span class="line">        <span class="comment"># except KeyboardInterrupt:</span></span><br><span class="line">        <span class="comment">#     print(&quot;Server Close&quot;)</span></span><br><span class="line">        <span class="comment"># except socket.error:</span></span><br><span class="line">        <span class="comment">#     print(&quot;Server Close&quot;)</span></span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="built_in">print</span>(e)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="keyword">import</span> sys</span><br><span class="line">    port = <span class="number">80</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(sys.argv) &gt; <span class="number">2</span>:</span><br><span class="line">        port = <span class="built_in">int</span>(sys.argv[<span class="number">1</span>])</span><br><span class="line">        sleeptime = <span class="built_in">int</span>(sys.argv[<span class="number">2</span>])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Tow parameters needed!&quot;</span>)</span><br><span class="line">        sys.exit(<span class="number">1</span>)</span><br><span class="line">    <span class="comment"># default backlog is 256</span></span><br><span class="line"></span><br><span class="line">    server = StreamServer((<span class="string">&#x27;0.0.0.0&#x27;</span>, port), handle, backlog=<span class="number">4096</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># gevent.signal_handler(signal.SIGTERM, server.close)</span></span><br><span class="line">    <span class="comment"># gevent.signal(signal.SIGQUIT, server.close)</span></span><br><span class="line"></span><br><span class="line">    server.serve_forever()</span><br></pre></td></tr></table></figure>
+
+<p>客户端代码： tcpclient.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding: utf-8</span></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> gevent <span class="keyword">import</span> socket</span><br><span class="line"><span class="comment"># from locust import Locust, TaskSet, events, task</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 尝试直接连接服务器</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">manual_connect</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Manual connect tcp server.&#x27;</span>)</span><br><span class="line">    <span class="comment"># 目标地址</span></span><br><span class="line">    host = <span class="string">&quot;127.0.0.1&quot;</span></span><br><span class="line">    <span class="comment"># 目标端口</span></span><br><span class="line">    port = <span class="number">8081</span></span><br><span class="line">    skt = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">    skt.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, <span class="number">1</span>)</span><br><span class="line">    skt.connect( (host, port) )</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        msg = skt.recv(<span class="number">1024</span>)</span><br><span class="line">        <span class="built_in">print</span>(msg)</span><br><span class="line">        <span class="comment"># client.send(&#x27;hello world\r\n&#x27;.encode())</span></span><br><span class="line">        <span class="comment"># print(&#x27;send data&#x27;)</span></span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试情况"><a href="#测试情况" class="headerlink" title="测试情况"></a>测试情况</h2><p>服务端启动服务后，第一次尝试直接在一台客户端上启动 10000 个连接。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..10000&#125;;<span class="keyword">do</span> <span class="built_in">nohup</span> python3 -u tcpclient.py &gt; out<span class="variable">$i</span>.<span class="built_in">log</span> 2&gt;&amp;1 &amp;; <span class="keyword">done</span>;</span><br></pre></td></tr></table></figure>
+
+<p>很快终端就报出了内存不足的信息，同时观察网络连接数量，也上升到 130 左右就不再继续上涨。</p>
+<p>同时观察到系统负载很高。</p>
+<p><img src="/20220131-linux-connection-limit/image-20220306204818612.png" alt="image-20220306204818612"></p>
+<h2 id="系统参数"><a href="#系统参数" class="headerlink" title="系统参数"></a>系统参数</h2><h3 id="客户端参数配置"><a href="#客户端参数配置" class="headerlink" title="客户端参数配置"></a>客户端参数配置</h3><p>系统文件 <code>/etc/sysctl</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># 系统级别最大打开文件</span><br><span class="line">fs.file-max = 100000</span><br><span class="line"></span><br><span class="line"># 单用户进程最大文件打开数</span><br><span class="line">fs.nr_open = 100000</span><br><span class="line"></span><br><span class="line"># 是否重用, 快速回收time-wait状态的tcp连接</span><br><span class="line">net.ipv4.tcp_tw_reuse = 1</span><br><span class="line">net.ipv4.tcp_tw_recycle = 1</span><br><span class="line"></span><br><span class="line"># 单个tcp连接最大缓存byte单位</span><br><span class="line">net.core.optmem_max = 8192</span><br><span class="line"></span><br><span class="line"># 可处理最多孤儿socket数量，超过则警告，每个孤儿socket占用64KB空间</span><br><span class="line">net.ipv4.tcp_max_orphans = 10240</span><br><span class="line"></span><br><span class="line"># 最多允许time-wait数量</span><br><span class="line">net.ipv4.tcp_max_tw_buckets = 10240</span><br><span class="line"></span><br><span class="line"># 从客户端发起的端口范围,默认是32768 61000，则只能发起2w多连接，改为一下值，可一个IP可发起差不多6.4w连接。</span><br><span class="line">net.ipv4.ip_local_port_range = 1024 65535</span><br></pre></td></tr></table></figure>
+
+<p>系统文件 <code>/etc/security/limits.conf</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 最大不能超过fs.nr_open值, 分别为单用户进程最大文件打开数，soft指软性限制,hard指硬性限制</span><br><span class="line">* soft nofile 100000</span><br><span class="line">* hard nofile 100000</span><br><span class="line">root soft nofile 100000</span><br><span class="line">root hard nofile 100000</span><br></pre></td></tr></table></figure>
+
+<h3 id="服务端参数配置"><a href="#服务端参数配置" class="headerlink" title="服务端参数配置"></a>服务端参数配置</h3><p>系统文件 <code>/etc/sysctl.conf</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"># 系统最大文件打开数</span><br><span class="line">fs.file-max = 20000000</span><br><span class="line"></span><br><span class="line"># 单个用户进程最大文件打开数</span><br><span class="line">fs.nr_open = 20000000</span><br><span class="line"></span><br><span class="line"># 全连接队列长度,默认128</span><br><span class="line">net.core.somaxconn = 10240</span><br><span class="line"></span><br><span class="line"># 半连接队列长度，当使用sysncookies无效，默认128</span><br><span class="line">net.ipv4.tcp_max_syn_backlog = 16384</span><br><span class="line">net.ipv4.tcp_syncookies = 0</span><br><span class="line"></span><br><span class="line"># 网卡数据包队列长度</span><br><span class="line">net.core.netdev_max_backlog = 41960</span><br><span class="line"></span><br><span class="line"># time-wait 最大队列长度</span><br><span class="line">net.ipv4.tcp_max_tw_buckets = 300000</span><br><span class="line"></span><br><span class="line"># time-wait 是否重新用于新链接以及快速回收</span><br><span class="line">net.ipv4.tcp_tw_reuse = 1</span><br><span class="line">net.ipv4.tcp_tw_recycle = 1</span><br><span class="line"></span><br><span class="line"># tcp报文探测时间间隔, 单位s</span><br><span class="line">net.ipv4.tcp_keepalive_intvl = 30</span><br><span class="line"></span><br><span class="line"># tcp连接多少秒后没有数据报文时启动探测报文</span><br><span class="line">net.ipv4.tcp_keepalive_time = 900</span><br><span class="line"></span><br><span class="line"># 探测次数</span><br><span class="line">net.ipv4.tcp_keepalive_probes = 3</span><br><span class="line"></span><br><span class="line"># 保持fin-wait-2 状态多少秒</span><br><span class="line">net.ipv4.tcp_fin_timeout = 15</span><br><span class="line"></span><br><span class="line"># 最大孤儿socket数量,一个孤儿socket占用64KB,当socket主动close掉,处于fin-wait1, last-ack</span><br><span class="line">net.ipv4.tcp_max_orphans = 131072</span><br><span class="line"></span><br><span class="line"># 每个套接字所允许得最大缓存区大小</span><br><span class="line">net.core.optmem_max = 819200</span><br><span class="line"></span><br><span class="line"># 默认tcp数据接受窗口大小</span><br><span class="line">net.core.rmem_default = 262144</span><br><span class="line">net.core.wmem_default = 262144</span><br><span class="line">net.core.rmem_max = 16777216</span><br><span class="line">net.core.wmem_max = 16777216</span><br><span class="line"></span><br><span class="line"># tcp栈内存使用第一个值内存下限, 第二个值缓存区应用压力上限, 第三个值内存上限, 单位为page,通常为4kb</span><br><span class="line">net.ipv4.tcp_mem = 786432 4194304 8388608</span><br><span class="line"></span><br><span class="line"># 读, 第一个值为socket缓存区分配最小字节, 第二个，第三个分别被rmem_default, rmem_max覆盖</span><br><span class="line">net.ipv4.tcp_rmem = 4096 4096 4206592</span><br><span class="line"></span><br><span class="line"># 写, 第一个值为socket缓存区分配最小字节, 第二个，第三个分别被wmem_default, wmem_max覆盖</span><br><span class="line">net.ipv4.tcp_wmem = 4096 4096 4206592</span><br></pre></td></tr></table></figure>
+
+<p>系统文件，<code>/etc/security/limits.conf</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># End of file</span><br><span class="line">root soft nofile 2100000</span><br><span class="line">root hard nofile 2100000</span><br><span class="line">* soft nofile 2100000</span><br><span class="line">* hard nofile 2100000</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="统计语句"><a href="#统计语句" class="headerlink" title="统计语句"></a>统计语句</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 统计操作系统的链接数</span></span><br><span class="line">$ netstat na | grep ESTABLISHED | <span class="built_in">wc</span> -l</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>1个 Socket 长连接占用内存约为 8kb</li>
+</ul>
+<blockquote>
+<p>pdsh 全称是 parallel distributed shell ，与 pssh 类似，具有批量在远程目标主机操作的能力。</p>
+</blockquote>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/kabi/p/7018434.html">Linux Netstat 统计连接数</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.51cto.com/u_15060546/2641200">如何模拟单机百万TCP连接</a></li>
+<li><a target="_blank" rel="noopener" href="https://locust.io/">locust - An open source load testing tool</a></li>
+<li><a target="_blank" rel="noopener" href="https://steelkiwi.com/blog/load-testing-python-locust-testing-and-bokeh-vis/">Load Testing with Python: Locust</a></li>
+<li><a target="_blank" rel="noopener" href="https://stressgrid.com/blog/100k_cps_with_elixir/">Achieving 100k connections per second with Elixir</a></li>
+<li><a target="_blank" rel="noopener" href="https://elixir-lang.org/">The elixir programming language</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/134603634">Python百万级并发测试指南</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37865420/article/details/117263959">pdsh 使用</a></li>
+<li><a target="_blank" rel="noopener" href="https://vimsky.com/examples/detail/python-method-gevent.server.StreamServer.html">Python server.StreamServer方法代码示例</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/441572357">python-grpc 流式服务初探</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.pythonheidong.com/blog/article/148759/735b9f7c132cc0e8109a/">gevent StreamServer.start（）似乎没有达到我的期望</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/gevent/gevent/blob/master/examples/portforwarder.py">Github portforwarder.py</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/63764339/how-to-create-a-custom-socket-client-in-locust">How to create a custom socket client in locust</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/master-pokemon/p/5790783.html">linux 下后台运行python脚本</a></li>
+</ol>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2022/02/14/20220214-mac-wireless-driver/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; macOS Monterey 无线网卡驱动
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2022/01/27/20220127-life-memo/" id="article-nav-older" class="article-nav-link-wrap">
+            流水争先，靠的是绵绵不绝 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+              </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A full-stack dreamer!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

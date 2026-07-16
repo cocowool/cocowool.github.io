@@ -6,7 +6,7 @@
     <title>Linux 用户口令的安全策略-大江小浪</title>
     <meta name="baidu-site-verification" content="y4EEfl1oRM" />
     <meta name="keywords" content="Linux, Linux 用户口令, Linux 口令安全策略, 安全, 口令安全">
-    <meta name="description" content="大江小浪，关注数据中心运维、金融科技、互联网相关技术与行业发展趋势，擅长应用运维管理、Linux、Java、Elasticsearch、Kubernetes、PHP相关技术。">
+    <meta name="description" content="世事如潮人如水，一入江湖几时回">
     <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
     <link rel="stylesheet" href="/css/main.css" />
     <script>
@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2022-07-06 22:58:29</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2022-07-01 18:52:24</span>
     </div>
@@ -71,7 +71,7 @@ var _hmt = _hmt || [];
 <p>Linux 操作系统用户和口令是操作系统的重要信息，是操作系统安全的第一道防线，如果服务器暴露在互联网上允许 ssh 远程登录，则很容易被人尝试密码爆破，因此确保所有使用这台服务器的用户口令都符合安全的要求就非常重要。</p>
 <p>系统管理员必须采用必要的技术手段强制用户使用强密码，并定期修改口令，防止用户口令被爆破猜解，保证系统用户账号和密码的安全。</p>
 <p>Linux 操作系统所有的用户都存放在 <code>/etc/passwd</code> 文件中，首先要对 <code>/etc/passwd</code> 实行白名单管理，只有我们实际需要并且认可的用户才能长期存在，如果因为测试验证等原因，临时加的用户，我们务必做到及时清理。对于不需要远程登录，但确实需要保存在系统中的用户，可以将对应的用户登录 shell 设置为 <code>/sbin/nologin</code> 。</p>
-<p>在 Linux 中身份认证等功能是由 PAM (Pluggable Authentication Modules) 模块来负责的，它是一套提供不同认证模块的共享库，保存在 /lib64/security 目录下。PAM 的配置文件存放在 <code>/etc/pam.d/</code> 路径下。</p>
+<p>在 Linux 中身份认证等功能是由 PAM (Pluggable Authentication Modules) 模块来负责的，它是一套提供不同认证模块的共享库，保存在 &#x2F;lib64&#x2F;security 目录下。PAM 的配置文件存放在 <code>/etc/pam.d/</code> 路径下。</p>
 <h2 id="密码复杂度"><a href="#密码复杂度" class="headerlink" title="密码复杂度"></a>密码复杂度</h2><p>人们设置密码的时候，很容易设置一些简单密码，如 password、123456、admin 之类，这些被称为弱口令，很容易被攻击者猜出来，因此我们需要对密码的复杂度做出要求，通常包括以下几个方面：</p>
 <ul>
 <li>密码的长度，如最短长度不能少于 8 位</li>
@@ -90,8 +90,8 @@ var _hmt = _hmt || [];
 
 <ul>
 <li>tray_first_pass 主要用来防止用户新设定的密码和以前的旧密码相同</li>
-<li>retry=3 表示修改密码重试 3 次后报错退出密码修改界面（三次修改密码都不成功）</li>
-<li>Local_users_only 表示仅对 /etc/passwd 列表中的用户密码进行校验，这个选项默认是关闭的</li>
+<li>retry&#x3D;3 表示修改密码重试 3 次后报错退出密码修改界面（三次修改密码都不成功）</li>
+<li>Local_users_only 表示仅对 &#x2F;etc&#x2F;passwd 列表中的用户密码进行校验，这个选项默认是关闭的</li>
 </ul>
 <p>也可以通过修改 <code>/etc/security/pwquality.conf</code> 配置文件来达到同样的效果。</p>
 <blockquote>
@@ -105,14 +105,14 @@ var _hmt = _hmt || [];
 
 <p>新增加的参数表示：</p>
 <ul>
-<li>lcredit=-1 表示密码至少需要 1 位小写字母</li>
-<li>ucredit=-1 表示密码至少需要 1 位大写字母</li>
-<li>dcredit=-1 表示密码至少需要 1 位数字</li>
-<li>ocredit=-1 表示密码至少需要 1 位特殊字符</li>
-<li>minlen=8 表示密码的最短长度为 8 位</li>
+<li>lcredit&#x3D;-1 表示密码至少需要 1 位小写字母</li>
+<li>ucredit&#x3D;-1 表示密码至少需要 1 位大写字母</li>
+<li>dcredit&#x3D;-1 表示密码至少需要 1 位数字</li>
+<li>ocredit&#x3D;-1 表示密码至少需要 1 位特殊字符</li>
+<li>minlen&#x3D;8 表示密码的最短长度为 8 位</li>
 </ul>
 <p>在 CentOS 6 中可以通过 <code>/etc/login.defs</code> 文件设置一些密码策略。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 省去了很多注释，只关注具体内容</span></span><br><span class="line">$ cat /etc/login.defs</span><br><span class="line"><span class="comment"># 密码允许使用的最大天数</span></span><br><span class="line">PASS_MAX_DAYS	99999</span><br><span class="line"><span class="comment"># 两次密码修改之间允许的最小天数</span></span><br><span class="line">PASS_MIN_DAYS	0</span><br><span class="line"><span class="comment"># 可接受的最小密码长度</span></span><br><span class="line">PASS_MIN_LEN	5</span><br><span class="line"><span class="comment"># 密码过期前 x 天开始金星个密码过期提醒</span></span><br><span class="line">PASS_WARN_AGE	7</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 省去了很多注释，只关注具体内容</span></span><br><span class="line">$ <span class="built_in">cat</span> /etc/login.defs</span><br><span class="line"><span class="comment"># 密码允许使用的最大天数</span></span><br><span class="line">PASS_MAX_DAYS	99999</span><br><span class="line"><span class="comment"># 两次密码修改之间允许的最小天数</span></span><br><span class="line">PASS_MIN_DAYS	0</span><br><span class="line"><span class="comment"># 可接受的最小密码长度</span></span><br><span class="line">PASS_MIN_LEN	5</span><br><span class="line"><span class="comment"># 密码过期前 x 天开始金星个密码过期提醒</span></span><br><span class="line">PASS_WARN_AGE	7</span><br></pre></td></tr></table></figure>
 
 <h2 id="密码过期策略"><a href="#密码过期策略" class="headerlink" title="密码过期策略"></a>密码过期策略</h2><p>通过编辑 <code>/etc/login.defs</code> 可以设置 Linux 用户的密码策略，包括密码最小长度、密码最小更改周期、密码最大有效期、过期前警告天数等等，具体如下：</p>
 <h2 id="锁定策略"><a href="#锁定策略" class="headerlink" title="锁定策略"></a>锁定策略</h2><p>现在智能手机都有类似的锁定策略，例如密码输入错误 x 次后锁定 x 分钟。</p>
@@ -176,7 +176,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-02-02 19:46:29</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-02-02 08:40:12</span>
     </div>
@@ -67,7 +67,7 @@ var _hmt = _hmt || [];
       </div>
       <h2 id="命令介绍"><a href="#命令介绍" class="headerlink" title="命令介绍"></a>命令介绍</h2><p>dmesg命令用于显示开机信息，运行 dmesg 命令需要 root 权限，dmesg 命令在多数基于 Linux 和 Unix 的操作系统中都可以使用。</p>
 <p>dmesg 命令提供的信息在设备故障诊断时非常重要，因为 dmesg 命令输出的信息非常多，因此我们常需要配合管道、查询命令一起使用，或者将信息输出到文本中进行检索分析。</p>
-<p>kernel会将开机信息存储在ring buffer中。您若是开机时来不及查看信息，可利用dmesg来查看。开机信息也会保存在 /var/log 目录中名称为 dmesg 的文件里。</p>
+<p>kernel会将开机信息存储在ring buffer中。您若是开机时来不及查看信息，可利用dmesg来查看。开机信息也会保存在 &#x2F;var&#x2F;log 目录中名称为 dmesg 的文件里。</p>
 <h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ dmesg [-cn][-s &lt;缓冲区大小&gt;]</span><br><span class="line"><span class="comment"># -c 显示信息后，清除 ring buffer 中的内容</span></span><br><span class="line"><span class="comment"># -n 设置记录信息的层级</span></span><br><span class="line"><span class="comment"># -s&lt;缓冲区大小&gt; </span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>dmesg 定义了八个不通的错误级别，可以使用 <code>dmesg --level=err,warn</code> 设定，具体的级别如下：</p>
@@ -82,10 +82,10 @@ var _hmt = _hmt || [];
 <li>debug ： 调试级别的信息</li>
 </ul>
 <p>看一下具体的例子：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ sudo dmesg --level=err                                                                                                                                       </span><br><span class="line">[    2.060380] piix4_smbus 0000:00:07.3: SMBus Host Controller not enabled!</span><br><span class="line">[    2.635310] sd 2:0:0:0: [sda] Assuming drive cache: write through</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过 -T 参数能够看到具体的发生时间</span></span><br><span class="line">$ sudo dmesg --level=err -T</span><br><span class="line">[Tue Feb  2 05:16:33 2021] piix4_smbus 0000:00:07.3: SMBus Host Controller not enabled!</span><br><span class="line">[Tue Feb  2 05:16:33 2021] sd 2:0:0:0: [sda] Assuming drive cache: write through</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> dmesg --level=err                                                                                                                                       </span><br><span class="line">[    2.060380] piix4_smbus 0000:00:07.3: SMBus Host Controller not enabled!</span><br><span class="line">[    2.635310] sd 2:0:0:0: [sda] Assuming drive cache: write through</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过 -T 参数能够看到具体的发生时间</span></span><br><span class="line">$ <span class="built_in">sudo</span> dmesg --level=err -T</span><br><span class="line">[Tue Feb  2 05:16:33 2021] piix4_smbus 0000:00:07.3: SMBus Host Controller not enabled!</span><br><span class="line">[Tue Feb  2 05:16:33 2021] sd 2:0:0:0: [sda] Assuming drive cache: write through</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>我们还可以通过搜索关键字的方式，只查看某一类组件的启动信息。如下代码分别显示内容、硬盘、USB以及TTY相关的启动信息。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ dmesg | grep -i memory</span><br><span class="line">$ dmesg | grep -i dma</span><br><span class="line">$ dmesg | grep -i usb</span><br><span class="line">$ dmesg | grep -i tty</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ dmesg | grep -i memory</span><br><span class="line">$ dmesg | grep -i dma</span><br><span class="line">$ dmesg | grep -i usb</span><br><span class="line">$ dmesg | grep -i <span class="built_in">tty</span></span><br></pre></td></tr></table></figure>
 
 <p>还可以按照另外一个维度，分别输出特定类型的信息，包括：daemon、kern、user、mail、auth、syslog等。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ dmesg --facility=kern</span><br><span class="line">[    0.000000] Linux version 5.9.0-kali1-amd64 (devel@kali.org) (gcc-10 (Debian 10.2.0-15) 10.2.0, GNU ld (GNU Binutils <span class="keyword">for</span> Debian) 2.35.1) <span class="comment">#1 SMP Debian 5.9.1-1kali</span></span><br><span class="line">2 (2020-10-29)</span><br><span class="line">[    0.000000] Command line: BOOT_IMAGE=/vmlinuz-5.9.0-kali1-amd64 root=/dev/mapper/qking--vg-root ro quiet splash</span><br><span class="line">[    0.000000] Disabled fast string operations</span><br><span class="line">[    0.000000] x86/fpu: Supporting XSAVE feature 0x001: <span class="string">&#x27;x87 floating point registers&#x27;</span></span><br><span class="line">[    0.000000] x86/fpu: Supporting XSAVE feature 0x002: <span class="string">&#x27;SSE registers&#x27;</span></span><br><span class="line">[    0.000000] x86/fpu: Supporting XSAVE feature 0x004: <span class="string">&#x27;AVX registers&#x27;</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
@@ -132,7 +132,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-18 08:21:50</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2009-12-10 08:30:01</span>
     </div>
@@ -68,7 +68,7 @@ var _hmt = _hmt || [];
       <p>选择的版本分别为<br>apache 2.2.14 with ssl<br>php 5.2.11<br>mysql 5.1.41<br>系统环境为 Windows XP SP3</p>
 <p>安装过程：<br>1、安装apache。</p>
 <blockquote>
-<p>这个非常简单，双击后一路 next ，在填写域名和主机名的时候可以随便写，比如 test.com/<a target="_blank" rel="noopener" href="http://www.test.com/">www.test.com</a> ，然后写下自己的邮箱，安装完成。<br>完成后，通过<a target="_blank" rel="noopener" href="http://localhost/">http://localhost</a>能够访问，并且看到 It works! 表示已经安装成功。<br>根据PHP官方的提示：<br>We do not recommend using a threaded MPM in production with Apache2.  Use the prefork MPM instead, or use Apache1. For information on why,   read the related FAQ entry on using Apache2 with a threaded MPM<br>对于默认的MPM模式官方并不支持，我们应当修改为 Prefork 模式，这个之后再讨论如何优化。</p>
+<p>这个非常简单，双击后一路 next ，在填写域名和主机名的时候可以随便写，比如 test.com&#x2F;<a target="_blank" rel="noopener" href="http://www.test.com/">www.test.com</a> ，然后写下自己的邮箱，安装完成。<br>完成后，通过<a target="_blank" rel="noopener" href="http://localhost/">http://localhost</a>能够访问，并且看到 It works! 表示已经安装成功。<br>根据PHP官方的提示：<br>We do not recommend using a threaded MPM in production with Apache2.  Use the prefork MPM instead, or use Apache1. For information on why,   read the related FAQ entry on using Apache2 with a threaded MPM<br>对于默认的MPM模式官方并不支持，我们应当修改为 Prefork 模式，这个之后再讨论如何优化。</p>
 </blockquote>
 <p>2、下面安装PHP。</p>
 <blockquote>
@@ -79,7 +79,7 @@ var _hmt = _hmt || [];
 <p>重启apache，编写 phpinfo.php ，则通过<a target="_blank" rel="noopener" href="http://localhost/phpinfo.php">http://localhost/phpinfo.php</a>可以查看到 php 已经安装完成。</p>
 <p>3、安装 PHP 扩展。</p>
 <blockquote>
-<p>安装PHP的扩展只需要将 ;extension=*.dll 前的注释去掉，重启服务即可。我打开了 curl、gd2、mbstring、mcrypt、mysql、mysqli、pdo、pdo_mysql、pdo_oci、pdo_oci8、pdo_sqlite、soap、xmlrpc。需要注意的是，有些扩展需要将特定的 dll 拷贝到系统目录下才能正常使用。<br>php_curl.dll CURL, Client URL library functions Requires: ibeay32.dll,ssleay32.dll (bundled)<br>php_mcrypt.dll Mcrypt Encryption functions Requires: ibmcrypt.dll<br>php_mysql.dll MySQL functions PHP &gt;= 5.0.0, requires libmysql.dll   (bundled)<br>php_mysqli.dll MySQLi functions PHP &gt;= 5.0.0, requires libmysql.dll   (libmysqli.dll in PHP &lt;= 5.0.2) (bundled)<br>php_xmlrpc.dll XML-RPC functions PHP &gt;= 4.2.1 requires: iconv.dll(bundled)</p>
+<p>安装PHP的扩展只需要将 ;extension&#x3D;*.dll 前的注释去掉，重启服务即可。我打开了 curl、gd2、mbstring、mcrypt、mysql、mysqli、pdo、pdo_mysql、pdo_oci、pdo_oci8、pdo_sqlite、soap、xmlrpc。需要注意的是，有些扩展需要将特定的 dll 拷贝到系统目录下才能正常使用。<br>php_curl.dll CURL, Client URL library functions Requires: ibeay32.dll,ssleay32.dll (bundled)<br>php_mcrypt.dll Mcrypt Encryption functions Requires: ibmcrypt.dll<br>php_mysql.dll MySQL functions PHP &gt;&#x3D; 5.0.0, requires libmysql.dll   (bundled)<br>php_mysqli.dll MySQLi functions PHP &gt;&#x3D; 5.0.0, requires libmysql.dll   (libmysqli.dll in PHP &lt;&#x3D; 5.0.2) (bundled)<br>php_xmlrpc.dll XML-RPC functions PHP &gt;&#x3D; 4.2.1 requires: iconv.dll(bundled)</p>
 </blockquote>
 <blockquote>
 <p>同时应该注意将 extension_dir 设置为系统对应的值，完成后重启 apache 即可。</p>
@@ -92,7 +92,7 @@ var _hmt = _hmt || [];
 </blockquote>
 <p>5、配置虚拟机</p>
 <blockquote>
-<p>项目比较多的时候，使用 apache 的虚拟机还是非常方便的。<br>首先打开 httpd.conf 中关于 vhost 配置文件的引用，这样我们所有的虚拟机配置文件都写在 extra/httpd-vhosts 中，方便管理。</p>
+<p>项目比较多的时候，使用 apache 的虚拟机还是非常方便的。<br>首先打开 httpd.conf 中关于 vhost 配置文件的引用，这样我们所有的虚拟机配置文件都写在 extra&#x2F;httpd-vhosts 中，方便管理。</p>
 </blockquote>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Virtual hosts</span><br><span class="line">Include conf/extra/httpd-vhosts.conf</span><br></pre></td></tr></table></figure>
 <p>然后在 httpd-vhost 文件中加入</p>
@@ -140,7 +140,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

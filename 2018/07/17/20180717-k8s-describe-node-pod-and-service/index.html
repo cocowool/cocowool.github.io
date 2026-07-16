@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2018-07-17 13:36:00</span>
     </div>
@@ -78,9 +78,7 @@ var _hmt = _hmt || [];
 <blockquote>
 <p>A Pod is a group of one or more application containers (such as Docker or rkt) and includes shared storage (volumes), IP address and information about how to run them.</p>
 </blockquote>
-<h2 id="Kubernetes-Nodes"><a href="#Kubernetes-Nodes" class="headerlink" title="Kubernetes Nodes"></a>Kubernetes Nodes</h2><p>Pod总是运行在Node上，Node可以是物理机也可以是虚拟机。在之前的<a target="_blank" rel="noopener" href="https://www.cnblogs.com/cocowool/p/k8s_base_concept.html">Kubernetes基础的文章</a>中，一个Node包含的组件有Kubelet、容器环境以及kube-proxy。结构如下图所示：</p>
-<img src="/2018/07/17/20180717-k8s-describe-node-pod-and-service/39469-20180717133753552-187323580.png" class="">
-
+<h2 id="Kubernetes-Nodes"><a href="#Kubernetes-Nodes" class="headerlink" title="Kubernetes Nodes"></a>Kubernetes Nodes</h2><p>Pod总是运行在Node上，Node可以是物理机也可以是虚拟机。在之前的<a target="_blank" rel="noopener" href="https://www.cnblogs.com/cocowool/p/k8s_base_concept.html">Kubernetes基础的文章</a>中，一个Node包含的组件有Kubelet、容器环境以及kube-proxy。结构如下图所示：<br><img src="/20180717-k8s-describe-node-pod-and-service/39469-20180717133753552-187323580.png"></p>
 <h2 id="kubectl-－-Kubernetes的CLI管理工具"><a href="#kubectl-－-Kubernetes的CLI管理工具" class="headerlink" title="kubectl － Kubernetes的CLI管理工具"></a>kubectl － Kubernetes的CLI管理工具</h2><p>kubectl是kubernetes的命令行管理工具。这里主要介绍在获取信息方面的一些功能。kubectl运行的时候，默认会在default的命名空间下查找资源，如果我们需要在自己的命名空间下查找资源，需要指定<code>--namespace=xxx</code>参数。</p>
 <h3 id="kubectl-get"><a href="#kubectl-get" class="headerlink" title="kubectl get"></a>kubectl get</h3><h4 id="获取命名空间"><a href="#获取命名空间" class="headerlink" title="获取命名空间"></a>获取命名空间</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get namespaces</span><br><span class="line">NAME          STATUS    AGE</span><br><span class="line">default       Active    2m</span><br><span class="line">kube-public   Active    2m</span><br><span class="line">kube-system   Active    2m</span><br></pre></td></tr></table></figure>
 
@@ -90,9 +88,9 @@ var _hmt = _hmt || [];
 
 <h3 id="kubectl-log"><a href="#kubectl-log" class="headerlink" title="kubectl log"></a>kubectl log</h3><h4 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl logs <span class="variable">$POD_NAME</span></span><br><span class="line">Kubernetes Bootcamp App Started At: 2018-07-17T03:02:05.794Z | Running On:kubernetes-bootcamp-5dbf48f7d4-4k8zz</span><br><span class="line"></span><br><span class="line">Running On: kubernetes-bootcamp-5dbf48f7d4-4k8zz | Total Requests: 1 | App Uptime: 527.706 seconds | Log Time: 2018-07-17T03:10:53.500Z</span><br></pre></td></tr></table></figure>
 
-<h3 id="kubectl-exec"><a href="#kubectl-exec" class="headerlink" title="kubectl exec"></a>kubectl exec</h3><h4 id="在Pod中执行命令"><a href="#在Pod中执行命令" class="headerlink" title="在Pod中执行命令"></a>在Pod中执行命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl <span class="built_in">exec</span> <span class="variable">$POD_NAME</span> env</span><br><span class="line">PATH=/usr/<span class="built_in">local</span>/sbin:/usr/<span class="built_in">local</span>/bin:/usr/sbin:/usr/bin:/sbin:/bin</span><br><span class="line">HOSTNAME=kubernetes-bootcamp-5dbf48f7d4-4k8zz</span><br><span class="line">KUBERNETES_PORT=tcp://10.96.0.1:443</span><br><span class="line">KUBERNETES_PORT_443_TCP=tcp://10.96.0.1:443</span><br><span class="line">KUBERNETES_PORT_443_TCP_PROTO=tcp</span><br><span class="line">KUBERNETES_PORT_443_TCP_PORT=443</span><br><span class="line">KUBERNETES_PORT_443_TCP_ADDR=10.96.0.1</span><br><span class="line">KUBERNETES_SERVICE_HOST=10.96.0.1</span><br><span class="line">KUBERNETES_SERVICE_PORT=443</span><br><span class="line">KUBERNETES_SERVICE_PORT_HTTPS=443</span><br><span class="line">NPM_CONFIG_LOGLEVEL=info</span><br><span class="line">NODE_VERSION=6.3.1</span><br><span class="line">HOME=/root</span><br></pre></td></tr></table></figure>
+<h3 id="kubectl-exec"><a href="#kubectl-exec" class="headerlink" title="kubectl exec"></a>kubectl exec</h3><h4 id="在Pod中执行命令"><a href="#在Pod中执行命令" class="headerlink" title="在Pod中执行命令"></a>在Pod中执行命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl <span class="built_in">exec</span> <span class="variable">$POD_NAME</span> <span class="built_in">env</span></span><br><span class="line">PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</span><br><span class="line">HOSTNAME=kubernetes-bootcamp-5dbf48f7d4-4k8zz</span><br><span class="line">KUBERNETES_PORT=tcp://10.96.0.1:443</span><br><span class="line">KUBERNETES_PORT_443_TCP=tcp://10.96.0.1:443</span><br><span class="line">KUBERNETES_PORT_443_TCP_PROTO=tcp</span><br><span class="line">KUBERNETES_PORT_443_TCP_PORT=443</span><br><span class="line">KUBERNETES_PORT_443_TCP_ADDR=10.96.0.1</span><br><span class="line">KUBERNETES_SERVICE_HOST=10.96.0.1</span><br><span class="line">KUBERNETES_SERVICE_PORT=443</span><br><span class="line">KUBERNETES_SERVICE_PORT_HTTPS=443</span><br><span class="line">NPM_CONFIG_LOGLEVEL=info</span><br><span class="line">NODE_VERSION=6.3.1</span><br><span class="line">HOME=/root</span><br></pre></td></tr></table></figure>
 
-<h4 id="启动容器中的bash"><a href="#启动容器中的bash" class="headerlink" title="启动容器中的bash"></a>启动容器中的bash</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl <span class="built_in">exec</span> -ti <span class="variable">$POD_NAME</span> bash</span><br><span class="line">root@kubernetes-bootcamp-5dbf48f7d4-4k8zz:/<span class="comment"># cat server.js</span></span><br></pre></td></tr></table></figure>
+<h4 id="启动容器中的bash"><a href="#启动容器中的bash" class="headerlink" title="启动容器中的bash"></a>启动容器中的bash</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl <span class="built_in">exec</span> -ti <span class="variable">$POD_NAME</span> bash</span><br><span class="line">root@kubernetes-bootcamp-5dbf48f7d4-4k8zz:/# <span class="built_in">cat</span> server.js</span><br></pre></td></tr></table></figure>
 
 <h2 id="Kubernetes-Service"><a href="#Kubernetes-Service" class="headerlink" title="Kubernetes Service"></a>Kubernetes Service</h2><p>在K8S集群中，Pod有用独立的IP，也具有独立的生命周期。一旦某个Node节点发生故障，ReplicationController会将该节点上的Pod迁移到集群中其他Node节点上。对于有多个Pod，为前端应用提供相同的服务，这时前端其实不关心调用的后台具体哪个Pod，这时就要用到Service。</p>
 <blockquote>
@@ -103,10 +101,7 @@ var _hmt = _hmt || [];
 <li>ClusterIP，默认的方式，通过集群IP来对外提供服务，这种方式只能在集群内部访问。</li>
 <li>NodePort，利用NAT技术在Node的指定端口上提供对外服务。外部应用通过**:**的方式访问。</li>
 <li>LoadBalancer，利用外部的负载均衡设施进行服务的访问。</li>
-<li>ExternalName，这是1.7版本之后 kube-dns 提供的功能。<br>服务提供了在一组Pods之间分配流量的功能，同时也是因为服务这个抽象层的存在，Kubernetes才能够在不影响应用的情况下进行扩缩容。通常Service通过label和selector来确定可操作的对象。label可以在对象创建时指定，也可以在运行时修改。<img src="/2018/07/17/20180717-k8s-describe-node-pod-and-service/39469-20180717133839121-192690690.png" class="">
-<img src="/2018/07/17/20180717-k8s-describe-node-pod-and-service/39469-20180717133846706-1928835253.png" class="">
-
-</li>
+<li>ExternalName，这是1.7版本之后 kube-dns 提供的功能。<br>服务提供了在一组Pods之间分配流量的功能，同时也是因为服务这个抽象层的存在，Kubernetes才能够在不影响应用的情况下进行扩缩容。通常Service通过label和selector来确定可操作的对象。label可以在对象创建时指定，也可以在运行时修改。<br><img src="/20180717-k8s-describe-node-pod-and-service/39469-20180717133839121-192690690.png"><br><img src="/20180717-k8s-describe-node-pod-and-service/39469-20180717133846706-1928835253.png"></li>
 </ul>
 <h3 id="查看服务状态"><a href="#查看服务状态" class="headerlink" title="查看服务状态"></a>查看服务状态</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get services</span><br><span class="line">NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE</span><br><span class="line">kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   44s</span><br></pre></td></tr></table></figure>
 
@@ -163,7 +158,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

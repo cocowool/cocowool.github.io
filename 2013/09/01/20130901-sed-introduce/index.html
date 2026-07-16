@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-26 21:25:59</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2013-09-01 11:05:01</span>
     </div>
@@ -68,23 +68,23 @@ var _hmt = _hmt || [];
       <p>使用Linux多年，SED和AWK两大神器却始终无法得心应手的来提高自己的工作效率，每每需要查找替换，都要依赖于ST2等一众图形工具，深感愧疚，乃专门抽时间学习之，志在使之真正成为左右手。</p>
 <p><strong>SED历史</strong></p>
 <p>SED（Stream Editor）意为流编辑器，是Unix常见的命令行程序。是Bell实验室的<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Lee_E._McMahon">Lee</a><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Lee_E._McMahon">E.McMahon</a>在1973年到1974年之间开发完成，目前可以在大多数操作系统中使用。</p>
-<p>SED的出现是作为grep的一个继任者，因为grep只能简单的进行查找和替换，但是考虑还可能会有删除等各种需求，McMahon 开发了一个更具通用性的工具。SED著名的语法规则包括使用 / 进行模式匹配，以及 s/// 来进行替代。与同期存在的工具ed一起，sed的语法影响了后来发展的 ECMAScript 和 Perl。GNU sed 添加了很多特性，包括著名的 in-place editing。</p>
+<p>SED的出现是作为grep的一个继任者，因为grep只能简单的进行查找和替换，但是考虑还可能会有删除等各种需求，McMahon 开发了一个更具通用性的工具。SED著名的语法规则包括使用 &#x2F; 进行模式匹配，以及 s&#x2F;&#x2F;&#x2F; 来进行替代。与同期存在的工具ed一起，sed的语法影响了后来发展的 ECMAScript 和 Perl。GNU sed 添加了很多特性，包括著名的 in-place editing。</p>
 <p><strong>SED基础</strong></p>
 <p><strong>替换</strong>Substitution：作为流编辑器，默认情况下，SED会将处理结果输出到终端上，我们可以使用重定向符号，来达到生成新文件的目的。</p>
-<p>sed ‘s/regexp/replacement/g’ inputFileName &gt; outputFileName</p>
+<p>sed ‘s&#x2F;regexp&#x2F;replacement&#x2F;g’ inputFileName &gt; outputFileName</p>
 <p>在有些版本的sed中，必须加 -e 参数。</p>
 <p><strong>其他命令</strong>：下面这个命令将文件中的空行或者只包含空格的行删除，其中使用了正则的形式，^表示行首，$表示行尾。</p>
-<p>sed ‘/^ *$/d’ inputFileName</p>
+<p>sed ‘&#x2F;^ *$&#x2F;d’ inputFileName</p>
 <p><strong>脚本 Scripting</strong>：SED支持将命令写在脚本中，通过脚本的方式调用命令，同样，也支持Unix中的管道处理。</p>
 <p>sed -f subst.sed inputFileName &gt; outputFileName</p>
-<p>subst.sed 文件的内容<br>#!/bin/sed -f<br>s/x/y/g</p>
+<p>subst.sed 文件的内容<br>#!&#x2F;bin&#x2F;sed -f<br>s&#x2F;x&#x2F;y&#x2F;g</p>
 <p><strong>原地替换 In-place editing</strong>：这个特性在GNU SED中引入，在GNU版本中，-i后的参数是可选的。后来BSD将SED引入后，对于-i参数的处理有所不同，变成了必须的参数。</p>
-<p>sed -i ‘s/abc/def/‘ file</p>
+<p>sed -i ‘s&#x2F;abc&#x2F;def&#x2F;‘ file</p>
 <p><strong>常用SED问题</strong><br><strong>1、Mac下替换文本中的内容</strong></p>
 <p>Mac的Sed和Linux中的稍有不同，如果需要替换文本内容，需要加 -i 的参数。但是加上 -i 后就必须指定备份文件的后缀名，也就是说，执行替换的时候，会自动备份原文件。如果我们不想要备份怎么办，可以用下面的方法：</p>
-<p>sed -i ‘’ “s/xx/yy/g” abc.txt</p>
+<p>sed -i ‘’ “s&#x2F;xx&#x2F;yy&#x2F;g” abc.txt</p>
 <p>也可以这么写</p>
-<p>sed -ig “s/xx/yy/g” abc.txt</p>
+<p>sed -ig “s&#x2F;xx&#x2F;yy&#x2F;g” abc.txt</p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://jl453625978.blog.163.com/blog/static/86041705201171511624868/">SED入门</a><br>2、<a target="_blank" rel="noopener" href="http://blog.saymoon.com/2012/04/mac-os-%E4%B8%AD%E7%94%A8-sed-%E5%91%BD%E4%BB%A4-%E6%9B%BF%E6%8D%A2%E6%96%87%E6%9C%AC%E4%B8%AD%E7%9A%84%E6%8C%87%E5%AE%9A%E5%86%85%E5%AE%B9/">Mac OS中用SED命令替换文本内容</a><br>3、<a target="_blank" rel="noopener" href="http://bukkake.iteye.com/blog/829516">Mac上的SED</a><br>4、<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Sed">SED Wiki</a></p>
 
       <div class="blog-post-footer">
@@ -122,7 +122,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

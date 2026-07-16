@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-20 16:16:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2010-07-17 12:17:01</span>
     </div>
@@ -75,7 +75,7 @@ var _hmt = _hmt || [];
 <p><strong>用户要发布一个时间</strong>。用户发布了一个“2010-07-10 18:30:00”的时间，我们不能直接存入数据库，必须先利用local_to_gmt() 转化标准的gmt时间存入数据库，这样才能保证整个系统中的时间保持一致。</p>
 <p>这两个函数的细节，其实都是根据时区，然后进行相应的运算得来。计算的时候，也可以考虑夏令时，但是所在时区夏令时的开始和结束时间，则需要自己维护。</p>
 <p>codeigniter中提供了一份较为完整的时区列表，timezone_menu() 可以显示一个时区的下拉列表，但是这个列表中的时间不能完全对应到PHP自带的时区显示上，这是PHP本身的问题，不过可以通过下面这个函数，来让输入的每个时区，都可以获得一个对应的时区文字显示。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>( ! function_exists(<span class="string">&quot;tz_offset_to_name&quot;</span>) ) </span><br><span class="line">&#123; </span><br><span class="line">    <span class="comment">/* Takes a GMT offset (in hours) and returns a timezone name */</span> </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">tz_offset_to_name</span>(<span class="params"><span class="variable">$offset</span></span>) </span></span><br><span class="line"><span class="function">    </span>&#123; </span><br><span class="line">            <span class="variable">$offset</span> *= <span class="number">3600</span>; <span class="comment">// convert hour offset to seconds </span></span><br><span class="line">            <span class="variable">$abbrarray</span> = timezone_abbreviations_list(); </span><br><span class="line">            <span class="keyword">foreach</span> (<span class="variable">$abbrarray</span> <span class="keyword">as</span> <span class="variable">$abbr</span>) </span><br><span class="line">            &#123; </span><br><span class="line">                    <span class="keyword">foreach</span> (<span class="variable">$abbr</span> <span class="keyword">as</span> <span class="variable">$city</span>) </span><br><span class="line">                    &#123; </span><br><span class="line">                            <span class="keyword">if</span> (<span class="variable">$city</span>[<span class="string">&#x27;offset&#x27;</span>] == <span class="variable">$offset</span>) </span><br><span class="line">                            &#123; </span><br><span class="line">                                    <span class="keyword">return</span> <span class="variable">$city</span>[<span class="string">&#x27;timezone_id&#x27;</span>]; </span><br><span class="line">                            &#125; </span><br><span class="line">                    &#125; </span><br><span class="line">            &#125; </span><br><span class="line">            <span class="keyword">return</span> <span class="literal">FALSE</span>; </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>( ! <span class="title function_ invoke__">function_exists</span>(<span class="string">&quot;tz_offset_to_name&quot;</span>) ) </span><br><span class="line">&#123; </span><br><span class="line">    <span class="comment">/* Takes a GMT offset (in hours) and returns a timezone name */</span> </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">tz_offset_to_name</span>(<span class="params"><span class="variable">$offset</span></span>) </span></span><br><span class="line"><span class="function">    </span>&#123; </span><br><span class="line">            <span class="variable">$offset</span> *= <span class="number">3600</span>; <span class="comment">// convert hour offset to seconds </span></span><br><span class="line">            <span class="variable">$abbrarray</span> = <span class="title function_ invoke__">timezone_abbreviations_list</span>(); </span><br><span class="line">            <span class="keyword">foreach</span> (<span class="variable">$abbrarray</span> <span class="keyword">as</span> <span class="variable">$abbr</span>) </span><br><span class="line">            &#123; </span><br><span class="line">                    <span class="keyword">foreach</span> (<span class="variable">$abbr</span> <span class="keyword">as</span> <span class="variable">$city</span>) </span><br><span class="line">                    &#123; </span><br><span class="line">                            <span class="keyword">if</span> (<span class="variable">$city</span>[<span class="string">&#x27;offset&#x27;</span>] == <span class="variable">$offset</span>) </span><br><span class="line">                            &#123; </span><br><span class="line">                                    <span class="keyword">return</span> <span class="variable">$city</span>[<span class="string">&#x27;timezone_id&#x27;</span>]; </span><br><span class="line">                            &#125; </span><br><span class="line">                    &#125; </span><br><span class="line">            &#125; </span><br><span class="line">            <span class="keyword">return</span> <span class="literal">FALSE</span>; </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -90,7 +90,7 @@ var _hmt = _hmt || [];
     <div class="blog-post-nav row">
       
         <div class="nav-link col-md-6">
-          <a href="/2010/08/04/20100804-facebook-image-storage/" id="article-nav-newer" class="article-nav-link-wrap">
+          <a href="/2010/08/03/20100804-facebook-image-storage/" id="article-nav-newer" class="article-nav-link-wrap">
             &lt;&lt; Facebook的图片存储
           </a>  
         </div>
@@ -116,7 +116,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-27 08:21:34</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2016-08-04 13:52:01</span>
     </div>
@@ -71,18 +71,18 @@ var _hmt = _hmt || [];
 <p>先说绝对链接，也叫作URL（Uniform Resource Locator），标识了互联网上的唯一资源。URL的结构包含三部分：协议、服务器名称、路径和文件名。</p>
 <p>协议是告诉浏览器如何处理将要打开文件的标识，最常见的就是 http 协议。本文也只考虑HTTP协议，至于其他的 https、ftp、mailto、telnet协议等，根据需要也可以添加。</p>
 <p>服务器名称是告诉浏览器如何到达这个服务器的方式，通常是域名或者IP地址，有时还会包含端口号（默认为80）。FTP协议中，也可以包含用户名和密码，本文就不考虑了。</p>
-<p>路径和文件名，一般以 / 分割，指出到达这个文件的路径和文件本身的名称。如果没有具体的文件名，则访问这个文件夹下的默认文件（可以在服务器端设置）。</p>
+<p>路径和文件名，一般以 &#x2F; 分割，指出到达这个文件的路径和文件本身的名称。如果没有具体的文件名，则访问这个文件夹下的默认文件（可以在服务器端设置）。</p>
 <p>那么现在清楚了，要抓取的绝对链接的典型形式可以概括为</p>
 <p><a target="_blank" rel="noopener" href="http://www.xxx.com/xxx/yyy/zzz.html">http://www.xxx.com/xxx/yyy/zzz.html</a></p>
 <p>每个部分可以使用的字符范围有明确的规范，具体可以参考RFC1738。那么正则表达式就可以写出来了。</p>
-<p>/(http|https)://([\w\d-<em>]+[.\w\d-</em>]+)[:\d+]?([/]?[\w/.]+)/i</p>
+<p>&#x2F;(http|https)://([\w\d-<em>]+[.\w\d-</em>]+)[:\d+]?([/]?[\w/.]+)&#x2F;i</p>
 <p>解释如下：</p>
 <p>(http|https) 第一个括号内匹配的是协议部分。</p>
 <p>([\w\d-<em>]+[.\w\d-</em>]+) 第二个括号内匹配的是域名部分。</p>
 <p>([/]?[\w/.]+) 第三个括号内匹配的是相对路径。</p>
 <p>写到这个时候，基本上大部分的网址都能匹配到了，但是对于URL中带有参数的还不能抓取，这样有可能造成再次访问的时候页面报错。关于参数RFC1738规范中要求是用？来分割，后面带上参数，但是现代的RIA应用有可能使用其他奇怪的形式进行分割。</p>
 <p>稍微修改一下，这样就可以将查询参数部分搜索出来。这里仍然没有涵盖全部的情况，例如URL中有中文、有空格及其他特殊字符的情况，但是基本上能够满足我的需求了，就没有继续深化。</p>
-<p>/(http|ftp|https)://([\w\d-<em>]+[.\w\d-</em>]+)[:\d+]?([/]?[\w/.?=&amp;;%@#+,]+)/i</p>
+<p>&#x2F;(http|ftp|https)://([\w\d-<em>]+[.\w\d-</em>]+)[:\d+]?([/]?[\w/.?&#x3D;&amp;;%@#+,]+)&#x2F;i</p>
 <p>使用括号的好处是，在处理结果时，可以很容易的获取到协议、域名、相对路径这些内容，方便后续的处理。</p>
 <p>例如使用 preg_match_all() 匹配时，结果数组索引0为全部结果、1为协议、2为域名、3为相对路径。</p>
 <p>参考资料：</p>
@@ -123,7 +123,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

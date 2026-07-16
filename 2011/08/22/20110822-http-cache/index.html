@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2011-08-22 21:15:01</span>
     </div>
@@ -69,15 +69,13 @@ var _hmt = _hmt || [];
 <p><strong>什么是缓存？</strong></p>
 <p>缓存是一个到处都存在的用空间换时间的例子。通过使用多余的空间，我们能够获取更快的速度。用户在浏览网站的时候，浏览器能够在本地保存网站中的图片或者其他文件的副本，这样用户再次访问该网站的时候，浏览器就不用再下载全部的文件，减少了下载量意味着提高了页面加载的速度。</p>
 <p>下面这个图例说明了浏览器和服务器之间如何进行交互。</p>
-<img src="/2011/08/22/20110822-http-cache/1111.png" class="">
-
+<p><img src="/20110822-http-cache/1111.png"></p>
 <p><strong>缓存的缺点</strong></p>
 <p>缓存非常有用，但是也带来了一定的缺陷。当我们的网站发生了更新的时候，比如说Logo换了，浏览器本地仍保存着旧版本的Logo，那么浏览器如何来确定使用本地文件还是使用服务器上的新文件？下面来介绍几种判断的方法。</p>
 <p><strong>Caching Method 1：Last-Modified</strong></p>
 <p>服务器为了通知浏览器当前文件的版本，会发送一个上次修改时间的标签，例如：</p>
 <p>Last-modified: Fri, 16 Mar 2007 04:00:25 GMT<br>File Contents (could be an image, HTML, CSS, Javascript…)</p>
-<img src="/2011/08/22/20110822-http-cache/2222.png" class="">
-
+<p><img src="/20110822-http-cache/2222.png"></p>
 <p>这样浏览器就知道他收到的这个文件创建时间，在后续的请求中，浏览器会按照下面的规则进行验证：<br>1、浏览器：Hey，我需要logo.png这个文件，如果是在  Fri, 16 Mar 2007 04:00:25 GMT 之后修改过的，请发给我。<br>2、服务器：（检查文件的修改时间）<br>3、服务器：Hey，这个文件在那个时间之后没有被修改过，你已经有最新的版本了。<br>4、浏览器：太好了，那我就显示给用户了。</p>
 <p>在这种情况下，服务器仅仅返回了一个304的响应头，减少了响应的数据量，提高了响应的速度。</p>
 <p><strong>Caching Method 2: ETag</strong></p>
@@ -86,24 +84,22 @@ var _hmt = _hmt || [];
 <p>服务器返回ETag标签：</p>
 <p>ETag: ead145f<br>File Contents (could be an image, HTML, CSS, Javascript…)</p>
 <p>接下来的访问顺序如下图所示：</p>
-<img src="/2011/08/22/20110822-http-cache/3333.png" class="">
-
+<p><img src="/20110822-http-cache/3333.png"></p>
 <p>1、浏览器：Hey，我需要Logo.png这个文件，有没有不匹配“ead145f”这个串的<br>2、服务器：（检查ETag…）<br>3、服务器：Hey，我这里的版本也是”ead145f”，你已经是最新的版本了<br>4、浏览器：好，那就可以使用本地缓存了</p>
 <p>如同 Last-modified 一样，ETag 解决了文件版本比较的问题。只不过 ETag 的级别比 Last-Modified 高一些。</p>
 <p><strong>Caching Method 3：Expires</strong></p>
 <p>缓存一个文件，并且与服务器确认版本的方式非常好，但是仍有一个缺点，我们必须连接服务器。每次使用前都进行一次比较，这种方法很安全，但还不是最好的。我们可以使用 Expiration Date 来减少这种请求。</p>
 <p>就像我们用牛奶来煮麦片一样，每次喝之前都要检查一下牛奶是否安全。但是如果我们知道牛奶的过期时间，我们就可以在过期之前，直接使用而不用再送去检查。一旦超过了过期时间，我们再去买一份新的回来。服务器返回的时候，会带上这份数据的过期时间：</p>
 <p>Expires: Tue, 20 Mar 2007 04:00:25 GMT<br>File Contents (could be an image, HTML, CSS, Javascript…)</p>
-<img src="/2011/08/22/20110822-http-cache/4444.png" class="">
-
+<p><img src="/20110822-http-cache/4444.png"></p>
 <p>这样，在过期之前，我们就避免了和服务器之间的连接。浏览器只需要自己判断手中的材料是否过期就可以了，完全不需要增加服务器的负担。</p>
 <p><strong>Caching Method 4：Max-age</strong></p>
 <p>Expires的方法很好，但是我们每次都得算一个精确的时间。max-age 标签可以让我们更加容易的处理过期时间。我们只需要说，这份资料你只能用一个星期就可以了。</p>
-<p>Max-age 使用秒来计量，下面是一些常用的单位：<br>1 days in seconds = 86400<br>1 week in seconds = 604800<br>1 month in seconds = 2629000<br>1 year in seconds = 31536000</p>
+<p>Max-age 使用秒来计量，下面是一些常用的单位：<br>1 days in seconds &#x3D; 86400<br>1 week in seconds &#x3D; 604800<br>1 month in seconds &#x3D; 2629000<br>1 year in seconds &#x3D; 31536000</p>
 <p><strong>额外的标签</strong></p>
 <p>缓存标签永远不会停止工作，但是有时候我们需要对已经缓存的内容进行一些控制。</p>
 <p>Cache-control: public 表示缓存的版本可以被代理服务器或者其他中间服务器识别。<br>Cache-control: private 意味着这个文件对不同的用户是不同的。只有用户自己的浏览器能够进行缓存，公共的代理服务器不允许缓存。<br>Cache-control: no-cache 意味着文件的内容不应当被缓存。这在搜索或者翻页结果中非常有用，因为同样的URL，对应的内容会发生变化。</p>
-<p>注意：有些标签只是在支持HTTP/1.1的浏览器上可用，如果想要了解更多，那么推荐RFC2616以及<a target="_blank" rel="noopener" href="http://www.mnot.net/cache_docs/">Cache docs</a>。</p>
+<p>注意：有些标签只是在支持HTTP&#x2F;1.1的浏览器上可用，如果想要了解更多，那么推荐RFC2616以及<a target="_blank" rel="noopener" href="http://www.mnot.net/cache_docs/">Cache docs</a>。</p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://betterexplained.com/articles/how-to-optimize-your-site-with-http-caching/">How to Optimize Your Site with HTTP Caching</a></p>
 
       <div class="blog-post-footer">
@@ -141,7 +137,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

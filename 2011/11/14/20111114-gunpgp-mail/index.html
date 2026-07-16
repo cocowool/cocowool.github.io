@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2011-11-14 22:37:01</span>
     </div>
@@ -66,7 +66,7 @@ var _hmt = _hmt || [];
         </div> -->
       </div>
       <p>我和火星人也很好奇如何能够更安全的传输邮件，所以决定试一试。他的环境是 Linux Ubuntu ，我的环境是 Mac OS X Lion。</p>
-<p>GnuPG全称GNU PrivacyGuard，它是基于公钥/私钥体系的加密工具PGP（Pretty Good Privacy）的开源版本它遵循OpenPGP标准。你可以免费使用，自由传播，并可以获得它的源代码。可以用于对Email、文件及其他数据的加密与验证，确保通信数据的保密性、完整性和真实性。</p>
+<p>GnuPG全称GNU PrivacyGuard，它是基于公钥&#x2F;私钥体系的加密工具PGP（Pretty Good Privacy）的开源版本它遵循OpenPGP标准。你可以免费使用，自由传播，并可以获得它的源代码。可以用于对Email、文件及其他数据的加密与验证，确保通信数据的保密性、完整性和真实性。</p>
 <p><strong>PGP原理及规则</strong></p>
 <p>PGP使用双密匙来加密数据。每个使用PGP加密技术的人都要创建一对密匙，一个叫做公匙，另一个叫做私匙。公匙可被广泛传播，你可以贴在自己的网页上或发到专门的公钥管理网站上等等。私匙属于个人信息，绝不应该泄漏给其他人。</p>
 <p>公匙和私匙相互作用对数据进行加密及解密。被公匙加密的数据只能被私匙解密，被私匙加密的数据也只能被一个公匙解密。这样就可以实现双重认证。</p>
@@ -86,24 +86,17 @@ var _hmt = _hmt || [];
 <p>GPGMail、GPG Keychain Access、MacGPG1、MacGPG2、GPGService、GPGPreference、Mobile OpenGPG。</p>
 <p>安装之后，你就可以在 terminal 中看到 gpg 命令已经被安装好了。</p>
 <p>2、打开 GPG Keychain Access 生成自己的公钥和密钥对。</p>
-<img src="/2011/11/14/20111114-gunpgp-mail/55555.png" class="">
-
+<p><img src="/20111114-gunpgp-mail/55555.png"></p>
 <p>正常情况下，第一次打开的时候，列表中应该是个空白的界面，紧接着会提醒用户生成自己的密钥对。</p>
-<img src="/2011/11/14/20111114-gunpgp-mail/44444.png" class="">
-
+<p><img src="/20111114-gunpgp-mail/44444.png"></p>
 <p>创建密钥对，默认会用你的电脑帐号对应的邮箱，你也可以选择或者输入其他的邮箱。Full name部分注意用户名要大于五个字符，所以中文姓名会有提示。Length 一般选择2048,也可以选择4096这样安全性能够更高一些。完成后，点击 Generate Key，生成自己的密钥对。</p>
 <p>3、将自己的公钥导出并发送给其他人。</p>
 <p>选中自己的密钥对，点击右键，选择导出。</p>
-<img src="/2011/11/14/20111114-gunpgp-mail/33333.png" class="">
-
-
-
-<img src="/2011/11/14/20111114-gunpgp-mail/22222.png" class="">
-
+<p><img src="/20111114-gunpgp-mail/33333.png"></p>
+<p><img src="/20111114-gunpgp-mail/22222.png"></p>
 <p>导出的格式选项中，选择 binary 的格式。笔者试验了 ASCII 格式好像不能够正确导出。将导出的公钥发送给其他人，同时将别人的公钥 Import 到 GPG keychain Access 中。</p>
 <p>4、最后，就可以在Mail中使用GPG进行邮件加密和签名。</p>
-<img src="/2011/11/14/20111114-gunpgp-mail/11111.png" class="">
-
+<p><img src="/20111114-gunpgp-mail/11111.png"></p>
 <p>大功告成！</p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://gpgtools.org/">GpGTools</a><br>2、<a target="_blank" rel="noopener" href="https://github.com/GPGTools/GPGMail/wiki/Not-working-anymore-after-an-OS-update">GpGMail Not working after an os update</a><br>3、密码学简介<br>4、<a target="_blank" rel="noopener" href="http://lagignition.blog.163.com/blog/static/1287300232009101082517154/">GPG签名和加密</a><br>5、<a target="_blank" rel="noopener" href="http://blog.sina.com.cn/s/blog_5595d514010008xe.html">Apple Mail PGP</a><br>6、<a target="_blank" rel="noopener" href="http://www.wasuvi.com/?page_id=2368">Using GNUPG encryption with Mac OS X Mail</a></p>
 
@@ -142,7 +135,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

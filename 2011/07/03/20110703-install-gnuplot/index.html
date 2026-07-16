@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2011-07-03 21:22:01</span>
     </div>
@@ -88,25 +88,24 @@ var _hmt = _hmt || [];
 <p>2、zlib<br>解压缩后进入文件夹，执行<br><code>./configure --shared &amp;&amp; make &amp;&amp; sudo make install</code></p>
 <p>3、libpng<br>libpng也是libgd依赖的包，但是Mac系统中已经自带了这个，所以不再需要单独安装</p>
 <p>4、libjpegv8c，下载解压缩后进入目录执行</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> MACOSX_DEPLOYMENT_TARGET=10.6</span><br><span class="line">./configure --enable-shared &amp;&amp; make &amp;&amp; sudo make install</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> MACOSX_DEPLOYMENT_TARGET=10.6</span><br><span class="line">./configure --enable-shared &amp;&amp; make &amp;&amp; <span class="built_in">sudo</span> make install</span><br></pre></td></tr></table></figure>
 
 <p>5、FreeType2.4.5，下载解压缩后进入目录执行</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure &amp;&amp; make &amp;&amp; sudo make install</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure &amp;&amp; make &amp;&amp; <span class="built_in">sudo</span> make install</span><br></pre></td></tr></table></figure>
 
 <p>6、gd2.0.35，下载解压缩后进入目录，分步执行</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s /usr/X11R6/include/fontconfig /usr/<span class="built_in">local</span>/include</span><br><span class="line">ln -s `<span class="built_in">which</span> glibtool` ./libtool</span><br><span class="line">./configure --with-png=/usr/X11 --x-includes=/usr/X11/include --x-libraries=/usr/X11/lib</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">ln</span> -s /usr/X11R6/include/fontconfig /usr/local/include</span><br><span class="line"><span class="built_in">ln</span> -s `<span class="built_in">which</span> glibtool` ./libtool</span><br><span class="line">./configure --with-png=/usr/X11 --x-includes=/usr/X11/include --x-libraries=/usr/X11/lib</span><br></pre></td></tr></table></figure>
 
 <p>configure阶段的这些参数和步骤，是为了确保gd能够找到对应的库文件，确认所有的支持都找到后，就可以接着下面的安装了。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">** Configuration summary <span class="keyword">for</span> gd 2.0.34:</span><br><span class="line">Support <span class="keyword">for</span> PNG library:          yes</span><br><span class="line">Support <span class="keyword">for</span> JPEG library:         yes</span><br><span class="line">Support <span class="keyword">for</span> Freetype 2.x library: yes</span><br><span class="line">Support <span class="keyword">for</span> Fontconfig library:   yes</span><br><span class="line">Support <span class="keyword">for</span> Xpm library:          yes</span><br><span class="line">Support <span class="keyword">for</span> pthreads:             yes</span><br><span class="line"></span><br><span class="line">make &amp;&amp; sudo make install</span><br><span class="line">./gdtest <span class="built_in">test</span>/gdtest.png</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">** Configuration summary <span class="keyword">for</span> gd 2.0.34:</span><br><span class="line">Support <span class="keyword">for</span> PNG library:          <span class="built_in">yes</span></span><br><span class="line">Support <span class="keyword">for</span> JPEG library:         <span class="built_in">yes</span></span><br><span class="line">Support <span class="keyword">for</span> Freetype 2.x library: <span class="built_in">yes</span></span><br><span class="line">Support <span class="keyword">for</span> Fontconfig library:   <span class="built_in">yes</span></span><br><span class="line">Support <span class="keyword">for</span> Xpm library:          <span class="built_in">yes</span></span><br><span class="line">Support <span class="keyword">for</span> pthreads:             <span class="built_in">yes</span></span><br><span class="line"></span><br><span class="line">make &amp;&amp; <span class="built_in">sudo</span> make install</span><br><span class="line">./gdtest <span class="built_in">test</span>/gdtest.png</span><br></pre></td></tr></table></figure>
 
 <p>7、gnuplot，下载解压缩后进入目录执行<br><code>./configure</code></p>
 <p>执行后检查是否已经支持了图片类的输出。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">jpeg terminal: yes</span><br><span class="line">gif terminal: yes (with animated gif)</span><br><span class="line">png terminal: yes</span><br><span class="line">(jpeg, gif and png terminals can use TTF fonts)</span><br><span class="line"></span><br><span class="line">make &amp;&amp; sudo make install</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">jpeg terminal: <span class="built_in">yes</span></span><br><span class="line">gif terminal: <span class="built_in">yes</span> (with animated gif)</span><br><span class="line">png terminal: <span class="built_in">yes</span></span><br><span class="line">(jpeg, gif and png terminals can use TTF fonts)</span><br><span class="line"></span><br><span class="line">make &amp;&amp; <span class="built_in">sudo</span> make install</span><br></pre></td></tr></table></figure>
 
 <p>8、安装Aqua term</p>
 <p>完成之后，就可以通过 <code>gnuplot,plot sin(x)</code> 查看作图的效果了</p>
-<img src="/2011/07/03/20110703-install-gnuplot/xxx.png" class="">
-
+<p><img src="/20110703-install-gnuplot/xxx.png"></p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://www.gnuplot.info/">gnuplot homepage</a><br>2、<a target="_blank" rel="noopener" href="http://mac-tone.blogspot.com/2009/04/gnuplot-on-mac-osx.html">Mac OS X安装Gunplot</a><br>3、<a target="_blank" rel="noopener" href="http://www.dansanderson.com/blog/2011/03/installing-gnuplot-on-mac-os-x-106.html">Installing gnuplot on Mac OS X 10.6</a><br>4、<a target="_blank" rel="noopener" href="http://www.libgd.org/DOC_Compiling_GD_on_Mac_OS_X_HOWTO">http://www.libgd.org/DOC_Compiling_GD_on_Mac_OS_X_HOWTO</a></p>
 
       <div class="blog-post-footer">
@@ -144,7 +143,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

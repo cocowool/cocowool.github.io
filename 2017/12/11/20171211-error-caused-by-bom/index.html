@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2017-12-11 19:07:00</span>
     </div>
@@ -67,19 +67,18 @@ var _hmt = _hmt || [];
       </div>
       <p>最近在做数据的搬运工，将Oracle中的数据搬运到ES中，方案很成熟了，使用Logstash的jdbc-input执行SQL，然后将结果输出到ES中。这么简单的问题，在测试环境中测试也一帆风顺，可一上生产环境傻眼了，始终报“ORA-00911 invalid character”的错误。</p>
 <p>困扰了好几天，测试环境一直没问题，生产环境不管用多么简单的SQL都出同样的问题。最后，认真看了一下日志，突然发现<code>feff</code>是什么鬼？</p>
-<img src="/2017/12/11/20171211-error-caused-by-bom/39469-20171211190608665-1739088994.png" class="">
-
+<p><img src="/20171211-error-caused-by-bom/39469-20171211190608665-1739088994.png"></p>
 <p>有了这个线索，百度了一下，原来是文件的BOM头，忽然想起来SQL文件是在Windows下用记事本保存为UTF-8格式的。在Linux下重新创建了一个空白文件，将SQL语句拷贝过去，再执行就没问题了。<br>只能说，尽量还是不要用记事本啊～～</p>
 <h3 id="如何查看文件是否含有BOM头"><a href="#如何查看文件是否含有BOM头" class="headerlink" title="如何查看文件是否含有BOM头"></a>如何查看文件是否含有BOM头</h3><h4 id="file-命令"><a href="#file-命令" class="headerlink" title="file 命令"></a>file 命令</h4><p>在Linux下，可以简单的使用file命令来查看文件是否含有BOM头。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@bj1eccap01 ~]<span class="comment"># file test.txt </span></span><br><span class="line">test.txt: UTF-8 Unicode (with BOM) text, with no line terminators</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@bj1eccap01 ~]# file test.txt </span><br><span class="line">test.txt: UTF-8 Unicode (with BOM) text, with no line terminators</span><br></pre></td></tr></table></figure>
 
-<h4 id="awk-命令"><a href="#awk-命令" class="headerlink" title="awk 命令"></a>awk 命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@bj1eccap01 ~]<span class="comment"># hexdump test2.txt </span></span><br><span class="line">0000000 bbef 48bf 6c65 6f6c 5720 726f 646c bcef</span><br><span class="line">0000010 0d81 000a                              </span><br><span class="line">0000013</span><br><span class="line">[root@bj1eccap01 ~]<span class="comment"># find . -type f -print0 | xargs -0r awk &#x27;/^\xEF\xBB\xBF/ &#123;print FILENAME&#125; &#123;nextfile&#125;&#x27;</span></span><br><span class="line">./test2.txt</span><br></pre></td></tr></table></figure>
+<h4 id="awk-命令"><a href="#awk-命令" class="headerlink" title="awk 命令"></a>awk 命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@bj1eccap01 ~]# hexdump test2.txt </span><br><span class="line">0000000 bbef 48bf 6c65 6f6c 5720 726f 646c bcef</span><br><span class="line">0000010 0d81 000a                              </span><br><span class="line">0000013</span><br><span class="line">[root@bj1eccap01 ~]# find . -<span class="built_in">type</span> f -print0 | xargs -0r awk <span class="string">&#x27;/^\xEF\xBB\xBF/ &#123;print FILENAME&#125; &#123;nextfile&#125;&#x27;</span></span><br><span class="line">./test2.txt</span><br></pre></td></tr></table></figure>
 
-<h3 id="删除BOM头"><a href="#删除BOM头" class="headerlink" title="删除BOM头"></a>删除BOM头</h3><h4 id="sed-命令"><a href="#sed-命令" class="headerlink" title="sed 命令"></a>sed 命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@bj1eccap01 ~]<span class="comment"># sed -i -e &#x27;1s/^\xEF\xBB\xBF//&#x27; test2.txt </span></span><br><span class="line">[root@bj1eccap01 ~]<span class="comment"># find . -type f -print0 | xargs -0r awk &#x27;/^\xEF\xBB\xBF/ &#123;print FILENAME&#125; &#123;nextfile&#125;&#x27;</span></span><br><span class="line">[root@bj1eccap01 ~]<span class="comment"># hexdump test2.txt </span></span><br><span class="line">0000000 6548 6c6c 206f 6f57 6c72 ef64 81bc 0a0d</span><br><span class="line">0000010</span><br></pre></td></tr></table></figure>
+<h3 id="删除BOM头"><a href="#删除BOM头" class="headerlink" title="删除BOM头"></a>删除BOM头</h3><h4 id="sed-命令"><a href="#sed-命令" class="headerlink" title="sed 命令"></a>sed 命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@bj1eccap01 ~]# sed -i -e <span class="string">&#x27;1s/^\xEF\xBB\xBF//&#x27;</span> test2.txt </span><br><span class="line">[root@bj1eccap01 ~]# find . -<span class="built_in">type</span> f -print0 | xargs -0r awk <span class="string">&#x27;/^\xEF\xBB\xBF/ &#123;print FILENAME&#125; &#123;nextfile&#125;&#x27;</span></span><br><span class="line">[root@bj1eccap01 ~]# hexdump test2.txt </span><br><span class="line">0000000 6548 6c6c 206f 6f57 6c72 ef64 81bc 0a0d</span><br><span class="line">0000010</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>这个问题反过来想，我觉得是 logstash 不支持含有 BOM 头的SQL文件，是不是可以给官方提交一个Feature来解决这个问题？</p>
 </blockquote>
-<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/20167122">带BOM的UTF-8</a><br>2、<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Byte_order_mark">Byte order mark</a><br>3、<a target="_blank" rel="noopener" href="https://unix.stackexchange.com/questions/170775/how-to-check-if-file-has-a-bom-in-utf-8-text">How to check if file has a BOM in utf-8 text</a><br>4、<a target="_blank" rel="noopener" href="http://muzso.hu/2011/11/08/using-awk-sed-to-detect-remove-the-byte-order-mark-bom">Using awk/sed to detect/remove the byte order mark (BOM)</a></p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/20167122">带BOM的UTF-8</a><br>2、<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Byte_order_mark">Byte order mark</a><br>3、<a target="_blank" rel="noopener" href="https://unix.stackexchange.com/questions/170775/how-to-check-if-file-has-a-bom-in-utf-8-text">How to check if file has a BOM in utf-8 text</a><br>4、<a target="_blank" rel="noopener" href="http://muzso.hu/2011/11/08/using-awk-sed-to-detect-remove-the-byte-order-mark-bom">Using awk&#x2F;sed to detect&#x2F;remove the byte order mark (BOM)</a></p>
 
       <div class="blog-post-footer">
         <p><img src="/image/qrcode.jpg" alt=""></p>
@@ -116,7 +115,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

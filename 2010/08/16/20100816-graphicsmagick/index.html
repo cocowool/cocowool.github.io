@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2010-08-16 18:58:01</span>
     </div>
@@ -85,9 +85,9 @@ var _hmt = _hmt || [];
 </blockquote>
 <p>安装之前，因为是图片处理，所以需要系统中安装了libpng和libjpeg的开发包，否则的话不会安装这两种文件的支持。<br>使用 configure 来进行自动的配置、build和安装</p>
 <blockquote>
-<p>./configure</p>
+<p>.&#x2F;configure</p>
 </blockquote>
-<p>当然，可以通过 –prefix=PATH 来指定参数，还可以指定其他编译时的变量，这里使用了一个经过测试的 configure 配置，同时添加了 enable-sybol-prefix ，这样就避免了和系统中已有的 ImageMagick 的冲突，下面是完成的配置参数：</p>
+<p>当然，可以通过 –prefix&#x3D;PATH 来指定参数，还可以指定其他编译时的变量，这里使用了一个经过测试的 configure 配置，同时添加了 enable-sybol-prefix ，这样就避免了和系统中已有的 ImageMagick 的冲突，下面是完成的配置参数：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./configure  <span class="string">&#x27;--build=i686-redhat-linux-gnu&#x27;</span> <span class="string">&#x27;--host=i686-redhat-linux-gnu&#x27;</span> <span class="string">&#x27;--target=i386-redhat-linux-gnu&#x27;</span> <span class="string">&#x27;--program-prefix=&#x27;</span> <span class="string">&#x27;--prefix=/usr/local/sinasrv2&#x27;</span> <span class="string">&#x27;--exec-prefix=/usr/local/sinasrv2&#x27;</span> <span class="string">&#x27;--bindir=/usr/local/sinasrv2/bin&#x27;</span> <span class="string">&#x27;--sbindir=/usr/local/sinasrv2/sbin&#x27;</span> <span class="string">&#x27;--sysconfdir=/usr/local/sinasrv2/etc&#x27;</span> <span class="string">&#x27;--datadir=/usr/local/sinasrv2/share&#x27;</span> <span class="string">&#x27;--includedir=/usr/local/sinasrv2/include&#x27;</span> <span class="string">&#x27;--libdir=/usr/local/sinasrv2/lib&#x27;</span> <span class="string">&#x27;--libexecdir=/usr/local/sinasrv2/libexec&#x27;</span> <span class="string">&#x27;--localstatedir=/usr/local/sinasrv2/var&#x27;</span> <span class="string">&#x27;--sharedstatedir=/usr/local/sinasrv2/share/com&#x27;</span> <span class="string">&#x27;--mandir=/usr/local/sinasrv2/share/man&#x27;</span> <span class="string">&#x27;--infodir=/usr/local/sinasrv2/share/info&#x27;</span> <span class="string">&#x27;--enable-libtool-verbose&#x27;</span> <span class="string">&#x27;--with-included-ltdl&#x27;</span> <span class="string">&#x27;--enable-shared&#x27;</span> <span class="string">&#x27;--disable-static&#x27;</span> <span class="string">&#x27;--with-modules&#x27;</span> <span class="string">&#x27;--with-frozenpaths&#x27;</span> <span class="string">&#x27;--without-perl&#x27;</span> <span class="string">&#x27;--without-magick-plus-plus&#x27;</span> <span class="string">&#x27;--with-quantum-depth=8&#x27;</span> --enable-symbol-prefix</span><br></pre></td></tr></table></figure>
 
 <p>接下来就是安装</p>
@@ -98,15 +98,13 @@ var _hmt = _hmt || [];
 <p><code>cd gmagick-1.0.7b1</code></p>
 <p>然后运行phpize<br><code>/usr/local/php/bin/phpize</code></p>
 <p>完成后执行安装过程</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ./configure --with-php-config=/usr/<span class="built_in">local</span>/sinasrv2/bin/php-config  --with-gmagick=/usr/<span class="built_in">local</span>/sinasrv2/</span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ./configure --with-php-config=/usr/local/sinasrv2/bin/php-config  --with-gmagick=/usr/local/sinasrv2/</span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure>
 
 <p>在php.ini打开扩展后，重启apache就可以使用了</p>
-<img src="/2010/08/16/20100816-graphicsmagick/image_thumb_1.png" class="">
-
+<p><img src="/20100816-graphicsmagick/image_thumb_1.png"></p>
 <p><strong>与magickwand的比较</strong>：</p>
 <p>本文使用了20个大小不同的图片文件，分别使用gmagick和magickwand来完成打开图片、读取图片信息、关闭图片的操作，最后得出的结果如下：</p>
-<img src="/2010/08/16/20100816-graphicsmagick/image_thumb.png" class="">
-
+<p><img src="/20100816-graphicsmagick/image_thumb.png"></p>
 <p>总体上看，magickwand的效率要比GraphicsMagick差不少，但是效率的提升貌似与所处理的文件没有明显的线性关系，也许是图片太小了，据说GraphicsMagick可以处理Gb级的图片，更多的使用细节，只能在今后进一步研究了。</p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://www.graphicsmagick.org/">GraphicsMagick</a><br>2、<a target="_blank" rel="noopener" href="http://pecl.php.net/package/gmagick">gmagick</a><br>3、<a target="_blank" rel="noopener" href="http://www.imagemagick.org/script/index.php">ImageMagick</a><br>4、<a target="_blank" rel="noopener" href="http://www.graphicsmagick.org/OpenMP.html#freebsd-intel-xeon">OpenMP in GraphicsMagick</a><br>5、<a target="_blank" rel="noopener" href="http://nightsailer.javaeye.com/blog/539259">解决GraphicsMagick和ImageMagick冲突</a><br>6、<a target="_blank" rel="noopener" href="http://nothing.tw/php/intro.gmagick.html">Gmagick</a><br>7、<a target="_blank" rel="noopener" href="http://devzone.zend.com/article/10531">Manipulating Images with PHP and GraphicsMagick</a><br>8、<a target="_blank" rel="noopener" href="http://lendy.9846.com/blog/2008/07/14/imagemagick-for-jpeg/">ImageMagick安装备忘</a></p>
 
@@ -145,7 +143,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

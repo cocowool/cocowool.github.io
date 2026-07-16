@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2012-01-17 18:27:01</span>
     </div>
@@ -70,28 +70,22 @@ var _hmt = _hmt || [];
 <p>关于VPN，我之前的理解为就是通过一个加密可靠的信道访问一个对公网不可见的网络资源。看了下百度百科才了解VPN的隧道协议主要有三种：PPTP、L2TP和IPSec。其中PPTP和L2TP协议工作在OSI模型的二层，IPSec是第三层隧道协议，也是最常用的协议。L2TP和IPSec配合使用是目前性能最好，应用最广泛的一种，只是可惜还没有遇到过这样的VPN。</p>
 <p><strong>Mac下的VPN连接的创建</strong></p>
 <p>不得不说Mac下VPN连接的创建和管理非常方便、简单。记得之前在Fedora下为了配置一个能够使用PPTP的VPN连接，费了九牛二虎之力，Mac下，很轻松的就搞定了。言归正传，首先进入Mac的“网络配置” Network Preferences。可以通过状态栏的网络图表进入，也可以从系统配置中选择网络 Network进入，如下图：</p>
-<img src="/2012/01/17/20120117-mac-vpn/Screen882.17.57.png" class="">
-
+<p><img src="/20120117-mac-vpn/Screen882.17.57.png"></p>
 <p>进入网络后，看到列表下方有个加减号，用来添加和删除网络连接。</p>
-<img src="/2012/01/17/20120117-mac-vpn/Screen882.19.54.png" class="">
-
+<p><img src="/20120117-mac-vpn/Screen882.19.54.png"></p>
 <p>点击加号后可以创建一个新的连接，选择VPN，VPN下有三种类型，分别是：PPTP、Cisco IPSec、L2TP Over IPSec。可以根据自己的情况选择适用的类型，并且可以为每一个连接起一个名字，方便记忆。</p>
-<img src="/2012/01/17/20120117-mac-vpn/Screen883.21.12.png" class="">
-
+<p><img src="/20120117-mac-vpn/Screen883.21.12.png"></p>
 <p>下面就是具体每种类型的配置方法：</p>
 <p><strong>1、使用PPTP的方式</strong></p>
 <p>PPTP的连接方式比较简单，界面如下图：</p>
-<img src="/2012/01/17/20120117-mac-vpn/Screen8810.53.53.png" class="">
-
+<p><img src="/20120117-mac-vpn/Screen8810.53.53.png"></p>
 <p>其中服务器地址 Server Address这一栏填写从公司网管那里获得的VPN地址<br>用户名 Account Name 这一栏填写自己的用户名<br>因为是动态密码，所以每次连接的时候会提示输入密码，配置界面就没有密码的输入框了。</p>
 <p>配制完成后点击状态栏的VPN连接图标，会弹出输入密码的对话框。</p>
-<img src="/2012/01/17/20120117-mac-vpn/Screen8810.56.04.png" class="">
-
+<p><img src="/20120117-mac-vpn/Screen8810.56.04.png"></p>
 <p>验证成功后，就可以在状态栏看到VPN的连接了，会显示连接的时长。</p>
 <p><strong>2、使用Cisco IPSec方式</strong></p>
 <p>适用Cisco IPSec的方式创建过程和PPTP大同小异，也是在网络配置面板中点击加号进行创建。在配置的时候与PPTP有些不同，先看截图：</p>
-<img src="/2012/01/17/20120117-mac-vpn/Screen8811.00.36.png" class="">
-
+<p><img src="/20120117-mac-vpn/Screen8811.00.36.png"></p>
 <p>在服务器地址 Server Address中填写公司VPN的地址；<br>在用户名 Account Name 中填写用户名；<br>在密码 Password 这一栏中留空，因为每次需要输入SecurID的动态密码；<br>然后点击授权设置 Authentication Settings<br>在 共享密钥 Shared Secret 中填入从公司网管那里得到的共享密钥（）；<br>在 组名 Group Name 中填写 自己VPN所属的组名；</p>
 <p>关于共享密钥，有些公司会以明文的形式告知，有的会用PGP的方式发送一个加密的密码，需要使用自己的私钥解密后使用。这个过程大多数都会有文档说明，这里就不过多阐述了。流程也可以参考之前的一篇文章：</p>
 <p>SecurID卡小贴士：SecurID卡坚固小巧，用起来也很方便，只是千万要小心别丢失了，因为可以是要花大洋赔偿的。</p>
@@ -132,7 +126,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

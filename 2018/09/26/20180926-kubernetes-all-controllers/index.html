@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-06 10:25:18</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2018-09-26 16:35:00</span>
     </div>
@@ -96,10 +96,10 @@ var _hmt = _hmt || [];
 <h3 id="2-1-常用管理操作"><a href="#2-1-常用管理操作" class="headerlink" title="2.1 常用管理操作"></a>2.1 常用管理操作</h3><ul>
 <li>删除RS和相关Pods，<code>kubectl delete &lt;rs-name&gt;</code></li>
 <li>仅删除RS，<code>kubectl delete &lt;rs-name&gt; --cascade=false</code></li>
-<li>Pod 隔离，通过修改Pod的label，可以将Pod隔离从而进行测试、数据恢复等操作。<br>－ HPA 自动扩容，ReplicaSet可以作为HPA的目标<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">autoscaling/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">HorizontalPodAutoscaler</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx-scaler</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">scaleTargetRef:</span></span><br><span class="line">    <span class="attr">kind:</span> <span class="string">ReplicaSet</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">minReplicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">maxReplicas:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">targetCPUUtilizationPercentage:</span> <span class="number">50</span></span><br></pre></td></tr></table></figure>
-
-</li>
+<li>Pod 隔离，通过修改Pod的label，可以将Pod隔离从而进行测试、数据恢复等操作。<br>－ HPA 自动扩容，ReplicaSet可以作为HPA的目标</li>
 </ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">autoscaling/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">HorizontalPodAutoscaler</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx-scaler</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">scaleTargetRef:</span></span><br><span class="line">    <span class="attr">kind:</span> <span class="string">ReplicaSet</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">minReplicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">maxReplicas:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">targetCPUUtilizationPercentage:</span> <span class="number">50</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="3-Deployments"><a href="#3-Deployments" class="headerlink" title="3. Deployments"></a>3. Deployments</h2><p>Deployment实际上是对RS和Pod的管理，它总先是创建RS，由RS创建Pods。由Deployment创建的RS的命名规则为<code>[DEPLOYMENT-NAME]-[POD-TEMPLATE-HASH-VALUE]</code>，建议不要手工维护Deployment创建的RS。Deployment的更新仅在Pod的template发生更新的情况下。<br>下面介绍几个Deployment使用的典型场景。</p>
 <h3 id="3-1-创建部署-Deployment"><a href="#3-1-创建部署-Deployment" class="headerlink" title="3.1 创建部署 Deployment"></a>3.1 创建部署 Deployment</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx-deployment</span>        <span class="string">//部署名称</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span>                   <span class="string">//副本数量</span></span><br><span class="line">  <span class="attr">selector:</span>                     <span class="string">//Pod选择规则</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span>                   <span class="string">//Pods标签</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">docker.io/nginx:1.7.9</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">contaienrPort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f dp.yaml</span><br><span class="line">kubectl get deployment nginx-deployment</span><br><span class="line">kubectl rollout status deployment nginx-deployment</span><br><span class="line">kubectl get pods --show-labels</span><br></pre></td></tr></table></figure>
@@ -173,7 +173,7 @@ var _hmt = _hmt || [];
 <li>非并行的Job，通常只启动一个Pod执行任务</li>
 <li>带有固定完成数量的并行Job，需要将<code>.spec.completions</code>设置为非零值</li>
 <li>与队列结合的并行Job，不需要设置<code>.spec.completions</code>，设置<code>.spec.parallelism</code><blockquote>
-<p>Note that even if you specify .spec.parallelism = 1 and .spec.completions = 1 and .spec.template.spec.restartPolicy = “Never”, the same program may sometimes be started twice.<br>感觉有坑啊。</p>
+<p>Note that even if you specify .spec.parallelism &#x3D; 1 and .spec.completions &#x3D; 1 and .spec.template.spec.restartPolicy &#x3D; “Never”, the same program may sometimes be started twice.<br>感觉有坑啊。</p>
 </blockquote>
 </li>
 </ul>
@@ -226,7 +226,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

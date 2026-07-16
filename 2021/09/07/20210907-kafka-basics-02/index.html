@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2024-02-23 20:17:31</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-09-07 15:07:48</span>
     </div>
@@ -68,7 +68,7 @@ var _hmt = _hmt || [];
       <p>[TOC]</p>
 <h2 id="集群管理"><a href="#集群管理" class="headerlink" title="集群管理"></a>集群管理</h2><h3 id="启动Kafka"><a href="#启动Kafka" class="headerlink" title="启动Kafka"></a>启动Kafka</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./bin/kafka-server-start.sh -daemon config/server.properties &amp;</span><br></pre></td></tr></table></figure>
 
-<h2 id="集群信息查询"><a href="#集群信息查询" class="headerlink" title="集群信息查询"></a>集群信息查询</h2><h3 id="查看Broker列表"><a href="#查看Broker列表" class="headerlink" title="查看Broker列表"></a>查看Broker列表</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./bin/zookeeper-shell.sh localhost:2181 ls /brokers/ids</span><br></pre></td></tr></table></figure>
+<h2 id="集群信息查询"><a href="#集群信息查询" class="headerlink" title="集群信息查询"></a>集群信息查询</h2><h3 id="查看Broker列表"><a href="#查看Broker列表" class="headerlink" title="查看Broker列表"></a>查看Broker列表</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./bin/zookeeper-shell.sh localhost:2181 <span class="built_in">ls</span> /brokers/ids</span><br></pre></td></tr></table></figure>
 
 <h2 id="数据查询"><a href="#数据查询" class="headerlink" title="数据查询"></a>数据查询</h2><h3 id="查看TOPIC列表"><a href="#查看TOPIC列表" class="headerlink" title="查看TOPIC列表"></a>查看TOPIC列表</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./bin/kafka-topics.sh --list --zookeeper 128.192.138.105:2181</span><br></pre></td></tr></table></figure>
 
@@ -78,7 +78,7 @@ var _hmt = _hmt || [];
 
 <h3 id="客户端消费某个Topic"><a href="#客户端消费某个Topic" class="headerlink" title="客户端消费某个Topic"></a>客户端消费某个Topic</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./bin/kafka-console-consumer.sh --zookeeper 128.192.138.105:2181 --from-beginning --topic topic_name</span><br></pre></td></tr></table></figure>
 
-<h3 id="查看每个分区的数据量"><a href="#查看每个分区的数据量" class="headerlink" title="查看每个分区的数据量"></a>查看每个分区的数据量</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list ip:port --time -1 --topic topic-name</span><br></pre></td></tr></table></figure>
+<h3 id="查看每个分区的数据量"><a href="#查看每个分区的数据量" class="headerlink" title="查看每个分区的数据量"></a>查看每个分区的数据量</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list ip:port --<span class="keyword">time</span> -1 --topic topic-name</span><br></pre></td></tr></table></figure>
 
 <h2 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h2><h3 id="创建Topic"><a href="#创建Topic" class="headerlink" title="创建Topic"></a>创建Topic</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic <span class="built_in">test</span></span><br><span class="line">Created topic <span class="string">&quot;test&quot;</span>.</span><br></pre></td></tr></table></figure>
 
@@ -134,7 +134,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

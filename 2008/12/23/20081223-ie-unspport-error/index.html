@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-11 18:06:37</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2008-12-23 15:49:01</span>
     </div>
@@ -65,10 +65,10 @@ var _hmt = _hmt || [];
           <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
         </div> -->
       </div>
-      <p>IE下JS执行，提示“尚未实现”的错误，在firebug中没有任何错误提示。打开IE就遇到该死的“尚未实现错误”，根据IE中提示的位置找过去也没有发现任何错误，看来IE的报错定位也不太准确。在网上找到的原因：错误在于window.onload= myFunc(var1,var2);IE的window.onload函数中不支持参数调用，虽然函数会照样执行，但是却会出现报错，影响后续脚本的继续执行，下面是两种简单而有用的解决办法：</p>
+      <p>IE下JS执行，提示“尚未实现”的错误，在firebug中没有任何错误提示。打开IE就遇到该死的“尚未实现错误”，根据IE中提示的位置找过去也没有发现任何错误，看来IE的报错定位也不太准确。在网上找到的原因：错误在于window.onload&#x3D; myFunc(var1,var2);IE的window.onload函数中不支持参数调用，虽然函数会照样执行，但是却会出现报错，影响后续脚本的继续执行，下面是两种简单而有用的解决办法：</p>
 <ol>
-<li>再写一个函数，譬如function loadFunc(){ myFunc(var1,var2) },然后window.onload = loadFunc;</li>
-<li>使用匿名函数。onload =function(){myFunc(var1,var2)}</li>
+<li>再写一个函数，譬如function loadFunc(){ myFunc(var1,var2) },然后window.onload &#x3D; loadFunc;</li>
+<li>使用匿名函数。onload &#x3D;function(){myFunc(var1,var2)}</li>
 </ol>
 
       <div class="blog-post-footer">
@@ -106,7 +106,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-11 19:03:11</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2009-01-19 14:26:01</span>
     </div>
@@ -65,23 +65,23 @@ var _hmt = _hmt || [];
           <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
         </div> -->
       </div>
-      <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>最近配置Fedora下的虚拟主机时，配置在/home/user/下的文件总是不能够正常的访问，查看日志提示。</p>
+      <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>最近配置Fedora下的虚拟主机时，配置在&#x2F;home&#x2F;user&#x2F;下的文件总是不能够正常的访问，查看日志提示。</p>
 <blockquote>
-<p>[Mon Jan 19 09:05:14 2009] [error] [client 127.0.0.1] (13)Permission denied: access to / denied</p>
+<p>[Mon Jan 19 09:05:14 2009] [error] [client 127.0.0.1] (13)Permission denied: access to &#x2F; denied</p>
 </blockquote>
 <p>看来还是有权限的问题，找了一些，终于解决掉了。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总结一下Fedora10下面Apache的配置问题：</p>
 <h3 id="1、安装apache。"><a href="#1、安装apache。" class="headerlink" title="1、安装apache。"></a>1、安装apache。</h3><p>Fedorar下安装apache如今已经很方便了，可以通过rpm或者yum进行安装，这里不再赘述。</p>
 <h3 id="2、安装PHP。"><a href="#2、安装PHP。" class="headerlink" title="2、安装PHP。"></a>2、安装PHP。</h3><p>这一步也很简单，直接yum就可以了。</p>
-<h3 id="3、配置虚拟主机。"><a href="#3、配置虚拟主机。" class="headerlink" title="3、配置虚拟主机。"></a>3、配置虚拟主机。</h3><p>虚拟主机的配置可以写在httpd.conf中，也可以在/conf.d/下写入单独的文件，我是写在了/conf.d/vhost.conf中。</p>
+<h3 id="3、配置虚拟主机。"><a href="#3、配置虚拟主机。" class="headerlink" title="3、配置虚拟主机。"></a>3、配置虚拟主机。</h3><p>虚拟主机的配置可以写在httpd.conf中，也可以在&#x2F;conf.d&#x2F;下写入单独的文件，我是写在了&#x2F;conf.d&#x2F;vhost.conf中。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;VirtualHost *:80&gt;</span><br><span class="line">  ServerAdmin cocowool@gmail.com</span><br><span class="line">  DocumentRoot /home/cipher/workspace</span><br><span class="line">  ServerName www.work.cn</span><br><span class="line">  ErrorLog logs/www.work.cn-error_log</span><br><span class="line">  CustomLog logs/www.work.cn-access_log common</span><br><span class="line">&lt;/VirtualHost&gt;</span><br></pre></td></tr></table></figure>
 
-<h3 id="4、设置HOST。"><a href="#4、设置HOST。" class="headerlink" title="4、设置HOST。"></a>4、设置HOST。</h3><p>需要根据自己的配置，更改/etc/hosts文件。<br>如：127.0.0.1　　<a target="_blank" rel="noopener" href="http://www.work.cn/">www.work.cn</a></p>
+<h3 id="4、设置HOST。"><a href="#4、设置HOST。" class="headerlink" title="4、设置HOST。"></a>4、设置HOST。</h3><p>需要根据自己的配置，更改&#x2F;etc&#x2F;hosts文件。<br>如：127.0.0.1　　<a target="_blank" rel="noopener" href="http://www.work.cn/">www.work.cn</a></p>
 <h3 id="5、配置目录权限。"><a href="#5、配置目录权限。" class="headerlink" title="5、配置目录权限。"></a>5、配置目录权限。</h3><p>不能访问的主要原因就是权限的问题，目录权限是一个方面，所以需要对工作目录设置权限。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ su -</span><br><span class="line"></span><br><span class="line">$ chomd 711 /home/cipher</span><br><span class="line">$ chmod 755 /home/cipher/workspace</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ su -</span><br><span class="line"></span><br><span class="line">$ chomd 711 /home/cipher</span><br><span class="line">$ <span class="built_in">chmod</span> 755 /home/cipher/workspace</span><br></pre></td></tr></table></figure>
 
 <h3 id="6、SELINUX。"><a href="#6、SELINUX。" class="headerlink" title="6、SELINUX。"></a>6、SELINUX。</h3><p>关于SELinux，我的了解还很少，而且也没有使用。所以直接禁止掉。<br>如果在系统中使用SELinux的话，需要设置下面的两个选项</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ setseool -P httpd_enbale_homedirs 1</span><br><span class="line"></span><br><span class="line">$ chcon -R -t httpd_sys_content_t /home/cipher/workspace</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ setseool -P httpd_enbale_homedirs 1</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">chcon</span> -R -t httpd_sys_content_t /home/cipher/workspace</span><br></pre></td></tr></table></figure>
 
 <p>最后重启服务就可以了。</p>
 <hr>
@@ -123,7 +123,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

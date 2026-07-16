@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-24 22:26:15</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2011-12-08 14:02:01</span>
     </div>
@@ -66,12 +66,12 @@ var _hmt = _hmt || [];
         </div> -->
       </div>
       <p>Centos 6.0版本提供了一个”最小化”（Minimal）安装的选项。这是一个非常好的改进，因为系统中再也不会存在那些不必要的文件和服务，这样我们就可以实现服务器为我们所需要的服务提供最大的资源能力。</p>
-<p>Minimal的安装也带来了一些缺点，系统默认提供的网络管理工具 NetworkManager 实际上没有安装在 Minimal 的系统上。这样我们就不得不手工编辑网卡的配置文件。典型的网卡配置文件（/etc/sysconfig/network-script/ifcfg-X）格式如下：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">IPADDR=192.168.0.33</span><br><span class="line">BOOTPROTO=none</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line">GATEWAY=192.168.0.1</span><br><span class="line">DNS1=192.168.0.1</span><br><span class="line">DNS2=192.168.0.2</span><br><span class="line">USERCTL=yes</span><br><span class="line">ONBOOT=<span class="string">&quot;yes&quot;</span></span><br><span class="line">Centos 6的Minimal下，默认onboot=<span class="string">&quot;no&quot;</span>，并且设置了依赖 NetworkManager 的选项，NM_CONTROLLED=<span class="string">&quot;yes&quot;</span>。这个配置看起来有点可笑，因为minimal的情况下并没有安装 NetworkManger。所以我们需要修改为：</span><br><span class="line">ONBOOT=<span class="string">&quot;yes&quot;</span>      MM_Controlled=<span class="string">&quot;no&quot;</span></span><br></pre></td></tr></table></figure>
+<p>Minimal的安装也带来了一些缺点，系统默认提供的网络管理工具 NetworkManager 实际上没有安装在 Minimal 的系统上。这样我们就不得不手工编辑网卡的配置文件。典型的网卡配置文件（&#x2F;etc&#x2F;sysconfig&#x2F;network-script&#x2F;ifcfg-X）格式如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">IPADDR=192.168.0.33</span><br><span class="line">BOOTPROTO=none</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line">GATEWAY=192.168.0.1</span><br><span class="line">DNS1=192.168.0.1</span><br><span class="line">DNS2=192.168.0.2</span><br><span class="line">USERCTL=<span class="built_in">yes</span></span><br><span class="line">ONBOOT=<span class="string">&quot;yes&quot;</span></span><br><span class="line">Centos 6的Minimal下，默认onboot=<span class="string">&quot;no&quot;</span>，并且设置了依赖 NetworkManager 的选项，NM_CONTROLLED=<span class="string">&quot;yes&quot;</span>。这个配置看起来有点可笑，因为minimal的情况下并没有安装 NetworkManger。所以我们需要修改为：</span><br><span class="line">ONBOOT=<span class="string">&quot;yes&quot;</span>      MM_Controlled=<span class="string">&quot;no&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>同时，如果需要自动获取IP，我们还应该加上</p>
 <blockquote>
-<p>BOOTPROTO=”dhcp”</p>
+<p>BOOTPROTO&#x3D;”dhcp”</p>
 </blockquote>
 <p>现在重启一下，网卡就可以随机启动了。</p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://diznix.com/2011/07/11/network-configuration-in-minimal-linux-installs/">Netowork Configuration in minimal Linux installs</a><br>2、<a target="_blank" rel="noopener" href="http://it.toolbox.com/blogs/linux-gnu/configuring-the-ethernet-nic-in-centos-6-rhel-6-scientific-linux-6-48390">Configuring the ethernet nic in centos 6</a><br>3、<a target="_blank" rel="noopener" href="http://home.roadrunner.com/%7Ecomputertaijutsu/wireless.html">Troubleshooting Linux Connections</a><br>4、<a target="_blank" rel="noopener" href="http://226617.cn/archives/929.htm">克隆Centos6虚拟机后网络无法启动问题解决</a></p>
@@ -111,7 +111,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

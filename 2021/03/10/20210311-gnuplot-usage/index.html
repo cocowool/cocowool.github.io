@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-09 00:01:49</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-03-10 09:57:51</span>
     </div>
@@ -128,15 +128,15 @@ var _hmt = _hmt || [];
 <h3 id="4、如何插入希腊字母和特殊符号"><a href="#4、如何插入希腊字母和特殊符号" class="headerlink" title="4、如何插入希腊字母和特殊符号"></a><strong>4、如何插入希腊字母和特殊符号</strong></h3><p>一般只能在ps和eps图中，且必须指定enhanced选项。在X11终端（即显示器）中无法显示。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt; <span class="built_in">set</span> terminal postscript enhanced然后希腊字母就可以通过&#123;/Symbol a&#125;输入。例如</span><br><span class="line">gnuplot&gt; <span class="built_in">set</span> label ‘&#123;/Symbol a&#125;’</span><br><span class="line">&lt;!--[<span class="keyword">if</span> !supportLineBreakNewLine]--&gt;</span><br><span class="line">&lt;!--[endif]--&gt;</span><br></pre></td></tr></table></figure>
 
-<p>各种希腊字母与特殊符号的输入方法请见安装包中gnuplot-4.0.0/docs/psdoc目录下的ps_guide.ps文件。<br>另外还可参见：<a target="_blank" rel="noopener" href="http://t16web.lanl.gov/Kawano/gnuplot/label-e.html#4.3">http://t16web.lanl.gov/Kawano/gnuplot/label-e.html#4.3</a></p>
+<p>各种希腊字母与特殊符号的输入方法请见安装包中gnuplot-4.0.0&#x2F;docs&#x2F;psdoc目录下的ps_guide.ps文件。<br>另外还可参见：<a target="_blank" rel="noopener" href="http://t16web.lanl.gov/Kawano/gnuplot/label-e.html#4.3">http://t16web.lanl.gov/Kawano/gnuplot/label-e.html#4.3</a></p>
 <h3 id="5、gnuplot中如何插入Angstrom（埃）这个符号-A上面一个小圆圈"><a href="#5、gnuplot中如何插入Angstrom（埃）这个符号-A上面一个小圆圈" class="headerlink" title="5、gnuplot中如何插入Angstrom（埃）这个符号(A上面一个小圆圈)"></a><strong>5、gnuplot中如何插入Angstrom（埃）这个符号(A上面一个小圆圈)</strong></h3><p>脚本中在插入前先加入</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;<span class="built_in">set</span> encoding iso_8859_1</span><br></pre></td></tr></table></figure>
-<p>这个命令，然后就可以通过“{\305}”加入了。如横坐标要标上“k(1/?)”：</p>
+<p>这个命令，然后就可以通过“{\305}”加入了。如横坐标要标上“k(1&#x2F;?)”：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;<span class="built_in">set</span> xlabel <span class="string">&#x27;k(1/&#123;\305&#125;)</span></span><br></pre></td></tr></table></figure>
 <p>如果是multiplot模式，则这个命令必须放在</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;<span class="built_in">set</span> multiplot</span><br></pre></td></tr></table></figure>
 <p>的前面。</p>
-<p>如果后面还要插入别的转义字符，那么还要在插入字符后加入如下命令：<code>set encoding default</code>安装包中gnuplot-4.0.0/docs/psdoc/ps_guide.ps文件中的表中的‘E’代表那一列的所有符号都用这个方法输入。</p>
+<p>如果后面还要插入别的转义字符，那么还要在插入字符后加入如下命令：<code>set encoding default</code>安装包中gnuplot-4.0.0&#x2F;docs&#x2F;psdoc&#x2F;ps_guide.ps文件中的表中的‘E’代表那一列的所有符号都用这个方法输入。</p>
 <h3 id="6、gnuplot画等高线图"><a href="#6、gnuplot画等高线图" class="headerlink" title="6、gnuplot画等高线图"></a><strong>6、gnuplot画等高线图</strong></h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;splot ‘文件名.dat’ u 1:2:3 w l  %做三维图</span><br><span class="line">gnuplot&gt;<span class="built_in">set</span> dgrid3d 100,100 %设置三维图表面的网格的数目</span><br><span class="line">gnuplot&gt;replot</span><br><span class="line">gnuplot&gt;<span class="built_in">set</span> contour  %设置画等高线</span><br><span class="line">gnuplot&gt;<span class="built_in">set</span> cntrparam levels incremental -0.2,0.01,0.2  %设置等高线的疏密和范围，数据从  -0.2到0.2中间每隔0.01画一条线</span><br><span class="line">gnuplot&gt;<span class="built_in">unset</span> surface  去掉上面的三维图形</span><br></pre></td></tr></table></figure>
 
 <p>最后用鼠标拽动图形，选择合理的角度即可。或者直接设置(0,0)的视角也可以：</p>
@@ -196,7 +196,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

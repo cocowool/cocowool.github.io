@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-03-17 18:55:07</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2011-07-29 18:52:02</span>
     </div>
@@ -68,12 +68,12 @@ var _hmt = _hmt || [];
       <p>有个几千万条记录的表 on MySQL 5.0.x，现在要读出其中几十万万条左右的记录。常用方法，依次循环：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> mytable <span class="keyword">where</span> index_col <span class="operator">=</span> xxx limit <span class="keyword">offset</span>, limit;</span><br></pre></td></tr></table></figure>
 
-<p><strong>经验</strong>：如果没有blob/text字段，单行记录比较小，可以把 limit 设大点，会加快速度</p>
+<p><strong>经验</strong>：如果没有blob&#x2F;text字段，单行记录比较小，可以把 limit 设大点，会加快速度</p>
 <p><strong>问题</strong>：头几万条读取很快，但是速度呈线性下降，同时 mysql server cpu 99%</p>
 <p>速度不可接受。调用 </p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> mytable <span class="keyword">where</span> index_col <span class="operator">=</span> xxx limit <span class="keyword">offset</span>, limit;</span><br></pre></td></tr></table></figure>
 
-<p>显示 type = ALL，在 MySQL optimization 的文档写到”All”的解释</p>
+<p>显示 type &#x3D; ALL，在 MySQL optimization 的文档写到”All”的解释</p>
 <blockquote>
 <p>A full table scan is done for each combination of rows from the previous tables. This is normally not good if the table is the first table not marked const, and usually very bad in all other cases. Normally, you can avoid ALL by adding indexes that allow row retrieval from the table based on constant values or column values from earlier tables.</p>
 </blockquote>
@@ -81,7 +81,7 @@ var _hmt = _hmt || [];
 <p>因为 id 是递增的，也很好修改 sql</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> mytable <span class="keyword">where</span> id <span class="operator">&gt;</span> <span class="keyword">offset</span> <span class="keyword">and</span> id <span class="operator">&lt;</span> <span class="keyword">offset</span> <span class="operator">+</span> limit <span class="keyword">and</span> index_col <span class="operator">=</span> xxx</span><br></pre></td></tr></table></figure>
 
-<p>explain 显示 type = range, 结果速度非常理想，返回结果快了几十倍。</p>
+<p>explain 显示 type &#x3D; range, 结果速度非常理想，返回结果快了几十倍。</p>
 
       <div class="blog-post-footer">
         <p><img src="/image/qrcode.jpg" alt=""></p>
@@ -118,7 +118,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

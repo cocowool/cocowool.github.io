@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-06-24 20:32:12</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2018-05-28 20:31:02</span>
     </div>
@@ -65,7 +65,7 @@ var _hmt = _hmt || [];
           <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
         </div> -->
       </div>
-      <h3 id="Windows-下-Bat-方式启动的设置"><a href="#Windows-下-Bat-方式启动的设置" class="headerlink" title="Windows 下 Bat 方式启动的设置"></a>Windows 下 Bat 方式启动的设置</h3><p>在 tomcat_home / bin 目录下找到 catalina.bat ，用文本编辑器打开，添加一行：</p>
+      <h3 id="Windows-下-Bat-方式启动的设置"><a href="#Windows-下-Bat-方式启动的设置" class="headerlink" title="Windows 下 Bat 方式启动的设置"></a>Windows 下 Bat 方式启动的设置</h3><p>在 tomcat_home &#x2F; bin 目录下找到 catalina.bat ，用文本编辑器打开，添加一行：</p>
 <figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> JAVA_OPTS= -Xms1024M -Xmx1024M -XX:PermSize=<span class="number">256</span>M -XX:MaxNewSize=<span class="number">256</span>M -XX:MaxPermSize=<span class="number">256</span>M</span><br></pre></td></tr></table></figure>
 
 <h3 id="Windows-下服务方式启动的设置"><a href="#Windows-下服务方式启动的设置" class="headerlink" title="Windows 下服务方式启动的设置"></a>Windows 下服务方式启动的设置</h3><p>修改注册表</p>
@@ -86,16 +86,16 @@ var _hmt = _hmt || [];
 <td>最大堆内存大小</td>
 </tr>
 <tr>
-<td>-XX:PermSize=256M</td>
+<td>-XX:PermSize&#x3D;256M</td>
 <td>初始化类加载内存池大小</td>
 </tr>
 <tr>
-<td>-XX:MaxPermSize=256M</td>
+<td>-XX:MaxPermSize&#x3D;256M</td>
 <td>最大类加载内存池大小</td>
 </tr>
 </tbody></table>
 <h3 id="Tomcat-内存溢出的几种情况"><a href="#Tomcat-内存溢出的几种情况" class="headerlink" title="Tomcat 内存溢出的几种情况"></a>Tomcat 内存溢出的几种情况</h3><p>Tomcat 内存溢出有几种形式：</p>
-<h4 id="1、OutOfMemoryError：-Java-heap-space-堆溢出"><a href="#1、OutOfMemoryError：-Java-heap-space-堆溢出" class="headerlink" title="1、OutOfMemoryError： Java heap space 堆溢出"></a>1、OutOfMemoryError： Java heap space 堆溢出</h4><p>JVM堆的设置是指java程序运行过程中JVM可以调配使用的内存空间的设置。JVM在启动的时候会自动设置Heap size的值，其初始空间(即-Xms)是物理内存的1/64，最大空间(-Xmx)是物理内存的1/4。可以利用JVM提供的-Xmn -Xms -Xmx等选项可进行设置。Heap size 的大小是Young Generation 和Tenured Generaion 之和。</p>
+<h4 id="1、OutOfMemoryError：-Java-heap-space-堆溢出"><a href="#1、OutOfMemoryError：-Java-heap-space-堆溢出" class="headerlink" title="1、OutOfMemoryError： Java heap space 堆溢出"></a>1、OutOfMemoryError： Java heap space 堆溢出</h4><p>JVM堆的设置是指java程序运行过程中JVM可以调配使用的内存空间的设置。JVM在启动的时候会自动设置Heap size的值，其初始空间(即-Xms)是物理内存的1&#x2F;64，最大空间(-Xmx)是物理内存的1&#x2F;4。可以利用JVM提供的-Xmn -Xms -Xmx等选项可进行设置。Heap size 的大小是Young Generation 和Tenured Generaion 之和。</p>
 <p>在JVM中如果98％的时间是用于GC且可用的Heap size 不足2％的时候将抛出此异常信息。 </p>
 <h4 id="2、OutOfMemoryError：-PermGen-space"><a href="#2、OutOfMemoryError：-PermGen-space" class="headerlink" title="2、OutOfMemoryError： PermGen space"></a>2、OutOfMemoryError： PermGen space</h4><p>PermGen space 的全称是 Permanent Generation space，是指内存的永久保存区域，这块内存主要是被JVM存放Class和Meta信息的，Class在被Loader时就会被放到PermGen space中，它和存放类实例(Instance)的Heap区域不同，GC(Garbage Collection)不会在主程序运行期对PermGen space进行清理。</p>
 <h4 id="3、OutOfMemoryError：-unable-to-create-new-native-thread"><a href="#3、OutOfMemoryError：-unable-to-create-new-native-thread" class="headerlink" title="3、OutOfMemoryError： unable to create new native thread."></a>3、OutOfMemoryError： unable to create new native thread.</h4><p>前两种情况，如果应用本身没有内存泄漏，可以调整JVM参数来解决。</p>
@@ -136,7 +136,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

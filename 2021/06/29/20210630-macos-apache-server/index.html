@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-06-30 08:36:13</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-06-29 08:11:39</span>
     </div>
@@ -72,7 +72,7 @@ var _hmt = _hmt || [];
 <p>本文将macOS下自带的Apache服务器相关的信息和操作整理出来，方便大家查看使用。</p>
 <h2 id="相关路径"><a href="#相关路径" class="headerlink" title="相关路径"></a>相关路径</h2><ul>
 <li><p>配置文件路径 <code>/etc/apache2</code></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">➜  / ll /etc/apache2</span><br><span class="line">total 96</span><br><span class="line">drwxr-xr-x   9 root  wheel   288B  4 18  2020 .</span><br><span class="line">drwxr-xr-x  84 root  wheel   2.6K  6 29 19:51 ..</span><br><span class="line">drwxr-xr-x  14 root  wheel   448B  6 10 08:51 extra</span><br><span class="line">-rw-r--r--   1 root  wheel    21K  4 18  2020 httpd.conf</span><br><span class="line">-rw-r--r--   1 root  wheel    13K  4 18  2020 magic</span><br><span class="line">-rw-r--r--   1 root  wheel    60K  4 18  2020 mime.types</span><br><span class="line">drwxr-xr-x   4 root  wheel   128B  4 18  2020 original</span><br><span class="line">drwxr-xr-x   4 root  wheel   128B  4 18  2020 other</span><br><span class="line">drwxr-xr-x   2 root  wheel    64B  4 18  2020 users</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">➜  / ll /etc/apache2</span><br><span class="line">total 96</span><br><span class="line">drwxr-xr-x   9 root  wheel   288B  4 18  2020 .</span><br><span class="line">drwxr-xr-x  84 root  wheel   2.6K  6 29 19:51 ..</span><br><span class="line">drwxr-xr-x  14 root  wheel   448B  6 10 08:51 extra</span><br><span class="line">-rw-r--r--   1 root  wheel    21K  4 18  2020 httpd.conf</span><br><span class="line">-rw-r--r--   1 root  wheel    13K  4 18  2020 magic</span><br><span class="line">-rw-r--r--   1 root  wheel    60K  4 18  2020 mime.types</span><br><span class="line">drwxr-xr-x   4 root  wheel   128B  4 18  2020 original</span><br><span class="line">drwxr-xr-x   4 root  wheel   128B  4 18  2020 other</span><br><span class="line">drwxr-xr-x   2 root  wheel    64B  4 18  2020 <span class="built_in">users</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>默认根文件夹 <code>/Library/WebServer/Documents</code></p>
 </li>
@@ -85,9 +85,7 @@ var _hmt = _hmt || [];
 <li><p>停止服务 <code>sudo apachectl stop</code></p>
 </li>
 <li><p>查看版本</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  / sudo apachectl -v              </span><br><span class="line">Password:</span><br><span class="line">Server version: Apache/2.4.41 (Unix)</span><br><span class="line">Server built:   Jun  5 2020 23:42:06</span><br></pre></td></tr></table></figure>
-
-</li>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  / <span class="built_in">sudo</span> apachectl -v              </span><br><span class="line">Password:</span><br><span class="line">Server version: Apache/2.4.41 (Unix)</span><br><span class="line">Server built:   Jun  5 2020 23:42:06</span><br></pre></td></tr></table></figure></li>
 </ul>
 <h2 id="PHP支持"><a href="#PHP支持" class="headerlink" title="PHP支持"></a>PHP支持</h2><p>macOS还自带了PHP7的支持，需要通过修改 <code>/etc/apache2/httpd.conf</code> 配置文件打开并重启服务后生效。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#LoadModule php7_module libexec/apache2/libphp7.so  </span><br></pre></td></tr></table></figure>
@@ -135,7 +133,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-04-27 13:36:57</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-04-07 08:36:25</span>
     </div>
@@ -66,7 +66,7 @@ var _hmt = _hmt || [];
         </div> -->
       </div>
       <p>touch命令一直被我用来作为创建一个空白文件的命令，但是今天我才发现，原来touch命令主要的作用是用来修改文件时间，怪不得我的服务器上被黑客上传的文件都是很久之前的创建时间。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">touch : change file access and modification time</span><br><span class="line"></span><br><span class="line">touch [-acfm]</span><br><span class="line">[-r reference-file] [--file=reference-file]</span><br><span class="line">[-t MMDDhhmm[[CC]YY][.ss]]</span><br><span class="line">[-d time] [--date=time] [--time=&#123;atime,access,use,mtime,modify&#125;]</span><br><span class="line">[--no-create] [--<span class="built_in">help</span>] [--version]</span><br><span class="line">file1 [file2 ...]</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> : change file access and modification <span class="keyword">time</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">touch</span> [-acfm]</span><br><span class="line">[-r reference-file] [--file=reference-file]</span><br><span class="line">[-t MMDDhhmm[[CC]YY][.ss]]</span><br><span class="line">[-d <span class="keyword">time</span>] [--<span class="built_in">date</span>=<span class="keyword">time</span>] [--<span class="keyword">time</span>=&#123;atime,access,use,mtime,modify&#125;]</span><br><span class="line">[--no-create] [--<span class="built_in">help</span>] [--version]</span><br><span class="line">file1 [file2 ...]</span><br></pre></td></tr></table></figure>
 <p>说明：<br>touch 指令改变档案的时间记录。 ls -l 可以显示档案的时间记录。<br>参数：</p>
 <ul>
 <li>a 改变档案的读取时间记录。</li>
@@ -81,15 +81,15 @@ var _hmt = _hmt || [];
 <li>–version 列出版本讯息。</li>
 </ul>
 <p>范例：<br>最简单的使用方式，将档案的时候记录改为现在的时间。若档案不存在，系统会建立一个新的档案。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">touch file</span><br><span class="line">touch file1 file2</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> file</span><br><span class="line"><span class="built_in">touch</span> file1 file2</span><br></pre></td></tr></table></figure>
 <p>将 file 的时间记录改为 5 月 1 日 16 点 8 分，公元2011年<br>时间的格式可以参考 date 指令，至少需输入 MMDDHHmm ，就是月日时与分。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">touch -c -t 05011608 file</span><br><span class="line">touch -c -t 050116082011 file</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> -c -t 05011608 file</span><br><span class="line"><span class="built_in">touch</span> -c -t 050116082011 file</span><br></pre></td></tr></table></figure>
 <p>将 file 的时间记录改变成与 referencefile 一样。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch -r referencefile file</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> -r referencefile file</span><br></pre></td></tr></table></figure>
 <p>将 file 的时间记录改成 5月1日16点8分，公元2011年</p>
 <p>时间可以使用 am, pm 或是 24 小时的格式，日期可以使用其他格式如 1 May 2011。<br>touch -d 和 date -s 的用法相同。</p>
 <p>如果没有指定日期，默认为系统日期<br>touch -d 16:08 file<br>touch -d “16:08″ file<br>touch -d “4:08pm” file</p>
-<p>如果没有指定时间，默认为 00:00:00<br>touch -d 20110501 file<br>touch -d “05/01/2011″ file<br>touch -d “20110511” file<br>touch -d “4:08pm 05/01/2011″ file<br>touch -d “20110501 16:08″ file<br>touch -d “20110501 16:08:00″ file</p>
+<p>如果没有指定时间，默认为 00:00:00<br>touch -d 20110501 file<br>touch -d “05&#x2F;01&#x2F;2011″ file<br>touch -d “20110511” file<br>touch -d “4:08pm 05&#x2F;01&#x2F;2011″ file<br>touch -d “20110501 16:08″ file<br>touch -d “20110501 16:08:00″ file</p>
 
       <div class="blog-post-footer">
         <p><img src="/image/qrcode.jpg" alt=""></p>
@@ -126,7 +126,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

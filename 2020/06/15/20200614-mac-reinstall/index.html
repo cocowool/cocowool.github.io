@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -70,11 +70,10 @@ var _hmt = _hmt || [];
 <p>怀疑磁盘故障，那么第一反应就是更换一块磁盘，火速的从某东上购买了一块240G金士顿SSD硬盘，然后一顿折腾将就硬盘换下来、新硬盘换上去，使用<code>Command + Option + R</code>重启操作系统进入恢复工具后，首先对磁盘进行分区操作，<strong>重点在这个地方</strong>，当时我将磁盘分区方式选择为<code>Mac OS 扩展（日志式）</code>，然后分好区后重新安装操作系统提示我<code>**将安装器信息下载到目标宗卷失败**</code>，不管是用新的SSD还是旧的SSD，都是同样的报错。</p>
 <p>这时就有点蒙圈了，不知道问题出在哪里，一度打了两个Apple Care的支持电话，客服的小姑娘很热情、耐心的知道了我如何抹盘及重装，但是对于仍然出现的报错信息也并没有提供很好的办法。在快要灰心失望准备掏腰包更换新的MBP的时候，无意间通过<code>macOS实用工具</code>中的<code>获得在线帮助</code>点了进去，发现在某一个页面介绍重装操作系统时（忘记页面的具体标题了），选择的分区类型是<code>**APFS**</code>。这时好像印象中某次操作系统版本升级，苹果把文件系统都换成了APFS，于是重新抹盘格式化为APFS，然后重新安装<code>macOS High Sierra</code>等待了半个小时左右，操作系统重新安装完成了。</p>
 <p>此时此刻，心情非常激动（其实有点难过换机器的时间又被推迟了，期望这台电脑能够服务满10年吧）。将整个过程记录下来，希望对同样遇到这个问题的朋友有所帮助。</p>
-<img src="/2020/06/15/20200614-mac-reinstall/new-clean-mac.png" class="" title="new-clean-mac">
-
+<p><img src="/20200614-mac-reinstall/new-clean-mac.png" alt="new-clean-mac"></p>
 <blockquote>
 <p>后来又查阅了一下苹果官方的文档，文档描述中说对于macOS High Sierra，应该是支持扩展模式的分区格式的，但我始终无法安装成功，不知道是否与哪里有关系。个人猜测可能是Recovery分区中的操作系统版本比较低导致的。</p>
-<img src="/2020/06/15/20200614-mac-reinstall/Snip20200615_1.png" class="" title="Snip20200615_1">
+<p><img src="/20200614-mac-reinstall/Snip20200615_1.png" alt="Snip20200615_1"></p>
 </blockquote>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
 <li><a target="_blank" rel="noopener" href="https://support.apple.com/zh-cn/HT208496">如何抹掉 Mac 磁盘</a></li>
@@ -116,7 +115,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

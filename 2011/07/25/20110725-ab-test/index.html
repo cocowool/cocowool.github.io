@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-03-11 19:16:17</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2011-07-25 22:31:01</span>
     </div>
@@ -67,24 +67,20 @@ var _hmt = _hmt || [];
       </div>
       <p>最近写了几个测试脚本，希望要观察使用<a target="_blank" rel="noopener" href="http://www.cnblogs.com/cocowool/archive/2010/05/31/1748180.html">PUT方式上传文件</a>和使用POST方式上传文件，两者效率的差别。</p>
 <p>分别是：<br>put_client.php          模拟客户端发送PUT请求<br>put_server.php          接收客户端的PUT请求，并保存文件<br>post_client.php          模拟客户端发送的POST请求<br>post_server.php          接收客户端的POST请求，并保存文件</p>
-<p><a target="_blank" rel="noopener" href="http://files.cnblogs.com/cocowool/code.zip">/Files/cocowool/code.zip</a></p>
+<p><a target="_blank" rel="noopener" href="http://files.cnblogs.com/cocowool/code.zip">&#x2F;Files&#x2F;cocowool&#x2F;code.zip</a></p>
 <p>然后利用ab（ab是apache自带的一个性能测试工具）对客户端文件发起请求，来测试处理所消耗的时间。具体的测试场景设计了以下四组<br>1、使用PUT请求，改变并发的请求数。其中请求数设置为1000，并发数分别设置为2、5、10、30、50<br>2、使用POST请求，改变并发的请求数。其中请求数设置为1000，并发数分别设置为2、5、10、30、50<br>3、使用PUT请求，改变发送的文件大小。其中请求数设置为1000，并发数设置为30，文件大小分别为100、150、200<br>4、使用POST请求，改变发送文件大小。其中请求数设置为1000，并发数设置为30，文件大小分别为100、150、200。</p>
 <p>每次实验前，关闭系统的其他程序，清空数据文件夹内的数据，重新启动Lamp。<br>实验环境：Mac MC700、Apache2.2.6、PHP5.3.1</p>
 <p>实验的结果：<br>测试结果：<br>1、不同并发状况下PUT的处理情况测试</p>
-<img src="/2011/07/25/20110725-ab-test/put_1000_c.png" class="">
-
+<p><img src="/20110725-ab-test/put_1000_c.png"></p>
 <p>结论：并发越大处理时间越长，个别请求因为负载问题造成处理时间超长。</p>
 <p>2、不同并发状况下POST的处理情况测试</p>
-<img src="/2011/07/25/20110725-ab-test/post_1000_c.png" class="">
-
+<p><img src="/20110725-ab-test/post_1000_c.png"></p>
 <p>结论：并发越大处理时间越长.</p>
 <p>3、PUT方式和POST方式对比。</p>
-<img src="/2011/07/25/20110725-ab-test/post_vs_put.png" class="">
-
+<p><img src="/20110725-ab-test/post_vs_put.png"></p>
 <p>结论：PUT方式优于POST方式，在并发较少情况下，这种差别不太明显，但是随着并发数的加大，差别开始显现。</p>
-<p>4、根据上述结果，选定c=30时，测试不同文件尺寸下两中方式的差异。以下是100k、150k、200k文件大小时的结果图。</p>
-<img src="/2011/07/25/20110725-ab-test/change_size.png" class="">
-
+<p>4、根据上述结果，选定c&#x3D;30时，测试不同文件尺寸下两中方式的差异。以下是100k、150k、200k文件大小时的结果图。</p>
+<p><img src="/20110725-ab-test/change_size.png"></p>
 <p>以上结果只是在本地环境测试，相信如果是服务器环境，PUT和POST方式的差异会更明显。</p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://cryolite.iteye.com/blog/351245">ab性能测试与Gnuplot绘制</a><br>2、<a target="_blank" rel="noopener" href="http://www.inanu.net/post/381.html">httpperf+AutoBench+Gnuplot构建Web Server压力测试系统</a></p>
 
@@ -123,7 +119,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

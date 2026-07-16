@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-14 19:49:31</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2009-05-23 11:15:01</span>
     </div>
@@ -95,14 +95,14 @@ var _hmt = _hmt || [];
 </ul>
 <p>1、$(id)。<br>使用过Prototype的同学看到这个一定很亲切。<br>对了，他的用法就和Prototype中的$一样，在单行模式中，命令会将选择的元素打印到console中<br>在多行模式中，你就完全可以像在Prototype中那样使用它了。<br>对于Prototype不熟悉的同学可以查看参考资料中的连接了解更多的情况。</p>
 <p>2、$$()。<br>返回给定CSS选择器选中的元素数组。<br>关于CSS Selector（选择器），相信了解一些CSS的人都有一些印象，Jqueyr将Css Selector发扬的很光大。<br>我在console中试验了几个jquery中的常用写法，看来支持的还是不够好。</p>
-<p>3、$x(xpath)。<br>返回给定xpath下的元素数组。<br>例如在一个包含多个p的div中，我们可以用下面的代码获得每个p。<br>var obj = $x(‘html/body/div/p’);<br>console.log(obj[0].id);<br>console.log(obj[1].id);<br>console.log(obj[2].id);</p>
-<p>4、dir(object)。<br>打印一个对象的所有属性，结果形式和在DOM标签中看到的一样。<br>其实这个用法和console.dir()是一样的。<br>var obj = $x(‘html/body/div/p’);<br>dir(obj);</p>
+<p>3、$x(xpath)。<br>返回给定xpath下的元素数组。<br>例如在一个包含多个p的div中，我们可以用下面的代码获得每个p。<br>var obj &#x3D; $x(‘html&#x2F;body&#x2F;div&#x2F;p’);<br>console.log(obj[0].id);<br>console.log(obj[1].id);<br>console.log(obj[2].id);</p>
+<p>4、dir(object)。<br>打印一个对象的所有属性，结果形式和在DOM标签中看到的一样。<br>其实这个用法和console.dir()是一样的。<br>var obj &#x3D; $x(‘html&#x2F;body&#x2F;div&#x2F;p’);<br>dir(obj);</p>
 <p>5、dirxml(note)。<br>打印xml或HTML元素的树形结构。打印的结果就像在HTML标签中看到的一样。<br>之前我们也接触过console.dirxml()的用法，这两个方法是一样的。</p>
 <p>6、cd(window)。<br>cd是用来在框架布局的不同窗口间切换，不过据说还不是很完善。</p>
 <p>7、clear()。<br>清除控制台的内容，就像在Javascript中使用Console.clear()一样。</p>
 <p>8、inspect(object [,TabName])。<br>在最适合的标签中检测一个元素，也可以通过TabName指定需要打开的标签。<br>例如：<br>inspect($(‘txt1’),’html’);<br>就会打开HTML标签，并且选中id为txt1的元素。</p>
 <p>9、keys(boject)。<br>返回指定名称的对象的所有属性的名称数组。指定的名称可以是Javascript对象，也可以是HTML的DOM元素。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Car</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.Model = <span class="string">&quot;Old Model&quot;</span>;</span><br><span class="line">  <span class="built_in">this</span>.getManufactor = <span class="keyword">new</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	  <span class="keyword">return</span> <span class="string">&quot;Toyota&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> o = <span class="keyword">new</span> car()</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">Car</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">Model</span> = <span class="string">&quot;Old Model&quot;</span>;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">getManufactor</span> = <span class="keyword">new</span> <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">	  <span class="keyword">return</span> <span class="string">&quot;Toyota&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> o = <span class="keyword">new</span> <span class="title function_">car</span>()</span><br></pre></td></tr></table></figure>
 
 <p>我们可以用keys(o)获得car对象的所有属性。</p>
 <p>还可以获得HTML元素的所有属性名称，比如 keys($(‘txt5’));</p>
@@ -156,7 +156,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

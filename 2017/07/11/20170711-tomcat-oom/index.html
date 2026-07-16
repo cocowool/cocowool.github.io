@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2017-07-11 13:48:01</span>
     </div>
@@ -67,10 +67,7 @@ var _hmt = _hmt || [];
       </div>
       <p>使用Eclipse(版本Indigo 3.7)调试Java项目的时候，遇到了下面的错误：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread “main” Java.lang.OutOfMemoryError: PermGen space</span><br><span class="line">at java.lang.ClassLoader.defineClass1(Native Method)</span><br><span class="line">at java.lang.ClassLoader.defineClassCond(Unknown Source)</span><br></pre></td></tr></table></figure>
-<p>很明显是内存溢出的错误，在Eclipse集成的Tomcat环境下，频繁进行热发布的时候会出现这个情况。了解到该原因是因为默认分配给JVM的内存为4M，而Eclipse中有BUG导致eclipse.ini中的参数无法传递给Tomcat，这样在项目加载内容较多时，很容易造成内存溢出。解决方案为增加JVM的内存空间。<br>有一点需要注意，因为使用的是Eclipse中集成的Tomcat，因此要在下面的界面中设置。</p>
-<img src="/2017/07/11/20170711-tomcat-oom/39469-20170711134641478-1034740273.png" class="">
-<img src="/2017/07/11/20170711-tomcat-oom/39469-20170711134653197-1764862490.png" class="">
-
+<p>很明显是内存溢出的错误，在Eclipse集成的Tomcat环境下，频繁进行热发布的时候会出现这个情况。了解到该原因是因为默认分配给JVM的内存为4M，而Eclipse中有BUG导致eclipse.ini中的参数无法传递给Tomcat，这样在项目加载内容较多时，很容易造成内存溢出。解决方案为增加JVM的内存空间。<br>有一点需要注意，因为使用的是Eclipse中集成的Tomcat，因此要在下面的界面中设置。<br><img src="/20170711-tomcat-oom/39469-20170711134641478-1034740273.png"><br><img src="/20170711-tomcat-oom/39469-20170711134653197-1764862490.png"></p>
 <h3 id="附主要的Eclipse版本代号及版本"><a href="#附主要的Eclipse版本代号及版本" class="headerlink" title="附主要的Eclipse版本代号及版本"></a>附主要的Eclipse版本代号及版本</h3><p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://blog.csdn.net/Crazy_Java1234/article/details/51554515">Eclipse中通过Tomcat运行JavaWeb项目发生内存溢出：java.lang.OutOfMemoryError: PermGen space 错误的解决方案</a><br>2、<a target="_blank" rel="noopener" href="https://www.eclipse.org/downloads/">Download Eclipse</a><br>3、<a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">Java SDK Download</a></p>
 
       <div class="blog-post-footer">
@@ -108,7 +105,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

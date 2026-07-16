@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2013-12-31 13:18:00</span>
     </div>
@@ -69,10 +69,9 @@ var _hmt = _hmt || [];
 <p>没办法，只能求助于百度了。看到网上的攻略，按照以下的步骤配置，可以成功连接SQL Server。</p>
 <p>一、首先需要下载、安装最新版的PHP Driver。我下载的时候，有两个版本，分别是SQLSRV20、SQLSRV30对应PHP 5.2和PHP 5.3以上的版本。从微软官方下载的是两个exe文件，实际上是一个可以自解压的压缩包。</p>
 <p>双击运行后，会提示你将文件保存到什么位置。选择对应的位置后，就能够看到众多的dll文件了。</p>
-<img src="/2013/12/31/20131231-php-mssql-connect/162323441890.png" class="">
-
+<p><img src="/20131231-php-mssql-connect/162323441890.png"></p>
 <p>二、之后根据自己的需要，选择对应的dll，拷贝到php安装路径的ext目录下。完成后，记得修改php.ini中的配置，然后重启Web服务器使配置生效。</p>
-<p>[PHP_PDO_SQLSRV]<br>extension=php_pdo_sqlsrv_53_ts.dll<br>[PHP_SQLSRV]<br>extension=php_sqlsrv_53_ts.dll</p>
+<p>[PHP_PDO_SQLSRV]<br>extension&#x3D;php_pdo_sqlsrv_53_ts.dll<br>[PHP_SQLSRV]<br>extension&#x3D;php_sqlsrv_53_ts.dll</p>
 <p>其中，ts表示线程安全，nts表示非线程安全。根据你的需要选择就可以了。</p>
 <p>这个时候，如果遇到要求安装“SQL Server Native Client”的错误，这说明本地没有安装客户端。这种情况，可以通过在本地安装SQL Server的时候选择安装Client，或者单独下载安装Client解决。在参考资料2的<a target="_blank" rel="noopener" href="http://msdn.microsoft.com/en-us/library/cc296170(SQL.90).aspx">链接</a>中，可以找到Client的下载地址。</p>
 <p>这些问题排除后，就可以使用PDO函数，链接SQL Server数据库了。</p>
@@ -113,7 +112,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

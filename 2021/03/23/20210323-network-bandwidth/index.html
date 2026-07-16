@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-03-24 12:29:18</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-03-23 11:32:23</span>
     </div>
@@ -67,11 +67,11 @@ var _hmt = _hmt || [];
       </div>
       <p>实际开发项目中带宽占用的评估是经常遇到的一个问题，一部分同学在这个知识点上可能会遇到问题，本文详细介绍了带宽估算的方法和度量单位，帮助大家熟悉这个知识点。</p>
 <p><strong>带宽</strong> 是网络链路的最大数据传输能力，单位为 <strong>bps</strong> （也就是我们常说的小b），表示链路每秒钟最多能传输多少数据。</p>
-<p>我们平时做开发，两个系统间网络数据交互，往往考虑的是文件的大小，如要从A系统给B系统一个1MB的文件，我们习惯描述的是1秒钟内把这个文件传输完毕，即 <strong>1MB/s</strong>（也就是常说的大B）。</p>
-<img src="/2021/03/23/20210323-network-bandwidth/image-20210324085320969.jpg"  alt="网络带宽图解" />
+<p>我们平时做开发，两个系统间网络数据交互，往往考虑的是文件的大小，如要从A系统给B系统一个1MB的文件，我们习惯描述的是1秒钟内把这个文件传输完毕，即 <strong>1MB&#x2F;s</strong>（也就是常说的大B）。</p>
+<img src="20210323-network-bandwidth/image-20210324085320969.jpg" alt="网络带宽图解" />
 
-<p><strong>MB</strong> 使用 Byte 作为单位，即字节大小。<strong>bps</strong> 以 Bit 作为单位，1Byte = 8bit。因此在计算带宽时，需要将<strong>MB/s</strong> 乘以8。或者在带宽换算为每秒传输文件大小时，需要除以8。以刚才的场景为例，所需的带宽是 8Mbps，也就是如果线路带宽是10Mbps的，那肯定可以满足需求。如果线路带宽是5Mbps或2Mbps的，那就不能满足需求了。</p>
-<p>上述举的例子文件比较小，实际在生产环境中，服务器网卡一般是千兆网卡（1Gbps），交换节一般都是万兆（10Gbps），内部传输这些文件往往不在话下。但也有会把服务器网卡流量打满的情况，我们运维的一台 Kafka 机器，曾经出现过瞬时速率超过 125MB/s 的监测点，因为要上报的数据太多，基本上就把网卡撑爆了。</p>
+<p><strong>MB</strong> 使用 Byte 作为单位，即字节大小。<strong>bps</strong> 以 Bit 作为单位，1Byte &#x3D; 8bit。因此在计算带宽时，需要将<strong>MB&#x2F;s</strong> 乘以8。或者在带宽换算为每秒传输文件大小时，需要除以8。以刚才的场景为例，所需的带宽是 8Mbps，也就是如果线路带宽是10Mbps的，那肯定可以满足需求。如果线路带宽是5Mbps或2Mbps的，那就不能满足需求了。</p>
+<p>上述举的例子文件比较小，实际在生产环境中，服务器网卡一般是千兆网卡（1Gbps），交换节一般都是万兆（10Gbps），内部传输这些文件往往不在话下。但也有会把服务器网卡流量打满的情况，我们运维的一台 Kafka 机器，曾经出现过瞬时速率超过 125MB&#x2F;s 的监测点，因为要上报的数据太多，基本上就把网卡撑爆了。</p>
 <p>随着硬件的升级，越来越多的服务器开始采用万兆的光纤接口，但是我们在做容量规划时仍要考虑到极限的情况，因为视频类应用越来越多，说不定哪天又爆了。</p>
 <p>文中举的这个例子只为了说明带宽的计算方式，在涉及到跨数据中心的数据传输时，还会有 <strong>RTT</strong> 、线路质量等多方面因素的影响，这种情况下要评估线路的最大传输速率要考虑的因素就更多，本文就不再赘述了。</p>
 
@@ -110,7 +110,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

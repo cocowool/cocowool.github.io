@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -72,9 +72,7 @@ var _hmt = _hmt || [];
 <blockquote>
 <p>Kubernetes is primarily targeted at applications composed of multiple containers. It therefore groups containers using pods and labels into tightly coupled and loosely coupled formations for easy management and discovery.</p>
 </blockquote>
-<p>Kubernets所有的操作都可以通过Kubernetes API来进行，通过API来操作Kubernetes中的对象，包括Pod、Service、Volume、Namespace等等。Kubernetes的整体结构如下图所示：</p>
-<img src="/2018/07/10/20180710-k8s-base-concept/39469-20180710145045503-2069732975.png" class="">
-
+<p>Kubernets所有的操作都可以通过Kubernetes API来进行，通过API来操作Kubernetes中的对象，包括Pod、Service、Volume、Namespace等等。Kubernetes的整体结构如下图所示：<br><img src="/20180710-k8s-base-concept/39469-20180710145045503-2069732975.png"></p>
 <h4 id="Master"><a href="#Master" class="headerlink" title="Master"></a>Master</h4><p>也叫做 Cluster Control Plane。</p>
 <h4 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h4><p>Node 可以是一个物理机也可以是虚拟机，每个节点上都运行了可以运行 Pods 的服务。通过Master节点来进行管理。节点实际上是由云供应商提供的，Kubernetes管理中创建节点实际上只是在Kubernetes中创建一个代表节点的对象。<br>Node 包含以下几方面的信息：</p>
 <ul>
@@ -95,9 +93,7 @@ var _hmt = _hmt || [];
 <blockquote>
 <p>Restarting a container in a Pod should not be confused with restarting the Pod. The Pod itself does not run, but is an environment the containers run in and persists until it is deleted.</p>
 </blockquote>
-<p>Pod的生命周期有几个状态</p>
-<img src="/2018/07/10/20180710-k8s-base-concept/39469-20180710145529399-1771721835.png" class="">
-
+<p>Pod的生命周期有几个状态<br><img src="/20180710-k8s-base-concept/39469-20180710145529399-1771721835.png"></p>
 <h4 id="2-Pods-and-Controller"><a href="#2-Pods-and-Controller" class="headerlink" title="2. Pods and Controller"></a>2. Pods and Controller</h4><p>Controller 在集群范围内提供Pod的创建、管理、扩容、复制、自愈等功能。</p>
 <h5 id="2-1-Deployments"><a href="#2-1-Deployments" class="headerlink" title="2.1 Deployments"></a>2.1 Deployments</h5><p>Deployment 是新一代用于 Pod 管理的对象，与 Replication Controller 相比，它提供了更加完善的功能，使用起来更加简单方便。</p>
 <h5 id="2-2-StatefulSets"><a href="#2-2-StatefulSets" class="headerlink" title="2.2 StatefulSets"></a>2.2 StatefulSets</h5><p>在 Kubernetes 中，Deployment 和 ReplicaSets 都是运行无状态应用的有效手段。但这两种方式对于有状态应用来说就不太合适了。StatefulSet 的目的就是给为数众多的有状态负载提供正确的控制器支持。</p>
@@ -161,7 +157,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-04-10 17:25:38</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-04-08 08:46:10</span>
     </div>
@@ -68,7 +68,7 @@ var _hmt = _hmt || [];
       <h2 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h2><p>首先建立一个docker文件夹，用于存放构建镜像需要的文件，例如jre和jar包，还有镜像文件<code>Dockerfile</code>。</p>
 <p>将相关的jre和jar包拷贝到docker文件夹中。</p>
 <p>编写Dockerfile，例如下面我以自己写过的java-metrics为例演示。</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> frolvlad/alpine-glibc</span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> jre-8u231-linux-x64.tar.gz /usr/java/jdk</span></span><br><span class="line"><span class="keyword">ENV</span> JAVA_HOME /usr/java/jdk/jre1.<span class="number">8.0</span>_231</span><br><span class="line"><span class="keyword">ENV</span> PATH $&#123;PATH&#125;:$&#123;JAVA_HOME&#125;/bin</span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> metrics-core-4.0.5.jar /home/lib/metrics-core-4.0.5.jar</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> slf4j-api-1.7.25.jar /home/lib/slf4j-api-1.7.25.jar</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> slf4j-simple-1.7.28.jar /home/lib/slf4j-simple-1.7.28.jar</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> learn-metrics-1.0.jar /home/learn-metrics-1.0.jar</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> java -Xbootclasspath/a:/home/lib/metrics-core-4.0.5.jar:/home/lib/slf4j-api-1.7.25.jar:/home/lib/slf4j-simple-1.7.28.jar -jar /home/learn-metrics-1.0.jar timer</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> frolvlad/alpine-glibc</span><br><span class="line"><span class="keyword">ADD</span><span class="language-bash"> jre-8u231-linux-x64.tar.gz /usr/java/jdk</span></span><br><span class="line"><span class="keyword">ENV</span> JAVA_HOME /usr/java/jdk/jre1.<span class="number">8.0</span>_231</span><br><span class="line"><span class="keyword">ENV</span> PATH $&#123;PATH&#125;:$&#123;JAVA_HOME&#125;/bin</span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> metrics-core-4.0.5.jar /home/lib/metrics-core-4.0.5.jar</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> slf4j-api-1.7.25.jar /home/lib/slf4j-api-1.7.25.jar</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> slf4j-simple-1.7.28.jar /home/lib/slf4j-simple-1.7.28.jar</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> learn-metrics-1.0.jar /home/learn-metrics-1.0.jar</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> java -Xbootclasspath/a:/home/lib/metrics-core-4.0.5.jar:/home/lib/slf4j-api-1.7.25.jar:/home/lib/slf4j-simple-1.7.28.jar -jar /home/learn-metrics-1.0.jar timer</span></span><br></pre></td></tr></table></figure>
 
 <p>然后执行以下命令</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker build -t imagename:version . <span class="comment">#生成指定版本的镜像</span></span><br><span class="line">$ docker run imagename:version</span><br></pre></td></tr></table></figure>
@@ -113,7 +113,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

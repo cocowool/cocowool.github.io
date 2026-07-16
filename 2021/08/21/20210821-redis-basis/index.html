@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-10-17 20:47:12</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-08-21 22:40:18</span>
     </div>
@@ -65,7 +65,7 @@ var _hmt = _hmt || [];
           <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
         </div> -->
       </div>
-      <h2 id="Redis介绍"><a href="#Redis介绍" class="headerlink" title="Redis介绍"></a>Redis介绍</h2><p>Redis是一个内存型数据库，是一个高性能的 Key / Value 数据库，相较于它的前辈 Memcached，它支持的存储类型比Memcached更多，包括字符串（String）、链表（List）、集合（Set）、有序集合（Zset）和哈希（Hash）。这些数据类型都支持 <code>push/pop</code> 和 <code>add/remove</code> 及取交集、并集、差集以及更加丰富的操作，而且这些操作都是原子性的。Redis会周期性把更新的数据写入磁盘，并在此基础上实现了主从同步。</p>
+      <h2 id="Redis介绍"><a href="#Redis介绍" class="headerlink" title="Redis介绍"></a>Redis介绍</h2><p>Redis是一个内存型数据库，是一个高性能的 Key &#x2F; Value 数据库，相较于它的前辈 Memcached，它支持的存储类型比Memcached更多，包括字符串（String）、链表（List）、集合（Set）、有序集合（Zset）和哈希（Hash）。这些数据类型都支持 <code>push/pop</code> 和 <code>add/remove</code> 及取交集、并集、差集以及更加丰富的操作，而且这些操作都是原子性的。Redis会周期性把更新的数据写入磁盘，并在此基础上实现了主从同步。</p>
 <p>从2010年3月5日开始，Redis的开发工作由VMWare主持。<br>从2013年5月开始，Redis的开发由Pivotal赞助。</p>
 <h2 id="Redis快速体验"><a href="#Redis快速体验" class="headerlink" title="Redis快速体验"></a>Redis快速体验</h2><p>快速体验Redis的最佳方式，是使用Docker。如果想搭建Redis集群，可以参考我的另外一篇文章「<a target="_blank" rel="noopener" href="http://www.edulinks.cn/2021/02/27/20210301-docker-redis/">基于Docker快速搭建Redis集群</a>」</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull redis</span><br><span class="line">Using default tag: latest</span><br><span class="line">latest: Pulling from library/redis</span><br><span class="line">27833a3ba0a5: Pull complete </span><br><span class="line">cde8019a4b43: Pull complete </span><br><span class="line">97a473b37fb2: Pull complete </span><br><span class="line">c6fe0dfbb7e3: Pull complete </span><br><span class="line">39c8f5ba1240: Pull complete </span><br><span class="line">cfbdd870cf75: Pull complete </span><br><span class="line">Digest: sha256:000339fb57e0ddf2d48d72f3341e47a8ca3b1beae9bdcb25a96323095b72a79b</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> redis:latest</span><br><span class="line">$ docker run -p 6379:6379 -d redis:latest redis-server</span><br><span class="line">$ telnet 127.0.0.1 6379</span><br><span class="line">exists xxx</span><br><span class="line">:0</span><br><span class="line"><span class="built_in">type</span> xxx</span><br><span class="line">+none</span><br><span class="line">del xxx</span><br><span class="line">:0</span><br><span class="line"><span class="built_in">set</span> xxx hello-redis</span><br><span class="line">+OK</span><br><span class="line">exists xxx</span><br><span class="line">:1</span><br><span class="line"><span class="built_in">type</span> xxx</span><br><span class="line">+string</span><br><span class="line">$ docker <span class="built_in">exec</span> -ti d0b86 redis-cli -h 127.0.0.1 -p 6379  //使用redis-cli连接</span><br></pre></td></tr></table></figure>
@@ -338,7 +338,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

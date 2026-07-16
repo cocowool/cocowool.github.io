@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-31 23:05:03</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2020-03-15 10:28:31</span>
     </div>
@@ -73,12 +73,10 @@ var _hmt = _hmt || [];
 <p>本文对Elasticsearch进行了简单的介绍，并总结了集群运行中监控所需注意的事项，总结出来与大家分享。</p>
 </blockquote>
 <h2 id="1-Elasticsearch介绍"><a href="#1-Elasticsearch介绍" class="headerlink" title="1. Elasticsearch介绍"></a>1. Elasticsearch介绍</h2><p>Elasticsearch是一款基于Lucene的构建的开源、分布式文本搜索引擎，还可以作为一个分布式文档数据库使用，由Shay Bannon于2010年创建。从使用角度来讲，ES提供了优秀的全文索引和查询性能；从运维和开发角度来讲，ES部署简单，水平扩展非常简单，同时还提供了灵活Rest API调用方式，因此相比其他复杂的分布式系统，ES的应用越来越广泛。</p>
-<img src="/2020/03/15/20200315-es-monitoring-guide/pngbase64bb339bcbe4ec5137.png" class="" title="pngbase64bb339bcbe4ec5137">
-
+<p><img src="/20200315-es-monitoring-guide/pngbase64bb339bcbe4ec5137.png" alt="pngbase64bb339bcbe4ec5137"></p>
 <p>但是随着ES集群越来越大，对ES的运维管理就变得复杂起来，想要获得较好的性能就需要一些专业知识才能实现。要想做好ES集群的性能调优，监控就是必不可少的条件。本文关注Elasticsearch的监控和调优，同时也介绍了Elasticsearch的工作原理、系统设置以及常见的一些监控指标。</p>
 <h2 id="2-监控方法论"><a href="#2-监控方法论" class="headerlink" title="2. 监控方法论"></a>2. 监控方法论</h2><p>任何事情都要讲究方法，在软件开发领域有开发-&gt;质量保证-&gt;运维的循环，通过不断的迭代来提高软件的质量。最近也有通过DevOps不断提高研发、投产效率的潮流。而在ES集群运维领域，要想做好Elasticsearch的安装、使用、调优，也需要经过监控-&gt;分析-&gt;调优不断迭代循环的过程。在每个环节，都要有针对性的判断标准，这样才能不断提高Elasticsearch运维的水平。</p>
-<img src="/2020/03/15/20200315-es-monitoring-guide/pngbase64b6fee5cbbb720f73.png" class="" title="pngbase64b6fee5cbbb720f73">
-
+<p><img src="/20200315-es-monitoring-guide/pngbase64b6fee5cbbb720f73.png" alt="pngbase64b6fee5cbbb720f73"></p>
 <h3 id="2-1-需要关注监控的场景"><a href="#2-1-需要关注监控的场景" class="headerlink" title="2.1 需要关注监控的场景"></a>2.1 需要关注监控的场景</h3><ul>
 <li>开发和POC阶段。通过用户案例和具体开发实现过程来观察系统性能的表现，分析对系统性能有影响的因素，可以针对性采取更优化的算法或者不同的应用架构来提高系统的性能。</li>
 <li>QA测试和压力测试阶段。观察系统在压力下的表现，寻找更好的配置参数，寻找基础设施上的优化措施。</li>
@@ -154,11 +152,10 @@ var _hmt = _hmt || [];
 <li>存储容量要大。</li>
 </ul>
 <p>在大多数情况下，这三个需求往往是同时存在的。要同时满足为满足这样的需求，按照默认配置搭建的ES集群可能无法胜任，需要对ES集群做一下扩展，将节点的角色进行区分：<code>Master nodes 主节点</code>、<code>Clident Node 查询节点</code>、 <code>Data node 数据节点</code>。三个Master节点用于集群管理，减少可能造成集群不稳定的影响因素（如数据同步、查询等导致的脑裂）。然后还要对集群进行细致的调优，这样才能获得满足需求的索引速度、查询响应和容量。</p>
-<img src="/2020/03/15/20200315-es-monitoring-guide/Bildschirmfoto-2014-12-03-um-23.22.31.png" class="" title="Scaling Elasticsearch with different node types">
-
+<p><img src="/20200315-es-monitoring-guide/Bildschirmfoto-2014-12-03-um-23.22.31.png" alt="Scaling Elasticsearch with different node types"></p>
 <ul>
 <li>不同的节点类型。通过配置文件指定节点的类型</li>
-<li>查询节点/负载均衡节点：这种节点可以作为处理客户端HTTP查询请求的节点，不保留任何数据，也不作为主节点。<ul>
+<li>查询节点&#x2F;负载均衡节点：这种节点可以作为处理客户端HTTP查询请求的节点，不保留任何数据，也不作为主节点。<ul>
 <li><code>node.data: false</code></li>
 <li><code>node.master: false</code></li>
 </ul>
@@ -174,33 +171,31 @@ var _hmt = _hmt || [];
 </ul>
 </li>
 </ul>
-<h3 id="3-4-Elasticsearch-和-Java"><a href="#3-4-Elasticsearch-和-Java" class="headerlink" title="3.4 Elasticsearch 和 Java"></a>3.4 Elasticsearch 和 Java</h3><p>Elasticsearch由Java语言编写，运行在JVM之上，支持在不同的操作系统间迁移。每个Java程序都有Heap上限，可以通过启动命令来配置。与C/C++中需要自己管理内存不同，Java程序通过Garbage Collector 垃圾回收器管理内存，不需要手工释放内存。垃圾回收器追踪了没有被使用的对象，并且根据不同的垃圾回收策略进行垃圾回收。在不同的Java运行环境中，不同的垃圾回收策略的表现会有较大的差别。</p>
+<h3 id="3-4-Elasticsearch-和-Java"><a href="#3-4-Elasticsearch-和-Java" class="headerlink" title="3.4 Elasticsearch 和 Java"></a>3.4 Elasticsearch 和 Java</h3><p>Elasticsearch由Java语言编写，运行在JVM之上，支持在不同的操作系统间迁移。每个Java程序都有Heap上限，可以通过启动命令来配置。与C&#x2F;C++中需要自己管理内存不同，Java程序通过Garbage Collector 垃圾回收器管理内存，不需要手工释放内存。垃圾回收器追踪了没有被使用的对象，并且根据不同的垃圾回收策略进行垃圾回收。在不同的Java运行环境中，不同的垃圾回收策略的表现会有较大的差别。</p>
 <p>Elasticsearch运行在JVM之上，因此对于JVM的内存使用、垃圾回收的监控以及JVM的优化设置对于ES的稳定运行都很重要。我们总结了以下事项要给予关注：</p>
 <ul>
 <li>避免JVM进行SWAP入磁盘</li>
 <li>定义Elasticsearch的Heap内存大小</li>
 <li>监控内存指标，ES服务器索引合并耗时。Heap Size设置过大可能会导致索引合并和垃圾回收时间增长。</li>
 </ul>
-<img src="/2020/03/15/20200315-es-monitoring-guide/Bildschirmfoto-2015-05-20-um-00.10.29.png" class="" title="Bildschirmfoto 2015 05 20 um 00.10.29">
-
+<p><img src="/20200315-es-monitoring-guide/Bildschirmfoto-2015-05-20-um-00.10.29.png" alt="Bildschirmfoto 2015 05 20 um 00.10.29"></p>
 <h3 id="3-5-索引如何工作"><a href="#3-5-索引如何工作" class="headerlink" title="3.5 索引如何工作"></a>3.5 索引如何工作</h3><p>通过HTTP POST发送包含JSON内容的请求来创建ES中的文档 Document。在请求的URL中明确了索引的名称和类型名称，文档ID是可选参数。通过<code>curl</code>命令来进行操作。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ curl -XPOST -H <span class="string">&quot;Content-Type: application/json&quot;</span> <span class="string">&#x27;localhost:9200/customer/_doc/1?pretty?&#x27;</span> -d</span><br><span class="line"><span class="string">&#x27;</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">	&quot;name&quot;: &quot;John Doe&quot;</span></span><br><span class="line"><span class="string">&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <p>响应信息</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;_index&quot;</span> : <span class="string">&quot;customer&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;_type&quot;</span> : <span class="string">&quot;_doc&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;_id&quot;</span> : <span class="string">&quot;1&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;_version&quot;</span> : <span class="number">1</span>,</span><br><span class="line">  <span class="attr">&quot;result&quot;</span> : <span class="string">&quot;created&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;_shards&quot;</span> : &#123;</span><br><span class="line">    <span class="attr">&quot;total&quot;</span> : <span class="number">2</span>,</span><br><span class="line">    <span class="attr">&quot;successful&quot;</span> : <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;failed&quot;</span> : <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;_seq_no&quot;</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">&quot;_primary_term&quot;</span> : <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;_index&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;customer&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;_type&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;_doc&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;_id&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;1&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;_version&quot;</span> <span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;result&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;created&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;_shards&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;total&quot;</span> <span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;successful&quot;</span> <span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;failed&quot;</span> <span class="punctuation">:</span> <span class="number">0</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;_seq_no&quot;</span> <span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;_primary_term&quot;</span> <span class="punctuation">:</span> <span class="number">1</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>集群中发生了什么</strong></p>
 <p>用户发出请求后，Elasticsearch找到拥有主分区的节点进行索引文档的操作，该节点先接收数据并把数据写入 write-ahead 日志（也叫 transaction日志）中，然后再写入Lucene的段文件，参数<code>refresh interval</code>决定了写入段文件后支持查询的时间。主分区写入之后，副分区会进行更新。如果一个文档是更新操作，ES会先把原来的文档标记为删除，然后重新写入一个文档。ES会将比较小的段合并为大段，在这个过程中，会将标记为删除的文档彻底清除。由此可见，文档更新操作是非常消耗资源的操作。</p>
 <p>为了避免产生磁盘IO问题，ES集群中合并的流量会进行自动限制。如果需要，合并调度器可以多线程运行，可以通过参数控制通知合并的并发数量。</p>
-<img src="/2020/03/15/20200315-es-monitoring-guide/pngbase64f4454298ada263db.png" class="" title="pngbase64f4454298ada263db">
-
+<p><img src="/20200315-es-monitoring-guide/pngbase64f4454298ada263db.png" alt="pngbase64f4454298ada263db"></p>
 <p>每个文档都是通过一个单独的HTTP请求创建的，当请求量增大时，会造成大量的交易，ES在不断的打开、写入、关闭文件。</p>
 <p>这就是为什么批量索引<code>_bulk</code>接口拥有相对而言更好的性能，通过这个接口可以在一次请求中操作多个文档。注意，默认的HTTP POST请求被限制在100MB，如果超过的话客户端请求会发生失败。</p>
 <p>提高索引速度的最佳实践就是增加<code>refresh interval</code>，它的默认值是<code>1秒钟</code>，也就是新增文档的请求在1秒中内会被处理并且能够被搜索到。在批量索引的场景下，这么短的刷新间隔会造成底层的Lucene索引每秒钟都被重新打开一次。增加<code>refresh_interval</code>的效果可以参考下面的值：</p>
 <ul>
-<li><code>refresh_interval: 1s</code> - 2.0K docs/s</li>
-<li><code>refresh_interval: 5s</code> - 2.5 docs/s</li>
-<li><code>refres_interval: 30s</code> - 3.4 docs/s</li>
+<li><code>refresh_interval: 1s</code> - 2.0K docs&#x2F;s</li>
+<li><code>refresh_interval: 5s</code> - 2.5 docs&#x2F;s</li>
+<li><code>refres_interval: 30s</code> - 3.4 docs&#x2F;s</li>
 </ul>
 <p>另外一个<strong>至关重要</strong>的问题就是分区和副本的数量。副本分区在索引期间会被更新，从而降低了索引的吞吐量。但是拥有多个副本能够提高查询的响应速度。副本的数量可以动态改变。虽然ES集群中可以做到索引的拆分和合并，但是这项操作非常消耗资源。</p>
 <p>只要分区不是特别大，那么减少副本的数量能够提高响应的速度。</p>
@@ -208,8 +203,7 @@ var _hmt = _hmt || [];
 <p>有人会提到一种理想的<code>refesh</code>API，如在一次性的导入期间暂停索引的更新，等导入完成后再进行索引的更新。但实际上，后续的更新操作特别消耗资源，而且实际应用中我们的总是收到持续不断的插入请求。</p>
 </blockquote>
 <h3 id="3-6-查询操作"><a href="#3-6-查询操作" class="headerlink" title="3.6 查询操作"></a>3.6 查询操作</h3><p>客户端发送的请求到某个节点后，该节点会将请求转发到其他节点，收集到其他节点的返回结果并聚合后返回给客户端。ES提供了控制查询路由来提高查询效率的特性。</p>
-<img src="/2020/03/15/20200315-es-monitoring-guide/pngbase64e120198ad8b637b6.png" class="" title="pngbase64e120198ad8b637b6">
-
+<p><img src="/20200315-es-monitoring-guide/pngbase64e120198ad8b637b6.png" alt="pngbase64e120198ad8b637b6"></p>
 <p>从运维的角度，以下几项与查询性能最为相关：</p>
 <ul>
 <li>Request Cache 和 Query Cache 的大小。监控你集群中的这两个值的情况。</li>
@@ -259,7 +253,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

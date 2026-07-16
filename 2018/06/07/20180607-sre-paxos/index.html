@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2018-06-07 11:08:00</span>
     </div>
@@ -84,12 +84,8 @@ var _hmt = _hmt || [];
 <h3 id="分布式系统出现问题的场景"><a href="#分布式系统出现问题的场景" class="headerlink" title="分布式系统出现问题的场景"></a>分布式系统出现问题的场景</h3><p>分布式系统出现问题主要是因为网络问题。</p>
 <h4 id="脑裂"><a href="#脑裂" class="headerlink" title="脑裂"></a>脑裂</h4><p>对于使用心跳机制来提供高可用的服务，遇到网络问题时，可能存在服务同时提供主写或者同时挂掉的情况。这个问题说明，领头人选举不能通过简单的心跳来实现。</p>
 <h4 id="需要人工干预的灾备切换"><a href="#需要人工干预的灾备切换" class="headerlink" title="需要人工干预的灾备切换"></a>需要人工干预的灾备切换</h4><p>对于 Mysql 的主从复制模式，利用外部程序监控主实例，根据主实例状态决定是否提升从节点成为主实例。这种解决方法提供了CP，没办法保证可用性A。</p>
-<h4 id="有问题的小组成员算法"><a href="#有问题的小组成员算法" class="headerlink" title="有问题的小组成员算法"></a>有问题的小组成员算法</h4><p>使用 Gossip 算法进行领头人选举，在网络问题时，不能满足C，可以满足AP。</p>
-<img src="/2018/06/07/20180607-sre-paxos/39469-20180607110917785-1333450101.png" class="">
-
-<h3 id="分布式共识问题解决方案-Paxos-协议"><a href="#分布式共识问题解决方案-Paxos-协议" class="headerlink" title="分布式共识问题解决方案 Paxos 协议"></a>分布式共识问题解决方案 Paxos 协议</h3><p>Paxos 协议本书没有详细的介绍，说的也不是很形象。可以参考<a target="_blank" rel="noopener" href="https://yq.aliyun.com/articles/54371">生活中的Paxos，原来你我都在使用——对Paxos生活化的解读</a>以及<a target="_blank" rel="noopener" href="https://www.cnblogs.com/endsock/p/3480093.html">Paxos算法细节详解(一)–通过现实世界描述算法</a>。<br>下面这个图概括了协议中的几个角色及关系。</p>
-<img src="/2018/06/07/20180607-sre-paxos/39469-20180607111336768-190197395.png" class="">
-<p>分布式共识算法是很底层、很原始的，真正有用的是基于此之上的系统组件，包括：数据存储、配置存储、队列、锁机制和领头人选举服务。</p>
+<h4 id="有问题的小组成员算法"><a href="#有问题的小组成员算法" class="headerlink" title="有问题的小组成员算法"></a>有问题的小组成员算法</h4><p>使用 Gossip 算法进行领头人选举，在网络问题时，不能满足C，可以满足AP。<br><img src="/20180607-sre-paxos/39469-20180607110917785-1333450101.png"></p>
+<h3 id="分布式共识问题解决方案-Paxos-协议"><a href="#分布式共识问题解决方案-Paxos-协议" class="headerlink" title="分布式共识问题解决方案 Paxos 协议"></a>分布式共识问题解决方案 Paxos 协议</h3><p>Paxos 协议本书没有详细的介绍，说的也不是很形象。可以参考<a target="_blank" rel="noopener" href="https://yq.aliyun.com/articles/54371">生活中的Paxos，原来你我都在使用——对Paxos生活化的解读</a>以及<a target="_blank" rel="noopener" href="https://www.cnblogs.com/endsock/p/3480093.html">Paxos算法细节详解(一)–通过现实世界描述算法</a>。<br>下面这个图概括了协议中的几个角色及关系。<br><img src="/20180607-sre-paxos/39469-20180607111336768-190197395.png"><br>分布式共识算法是很底层、很原始的，真正有用的是基于此之上的系统组件，包括：数据存储、配置存储、队列、锁机制和领头人选举服务。</p>
 <p>后面介绍了分布式共识的系统架构模式，包括了几个组件：可靠的复制状态机、领头人选举机制、分布式协调和锁服务、分布式队列和消息传递。</p>
 <h4 id="可靠的复制状态机"><a href="#可靠的复制状态机" class="headerlink" title="可靠的复制状态机"></a>可靠的复制状态机</h4><p>RSM (replicated state machine) 是一个能在多个进程中用同样顺序执行同样的一组操作的系统。</p>
 <h4 id="可靠的数据存储"><a href="#可靠的数据存储" class="headerlink" title="可靠的数据存储"></a>可靠的数据存储</h4><h4 id="领头人选举机制"><a href="#领头人选举机制" class="headerlink" title="领头人选举机制"></a>领头人选举机制</h4><h4 id="分布式协调和锁"><a href="#分布式协调和锁" class="headerlink" title="分布式协调和锁"></a>分布式协调和锁</h4><h4 id="可靠的分布式队列和消息传递"><a href="#可靠的分布式队列和消息传递" class="headerlink" title="可靠的分布式队列和消息传递"></a>可靠的分布式队列和消息传递</h4><h3 id="性能问题"><a href="#性能问题" class="headerlink" title="性能问题"></a>性能问题</h3><p>文中介绍了几种分布式共识问题提高性能的方法，没有最优的方案，需要根据不同的因子和场景来进行选择。<br>参考资料<br>1、[SRE Google运维解密](SRE Google运维解密)<br>2、<a target="_blank" rel="noopener" href="https://yq.aliyun.com/articles/54371">生活中的Paxos，原来你我都在使用——对Paxos生活化的解读</a><br>3、<a target="_blank" rel="noopener" href="https://www.cnblogs.com/endsock/p/3480093.html">Paxos算法细节详解(一)–通过现实世界描述算法</a><br>4、<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/CAP%E5%8E%9F%E5%88%99/5712863?fr=aladdin">CAP原则</a><br>5、<a target="_blank" rel="noopener" href="https://www.cnblogs.com/duanxz/p/5229352.html">CAP原则(CAP定理)、BASE理论</a></p>
@@ -129,7 +125,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

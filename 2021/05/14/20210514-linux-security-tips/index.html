@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-14 18:44:35</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2021-05-14 18:38:54</span>
     </div>
@@ -65,11 +65,11 @@ var _hmt = _hmt || [];
           <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
         </div> -->
       </div>
-      <p>Linux服务器安全对于保护用户数据、知识产权非常重要，同时还能减少你面对黑客的时间。在工作中，通常由系统管理员对Linux的安全负责，在这篇文章中，介绍了20条对Linux系统进行强化的建议。本文所有的建议都基于CentOS、RHEL系统或者Ubuntu/Debian的发行版本。</p>
+      <p>Linux服务器安全对于保护用户数据、知识产权非常重要，同时还能减少你面对黑客的时间。在工作中，通常由系统管理员对Linux的安全负责，在这篇文章中，介绍了20条对Linux系统进行强化的建议。本文所有的建议都基于CentOS、RHEL系统或者Ubuntu&#x2F;Debian的发行版本。</p>
 <h2 id="1、加密数据通信方式。"><a href="#1、加密数据通信方式。" class="headerlink" title="1、加密数据通信方式。"></a>1、加密数据通信方式。</h2><p>所有通过网络传输的数据都是可以被监听的，因此只要有可能就要使用密码、证书等方式加密你的通讯数据。</p>
 <p>1、使用 scp、ssh、rsync或者sftp来进行文件传输。也可以使用特殊的sshfs或者fuse工具来挂载远程文件系统或者你的工作目录。<br>2、GnuPG 提供功能丰富的证书管理功能，允许你签名数据并进行传输。<br>3、Fugu 是一个图形化的SFTP文件传输工具。SFTP类似于FTP，但是与FTP不同，整个会话是加密的，也就是说不会用明文形式发送密码。另外一个选项是FileZilla，一个跨平台的客户端段，也支持FTP、FTPS 和 SFTP。<br>4、OpenVPN 是一个轻量级、低成本的SSL VPN。<br>5、Lighttpd SSL（Secure Server Layer）Https 的安装和配置。<br>6、Apache SSL（Secure Server Layer）Https（mod_ssl）的安装和配置。</p>
-<p>#1.1、避免使用FTP、Telnet和Rlogin/Rsh服务</p>
-<p>在大多数的网络配置下，用户名、密码，FTP / telnet /rsh 命令和传输的文件能够被同网段的任何人使用包嗅探软件监听。这个问题的通常解决方法是使用 OpenSSH、SFTP 或者 FTPS。</p>
+<p>#1.1、避免使用FTP、Telnet和Rlogin&#x2F;Rsh服务</p>
+<p>在大多数的网络配置下，用户名、密码，FTP &#x2F; telnet &#x2F;rsh 命令和传输的文件能够被同网段的任何人使用包嗅探软件监听。这个问题的通常解决方法是使用 OpenSSH、SFTP 或者 FTPS。</p>
 <p>下面的命令可以帮助你删除服务器中没必要的服务。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yum erase inetd xinetd ypserv tfpt-server telnet-server rsh-server</span></span><br></pre></td></tr></table></figure>
 
@@ -87,14 +87,14 @@ var _hmt = _hmt || [];
 <h2 id="5、使用Linux安全扩展。"><a href="#5、使用Linux安全扩展。" class="headerlink" title="5、使用Linux安全扩展。"></a>5、使用Linux安全扩展。</h2><p>Linux提供了多种安全补丁，可以用来保护错误配置或者一些妥协的方案。尽可能使用 SELinux和其他Linux安全扩展来加强网络和程序的限制。例如，SELinux提供了Linux内核的安全策略。</p>
 <h2 id="5-1、SELinux"><a href="#5-1、SELinux" class="headerlink" title="5.1、SELinux"></a>5.1、SELinux</h2><p>SELinux提供了一套灵活的访问控制机制（MAC：Mandatory Access Control），标注的MAC下一个应用程序或者进程具有相关权限的用户下运行。使用MAC的内核保护能够使系统免于遭受系统的恶意攻击。更相信的信息可以查看官方的SELinux说明配置文档。</p>
 <h2 id="6、强密码策略。"><a href="#6、强密码策略。" class="headerlink" title="6、强密码策略。"></a>6、强密码策略。</h2><p>当我们使用 useradd、usermod 命令创建或维护用户账号时，确保始终应用强密码策略。例如，一个好的密码至少包括8个字符，包含了字母、数字以及特殊字符串、大小写等。使用诸如“John the ripper”这样的工具来查找弱口令用户，使用 pam_cracklib.so 来增强密码策略。</p>
-<h2 id="6-1-密码生命周期。"><a href="#6-1-密码生命周期。" class="headerlink" title="6.1 密码生命周期。"></a>6.1 密码生命周期。</h2><p>chage 命令能够修改口令的修改周期，以及最近一次密码修改的日期。系统依据这些信息判断用户口令是否应该修改。在 /etc/login.defs 文件中定义了包括密码生命周期在内的一些选项。如果需要对某个用户禁用密码生命周期，如下：</p>
+<h2 id="6-1-密码生命周期。"><a href="#6-1-密码生命周期。" class="headerlink" title="6.1 密码生命周期。"></a>6.1 密码生命周期。</h2><p>chage 命令能够修改口令的修改周期，以及最近一次密码修改的日期。系统依据这些信息判断用户口令是否应该修改。在 &#x2F;etc&#x2F;login.defs 文件中定义了包括密码生命周期在内的一些选项。如果需要对某个用户禁用密码生命周期，如下：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chage -M 99999 userName</span></span><br></pre></td></tr></table></figure>
 <p>获取密码过期信息，输入：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chage -l userName</span><br></pre></td></tr></table></figure>
-<p>我们也可以在 /etc/shadow 文件中定义这些字段：</p>
+<p>我们也可以在 &#x2F;etc&#x2F;shadow 文件中定义这些字段：</p>
 <p>{userName}:{password}:{lastpasswdchanged}:{Minimum_days}:{Maximum_days}:{Warn}:{Inactive}:{Expire}:</p>
 <p>其中：Minimum_days 定义密码修改的最小时间间隔，也就是用户能够修改密码的最小时间间隔。Maximum_days 定义密码有效的时间间隔，超过这个时间，用户就必须修改密码。Warn 定义口令过期多少天前开始向用户提示进行口令修改。Expire 定义从1970年1月1日到过期时的天数，之后该用户将无法再登录。</p>
-<p>建议使用 chage 命令，而不是修改 /etc/shadow 文件</p>
+<p>建议使用 chage 命令，而不是修改 &#x2F;etc&#x2F;shadow 文件</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chage -M 60 -m 7 -W 7 userName</span></span><br></pre></td></tr></table></figure>
 <h2 id="6-2、禁止使用之前用过的密码。"><a href="#6-2、禁止使用之前用过的密码。" class="headerlink" title="6.2、禁止使用之前用过的密码。"></a>6.2、禁止使用之前用过的密码。</h2><p>可以设置禁止所有用户使用之前的旧密码，pam_unix 模块提供了这个功能，允许我们定义之前几个旧密码不能使用。</p>
 <h2 id="6-3、登录失败后锁定用户。"><a href="#6-3、登录失败后锁定用户。" class="headerlink" title="6.3、登录失败后锁定用户。"></a>6.3、登录失败后锁定用户。</h2><p>在Linux中可以使用 faillog 命令来显示失败的登录或者设置失败登录限制。查看失败的登录，可以输入：</p>
@@ -121,29 +121,29 @@ var _hmt = _hmt || [];
 <h2 id="10、删除X-Windows。"><a href="#10、删除X-Windows。" class="headerlink" title="10、删除X Windows。"></a>10、删除X Windows。</h2><p>对服务器来说，X Windows完全没有必要。可以使用包管理工具删除。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yum groupremove &quot;X Window System&quot;</span></span><br></pre></td></tr></table></figure>
 <h2 id="11、配置iptables和TCPWrappers。"><a href="#11、配置iptables和TCPWrappers。" class="headerlink" title="11、配置iptables和TCPWrappers。"></a>11、配置iptables和TCPWrappers。</h2><p>iptables 是一个Linux内核提供的，运行在用户空间的程序，它允许用户配置自己的防火墙策略。我们可以使用防火墙将不必要的流量过滤出去。使用 iptables 能够避免很多拒绝服务（DoS）攻击。</p>
-<h2 id="12、内核配置文件优化（-etc-sysctl-conf）。"><a href="#12、内核配置文件优化（-etc-sysctl-conf）。" class="headerlink" title="12、内核配置文件优化（/etc/sysctl.conf）。"></a>12、内核配置文件优化（/etc/sysctl.conf）。</h2><p>/etc/sysctl.conf 文件用来修改服务器的运行时内核参数配置。Linux在启动时从配置文件中读取相关配置，一般内容如下：</p>
+<h2 id="12、内核配置文件优化（-etc-sysctl-conf）。"><a href="#12、内核配置文件优化（-etc-sysctl-conf）。" class="headerlink" title="12、内核配置文件优化（&#x2F;etc&#x2F;sysctl.conf）。"></a>12、内核配置文件优化（&#x2F;etc&#x2F;sysctl.conf）。</h2><p>&#x2F;etc&#x2F;sysctl.conf 文件用来修改服务器的运行时内核参数配置。Linux在启动时从配置文件中读取相关配置，一般内容如下：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Turn on execshield</span></span><br><span class="line">kernel.exec-shield=1</span><br><span class="line">kernel.randomize_va_space=1</span><br><span class="line"><span class="comment"># Enable IP spoofing protection</span></span><br><span class="line">net.ipv4.conf.all.rp_filter=1</span><br><span class="line"><span class="comment"># Disable IP source routing</span></span><br><span class="line">net.ipv4.conf.all.accept_source_route=0</span><br><span class="line"><span class="comment"># Ignoring broadcasts request</span></span><br><span class="line">net.ipv4.icmp_echo_ignore_broadcasts=1</span><br><span class="line">net.ipv4.icmp_ignore_bogus_error_messages=1</span><br><span class="line"><span class="comment"># Make sure spoofed packets get logged</span></span><br><span class="line">net.ipv4.conf.all.log_martians = 1</span><br></pre></td></tr></table></figure>
 <h2 id="13、合理安排磁盘分区。"><a href="#13、合理安排磁盘分区。" class="headerlink" title="13、合理安排磁盘分区。"></a>13、合理安排磁盘分区。</h2><p>将不同的系统文件分配到不同的磁盘分区上有助于构建一个安全的系统，确保下面这些文件目录都被挂在到单独的磁盘分区上。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/usr</span><br><span class="line">/home</span><br><span class="line">/var、/var/tmp</span><br><span class="line">/tmp</span><br></pre></td></tr></table></figure>
-<p>为Apache和FTP服务的根目录创建单独的分区，检查 /etc/fstab 文件确保增加了以下配置</p>
-<p>noexec:该分区不允许执行任何二进制文件（但是允许脚本运行）。<br>nodev:该分区不允许字符设备或特殊设备。<br>nosuid:该分区不允许设置SUID/SGID。</p>
-<p>下面的例子限制用户进入到 /dev/sda5 中。</p>
-<p>/dev/sda5 /ftpdata ext3 defaults,nosuid,nodev,noexec 1 2</p>
+<p>为Apache和FTP服务的根目录创建单独的分区，检查 &#x2F;etc&#x2F;fstab 文件确保增加了以下配置</p>
+<p>noexec:该分区不允许执行任何二进制文件（但是允许脚本运行）。<br>nodev:该分区不允许字符设备或特殊设备。<br>nosuid:该分区不允许设置SUID&#x2F;SGID。</p>
+<p>下面的例子限制用户进入到 &#x2F;dev&#x2F;sda5 中。</p>
+<p>&#x2F;dev&#x2F;sda5 &#x2F;ftpdata ext3 defaults,nosuid,nodev,noexec 1 2</p>
 <h2 id="13-1、磁盘配额。"><a href="#13-1、磁盘配额。" class="headerlink" title="13.1、磁盘配额。"></a>13.1、磁盘配额。</h2><p>确保对所有用户都启用了磁盘配额限制，实现磁盘配额的具体步骤可以查看这里。</p>
-<h2 id="14、关闭IPv6。"><a href="#14、关闭IPv6。" class="headerlink" title="14、关闭IPv6。"></a>14、关闭IPv6。</h2><p>IPv6提供替代IPv4的新的TCP/IP协议，但是目前还没有太好的工具来检查IPv6网络的安全性。大多数Linux发行版开始默认使用IPv6协议。而黑客可以利用IPv6网络来发送一些管理员无法监测的内容，除非是网络配置需要，否则禁止使用IPv6。</p>
+<h2 id="14、关闭IPv6。"><a href="#14、关闭IPv6。" class="headerlink" title="14、关闭IPv6。"></a>14、关闭IPv6。</h2><p>IPv6提供替代IPv4的新的TCP&#x2F;IP协议，但是目前还没有太好的工具来检查IPv6网络的安全性。大多数Linux发行版开始默认使用IPv6协议。而黑客可以利用IPv6网络来发送一些管理员无法监测的内容，除非是网络配置需要，否则禁止使用IPv6。</p>
 <h2 id="15、禁用不需要的SUID和SGID二进制。"><a href="#15、禁用不需要的SUID和SGID二进制。" class="headerlink" title="15、禁用不需要的SUID和SGID二进制。"></a>15、禁用不需要的SUID和SGID二进制。</h2><p>所有启用了SUID和SGID位的二进制文件可能会造成系统的安全问题或者BUG，从而让所有本地或远程的用户使用这些文件。下面的命令可以找到这些文件</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#See all set user id files:</span></span><br><span class="line">find / -perm +4000</span><br><span class="line"><span class="comment">#See all group id files:</span></span><br><span class="line">find / -perm +2000</span><br><span class="line"><span class="comment">#或者一起查询</span></span><br><span class="line">find / \(-perm -4000 -o -perm -2000 \) -<span class="built_in">print</span></span><br><span class="line">find / -path -prune -o -<span class="built_in">type</span> f -perm +6000 -ls</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#See all set user id files:</span></span><br><span class="line">find / -perm +4000</span><br><span class="line"><span class="comment">#See all group id files:</span></span><br><span class="line">find / -perm +2000</span><br><span class="line"><span class="comment">#或者一起查询</span></span><br><span class="line">find / \(-perm -4000 -o -perm -2000 \) -<span class="built_in">print</span></span><br><span class="line">find / -path -prune -o -<span class="built_in">type</span> f -perm +6000 -<span class="built_in">ls</span></span><br></pre></td></tr></table></figure>
 <h2 id="15-1、World-Writable文件。"><a href="#15-1、World-Writable文件。" class="headerlink" title="15.1、World-Writable文件。"></a>15.1、World-Writable文件。</h2><p>因为安全原因，所有人都可以修改World-Writable文件，使用下面的命令可以找到所有此类文件。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># find /dir -xdev -type d \( -perm -0002 -a ! -perm -1000 \) -print</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="15-2、无属主文件。"><a href="#15-2、无属主文件。" class="headerlink" title="15.2、无属主文件。"></a>15.2、无属主文件。</h2><p>如果一个文件没有任何的用户或者组权限，那么可能会造成安全问题，使用下面的问题来找到此类文件，并进行后续的修复。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># find /dir -xdev \( -nouser -o -nogroup \) -print</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="16、使用集中的授权服务。"><a href="#16、使用集中的授权服务。" class="headerlink" title="16、使用集中的授权服务。"></a>16、使用集中的授权服务。</h2><p>如果没有集中的授权认证系统，用户的权限数据将会变得不完成，从而导致一些过期的口令或者不用的用户一直保留下来。集中地授权认证服务允许我们控制Linux/Unix用户和授权数据，不要使用 NIS 服务，OpenLDAP是一个很好的选择。</p>
-<h2 id="17、日志和审计。"><a href="#17、日志和审计。" class="headerlink" title="17、日志和审计。"></a>17、日志和审计。</h2><p>为了收集黑客攻击行为，我们需要配置系统的日志和审计功能。默认情况下，syslog在 /var/log 目录下记录数据。这些数据也能帮助我们发现那些容易导致系统遭受攻击的错误配置，可以参考 这个文章 来了解更多的内容。</p>
+<h2 id="16、使用集中的授权服务。"><a href="#16、使用集中的授权服务。" class="headerlink" title="16、使用集中的授权服务。"></a>16、使用集中的授权服务。</h2><p>如果没有集中的授权认证系统，用户的权限数据将会变得不完成，从而导致一些过期的口令或者不用的用户一直保留下来。集中地授权认证服务允许我们控制Linux&#x2F;Unix用户和授权数据，不要使用 NIS 服务，OpenLDAP是一个很好的选择。</p>
+<h2 id="17、日志和审计。"><a href="#17、日志和审计。" class="headerlink" title="17、日志和审计。"></a>17、日志和审计。</h2><p>为了收集黑客攻击行为，我们需要配置系统的日志和审计功能。默认情况下，syslog在 &#x2F;var&#x2F;log 目录下记录数据。这些数据也能帮助我们发现那些容易导致系统遭受攻击的错误配置，可以参考 这个文章 来了解更多的内容。</p>
 <h2 id="17-1、使用Logwatch-或-Logcheck-监控可疑的日志信息。"><a href="#17-1、使用Logwatch-或-Logcheck-监控可疑的日志信息。" class="headerlink" title="17.1、使用Logwatch 或 Logcheck 监控可疑的日志信息。"></a>17.1、使用Logwatch 或 Logcheck 监控可疑的日志信息。</h2><p>使用 Logwatch 或者 Logchek 读取日志文件，这些工具改善了阅读日志文件的体验。他们会将结果以邮件的形式进行报告，而我们只需要检查日志中的不常见项目就可以了。</p>
-<h2 id="17-2、使用-auditd-服务。"><a href="#17-2、使用-auditd-服务。" class="headerlink" title="17.2、使用 auditd 服务。"></a>17.2、使用 auditd 服务。</h2><p>auditd是系统提供的审计服务，负责将审计数据记录到磁盘中。在服务器启动期间，/et/audit/audit.rules的规则会被应用。我们修改配置文件来定义日志存放位置以及其他的选项。使用这个服务可以解决以下问题：</p>
-<p>1、系统启动和关闭时间（reboot/halt）<br>2、事件的日期和时间<br>3、事件用户<br>4、事件类型<br>5、事件是否成功<br>6、记录事件发生变化的日期和时间<br>7、找出修改系统网络配置的账户<br>8、记录修改用户/用户组信息的事件<br>9、记录文件修改信息</p>
+<h2 id="17-2、使用-auditd-服务。"><a href="#17-2、使用-auditd-服务。" class="headerlink" title="17.2、使用 auditd 服务。"></a>17.2、使用 auditd 服务。</h2><p>auditd是系统提供的审计服务，负责将审计数据记录到磁盘中。在服务器启动期间，&#x2F;et&#x2F;audit&#x2F;audit.rules的规则会被应用。我们修改配置文件来定义日志存放位置以及其他的选项。使用这个服务可以解决以下问题：</p>
+<p>1、系统启动和关闭时间（reboot&#x2F;halt）<br>2、事件的日期和时间<br>3、事件用户<br>4、事件类型<br>5、事件是否成功<br>6、记录事件发生变化的日期和时间<br>7、找出修改系统网络配置的账户<br>8、记录修改用户&#x2F;用户组信息的事件<br>9、记录文件修改信息</p>
 <p>具体可以查看这篇文章了解更多内容。</p>
 <h2 id="18、加固-OpenSSH-服务器。"><a href="#18、加固-OpenSSH-服务器。" class="headerlink" title="18、加固 OpenSSH 服务器。"></a>18、加固 OpenSSH 服务器。</h2><p>SSH协议经常用来进行远程登录和文件传输，同时SSH也是暴露在外的，使用以下方法可以对OpenSSH服务器进行加固。</p>
 <h2 id="19、安装和使用入侵检测系统。"><a href="#19、安装和使用入侵检测系统。" class="headerlink" title="19、安装和使用入侵检测系统。"></a>19、安装和使用入侵检测系统。</h2><p>网络入侵检测系统可以检测到恶意的活动或者拒绝服务共计、端口扫描等类似的黑客行为。最好在系统上线前能够部署一套类似的系统，如果可能在系统接入网络前就安装配置好。AIDE就是一个非常好的例子。Snort也可以用来做实时的网络流量分析和入侵检测。</p>
@@ -185,7 +185,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-21 22:24:27</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2010-12-03 15:16:01</span>
     </div>
@@ -66,7 +66,7 @@ var _hmt = _hmt || [];
         </div> -->
       </div>
       <p>在之前的一篇文章中，我通过资料的查阅分析了一些比较流行的日志分析工具，最后选用了 Awstats + Jawstats 的组合，既能够对现有的日志进行分析，也能够提供比较美观的报表界面。但是，随着使用的深入发现，awstats 的分析速度实在是无法接受。大概的介绍一下我的环境，我们有几个产品群，有着不同的流量。每天都要进行分析。最大的产品群产生的日志记录，在合并后会超过几个G，这时候用 awstats 进行分析就非常的痛苦。甚至出现过分析过程中产生的临时目录将磁盘占满的情况。</p>
-<p>查阅了一些资料后了解，原来awstats官方推荐当访问超过 4,000,000/月的时候，可以使用 analog 或者 webalizer 这两个应用。因此，本篇中记录了对Awstats进行的一些优化以及其他两个软件的试用。</p>
+<p>查阅了一些资料后了解，原来awstats官方推荐当访问超过 4,000,000&#x2F;月的时候，可以使用 analog 或者 webalizer 这两个应用。因此，本篇中记录了对Awstats进行的一些优化以及其他两个软件的试用。</p>
 <p><strong>1、Awstats 的性能优化</strong></p>
 <p>网上搜索的话，关于 Awstats 优化的文章很多，基本上就是 关闭 DNS 解析，增大 $LimitFlush 的数量，尽可能的利用内存，以及升级 Perl 版本之类的。经过我的实验，发现如果是机器性能本身不是很高的话，特别是内存有限时，想要优化 awstats 的速度是非常困难的。类似于巧妇难为无米之炊，Out of memory 的事情是经常发生的。</p>
 <p>Awstats还有一个不太方便的地方，就是对于旧日志不能够进行追加的分析。Awstats每次分析完成后，将当前分析的日期和位置记录在他的数据文件中，进行新的分析之前，会和这个数值进行比较，如果比这个日期早的，会认为是旧日志而PASS过去。经常，为了追加之前某一天的日志，我们需要删除整个月的数据，进行重新的分析。或者我们可以通过手工修改数据文件中的日期和位置，来达到这个目的。不管怎样，都不是一个非常人性化的解决方案。</p>
@@ -74,9 +74,9 @@ var _hmt = _hmt || [];
 <p>Analog是一款小巧的日志分析工具，它具有快速、高可配置性、可扩展、支持32种语言、支持任何平台、免费软件。</p>
 <p>Analog的安装比较简单，以至于在官方都没有找到专门的安装介绍。我在CentOS的机器上，只需要进行一次 make 软件就可以使用了。但是，在这之前少不了一些配置。按照文档，我们可以将 make 后的analog 放在我们的web目录下，这样，生成的分析报告，便于通过web进行访问。</p>
 <p>拷贝完成后，对目录下的 analog.cfg 进行编辑，以适应我们本地的环境。默认情况下，Analog会自动探测日志的格式，默认自动搜索的日志格式包括 the common log format, the NCSA combined format, referrer log and browser log, the W3 extended log format, the Microsoft IIS format, the Netscape format, the WebSTAR format, the WebSite format and the MacHTTP format.，但是如果做了修改或者用了和上述格式不一致的日志，有可能无法探测出来，从而发生下面的错误：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost analog]<span class="comment"># ./analog</span></span><br><span class="line">./analog: analog version 6.0/Unix</span><br><span class="line">./analog: Warning F: Can<span class="string">&#x27;t auto-detect format of logfile</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost analog]# ./analog</span><br><span class="line">./analog: analog version 6.0/Unix</span><br><span class="line">./analog: Warning F: Can<span class="string">&#x27;t auto-detect format of logfile</span></span><br></pre></td></tr></table></figure>
 
-<p>默认的 analog.cfg 配置项非常简单，实际上我们可以有丰富的选项可以配置，比如日志格式、语言类型，analog也支持gz格式的日志和通配符匹配日志。所有这些问题，通过阅读 analog 自带的文档可以得到很好的解决。（文档位于 analog/docs 下，其中默认的 index.html 写成了 indx.html ）。</p>
+<p>默认的 analog.cfg 配置项非常简单，实际上我们可以有丰富的选项可以配置，比如日志格式、语言类型，analog也支持gz格式的日志和通配符匹配日志。所有这些问题，通过阅读 analog 自带的文档可以得到很好的解决。（文档位于 analog&#x2F;docs 下，其中默认的 index.html 写成了 indx.html ）。</p>
 <p>在Analog的配置文件中，通过LOGFILE来指定需要分析的日志，支持多个日志，也支持通配符，还可以在命令行中加入日志文件的位置，非常方便。甚至可以在日志名中支持日期的匹配，这点我觉得挺贴心的。LOGFILE access_log%Y%M.log。对于格式不同的日志，我们既可以单独为某个日志指定格式，也可以统一指定格式。如果我们需要分析 Apache 的日志，通过 APACHELOGFORMT 甚至可以方便将 httpd.conf 定义的日志格式拷贝过来使用。</p>
 <p>例如httpd.conf中定义的格式为</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LogFormat &quot;%h %l %u %t %v \&quot;%r\&quot; %&gt;s %b&quot; myformat</span><br><span class="line">CustomLog /var/log/apache/access.log myformat</span><br></pre></td></tr></table></figure>
@@ -97,7 +97,7 @@ var _hmt = _hmt || [];
 <p>Analog还是很好用的，当然，有一个致命的缺点，就是无法统计Unique Visit 独立访问用户数量。特别是按照每周、每月、每年进行统计的数字。这个统计涉及到大量的计算，对服务器的要求会非常高，而且计算的过程会产生很大量的临时文件，可能作者基于这方面的考虑，没有提供这个数字。</p>
 <p>Analog的一些默认配置，我们在编译指出可以通过修改 anlghead.h 文件进行修改，也可以后续通过配置文件进行指定，配置文件可以不止一个，Analog会自动处理合并多个配置文件。虽然有多个配置文件，但是analog还是只生产一份报告。同时可以在命令行中使用 +gother.cfg 的方式调用其他的配置文件，但这样不会阻止读取默认的配置文件。如果我们不希望 analog 读取默认的配置文件，则应该使用 –G 参数。</p>
 <p>如果只是希望修改配置文件中的某些配置，可以使用 +C 参数，例如 +C”UNCOMPRESS *.gz gzcat”。</p>
-<p>通过 ./analog/analog –settings 我们可以将当前 analog 的配置打印出来，方便我们进行查看。</p>
+<p>通过 .&#x2F;analog&#x2F;analog –settings 我们可以将当前 analog 的配置打印出来，方便我们进行查看。</p>
 <blockquote>
 <p>TheLOGFORMATandAPACHELOGFORMATcommands only apply to logfiles specified with aLOGFILEcommand<strong>later</strong>in the<strong>same</strong>configuration file. So you must put theLOGFORMATabove theLOGFILEto which it refers. If you declare your logfiles on the command line, or drag them onto the app on the Mac, you must use<a target="_blank" rel="noopener" href="http://www.analog.cx/docs/logfmt.html#DEFAULTLOGFORMAT">DEFAULTLOGFORMATorAPACHEDEFAULTLOGFORMAT</a>instead.</p>
 </blockquote>
@@ -140,7 +140,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

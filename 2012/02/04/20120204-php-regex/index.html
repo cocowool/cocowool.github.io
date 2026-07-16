@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-01-24 22:37:21</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2012-02-04 11:42:01</span>
     </div>
@@ -66,17 +66,17 @@ var _hmt = _hmt || [];
         </div> -->
       </div>
       <p>整理摘抄了手册中关于PHP模式修正符的内容，真切的体会到手册的好处<br>PHP中对于正则处理文本提供了两种方式，一种是PCRE方式（PCRE库是一个实现了与perl 5在语法和语义上略有差异(详见下文)的正则表达式模式匹配功能的函数集. 当前的实现对应于perl 5.005.）；另一个是POSIX方式。</p>
-<p>PCRE函数库中的函数使用的模式语法非常类似perl. 表达式必须用分隔符闭合, 比如一个正斜杠(/). 分隔符可以使任意非字母数字, 除反斜杠()和空字节之外的非空白ascii字符. 如果分隔符 在表达式中使用, 需要使用反斜线进行转义. 自php 4.0.4开始, 可以使用perl样式的(), {}, []以及&lt;&gt;作为分隔符. 更详细的解释参见模式语法.</p>
+<p>PCRE函数库中的函数使用的模式语法非常类似perl. 表达式必须用分隔符闭合, 比如一个正斜杠(&#x2F;). 分隔符可以使任意非字母数字, 除反斜杠()和空字节之外的非空白ascii字符. 如果分隔符 在表达式中使用, 需要使用反斜线进行转义. 自php 4.0.4开始, 可以使用perl样式的(), {}, []以及&lt;&gt;作为分隔符. 更详细的解释参见模式语法.</p>
 <p>结束分隔符后面可以紧跟模式修饰符来影响匹配效果. 参见模式修饰符.</p>
 <p><strong>PCRE的模式修正符</strong></p>
 <p><strong>i (PCRE_CASELESS)</strong></p>
 <p>如果设定此修正符，模式中的字符将同时匹配大小写字母。</p>
 <p><strong>s（PCRE_DOTALL）</strong></p>
-<p>如果设定了此修正符，模式中的圆点元字符（.）匹配所有的字符，包括换行符。没有此设定的话，则不包括换行符。这和 Perl 的 /s 修正符是等效的。排除字符类例如 [^a] 总是匹配换行符的，无论是否设定了此修正符。</p>
+<p>如果设定了此修正符，模式中的圆点元字符（.）匹配所有的字符，包括换行符。没有此设定的话，则不包括换行符。这和 Perl 的 &#x2F;s 修正符是等效的。排除字符类例如 [^a] 总是匹配换行符的，无论是否设定了此修正符。</p>
 <p><strong>m（PCRE_MULTILINE）</strong></p>
-<p>默认情况下，PCRE 将目标字符串作为单一的一“行”字符所组成的（甚至其中包含有换行符也是如此）。“行起始”元字符（^）仅仅匹配字符串的起始，“行结束”元字符（$）仅仅匹配字符串的结束，或者最后一个字符是换行符时其前面（除非设定了 D 修正符）。这和 Perl 是一样的。当设定了此修正符，“行起始”和“行结束”除了匹配整个字符串开头和结束外，还分别匹配其中的换行符的之后和之前。这和 Perl 的 /m 修正符是等效的。如果目标字符串中没有“\n”字符或者模式中没有 ^ 或 $，则设定此修正符没有任何效果。</p>
+<p>默认情况下，PCRE 将目标字符串作为单一的一“行”字符所组成的（甚至其中包含有换行符也是如此）。“行起始”元字符（^）仅仅匹配字符串的起始，“行结束”元字符（$）仅仅匹配字符串的结束，或者最后一个字符是换行符时其前面（除非设定了 D 修正符）。这和 Perl 是一样的。当设定了此修正符，“行起始”和“行结束”除了匹配整个字符串开头和结束外，还分别匹配其中的换行符的之后和之前。这和 Perl 的 &#x2F;m 修正符是等效的。如果目标字符串中没有“\n”字符或者模式中没有 ^ 或 $，则设定此修正符没有任何效果。</p>
 <p><strong>x (PCRE_EXTENDED)</strong></p>
-<p>如果设置了这个修饰符, 模式中的没有经过转义的或不在字符类中的空白数据字符总会被忽略, 并且位于一个未转义的字符类外部的#字符和下一个换行符之间的字符也被忽略. 这个修饰符 等同于perl中的/x修饰符, 使被编译模式中可以包含注释. 注意: 这仅用于数据字符. 空白字符 还是不能在模式的特殊字符序列中出现, 比如序列(?(引入了一个条件子组(译注: 这种语法定义的 特殊字符序列中如果出现空白字符会导致编译错误. 比如( ?(就会导致错误.).</p>
+<p>如果设置了这个修饰符, 模式中的没有经过转义的或不在字符类中的空白数据字符总会被忽略, 并且位于一个未转义的字符类外部的#字符和下一个换行符之间的字符也被忽略. 这个修饰符 等同于perl中的&#x2F;x修饰符, 使被编译模式中可以包含注释. 注意: 这仅用于数据字符. 空白字符 还是不能在模式的特殊字符序列中出现, 比如序列(?(引入了一个条件子组(译注: 这种语法定义的 特殊字符序列中如果出现空白字符会导致编译错误. 比如( ?(就会导致错误.).</p>
 <p><strong>e (PREG_REPLACE_EVAL)</strong></p>
 <p>如果这个修饰符设置了, preg_replace()在进行了对替换字符串的 后向引用替换之后, 将替换后的字符串作为php代码评估之行(eval函数方式), 并使用之行结果 作为实际参与替换的字符串. 单引号, 双引号, 反斜线()和NULL字符在 后向引用替换时会被用反斜线转义.</p>
 <p>仅preg_replace()使用此修饰符, 其他PCRE函数忽略此修饰符.</p>
@@ -91,7 +91,7 @@ var _hmt = _hmt || [];
 <p><strong>X (PCRE_EXTRA)</strong></p>
 <p>这个修饰符打开了PCRE与perl不兼容的附件功能. 模式中的任意反斜线后就ingen一个 没有特殊含义的字符都会导致一个错误, 以此保留这些字符以保证向后兼容性. 默认 情况下, 在perl中, 反斜线紧跟一个没有特殊含义的字符被认为是该字符的原文. 当前没有其他特性由这个修饰符控制.</p>
 <p><strong>J (PCRE_INFO_JCHANGED)</strong></p>
-<p>内部选项设置(?J)修改本地的PCRE_DUPNAMES选项. 允许子组重名. (译注:只能通过内部选项设置, 外部的/J设置会产生错误.)</p>
+<p>内部选项设置(?J)修改本地的PCRE_DUPNAMES选项. 允许子组重名. (译注:只能通过内部选项设置, 外部的&#x2F;J设置会产生错误.)</p>
 <p><strong>u (PCRE8)</strong></p>
 <p>此修正符打开一个与perl不兼容的附加功能. 模式字符串被认为是utf-8的. 这个修饰符 从unix版php 4.1.0或更高, win32版php 4.2.3开始可用. php 4.3.5开始检查模式的utf-8合法性. This modifier turns on additional functionality of PCRE that is incompatible with Perl. Pattern strings are treated as UTF-8. This modifier is available from PHP 4.1.0 or greater on Unix and from PHP 4.2.3 on win32. UTF-8 validity of the pattern is checked since PHP 4.3.5.</p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://topic.csdn.net/u/20091231/02/ae285993-01db-4551-bb56-eeca1a407724.html">preg_match_all截取body正则表达式</a><br>2、<a target="_blank" rel="noopener" href="http://blog.sina.com.cn/s/blog_5ac88b350100bz2h.html">PHP正则表达式匹配多行及模式匹配</a><br>3、<a target="_blank" rel="noopener" href="http://docs.php.net/manual/zh/reference.pcre.pattern.modifiers.php">PHP Manual PCRE模式</a></p>
@@ -131,7 +131,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

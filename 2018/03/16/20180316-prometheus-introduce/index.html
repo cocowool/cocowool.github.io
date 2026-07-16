@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2018-03-16 22:11:00</span>
     </div>
@@ -69,20 +69,14 @@ var _hmt = _hmt || [];
 <p>本文环境 Redhat Linux 6.7, Prometheus 2.2.1，node_exporter 1.5.2</p>
 </blockquote>
 <h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>Prometheus 是2012年由 SoundCloud 开源的系统监控和报警工具集，在 《Google SRE 运维解密》一书中也提到与Google内部的Borgmon思想一致。使用 Go 语言开发，适用于各个平台。</p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@bj1eccap01 ~]<span class="comment"># tar -xvzf prometheus-2.2.1.linux-amd64.tar.gz </span></span><br><span class="line">[root@bj1eccap01 ~]<span class="comment"># cd prometheus-2.2.1.linux-amd64</span></span><br><span class="line">[root@bj1eccap01 prometheus-2.2.1.linux-amd64]<span class="comment"># ./prometheus --help</span></span><br><span class="line">usage: prometheus [&lt;flags&gt;]</span><br></pre></td></tr></table></figure>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@bj1eccap01 ~]# tar -xvzf prometheus-2.2.1.linux-amd64.tar.gz </span><br><span class="line">[root@bj1eccap01 ~]# <span class="built_in">cd</span> prometheus-2.2.1.linux-amd64</span><br><span class="line">[root@bj1eccap01 prometheus-2.2.1.linux-amd64]# ./prometheus --<span class="built_in">help</span></span><br><span class="line">usage: prometheus [&lt;flags&gt;]</span><br></pre></td></tr></table></figure>
 
 <h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>安装包下有一个默认的配置文件，是 YAML 格式，默认配置文件包括三个分区：<code>global</code>、<code>rule_files</code>、<code>scrape_configs</code>。</p>
 <figure class="highlight plaintext"><figcaption><span>Prometheus 服务器的全局配置。```scrape_interval```决定数据抓取的间隔。```evaluation_interval```决定数据计算的间隔，Prometheus会根据rule_file来产生新的时间序列值。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">```rule_files```决定规则文件的保存路径。</span><br><span class="line">```scrape_config```决定Prometheus监控的资源。Prometheus通过HTTP暴露自己的数据，因此也可以监控自己的健康状况。</span><br><span class="line"></span><br><span class="line">### 启动</span><br><span class="line"></span><br><span class="line">启动非常简单</span><br><span class="line">```bash</span><br><span class="line">[root@bj1eccap01 prometheus-2.2.1.linux-amd64]# ./prometheus --config.file=prometheus.yml</span><br></pre></td></tr></table></figure>
-<p>这之后就可以通过浏览查看服务的运行状况了，打开浏览器输入<a target="_blank" rel="noopener" href="http://localhost:9090/graph">http://localhost:9090/graph</a></p>
-<img src="/2018/03/16/20180316-prometheus-introduce/39469-20180316220949653-1982521887.png" class="">
-<p>Prometheus 提供了两种方式查看指标 graph 模式可以直接看到指标曲线，metrics 则看到原始的监控数据。通过切换到 console 界面可以看到。</p>
-<img src="/2018/03/16/20180316-prometheus-introduce/39469-20180316221010640-679027352.png" class="">
-<img src="/2018/03/16/20180316-prometheus-introduce/39469-20180316221032550-1964647279.png" class="">
-
+<p>这之后就可以通过浏览查看服务的运行状况了，打开浏览器输入<a target="_blank" rel="noopener" href="http://localhost:9090/graph">http://localhost:9090/graph</a><br><img src="/20180316-prometheus-introduce/39469-20180316220949653-1982521887.png"><br>Prometheus 提供了两种方式查看指标 graph 模式可以直接看到指标曲线，metrics 则看到原始的监控数据。通过切换到 console 界面可以看到。<br><img src="/20180316-prometheus-introduce/39469-20180316221010640-679027352.png"><br><img src="/20180316-prometheus-introduce/39469-20180316221032550-1964647279.png"></p>
 <h3 id="node-exporter-安装"><a href="#node-exporter-安装" class="headerlink" title="node_exporter 安装"></a>node_exporter 安装</h3><p>node_exporter 用来收集服务器的监控信息，目前稳定版本为1.15.2。node_exporter 默认使用 9100 端口监听，Prometheus 会从 node_exporter 中获取信息。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@bj1eccap01 ~]<span class="comment"># tar -xzvf node_exporter-0.15.2.linux-amd64.tar.gz</span></span><br><span class="line">[root@bj1eccap01 ~]<span class="comment"># cd node_exporter-0.15.2.linux-amd64</span></span><br><span class="line">[root@bj1eccap01 node_exporter-0.15.2.linux-amd64]<span class="comment"># ./node_exporter</span></span><br></pre></td></tr></table></figure>
-<img src="/2018/03/16/20180316-prometheus-introduce/39469-20180316221050544-1463908993.png" class="">
-
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@bj1eccap01 ~]# tar -xzvf node_exporter-0.15.2.linux-amd64.tar.gz</span><br><span class="line">[root@bj1eccap01 ~]# <span class="built_in">cd</span> node_exporter-0.15.2.linux-amd64</span><br><span class="line">[root@bj1eccap01 node_exporter-0.15.2.linux-amd64]# ./node_exporter</span><br></pre></td></tr></table></figure>
+<p><img src="/20180316-prometheus-introduce/39469-20180316221050544-1463908993.png"></p>
 <h3 id="运算与统计"><a href="#运算与统计" class="headerlink" title="运算与统计"></a>运算与统计</h3><p>Prometheus 提供了一套查询语言，支持运算以及一些常用的统计运算。</p>
 <h4 id="运算符号"><a href="#运算符号" class="headerlink" title="运算符号"></a>运算符号</h4><p>Prometheus 支持如下运算符。</p>
 <h4 id="统计函数"><a href="#统计函数" class="headerlink" title="统计函数"></a>统计函数</h4><p>参考资料：<br>1、<a target="_blank" rel="noopener" href="https://prometheus.io/">Prometheus</a><br>2、<a target="_blank" rel="noopener" href="https://prometheus.io/docs/introduction/first_steps/">Prometheus First Step</a><br>3、<a target="_blank" rel="noopener" href="https://www.cnblogs.com/biglittleant/p/8034027.html">Prometheus 入门尝试</a></p>
@@ -122,7 +116,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>

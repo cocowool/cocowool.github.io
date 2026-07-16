@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>利用MapabcAPI实现基于浏览器的地理定位-大江小浪</title>
+    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
+    <meta name="keywords" content="mapabc, mapabc api, 地理定位, 浏览器地理定位">
+    <meta name="description" content="Geolocation的API同时对“只获得一次”定位和“持续监督”定位都做出了规定。">
+    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
+    <link rel="stylesheet" href="/css/main.css" />
+    <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+<meta name="generator" content="Hexo 8.1.2"></head>
+<body class="wave">
+    <nav class="navbar blog-header navbar-expand-lg ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">大江小浪</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/links/">独立博客</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">我的文章</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">关于我</a>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container blog-content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1>利用MapabcAPI实现基于浏览器的地理定位</h1>
+    </div>
+    <div class="blog-post-meta">
+        
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
+        
+        <span class="post-time">发布于：2010-08-31 00:35:01</span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <p>现在互联网中有了越来越多的地理位置服务，正在制定中的HTML5规范也试图在浏览器中内置嵌入地理位置共享服务，而且幸运的是，我们已经能够在Firefox 3.5+、Chrome 5.0+、Opera 10.60+、Safari 5.0+ 以及一些移动终端，注入IPhone、Android上使用这项服务，那么这个服务能否有Mapabc的API结合，来实现用户的地理定位呢？</p>
+<p>传统上，地图应用上为用户定位的方式一般是：</p>
+<blockquote>
+<p>用户访问时获得用户的IP。<br>用这个IP到IP库中匹配用户的城市信息。<br>根据获取的城市信息去已有的城市中心点字典中进行匹配。<br>匹配完成后将用户地图的中心点进行相应的切换。</p>
+</blockquote>
+<p>这个过程繁琐，而且准确性极大程度上依赖于我们IP库的准确程度。现在有了浏览器的位置共享服务，我们可以更容易的实现用户的地理定位。</p>
+<p><strong>Geolocation对象介绍</strong></p>
+<p>正如开头所讲的，到目前为止，W3C中deGeolocation API规范已经在非IE的浏览中得到了实现。规范中提到，浏览器提供位置信息的来源是不固定的，可能是GPS、也可能来自于IP地址、RFID、WiFi、蓝牙或者GSM\CDMA的定位信息，也不保证返回的结果一定准确。Geolocation的API同时对“只获得一次”定位和“持续监督”定位都做出了规定。</p>
+<p>**Geolocation的一些方法</p>
+<p>Geolocation对象位于浏览器Navigator对象下，可以通过 navigator.geolcation 来访问，不支持 geolocation 的浏览器不会包含这一对象，不会造成错误，可以用来做浏览器的区分。</p>
+<blockquote>
+<p>if ( navigator.geolcation ){<br>alert(‘ Your Browser dosent support geolcocation ‘);<br>} else{<br>alert(‘ Your Browser support geolocation’);<br>}</p>
+</blockquote>
+<p>在访问 geolocation 对象时，浏览器会进行提示，询问用户使用许可对网站提供位置服务，得到用户的许可后，访问才会继续，否则会被停止。而且，我们可以捕捉到用户同意或者拒绝的事件。<br>在获得用户的学科之后，就可以利用Geolocation获取当前位置，核心方法如下：</p>
+<blockquote>
+<p>navigator.geolocation.getCurrentPosition( getPositionSuccess , getPositionError );</p>
+</blockquote>
+<p>上面的代码中，调用了 getCurrentPosition 方法，并且传递了两个回调函数的参数，分别用来处理位置获取成功和失败时的情况。实事上，这个函数还可以接受第三个参数，用来传入一些配置信息，包括对于超时的设置等。下面来看两个获取成功和获取失败时，回调函数的处理。</p>
+<blockquote>
+<p>获取地理信息成功的错误处理信息<br>function getPositionSuccess ( position ) {<br>var lat &#x3D; position.coords.latitude;<br>var lng &#x3D; position.coords.longitude;<br>alert( ‘Now you are lat – lng ‘);<br>}</p>
+</blockquote>
+<p>获取地理位置失败的回调函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">getPositionError</span>(<span class="params"> error </span>)&#123;</span><br><span class="line">  <span class="keyword">switch</span>(error.<span class="property">code</span>)</span><br><span class="line">	  <span class="keyword">case</span> error.<span class="property">TIMEOUT</span>;</span><br><span class="line">	  	<span class="comment">//Do something</span></span><br><span class="line">  		<span class="keyword">break</span>;</span><br><span class="line">  	<span class="keyword">case</span> error.<span class="property">PERMISSION_DENIED</span>;</span><br><span class="line">      <span class="comment">//Do something</span></span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> error.<span class="property">POSITION_UNAVAILIABLE</span>;</span><br><span class="line">      <span class="comment">//Do something</span></span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>获取地理位置信息的配置变量。在填入获取地理位置信息变量时，能够对获取地理位置的一些细节进行影响。下面是目前包括的几个具体参数</p>
+<blockquote>
+<p>In ECMAScript, the<code>enableHighAccuracy</code>,<code>timeout</code>and<code>maximumAge</code>properties are all optional: when creating a PositionOptions object, the developer may specify any of these properties.</p>
+</blockquote>
+<p>刚才也提到，我们还可以对地理位置进行持续的追踪，这是需要用到 watchPosition 方法。<br>因为对于移动设备的用户来说，位置并不是固定的，我们需要来处理这种移动客户端的情况，而不是每次要提醒用户去刷新浏览器来更新位置。</p>
+<blockquote>
+<p>navigator.geolocation.watchPosition( refreshPosition );</p>
+</blockquote>
+<p><strong>与Mapabc API的整合</strong><br>看完上面的关于 geolocation 的介绍之后，我们就可以将这个服务与Mapabc API一起，整合到我们的应用中了。下面是一个具体的实现样例，供参考：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span> <span class="keyword">PUBLIC</span> <span class="string">&quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;</span> <span class="string">&quot;[http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;</span>](<span class="keyword">http</span>://<span class="keyword">www</span>.<span class="keyword">w3</span>.<span class="keyword">org</span>/<span class="keyword">TR</span>/<span class="keyword">xhtml1</span>/<span class="keyword">DTD</span>/<span class="keyword">xhtml1-transitional</span>.<span class="keyword">dtd</span>&quot;)&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;Content-Type&quot;</span> <span class="attr">content</span>=<span class="string">&quot;text/html; charset=UTF-8&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;mapobj&quot;</span> <span class="attr">style</span>=<span class="string">&quot;width:500px; height:500px; border:1px solid black;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;info&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> <span class="attr">id</span>=<span class="string">&quot;getPos&quot;</span> <span class="attr">value</span>=<span class="string">&quot;Get My Position&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;[http://app.mapabc.com/apis?&amp;t=flashmap&amp;v=2.3.4&amp;key=0c3235346b1e00772eafe1c099f4b23fe5ec1202d393f952395e628567934baceedcaf1508ea044f&quot;</span>](<span class="attr">http:</span>//<span class="attr">app.mapabc.com</span>/<span class="attr">apis</span>?&amp;<span class="attr">t</span>=<span class="string">flashmap&amp;v</span>=<span class="string">2.3.4&amp;key</span>=<span class="string">0c3235346b1e00772eafe1c099f4b23fe5ec1202d393f952395e628567934baceedcaf1508ea044f</span>&quot;)<span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">function</span> <span class="title function_">getPositionSuccess</span>(<span class="params"> position </span>)&#123;</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> lat = position.<span class="property">coords</span>.<span class="property">latitude</span>;</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> lng = position.<span class="property">coords</span>.<span class="property">longitude</span>;</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//alert( &quot;您所在的位置： 经度&quot; + lat + &quot;，纬度&quot; + lng );</span></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> mapOptions = <span class="keyword">new</span> <span class="title class_">MMapOptions</span>();<span class="comment">//构建地图辅助类</span></span></span><br><span class="line"><span class="language-javascript">  mapOptions.<span class="property">zoom</span>=<span class="number">13</span>;<span class="comment">//设置地图zoom级别</span></span></span><br><span class="line"><span class="language-javascript">  mapOptions.<span class="property">center</span>=<span class="keyword">new</span> <span class="title class_">MLngLat</span>(lng,lat);   <span class="comment">//设置地图中心点</span></span></span><br><span class="line"><span class="language-javascript">  mapOptions.<span class="property">toolbar</span> = <span class="variable constant_">MINI</span>;<span class="comment">//工具条</span></span></span><br><span class="line"><span class="language-javascript">  mapOptions.<span class="property">toolbarPos</span> = <span class="keyword">new</span> <span class="title class_">MPoint</span>(<span class="number">15</span>,<span class="number">15</span>);  <span class="comment">//工具条偏移</span></span></span><br><span class="line"><span class="language-javascript">  mapOptions.<span class="property">overviewMap</span> = <span class="variable constant_">SHOW</span>;<span class="comment">//是否显示鹰眼</span></span></span><br><span class="line"><span class="language-javascript">  mapOptions.<span class="property">scale</span> = <span class="variable constant_">SHOW</span>;<span class="comment">//是否显示比例尺</span></span></span><br><span class="line"><span class="language-javascript">  mapOptions.<span class="property">returnCoordType</span> = <span class="variable constant_">COORD_TYPE_OFFSET</span>;<span class="comment">//返回偏移明码坐标</span></span></span><br><span class="line"><span class="language-javascript">  mapOptions.<span class="property">zoomBox</span> = <span class="literal">true</span>;<span class="comment">//鼠标滚轮缩放和双击放大时是否有红框动画效果。</span></span></span><br><span class="line"><span class="language-javascript">  mapabc.<span class="property">map</span>=<span class="keyword">new</span> <span class="title class_">MMap</span>(<span class="string">&quot;mapobj&quot;</span>,mapOptions); <span class="comment">//地图初始</span></span></span><br><span class="line"><span class="language-javascript">                              </span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">if</span>(<span class="keyword">typeof</span> position.<span class="property">address</span> !== <span class="string">&quot;undefined&quot;</span>)&#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> country = position.<span class="property">address</span>.<span class="property">country</span>;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> province = position.<span class="property">address</span>.<span class="property">region</span>;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> city = position.<span class="property">address</span>.<span class="property">city</span>;</span></span><br><span class="line"><span class="language-javascript">    <span class="title function_">alert</span>(<span class="string">&#x27; 您位于 &#x27;</span> + country + province + <span class="string">&#x27;省&#x27;</span> + city +<span class="string">&#x27;市&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript">&#125;</span></span><br><span class="line"><span class="language-javascript"><span class="keyword">function</span> <span class="title function_">getPositionError</span>(<span class="params"> error </span>)&#123;</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">switch</span>(error.<span class="property">code</span>)&#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">case</span> error.<span class="property">TIMEOUT</span> :</span></span><br><span class="line"><span class="language-javascript">      <span class="title function_">alert</span>( <span class="string">&quot; 连接超时，请重试 &quot;</span> );</span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">break</span>;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">case</span> error.<span class="property">PERMISSION_DENIED</span> :</span></span><br><span class="line"><span class="language-javascript">      <span class="title function_">alert</span>( <span class="string">&quot; 您拒绝了使用位置共享服务，查询已取消 &quot;</span> );</span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">break</span>;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">case</span> error.<span class="property">POSITION_UNAVAILABLE</span> :</span></span><br><span class="line"><span class="language-javascript">      <span class="title function_">alert</span>( <span class="string">&quot; 亲爱的火星网友，非常抱歉，我们暂时无法为您所在的星球提供位置服务 &quot;</span> );</span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">break</span>;</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript">&#125;</span></span><br><span class="line"><span class="language-javascript"><span class="keyword">var</span> dom = &#123;</span></span><br><span class="line"><span class="language-javascript">  btn    : <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;getPos&quot;</span>),</span></span><br><span class="line"><span class="language-javascript">  <span class="attr">info</span>: <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;info&quot;</span>),</span></span><br><span class="line"><span class="language-javascript">  map    : <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;mapObj&quot;</span>)</span></span><br><span class="line"><span class="language-javascript">  &#125;;</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> mapabc = &#123;</span></span><br><span class="line"><span class="language-javascript">  map        : <span class="literal">null</span>,</span></span><br><span class="line"><span class="language-javascript">  marker    : <span class="literal">null</span></span></span><br><span class="line"><span class="language-javascript">&#125;;</span></span><br><span class="line"><span class="language-javascript">                                           </span></span><br><span class="line"><span class="language-javascript">dom.<span class="property">btn</span>.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">if</span>( navigator.<span class="property">geolocation</span> )&#123;</span></span><br><span class="line"><span class="language-javascript">      dom.<span class="property">info</span>.<span class="property">innerHTML</span> = <span class="string">&quot;Waiting for the geolocation result...&quot;</span>;</span></span><br><span class="line"><span class="language-javascript">  		navigator.<span class="property">geolocation</span>.<span class="title function_">getCurrentPosition</span>( getPositionSuccess, getPositionError );</span></span><br><span class="line"><span class="language-javascript">  &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="language-javascript">  		dom.<span class="property">info</span>.<span class="property">innerHTML</span> = <span class="string">&quot;Your browser doesn&#x27;t support geolocation.&quot;</span>;</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript">&#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的代码，会在地图显示后询问用户是否共享位置信息，如果共享则会切换地图中心点到相应的位置。当然，我们可以在自己的应用中更加灵活的使用位置共享服务，既然有了这么 Cool 的服务支持，我们还等什么呢。</p>
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://bbs.blueidea.com/thread-2995481-1-1.html">Blueidea BBS</a><br>2、<a target="_blank" rel="noopener" href="http://dev.w3.org/geo/api/spec-source.html">Geolocation API Specification</a><br>3、<a target="_blank" rel="noopener" href="http://code.mapabc.com/">Mapabc API</a></p>
+
+      <div class="blog-post-footer">
+        <p><img src="/image/qrcode.jpg" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    
+    <div class="blog-post-nav row">
+      
+        <div class="nav-link col-md-6">
+          <a href="/2010/09/04/20100904-ckeditor-instance/" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; Ajax应用中CKEDITOR多实例问题的解决
+          </a>  
+        </div>
+      
+      
+        <div class="nav-link col-md-6">
+          <a href="/2010/08/21/20100821-php-autoload/" id="article-nav-older" class="article-nav-link-wrap">
+            PHP中Autoload使用中的一些问题 &gt;&gt;
+          </a>
+        </div>
+      
+    </div>
+        
+  </div>
+              </div>
+            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
+                <div class="blog-profile">
+                    <div class="blog-author">
+
+    <div class="author-img">
+        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
+    </div>
+
+    <div class="author-desc">
+        <h1>cocowool</h1>
+        <p>A full-stack dreamer!</p>
+    </div>
+</div>
+                </div>
+                <div class="blog-google-ads">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- EDULINKS-Right -->
+     <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2449691085720111"
+          data-ad-slot="7013232113"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+     <script>
+
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid blog-footer">
+        <div class="container">
+            <div class="row blog-friend-link">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                    <h3>友情链接</h3>
+                </div>
+                
+                
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
+                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="blog-copyright">
+                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>

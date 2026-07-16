@@ -18,7 +18,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 <body class="wave">
     <nav class="navbar blog-header navbar-expand-lg ">
         <div class="container-fluid">
@@ -54,7 +54,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2021-05-10 21:22:43</span>
+        <span class="post-time">更新于：2026-07-16 18:34:01</span>
         
         <span class="post-time">发布于：2018-06-19 11:31:00</span>
     </div>
@@ -79,19 +79,15 @@ var _hmt = _hmt || [];
 <li>Ingress</li>
 </ul>
 <h3 id="Minikube-安装"><a href="#Minikube-安装" class="headerlink" title="Minikube 安装"></a>Minikube 安装</h3><p>因为 Google 在国内没办法访问，我使用了阿里版的 Minikube 。<br>Minikube运行要求安装有VirtualBox或VMWare Fusion，我用的是VirtualBox。<br>VirtualBox安装很简单，从<a target="_blank" rel="noopener" href="https://www.virtualbox.org/">官方下载DMG</a>安装即可。</p>
-<h4 id="下载安装-Minikube"><a href="#下载安装-Minikube" class="headerlink" title="下载安装 Minikube"></a>下载安装 Minikube</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -Lo minikube http://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/releases/v0.27.0/minikube-darwin-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube /usr/<span class="built_in">local</span>/bin/</span><br></pre></td></tr></table></figure>
+<h4 id="下载安装-Minikube"><a href="#下载安装-Minikube" class="headerlink" title="下载安装 Minikube"></a>下载安装 Minikube</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -Lo minikube http://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/releases/v0.27.0/minikube-darwin-amd64 &amp;&amp; <span class="built_in">chmod</span> +x minikube &amp;&amp; <span class="built_in">sudo</span> <span class="built_in">mv</span> minikube /usr/local/bin/</span><br></pre></td></tr></table></figure>
 
 <h4 id="启动-Minikube"><a href="#启动-Minikube" class="headerlink" title="启动 Minikube"></a>启动 Minikube</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minikube start --registry-mirror=https://registry.docker-cn.com</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>如果你遇到这个错误，<strong>Error restarting cluster:  restarting kube-proxy: waiting for kube-proxy to be up for configmap update: timed out waiting for the condition</strong><br>通过 minikube delete，minikube start 可以解决</p>
 </blockquote>
 <h4 id="打开-Minikube-控制台"><a href="#打开-Minikube-控制台" class="headerlink" title="打开 Minikube 控制台"></a>打开 Minikube 控制台</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minikube dashboard</span><br></pre></td></tr></table></figure>
-<p>随后浏览器中会自动打开这个界面。</p>
-<img src="/2018/06/19/20180619-minikube-introduce/39469-20180619113017294-1321626965.png" class="">
-
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>Minikube在本地虚拟机环境中部署 Kubernetes。</p>
-<img src="/2018/06/19/20180619-minikube-introduce/39469-20180619113030619-1842549291.png" class="">
-
+<p>随后浏览器中会自动打开这个界面。<br><img src="/20180619-minikube-introduce/39469-20180619113017294-1321626965.png"></p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>Minikube在本地虚拟机环境中部署 Kubernetes。<br><img src="/20180619-minikube-introduce/39469-20180619113030619-1842549291.png"></p>
 <h4 id="启动-Cluster"><a href="#启动-Cluster" class="headerlink" title="启动 Cluster"></a>启动 Cluster</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">bogon:k8s rousseau$ minikube start</span><br><span class="line">Starting <span class="built_in">local</span> Kubernetes v1.10.0 cluster...</span><br><span class="line">Starting VM...</span><br><span class="line">Getting VM IP address...</span><br><span class="line">Moving files into cluster...</span><br><span class="line">Setting up certs...</span><br><span class="line">Connecting to cluster...</span><br><span class="line">Setting up kubeconfig...</span><br><span class="line">Starting cluster components...</span><br><span class="line">Kubectl is now configured to use the cluster.</span><br><span class="line">Loading cached images from config file.</span><br></pre></td></tr></table></figure>
 <p>该命令创建并配置一个运行了单个Kubernetes节点的虚拟机。Minikube 启动过程中，可以用<code>--extra-config=component.key=value</code>的形式给 Kubernetes 指定参数。</p>
 <h4 id="停止-Cluster"><a href="#停止-Cluster" class="headerlink" title="停止 Cluster"></a>停止 Cluster</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bogon:k8s rousseau$ minikube stop</span><br></pre></td></tr></table></figure>
@@ -104,7 +100,7 @@ var _hmt = _hmt || [];
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bogon:k8s rousseau$ minikube ip</span><br><span class="line">192.168.99.100</span><br></pre></td></tr></table></figure>
 
 <h3 id="存储"><a href="#存储" class="headerlink" title="存储"></a>存储</h3><h3 id="简单的示例"><a href="#简单的示例" class="headerlink" title="简单的示例"></a>简单的示例</h3><h4 id="构建一个-Node-服务"><a href="#构建一个-Node-服务" class="headerlink" title="构建一个 Node 服务"></a>构建一个 Node 服务</h4><p>构建一个简单的Node网页程序，用户访问的时候输出hello world。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> handleRequest = <span class="function"><span class="keyword">function</span>(<span class="params">request, response</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;Received request for URL: &#x27;</span> + request.url);</span><br><span class="line">  response.writeHead(<span class="number">200</span>);</span><br><span class="line">  response.end(<span class="string">&#x27;Hello World!&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> www = http.createServer(handleRequest);</span><br><span class="line">www.listen(<span class="number">8080</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> handleRequest = <span class="keyword">function</span>(<span class="params">request, response</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Received request for URL: &#x27;</span> + request.<span class="property">url</span>);</span><br><span class="line">  response.<span class="title function_">writeHead</span>(<span class="number">200</span>);</span><br><span class="line">  response.<span class="title function_">end</span>(<span class="string">&#x27;Hello World!&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> www = http.<span class="title function_">createServer</span>(handleRequest);</span><br><span class="line">www.<span class="title function_">listen</span>(<span class="number">8080</span>);</span><br></pre></td></tr></table></figure>
 <p>可以在终端中执行<code>node server.js</code>并通过 <a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080</a> 查看效果</p>
 <h4 id="生成镜像"><a href="#生成镜像" class="headerlink" title="生成镜像"></a>生成镜像</h4><p>编写 Dockerfile 文件</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">FROM</span> <span class="string">node:6.9.2</span></span><br><span class="line"><span class="string">EXPOSE</span> <span class="number">8080</span></span><br><span class="line"><span class="string">COPY</span> <span class="string">server.js</span> <span class="string">.</span></span><br><span class="line"><span class="string">CMD</span> <span class="string">node</span> <span class="string">server.js</span></span><br></pre></td></tr></table></figure>
@@ -165,7 +161,7 @@ var _hmt = _hmt || [];
 
     <div class="author-desc">
         <h1>cocowool</h1>
-        <p>A FULL STACK DREAMER!</p>
+        <p>A full-stack dreamer!</p>
     </div>
 </div>
                 </div>
