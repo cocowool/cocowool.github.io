@@ -73,6 +73,8 @@ $ npm install hexo-renderer-sass --save
 
 Hexo 8 版本的速度确实提升了不少，从生成速度方面看，比原来的 Hexo 5 几乎快了一倍。但是具体的文件数量也有差异，也可能和某些配置没转移过去有关系，后续还要研究研究。
 
+这段时间看了下和生成文件数量有关系，仅供参考吧。
+
 ```sh
 $ time hexo generate 
 INFO  1100 files generated in 1.48 s
