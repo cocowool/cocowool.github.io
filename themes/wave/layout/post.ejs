@@ -1,0 +1,43 @@
+<div class="blog-post-detail">
+    <div class="blog-post-title">
+      <h1><%= page.title %></h1>
+    </div>
+    <div class="blog-post-meta">
+        <% if ( page.updated ) { %>
+        <span class="post-time">更新于：<%- date(page.updated, "YYYY-MM-DD HH:mm:ss") %></span>
+        <% } %>
+        <span class="post-time">发布于：<%- date(page.date, "YYYY-MM-DD HH:mm:ss") %></span>
+    </div>
+    <div class="blog-post-content">
+      <div class="blog-post-ad">
+        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
+        <!-- <div>
+          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="<%- url_for('image/ad_image.png') %>" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
+        </div> -->
+      </div>
+      <%- page.content %>
+      <div class="blog-post-footer">
+        <p><img src="<%- url_for('image/qrcode.jpg') %>" alt=""></p>
+        <p><b>用心体验、认真记录</b>，欢迎关注<a href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+      </div>
+    </div>
+    <% if (page.prev || page.next){ %>
+    <div class="blog-post-nav row">
+      <% if (page.prev){ %>
+        <div class="nav-link col-md-6">
+          <a href="<%- url_for(page.prev.path) %>" id="article-nav-newer" class="article-nav-link-wrap">
+            &lt;&lt; <%= page.prev.title %>
+          </a>  
+        </div>
+      <% } %>
+      <% if (page.next){ %>
+        <div class="nav-link col-md-6">
+          <a href="<%- url_for(page.next.path) %>" id="article-nav-older" class="article-nav-link-wrap">
+            <%= page.next.title %> &gt;&gt;
+          </a>
+        </div>
+      <% } %>
+    </div>
+    <% } %>    
+  </div>
+  

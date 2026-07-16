@@ -1,0 +1,69 @@
+// 针对Mardown的一些样式
+// 适用于Typora样式
+
+blockquote { 
+    background-color: $blockquote-bg-color;
+    border-left: 3px solid $blockquote-bar-color;
+    padding: 1rem 1rem;
+}
+
+h1 { 
+    // border-bottom: 1px solid #f8f8f8;
+    font-weight: 300;
+}
+
+code {
+    background-color: rgba(27,31,35,0.05);
+    border-radius: 3px;
+    padding:0.2rem 0.5rem;
+    margin:0 0.5rem;
+    color: #c7254e;
+}
+
+.highlight {
+    background-color: #f7f7f7;
+    padding: 0;
+
+    table {
+        background-color: #f7f7f7;
+        border-width: 0;
+        margin-bottom: 1em;
+
+        th, td {
+            padding: 0;
+            border-width: 0;
+        }
+
+        pre {
+            padding: 1rem 0;
+            margin: 0;
+        }
+
+        .gutter > pre {
+            background-color: #eff2f3;
+            color: #869194;
+            text-align: center;
+        }
+
+        .line {
+            padding-left: 0.5rem;
+        }
+    }
+}
+
+table {
+    margin-bottom: 1em;
+    
+    th {
+        text-align: center;
+        background-color: #A0A584;
+    }
+
+    th, td {
+        border: 1px solid #697153;
+    }
+
+    td {
+        padding: 0.5em;
+    }
+}

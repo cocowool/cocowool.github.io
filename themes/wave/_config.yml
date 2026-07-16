@@ -1,0 +1,44 @@
+menu:
+  独立博客: /links/
+  我的文章: /
+  # 友情链接: /friend_links/
+  # Docker: /
+  # Kubernetes: /
+  关于我: /about/
+
+# 模板支持友情链接组件，链接配置在这里
+friend_links:
+  大江小浪: http://www.popsite.cn
+  # CodeLinks: http://codelinks.cn
+  # Popsite: http://www.popsite.cn
+  # 诗歌爱上酒: http://www.shici123.net
+  # yichen的信安知识库: https://www.yuque.com/hxfqg9
+  # # 苏卡卡的有底洞: https://blog.skk.moe
+  # 小狼的世界: http://cnblogs.com/cocowool
+  # copyfuture: https://copyfuture.com
+
+# 如果使用了百度站长工具，需要添加验证码
+baidu_verification: y4EEfl1oRM
+
+# beian information
+# beian:
+#   enable: true
+#   icp: 京ICP备15058613-2号
+#   icp_link: https://beian.miit.gov.cn/
+
+# # Gongan beian information
+# gongan:
+#   enable: true
+#   icp: 京公安网备案11010802035682号
+#   icp_link: http://www.beian.gov.cn/portal/index.do
+
+# # 百度统计的代码
+baidu_stats:
+  enable: true
+  # code: 0b19fdd3879484a2c43c9049772a6abe
+  code: b5abf80be02d97782fdc022fb2c5482c
+
+# # 百度文库内容开放平台的代码
+# wenku:
+#   enable: true
+#   code: '<div id="wklm-wrap"></div><script type="text/javascript">function wklmRender(data) { document.getElementById("wklm-wrap").innerHTML=data.html;}</script><script src="https://wenku.baidu.com/ndAlliance/api/toc?fr=wklm_08359e4cc850ad02de80419f_200001038&callback=wklmRender" type="text/javascript"></script>'

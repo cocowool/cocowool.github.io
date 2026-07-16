@@ -1,0 +1,38 @@
+<div class="discover-container">
+    <h1 class="page-title">独立博客最新文章</h1>
+    <p class="page-description">这里聚合了 popsite.cn 收录的独立博客的最新动态，每天自动更新，点击标题即可阅读。</p>
+
+
+  <div class="latest-posts-list">
+    <% if (site.data.latest_posts_cn && site.data.latest_posts_cn.length > 0) { %>
+      <% site.data.latest_posts_cn.forEach(function(post) { %>
+        <div class="post-card">
+          <div class="post-meta">
+            <span class="blog-name">
+              来自 <a href="<%= post.blog_url %>" target="_blank"><%= post.blog_name %></a>
+            </span>
+            <span class="pub-date"><%= post.pub_date %></span>
+          </div>
+          <h2 class="post-title">
+            <a href="<%= post.link %>" target="_blank"><%= post.title %></a>
+          </h2>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <p>暂无最新文章，请稍后再来。</p>
+    <% } %>
+  </div>
+</div>
+
+<style>
+  .discover-container { max-width: 800px; margin: 0 auto; padding: 20px; }
+  .page-title { font-size: 24px; margin-bottom: 10px; }
+  .page-description { color: #666; margin-bottom: 30px; }
+  .post-card { background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 20px; margin-bottom: 15px; transition: 0.3s; }
+  .post-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.05); transform: translateY(-2px); }
+  .post-meta { display: flex; justify-content: space-between; font-size: 14px; color: #888; margin-bottom: 10px; }
+  .blog-name a { color: #007bff; text-decoration: none; font-weight: bold; }
+  .post-title { font-size: 18px; margin: 0; }
+  .post-title a { color: #333; text-decoration: none; }
+  .post-title a:hover { color: #007bff; }
+</style>

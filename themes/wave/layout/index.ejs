@@ -1,0 +1,40 @@
+<!-- 发现博客 -->
+ <div class="featured-bloger">
+    <h1>独立博客展示</h1>
+    <div class="featured-bloger-lists">
+        <% if (site.data.blogs && site.data.blogs.length > 0) { %>
+            <% site.data.blogs.forEach(function(blog) { %>
+                <div class="featured-bloger-item">
+                    <a href="<%= blog.url %>" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
+                        <span class="featured-bloger-name"><%= blog.name %></span>
+                    </a>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+ </div>
+<div class="blog-post-lists">
+    <% page.posts.each(function (post) { %>
+        <div class="blog-post">
+            <h1><a href="<%- url_for(post.path) %>"><%= post.title %></a></h1>
+            <div class="blog-post-desc">
+                <p><%- post.excerpt %></p>
+                <p>
+                    <a href="<%- url_for(post.path) %>" class="more-link">继续阅读 »</a>&nbsp;&nbsp;
+                    <span><%- date(post.date, "YYYY-MM-DD") %></span>&nbsp;&nbsp;
+                    <span class="blog-post-category"><b><%- partial('_partial/post/category', { post } ) %></b></span>
+                </p>
+            </div>
+        </div>
+    <% }) %>
+    
+    <% page.total %>
+    <% if (page.total > 1) { %>
+        <div class="page-nav">
+            <%- paginator({
+                prev_text: "上一页",
+                next_text: "下一页"
+            }) %>
+        </div>
+    <% } %>
+</div>
