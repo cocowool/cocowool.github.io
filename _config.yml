@@ -102,3 +102,9 @@ theme: wave
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: ''
+
+# 配置生成百度 sitemap 文件
+baidu_sitemap:
+  path: baidu_sitemap.xml
+  date: updated
+  tags: true
