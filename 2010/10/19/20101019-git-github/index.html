@@ -55,7 +55,7 @@ var _hmt = _hmt || [];
     </div>
     <div class="blog-post-meta">
         
-        <span class="post-time">更新于：2026-08-24 16:10:48</span>
+        <span class="post-time">更新于：2026-08-25 08:32:54</span>
         
         <span class="post-time">发布于：2010-10-19 18:29:01</span>
     </div>
@@ -75,9 +75,9 @@ var _hmt = _hmt || [];
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name = <span class="string">&quot;用户名或者用户ID&quot;</span></span><br><span class="line">git config --global user.email = <span class="string">&quot;邮箱&quot;</span></span><br></pre></td></tr></table></figure>
 <p>这两个选项会在以后的使用过程中自动添加到代码中。</p>
 <p>4、创建验证用的公钥</p>
-<p>这个是比较复杂和困扰大多数人的地方，因为 git 是通过 ssh 的方式访问资源库的，所以需要在本地创建验证用的文件。<br>使用命令：ssh-keygen -C ‘you email <a href="mailto:&#x61;&#x64;&#x64;&#114;&#x65;&#115;&#115;&#64;&#x67;&#109;&#x61;&#105;&#x6c;&#46;&#99;&#x6f;&#x6d;">address@gmail.com</a>‘ -t rsa<br>会在用户目录 ~&#x2F;.ssh&#x2F; 下建立相应的密钥文件<br>可以使用 ssh -v <a href="mailto:&#103;&#105;&#x74;&#64;&#103;&#105;&#x74;&#x68;&#117;&#x62;&#46;&#x63;&#111;&#x6d;">git@github.com</a> 命令来测试链接是否畅通</p>
+<p>这个是比较复杂和困扰大多数人的地方，因为 git 是通过 ssh 的方式访问资源库的，所以需要在本地创建验证用的文件。<br>使用命令：ssh-keygen -C ‘you email <a href="mailto:&#97;&#100;&#x64;&#114;&#101;&#115;&#x73;&#64;&#103;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#x63;&#111;&#x6d;">address@gmail.com</a>‘ -t rsa<br>会在用户目录 ~&#x2F;.ssh&#x2F; 下建立相应的密钥文件<br>可以使用 ssh -v <a href="mailto:&#103;&#105;&#116;&#64;&#x67;&#x69;&#x74;&#104;&#117;&#98;&#46;&#99;&#111;&#109;">git@github.com</a> 命令来测试链接是否畅通</p>
 <p>5、上传公钥</p>
-<p>在 github.com 的界面中 选择右上角的 Account Settings，然后选择 SSH Public Keys ，选择新加。Title 可以随便命名，Key 的内容拷贝自 ~&#x2F;.ssh&#x2F;id_rsa.pub 中的内容，完成后，可以再使用 ssh -v <a href="mailto:&#103;&#x69;&#116;&#64;&#x67;&#x69;&#x74;&#x68;&#117;&#98;&#x2e;&#99;&#111;&#109;">git@github.com</a> 进行测试。看到下面的信息表示验证成功。</p>
+<p>在 github.com 的界面中 选择右上角的 Account Settings，然后选择 SSH Public Keys ，选择新加。Title 可以随便命名，Key 的内容拷贝自 ~&#x2F;.ssh&#x2F;id_rsa.pub 中的内容，完成后，可以再使用 ssh -v <a href="mailto:&#103;&#105;&#x74;&#64;&#103;&#105;&#116;&#104;&#x75;&#98;&#46;&#99;&#x6f;&#x6d;">git@github.com</a> 进行测试。看到下面的信息表示验证成功。</p>
 <p><img src="/20101019-git-github/Screenshot-1.png"></p>
 <p>进行到这里，我们也可以利用github来管理我们的项目和参与开源工作了，大体上使用git分为三种方式。</p>
 <p><strong>管理自己的项目</strong></p>
@@ -94,8 +94,8 @@ var _hmt = _hmt || [];
 <p><img src="/20101019-git-github/Screenshot.png"></p>
 <p><strong>Fork别人的项目</strong></p>
 <p>前面提到过，如果只是下载使用别人的代码，通过 git clone 就可以了，当然clone的前提是项目必须是public的，私有的项目是没办法的。如果需要参与，可以通过fork，然后合并的方式。</p>
-<p>1、首先需要去自己感兴趣的项目中进行Fork，fork出自己的一份分支来。fork之后，一般可以看到一个ssh访问的地址。例如：<a href="mailto:&#x67;&#105;&#x74;&#x40;&#x67;&#105;&#116;&#x68;&#x75;&#98;&#x2e;&#99;&#x6f;&#109;">git@github.com</a>:cocowool&#x2F;userguide.git</p>
-<p>2、复制代码<br>使用 git clone <a href="mailto:&#103;&#x69;&#116;&#x40;&#103;&#x69;&#x74;&#x68;&#117;&#x62;&#46;&#99;&#x6f;&#109;">git@github.com</a>:cocowool&#x2F;userguide.git userguide 可以将代码复制到本地的 userguide 文件夹中</p>
+<p>1、首先需要去自己感兴趣的项目中进行Fork，fork出自己的一份分支来。fork之后，一般可以看到一个ssh访问的地址。例如：<a href="mailto:&#103;&#105;&#116;&#64;&#x67;&#105;&#x74;&#x68;&#117;&#98;&#x2e;&#99;&#111;&#109;">git@github.com</a>:cocowool&#x2F;userguide.git</p>
+<p>2、复制代码<br>使用 git clone <a href="mailto:&#x67;&#x69;&#x74;&#64;&#x67;&#105;&#116;&#104;&#x75;&#98;&#x2e;&#x63;&#x6f;&#109;">git@github.com</a>:cocowool&#x2F;userguide.git userguide 可以将代码复制到本地的 userguide 文件夹中</p>
 <p>3、进行自己的修改，完成后请求原作者合并</p>
 <p><code>git pull person master</code></p>
 <p>下面是一些比较有用的命令的介绍：</p>
