@@ -1,5 +1,5 @@
 ---
-title: 20260825-frances-allen
+title: 法兰西斯·艾伦
 date: 2026-08-25 08:30:43
 keywords: 法兰西斯·艾伦, 计算机名人, 计算机名人录,  图灵奖得主
 category: 计算机名人录
