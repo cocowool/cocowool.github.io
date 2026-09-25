@@ -1,4 +1,91 @@
+author:
+  name: 大江小浪                   # 站名，用于页头 logo 与页脚版权
+  avatar: /image/avatar.svg      # 头像，留空则用站名首字
+  bio: A FULL STACK DREAMER!
+
 menu:
-  文章: /posts/
-  独立博客: /
+  首页: /
+  我的文章: /posts/
+  独立博客: /links
+  归档: /archives/
   关于我: /about/
+
+# --------------------------------------------------------------------- 首页
+index:
+  show_excerpt: true             # 卡片是否显示摘要
+  excerpt_length: 96             # 摘要字数上限
+  show_category: true            # 元信息行显示分类（有分类时替代作者名）
+  show_reading_time: true
+  show_word_count: false
+
+# --------------------------------------------------------------------- 侧栏
+sidebar:
+  enable: true
+  sticky: true
+  info_card: true
+  wechat:
+    enable: true
+    label: 微信公众号
+    qrcode: /image/wechat-qr.svg
+    tip: 扫码关注 · 每月两篇长文
+  shortcut_card: true
+  # count 支持三个取值：posts / categories / links / 留空
+  shortcuts:
+    - name: 文章归档
+      url: /archives/
+      count: posts
+    - name: 全部分类
+      url: /categories/
+      count: categories
+    - name: 独立博客
+      url: /links/
+      count: links
+    - name: RSS 订阅
+      url: /atom.xml
+
+# -- 社交信息
+# 值为空字符串则不渲染该项；键名即显示文案
+social:
+  GitHub: https://github.com/cocowool
+  Twitter: ''
+  微博: ''
+  知乎: ''
+  RSS: /atom.xml
+  邮箱: mailto:me@example.com
+
+# --------------------------------------------------------- Google AdSense
+# client 填上后自动加载 AdSense 脚本并渲染真实广告单元；
+# client 为空且 placeholder 为 true 时，只在版面上画出虚线占位框（方便调版式）。
+# 上线前请把 placeholder 改成 false。
+adsense:
+  client: ''                     # 形如 ca-pub-1234567890123456
+  placeholder: true
+  auto_ads: false                # 是否启用 AdSense 自动广告
+  slots:
+    list_feed: ''                # 首页 / 列表页信息流广告位
+    sidebar: ''                  # 侧栏广告位（300×250）
+    article_bottom: ''           # 文章底部广告位
+
+# ------------------------------------------------------------------- 文章页
+post:
+  toc: true
+  toc_min_depth: 2
+  toc_max_depth: 3
+  reading_progress: true
+  copyright: true
+  copyright_text: 本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。
+  show_updated: true             # 更新于 xx 与发布日期不同时，额外显示更新时间
+
+# ------------------------------------------------------------------ 页面标题
+page:
+  max_width: 780                 # 普通页面（关于我）正文最大宽度
+
+# --------------------------------------------------------------------- 页脚
+footer:
+  since: 2016
+  powered: true
+  extra: RSS · 站点地图
+  extra_url: /atom.xml
+
+# -------------------------------------------------------------- 文章摘要分隔
+excerpt_link: 继续阅读

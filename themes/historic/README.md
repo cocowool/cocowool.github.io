@@ -4,6 +4,7 @@ Hexo theme full of historic sense.
 
 # Feature
 
+* Paper sense and historic sense
 * Support Google Statistics
 * Support Baidu Statistics
 
