@@ -109,3 +109,14 @@ baidu_sitemap:
   path: baidu_sitemap.xml
   date: updated
   tags: true
+
+# ------------------------------------------------------------ RSS / Atom
+# hexo-generator-feed 的输出配置。
+# 注意：没装这个插件时 /atom.xml 不会被生成，页脚那个 RSS 链接就是死链。
+feed:
+  enable: true
+  type: atom              # atom 比 rss2 规范，阅读器兼容性也够
+  path: atom.xml
+  limit: 30               # 只输出最近 30 篇
+  content: false          # 只给摘要。设 true 是全文，但站点图片是相对路径，进阅读器会裂
+  order_by: -date

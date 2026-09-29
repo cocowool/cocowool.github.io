@@ -6,18 +6,39 @@
        1. source/_data/blogs.json            博客清单（爬虫产出，字段最全）
        2. source/_data/links.yml             手工维护的友链分组（老格式，仍兼容）
 
-     字段：name / url / description / rss / status / added_date
-       status 取值：active（正常更新）/ no_rss（抓不到订阅源）/ archived（已停更）
+     字段：name / url / description / rss / added_date
+       （blogs.json 里还有 status，页面已不再展示——不做「活跃/停更」判断，
+         列表里只呈现能在页面上自证的信息：站名、简介、收录日期、有无订阅）
+
+     列表 3 列：博客 / 简介 / 收录日期。站名本身就是链接，不单占一列放 URL。
+
+     「近期收录」的口径见下面的 RECENT_DAYS：
+     统计条的数字、筛选按钮的计数、行尾的 NEW 角标，三处共用同一个常量，
+     所以「点【近期收录】筛出来几行」和「统计条上写的几」永远相等。
 
      侧栏「独立博客」那一项的数字走的是同一个 blogItems()，
      所以列表和计数不会出现两套口径。
      ================================================================== */
 
-  var STATUS_TEXT = { active: '活跃', no_rss: '无 RSS', archived: '已归档' };
+  /* 「近期」的窗口：收录日期距今天数 < 这个值就算近期。
+     想改成「近一周」就写 7，想改成「近三个月」就写 90。 */
+  var RECENT_DAYS = 30;
 
-  // 统计条里只显示月-日（年份在列表里已经有了，统计条不重复占位）
-  function shortDate(d) {
-    return d && d.length >= 10 ? d.slice(5, 10) : (d || '');
+  var DAY_MS = 86400000;
+  var NOW = Date.now();
+
+  // 收录日期距今多少天；日期缺失或解析不了返回 null（不参与「近期」判断）
+  function recentDays(d) {
+    if (!d) return null;
+    var t = Date.parse(String(d).replace(/-/g, '/'));
+    if (isNaN(t)) return null;
+    var diff = NOW - t;
+    return diff >= 0 ? Math.floor(diff / DAY_MS) : null;
+  }
+
+  function isRecent(d) {
+    var n = recentDays(d);
+    return n !== null && n < RECENT_DAYS;
   }
 
   var items = blog_items() || [];
@@ -25,14 +46,12 @@
   /* ---------------------------------------------------------- 统计 */
 
   var total = items.length,
-      activeN = 0,
       rssN = 0,
-      latestDate = '';
+      recentN = 0;
 
   items.forEach(function (it) {
-    if (it.status === 'active') activeN++;
     if (it.rss) rssN++;
-    if (it.date && it.date > latestDate) latestDate = it.date;
+    if (isRecent(it.date)) recentN++;
   });
 
   /* ------------------------------------------- 排序：新收录的在前 */
@@ -45,16 +64,6 @@
     return b.date.localeCompare(a.date);
   });
 
-  /* -------------------------------------- 最近 7 天收录的打个 NEW */
-
-  var NOW = Date.now();
-  function isNew(d) {
-    if (!d) return false;
-    var t = Date.parse(String(d).replace(/-/g, '/'));
-    if (isNaN(t)) return false;
-    return (NOW - t) >= 0 && (NOW - t) < 7 * 86400000;
-  }
-
   var latestFeed = Array.isArray(site.data.latest_posts_cn) ? site.data.latest_posts_cn : [];
 %>
 <div class="blogs-layout">
@@ -64,7 +73,7 @@
     <header class="blogs-hero">
       <h1><%= page.title || '独立博客' %></h1>
       <% if (total) { %>
-        <p>收录 <%= total %> 个中文独立博客<% if (activeN) { %>，其中 <%= activeN %> 个仍在更新<% } %></p>
+        <p>收录 <%= total %> 个中文独立博客<% if (recentN) { %>，近 <%= RECENT_DAYS %> 天收录 <%= recentN %> 个<% } %></p>
       <% } %>
     </header>
 
@@ -83,7 +92,6 @@
     "url": "https://example.com",
     "description": "一句话简介",
     "rss": "https://example.com/atom.xml",
-    "status": "active",
     "added_date": "2026-06-05"
   }
 ]</code></pre>
@@ -93,23 +101,22 @@
     <% } else { %>
 
       <%# ---------------------------------------------------- 统计 --- %>
+      <%# 列数由 CSS 的 grid-auto-flow: column 自适应，增减格子不用改样式 %>
       <div class="blog-stats">
         <div class="blog-stat">
           <b><%= total %></b>
           <span>收录站点</span>
         </div>
         <div class="blog-stat">
-          <b><%= activeN %></b>
-          <span>活跃更新</span>
-        </div>
-        <div class="blog-stat">
           <b><%= rssN %></b>
           <span>提供 RSS</span>
         </div>
-        <div class="blog-stat">
-          <b><%= latestDate ? shortDate(latestDate) : '—' %></b>
-          <span>最近收录</span>
-        </div>
+        <% if (recentN) { %>
+          <div class="blog-stat">
+            <b><%= recentN %></b>
+            <span>近期收录</span>
+          </div>
+        <% } %>
       </div>
 
       <%# ------------------------------------------------ 工具条 --- %>
@@ -122,14 +129,14 @@
           <input type="search" id="blog-search" placeholder="搜索站名或简介…" autocomplete="off" aria-label="搜索站点">
         </label>
 
+        <%# 筛选项和统计条一一对应：列表里能看见的属性才配当筛选条件 %>
         <div class="blog-filters" id="blog-filters">
           <button type="button" class="is-on" data-f="all">全部 <em><%= total %></em></button>
-          <button type="button" data-f="active">活跃 <em><%= activeN %></em></button>
-          <% if (total - activeN > 0) { %>
-            <button type="button" data-f="other">其它 <em><%= total - activeN %></em></button>
-          <% } %>
           <% if (rssN > 0) { %>
             <button type="button" data-f="rss">有订阅 <em><%= rssN %></em></button>
+          <% } %>
+          <% if (recentN > 0) { %>
+            <button type="button" data-f="recent">近期收录 <em><%= recentN %></em></button>
           <% } %>
         </div>
       </div>
@@ -139,15 +146,14 @@
         <div class="blog-head" aria-hidden="true">
           <span>博客</span>
           <span>简介</span>
-          <span>状态</span>
-          <span>收录</span>
+          <span>收录日期</span>
         </div>
 
         <ul class="blog-list" id="blog-list">
           <% items.forEach(function (it) { %>
             <li class="blog-row"
-                data-status="<%= it.status %>"
                 data-rss="<%= it.rss ? 1 : 0 %>"
+                data-recent="<%= isRecent(it.date) ? 1 : 0 %>"
                 data-k="<%= (it.name + ' ' + it.desc).toLowerCase() %>">
               <div class="blog-name">
                 <a href="<%- url_for(it.url) %>" target="_blank" rel="noopener"><%= it.name %></a>
@@ -162,16 +168,12 @@
                 <% } %>
               </div>
 
-              <%# 没写简介的站（120 条里有 26 条）留空会像坏了，回落到域名 %>
+              <%# 没写简介的站留空会像坏了，回落到域名 %>
               <div class="blog-desc<%= it.desc ? '' : ' blog-desc--host' %>" title="<%= it.desc || it.host %>"><%= it.desc || it.host %></div>
-
-              <div class="blog-status">
-                <i class="blog-dot"></i><%= STATUS_TEXT[it.status] || it.status %>
-              </div>
 
               <div class="blog-date">
                 <%= it.date || '—' %>
-                <% if (isNew(it.date)) { %><span class="blog-new">NEW</span><% } %>
+                <% if (isRecent(it.date)) { %><span class="blog-new">NEW</span><% } %>
               </div>
             </li>
           <% }); %>
@@ -212,7 +214,7 @@
 </div>
 
 <script>
-/* 站点搜索 + 状态筛选。只在本页生效，数据都在 DOM 上，不需要额外请求。 */
+/* 站点搜索 + 筛选。只在本页生效，数据都在 DOM 上，不需要额外请求。 */
 (function () {
   var list = document.getElementById('blog-list');
   if (!list) return;
@@ -229,11 +231,9 @@
 
     rows.forEach(function (r) {
       var okQ = !q || (r.getAttribute('data-k') || '').indexOf(q) >= 0;
-      var st  = r.getAttribute('data-status');
       var okF = current === 'all'
-        || (current === 'active' && st === 'active')
-        || (current === 'other'  && st !== 'active')
-        || (current === 'rss'    && r.getAttribute('data-rss') === '1');
+        || (current === 'rss'    && r.getAttribute('data-rss')    === '1')
+        || (current === 'recent' && r.getAttribute('data-recent') === '1');
 
       var ok = okQ && okF;
       r.hidden = !ok;

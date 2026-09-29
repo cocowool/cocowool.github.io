@@ -5,10 +5,10 @@
 
 # ------------------------------------------------------------------ 站点作者
 author:
-  name: Author Name                 # 站名，用于页头 logo 与页脚版权
+  name: 大江小浪                 # 站名，用于页头 logo 与页脚版权
   avatar: ''                     # 头像，见下方 assets；留空 = 自动解析
-  bio: Your Slogan
-  bio_more: Your Description
+  bio: A full-stack dreamer
+  bio_more: 记录运维、后端与各种折腾
 
 # ------------------------------------------------------------ 个人图片资源
 # 主题内置的默认图在 themes/historical/source/image/ 下 —— 那是主题的地盘，
@@ -59,6 +59,10 @@ sidebar:
     label: 微信公众号
     qrcode: ''                   # 留空 = 自动解析，见 assets.wechat_qr
     tip: 扫码关注 · 每月两篇长文
+    # 二维码下面那两行小字默认都不显示：二维码本身就是公众号的，
+    # 紧跟在下面放站名（= 公众号名）比多两行说明更干净。想要就改成 true。
+    show_label: false            # 「微信公众号」小标题
+    show_tip: false              # 「扫码关注 · 每月两篇长文」引导语
   shortcut_card: true
   # count 支持三个取值：posts / categories / links / 留空
   shortcuts:
@@ -71,8 +75,9 @@ sidebar:
     - name: 独立博客
       url: /links/
       count: links
-    - name: RSS 订阅
-      url: /atom.xml
+    # 侧栏这里原来还有一项「RSS 订阅」。全站 RSS 入口只保留页脚那一个
+    # （footer.links），侧栏社交区和快捷链接都不再重复放。
+    # 想找回来就照着上面三项的格式加回去。
 
 # ----------------------------------------------------------------- 社交入口
 # 值为空字符串则不渲染该项；键名即显示文案
@@ -81,7 +86,9 @@ social:
   Twitter: ''
   微博: ''
   知乎: ''
-  RSS: /atom.xml
+  # RSS 入口全站只留页脚一个（footer.links），侧栏社交区不再重复。
+  # 想恢复就写 RSS: /atom.xml
+  RSS: ''
   邮箱: mailto:me@example.com
 
 # --------------------------------------------------------------------- 字体
@@ -131,8 +138,18 @@ page:
 footer:
   since: 2016
   powered: true
-  extra: RSS · 站点地图
-  extra_url: /atom.xml
+  # 页脚右侧的小链接，按数组顺序渲染：name 是文案，url 是目标。
+  # 「回到首页」是内置的，不用写在这里。
+  #
+  # 老写法 extra / extra_url（一个链接、文案整体当标题用）仍然兼容，
+  # 但填了 links 就以 links 为准。原来的 extra: "RSS · 站点地图" 是
+  # 把两个词塞进同一个 <a>、一起指向 atom.xml ——「站点地图」实际是死链，
+  # 所以这里拆成两条各自指向自己。
+  links:
+    - name: RSS
+      url: /atom.xml
+    - name: 站点地图
+      url: /sitemap.xml
 
 # -------------------------------------------------------------- 文章摘要分隔
 excerpt_link: 继续阅读

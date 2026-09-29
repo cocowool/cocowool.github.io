@@ -8,7 +8,7 @@
 
 # ------------------------------------------------------------ 个人信息
 author:
-  name: 大江小浪
+  name: cocowool
   bio: A FULL STACK DREAMER!        # ← 你的原值（新版默认小写，这里保留你的）
   # 想关掉第二行简介，必须显式写空值，不能靠「注释掉」——
   # 站点级配置是【深合并】：注释掉 = 这个键压根不存在 = 主题 _config.yml 里的
@@ -81,6 +81,25 @@ social:
   # Twitter: ''
   # 微博: ''
   # 知乎: ''
-  RSS: /atom.xml
+  # RSS 入口全站只保留页脚那一个（主题 _config.yml 的 footer.links）。
+  # 侧栏这里原来也放了一个，和页脚重复，已去掉；快捷链接卡里的「RSS 订阅」同理。
+  # 想恢复就写 RSS: /atom.xml
+  RSS: ''
   # 邮箱必须带 mailto:，否则 url_for() 会把它当站内相对路径处理，点进去是死链
   邮箱: mailto:cocowool@qq.com
+
+# ------------------------------------------------------------------ 页脚
+# 页脚右侧的小链接由主题 _config.yml 的 footer.links 定义，默认两条：
+#   RSS      → /atom.xml
+#   站点地图  → /sitemap.xml
+# （「回到首页」是内置的，不用写。）
+#
+# 原来的写法是 extra: "RSS · 站点地图" 整串塞进同一个 <a>、一起指向 atom.xml，
+# 所以「站点地图」点进去其实是 RSS —— 已拆成两条各自指向自己。
+# 想在站点级改成别的，就在这里覆盖：
+# footer:
+#   links:
+#     - name: RSS
+#       url: /atom.xml
+#     - name: 站点地图
+#       url: /sitemap.xml

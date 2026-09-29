@@ -13,9 +13,21 @@
       <% } %>
     </span>
     <span class="footer-extra">
-      <% if (theme.footer.extra) { %>
-        <a href="<%- url_for(theme.footer.extra_url || '/') %>"><%= theme.footer.extra %></a>
-      <% } %>
+      <%
+        // 页脚小链接支持两种写法：
+        //   新：footer.links 是数组，每项 { name, url }
+        //   旧：footer.extra + footer.extra_url（一个链接，文案当标题用）
+        // 两者都填时以 links 为准。
+        var fLinks = [].concat((theme.footer && theme.footer.links) || []).filter(function (l) {
+          return l && l.name && l.url;
+        });
+        if (!fLinks.length && theme.footer && theme.footer.extra) {
+          fLinks = [{ name: theme.footer.extra, url: theme.footer.extra_url || '/' }];
+        }
+      %>
+      <% fLinks.forEach(function (l) { %>
+        <a href="<%- url_for(l.url) %>"><%= l.name %></a>
+      <% }); %>
       <a href="<%- url_for('/') %>">回到首页</a>
     </span>
   </div>

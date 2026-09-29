@@ -6,6 +6,10 @@
 //
 //  列表用 grid 而不是 <table>：窄屏能把一行拆成卡片，
 //  表格做不到这点（<td> 不能自由换行成块）。
+//
+//  列表 3 列：博客 / 简介 / 收录日期。
+//  「状态」列已经撤掉——页面上没有任何东西能让读者自己判断
+//  一个站是不是「活跃」，摆个圆点只是让列表更吵。
 // ============================================================
 
 @use 'variables' as *;
@@ -35,7 +39,10 @@
 
 .blog-stats {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  // 列数跟着格子数走（统计条会按数据情况少渲染一格），
+  // 写死 repeat(4, …) 的话少一格会在右边留一条空白。
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
   // 用 1px 间隙 + 底色做格子分隔线，比给每格加 border 干净
   gap: 1px;
   background: var(--line-soft);
@@ -165,7 +172,7 @@
 .blog-head,
 .blog-row {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 2fr) 84px 108px;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 2fr) 108px;
   gap: 18px;
   align-items: center;
 }
@@ -250,34 +257,6 @@
   }
 }
 
-.blog-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12.5px;
-  color: var(--ink-2);
-  letter-spacing: .3px;
-  white-space: nowrap;
-}
-
-.blog-dot {
-  flex: none;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--ink-4);
-}
-
-.blog-row[data-status="active"]   .blog-dot { background: var(--accent); }
-.blog-row[data-status="no_rss"]   .blog-dot { background: var(--accent-soft); }
-.blog-row[data-status="archived"] .blog-dot { background: var(--ink-4); }
-
-// 已归档的整行压暗一档，扫列表时自然沉下去
-.blog-row[data-status="archived"] {
-  .blog-name > a:first-child,
-  .blog-desc { opacity: .62; }
-}
-
 .blog-date {
   display: inline-flex;
   align-items: center;
@@ -289,15 +268,20 @@
   white-space: nowrap;
 }
 
+// 「近期收录」角标。口径 = EJS 里的 RECENT_DAYS（默认 30 天），
+// 所以列表里带 NEW 的行数，就是统计条上「近期收录」那个数。
+// 一个多月下来会有两三成行带角标，所以用浅底浅边而不是实心红块——
+// 实心的话整列会连成一片红，扫列表时反而看不见站名。
 .blog-new {
   font-family: var(--font-sans);
   font-size: 10px;
-  font-weight: 700;
-  line-height: 1.4;
-  padding: 2px 5px;
+  font-weight: 600;
+  line-height: 1.5;
+  padding: 0 5px;
+  border: 1px solid var(--accent-soft);
   border-radius: 4px;
-  background: var(--accent);
-  color: #fff;
+  background: var(--accent-wash);
+  color: var(--accent);
   letter-spacing: .6px;
 }
 
@@ -375,7 +359,7 @@
 @include below($bp-tablet) {
   .blog-head,
   .blog-row {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) 76px 96px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) 92px;
     gap: 14px;
   }
 
@@ -385,36 +369,35 @@
 @include below($bp-mobile) {
   .blogs-hero h1 { font-size: 26px; letter-spacing: 1.2px; }
 
-  .blog-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
+  // 统计条保持一行：格子数是弹性的（可能只有 2 格），
+  // 定死列数会在窄屏上把某一格挤到第二行去。
   .blog-stat {
-    padding: 15px 12px 13px;
+    padding: 15px 8px 13px;
 
     b { font-size: 21px; }
+    span { font-size: 12px; letter-spacing: .4px; }
   }
 
   .blog-toolbar { margin: 22px 0 13px; }
 
   .blog-search { flex: 1 1 100%; }
 
-  // 表格拆成卡片：站名与日期一行，简介独占一行，状态压到最后
+  // 表格拆成卡片：站名与收录日期一行，简介独占一行
   .blog-head { display: none; }
 
   .blog-row {
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas:
-      "name   date"
-      "desc   desc"
-      "status status";
+      "name date"
+      "desc desc";
     gap: 7px 12px;
     align-items: start;
     padding: 15px 16px;
   }
 
-  .blog-name   { grid-area: name; }
-  .blog-date   { grid-area: date; justify-self: end; }
-  .blog-desc   { grid-area: desc; white-space: normal; }
-  .blog-status { grid-area: status; }
+  .blog-name { grid-area: name; }
+  .blog-date { grid-area: date; justify-self: end; }
+  .blog-desc { grid-area: desc; white-space: normal; }
 
   .blog-feed-list li {
     flex-direction: column;

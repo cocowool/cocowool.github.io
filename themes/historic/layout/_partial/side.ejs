@@ -33,13 +33,14 @@
 
     <div class="side-name"><%= siteName %></div>
 
+    <% if (theme.author.bio) { %>
+      <div class="side-desc"><%= theme.author.bio %><% if (theme.author.bio_more) { %><br><%= theme.author.bio_more %><% } %></div>
+    <% } %>
+
     <% if (qrOnTop) { %>
       <div class="side-divider side-divider--gap"></div>
     <% } %>
 
-    <% if (theme.author.bio) { %>
-      <div class="side-desc"><%= theme.author.bio %><% if (theme.author.bio_more) { %><br><%= theme.author.bio_more %><% } %></div>
-    <% } %>
 
     <% if (wechat.enable && qrcode && !qrOnTop) { %>
       <div class="side-divider"></div>
