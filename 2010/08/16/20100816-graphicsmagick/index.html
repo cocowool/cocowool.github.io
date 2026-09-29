@@ -1,71 +1,94 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="codeva-lFRExQpfJ8" />
-    <title>GraphicsMagick介绍及安装-大江小浪</title>
-    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="graphicsmagick, graphicsmagick php, php">
-    <meta name="description" content="GraphicsMagick号称图像处理领域的瑞士军刀。短小精悍的代码却提供了一个鲁棒、高效的工具和库集合，来处理图像的读取、写入和操作，支持超过88中图像格式，包括重要的DPX、GIF、JPEG、JPEG-2000、PNG、PDF、PNM和TIFF。">
-    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
-    <link rel="stylesheet" href="/css/main.css" />
-    <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>GraphicsMagick介绍及安装 · cocowool</title>
+<meta name="description" content="GraphicsMagick号称图像处理领域的瑞士军刀。短小精悍的代码却提供了一个鲁棒、高效的工具和库集合，来处理图像的读取、写入和操作，支持超过88中图像格式，包括重要的DPX、GIF、JPEG、JPEG-2000、PNG、PDF、PNM和TIFF。">
+
+<link rel="canonical" href="http://www.popsite.cn/2010/08/16/20100816-graphicsmagick/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="GraphicsMagick介绍及安装 · cocowool">
+<meta property="og:site_name" content="cocowool">
+<meta property="og:description" content="GraphicsMagick号称图像处理领域的瑞士军刀。短小精悍的代码却提供了一个鲁棒、高效的工具和库集合，来处理图像的读取、写入和操作，支持超过88中图像格式，包括重要的DPX、GIF、JPEG、JPEG-2000、PNG、PDF、PNM和TIFF。">
+<meta property="article:published_time" content="2010-08-16T10:58:01.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="cocowool" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="wave">
-    <nav class="navbar blog-header navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">大江小浪</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/links/">独立博客</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">我的文章</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">关于我</a>
-                    </li>
-                
-                </ul>
-            </div>
-        </div>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">cocowool</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
     </nav>
-    <div class="container blog-content">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
-                <div class="blog-post-detail">
-    <div class="blog-post-title">
-      <h1>GraphicsMagick介绍及安装</h1>
+  </div>
+</header>
+
+  
+<div class="post-wrap post-wrap--single">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
     </div>
-    <div class="blog-post-meta">
-        
-        <span class="post-time">更新于：2026-09-25 21:01:43</span>
-        
-        <span class="post-time">发布于：2010-08-16 18:58:01</span>
+
+    <h1>GraphicsMagick介绍及安装</h1>
+
+    <div class="post-meta">
+      发布于2010-08-16<span class="dot">·</span>更新于 2026-09-29<span class="dot">·</span>1028 字<span class="dot">·</span>3 分钟
     </div>
-    <div class="blog-post-content">
-      <div class="blog-post-ad">
-        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
-        <!-- <div>
-          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
-        </div> -->
-      </div>
+
+    <div class="prose">
       <p>GraphicsMagick</p>
 <p>当前稳定版本：<a target="_blank" rel="noopener" href="http://www.graphicsmagick.org/1.3/">1.3.12</a>(发布日期2010-03-08)</p>
 <p><strong>简单介绍</strong>：</p>
@@ -102,91 +125,80 @@ var _hmt = _hmt || [];
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ./configure --with-php-config=/usr/local/sinasrv2/bin/php-config  --with-gmagick=/usr/local/sinasrv2/</span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure>
 
 <p>在php.ini打开扩展后，重启apache就可以使用了</p>
-<p><img src="/20100816-graphicsmagick/image_thumb_1.png"></p>
+<img src="/2010/08/16/20100816-graphicsmagick/image_thumb_1.png" class="" loading="lazy" decoding="async">
+
 <p><strong>与magickwand的比较</strong>：</p>
 <p>本文使用了20个大小不同的图片文件，分别使用gmagick和magickwand来完成打开图片、读取图片信息、关闭图片的操作，最后得出的结果如下：</p>
-<p><img src="/20100816-graphicsmagick/image_thumb.png"></p>
+<img src="/2010/08/16/20100816-graphicsmagick/image_thumb.png" class="" loading="lazy" decoding="async">
+
 <p>总体上看，magickwand的效率要比GraphicsMagick差不少，但是效率的提升貌似与所处理的文件没有明显的线性关系，也许是图片太小了，据说GraphicsMagick可以处理Gb级的图片，更多的使用细节，只能在今后进一步研究了。</p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://www.graphicsmagick.org/">GraphicsMagick</a><br>2、<a target="_blank" rel="noopener" href="http://pecl.php.net/package/gmagick">gmagick</a><br>3、<a target="_blank" rel="noopener" href="http://www.imagemagick.org/script/index.php">ImageMagick</a><br>4、<a target="_blank" rel="noopener" href="http://www.graphicsmagick.org/OpenMP.html#freebsd-intel-xeon">OpenMP in GraphicsMagick</a><br>5、<a target="_blank" rel="noopener" href="http://nightsailer.javaeye.com/blog/539259">解决GraphicsMagick和ImageMagick冲突</a><br>6、<a target="_blank" rel="noopener" href="http://nothing.tw/php/intro.gmagick.html">Gmagick</a><br>7、<a target="_blank" rel="noopener" href="http://devzone.zend.com/article/10531">Manipulating Images with PHP and GraphicsMagick</a><br>8、<a target="_blank" rel="noopener" href="http://lendy.9846.com/blog/2008/07/14/imagemagick-for-jpeg/">ImageMagick安装备忘</a></p>
 
-      <div class="blog-post-footer">
-        <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
       </div>
-    </div>
     
-    <div class="blog-post-nav row">
-      
-        <div class="nav-link col-md-6">
-          <a href="/2010/08/21/20100821-php-autoload/" id="article-nav-newer" class="article-nav-link-wrap">
-            &lt;&lt; PHP中Autoload使用中的一些问题
-          </a>  
-        </div>
-      
-      
-        <div class="nav-link col-md-6">
-          <a href="/2010/08/14/20100814-time-test/" id="article-nav-older" class="article-nav-link-wrap">
-            Linux下文件时间的一些测试 &gt;&gt;
-          </a>
-        </div>
-      
-    </div>
+
+    
+      <nav class="post-nav">
         
-  </div>
-              </div>
-            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
-                <div class="blog-profile">
-                    <div class="blog-author">
-
-    <div class="author-img">
-        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
-    </div>
-
-    <div class="author-desc">
-        <h1>cocowool</h1>
-        <p>A full-stack dreamer!</p>
-    </div>
-</div>
-                </div>
-                <div class="blog-google-ads">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- EDULINKS-Right -->
-     <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2449691085720111"
-          data-ad-slot="7013232113"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-     <script>
-
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid blog-footer">
-        <div class="container">
-            <div class="row blog-friend-link">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <h3>友情链接</h3>
-                </div>
-                
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="blog-copyright">
-                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
-                </div>    
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+          <a class="post-nav-item post-nav-prev" href="/2010/08/21/20100821-php-autoload/">
+            <em>上一篇</em>
+            <b>PHP中Autoload使用中的一些问题</b>
+          </a>
+        
+        
+          <a class="post-nav-item post-nav-next" href="/2010/08/14/20100814-time-test/">
+            <em>下一篇</em>
+            <b>Linux下文件时间的一些测试</b>
+          </a>
+        
+      </nav>
     
-<script src="/scripts/main.js"></script>
+  </article>
+
+  
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 cocowool
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>

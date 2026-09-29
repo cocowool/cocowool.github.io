@@ -1,71 +1,94 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="codeva-lFRExQpfJ8" />
-    <title>Hadoop学习笔记一：单节点安装-大江小浪</title>
-    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="Hadoop, Hadoop linux">
-    <meta name="description" content="通过本节的学习，可以掌握如何在单节点上使用Hadoop进行Map/Reduce以及HDFS存储的实现。">
-    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
-    <link rel="stylesheet" href="/css/main.css" />
-    <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>Hadoop学习笔记一：单节点安装 · cocowool</title>
+<meta name="description" content="通过本节的学习，可以掌握如何在单节点上使用Hadoop进行Map/Reduce以及HDFS存储的实现。">
+
+<link rel="canonical" href="http://www.popsite.cn/2011/12/20/20111220-hadoop-introduce/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop学习笔记一：单节点安装 · cocowool">
+<meta property="og:site_name" content="cocowool">
+<meta property="og:description" content="通过本节的学习，可以掌握如何在单节点上使用Hadoop进行Map/Reduce以及HDFS存储的实现。">
+<meta property="article:published_time" content="2011-12-20T04:53:01.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="cocowool" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="wave">
-    <nav class="navbar blog-header navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">大江小浪</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/links/">独立博客</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">我的文章</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">关于我</a>
-                    </li>
-                
-                </ul>
-            </div>
-        </div>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">cocowool</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
     </nav>
-    <div class="container blog-content">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
-                <div class="blog-post-detail">
-    <div class="blog-post-title">
-      <h1>Hadoop学习笔记一：单节点安装</h1>
+  </div>
+</header>
+
+  
+<div class="post-wrap">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
     </div>
-    <div class="blog-post-meta">
-        
-        <span class="post-time">更新于：2026-09-25 21:01:43</span>
-        
-        <span class="post-time">发布于：2011-12-20 12:53:01</span>
+
+    <h1>Hadoop学习笔记一：单节点安装</h1>
+
+    <div class="post-meta">
+      发布于2011-12-20<span class="dot">·</span>更新于 2026-09-29<span class="dot">·</span>862 字<span class="dot">·</span>2 分钟
     </div>
-    <div class="blog-post-content">
-      <div class="blog-post-ad">
-        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
-        <!-- <div>
-          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
-        </div> -->
-      </div>
+
+    <div class="prose">
       <p>通过本节的学习，可以掌握如何在单节点上使用Hadoop进行Map&#x2F;Reduce以及HDFS存储的实现。</p>
 <h3 id="环境要求："><a href="#环境要求：" class="headerlink" title="环境要求："></a><strong>环境要求：</strong></h3><p>支持的平台：<br>支持GNU&#x2F;Linux平台，可以作为测试和生产环境使用。Hadoop在2000个节点的生产环境中经受过考验。<br>支持Win32平台作为测试环境，正式环境的测试还不够充分，所以发布版暂时不能支持Win32环境。<br>需要的软件：<br>1、Java 1.6.x，必须。<br>2、ssh、sshd，必须。</p>
 <p>如果是在Windows环境下，你也许需要 Cygwin。<br>安装必要的软件<br>如果服务器没有必要的软件，就必须进行安装。不同的发行版本，有不同的安装方法。例如Ubuntu下：</p>
@@ -73,12 +96,14 @@ var _hmt = _hmt || [];
 
 <h3 id="下载Hadoop"><a href="#下载Hadoop" class="headerlink" title="下载Hadoop"></a><strong>下载Hadoop</strong></h3><p>从<a target="_blank" rel="noopener" href="http://hadoop.apache.org/core/releases.html">这里</a>下载一个Hadoop的稳定版本。</p>
 <p><strong>开始我们的Hadoop之旅</strong><br>解压下载的软件，在解压后的目录中，编辑 conf&#x2F;hadoop-env.sh 脚本设置服务器的JAVA_HOME目录。<br>我的环境是 Centos6.0，yum安装了OPEN-JDK，对应的目录为：<br>&#x2F;usr&#x2F;lib&#x2F;jvm&#x2F;java-1.6.0-openjdk-1.6.0.0&#x2F;jre&#x2F;<br>执行 bin&#x2F;hadoop 命令，如果如下图所示，我们就做好使用 Hadoop 的准备了。</p>
-<p><img src="/20111220-hadoop-introduce/201112201253263344.png"></p>
+<img src="/2011/12/20/20111220-hadoop-introduce/201112201253263344.png" class="" loading="lazy" decoding="async">
+
 <p>可以用三种方式使用Hadoop：<br>本地模式(Local Standalone Mode)；<br>伪分布式模式(Pseudo-Distributed Mode)；<br>完全分布式模式；</p>
 <p><strong>本地模式</strong></p>
 <p>默认情况下，Hadoop是配置为本地运行的，以一个单独的Java进程运行，这种方式非常适合Debug。<br>在本地，我选择了对 194Mb 的访问日志进行分析，如下代码：<br><code>bin/hadoop jar hadoop-examples-0.20.203.0.jar grep input/ output/ &#39;favicon[a-z.]+&#39;</code></p>
 <p>这个任务是分析日志中出现的favicon的次数，统计结果如下：</p>
-<p><img src="/20111220-hadoop-introduce/201112201253265886.png"></p>
+<img src="/2011/12/20/20111220-hadoop-introduce/201112201253265886.png" class="" loading="lazy" decoding="async">
+
 <p>其中part文件中存储了我要查找的favicon字符串出现的次数。</p>
 <p><strong>伪分布式模式</strong></p>
 <p>配置：<br>参照官方的配置进行，分别对conf&#x2F;core-site.xml、conf&#x2F;hdf-site.xml、conf&#x2F;mapred-site.xml进行配置。配置的内容都比较类似，主要是配置一个服务器的主机名，然后配置对应的IP或值。<br>设置无需密码的SSH：<br>按照官方的设置</p>
@@ -92,84 +117,76 @@ var _hmt = _hmt || [];
 <p><code>bin/stop-all.sh</code></p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://hadoop.apache.org/common/docs/stable/single_node_setup.html">Single Node Setup</a><br>2、<a target="_blank" rel="noopener" href="http://hadoop.apache.org/common/docs/r0.20.0/hdfs_shell.html#put">Hdfs Shell Handbook</a><br>3、<a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/5293446/hdfs-error-could-only-be-replicated-to-0-nodes-instead-of-1">Hdfs error：could only be replicated to 0 nodes instead of 1</a><br>4、<a target="_blank" rel="noopener" href="http://www.koopman.me/2009/04/hadoop-0183-could-not-create-the-java-virtual-machine/">Hadoop：Could not create Java Virtual Machine</a><br>5、<a target="_blank" rel="noopener" href="http://lucene.472066.n3.nabble.com/Namenode-not-starting-td3302351.html">Namenode not starting</a><br>6、<a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/HDFS-1943">Faile to start datanode while start-dfs.sh is executed by root user</a></p>
 
-      <div class="blog-post-footer">
-        <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
       </div>
-    </div>
     
-    <div class="blog-post-nav row">
-      
-        <div class="nav-link col-md-6">
-          <a href="/2011/12/29/20111229-short-url-algrithm/" id="article-nav-newer" class="article-nav-link-wrap">
-            &lt;&lt; 短链接算法收集与分析
-          </a>  
-        </div>
-      
-      
-        <div class="nav-link col-md-6">
-          <a href="/2011/12/14/20111214-virtualbox-adapter/" id="article-nav-older" class="article-nav-link-wrap">
-            VirtualBox克隆后无法找到网卡的问题 &gt;&gt;
-          </a>
-        </div>
-      
-    </div>
+
+    
+      <nav class="post-nav">
         
-  </div>
-              </div>
-            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
-                <div class="blog-profile">
-                    <div class="blog-author">
-
-    <div class="author-img">
-        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
-    </div>
-
-    <div class="author-desc">
-        <h1>cocowool</h1>
-        <p>A full-stack dreamer!</p>
-    </div>
-</div>
-                </div>
-                <div class="blog-google-ads">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- EDULINKS-Right -->
-     <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2449691085720111"
-          data-ad-slot="7013232113"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-     <script>
-
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid blog-footer">
-        <div class="container">
-            <div class="row blog-friend-link">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <h3>友情链接</h3>
-                </div>
-                
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="blog-copyright">
-                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
-                </div>    
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+          <a class="post-nav-item post-nav-prev" href="/2011/12/29/20111229-short-url-algrithm/">
+            <em>上一篇</em>
+            <b>短链接算法收集与分析</b>
+          </a>
+        
+        
+          <a class="post-nav-item post-nav-next" href="/2011/12/14/20111214-virtualbox-adapter/">
+            <em>下一篇</em>
+            <b>VirtualBox克隆后无法找到网卡的问题</b>
+          </a>
+        
+      </nav>
     
-<script src="/scripts/main.js"></script>
+  </article>
+
+  
+<aside class="toc" id="toc">
+  <div class="toc-title">目 录</div>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E8%A6%81%E6%B1%82%EF%BC%9A"><span class="toc-text">环境要求：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BDHadoop"><span class="toc-text">下载Hadoop</span></a></li></ol>
+</aside>
+
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 cocowool
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>

@@ -1,72 +1,97 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="codeva-lFRExQpfJ8" />
-    <title>Python3.6学习笔记（五）-大江小浪</title>
-    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="python, python 3.6, python学习笔记, python基础">
-    <meta name="description" content="Python3.6学习笔记，Python网络编程以及一些常用的内置模块。">
-    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
-    <link rel="stylesheet" href="/css/main.css" />
-    <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>Python3.6学习笔记（五） · cocowool</title>
+<meta name="description" content="Python3.6学习笔记，Python网络编程以及一些常用的内置模块。">
+
+<link rel="canonical" href="http://www.popsite.cn/2017/04/23/20170423-python3-tutorial-5/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python3.6学习笔记（五） · cocowool">
+<meta property="og:site_name" content="cocowool">
+<meta property="og:description" content="Python3.6学习笔记，Python网络编程以及一些常用的内置模块。">
+<meta property="article:published_time" content="2017-04-23T02:34:00.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="cocowool" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="wave">
-    <nav class="navbar blog-header navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">大江小浪</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/links/">独立博客</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">我的文章</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">关于我</a>
-                    </li>
-                
-                </ul>
-            </div>
-        </div>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">cocowool</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
     </nav>
-    <div class="container blog-content">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
-                <div class="blog-post-detail">
-    <div class="blog-post-title">
-      <h1>Python3.6学习笔记（五）</h1>
+  </div>
+</header>
+
+  
+<div class="post-wrap">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
     </div>
-    <div class="blog-post-meta">
-        
-        <span class="post-time">更新于：2026-09-25 21:01:43</span>
-        
-        <span class="post-time">发布于：2017-04-23 10:34:00</span>
+
+    <h1>Python3.6学习笔记（五）</h1>
+
+    <div class="post-meta">
+      发布于2017-04-23<span class="dot">·</span>更新于 2026-09-29<span class="dot">·</span>2508 字<span class="dot">·</span>6 分钟
     </div>
-    <div class="blog-post-content">
-      <div class="blog-post-ad">
-        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
-        <!-- <div>
-          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
-        </div> -->
-      </div>
-      <h3 id="网络编程"><a href="#网络编程" class="headerlink" title="网络编程"></a>网络编程</h3><p>网络程序出现的比互联网要早很多，实现方式主要依靠网络上不同主机间进程的通信，通信协议最重要的是TCP&#x2F;IP协议。在这两个协议基础上还有很多更高级的协议，包括HTTP、SMTP等。要进行两个主机间的网络通信，必须四个元素：源地址、源端口号、目的地址、目的端口号。<br><img src="/20170423-python3-tutorial-5/39469-20170423103332304-146973307.png"></p>
+
+    <div class="prose">
+      <h3 id="网络编程"><a href="#网络编程" class="headerlink" title="网络编程"></a>网络编程</h3><p>网络程序出现的比互联网要早很多，实现方式主要依靠网络上不同主机间进程的通信，通信协议最重要的是TCP&#x2F;IP协议。在这两个协议基础上还有很多更高级的协议，包括HTTP、SMTP等。要进行两个主机间的网络通信，必须四个元素：源地址、源端口号、目的地址、目的端口号。</p>
+<img src="/2017/04/23/20170423-python3-tutorial-5/39469-20170423103332304-146973307.png" class="" loading="lazy" decoding="async">
+
 <h4 id="TCP编程"><a href="#TCP编程" class="headerlink" title="TCP编程"></a>TCP编程</h4><p>Socket是网络编程一个抽象概念，通常我们用一个Socket表示“打开了一个网络链接”，而打开一个Socket需要知道目标计算机的IP地址和端口号，再指定协议类型即可。示例代码实现了一个服务端和客户端，服务端将客户端发送的内容回显给客户端，一切都是在命令行下执行。图形界面原理一样。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment">#服务端代码</span></span><br><span class="line">s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">s.bind((<span class="string">&#x27;127.0.0.1&#x27;</span>, <span class="number">9999</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">#开始监听端口，参数表示最大连接数</span></span><br><span class="line">s.listen(<span class="number">5</span>)     </span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Waiting for connection...&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">tcplink</span>(<span class="params">sock, addr</span>):</span><br><span class="line">     <span class="built_in">print</span>(<span class="string">&#x27;Accept new connection from %s:%s...&#x27;</span> % addr)</span><br><span class="line">     sock.send(<span class="string">b&#x27;Welcome!&#x27;</span>)</span><br><span class="line">     <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">          data = sock.recv(<span class="number">1024</span>)</span><br><span class="line">          time.sleep(<span class="number">1</span>)</span><br><span class="line">          <span class="keyword">if</span> <span class="keyword">not</span> data <span class="keyword">or</span> data.decode(<span class="string">&#x27;utf-8&#x27;</span>) == <span class="string">&#x27;exit&#x27;</span>:</span><br><span class="line">               <span class="keyword">break</span></span><br><span class="line">          sock.send((<span class="string">&#x27;Hello, %s!&#x27;</span> % data.decode(<span class="string">&#x27;utf-8&#x27;</span>)).encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">     sock.close()</span><br><span class="line">     <span class="built_in">print</span>(<span class="string">&#x27;Connection from %s:%s closed.&#x27;</span> % addr)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">     sock, addr = s.accept()</span><br><span class="line">     t = threading.Thread(target=tcplink, args=(sock, addr))</span><br><span class="line">     t.start()</span><br></pre></td></tr></table></figure>
 <p>客户端代码</p>
@@ -76,7 +101,9 @@ var _hmt = _hmt || [];
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)</span><br><span class="line"><span class="comment"># 绑定端口:</span></span><br><span class="line">s.bind((<span class="string">&#x27;127.0.0.1&#x27;</span>, <span class="number">9999</span>))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Bind UDP on 9999...&#x27;</span>)</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">     <span class="comment"># 接收数据:</span></span><br><span class="line">     data, addr = s.recvfrom(<span class="number">1024</span>)</span><br><span class="line">     <span class="built_in">print</span>(<span class="string">&#x27;Received from %s:%s.&#x27;</span> % addr)</span><br><span class="line">     s.sendto(<span class="string">b&#x27;Hello, %s!&#x27;</span> % data, addr)</span><br></pre></td></tr></table></figure>
 <p>客户端代码</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)</span><br><span class="line"><span class="keyword">for</span> data <span class="keyword">in</span> [<span class="string">b&#x27;Michael&#x27;</span>, <span class="string">b&#x27;Tracy&#x27;</span>, <span class="string">b&#x27;Sarah&#x27;</span>]:</span><br><span class="line">     <span class="comment"># 发送数据:</span></span><br><span class="line">     s.sendto(data, (<span class="string">&#x27;127.0.0.1&#x27;</span>, <span class="number">9999</span>))</span><br><span class="line">     <span class="comment"># 接收数据:</span></span><br><span class="line">     <span class="built_in">print</span>(s.recv(<span class="number">1024</span>).decode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">s.close()</span><br></pre></td></tr></table></figure>
-<p>做了一个简单的对比，可见UDP的传输方式比TCP快了很多。<br><img src="/20170423-python3-tutorial-5/39469-20170423103357397-870357688.png"></p>
+<p>做了一个简单的对比，可见UDP的传输方式比TCP快了很多。</p>
+<img src="/2017/04/23/20170423-python3-tutorial-5/39469-20170423103357397-870357688.png" class="" loading="lazy" decoding="async">
+
 <h3 id="Web开发"><a href="#Web开发" class="headerlink" title="Web开发"></a>Web开发</h3><p>随着互联网流行起来的B&#x2F;S模式是Web开发的主要内容，包括客户端展现（HTML、CSS、JAVASCRIPT）以及服务端处理（静态内容、CGI、动态语言）。Python提供了很多Web开发框架，能够为我们提供Web开发的快速支持。<br>开始WEB开发的话我觉得最好从HTML入手，然后了解HTTP协议，这些熟悉之后逐步熟悉CSS、Javascript，然后了结合后台编程语言，完成自己编写网站的小目标。<br>笔者是从PHP学习开始Web开发的，接触Python的Web开发还沿用PHP的思路会产生一些迷惑。PHP从产生之初就是作为Web开发语言而设计的，PHP是作为Apache的模块来进行请求处理和响应的，与HTTP相关的很多基础处理都是由Apache完成的，mod_php模块与其对接生成类似$_POST，$_GET的对象供PHP脚本使用。<br>Python有所不同，Python是作为一种通用脚本处理语言产生的，所以它能够完成的工作更多，也可以作为Web开发语言，只是方式不同。如果Python作为服务端脚本语言，可以分几个层次：如果Python负责处理所有的事务，包括TCP链接、逻辑处理、内容响应，Python也是可以胜任的，但是这样开发要做的工作就非常多；如果Python只是负责生成HTML文档，前端使用Apache等，Pyhon只需要负责文档解析。实现这个层次，是因为Python提供了WSGI接口（Web Server Gateway Interface），这时Python的焦点放在接口处理和Web逻辑处理上。第三个层次就是使用Python的Web框架，现在有很多成熟的框架，包括Django、Flask等。这样，Python就主要关注Web处理，包括URL以及对应的函数处理。<br>先看一下使用WSGI接口编写简单的Web程序，返回一个简单的文字。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># server.py</span></span><br><span class="line"><span class="comment"># 从wsgiref模块导入:</span></span><br><span class="line"><span class="keyword">from</span> wsgiref.simple_server <span class="keyword">import</span> make_server</span><br><span class="line"><span class="comment"># 导入我们自己编写的application函数:</span></span><br><span class="line"><span class="keyword">from</span> hello <span class="keyword">import</span> application</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个服务器，IP地址为空，端口是8000，处理函数是application:</span></span><br><span class="line">httpd = make_server(<span class="string">&#x27;&#x27;</span>, <span class="number">8000</span>, application)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Serving HTTP on port 8000...&#x27;</span>)</span><br><span class="line"><span class="comment"># 开始监听HTTP请求:</span></span><br><span class="line">httpd.serve_forever()</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># hello.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">application</span>(<span class="params">environ, start_response</span>):</span><br><span class="line">     start_response(<span class="string">&#x27;200 OK&#x27;</span>, [(<span class="string">&#x27;Content-Type&#x27;</span>, <span class="string">&#x27;text/html&#x27;</span>)])</span><br><span class="line">     body = <span class="string">&#x27;&lt;h1&gt;Hello, %s!&lt;/h1&gt;&#x27;</span> % (environ[<span class="string">&#x27;PATH_INFO&#x27;</span>][<span class="number">1</span>:] <span class="keyword">or</span> <span class="string">&#x27;web&#x27;</span>)</span><br><span class="line">     <span class="keyword">return</span> [body.encode(<span class="string">&#x27;utf-8&#x27;</span>)]</span><br></pre></td></tr></table></figure>
@@ -101,84 +128,76 @@ var _hmt = _hmt || [];
 
 <h4 id="collections"><a href="#collections" class="headerlink" title="collections"></a>collections</h4><p>collections 是 Python 内建的一个集合模块，提供了许多有用的集合类。包括<code>namedtuple、deque</code><br>tuple 可以表示不变集合，但是不方便从名称上看出用途。通过使用namedtuple函数，可以创建一个自定义的tuple对象，规定了tuple的个数，并且可以通过属性来访问元素。<br>使用 list 存储数据时，，按索引访问元素很快，但是插入和删除元素就很慢了，因为list是线性存储，数据量大的时候，插入和删除效率很低。deque是为了高效实现插入和删除操作的双向列表，适合用于队列和栈。deque除了实现list的<code>append()</code>和<code>pop()</code>外，还支持<code>appendleft()</code>和<code>popleft()</code>，这样就可以非常高效地往头部添加或删除元素。<br>参考资料：<br>1、<a target="_blank" rel="noopener" href="https://www.python.org/dev/peps/pep-0333/">Python Web Server Gateway Interface v1.0</a><br>2、<a target="_blank" rel="noopener" href="http://webpy.org/">Webpy 框架</a></p>
 
-      <div class="blog-post-footer">
-        <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
       </div>
-    </div>
     
-    <div class="blog-post-nav row">
-      
-        <div class="nav-link col-md-6">
-          <a href="/2017/04/24/20170424-multi-layer-pdf/" id="article-nav-newer" class="article-nav-link-wrap">
-            &lt;&lt; Python处理PDF及生成多层PDF
-          </a>  
-        </div>
-      
-      
-        <div class="nav-link col-md-6">
-          <a href="/2017/04/05/20170405-mysql-sql-mode/" id="article-nav-older" class="article-nav-link-wrap">
-            Mysql运行模式及1690错误处理 &gt;&gt;
-          </a>
-        </div>
-      
-    </div>
+
+    
+      <nav class="post-nav">
         
-  </div>
-              </div>
-            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
-                <div class="blog-profile">
-                    <div class="blog-author">
-
-    <div class="author-img">
-        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
-    </div>
-
-    <div class="author-desc">
-        <h1>cocowool</h1>
-        <p>A full-stack dreamer!</p>
-    </div>
-</div>
-                </div>
-                <div class="blog-google-ads">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- EDULINKS-Right -->
-     <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2449691085720111"
-          data-ad-slot="7013232113"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-     <script>
-
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid blog-footer">
-        <div class="container">
-            <div class="row blog-friend-link">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <h3>友情链接</h3>
-                </div>
-                
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="blog-copyright">
-                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
-                </div>    
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+          <a class="post-nav-item post-nav-prev" href="/2017/04/24/20170424-multi-layer-pdf/">
+            <em>上一篇</em>
+            <b>Python处理PDF及生成多层PDF</b>
+          </a>
+        
+        
+          <a class="post-nav-item post-nav-next" href="/2017/04/05/20170405-mysql-sql-mode/">
+            <em>下一篇</em>
+            <b>Mysql运行模式及1690错误处理</b>
+          </a>
+        
+      </nav>
     
-<script src="/scripts/main.js"></script>
+  </article>
+
+  
+<aside class="toc" id="toc">
+  <div class="toc-title">目 录</div>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B"><span class="toc-text">网络编程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Web%E5%BC%80%E5%8F%91"><span class="toc-text">Web开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-text">正则表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97"><span class="toc-text">常用内置模块</span></a></li></ol>
+</aside>
+
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 cocowool
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>

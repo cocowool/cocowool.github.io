@@ -1,71 +1,94 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="codeva-lFRExQpfJ8" />
-    <title>GNUPLOT使用技巧总结-大江小浪</title>
-    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="gnuplot, gnuplot linux, 作图, gnuplot 作图">
-    <meta name="description" content="Gnuplot 是一款非常著名的作图软件，支持Mac、Linux等多种操作系统类型，我曾写过「[Mac OS X下GnuPlot的安装](http://www.edulinks.cn/2011/07/03/20110703-install-gnuplot/)」以及「[利用Apache ab以及GNUPlot来进行Web测试](http://www.edulinks.cn/2011/07/25/20110725-ab-test/)」两篇文章来介绍如何使用这个工具。">
-    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
-    <link rel="stylesheet" href="/css/main.css" />
-    <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>GNUPLOT使用技巧总结 · cocowool</title>
+<meta name="description" content="Gnuplot 是一款非常著名的作图软件，支持Mac、Linux等多种操作系统类型，我曾写过「[Mac OS X下GnuPlot的安装](http://www.edulinks.cn/2011/07/03/20110703-install-gnuplot/)」以及「[利用Apache ab以及GNU">
+
+<link rel="canonical" href="http://www.popsite.cn/2021/03/10/20210311-gnuplot-usage/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="GNUPLOT使用技巧总结 · cocowool">
+<meta property="og:site_name" content="cocowool">
+<meta property="og:description" content="Gnuplot 是一款非常著名的作图软件，支持Mac、Linux等多种操作系统类型，我曾写过「[Mac OS X下GnuPlot的安装](http://www.edulinks.cn/2011/07/03/20110703-install-gnuplot/)」以及「[利用Apache ab以及GNU">
+<meta property="article:published_time" content="2021-03-10T01:57:51.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="cocowool" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="wave">
-    <nav class="navbar blog-header navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">大江小浪</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/links/">独立博客</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">我的文章</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">关于我</a>
-                    </li>
-                
-                </ul>
-            </div>
-        </div>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">cocowool</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
     </nav>
-    <div class="container blog-content">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
-                <div class="blog-post-detail">
-    <div class="blog-post-title">
-      <h1>GNUPLOT使用技巧总结</h1>
+  </div>
+</header>
+
+  
+<div class="post-wrap">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
     </div>
-    <div class="blog-post-meta">
-        
-        <span class="post-time">更新于：2026-09-25 21:01:43</span>
-        
-        <span class="post-time">发布于：2021-03-10 09:57:51</span>
+
+    <h1>GNUPLOT使用技巧总结</h1>
+
+    <div class="post-meta">
+      发布于2021-03-10<span class="dot">·</span>更新于 2026-09-29<span class="dot">·</span>3908 字<span class="dot">·</span>10 分钟
     </div>
-    <div class="blog-post-content">
-      <div class="blog-post-ad">
-        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
-        <!-- <div>
-          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
-        </div> -->
-      </div>
+
+    <div class="prose">
       <p>Gnuplot 是一款非常著名的作图软件，支持Mac、Linux等多种操作系统类型，我曾写过「<a target="_blank" rel="noopener" href="http://www.edulinks.cn/2011/07/03/20110703-install-gnuplot/">Mac OS X下GnuPlot的安装</a>」以及「<a target="_blank" rel="noopener" href="http://www.edulinks.cn/2011/07/25/20110725-ab-test/">利用Apache ab以及GNUPlot来进行Web测试</a>」两篇文章来介绍如何使用这个工具。</p>
 <p>最近翻出了之前整理的更为详细的使用说明，发布出来希望能帮大家熟悉这个工具。</p>
 <p>一些最基本的操作请大家看说明书。这里总结一下我在使用过程中遇到的一些问题以及解决的办法，目的是让那些以前不会的或不熟练的能快速入门，会画自己想要的图，因为原来的说明书很长，较难有针对性地很快找到自己想要的信息。这里简单的总结不可能面面俱到，所以大家不要抱怨我写的不全，更全面的了解还是请看说 明书，网上的资料也多的是。其实这也是我们从网上一点一点搜集和摸索出来的。我相信看完后，应该平时最常见的问题基本上都能在这里找到答案。如果大家在使 用过程中摸索到了我没有写到的技巧和体会，或有其它建议，请大家提告诉我，以不断完善这篇总结，谢谢！</p>
@@ -162,84 +185,76 @@ var _hmt = _hmt || [];
 <p>另外，也可以在gnuplot的提示符后输入shell，暂时性退出gnuplot，进入linux环境，做完要做的事情后，运行exit命令，又回到gnuplot环境下。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">gnuplot&gt;shell</span><br><span class="line">[zxh@theory zxh]<span class="variable">$vi</span> a.f</span><br><span class="line">[zxh@theory zxh]<span class="variable">$f77</span> a.f</span><br><span class="line">[zxh@theory zxh]<span class="variable">$a</span>.out  (假设生成a.dat数据文件)</span><br><span class="line">[zxh@theory zxh]<span class="variable">$exit</span></span><br><span class="line">gnuplot&gt;plot ‘a.dat’ w l</span><br></pre></td></tr></table></figure>
 
-      <div class="blog-post-footer">
-        <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
       </div>
-    </div>
     
-    <div class="blog-post-nav row">
-      
-        <div class="nav-link col-md-6">
-          <a href="/2021/03/12/20210314-john-eckert/" id="article-nav-newer" class="article-nav-link-wrap">
-            &lt;&lt; 约翰·埃克特
-          </a>  
-        </div>
-      
-      
-        <div class="nav-link col-md-6">
-          <a href="/2021/03/09/20210309-zsh-config/" id="article-nav-older" class="article-nav-link-wrap">
-            我的 zsh 配置 &gt;&gt;
-          </a>
-        </div>
-      
-    </div>
+
+    
+      <nav class="post-nav">
         
-  </div>
-              </div>
-            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
-                <div class="blog-profile">
-                    <div class="blog-author">
-
-    <div class="author-img">
-        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
-    </div>
-
-    <div class="author-desc">
-        <h1>cocowool</h1>
-        <p>A full-stack dreamer!</p>
-    </div>
-</div>
-                </div>
-                <div class="blog-google-ads">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- EDULINKS-Right -->
-     <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2449691085720111"
-          data-ad-slot="7013232113"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-     <script>
-
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid blog-footer">
-        <div class="container">
-            <div class="row blog-friend-link">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <h3>友情链接</h3>
-                </div>
-                
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="blog-copyright">
-                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
-                </div>    
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+          <a class="post-nav-item post-nav-prev" href="/2021/03/12/20210314-john-eckert/">
+            <em>上一篇</em>
+            <b>约翰·埃克特</b>
+          </a>
+        
+        
+          <a class="post-nav-item post-nav-next" href="/2021/03/09/20210309-zsh-config/">
+            <em>下一篇</em>
+            <b>我的 zsh 配置</b>
+          </a>
+        
+      </nav>
     
-<script src="/scripts/main.js"></script>
+  </article>
+
+  
+<aside class="toc" id="toc">
+  <div class="toc-title">目 录</div>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%9F%BA%E7%A1%80%E7%AF%87%EF%BC%9A"><span class="toc-text">一、基础篇：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E5%90%8C%E6%97%B6%E7%94%BB%E5%A4%9A%E6%9D%A1%E6%9B%B2%E7%BA%BF"><span class="toc-text">2、同时画多条曲线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E5%85%B3%E4%BA%8E%E5%9B%BE%E4%BE%8B%E7%9A%84%E4%BD%8D%E7%BD%AE"><span class="toc-text">3、关于图例的位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%E3%80%81%E5%85%B3%E4%BA%8E%E5%9D%90%E6%A0%87%E8%BD%B4"><span class="toc-text">4、关于坐标轴</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5%E3%80%81%E5%9C%A8%E5%9B%BE%E4%B8%AD%E6%8F%92%E5%85%A5%E6%96%87%E5%AD%97"><span class="toc-text">5、在图中插入文字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6%E3%80%81%E5%9C%A8%E5%9B%BE%E4%B8%AD%E6%B7%BB%E5%8A%A0%E7%9B%B4%E7%BA%BF%E5%92%8C%E7%AE%AD%E5%A4%B4"><span class="toc-text">6、在图中添加直线和箭头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7%E3%80%81%E5%9B%BE%E7%9A%84%E5%A4%A7%E5%B0%8F%E5%92%8C%E4%BD%8D%E7%BD%AE"><span class="toc-text">7、图的大小和位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8%E3%80%81%E7%94%BB%E4%B8%89%E7%BB%B4%E5%9B%BE"><span class="toc-text">8、画三维图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9%EF%BC%8E%E5%B0%86%E5%9B%BE%E5%BD%A2%E8%BE%93%E5%87%BA%E5%88%B0%E6%96%87%E4%BB%B6"><span class="toc-text">9．将图形输出到文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%8F%90%E9%AB%98%E7%AF%87%EF%BC%9A"><span class="toc-text">二、提高篇：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E5%A6%82%E4%BD%95%E5%9C%A8%E5%90%8C%E4%B8%80%E5%BC%A0%E5%9B%BE%E9%87%8C%E5%90%8C%E6%97%B6%E7%94%BB%E5%A4%9A%E4%B8%AA%E5%9B%BE"><span class="toc-text">1、如何在同一张图里同时画多个图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E4%BD%9C%E4%BA%8C%E7%BB%B4%E5%9B%BE%E6%97%B6%EF%BC%8C%E5%A6%82%E4%BD%95%E4%BD%BF%E4%B8%A4%E8%BE%B9%E5%9D%90%E6%A0%87%E8%BD%B4%E7%9A%84%E5%8D%95%E4%BD%8D%E9%95%BF%E5%BA%A6%E7%AD%89%E9%95%BF"><span class="toc-text">2、作二维图时，如何使两边坐标轴的单位长度等长</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E5%A6%82%E4%BD%95%E5%9C%A8%E5%90%8C%E4%B8%80%E5%BC%A0%E5%9B%BE%E9%87%8C%E5%88%A9%E7%94%A8%E5%B7%A6%E5%8F%B3%E4%B8%A4%E8%BE%B9%E7%9A%84y%E8%BD%B4%E5%88%86%E5%88%AB%E7%94%BB%E5%9B%BE"><span class="toc-text">3、如何在同一张图里利用左右两边的y轴分别画图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%E3%80%81%E5%A6%82%E4%BD%95%E6%8F%92%E5%85%A5%E5%B8%8C%E8%85%8A%E5%AD%97%E6%AF%8D%E5%92%8C%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7"><span class="toc-text">4、如何插入希腊字母和特殊符号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5%E3%80%81gnuplot%E4%B8%AD%E5%A6%82%E4%BD%95%E6%8F%92%E5%85%A5Angstrom%EF%BC%88%E5%9F%83%EF%BC%89%E8%BF%99%E4%B8%AA%E7%AC%A6%E5%8F%B7-A%E4%B8%8A%E9%9D%A2%E4%B8%80%E4%B8%AA%E5%B0%8F%E5%9C%86%E5%9C%88"><span class="toc-text">5、gnuplot中如何插入Angstrom（埃）这个符号(A上面一个小圆圈)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6%E3%80%81gnuplot%E7%94%BB%E7%AD%89%E9%AB%98%E7%BA%BF%E5%9B%BE"><span class="toc-text">6、gnuplot画等高线图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7%E3%80%81%E5%A6%82%E4%BD%95%E7%94%BB%E6%BC%82%E4%BA%AE%E7%9A%84pm3d%E5%9B%BE"><span class="toc-text">7、如何画漂亮的pm3d图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8%E3%80%81%E5%88%A9%E7%94%A8%E8%84%9A%E6%9C%AC%E6%96%87%E4%BB%B6%E9%81%BF%E5%85%8D%E9%87%8D%E5%A4%8D%E8%BE%93%E5%85%A5"><span class="toc-text">8、利用脚本文件避免重复输入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9%E3%80%81%E5%9C%A8gnuplot%E6%A8%A1%E5%BC%8F%E4%B8%8B%E8%BF%90%E8%A1%8Clinux%E5%91%BD%E4%BB%A4"><span class="toc-text">9、在gnuplot模式下运行linux命令</span></a></li></ol>
+</aside>
+
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 cocowool
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>

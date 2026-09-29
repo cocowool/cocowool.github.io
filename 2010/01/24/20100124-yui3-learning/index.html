@@ -1,71 +1,94 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="codeva-lFRExQpfJ8" />
-    <title>学习使用YUI3-大江小浪</title>
-    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="yui3, css">
-    <meta name="description" content="yui3的学习体会">
-    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
-    <link rel="stylesheet" href="/css/main.css" />
-    <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>学习使用YUI3 · cocowool</title>
+<meta name="description" content="yui3的学习体会">
+
+<link rel="canonical" href="http://www.popsite.cn/2010/01/24/20100124-yui3-learning/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习使用YUI3 · cocowool">
+<meta property="og:site_name" content="cocowool">
+<meta property="og:description" content="yui3的学习体会">
+<meta property="article:published_time" content="2010-01-24T14:02:01.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="cocowool" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="wave">
-    <nav class="navbar blog-header navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">大江小浪</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/links/">独立博客</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">我的文章</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">关于我</a>
-                    </li>
-                
-                </ul>
-            </div>
-        </div>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">cocowool</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
     </nav>
-    <div class="container blog-content">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
-                <div class="blog-post-detail">
-    <div class="blog-post-title">
-      <h1>学习使用YUI3</h1>
+  </div>
+</header>
+
+  
+<div class="post-wrap post-wrap--single">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
     </div>
-    <div class="blog-post-meta">
-        
-        <span class="post-time">更新于：2026-09-25 21:01:43</span>
-        
-        <span class="post-time">发布于：2010-01-24 22:02:01</span>
+
+    <h1>学习使用YUI3</h1>
+
+    <div class="post-meta">
+      发布于2010-01-24<span class="dot">·</span>更新于 2026-09-29<span class="dot">·</span>1150 字<span class="dot">·</span>3 分钟
     </div>
-    <div class="blog-post-content">
-      <div class="blog-post-ad">
-        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
-        <!-- <div>
-          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
-        </div> -->
-      </div>
+
+    <div class="prose">
       <p>以下只是在YUI学习和使用中零碎的一些心得体会，未成体系，发出来，供批判。</p>
 <p>1、利用 Font、Base、Grid CSS进行快速的网页布局。</p>
 <p>对YUI一直很有好感，最近开始看了看YUI CSS GRID，发现这个理念非常好，非常有利于我们工作效率的提高，特别是熟悉了这套CSS之后，我们就不必每一个项目自己都去写一些CSS。其实，我想有心的朋友或多或少的都会收集一些自己常用的CSS，在不同的项目间使用，但是能够做到像YUI CSS这样有逻辑性、模块清楚的，恐怕还比较少见。</p>
@@ -83,89 +106,77 @@ var _hmt = _hmt || [];
 <p>3、YUI3还是不够稳定。</p>
 <p>还是使用IO的时候，当通过POST方式提交数据时，第二次点击提交表单按钮，就会发出双份的数据，第三次，发送出去的数据就会变成三份。这个在YUI的论坛里有人反映了，是一个bug，已经解决，但是官方的那个build还没有更新。</p>
 <p>在排查这个错误的时候因为不了解 YUI Loader 的工作原理，所以费了一些周折，同样不了解的同学可以去<a target="_blank" rel="noopener" href="http://www.zhuoqun.net/html/y2008/1118.html">这里</a>看一下，补充一下相关知识。我将 io-base.js 的最新版本下载下来，覆盖了本地文件之后，发现问题并没有解决，使用firebug查看，如下：</p>
-<p><img src="/20100124-yui3-learning/image_thumb.png"></p>
+<img src="/2010/01/24/20100124-yui3-learning/image_thumb.png" class="" loading="lazy" decoding="async">
+
 <p>原来这些模块都还是通过combo调用的远程的，很奇怪的是为什么在firebug的网络中没有看到这个链接消耗的时间呢，难道他不消耗带宽？</p>
 <p>至此，发现了原来将 YUI(combine:true) 配置去掉，就可以调用本地文件了。但同时丧失了 combo 的这个节省带宽的优势，本地有办法自己搭建一个 combo 么?</p>
 <p>参考资料<br>1、<a target="_blank" rel="noopener" href="http://ued.taobao.com/blog/2010/01/11/yui3%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%BF%80%E8%BF%9B%E5%92%8C%E5%A6%A5%E5%8D%8F/">YUI3设计中的激进与妥协</a><br>2、<a target="_blank" rel="noopener" href="http://blog.fredrikbostrom.net/2008/10/29/executing-embedded-javascript-after-ajax-call">Excute embedded javascript after ajax-call</a><br>3、<a target="_blank" rel="noopener" href="http://starcatcher.ca/?p=636">Post-Ajax Javascripts Calls</a><br>4、<a target="_blank" rel="noopener" href="http://yuilibrary.com/forum/viewtopic.php?f=92&t=2058&p=6793">YUI Library</a><br>5、<a target="_blank" rel="noopener" href="http://www.zhuoqun.net/html/y2008/1118.html">YUI Loader 学习笔记</a></p>
 
-      <div class="blog-post-footer">
-        <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
       </div>
-    </div>
     
-    <div class="blog-post-nav row">
-      
-        <div class="nav-link col-md-6">
-          <a href="/2010/01/25/20100125-css3-transition/" id="article-nav-newer" class="article-nav-link-wrap">
-            &lt;&lt; CSS3的过渡效果
-          </a>  
-        </div>
-      
-      
-        <div class="nav-link col-md-6">
-          <a href="/2010/01/08/20100109-redesign-logs/" id="article-nav-older" class="article-nav-link-wrap">
-            2009年重新设计过的著名的Logo &gt;&gt;
-          </a>
-        </div>
-      
-    </div>
+
+    
+      <nav class="post-nav">
         
-  </div>
-              </div>
-            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
-                <div class="blog-profile">
-                    <div class="blog-author">
-
-    <div class="author-img">
-        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
-    </div>
-
-    <div class="author-desc">
-        <h1>cocowool</h1>
-        <p>A full-stack dreamer!</p>
-    </div>
-</div>
-                </div>
-                <div class="blog-google-ads">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- EDULINKS-Right -->
-     <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2449691085720111"
-          data-ad-slot="7013232113"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-     <script>
-
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid blog-footer">
-        <div class="container">
-            <div class="row blog-friend-link">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <h3>友情链接</h3>
-                </div>
-                
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="blog-copyright">
-                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
-                </div>    
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+          <a class="post-nav-item post-nav-prev" href="/2010/01/25/20100125-css3-transition/">
+            <em>上一篇</em>
+            <b>CSS3的过渡效果</b>
+          </a>
+        
+        
+          <a class="post-nav-item post-nav-next" href="/2010/01/08/20100109-redesign-logs/">
+            <em>下一篇</em>
+            <b>2009年重新设计过的著名的Logo</b>
+          </a>
+        
+      </nav>
     
-<script src="/scripts/main.js"></script>
+  </article>
+
+  
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 cocowool
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>

@@ -1,71 +1,94 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="codeva-lFRExQpfJ8" />
-    <title>换行符引起的脚本执行错误-大江小浪</title>
-    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="dos, unix, dos2unix, 换行符">
-    <meta name="description" content="sh 在执行脚本时，对于脚本采用的换行符非常敏感，不支持 Windows / dos 格式的换行符，会对脚本执行产生意想不到的问题，本文介绍了换行符的区别以及在生产环境中解决这个问题的方法。">
-    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
-    <link rel="stylesheet" href="/css/main.css" />
-    <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>换行符引起的脚本执行错误 · cocowool</title>
+<meta name="description" content="sh 在执行脚本时，对于脚本采用的换行符非常敏感，不支持 Windows / dos 格式的换行符，会对脚本执行产生意想不到的问题，本文介绍了换行符的区别以及在生产环境中解决这个问题的方法。">
+
+<link rel="canonical" href="http://www.popsite.cn/2023/02/10/20230210-dos2unix/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="换行符引起的脚本执行错误 · cocowool">
+<meta property="og:site_name" content="cocowool">
+<meta property="og:description" content="sh 在执行脚本时，对于脚本采用的换行符非常敏感，不支持 Windows / dos 格式的换行符，会对脚本执行产生意想不到的问题，本文介绍了换行符的区别以及在生产环境中解决这个问题的方法。">
+<meta property="article:published_time" content="2023-02-10T00:29:27.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="cocowool" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="wave">
-    <nav class="navbar blog-header navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">大江小浪</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/links/">独立博客</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">我的文章</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">关于我</a>
-                    </li>
-                
-                </ul>
-            </div>
-        </div>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">cocowool</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
     </nav>
-    <div class="container blog-content">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
-                <div class="blog-post-detail">
-    <div class="blog-post-title">
-      <h1>换行符引起的脚本执行错误</h1>
+  </div>
+</header>
+
+  
+<div class="post-wrap">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
     </div>
-    <div class="blog-post-meta">
-        
-        <span class="post-time">更新于：2026-09-25 21:01:43</span>
-        
-        <span class="post-time">发布于：2023-02-10 08:29:27</span>
+
+    <h1>换行符引起的脚本执行错误</h1>
+
+    <div class="post-meta">
+      发布于2023-02-10<span class="dot">·</span>更新于 2026-09-29<span class="dot">·</span>1485 字<span class="dot">·</span>4 分钟
     </div>
-    <div class="blog-post-content">
-      <div class="blog-post-ad">
-        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
-        <!-- <div>
-          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
-        </div> -->
-      </div>
+
+    <div class="prose">
       <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>当我们使用 Windows 桌面下的编辑器编写一个 Shell 文件时，很容易将文件使用的换行符保存为 dos 格式。如果将文件上传到 Linux 服务器执行时，可能会遇到下面的错误。这是因为</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示一个简单的shell文件</span></span><br><span class="line">$ <span class="built_in">cat</span> dosnewline.sh                                   </span><br><span class="line"><span class="comment">#!/bin/sh</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;This is a file with dos newline&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 该文件使用了 dos 格式的换行符</span></span><br><span class="line">$ <span class="built_in">od</span> -bc dosnewline.sh</span><br><span class="line">0000000   043 041 057 142 151 156 057 163 150 015 012 015 012 145 143 150</span><br><span class="line">           <span class="comment">#   !   /   b   i   n   /   s   h  \r  \n  \r  \n   e   c   h</span></span><br><span class="line">0000020   157 040 042 124 150 151 163 040 151 163 040 141 040 146 151 154</span><br><span class="line">           o       <span class="string">&quot;   T   h   i   s       i   s       a       f   i   l</span></span><br><span class="line"><span class="string">0000040   145 040 167 151 164 150 040 144 157 163 040 156 145 167 154 151</span></span><br><span class="line"><span class="string">           e       w   i   t   h       d   o   s       n   e   w   l   i</span></span><br><span class="line"><span class="string">0000060   156 145 042 015 012 015 012 015 012                            </span></span><br><span class="line"><span class="string">           n   e   &quot;</span>  \r  \n  \r  \n  \r  \n                            </span><br><span class="line">0000071</span><br><span class="line"><span class="comment"># 使用 sh 执行的时候就会有一个报错</span></span><br><span class="line">$ sh dosnewline.sh    </span><br><span class="line">: <span class="built_in">command</span> not found 2: </span><br><span class="line">This is a file with dos newline</span><br><span class="line">: <span class="built_in">command</span> not found 4: </span><br><span class="line">: <span class="built_in">command</span> not found 5: </span><br><span class="line"><span class="comment"># 获取脚本的返回码也不是0，在一些自动化调用的场景中就会认为脚本执行失败，从而引发后续的问题</span></span><br><span class="line">$ <span class="built_in">echo</span> $?             </span><br><span class="line">127</span><br><span class="line"><span class="comment"># 退出码 127 的意思是 command not foud，对应具体的 dos 换行符所在的行</span></span><br></pre></td></tr></table></figure>
 
@@ -125,7 +148,8 @@ var _hmt = _hmt || [];
 <p>当电子计算机问世后，由于存储器曾经非常昂贵。有些人认定没必要用两个字符来表示行尾。于是 UNIX 开发者决定他们可以用一个字符（LF）来表示行尾，Apple 开发者规定了用 （CR）来表示行尾，而 MS-DOS（以及后来的 Windows）开发人员则沿用了老式的两个字符 。</p>
 <p>正是因为不同操作系统默认的换行符不同，导致在 Windows 下编写的文件采用了 Windows 下的换行符。而不幸的是 sh 做为 Linux 下的应用，只认识 Unix（包括 Linux）下的换行符，引发的文章开头的问题。</p>
 <h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>解决的方法有很多，从脚本来源上说，最好我们在编辑过程中就指定使用的换行符，大多数编码常用编辑器例如 Notepadd++ 等都支持这个选项，如下图在 Notepadd++ 的右下角会显示换行符的类型。千万不要使用 Windows 自带的记事本来编写 shell 脚本，记事本是不支持调整换行符的。</p>
-<p><img src="/20230210-dos2unix/1730512-20220327222631395-128360807.png" alt="img"></p>
+<img src="/2023/02/10/20230210-dos2unix/1730512-20220327222631395-128360807.png" class="" title="img" loading="lazy" decoding="async">
+
 <p>除了在编写阶段注意，脚本编写完成后，还可以通过 <code>$ sh -x hello.sh</code> 的方式来检查脚本是否有语法错误，对于本文提供的示例来说输出结果如下，可以看到输出结果给出提示多了 <code>\r</code> 的字符。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ sh -x dosnewline.sh </span><br><span class="line">+ $<span class="string">&#x27;\r&#x27;</span></span><br><span class="line">: <span class="built_in">command</span> not found 2: </span><br><span class="line"><span class="string">&#x27; echo &#x27;</span>This is a file with dos newline</span><br><span class="line">This is a file with dos newline</span><br><span class="line">+ $<span class="string">&#x27;\r&#x27;</span></span><br><span class="line">: <span class="built_in">command</span> not found 4: </span><br><span class="line">+ $<span class="string">&#x27;\r&#x27;</span></span><br><span class="line">: <span class="built_in">command</span> not found 5: </span><br></pre></td></tr></table></figure>
 
@@ -142,84 +166,76 @@ var _hmt = _hmt || [];
 <li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/46542168">Unix&#x2F;Linux&#x2F;Mac 与 Windows 的换行符不统一的原因&#x2F;目的是什么？</a></li>
 </ol>
 
-      <div class="blog-post-footer">
-        <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
       </div>
-    </div>
     
-    <div class="blog-post-nav row">
-      
-        <div class="nav-link col-md-6">
-          <a href="/2023/02/27/20230227-james-martin/" id="article-nav-newer" class="article-nav-link-wrap">
-            &lt;&lt; 詹姆斯·马丁
-          </a>  
-        </div>
-      
-      
-        <div class="nav-link col-md-6">
-          <a href="/2023/01/28/20230128-edsger-wybe-dijkstra/" id="article-nav-older" class="article-nav-link-wrap">
-            艾兹格·迪科斯彻 &gt;&gt;
-          </a>
-        </div>
-      
-    </div>
+
+    
+      <nav class="post-nav">
         
-  </div>
-              </div>
-            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
-                <div class="blog-profile">
-                    <div class="blog-author">
-
-    <div class="author-img">
-        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
-    </div>
-
-    <div class="author-desc">
-        <h1>cocowool</h1>
-        <p>A full-stack dreamer!</p>
-    </div>
-</div>
-                </div>
-                <div class="blog-google-ads">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- EDULINKS-Right -->
-     <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2449691085720111"
-          data-ad-slot="7013232113"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-     <script>
-
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid blog-footer">
-        <div class="container">
-            <div class="row blog-friend-link">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <h3>友情链接</h3>
-                </div>
-                
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="blog-copyright">
-                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
-                </div>    
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+          <a class="post-nav-item post-nav-prev" href="/2023/02/27/20230227-james-martin/">
+            <em>上一篇</em>
+            <b>詹姆斯·马丁</b>
+          </a>
+        
+        
+          <a class="post-nav-item post-nav-next" href="/2023/01/28/20230128-edsger-wybe-dijkstra/">
+            <em>下一篇</em>
+            <b>艾兹格·迪科斯彻</b>
+          </a>
+        
+      </nav>
     
-<script src="/scripts/main.js"></script>
+  </article>
+
+  
+<aside class="toc" id="toc">
+  <div class="toc-title">目 录</div>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8D%A2%E8%A1%8C%E7%AC%A6"><span class="toc-text">换行符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-text">解决方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-text">参考资料</span></a></li></ol>
+</aside>
+
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 cocowool
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>

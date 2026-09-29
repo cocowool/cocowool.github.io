@@ -1,71 +1,94 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="codeva-lFRExQpfJ8" />
-    <title>Awstats性能问题及其他工具的对比分析-大江小浪</title>
-    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="awstats, awstats性能问题, 日志分析工具对比">
-    <meta name="description" content="Awstats处理超过几个G的日志会变的很慢，本文介绍一些性能更好的产品。">
-    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
-    <link rel="stylesheet" href="/css/main.css" />
-    <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>Awstats性能问题及其他工具的对比分析 · cocowool</title>
+<meta name="description" content="Awstats处理超过几个G的日志会变的很慢，本文介绍一些性能更好的产品。">
+
+<link rel="canonical" href="http://www.popsite.cn/2010/12/03/20101203-awstats/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Awstats性能问题及其他工具的对比分析 · cocowool">
+<meta property="og:site_name" content="cocowool">
+<meta property="og:description" content="Awstats处理超过几个G的日志会变的很慢，本文介绍一些性能更好的产品。">
+<meta property="article:published_time" content="2010-12-03T07:16:01.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="cocowool" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="wave">
-    <nav class="navbar blog-header navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">大江小浪</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/links/">独立博客</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">我的文章</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">关于我</a>
-                    </li>
-                
-                </ul>
-            </div>
-        </div>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">cocowool</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
     </nav>
-    <div class="container blog-content">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
-                <div class="blog-post-detail">
-    <div class="blog-post-title">
-      <h1>Awstats性能问题及其他工具的对比分析</h1>
+  </div>
+</header>
+
+  
+<div class="post-wrap post-wrap--single">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
     </div>
-    <div class="blog-post-meta">
-        
-        <span class="post-time">更新于：2026-09-25 21:01:43</span>
-        
-        <span class="post-time">发布于：2010-12-03 15:16:01</span>
+
+    <h1>Awstats性能问题及其他工具的对比分析</h1>
+
+    <div class="post-meta">
+      发布于2010-12-03<span class="dot">·</span>更新于 2026-09-29<span class="dot">·</span>2298 字<span class="dot">·</span>6 分钟
     </div>
-    <div class="blog-post-content">
-      <div class="blog-post-ad">
-        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
-        <!-- <div>
-          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
-        </div> -->
-      </div>
+
+    <div class="prose">
       <p>在之前的一篇文章中，我通过资料的查阅分析了一些比较流行的日志分析工具，最后选用了 Awstats + Jawstats 的组合，既能够对现有的日志进行分析，也能够提供比较美观的报表界面。但是，随着使用的深入发现，awstats 的分析速度实在是无法接受。大概的介绍一下我的环境，我们有几个产品群，有着不同的流量。每天都要进行分析。最大的产品群产生的日志记录，在合并后会超过几个G，这时候用 awstats 进行分析就非常的痛苦。甚至出现过分析过程中产生的临时目录将磁盘占满的情况。</p>
 <p>查阅了一些资料后了解，原来awstats官方推荐当访问超过 4,000,000&#x2F;月的时候，可以使用 analog 或者 webalizer 这两个应用。因此，本篇中记录了对Awstats进行的一些优化以及其他两个软件的试用。</p>
 <p><strong>1、Awstats 的性能优化</strong></p>
@@ -106,84 +129,71 @@ var _hmt = _hmt || [];
 <p>需要注意一点的是，虽然我们可以在日志名中使用通配符，但是在文件夹路径上，是不可以使用，这个是analog的限制所在。</p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://5ih.org/?post=170">Awstats性能优化的几个方面</a><br>2、<a target="_blank" rel="noopener" href="http://www.douban.com/note/21441846/">Awstats性能优化</a><br>3、Awstats旧日志统计<br>4、<a target="_blank" rel="noopener" href="http://www.analog.cx/download.html">Analog下载</a><br>5、<a target="_blank" rel="noopener" href="http://www.webalizer.org/">Webalizer</a><br>6、<a target="_blank" rel="noopener" href="http://www.stonesteps.ca/">Stone Step Webalizer</a><br>7、<a target="_blank" rel="noopener" href="http://www.miotour.com/2010/06/19/10-%E4%B8%AA%E5%BC%BA%E5%A4%A7%E7%9A%84%E5%BC%80%E6%BA%90-web-%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/">十款强大的开源日志分析工具</a><br>8、<a target="_blank" rel="noopener" href="http://analog.cx/docs/logfmt.html">各种日志格式</a></p>
 
-      <div class="blog-post-footer">
-        <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
       </div>
-    </div>
     
-    <div class="blog-post-nav row">
-      
-        <div class="nav-link col-md-6">
-          <a href="/2010/12/17/20101217-modify-cacti-rrd/" id="article-nav-newer" class="article-nav-link-wrap">
-            &lt;&lt; 修改Cacti中的rrd文件大小
-          </a>  
-        </div>
-      
-      
-        <div class="nav-link col-md-6">
-          <a href="/2010/11/10/20101110-zendstudio-support-perl/" id="article-nav-older" class="article-nav-link-wrap">
-            为ZendStudio配置Perl支持 &gt;&gt;
-          </a>
-        </div>
-      
-    </div>
+
+    
+      <nav class="post-nav">
         
-  </div>
-              </div>
-            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
-                <div class="blog-profile">
-                    <div class="blog-author">
-
-    <div class="author-img">
-        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
-    </div>
-
-    <div class="author-desc">
-        <h1>cocowool</h1>
-        <p>A full-stack dreamer!</p>
-    </div>
-</div>
-                </div>
-                <div class="blog-google-ads">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- EDULINKS-Right -->
-     <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2449691085720111"
-          data-ad-slot="7013232113"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-     <script>
-
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid blog-footer">
-        <div class="container">
-            <div class="row blog-friend-link">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <h3>友情链接</h3>
-                </div>
-                
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="blog-copyright">
-                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
-                </div>    
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+          <a class="post-nav-item post-nav-prev" href="/2010/12/17/20101217-modify-cacti-rrd/">
+            <em>上一篇</em>
+            <b>修改Cacti中的rrd文件大小</b>
+          </a>
+        
+        
+          <a class="post-nav-item post-nav-next" href="/2010/11/10/20101110-zendstudio-support-perl/">
+            <em>下一篇</em>
+            <b>为ZendStudio配置Perl支持</b>
+          </a>
+        
+      </nav>
     
-<script src="/scripts/main.js"></script>
+  </article>
+
+  
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 cocowool
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>

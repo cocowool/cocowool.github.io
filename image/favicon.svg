@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="站点图标">
+  <rect width="32" height="32" rx="7" fill="#B2452D"/>
+  <path d="M-2 15 Q 5 8 12 15 T 26 15 T 40 15"
+        fill="none" stroke="#FBF8F1" stroke-width="2.2" stroke-linecap="round" opacity=".55"/>
+  <path d="M-2 21 Q 5 14 12 21 T 26 21 T 40 21"
+        fill="none" stroke="#FBF8F1" stroke-width="2.6" stroke-linecap="round"/>
+</svg>

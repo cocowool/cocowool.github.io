@@ -1,94 +1,124 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="codeva-lFRExQpfJ8" />
-    <title>SHELL技巧：正确处理文件名中的空格-大江小浪</title>
-    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="文件名空格, linux 文件名空格,  shell 技巧, shell 处理文件名空格, IFS">
-    <meta name="description" content="Linux下遇到文件名中有空格时，用shell处理就需要一些特殊的技巧，本文帮你整理总结到了一起。">
-    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
-    <link rel="stylesheet" href="/css/main.css" />
-    <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>SHELL技巧：正确处理文件名中的空格 · cocowool</title>
+<meta name="description" content="Linux下遇到文件名中有空格时，用shell处理就需要一些特殊的技巧，本文帮你整理总结到了一起。">
+
+<link rel="canonical" href="http://www.popsite.cn/2013/01/15/20130115-shell-remove-space/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="SHELL技巧：正确处理文件名中的空格 · cocowool">
+<meta property="og:site_name" content="cocowool">
+<meta property="og:description" content="Linux下遇到文件名中有空格时，用shell处理就需要一些特殊的技巧，本文帮你整理总结到了一起。">
+<meta property="article:published_time" content="2013-01-15T13:47:00.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="cocowool" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="wave">
-    <nav class="navbar blog-header navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">大江小浪</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/links/">独立博客</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">我的文章</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">关于我</a>
-                    </li>
-                
-                </ul>
-            </div>
-        </div>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">cocowool</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
     </nav>
-    <div class="container blog-content">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
-                <div class="blog-post-detail">
-    <div class="blog-post-title">
-      <h1>SHELL技巧：正确处理文件名中的空格</h1>
+  </div>
+</header>
+
+  
+<div class="post-wrap">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
     </div>
-    <div class="blog-post-meta">
-        
-        <span class="post-time">更新于：2026-09-25 21:01:43</span>
-        
-        <span class="post-time">发布于：2013-01-15 21:47:00</span>
+
+    <h1>SHELL技巧：正确处理文件名中的空格</h1>
+
+    <div class="post-meta">
+      发布于2013-01-15<span class="dot">·</span>更新于 2026-09-29<span class="dot">·</span>1153 字<span class="dot">·</span>3 分钟
     </div>
-    <div class="blog-post-content">
-      <div class="blog-post-ad">
-        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
-        <!-- <div>
-          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
-        </div> -->
-      </div>
+
+    <div class="prose">
       <p>现在很多人命名的时候都喜欢用空格，例如“An Introduction.doc”。但是这种命名方式给Linux命令行工具和Shell带来了困扰，因为大多数命令中，都是默认以空格做为值与值之间的分隔符，而不是做为文件名的一部分。</p>
 <p>看下面的脚本，我们可以了解的更清楚，这个脚本的目的是列出文件夹下的所有文件：</p>
-<p><img src="/20130115-shell-remove-space/15215746-0d6566bdd61c48ee9797aac50f0c8dcb.png"></p>
+<img src="/2013/01/15/20130115-shell-remove-space/15215746-0d6566bdd61c48ee9797aac50f0c8dcb.png" class="" loading="lazy" decoding="async">
+
 <p>执行的结果如下：</p>
-<p><img src="/20130115-shell-remove-space/15215748-5b0c02dc7f2f4033b590c4164ed0ef30.png"></p>
+<img src="/2013/01/15/20130115-shell-remove-space/15215748-5b0c02dc7f2f4033b590c4164ed0ef30.png" class="" loading="lazy" decoding="async">
+
 <p>实际上，当前目录的文件只有两个：</p>
-<p><img src="/20130115-shell-remove-space/15215751-2affc7fdd3bd4aaaa639d7548244bf5d.png"></p>
+<img src="/2013/01/15/20130115-shell-remove-space/15215751-2affc7fdd3bd4aaaa639d7548244bf5d.png" class="" loading="lazy" decoding="async">
+
 <p>本文整理了几个避免出现这种问题的方法。</p>
 <h2 id="方法一：通过后缀获取文件列表"><a href="#方法一：通过后缀获取文件列表" class="headerlink" title="方法一：通过后缀获取文件列表"></a>方法一：通过后缀获取文件列表</h2><p>对于简单的文件名，如上例中，我们也可以通过 <code>for i in *doc</code> 这样简单的方法来获得文件列表。这个方法非常简便，但是适用的场景有限，并且文件类型做为硬编码写到代码中不是很理想。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 统计文件夹下文件的个数</span></span><br><span class="line"><span class="comment"># 支持处理文件名中带空格的文件</span></span><br><span class="line"></span><br><span class="line">count=1</span><br><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> *doc</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;File #<span class="variable">$count</span> = <span class="variable">$name</span>&quot;</span></span><br><span class="line">    count=$(( <span class="variable">$count</span> + <span class="number">1</span>))</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;There are <span class="subst">$(($count-1)</span>) files under this folder&quot;</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><p>但是对于复杂的环境，如下图，我们如何获得这些列表呢？</p>
-<p><img src="/20130115-shell-remove-space/15215754-fc72e44985714bfaa250d5f0837ca5a9.png"></p>
+<img src="/2013/01/15/20130115-shell-remove-space/15215754-fc72e44985714bfaa250d5f0837ca5a9.png" class="" loading="lazy" decoding="async">
+
 <p>有一个办法，通过 <code>for i in &quot;* *&quot;</code> 可以获得文件名的列表，但是一个很糟糕的列表，因为这个结果是一个两个文件名在一起的列表，我们完全无法拿来做后续的操作，如下图所示。</p>
-<p><img src="/20130115-shell-remove-space/15215758-71dfdacd292d42c0aa647295c7cfe546.png"></p>
+<img src="/2013/01/15/20130115-shell-remove-space/15215758-71dfdacd292d42c0aa647295c7cfe546.png" class="" loading="lazy" decoding="async">
+
 <p>通过 “*\ *” 这样的技巧可以避免上面所说的问题，但是在应用mv或其他操作时，还是会出现问题。</p>
-<p><img src="/20130115-shell-remove-space/15215803-71ffc40aea844dad9cf093754be48b5c.png"></p>
+<img src="/2013/01/15/20130115-shell-remove-space/15215803-71ffc40aea844dad9cf093754be48b5c.png" class="" loading="lazy" decoding="async">
+
 <p>上面的问题，可以通过将变量放入引号中（”$i”）解决，通常情况下，引号中的空格可以被正确的处理。但这并不是一个恒久的解决办法，因为我们无法处理管道、子Shell等复杂的情况。</p>
 <h2 id="方法三：IFS"><a href="#方法三：IFS" class="headerlink" title="方法三：IFS"></a>方法三：IFS</h2><p>一个终极的解决办法就是设置IFS（the Internal Field Separator），不要用空格做为IFS，选择其他的符号。先来看看man page：</p>
 <blockquote>
 <p>IFS: The Internal Field Separator that is used for word splitting after expansion and to split lines into words with the read built-in command. The default value is “<space><tab><new-line>”.</p>
 </blockquote>
-<p><img src="/20130115-shell-remove-space/15215809-cb61f85865b24ba4b1bb381b12363eb6.png"></p>
+<img src="/2013/01/15/20130115-shell-remove-space/15215809-cb61f85865b24ba4b1bb381b12363eb6.png" class="" loading="lazy" decoding="async">
+
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 统计文件夹下文件的个数</span></span><br><span class="line"><span class="comment"># 支持处理文件名中带空格的文件</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 推荐的方法，这个改动只在当前脚本生效，确保脚本正常执行，但是 local 只能用在函数中</span></span><br><span class="line"><span class="keyword">function</span> file_count &#123;</span><br><span class="line">    <span class="built_in">local</span> IFS=$<span class="string">&#x27;\n&#x27;</span></span><br><span class="line"></span><br><span class="line">    count=1</span><br><span class="line">    <span class="comment"># 使用文件后缀，只能处理固定类型的场景</span></span><br><span class="line">    <span class="comment"># for name in *doc</span></span><br><span class="line">    <span class="comment"># 只能找到带空格的文件的写法</span></span><br><span class="line">    <span class="comment"># for name in *\ *</span></span><br><span class="line">    <span class="comment"># 通用的写法，遇到文件名中有空格的场景会发生异常</span></span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> $(<span class="built_in">ls</span> .)</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;File #<span class="variable">$count</span> = <span class="variable">$name</span>&quot;</span></span><br><span class="line">        count=$(( <span class="variable">$count</span> + <span class="number">1</span>))</span><br><span class="line">    <span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;There are <span class="subst">$(($count-1)</span>) files under this folder&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">count=1</span><br><span class="line"><span class="comment"># 使用文件后缀，只能处理固定类型的场景</span></span><br><span class="line"><span class="comment"># for name in *doc</span></span><br><span class="line"><span class="comment"># 只能找到带空格的文件的写法</span></span><br><span class="line"><span class="comment"># for name in *\ *</span></span><br><span class="line"><span class="comment"># 通用的写法，遇到文件名中有空格的场景会发生异常</span></span><br><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> $(<span class="built_in">ls</span> .)</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;File #<span class="variable">$count</span> = <span class="variable">$name</span>&quot;</span></span><br><span class="line">    count=$(( <span class="variable">$count</span> + <span class="number">1</span>))</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;There are <span class="subst">$(($count-1)</span>) files under this folder&quot;</span></span><br><span class="line"></span><br><span class="line">file_count</span><br></pre></td></tr></table></figure>
 
 <p>看一下执行的效果。</p>
@@ -97,7 +127,8 @@ var _hmt = _hmt || [];
 <h2 id="方法四"><a href="#方法四" class="headerlink" title="方法四"></a>方法四</h2><p>另外一个办法就是在对文件名进行处理之前，先将空格替换为特殊的自定义符号，然后在处理结束的时候，再替换回来。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">safename=<span class="string">&quot;<span class="subst">$(echo name | sed &#x27;s/ /_-_/g&#x27;)</span>&quot;</span></span><br><span class="line">original=<span class="string">&quot;<span class="subst">$(echo $safename | sed s&#x27;/_-_/ /g&#x27;)</span>&quot;</span></span><br></pre></td></tr></table></figure>
 <p>其他还有一些方法，例如利用find命令。</p>
-<p><img src="/20130115-shell-remove-space/15215816-35dbfa69c6014384944b38b1a157822a.png"></p>
+<img src="/2013/01/15/20130115-shell-remove-space/15215816-35dbfa69c6014384944b38b1a157822a.png" class="" loading="lazy" decoding="async">
+
 <p>参考资料：</p>
 <ol>
 <li><a target="_blank" rel="noopener" href="http://www.linuxjournal.com/article/10954">Work the shell － Dealing with Spaces in Filenames</a></li>
@@ -105,84 +136,76 @@ var _hmt = _hmt || [];
 <li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/weq0805/p/15027357.html">Shell 命令之IFS详解</a></li>
 </ol>
 
-      <div class="blog-post-footer">
-        <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
       </div>
-    </div>
     
-    <div class="blog-post-nav row">
-      
-        <div class="nav-link col-md-6">
-          <a href="/2013/03/09/20130309-yeoman/" id="article-nav-newer" class="article-nav-link-wrap">
-            &lt;&lt; Yeoman学习与实践笔记
-          </a>  
-        </div>
-      
-      
-        <div class="nav-link col-md-6">
-          <a href="/2012/12/15/20121215-about-colors/" id="article-nav-older" class="article-nav-link-wrap">
-            颜色、网页颜色与网页安全色 &gt;&gt;
-          </a>
-        </div>
-      
-    </div>
+
+    
+      <nav class="post-nav">
         
-  </div>
-              </div>
-            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
-                <div class="blog-profile">
-                    <div class="blog-author">
-
-    <div class="author-img">
-        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
-    </div>
-
-    <div class="author-desc">
-        <h1>cocowool</h1>
-        <p>A full-stack dreamer!</p>
-    </div>
-</div>
-                </div>
-                <div class="blog-google-ads">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- EDULINKS-Right -->
-     <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2449691085720111"
-          data-ad-slot="7013232113"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-     <script>
-
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid blog-footer">
-        <div class="container">
-            <div class="row blog-friend-link">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <h3>友情链接</h3>
-                </div>
-                
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="blog-copyright">
-                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
-                </div>    
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+          <a class="post-nav-item post-nav-prev" href="/2013/03/09/20130309-yeoman/">
+            <em>上一篇</em>
+            <b>Yeoman学习与实践笔记</b>
+          </a>
+        
+        
+          <a class="post-nav-item post-nav-next" href="/2012/12/15/20121215-about-colors/">
+            <em>下一篇</em>
+            <b>颜色、网页颜色与网页安全色</b>
+          </a>
+        
+      </nav>
     
-<script src="/scripts/main.js"></script>
+  </article>
+
+  
+<aside class="toc" id="toc">
+  <div class="toc-title">目 录</div>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%E9%80%9A%E8%BF%87%E5%90%8E%E7%BC%80%E8%8E%B7%E5%8F%96%E6%96%87%E4%BB%B6%E5%88%97%E8%A1%A8"><span class="toc-text">方法一：通过后缀获取文件列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C"><span class="toc-text">方法二</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%89%EF%BC%9AIFS"><span class="toc-text">方法三：IFS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E5%9B%9B"><span class="toc-text">方法四</span></a></li></ol>
+</aside>
+
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 cocowool
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>

@@ -1,71 +1,94 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="codeva-lFRExQpfJ8" />
-    <title>Kubernetes 基础概念-大江小浪</title>
-    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="docker, kubernetes">
-    <meta name="description" content="Kubernetes是当今最流行的开源容器管理平台，Kubernetes可以方便的进行集群应用的部署、扩容、缩容、自愈机制、服务发现、负载均衡、日志、监控等功能，大大减少日常运维的工作量。">
-    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
-    <link rel="stylesheet" href="/css/main.css" />
-    <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>Kubernetes 基础概念 · cocowool</title>
+<meta name="description" content="Kubernetes是当今最流行的开源容器管理平台，Kubernetes可以方便的进行集群应用的部署、扩容、缩容、自愈机制、服务发现、负载均衡、日志、监控等功能，大大减少日常运维的工作量。">
+
+<link rel="canonical" href="http://www.popsite.cn/2018/07/10/20180710-k8s-base-concept/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes 基础概念 · cocowool">
+<meta property="og:site_name" content="cocowool">
+<meta property="og:description" content="Kubernetes是当今最流行的开源容器管理平台，Kubernetes可以方便的进行集群应用的部署、扩容、缩容、自愈机制、服务发现、负载均衡、日志、监控等功能，大大减少日常运维的工作量。">
+<meta property="article:published_time" content="2018-07-10T06:52:02.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="cocowool" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="wave">
-    <nav class="navbar blog-header navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">大江小浪</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/links/">独立博客</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">我的文章</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">关于我</a>
-                    </li>
-                
-                </ul>
-            </div>
-        </div>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">cocowool</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
     </nav>
-    <div class="container blog-content">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
-                <div class="blog-post-detail">
-    <div class="blog-post-title">
-      <h1>Kubernetes 基础概念</h1>
+  </div>
+</header>
+
+  
+<div class="post-wrap">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
     </div>
-    <div class="blog-post-meta">
-        
-        <span class="post-time">更新于：2020-05-25 21:39:50</span>
-        
-        <span class="post-time">发布于：2018-07-10 14:52:02</span>
+
+    <h1>Kubernetes 基础概念</h1>
+
+    <div class="post-meta">
+      发布于2018-07-10<span class="dot">·</span>更新于 2020-05-25<span class="dot">·</span>1845 字<span class="dot">·</span>5 分钟
     </div>
-    <div class="blog-post-content">
-      <div class="blog-post-ad">
-        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
-        <!-- <div>
-          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
-        </div> -->
-      </div>
+
+    <div class="prose">
       <blockquote>
 <p>本文的测试环境为CentOS 7.3，Kubernetes集群为1.11.2，安装步骤参见<a target="_blank" rel="noopener" href="https://www.edulinks.cn/2018/07/24/20180724-kubeadm-install-kubernetes/">kubeadm安装kubernetes V1.11.1 集群</a> 。想要了解更多 Kubernetes 相关知识，可以阅读 <a target="_blank" rel="noopener" href="http://www.edulinks.cn/2020/10/16/20201016-kubernetes-articles/">Kubernetes 系列学习文章</a>。</p>
 </blockquote>
@@ -73,7 +96,9 @@ var _hmt = _hmt || [];
 <blockquote>
 <p>Kubernetes is primarily targeted at applications composed of multiple containers. It therefore groups containers using pods and labels into tightly coupled and loosely coupled formations for easy management and discovery.</p>
 </blockquote>
-<p>Kubernets所有的操作都可以通过Kubernetes API来进行，通过API来操作Kubernetes中的对象，包括Pod、Service、Volume、Namespace等等。Kubernetes的整体结构如下图所示：<br><img src="/20180710-k8s-base-concept/39469-20180710145045503-2069732975.png"></p>
+<p>Kubernets所有的操作都可以通过Kubernetes API来进行，通过API来操作Kubernetes中的对象，包括Pod、Service、Volume、Namespace等等。Kubernetes的整体结构如下图所示：</p>
+<img src="/2018/07/10/20180710-k8s-base-concept/39469-20180710145045503-2069732975.png" class="" loading="lazy" decoding="async">
+
 <h4 id="Master"><a href="#Master" class="headerlink" title="Master"></a>Master</h4><p>也叫做 Cluster Control Plane。</p>
 <h4 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h4><p>Node 可以是一个物理机也可以是虚拟机，每个节点上都运行了可以运行 Pods 的服务。通过Master节点来进行管理。节点实际上是由云供应商提供的，Kubernetes管理中创建节点实际上只是在Kubernetes中创建一个代表节点的对象。<br>Node 包含以下几方面的信息：</p>
 <ul>
@@ -94,7 +119,9 @@ var _hmt = _hmt || [];
 <blockquote>
 <p>Restarting a container in a Pod should not be confused with restarting the Pod. The Pod itself does not run, but is an environment the containers run in and persists until it is deleted.</p>
 </blockquote>
-<p>Pod的生命周期有几个状态<br><img src="/20180710-k8s-base-concept/39469-20180710145529399-1771721835.png"></p>
+<p>Pod的生命周期有几个状态</p>
+<img src="/2018/07/10/20180710-k8s-base-concept/39469-20180710145529399-1771721835.png" class="" loading="lazy" decoding="async">
+
 <h4 id="2-Pods-and-Controller"><a href="#2-Pods-and-Controller" class="headerlink" title="2. Pods and Controller"></a>2. Pods and Controller</h4><p>Controller 在集群范围内提供Pod的创建、管理、扩容、复制、自愈等功能。</p>
 <h5 id="2-1-Deployments"><a href="#2-1-Deployments" class="headerlink" title="2.1 Deployments"></a>2.1 Deployments</h5><p>Deployment 是新一代用于 Pod 管理的对象，与 Replication Controller 相比，它提供了更加完善的功能，使用起来更加简单方便。</p>
 <h5 id="2-2-StatefulSets"><a href="#2-2-StatefulSets" class="headerlink" title="2.2 StatefulSets"></a>2.2 StatefulSets</h5><p>在 Kubernetes 中，Deployment 和 ReplicaSets 都是运行无状态应用的有效手段。但这两种方式对于有状态应用来说就不太合适了。StatefulSet 的目的就是给为数众多的有状态负载提供正确的控制器支持。</p>
@@ -123,84 +150,82 @@ var _hmt = _hmt || [];
 <li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/fd8d8d51741e">Kubernetes对象之ReplicaSet</a></li>
 </ol>
 
-      <div class="blog-post-footer">
-        <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
-      </div>
     </div>
+
     
-    <div class="blog-post-nav row">
-      
-        <div class="nav-link col-md-6">
-          <a href="/2018/07/11/20180711-install-docker-ce-in-redhat-73/" id="article-nav-newer" class="article-nav-link-wrap">
-            &lt;&lt; 在Redhat 7.3中采用离线方式安装Docker
-          </a>  
-        </div>
-      
-      
-        <div class="nav-link col-md-6">
-          <a href="/2018/06/27/20180627-make-your-own-base-docker-image/" id="article-nav-older" class="article-nav-link-wrap">
-            创建自己的Docker基础镜像 &gt;&gt;
-          </a>
-        </div>
-      
-    </div>
+
+    
+      <div class="post-tags">
         
-  </div>
-              </div>
-            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
-                <div class="blog-profile">
-                    <div class="blog-author">
-
-    <div class="author-img">
-        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
-    </div>
-
-    <div class="author-desc">
-        <h1>cocowool</h1>
-        <p>A full-stack dreamer!</p>
-    </div>
-</div>
-                </div>
-                <div class="blog-google-ads">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- EDULINKS-Right -->
-     <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2449691085720111"
-          data-ad-slot="7013232113"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-     <script>
-
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid blog-footer">
-        <div class="container">
-            <div class="row blog-friend-link">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <h3>友情链接</h3>
-                </div>
-                
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="blog-copyright">
-                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
-                </div>    
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+          <a href="/tags/kubernetes/">kubernetes</a>
+        
+      </div>
     
-<script src="/scripts/main.js"></script>
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
+      </div>
+    
+
+    
+      <nav class="post-nav">
+        
+          <a class="post-nav-item post-nav-prev" href="/2018/07/11/20180711-install-docker-ce-in-redhat-73/">
+            <em>上一篇</em>
+            <b>在Redhat 7.3中采用离线方式安装Docker</b>
+          </a>
+        
+        
+          <a class="post-nav-item post-nav-next" href="/2018/06/27/20180627-make-your-own-base-docker-image/">
+            <em>下一篇</em>
+            <b>创建自己的Docker基础镜像</b>
+          </a>
+        
+      </nav>
+    
+  </article>
+
+  
+<aside class="toc" id="toc">
+  <div class="toc-title">目 录</div>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Kubernetes%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">Kubernetes是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kubernetes-%E5%AF%B9%E8%B1%A1-Objectes"><span class="toc-text">Kubernetes 对象 Objectes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Service"><span class="toc-text">3. Service</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Volumes"><span class="toc-text">4. Volumes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Add-ons"><span class="toc-text">Add-ons</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-text">参考资料</span></a></li></ol>
+</aside>
+
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 cocowool
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>

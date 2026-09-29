@@ -1,76 +1,100 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="codeva-lFRExQpfJ8" />
-    <title>Node.js 语言介绍-大江小浪</title>
-    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="node.js, javascript">
-    <meta name="description" content="JavaScript从1995年出现之后，经历了快速的发展和应用，基本上成为前端编程语言的标准选择。Node.js 做为一个异步事件驱动的 JavaScript 运行时，Node.js 被设计用来构建可扩展的网络应用。">
-    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
-    <link rel="stylesheet" href="/css/main.css" />
-    <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>Node.js 语言介绍 · cocowool</title>
+<meta name="description" content="JavaScript从1995年出现之后，经历了快速的发展和应用，基本上成为前端编程语言的标准选择。Node.js 做为一个异步事件驱动的 JavaScript 运行时，Node.js 被设计用来构建可扩展的网络应用。">
+
+<link rel="canonical" href="http://www.popsite.cn/2021/08/10/20210812-node-program-introduce/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node.js 语言介绍 · cocowool">
+<meta property="og:site_name" content="cocowool">
+<meta property="og:description" content="JavaScript从1995年出现之后，经历了快速的发展和应用，基本上成为前端编程语言的标准选择。Node.js 做为一个异步事件驱动的 JavaScript 运行时，Node.js 被设计用来构建可扩展的网络应用。">
+<meta property="article:published_time" content="2021-08-10T15:15:54.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="cocowool" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="wave">
-    <nav class="navbar blog-header navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">大江小浪</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/links/">独立博客</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">我的文章</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">关于我</a>
-                    </li>
-                
-                </ul>
-            </div>
-        </div>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">cocowool</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
     </nav>
-    <div class="container blog-content">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
-                <div class="blog-post-detail">
-    <div class="blog-post-title">
-      <h1>Node.js 语言介绍</h1>
+  </div>
+</header>
+
+  
+<div class="post-wrap">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
     </div>
-    <div class="blog-post-meta">
-        
-        <span class="post-time">更新于：2026-09-25 21:01:43</span>
-        
-        <span class="post-time">发布于：2021-08-10 23:15:54</span>
+
+    <h1>Node.js 语言介绍</h1>
+
+    <div class="post-meta">
+      发布于2021-08-10<span class="dot">·</span>更新于 2026-09-29<span class="dot">·</span>1384 字<span class="dot">·</span>3 分钟
     </div>
-    <div class="blog-post-content">
-      <div class="blog-post-ad">
-        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
-        <!-- <div>
-          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
-        </div> -->
-      </div>
+
+    <div class="prose">
       <h2 id="JavaScript历史"><a href="#JavaScript历史" class="headerlink" title="JavaScript历史"></a>JavaScript历史</h2><p>1995年网景公司的Brendan Eich设计实现了JavaScript，最初名称为LiveWire，后来改名为LiveScript，其起因是因为当时网络很昂贵，为了避免将页面发送给服务端后才进行校验而开发了前端校验的编程语言，同时也为非专业的开发人员提供一个方便的工具。与此同时，Sun公司在推广Java applet，但是applet速度慢而且操作不便。趁此机会，网景公司与Sun合作完成了LiveScript的实现，并在Navigator 2.0发布之前，将其改名为JavaScript。1996年微软的Windows95推出了Internet Explorer3，支持JScript和VBScript。</p>
 <p>由于JavaScript没有一个标准，在不同的浏览器之间存在兼容性问题。1996年，JavaScript标准由诸多厂商共同提交给ECMA（欧洲计算机制造商协会），ECMA通过了标准ECMA-262，也就是ECMAScript。紧接着国际化标准组织也采纳了这个标准ISO-16262。1999年12月，ECMAScript 3.0发布并获得了巨大的成功，在业界得到了广泛的支持，成为通行标准。2015年6月，ECMAScript 6正式发布，并且更名为「ECMAScript 2015」，即是现在的ES6。</p>
 <h2 id="Node-js-介绍"><a href="#Node-js-介绍" class="headerlink" title="Node.js 介绍"></a>Node.js 介绍</h2><p>Node.js是可以在服务端运行JavaScript的平台，是一个基于 Chrome V8引擎的 JavaScript 运行时，具备单线程、异步式I&#x2F;O、事件驱动式程序设计模型，这些带来了性能的提升，减少了多线程程序设计的复杂性，进而提高了开发效率。</p>
 <p>2009年，Ryan Dahl创建了Node项目。2011年3月18日，Node v0.4.3版本发布。到2021年8月11日 Node v16.6.2版本发布，十年的时间Node.js得到了快速的发展。从百度指数上可以看到，Node.js从发布以来一直快速增长，到目前的热度基本上与JavaScript持平了。</p>
-<p><img src="/20210812-node-program-introduce/image-20210813083633062.png" alt="image-20210813083633062"></p>
+<img src="/2021/08/10/20210812-node-program-introduce/image-20210813083633062.png" class="" title="image-20210813083633062" loading="lazy" decoding="async">
+
 <p>写过JavaScript的同学可能清楚，在JavaScript语言中没有包、模块的概念，这有点阻碍JavaScript实现工程化的应用。为了统一JavaScript在浏览器之外的实现，CommonJS项目诞生了。它的终极目标是制定一个像C++标准库一样的规范，提供标准化的JavaScript模块单元，使得基于CommonJS 规范的应用可以在不同环境下运行。</p>
 <p>Node.js 最初遵循CommonJS规范，这就使得使用Node.js来开发大型的后端应用成为可能，并且也能够很方便的转化为浏览器支持的代码（如Webpack等）。在Node.js v13.2.0版本之后，Node.js 默认打开了ES6 Module的支持。ES6（EcmaScript 6）可以较好的兼容后端与前端的开发需求，目前已经成为主要的标准。</p>
 <p>Node.js 并不是一门语言，只是一个基于V8的运行时环境，因此大家只要学习JavaScript语法，就可以编写基于Node.js的程序。</p>
@@ -116,84 +140,76 @@ var _hmt = _hmt || [];
 <li><a target="_blank" rel="noopener" href="https://cnodejs.org/topic/5ab3166be7b166bb7b9eccf7">如何正确的学习Node.js</a></li>
 </ol>
 
-      <div class="blog-post-footer">
-        <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
       </div>
-    </div>
     
-    <div class="blog-post-nav row">
-      
-        <div class="nav-link col-md-6">
-          <a href="/2021/08/16/20210816-build-your-body/" id="article-nav-newer" class="article-nav-link-wrap">
-            &lt;&lt; 减脂及如何科学的减脂
-          </a>  
-        </div>
-      
-      
-        <div class="nav-link col-md-6">
-          <a href="/2021/07/27/20210727-node-sass-problem/" id="article-nav-older" class="article-nav-link-wrap">
-            node-sass安装遇到的错误 &gt;&gt;
-          </a>
-        </div>
-      
-    </div>
+
+    
+      <nav class="post-nav">
         
-  </div>
-              </div>
-            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
-                <div class="blog-profile">
-                    <div class="blog-author">
-
-    <div class="author-img">
-        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
-    </div>
-
-    <div class="author-desc">
-        <h1>cocowool</h1>
-        <p>A full-stack dreamer!</p>
-    </div>
-</div>
-                </div>
-                <div class="blog-google-ads">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- EDULINKS-Right -->
-     <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2449691085720111"
-          data-ad-slot="7013232113"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-     <script>
-
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid blog-footer">
-        <div class="container">
-            <div class="row blog-friend-link">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <h3>友情链接</h3>
-                </div>
-                
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="blog-copyright">
-                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
-                </div>    
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+          <a class="post-nav-item post-nav-prev" href="/2021/08/16/20210816-build-your-body/">
+            <em>上一篇</em>
+            <b>减脂及如何科学的减脂</b>
+          </a>
+        
+        
+          <a class="post-nav-item post-nav-next" href="/2021/07/27/20210727-node-sass-problem/">
+            <em>下一篇</em>
+            <b>node-sass安装遇到的错误</b>
+          </a>
+        
+      </nav>
     
-<script src="/scripts/main.js"></script>
+  </article>
+
+  
+<aside class="toc" id="toc">
+  <div class="toc-title">目 录</div>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript%E5%8E%86%E5%8F%B2"><span class="toc-text">JavaScript历史</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Node-js-%E4%BB%8B%E7%BB%8D"><span class="toc-text">Node.js 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NPM"><span class="toc-text">NPM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E6%9C%BA%E5%88%B6"><span class="toc-text">模块机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95"><span class="toc-text">语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95"><span class="toc-text">调试方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-text">参考资料</span></a></li></ol></li></ol>
+</aside>
+
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 cocowool
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>

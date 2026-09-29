@@ -1,159 +1,188 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="codeva-lFRExQpfJ8" />
-    <title>Mac环境下配置Tomcat+Eclipse-大江小浪</title>
-    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="mac, tomcat, eclipse, mac eclipse">
-    <meta name="description" content="mac下配置Tomcat和Eclipse的开发环境。">
-    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
-    <link rel="stylesheet" href="/css/main.css" />
-    <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>Mac环境下配置Tomcat+Eclipse · cocowool</title>
+<meta name="description" content="mac下配置Tomcat和Eclipse的开发环境。">
+
+<link rel="canonical" href="http://www.popsite.cn/2017/09/28/20170928-tomcat-and-eclipse/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mac环境下配置Tomcat+Eclipse · cocowool">
+<meta property="og:site_name" content="cocowool">
+<meta property="og:description" content="mac下配置Tomcat和Eclipse的开发环境。">
+<meta property="article:published_time" content="2017-09-28T03:02:00.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="cocowool" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="wave">
-    <nav class="navbar blog-header navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">大江小浪</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/links/">独立博客</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">我的文章</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">关于我</a>
-                    </li>
-                
-                </ul>
-            </div>
-        </div>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">cocowool</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
     </nav>
-    <div class="container blog-content">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
-                <div class="blog-post-detail">
-    <div class="blog-post-title">
-      <h1>Mac环境下配置Tomcat+Eclipse</h1>
+  </div>
+</header>
+
+  
+<div class="post-wrap">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
+        <span>/</span> <a href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
+      
     </div>
-    <div class="blog-post-meta">
-        
-        <span class="post-time">更新于：2026-09-25 21:01:43</span>
-        
-        <span class="post-time">发布于：2017-09-28 11:02:00</span>
+
+    <h1>Mac环境下配置Tomcat+Eclipse</h1>
+
+    <div class="post-meta">
+      <a class="tag" href="/categories/%E5%BC%80%E5%8F%91/">开发</a><span class="dot">·</span>发布于2017-09-28<span class="dot">·</span>更新于 2026-09-29<span class="dot">·</span>246 字<span class="dot">·</span>1 分钟
     </div>
-    <div class="blog-post-content">
-      <div class="blog-post-ad">
-        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
-        <!-- <div>
-          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
-        </div> -->
-      </div>
-      <h3 id="下载Tomcat"><a href="#下载Tomcat" class="headerlink" title="下载Tomcat"></a>下载Tomcat</h3><p>首先在<a target="_blank" rel="noopener" href="http://tomcat.apache.org/download-70.cgi">Tomcat官方网站</a>找到自己合适的版本，下载 tar.gz 版本的，下载完成后解压缩到一个目录，进入这个目录下的 bin 执行 startup.sh，如果看到下面的界面，表示已经启动了。<br><img src="/20170928-tomcat-and-eclipse/39469-20170928110034653-2083478430.png"><br>打开浏览器，输入<a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080</a>能够看到界面显示，表示安装已经成功了。<br><img src="/20170928-tomcat-and-eclipse/39469-20170928110047778-325300410.png"></p>
+
+    <div class="prose">
+      <h3 id="下载Tomcat"><a href="#下载Tomcat" class="headerlink" title="下载Tomcat"></a>下载Tomcat</h3><p>首先在<a target="_blank" rel="noopener" href="http://tomcat.apache.org/download-70.cgi">Tomcat官方网站</a>找到自己合适的版本，下载 tar.gz 版本的，下载完成后解压缩到一个目录，进入这个目录下的 bin 执行 startup.sh，如果看到下面的界面，表示已经启动了。</p>
+<img src="/2017/09/28/20170928-tomcat-and-eclipse/39469-20170928110034653-2083478430.png" class="" loading="lazy" decoding="async">
+<p>打开浏览器，输入<a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080</a>能够看到界面显示，表示安装已经成功了。</p>
+<img src="/2017/09/28/20170928-tomcat-and-eclipse/39469-20170928110047778-325300410.png" class="" loading="lazy" decoding="async">
+
 <blockquote>
 <p>我使用的是7.0.81的版本，最新的版本是9。</p>
 </blockquote>
-<h3 id="配置Eclipse"><a href="#配置Eclipse" class="headerlink" title="配置Eclipse"></a>配置Eclipse</h3><p>启动Eclipse后，选择 Preferences(快捷键<code>⌘+,</code>)<br><img src="/20170928-tomcat-and-eclipse/39469-20170928110100903-1853525836.png"><br>选择 Server-&gt;Runtime Environments，点击 Add 添加<br><img src="/20170928-tomcat-and-eclipse/39469-20170928110118262-1553876600.png"><br>选择合适的Tomcat版本，点击下一步，然后找到自己刚才下载的Tomcat位置，点击完成。<br><img src="/20170928-tomcat-and-eclipse/39469-20170928110130778-780724613.png"><br>今后新建了项目之后，就可以运行在这个Server上进行预览测试了。</p>
+<h3 id="配置Eclipse"><a href="#配置Eclipse" class="headerlink" title="配置Eclipse"></a>配置Eclipse</h3><p>启动Eclipse后，选择 Preferences(快捷键<code>⌘+,</code>)</p>
+<img src="/2017/09/28/20170928-tomcat-and-eclipse/39469-20170928110100903-1853525836.png" class="" loading="lazy" decoding="async">
+<p>选择 Server-&gt;Runtime Environments，点击 Add 添加</p>
+<img src="/2017/09/28/20170928-tomcat-and-eclipse/39469-20170928110118262-1553876600.png" class="" loading="lazy" decoding="async">
+<p>选择合适的Tomcat版本，点击下一步，然后找到自己刚才下载的Tomcat位置，点击完成。</p>
+<img src="/2017/09/28/20170928-tomcat-and-eclipse/39469-20170928110130778-780724613.png" class="" loading="lazy" decoding="async">
+<p>今后新建了项目之后，就可以运行在这个Server上进行预览测试了。</p>
 <blockquote>
 <p>我使用的是 Eclipse Oxygen</p>
 </blockquote>
-<p><strong>本文为作者原创，如果您觉得本文对您有帮助，请随意打赏，您的支持将鼓励我继续创作。</strong><br><img src="/20170928-tomcat-and-eclipse/39469-20170825142904777-1467390737.png"><br>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://tomcat.apache.org/download-70.cgi">Apache Tomcat</a><br>2、<a target="_blank" rel="noopener" href="http://www.eclipse.org/home/index.php">Eclipse</a></p>
+<p><strong>本文为作者原创，如果您觉得本文对您有帮助，请随意打赏，您的支持将鼓励我继续创作。</strong></p>
+<img src="/2017/09/28/20170928-tomcat-and-eclipse/39469-20170825142904777-1467390737.png" class="" loading="lazy" decoding="async">
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://tomcat.apache.org/download-70.cgi">Apache Tomcat</a><br>2、<a target="_blank" rel="noopener" href="http://www.eclipse.org/home/index.php">Eclipse</a></p>
 
-      <div class="blog-post-footer">
-        <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
       </div>
-    </div>
     
-    <div class="blog-post-nav row">
-      
-        <div class="nav-link col-md-6">
-          <a href="/2017/10/23/20171023-convert-ape-with-xld/" id="article-nav-newer" class="article-nav-link-wrap">
-            &lt;&lt; Mac下使用XLD转换无损音乐Ape
-          </a>  
-        </div>
-      
-      
-        <div class="nav-link col-md-6">
-          <a href="/2017/09/27/20170927-curl-command-for-elasticsearch/" id="article-nav-older" class="article-nav-link-wrap">
-            Curl操作Elasticsearch的常用方法 &gt;&gt;
-          </a>
-        </div>
-      
-    </div>
+
+    
+      <nav class="post-nav">
         
-  </div>
-              </div>
-            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
-                <div class="blog-profile">
-                    <div class="blog-author">
-
-    <div class="author-img">
-        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
-    </div>
-
-    <div class="author-desc">
-        <h1>cocowool</h1>
-        <p>A full-stack dreamer!</p>
-    </div>
-</div>
-                </div>
-                <div class="blog-google-ads">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- EDULINKS-Right -->
-     <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2449691085720111"
-          data-ad-slot="7013232113"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-     <script>
-
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid blog-footer">
-        <div class="container">
-            <div class="row blog-friend-link">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <h3>友情链接</h3>
-                </div>
-                
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="blog-copyright">
-                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
-                </div>    
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+          <a class="post-nav-item post-nav-prev" href="/2017/10/23/20171023-convert-ape-with-xld/">
+            <em>上一篇</em>
+            <b>Mac下使用XLD转换无损音乐Ape</b>
+          </a>
+        
+        
+          <a class="post-nav-item post-nav-next" href="/2017/09/27/20170927-curl-command-for-elasticsearch/">
+            <em>下一篇</em>
+            <b>Curl操作Elasticsearch的常用方法</b>
+          </a>
+        
+      </nav>
     
-<script src="/scripts/main.js"></script>
+  </article>
+
+  
+<aside class="toc" id="toc">
+  <div class="toc-title">目 录</div>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BDTomcat"><span class="toc-text">下载Tomcat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEEclipse"><span class="toc-text">配置Eclipse</span></a></li></ol>
+</aside>
+
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 cocowool
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>

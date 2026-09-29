@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <author>
+    <name>cocowool</name>
+  </author>
+  <generator uri="https://hexo.io/">Hexo</generator>
+  <id>http://www.popsite.cn/</id>
+  <link href="http://www.popsite.cn/" rel="alternate"/>
+  <link href="http://www.popsite.cn/atom.xml" rel="self"/>
+  <rights>All rights reserved 2026, cocowool</rights>
+  <subtitle>A full-stack dreamer!</subtitle>
+  <title>大江小浪</title>
+  <updated>2026-09-29T13:37:56.710Z</updated>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <id>http://www.popsite.cn/2026/09/17/20260917-human-memory/</id>
+    <link href="http://www.popsite.cn/2026/09/17/20260917-human-memory/"/>
+    <published>2026-09-17T06:32:10.000Z</published>
+    <summary>讨论人类记忆的运作方式，感叹记忆能力的差异，分析提高的可行性。</summary>
+    <title>记忆？记性？</title>
+    <updated>2026-09-29T13:37:56.710Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <category term="计算机名人录" scheme="http://www.popsite.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"/>
+    <id>http://www.popsite.cn/2026/09/02/20260902-edmund-clarke/</id>
+    <link href="http://www.popsite.cn/2026/09/02/20260902-edmund-clarke/"/>
+    <published>2026-09-02T02:51:00.000Z</published>
+    <summary>爱德蒙·克拉克（Edmund Melson Clarke，1945年7月27日 - 2020年12月22日），美国计算机科学家，致力于研究硬件和软件模型的验证，2007年图灵奖得主之一。</summary>
+    <title>爱德蒙·克拉克</title>
+    <updated>2026-09-29T13:37:56.709Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <category term="计算机名人录" scheme="http://www.popsite.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"/>
+    <id>http://www.popsite.cn/2026/08/25/20260825-frances-allen/</id>
+    <link href="http://www.popsite.cn/2026/08/25/20260825-frances-allen/"/>
+    <published>2026-08-25T00:30:43.000Z</published>
+    <summary>法兰西斯·艾伦（Frances Elizabeth Allen，1932年8月4日 - 2020年8月4日），美国计算机科学家，因其在优化编译器技术理论与实践方面的开创性贡献，获得2006年图灵奖，是图灵奖的第一位女性得主。</summary>
+    <title>法兰西斯·艾伦</title>
+    <updated>2026-09-29T13:37:56.709Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <category term="计算机名人录" scheme="http://www.popsite.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"/>
+    <id>http://www.popsite.cn/2026/08/12/20260812-peter-naur/</id>
+    <link href="http://www.popsite.cn/2026/08/12/20260812-peter-naur/"/>
+    <published>2026-08-12T00:39:59.000Z</published>
+    <summary>彼得·诺尔（Peter Naur，1928年10月25日 - 2016年1月3日），丹麦天文学家和计算机科学家，致力于计算机领域编程语言的研究，参与了编程语言 ALGOL 的开发，因其在编程语言设计以及Algol 60定义、编译器设计以及计算机编程艺术与实践方面的基础性贡献，获得2005年图灵奖。</summary>
+    <title>彼得·诺尔</title>
+    <updated>2026-09-29T13:37:56.709Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <id>http://www.popsite.cn/2026/08/07/20260807-cmdb-interface/</id>
+    <link href="http://www.popsite.cn/2026/08/07/20260807-cmdb-interface/"/>
+    <published>2026-08-07T00:54:00.000Z</published>
+    <summary>记录了在运维工具实践中观察到的部门墙现象，以及自己的一点碎碎念。</summary>
+    <title>架构优先还是安全稳定优先</title>
+    <updated>2026-09-29T13:37:56.708Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <id>http://www.popsite.cn/2026/06/16/20260616-update-hexo-to-8/</id>
+    <link href="http://www.popsite.cn/2026/06/16/20260616-update-hexo-to-8/"/>
+    <published>2026-06-16T00:32:17.000Z</published>
+    <summary>记录一下折腾博客升级，以及实现部分博客内容自动更新的过程。支持Githubpage自动部署。</summary>
+    <title>升级到 Hexo 8</title>
+    <updated>2026-09-29T13:37:56.707Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <category term="计算机名人录" scheme="http://www.popsite.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"/>
+    <id>http://www.popsite.cn/2026/06/15/20260615-vinton-cerf/</id>
+    <link href="http://www.popsite.cn/2026/06/15/20260615-vinton-cerf/"/>
+    <published>2026-06-15T03:09:11.000Z</published>
+    <summary>温顿·瑟夫（Vinton G. Cerf，1943年6月23日 - ），美国计算机科学家，因其与罗伯特·卡恩在「互联网络领域的开创性工作，包括设计和实现互联网基本通信协议TCP/IP，以及在网络领域展现的卓越领导力」，两人共同获得2004年图灵奖，两人被公认为是互联网之父。</summary>
+    <title>温顿·瑟夫</title>
+    <updated>2026-09-29T13:37:56.707Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <id>http://www.popsite.cn/2026/06/03/20260603-hello-popsite/</id>
+    <link href="http://www.popsite.cn/2026/06/03/20260603-hello-popsite/"/>
+    <published>2026-06-03T02:34:07.000Z</published>
+    <summary>popsite.cn 目标收集坚持独立写作、持续更新的博客，这是一个「独立博客发现计划」，将持续运营。</summary>
+    <title>我建了个网站，专门收录那些独立博客</title>
+    <updated>2026-09-29T13:37:56.707Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <category term="计算机名人录" scheme="http://www.popsite.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"/>
+    <id>http://www.popsite.cn/2026/05/26/20260526-robert-kahn/</id>
+    <link href="http://www.popsite.cn/2026/05/26/20260526-robert-kahn/"/>
+    <published>2026-05-26T05:53:56.000Z</published>
+    <summary>罗伯特·卡恩（Robert E. Kahn，1938年2月23日 -  ），一位美国电气工程师，因其和瑟夫共同领导了传输控制协议和互联网协议（TCP/IP）的设计与实现，这是现在互联网的基石。2004年获得图灵奖，以表彰他们在互联网通信领域的开创性工作，以及在网络领域的激励性领导力。</summary>
+    <title>罗伯特·卡恩</title>
+    <updated>2026-09-29T13:37:56.707Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <id>http://www.popsite.cn/2026/05/25/20260525-ai-credits-consumption/</id>
+    <link href="http://www.popsite.cn/2026/05/25/20260525-ai-credits-consumption/"/>
+    <published>2026-05-25T07:23:05.000Z</published>
+    <summary>记录一次 Vibe Coding 使用记录与经验，之前主要是通过Web页面对话获取相关建议，利用 Vibe Coding 这种方式，编码效率提高不少，同时也存在一些问题，整理了一些待优化建议。</summary>
+    <title>一次 Vibe Coding 的体验记录</title>
+    <updated>2026-09-29T13:37:56.697Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <category term="计算机名人录" scheme="http://www.popsite.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"/>
+    <id>http://www.popsite.cn/2026/05/06/20260506-leonard-adleman/</id>
+    <link href="http://www.popsite.cn/2026/05/06/20260506-leonard-adleman/"/>
+    <published>2026-05-06T00:27:05.000Z</published>
+    <summary>伦纳德·阿德曼介绍。</summary>
+    <title>伦纳德·阿德曼</title>
+    <updated>2026-09-29T13:37:56.697Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <id>http://www.popsite.cn/2026/04/30/20260430-close-personal-website/</id>
+    <link href="http://www.popsite.cn/2026/04/30/20260430-close-personal-website/"/>
+    <published>2026-04-30T08:11:12.000Z</published>
+    <summary>随着新浪云的正式关闭，我计划关闭自己的个人静态站点，专注于在公众号、小红书等热门平台发表文章。</summary>
+    <title>准备关闭个人站点了</title>
+    <updated>2026-09-29T13:37:56.696Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <category term="计算机名人录" scheme="http://www.popsite.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"/>
+    <id>http://www.popsite.cn/2026/04/21/20260421-adi-shamir/</id>
+    <link href="http://www.popsite.cn/2026/04/21/20260421-adi-shamir/"/>
+    <published>2026-04-21T05:28:30.000Z</published>
+    <summary>阿迪·萨莫尔（Adi Shamir，1952年7月6日 - ），国际密码学家，做为 RSA 公钥密码算法的共同发明人。</summary>
+    <title>阿迪·萨莫尔</title>
+    <updated>2026-09-29T13:37:56.696Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <id>http://www.popsite.cn/2026/04/01/20260401-install-kali-again/</id>
+    <link href="http://www.popsite.cn/2026/04/01/20260401-install-kali-again/"/>
+    <published>2026-04-01T12:09:17.000Z</published>
+    <summary>最近又开始倒腾环境，重新安装了 Kali，并且成功安装了 Parallels Tools，这样粘贴和界面都方便很多。</summary>
+    <title>再次安装 Kali 和 Parallels Tools</title>
+    <updated>2026-09-29T13:37:56.691Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <id>http://www.popsite.cn/2026/03/24/20260324-a-niche-sport-jianqiu/</id>
+    <link href="http://www.popsite.cn/2026/03/24/20260324-a-niche-sport-jianqiu/"/>
+    <published>2026-03-24T11:01:53.000Z</published>
+    <summary>踢毽子是一项老少皆宜的运动，在我国有悠久的发展历史。这项运动即适合平时活动健身，也发展出了竞技体育项目，本文整理了部分介绍内容，希望更多的人了解这个项目，喜欢上这个项目。</summary>
+    <title>推荐一项小众运动-毽球</title>
+    <updated>2026-09-29T13:37:56.682Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <category term="计算机名人录" scheme="http://www.popsite.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"/>
+    <id>http://www.popsite.cn/2026/03/23/20260323-ronald-rivest/</id>
+    <link href="http://www.popsite.cn/2026/03/23/20260323-ronald-rivest/"/>
+    <published>2026-03-23T00:57:03.000Z</published>
+    <summary>罗纳德·李维斯特（Ronald L. Rivest，1947年5月6日 - ），美国计算机科学家、密码学家，麻省理工学院（MIT）教授，与美国计算机科学家 Leonard M. Adleman 和以色列计算机科学家 Adi Shamir 共同获得2002年图灵奖。</summary>
+    <title>罗纳德·李维斯特</title>
+    <updated>2026-09-29T13:37:56.682Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <id>http://www.popsite.cn/2026/03/06/20260306-install-openclaw-on-macos/</id>
+    <link href="http://www.popsite.cn/2026/03/06/20260306-install-openclaw-on-macos/"/>
+    <published>2026-03-06T00:38:30.000Z</published>
+    <summary>记录一次OpenClaw学习使用的过程，实现一个简单的案例，实现与在线大模型和在线通知工具的集成。记录自己对于OpenClaw的认识和看法。</summary>
+    <title>从上门安装到官方卸载，试论OpenClaw的全民热潮</title>
+    <updated>2026-09-29T13:37:56.681Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <category term="马拉松" scheme="http://www.popsite.cn/categories/%E9%A9%AC%E6%8B%89%E6%9D%BE/"/>
+    <id>http://www.popsite.cn/2026/03/04/20260302-winter-trainning-summary/</id>
+    <link href="http://www.popsite.cn/2026/03/04/20260302-winter-trainning-summary/"/>
+    <published>2026-03-04T01:03:28.000Z</published>
+    <summary>冬训100完美结束，在100天的冬训里，我共跑了1137公里，创造了多个PB，对宗逊总结最大的感受就是自己变得更强了，另外也更要注意科学训练，坚持训练。</summary>
+    <title>冬训100阶段总结</title>
+    <updated>2026-09-29T13:37:56.680Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <category term="计算机名人录" scheme="http://www.popsite.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"/>
+    <id>http://www.popsite.cn/2026/02/24/20260224-kristen-nygaard/</id>
+    <link href="http://www.popsite.cn/2026/02/24/20260224-kristen-nygaard/"/>
+    <published>2026-02-24T09:33:10.000Z</published>
+    <summary>克利斯登·奈加特（Kristen Nygaard，1926年8月27日 - 2002年8月10日），挪威数学家和计算机科学家，他与同事奥利·约翰·达尔共同发明了面向对象编程和编程语言 SIMULA。</summary>
+    <title>克利斯登·奈加特</title>
+    <updated>2026-09-29T13:37:56.680Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <category term="计算机名人录" scheme="http://www.popsite.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"/>
+    <id>http://www.popsite.cn/2026/02/02/20260202-ole-johan-dahl/</id>
+    <link href="http://www.popsite.cn/2026/02/02/20260202-ole-johan-dahl/"/>
+    <published>2026-02-02T00:15:31.000Z</published>
+    <summary>奥利·约翰·达尔（Ole-Johan Dahl，1931年10月12日 - 2002年6月29日），挪威计算机科学家，「面向对象编程」之父，2001年图灵奖得主之一，挪威科学院院士。</summary>
+    <title>奥利·约翰·达尔</title>
+    <updated>2026-09-29T13:37:56.679Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <category term="计算机名人录" scheme="http://www.popsite.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"/>
+    <id>http://www.popsite.cn/2026/01/21/20260121-yaoqizhi/</id>
+    <link href="http://www.popsite.cn/2026/01/21/20260121-yaoqizhi/"/>
+    <published>2026-01-21T02:10:55.000Z</published>
+    <summary>姚期智（1946年12月24日 - ），中国科学院院士，在计算理论方面做出了基础性贡献，包括基于复杂性的伪随机数生成理论、密码学和通信复杂性，是图灵奖设立以来首位获奖的亚裔学者，也是迄今为止获此殊荣的唯一华裔计算机科学家。</summary>
+    <title>姚期智</title>
+    <updated>2026-09-29T13:37:56.678Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <category term="计算机名人录" scheme="http://www.popsite.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"/>
+    <id>http://www.popsite.cn/2026/01/16/20260116-amir-pnueli/</id>
+    <link href="http://www.popsite.cn/2026/01/16/20260116-amir-pnueli/"/>
+    <published>2026-01-16T05:39:29.000Z</published>
+    <summary>阿米尔·伯努利（，1941年4月22日 - 2009年11月2日），以色列计算机科学家，1996年图灵奖得主，以表彰其在计算科学中引入时间逻辑的开创性工作以及在程序和系统验证方面的杰出贡献。</summary>
+    <title>阿米尔·伯努利</title>
+    <updated>2026-09-29T13:37:56.676Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <category term="计算机名人录" scheme="http://www.popsite.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"/>
+    <id>http://www.popsite.cn/2026/01/12/20260112-raj-reddy/</id>
+    <link href="http://www.popsite.cn/2026/01/12/20260112-raj-reddy/"/>
+    <published>2026-01-12T01:47:13.000Z</published>
+    <summary>罗杰·瑞迪（Raj Reddy，1937年6月 - ），印度计算机科学家，他开发了首个能够连续语音识别的系统，与美国计算机科学家爱德华·费根鲍姆（Edward Feigenhbaum）共同获得1994年图灵奖。2009年当选中国工程院外籍院士。瑞迪还因其在计算机语音识别、机器人技术、人机交互、高等教育创新以及将数字技术带给「数字鸿沟」另一侧的人们的努力而闻名。</summary>
+    <title>罗杰·瑞迪</title>
+    <updated>2026-09-29T13:37:56.676Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <category term="计算机名人录" scheme="http://www.popsite.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"/>
+    <id>http://www.popsite.cn/2025/12/31/20251231-edward-feigenbaum/</id>
+    <link href="http://www.popsite.cn/2025/12/31/20251231-edward-feigenbaum/"/>
+    <published>2025-12-31T07:25:25.000Z</published>
+    <summary>爱德华·费根鲍姆（Edward feigenbaum，1936年1月20日 - ），致力于人工智能的研究，被广泛认为是专家系统的奠基人，1994年图灵奖得主。</summary>
+    <title>爱德华·费根鲍姆</title>
+    <updated>2026-09-29T13:37:56.676Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <id>http://www.popsite.cn/2025/12/24/20251224-byebye-2025/</id>
+    <link href="http://www.popsite.cn/2025/12/24/20251224-byebye-2025/"/>
+    <published>2025-12-24T09:12:32.000Z</published>
+    <summary>2025是不平凡的一年，家人生病、自己骨折，有一些自己都没想到的意外。2025又是平凡的一年，上班、休假、节假日。就这样一天又一天，2025再见了。</summary>
+    <title>2025年年终总结</title>
+    <updated>2026-09-29T13:37:56.675Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <id>http://www.popsite.cn/2025/12/16/20251216-2025-big-it-outage/</id>
+    <link href="http://www.popsite.cn/2025/12/16/20251216-2025-big-it-outage/"/>
+    <published>2025-12-16T10:49:40.000Z</published>
+    <summary>本文收集整理了2025年国内与全球发生的比较大的信息系统故障，对故障进行了简单的分类总结，希望供从事相关行业的朋友借鉴学习。</summary>
+    <title>2025年信息系统故障收集</title>
+    <updated>2026-09-29T13:37:56.675Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <category term="计算机名人录" scheme="http://www.popsite.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"/>
+    <id>http://www.popsite.cn/2025/12/10/20251210-juris-hartmanis/</id>
+    <link href="http://www.popsite.cn/2025/12/10/20251210-juris-hartmanis/"/>
+    <published>2025-12-10T05:31:57.000Z</published>
+    <summary>尤里斯·哈特马尼斯（Jris Hartmanis，1928年7月5日 - 2022年7月29日），致力于计算理论及计算复杂性理论的研究，与理查德·E·斯特恩斯共同获得1993年图灵奖。</summary>
+    <title>尤里斯·哈特马尼斯</title>
+    <updated>2026-09-29T13:37:56.675Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <category term="计算机名人录" scheme="http://www.popsite.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"/>
+    <id>http://www.popsite.cn/2025/12/01/20251201-robin-milner/</id>
+    <link href="http://www.popsite.cn/2025/12/01/20251201-robin-milner/"/>
+    <published>2025-12-01T04:47:52.000Z</published>
+    <summary>罗宾·米尔纳（Robin Milner，1934年1月13日 - 2010年3月20日），英国计算机科学家，致力于数学计算理论的研究，因其在自动定理证明器、机器学习及计算机编程语言以及并发一般理论方面的工作，荣获1991年图灵奖。</summary>
+    <title>罗宾·米尔纳</title>
+    <updated>2026-09-29T13:37:56.674Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <category term="计算机名人录" scheme="http://www.popsite.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"/>
+    <id>http://www.popsite.cn/2025/11/17/20251117-robert-tarjan/</id>
+    <link href="http://www.popsite.cn/2025/11/17/20251117-robert-tarjan/"/>
+    <published>2025-11-17T11:15:27.000Z</published>
+    <summary>罗伯特·塔扬（Robert Tarjan，1948年4月30日 - ），美国计算机科学家，1986年图灵奖共同获得者，以表彰他和约翰·霍普克罗夫特在算法和数据结构设计与分析方面的基础性成就。</summary>
+    <title>罗伯特·塔扬</title>
+    <updated>2026-09-29T13:37:56.674Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>cocowool</name>
+    </author>
+    <category term="计算机名人录" scheme="http://www.popsite.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"/>
+    <id>http://www.popsite.cn/2025/10/27/20251027-richard-karp/</id>
+    <link href="http://www.popsite.cn/2025/10/27/20251027-richard-karp/"/>
+    <published>2025-10-27T09:38:08.000Z</published>
+    <summary>理查德·卡普（Richard Karp，1935年1月3日 - ），美国计算机科学家，1985年图灵奖得主。致力于算法理论研究，包括开发用于网络流和其他组合优化的高效算法问题，多项式时间可计算性与算法效率的直观概念的识别，以及最显著的对NP完备性理论的贡献。</summary>
+    <title>理查德·卡普</title>
+    <updated>2026-09-29T13:37:56.674Z</updated>
+  </entry>
+</feed>

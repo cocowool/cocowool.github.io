@@ -1,71 +1,94 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="codeva-lFRExQpfJ8" />
-    <title>Python3.6学习笔记（三）-大江小浪</title>
-    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="python, python 3.6, python学习笔记, python基础">
-    <meta name="description" content="Python3.6学习笔记，Python面向对象编程。">
-    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
-    <link rel="stylesheet" href="/css/main.css" />
-    <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>Python3.6学习笔记（三） · cocowool</title>
+<meta name="description" content="Python3.6学习笔记，Python面向对象编程。">
+
+<link rel="canonical" href="http://www.popsite.cn/2017/03/29/20170329-python3-tutorial-3/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python3.6学习笔记（三） · cocowool">
+<meta property="og:site_name" content="cocowool">
+<meta property="og:description" content="Python3.6学习笔记，Python面向对象编程。">
+<meta property="article:published_time" content="2017-03-29T08:51:00.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="cocowool" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="wave">
-    <nav class="navbar blog-header navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">大江小浪</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/links/">独立博客</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">我的文章</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">关于我</a>
-                    </li>
-                
-                </ul>
-            </div>
-        </div>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">cocowool</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
     </nav>
-    <div class="container blog-content">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
-                <div class="blog-post-detail">
-    <div class="blog-post-title">
-      <h1>Python3.6学习笔记（三）</h1>
+  </div>
+</header>
+
+  
+<div class="post-wrap">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
     </div>
-    <div class="blog-post-meta">
-        
-        <span class="post-time">更新于：2026-09-25 21:01:43</span>
-        
-        <span class="post-time">发布于：2017-03-29 16:51:00</span>
+
+    <h1>Python3.6学习笔记（三）</h1>
+
+    <div class="post-meta">
+      发布于2017-03-29<span class="dot">·</span>更新于 2026-09-29<span class="dot">·</span>4170 字<span class="dot">·</span>10 分钟
     </div>
-    <div class="blog-post-content">
-      <div class="blog-post-ad">
-        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
-        <!-- <div>
-          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
-        </div> -->
-      </div>
+
+    <div class="prose">
       <h2 id="面向对象编程"><a href="#面向对象编程" class="headerlink" title="面向对象编程"></a>面向对象编程</h2><p>面向对象编程 Object Oriented Programming 简称 OOP，是一种程序设计思想。OOP把对象作为程序的基本单元，一个对象包含了数据和操作数据的函数。</p>
 <blockquote>
 <p>面向过程的程序设计把计算机程序视为一系列的命令集合，即一组函数的顺序执行。为了简化程序设计，面向过程把函数继续切分为子函数，即把大块函数通过切割成小块函数来降低系统的复杂度。</p>
@@ -108,7 +131,9 @@ var _hmt = _hmt || [];
 <p>还可以定义只读属性，只定义getter方法，不定义setter方法就是一个只读属性。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line"></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">birth</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>._birth</span><br><span class="line"></span><br><span class="line"><span class="meta">    @birth.setter</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">birth</span>(<span class="params">self, value</span>):</span><br><span class="line">        <span class="variable language_">self</span>._birth = value</span><br><span class="line"></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">age</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="number">2015</span> - <span class="variable language_">self</span>._birth</span><br></pre></td></tr></table></figure>
 
-<h3 id="多重继承"><a href="#多重继承" class="headerlink" title="多重继承"></a>多重继承</h3><p>继承是面向对象编程的一个重要的方式，因为通过继承，子类就可以扩展父类的功能。举例来说对于动物的对象设计，可以按照“哺乳动物”、“鸟类”来设计分类对象，按照不同的维度，也可以按照“能跑的”、“能飞的”或者“宠物”、“非宠物”设计分类，如果按照单一继承的方式，类的设计就像下图，会变的非常复杂。<br><img src="/2017-03-29-6640573/39469-20170329165107889-1802684434.png"><br>正确的办法是采用多重继承。一个子类就可以同时获得多个父类的所有功能。在设计类的继承关系时，通常，主线都是单一继承下来的，例如，Ostrich继承自Bird。但是，如果需要“混入”额外的功能，通过多重继承就可以实现，比如，让Ostrich除了继承自Bird外，再同时继承Runnable。这种设计通常称之为<strong>MixIn</strong>。</p>
+<h3 id="多重继承"><a href="#多重继承" class="headerlink" title="多重继承"></a>多重继承</h3><p>继承是面向对象编程的一个重要的方式，因为通过继承，子类就可以扩展父类的功能。举例来说对于动物的对象设计，可以按照“哺乳动物”、“鸟类”来设计分类对象，按照不同的维度，也可以按照“能跑的”、“能飞的”或者“宠物”、“非宠物”设计分类，如果按照单一继承的方式，类的设计就像下图，会变的非常复杂。</p>
+<img src="/2017/03/29/20170329-python3-tutorial-3/39469-20170329165107889-1802684434.png" class="" loading="lazy" decoding="async">
+<p>正确的办法是采用多重继承。一个子类就可以同时获得多个父类的所有功能。在设计类的继承关系时，通常，主线都是单一继承下来的，例如，Ostrich继承自Bird。但是，如果需要“混入”额外的功能，通过多重继承就可以实现，比如，让Ostrich除了继承自Bird外，再同时继承Runnable。这种设计通常称之为<strong>MixIn</strong>。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Animal</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 大类:</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Mammal</span>(<span class="title class_ inherited__">Animal</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Bird</span>(<span class="title class_ inherited__">Animal</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 各种动物:</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Dog</span>(<span class="title class_ inherited__">Mammal</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Bat</span>(<span class="title class_ inherited__">Mammal</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Parrot</span>(<span class="title class_ inherited__">Bird</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Ostrich</span>(<span class="title class_ inherited__">Bird</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Runnable</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">run</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;Running...&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Flyable</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">fly</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;Flying…’)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">class Dog(Mammal, Runnable):</span></span><br><span class="line"><span class="string">    pass</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">class Bat(Mammal, Flyable):</span></span><br><span class="line"><span class="string">    pass</span></span><br></pre></td></tr></table></figure>
 <p>Python自带的很多库也使用了MixIn。举个例子，Python自带了TCPServer和UDPServer这两类网络服务，而要同时服务多个用户就必须使用多进程或多线程模型，这两种模型由ForkingMixIn和ThreadingMixIn提供。通过组合，我们就可以创造出合适的服务来。</p>
 <h3 id="定制类"><a href="#定制类" class="headerlink" title="定制类"></a>定制类</h3><p>类似于<code>__slots__</code>，Python的class中还有许多这样有特殊用途的函数，可以帮助我们定制类。</p>
@@ -138,86 +163,79 @@ var _hmt = _hmt || [];
 <p>要创建一个class对象，type()函数依次传入3个参数：<br>1.class的名称；<br>2.继承的父类集合，注意Python支持多重继承，如果只有一个父类，别忘了tuple的单元素写法；<br>3.class的方法名称与函数绑定，这里我们把函数fn绑定到方法名hello上。<br>通过type()函数创建的类和直接写class是完全一样的，因为Python解释器遇到class定义时，仅仅是扫描一下class定义的语法，然后调用type()函数创建出class。</p>
 <h4 id="metaclass"><a href="#metaclass" class="headerlink" title="metaclass"></a>metaclass</h4><p>metaclass，直译为元类，简单的解释就是：<br>当我们定义了类以后，就可以根据这个类创建出实例，所以：先定义类，然后创建实例。<br>但是如果我们想创建出类呢？那就必须根据metaclass创建出类，所以：先定义metaclass，然后创建类。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># metaclass是类的模板，所以必须从`type`类型派生：</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ListMetaclass</span>(<span class="title class_ inherited__">type</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__new__</span>(<span class="params">cls, name, bases, attrs</span>):</span><br><span class="line">        attrs[<span class="string">&#x27;add&#x27;</span>] = <span class="keyword">lambda</span> <span class="variable language_">self</span>, value: <span class="variable language_">self</span>.append(value)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">type</span>.__new__(cls, name, bases, attires)</span><br></pre></td></tr></table></figure>
-<p><img src="/2017-03-29-6640573/39469-20180710163655709-89635310.png"><br>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://docs.python.org/3/reference/datamodel.html#special-method-names">Python 3 官方文档</a></p>
+<img src="/2017/03/29/20170329-python3-tutorial-3/39469-20180710163655709-89635310.png" class="" loading="lazy" decoding="async">
+<p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://docs.python.org/3/reference/datamodel.html#special-method-names">Python 3 官方文档</a></p>
 
-      <div class="blog-post-footer">
-        <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
       </div>
-    </div>
     
-    <div class="blog-post-nav row">
-      
-        <div class="nav-link col-md-6">
-          <a href="/2017/03/30/20170330-python3-tutorial-4/" id="article-nav-newer" class="article-nav-link-wrap">
-            &lt;&lt; Python3.6学习笔记（四）
-          </a>  
-        </div>
-      
-      
-        <div class="nav-link col-md-6">
-          <a href="/2017/03/27/20170327-python3-tutorial-2/" id="article-nav-older" class="article-nav-link-wrap">
-            Python3.6学习笔记（二） &gt;&gt;
-          </a>
-        </div>
-      
-    </div>
+
+    
+      <nav class="post-nav">
         
-  </div>
-              </div>
-            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
-                <div class="blog-profile">
-                    <div class="blog-author">
-
-    <div class="author-img">
-        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
-    </div>
-
-    <div class="author-desc">
-        <h1>cocowool</h1>
-        <p>A full-stack dreamer!</p>
-    </div>
-</div>
-                </div>
-                <div class="blog-google-ads">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- EDULINKS-Right -->
-     <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2449691085720111"
-          data-ad-slot="7013232113"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-     <script>
-
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid blog-footer">
-        <div class="container">
-            <div class="row blog-friend-link">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <h3>友情链接</h3>
-                </div>
-                
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="blog-copyright">
-                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
-                </div>    
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+          <a class="post-nav-item post-nav-prev" href="/2017/03/30/20170330-python3-tutorial-4/">
+            <em>上一篇</em>
+            <b>Python3.6学习笔记（四）</b>
+          </a>
+        
+        
+          <a class="post-nav-item post-nav-next" href="/2017/03/27/20170327-python3-tutorial-2/">
+            <em>下一篇</em>
+            <b>Python3.6学习笔记（二）</b>
+          </a>
+        
+      </nav>
     
-<script src="/scripts/main.js"></script>
+  </article>
+
+  
+<aside class="toc" id="toc">
+  <div class="toc-title">目 录</div>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B"><span class="toc-text">面向对象编程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%92%8C%E5%AE%9E%E4%BE%8B"><span class="toc-text">类和实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%B0%81%E8%A3%85"><span class="toc-text">数据封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E9%99%90%E5%88%B6"><span class="toc-text">访问限制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF%E5%92%8C%E5%A4%9A%E6%80%81"><span class="toc-text">继承和多态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%B8%AD%E5%AD%90%E7%B1%BB%E5%9E%8B"><span class="toc-text">鸭子类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%AF%B9%E8%B1%A1%E4%BF%A1%E6%81%AF"><span class="toc-text">获取对象信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E5%B1%9E%E6%80%A7%E5%92%8C%E7%B1%BB%E5%B1%9E%E6%80%A7"><span class="toc-text">实例属性和类属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B"><span class="toc-text">面向对象高级编程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8slots"><span class="toc-text">使用slots()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Property"><span class="toc-text">使用@Property</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF"><span class="toc-text">多重继承</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E5%88%B6%E7%B1%BB"><span class="toc-text">定制类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%9E%9A%E4%B8%BE%E7%B1%BB"><span class="toc-text">使用枚举类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%85%83%E7%B1%BB"><span class="toc-text">使用元类</span></a></li></ol></li></ol>
+</aside>
+
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 cocowool
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>

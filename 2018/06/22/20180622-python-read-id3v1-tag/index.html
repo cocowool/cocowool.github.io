@@ -1,75 +1,102 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="codeva-lFRExQpfJ8" />
-    <title>使用Python读取Mp3的标签信息-大江小浪</title>
-    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="python, id3, python id3">
-    <meta name="description" content="写了一个 Python 脚本可以用来读取 ID3v1 的信息。">
-    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
-    <link rel="stylesheet" href="/css/main.css" />
-    <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>使用Python读取Mp3的标签信息 · cocowool</title>
+<meta name="description" content="写了一个 Python 脚本可以用来读取 ID3v1 的信息。">
+
+<link rel="canonical" href="http://www.popsite.cn/2018/06/22/20180622-python-read-id3v1-tag/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Python读取Mp3的标签信息 · cocowool">
+<meta property="og:site_name" content="cocowool">
+<meta property="og:description" content="写了一个 Python 脚本可以用来读取 ID3v1 的信息。">
+<meta property="article:published_time" content="2018-06-22T06:39:00.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="cocowool" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="wave">
-    <nav class="navbar blog-header navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">大江小浪</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/links/">独立博客</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">我的文章</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">关于我</a>
-                    </li>
-                
-                </ul>
-            </div>
-        </div>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">cocowool</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
     </nav>
-    <div class="container blog-content">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
-                <div class="blog-post-detail">
-    <div class="blog-post-title">
-      <h1>使用Python读取Mp3的标签信息</h1>
+  </div>
+</header>
+
+  
+<div class="post-wrap">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
     </div>
-    <div class="blog-post-meta">
-        
-        <span class="post-time">更新于：2026-09-25 21:01:43</span>
-        
-        <span class="post-time">发布于：2018-06-22 14:39:00</span>
+
+    <h1>使用Python读取Mp3的标签信息</h1>
+
+    <div class="post-meta">
+      发布于2018-06-22<span class="dot">·</span>更新于 2026-09-29<span class="dot">·</span>1174 字<span class="dot">·</span>3 分钟
     </div>
-    <div class="blog-post-content">
-      <div class="blog-post-ad">
-        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
-        <!-- <div>
-          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
-        </div> -->
-      </div>
+
+    <div class="prose">
       <h3 id="什么是ID3"><a href="#什么是ID3" class="headerlink" title="什么是ID3"></a>什么是ID3</h3><p>MP3是音频文件最流行的格式，它的全称是 MPEG layer III。但是这种格式不支持对于音频内容的描述信息，包括歌曲名称、演唱者、专辑等等。<br>因此在1996年，Eric Kemp在<strong>Studio 3</strong>项目中提出了ID3的解决方案。ID3全称是Identity of MP3，其解决方案是在音频文件末尾附加一串数据，包含关于歌曲的名称、歌手、图片的信息。为了方便检测，数据的长度固定为128bytes。这个版本的解决方案称为 ID3v1。<br>Michael Mutschler 在 1997 对格式进行了微小的调整，压缩了Comment字段，增加了Track信息，这个版本被称为ID3v1.1。<br>1998年，Martin Nilsson &amp; Michael Mutschler牵头，多个贡献者一起发起了ID3v2的工作。这个班的结构和ID3v1完全不同，数据的长度不再固定，位置也从尾部移到了头部，并且引入了Unicode支持。ID3v2的第一个版本是ID3v2.2，2000年发布了ID3v2.4。</p>
-<h3 id="ID3v1"><a href="#ID3v1" class="headerlink" title="ID3v1"></a>ID3v1</h3><p>附着在音频数据之后，长度为128bytes，每个字段最大支持30个字符。<br><img src="/20180622-python-read-id3v1-tag/39469-20180622143756058-1269044464.png"><br>具体的字段信息</p>
+<h3 id="ID3v1"><a href="#ID3v1" class="headerlink" title="ID3v1"></a>ID3v1</h3><p>附着在音频数据之后，长度为128bytes，每个字段最大支持30个字符。</p>
+<img src="/2018/06/22/20180622-python-read-id3v1-tag/39469-20180622143756058-1269044464.png" class="" loading="lazy" decoding="async">
+<p>具体的字段信息</p>
 <p>在数据开始之前，总是有三个字符<code>TAG</code>，这样和上面的字段加起来，正好是128bytes。如果Artist字段内容不足30个字符，不足的部分用0填充。</p>
-<h3 id="ID3v2"><a href="#ID3v2" class="headerlink" title="ID3v2"></a>ID3v2</h3><p>ID3v2是加在音频数据前面的一组数据，每项具体的数据称为frame(例如歌曲名称)。可以包含任意类型的数据，每个frame最大支持16MB，整个tag大小最大支持256MB。存储编码支持Unicode，这样就不会产生乱码问题。<br>Tag数据放在音频数据之前还有一个好处，对于流式访问可以首先获得歌曲信息并展现给用户。<br><img src="/20180622-python-read-id3v1-tag/39469-20180622143813329-1167316642.png"><br>列举一些特性：</p>
+<h3 id="ID3v2"><a href="#ID3v2" class="headerlink" title="ID3v2"></a>ID3v2</h3><p>ID3v2是加在音频数据前面的一组数据，每项具体的数据称为frame(例如歌曲名称)。可以包含任意类型的数据，每个frame最大支持16MB，整个tag大小最大支持256MB。存储编码支持Unicode，这样就不会产生乱码问题。<br>Tag数据放在音频数据之前还有一个好处，对于流式访问可以首先获得歌曲信息并展现给用户。</p>
+<img src="/2018/06/22/20180622-python-read-id3v1-tag/39469-20180622143813329-1167316642.png" class="" loading="lazy" decoding="async">
+<p>列举一些特性：</p>
 <ul>
 <li>The ID3v2 tag is a container format, just like IFF or PNG files, allowing new frames (chunks) as evolution proceeds.</li>
 <li>Residing in the beginning of the audio file makes it suitable for streaming.</li>
@@ -90,84 +117,76 @@ var _hmt = _hmt || [];
 <p><strong>本文为作者原创，如果您觉得本文对您有帮助，请随意打赏，您的支持将鼓励我继续创作。</strong></p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://id3.org/Home">ID3.org</a><br>2、<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/ID3">Wiki ID3</a><br>3、<a target="_blank" rel="noopener" href="http://www.runoob.com/python/python-func-open.html">Python open() 函数</a><br>4、<a target="_blank" rel="noopener" href="https://www.cnblogs.com/pcode/archive/2013/04/01/2992690.html">使用Python读取和写入mp3文件的id3v1信息</a><br>5、<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/0014318447437605e90206e261744c08630a836851f5183000">Python 模块</a></p>
 
-      <div class="blog-post-footer">
-        <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
       </div>
-    </div>
     
-    <div class="blog-post-nav row">
-      
-        <div class="nav-link col-md-6">
-          <a href="/2018/06/27/20180627-make-your-own-base-docker-image/" id="article-nav-newer" class="article-nav-link-wrap">
-            &lt;&lt; 创建自己的Docker基础镜像
-          </a>  
-        </div>
-      
-      
-        <div class="nav-link col-md-6">
-          <a href="/2018/06/20/20180620-docker-overview/" id="article-nav-older" class="article-nav-link-wrap">
-            Docker 入门介绍 &gt;&gt;
-          </a>
-        </div>
-      
-    </div>
+
+    
+      <nav class="post-nav">
         
-  </div>
-              </div>
-            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
-                <div class="blog-profile">
-                    <div class="blog-author">
-
-    <div class="author-img">
-        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
-    </div>
-
-    <div class="author-desc">
-        <h1>cocowool</h1>
-        <p>A full-stack dreamer!</p>
-    </div>
-</div>
-                </div>
-                <div class="blog-google-ads">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- EDULINKS-Right -->
-     <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2449691085720111"
-          data-ad-slot="7013232113"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-     <script>
-
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid blog-footer">
-        <div class="container">
-            <div class="row blog-friend-link">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <h3>友情链接</h3>
-                </div>
-                
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="blog-copyright">
-                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
-                </div>    
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+          <a class="post-nav-item post-nav-prev" href="/2018/06/27/20180627-make-your-own-base-docker-image/">
+            <em>上一篇</em>
+            <b>创建自己的Docker基础镜像</b>
+          </a>
+        
+        
+          <a class="post-nav-item post-nav-next" href="/2018/06/20/20180620-docker-overview/">
+            <em>下一篇</em>
+            <b>Docker 入门介绍</b>
+          </a>
+        
+      </nav>
     
-<script src="/scripts/main.js"></script>
+  </article>
+
+  
+<aside class="toc" id="toc">
+  <div class="toc-title">目 录</div>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFID3"><span class="toc-text">什么是ID3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ID3v1"><span class="toc-text">ID3v1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ID3v2"><span class="toc-text">ID3v2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Python-%E8%AF%BB%E5%8F%96ID3-%E4%BF%A1%E6%81%AF"><span class="toc-text">使用 Python 读取ID3 信息</span></a></li></ol>
+</aside>
+
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 cocowool
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>

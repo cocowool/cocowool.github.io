@@ -1,84 +1,109 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="codeva-lFRExQpfJ8" />
-    <title>git与github在ubuntu下的使用-大江小浪</title>
-    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="git, GitHub, git ubuntu">
-    <meta name="description" content="介绍下Ubuntu环境中使用git和github的方法。">
-    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
-    <link rel="stylesheet" href="/css/main.css" />
-    <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>git与github在ubuntu下的使用 · cocowool</title>
+<meta name="description" content="介绍下Ubuntu环境中使用git和github的方法。">
+
+<link rel="canonical" href="http://www.popsite.cn/2010/10/19/20101019-git-github/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="git与github在ubuntu下的使用 · cocowool">
+<meta property="og:site_name" content="cocowool">
+<meta property="og:description" content="介绍下Ubuntu环境中使用git和github的方法。">
+<meta property="article:published_time" content="2010-10-19T10:29:01.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="cocowool" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="wave">
-    <nav class="navbar blog-header navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">大江小浪</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/links/">独立博客</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">我的文章</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">关于我</a>
-                    </li>
-                
-                </ul>
-            </div>
-        </div>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">cocowool</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
     </nav>
-    <div class="container blog-content">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
-                <div class="blog-post-detail">
-    <div class="blog-post-title">
-      <h1>git与github在ubuntu下的使用</h1>
+  </div>
+</header>
+
+  
+<div class="post-wrap post-wrap--single">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
     </div>
-    <div class="blog-post-meta">
-        
-        <span class="post-time">更新于：2026-09-25 21:01:43</span>
-        
-        <span class="post-time">发布于：2010-10-19 18:29:01</span>
+
+    <h1>git与github在ubuntu下的使用</h1>
+
+    <div class="post-meta">
+      发布于2010-10-19<span class="dot">·</span>更新于 2026-09-29<span class="dot">·</span>1567 字<span class="dot">·</span>4 分钟
     </div>
-    <div class="blog-post-content">
-      <div class="blog-post-ad">
-        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
-        <!-- <div>
-          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
-        </div> -->
-      </div>
+
+    <div class="prose">
       <p>最近开始使用git对kohana3的文档做一些补充的工作，使用了git 和 github ，从了解到使用，还是有一点距离，下面是总结的一些方法。</p>
 <p>1、Git的安装<br>我使用了ubuntu 10.04 ，默认情况下，ubuntu 中并没有安装，所以首先需要在系统中进行 git 的安装。<br><code>sudo apt-get install git-core</code> 安装完成后，在终端中输入 git 就可以看到相关的命令了。如果只是需要使用git来管理本地的代码，那么现在就可以使用了。如果需要和github上的项目结合，还需要做其他的一些操作。</p>
-<p><img src="/20101019-git-github/Screenshot.png"></p>
+<img src="/2010/10/19/20101019-git-github/Screenshot.png" class="" loading="lazy" decoding="async">
+
 <p>2、github帐号的申请</p>
 <p>如果只是需要将github上感兴趣的代码拷贝到本地，自己进行修改使用，而不打算共享发布的话，其实不申请帐号也没有关系，只需要 git clone 代码到本地就可以了。本文对这种方法不做讨论，毕竟使用 github 就是为了开源的目的。<br>首先去 github.com 上注册一个帐号，具体的注册流程就不赘述了。</p>
 <p>3、在本地建立一个文件夹，然后做一些全局变量的初始化</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name = <span class="string">&quot;用户名或者用户ID&quot;</span></span><br><span class="line">git config --global user.email = <span class="string">&quot;邮箱&quot;</span></span><br></pre></td></tr></table></figure>
 <p>这两个选项会在以后的使用过程中自动添加到代码中。</p>
 <p>4、创建验证用的公钥</p>
-<p>这个是比较复杂和困扰大多数人的地方，因为 git 是通过 ssh 的方式访问资源库的，所以需要在本地创建验证用的文件。<br>使用命令：ssh-keygen -C ‘you email <a href="mailto:&#x61;&#100;&#x64;&#x72;&#101;&#115;&#115;&#x40;&#103;&#x6d;&#x61;&#x69;&#x6c;&#46;&#99;&#111;&#109;">address@gmail.com</a>‘ -t rsa<br>会在用户目录 ~&#x2F;.ssh&#x2F; 下建立相应的密钥文件<br>可以使用 ssh -v <a href="mailto:&#x67;&#105;&#116;&#x40;&#103;&#105;&#116;&#104;&#117;&#x62;&#x2e;&#x63;&#111;&#109;">git@github.com</a> 命令来测试链接是否畅通</p>
+<p>这个是比较复杂和困扰大多数人的地方，因为 git 是通过 ssh 的方式访问资源库的，所以需要在本地创建验证用的文件。<br>使用命令：ssh-keygen -C ‘you email <a href="mailto:&#x61;&#x64;&#100;&#x72;&#101;&#x73;&#115;&#x40;&#x67;&#109;&#x61;&#105;&#108;&#46;&#99;&#111;&#x6d;">address@gmail.com</a>‘ -t rsa<br>会在用户目录 ~&#x2F;.ssh&#x2F; 下建立相应的密钥文件<br>可以使用 ssh -v <a href="mailto:&#103;&#x69;&#116;&#x40;&#x67;&#105;&#116;&#104;&#117;&#98;&#46;&#99;&#x6f;&#109;">git@github.com</a> 命令来测试链接是否畅通</p>
 <p>5、上传公钥</p>
-<p>在 github.com 的界面中 选择右上角的 Account Settings，然后选择 SSH Public Keys ，选择新加。Title 可以随便命名，Key 的内容拷贝自 ~&#x2F;.ssh&#x2F;id_rsa.pub 中的内容，完成后，可以再使用 ssh -v <a href="mailto:&#103;&#x69;&#116;&#64;&#103;&#105;&#116;&#x68;&#x75;&#98;&#46;&#x63;&#111;&#x6d;">git@github.com</a> 进行测试。看到下面的信息表示验证成功。</p>
-<p><img src="/20101019-git-github/Screenshot-1.png"></p>
+<p>在 github.com 的界面中 选择右上角的 Account Settings，然后选择 SSH Public Keys ，选择新加。Title 可以随便命名，Key 的内容拷贝自 ~&#x2F;.ssh&#x2F;id_rsa.pub 中的内容，完成后，可以再使用 ssh -v <a href="mailto:&#103;&#105;&#x74;&#x40;&#103;&#x69;&#116;&#104;&#x75;&#98;&#x2e;&#99;&#x6f;&#x6d;">git@github.com</a> 进行测试。看到下面的信息表示验证成功。</p>
+<img src="/2010/10/19/20101019-git-github/Screenshot-1.png" class="" loading="lazy" decoding="async">
+
 <p>进行到这里，我们也可以利用github来管理我们的项目和参与开源工作了，大体上使用git分为三种方式。</p>
 <p><strong>管理自己的项目</strong></p>
 <p>这种情况是自己在本地有一些代码，需要利用 github 来管理自己的项目，可以按照下面的步骤进行。</p>
@@ -91,11 +116,12 @@ var _hmt = _hmt || [];
 <p><strong>利用github托管自己的项目</strong></p>
 <p>1、如果需要将自己的项目托管在github.com上，首先需要创建项目。在 Dashboard 中选择 Create New Repository，填入相关信息后，项目就创建成功了。</p>
 <p>2、之后，会有一个如何上传的提示，如下图已经很详细了。</p>
-<p><img src="/20101019-git-github/Screenshot.png"></p>
+<img src="/2010/10/19/20101019-git-github/Screenshot.png" class="" loading="lazy" decoding="async">
+
 <p><strong>Fork别人的项目</strong></p>
 <p>前面提到过，如果只是下载使用别人的代码，通过 git clone 就可以了，当然clone的前提是项目必须是public的，私有的项目是没办法的。如果需要参与，可以通过fork，然后合并的方式。</p>
-<p>1、首先需要去自己感兴趣的项目中进行Fork，fork出自己的一份分支来。fork之后，一般可以看到一个ssh访问的地址。例如：<a href="mailto:&#x67;&#x69;&#116;&#64;&#x67;&#x69;&#x74;&#104;&#x75;&#x62;&#x2e;&#99;&#111;&#109;">git@github.com</a>:cocowool&#x2F;userguide.git</p>
-<p>2、复制代码<br>使用 git clone <a href="mailto:&#103;&#x69;&#116;&#64;&#x67;&#x69;&#116;&#x68;&#117;&#x62;&#46;&#99;&#111;&#109;">git@github.com</a>:cocowool&#x2F;userguide.git userguide 可以将代码复制到本地的 userguide 文件夹中</p>
+<p>1、首先需要去自己感兴趣的项目中进行Fork，fork出自己的一份分支来。fork之后，一般可以看到一个ssh访问的地址。例如：<a href="mailto:&#103;&#105;&#x74;&#64;&#x67;&#x69;&#x74;&#104;&#x75;&#98;&#46;&#99;&#111;&#109;">git@github.com</a>:cocowool&#x2F;userguide.git</p>
+<p>2、复制代码<br>使用 git clone <a href="mailto:&#103;&#105;&#x74;&#64;&#x67;&#105;&#x74;&#104;&#117;&#x62;&#46;&#99;&#x6f;&#x6d;">git@github.com</a>:cocowool&#x2F;userguide.git userguide 可以将代码复制到本地的 userguide 文件夹中</p>
 <p>3、进行自己的修改，完成后请求原作者合并</p>
 <p><code>git pull person master</code></p>
 <p>下面是一些比较有用的命令的介绍：</p>
@@ -103,84 +129,71 @@ var _hmt = _hmt || [];
 
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://blog.itmem.com/archives/1157">Git与Github在Windows环境下的使用指南</a><br>2、<a target="_blank" rel="noopener" href="http://www.ibm.com/developerworks/cn/linux/l-git/">使用GIT管理源代码</a><br>3、<a target="_blank" rel="noopener" href="http://arthraim.cn/git-github-usage/">git&#x2F;github使用小记</a><br>4、<a target="_blank" rel="noopener" href="http://gooss.org/the-use-of-git-and-github-management-development/">使用git与github管理开发</a></p>
 
-      <div class="blog-post-footer">
-        <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
       </div>
-    </div>
     
-    <div class="blog-post-nav row">
-      
-        <div class="nav-link col-md-6">
-          <a href="/2010/11/01/20101101-accelerate-application/" id="article-nav-newer" class="article-nav-link-wrap">
-            &lt;&lt; 加速你的网络应用
-          </a>  
-        </div>
-      
-      
-        <div class="nav-link col-md-6">
-          <a href="/2010/10/14/20101014-awstats-words/" id="article-nav-older" class="article-nav-link-wrap">
-            AWStats日志文件中的一些术语解析 &gt;&gt;
-          </a>
-        </div>
-      
-    </div>
+
+    
+      <nav class="post-nav">
         
-  </div>
-              </div>
-            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
-                <div class="blog-profile">
-                    <div class="blog-author">
-
-    <div class="author-img">
-        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
-    </div>
-
-    <div class="author-desc">
-        <h1>cocowool</h1>
-        <p>A full-stack dreamer!</p>
-    </div>
-</div>
-                </div>
-                <div class="blog-google-ads">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- EDULINKS-Right -->
-     <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2449691085720111"
-          data-ad-slot="7013232113"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-     <script>
-
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid blog-footer">
-        <div class="container">
-            <div class="row blog-friend-link">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <h3>友情链接</h3>
-                </div>
-                
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="blog-copyright">
-                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
-                </div>    
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+          <a class="post-nav-item post-nav-prev" href="/2010/11/01/20101101-accelerate-application/">
+            <em>上一篇</em>
+            <b>加速你的网络应用</b>
+          </a>
+        
+        
+          <a class="post-nav-item post-nav-next" href="/2010/10/14/20101014-awstats-words/">
+            <em>下一篇</em>
+            <b>AWStats日志文件中的一些术语解析</b>
+          </a>
+        
+      </nav>
     
-<script src="/scripts/main.js"></script>
+  </article>
+
+  
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 cocowool
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>

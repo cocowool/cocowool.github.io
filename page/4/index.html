@@ -1,948 +1,475 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="codeva-lFRExQpfJ8" />
-    <title>大江小浪</title>
-    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="">
-    <meta name="description" content="世事如潮人如水，一入江湖几时回">
-    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
-    <link rel="stylesheet" href="/css/main.css" />
-    <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>cocowool · A full-stack dreamer!</title>
+<meta name="description" content="世事如潮人如水，一入江湖几时回">
+
+<link rel="canonical" href="http://www.popsite.cn">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="cocowool · A full-stack dreamer!">
+<meta property="og:site_name" content="cocowool">
+<meta property="og:description" content="世事如潮人如水，一入江湖几时回">
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="cocowool" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="wave">
-    <nav class="navbar blog-header navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">大江小浪</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/links/">独立博客</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">我的文章</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">关于我</a>
-                    </li>
-                
-                </ul>
-            </div>
-        </div>
+<body class="is-home">
+  
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">cocowool</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
     </nav>
-    <div class="container blog-content">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
-                <!-- 发现博客 -->
- <div class="featured-bloger">
-    <h1>独立博客展示</h1>
-    <div class="featured-bloger-lists">
+  </div>
+</header>
+
+  
+
+  
+  <div class="home-layout">
+    <main class="home-main">
+      <div class="card-list">
         
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.sqlsec.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">国光</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://windliang.wang/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">winliang</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://lucifer.ren/blog/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">lucifer</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://zhangguanzhang.github.io/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">zhangguanzhang</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://blog.cuger.cn/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Dorad</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://leohope.com" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Hope</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.ruanyifeng.com/blog/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">阮一峰的网络日志</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.xiabingbao.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">蚊子的前端博客</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://macshuo.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">MacTalk-池建强的 Blog</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.phodal.com/blog/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Phodal-狼和凤凰</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.zmrenwu.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">追梦人物</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.piglei.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Piglei</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://luolei.org/luolei-ai" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">罗磊的独立博客</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://kymjs.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">开源实验室</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://blog.lilydjwg.me/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">依云&#39;s Blog</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://greatdk.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">王登科-DK博客</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.cnfeat.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">卡片创作实验室</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://skywind.me/blog/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Skywind Inside</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://chenshake.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">陈沙克日志</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://lutaonan.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Randy&#39;s Blog</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://xiaozhou.net/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">iTimothy</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://blog.miniasp.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">The Will Will Web</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://immmmm.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">木木木木木</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://blog.debuginn.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Debug客栈</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://blog.forecho.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">forecho&#39;s Blog</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://geekplux.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">GeekPlux</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://hufangyun.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">方运的博客</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://jiongks.name/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">囧克斯</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://lucifr.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Lucifr</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://blog.ichr.me/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">ChrAlpha&#39;s Blog</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://blog.devtang.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">唐巧的博客</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://onevcat.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">OneV&#39;s Den</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://colobu.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">鸟窝</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://limboy.me/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Limboy&#39;s HQ</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://blog.cnbang.net/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">bang&#39;s blog</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://imtx.me" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">I&#39;m TualatriX</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://wocai.de/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">kok的笔记本</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.wujingquan.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">WUJINGQUAN</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://youngxhui.top/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">ISLAND</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://blog.heysh.xyz/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">林中阴影</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://jiajunhuang.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Jiajun的技术笔记</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.ixiqin.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">白宦成</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://yihui.org/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Yihui Xie | 谢益辉</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://ssshooter.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Usubeni Fantasy</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://kaix.in/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">KAIX.IN</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://igaojin.me/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">高金的博客</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://kingname.info/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">谢乾坤</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://igaojin.me/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">高金的博客</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://keelii.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">臨池不輟</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://hiwannz.com" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">见字如面</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://102no.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">把酒诗代码</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://joouis.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">江边的旱鸭子</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.ioiox.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">思有云</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://jyzhu.top/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Jiayin Zhu</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://leovan.me/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">范叶亮</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.codesky.me/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">CodeSky 代码天空</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://lepture.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Just lepture</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://idealclover.top/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">idealclover</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://kanchuan.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">陈看川</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.z16388.top/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">崎径 其镜</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.gaficat.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">加菲猫的创客工坊</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://hutusi.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">胡涂说</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.965.one/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">四公子的剑</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://huhuhang.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">I‘m Hang</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.lfhacks.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">晚花行乐</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://oldj.net/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">oldj</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.hwdef.org/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">以梦喂马</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://laogongshuo.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">龚成博客</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://blog.diqigan.cn/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Seven&#39;s blog</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.codewoody.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">治部少辅</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://dosk.win/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Dosk 技术站</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.xiejingyang.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Xieisabug</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.wyr.me/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">轶哥 - 火星人</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://blog.vadxq.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">清竹志-(原清竹茶馆)</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://scottyeung.top/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">YeungYeah&#39;s Context</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://blog.singee.me/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Origin - Singee&#39;s Blog</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://mazhuang.org/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">码志</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://bmqy.net/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">北门清燕</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://z.arlmy.me/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">秋安 | 素生</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://paugram.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">保罗的小宇宙</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://blog.imalan.cn/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">失眠海峡 - 我要与你坦诚相见</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://wuxinhua.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">wuxinhua</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://tumutanzi.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">土木坛子</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.seis-jun.xyz/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Jun Xie</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.lujun9972.win/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">暗无天日</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://refined-x.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">师兄的林间小屋</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://jw1.dev/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Jacky Wong</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://wangxin.io/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">王欣说AI</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="http://jartto.wang/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Jartto&#39;s blog</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://blog.pushihao.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">披萨盒的赛博日志</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://yangzhiping.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">阳志平</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.cyhone.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">编程沉思录</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.liesauer.net/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">LiesAuer&#39;s Blog</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://byvoid.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Beyond the void</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://1byte.io/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">0x01 byte</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.bmpi.dev/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">BMPI</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://61.life/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">61’s life</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://wiki-power.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Power&#39;s Wiki</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://tripper.press/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Tripper Press</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://lenciel.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">@Lenciel</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://chriszheng.science/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">M-x Chris-An-Emacser</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://blog.star7th.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">第七星尘的独立博客</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://blog.joway.io/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Random Thoughts</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="http://idle.systems/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Ground Oddity</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://ipotato.me/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">iPotato</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://blog.vvzero.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">嵌入式工程猫的博客</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://blog.hclonely.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">HCLonely Blog</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://sund.site/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Steve Sun</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://simonaking.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">SimonAKing</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://juemuren4449.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">掘墓人的小铲子</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://codechina.org/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Tinyfool的个人网站</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://muyun.work/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">Muyun99 的杂谈</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://www.l1yu.com/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">李宇Blog</span>
-                    </a>
-                </div>
-            
-                <div class="featured-bloger-item">
-                    <a href="https://mianao.info/" target="_blank" rel="noopener noreferrer" class="featured-bloger-link">
-                        <span class="featured-bloger-name">不吐不快</span>
-                    </a>
-                </div>
-            
+          
+
+<article class="card">
+  <div class="card-top">
+    <h2 class="card-title"><a href="/2025/08/31/20250831-2023-longjianbei/">2023年第二届陇剑杯初赛题目整理</a></h2>
+  </div>
+
+  
+    <p class="card-excerpt">赛事简介 第二届「陇剑杯」网络安全是2023年9月16日在甘肃兰州举办的，由兰州新区、国网甘肃省电力公司、中国移动通信集团甘肃有限公司承办。本文整理了初赛阶段的题目和解题思路，参考了一些大牛的……</p>
+  
+
+  <div class="card-meta">
+    
+      <a class="cat" href="/categories/CTF/"
+         title="查看「CTF」分类下的全部文章">CTF</a><span class="dot">·</span>
+    
+    2025-08-31
+    
+      <span class="dot">·</span>3838 字
+    
+    
+      <span class="dot">·</span>10 分钟
+    
+  </div>
+</article>
+
+          
         
-    </div>
- </div>
-<div class="blog-post-lists">
-    
-        <div class="blog-post">
-            <h1><a href="/2025/08/31/20250831-2023-longjianbei/">2023年第二届陇剑杯初赛题目整理</a></h1>
-            <div class="blog-post-desc">
-                <p></p>
-                <p>
-                    <a href="/2025/08/31/20250831-2023-longjianbei/" class="more-link">继续阅读 »</a>&nbsp;&nbsp;
-                    <span>2025-08-31</span>&nbsp;&nbsp;
-                    <span class="blog-post-category"><b>
-    <a class="article-category-link" href="/categories/CTF/">CTF</a>
-  </b></span>
-                </p>
-            </div>
-        </div>
-    
-        <div class="blog-post">
-            <h1><a href="/2025/08/30/20250830-2021-longjianbei/">2021年第一届陇剑杯初赛题目整理</a></h1>
-            <div class="blog-post-desc">
-                <p></p>
-                <p>
-                    <a href="/2025/08/30/20250830-2021-longjianbei/" class="more-link">继续阅读 »</a>&nbsp;&nbsp;
-                    <span>2025-08-30</span>&nbsp;&nbsp;
-                    <span class="blog-post-category"><b>
-    <a class="article-category-link" href="/categories/CTF/">CTF</a>
-  </b></span>
-                </p>
-            </div>
-        </div>
-    
-        <div class="blog-post">
-            <h1><a href="/2025/08/20/20250820-niklaus-wirth/">尼古拉斯·沃斯</a></h1>
-            <div class="blog-post-desc">
-                <p></p>
-                <p>
-                    <a href="/2025/08/20/20250820-niklaus-wirth/" class="more-link">继续阅读 »</a>&nbsp;&nbsp;
-                    <span>2025-08-20</span>&nbsp;&nbsp;
-                    <span class="blog-post-category"><b>
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/">计算机名人录</a>
-  </b></span>
-                </p>
-            </div>
-        </div>
-    
-        <div class="blog-post">
-            <h1><a href="/2025/08/12/20250812-antony-hoare/">安东尼·霍尔</a></h1>
-            <div class="blog-post-desc">
-                <p></p>
-                <p>
-                    <a href="/2025/08/12/20250812-antony-hoare/" class="more-link">继续阅读 »</a>&nbsp;&nbsp;
-                    <span>2025-08-12</span>&nbsp;&nbsp;
-                    <span class="blog-post-category"><b>
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/">计算机名人录</a>
-  </b></span>
-                </p>
-            </div>
-        </div>
-    
-        <div class="blog-post">
-            <h1><a href="/2025/08/04/20250804-kenneth-iverson/">肯尼斯·艾佛森</a></h1>
-            <div class="blog-post-desc">
-                <p></p>
-                <p>
-                    <a href="/2025/08/04/20250804-kenneth-iverson/" class="more-link">继续阅读 »</a>&nbsp;&nbsp;
-                    <span>2025-08-04</span>&nbsp;&nbsp;
-                    <span class="blog-post-category"><b>
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/">计算机名人录</a>
-  </b></span>
-                </p>
-            </div>
-        </div>
-    
-        <div class="blog-post">
-            <h1><a href="/2025/07/09/20250709-robert-floyd/">罗伯特·弗洛伊德</a></h1>
-            <div class="blog-post-desc">
-                <p></p>
-                <p>
-                    <a href="/2025/07/09/20250709-robert-floyd/" class="more-link">继续阅读 »</a>&nbsp;&nbsp;
-                    <span>2025-07-09</span>&nbsp;&nbsp;
-                    <span class="blog-post-category"><b>
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/">计算机名人录</a>
-  </b></span>
-                </p>
-            </div>
-        </div>
-    
-        <div class="blog-post">
-            <h1><a href="/2025/07/07/20250707-dana-scott/">达纳·斯科特</a></h1>
-            <div class="blog-post-desc">
-                <p></p>
-                <p>
-                    <a href="/2025/07/07/20250707-dana-scott/" class="more-link">继续阅读 »</a>&nbsp;&nbsp;
-                    <span>2025-07-07</span>&nbsp;&nbsp;
-                    <span class="blog-post-category"><b>
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/">计算机名人录</a>
-  </b></span>
-                </p>
-            </div>
-        </div>
-    
-        <div class="blog-post">
-            <h1><a href="/2025/06/13/20250613-michael-rabin/">迈克尔·拉宾</a></h1>
-            <div class="blog-post-desc">
-                <p></p>
-                <p>
-                    <a href="/2025/06/13/20250613-michael-rabin/" class="more-link">继续阅读 »</a>&nbsp;&nbsp;
-                    <span>2025-06-13</span>&nbsp;&nbsp;
-                    <span class="blog-post-category"><b>
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/">计算机名人录</a>
-  </b></span>
-                </p>
-            </div>
-        </div>
-    
-        <div class="blog-post">
-            <h1><a href="/2025/05/26/20250526-python-multi-env/">MacOS 中 Python 多环境管理问题</a></h1>
-            <div class="blog-post-desc">
-                <p></p>
-                <p>
-                    <a href="/2025/05/26/20250526-python-multi-env/" class="more-link">继续阅读 »</a>&nbsp;&nbsp;
-                    <span>2025-05-26</span>&nbsp;&nbsp;
-                    <span class="blog-post-category"><b></b></span>
-                </p>
-            </div>
-        </div>
-    
-        <div class="blog-post">
-            <h1><a href="/2025/05/23/20250523-fernado/">费尔南多·何塞·科尔巴托</a></h1>
-            <div class="blog-post-desc">
-                <p></p>
-                <p>
-                    <a href="/2025/05/23/20250523-fernado/" class="more-link">继续阅读 »</a>&nbsp;&nbsp;
-                    <span>2025-05-23</span>&nbsp;&nbsp;
-                    <span class="blog-post-category"><b>
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/">计算机名人录</a>
-  </b></span>
-                </p>
-            </div>
-        </div>
-    
-    
-    
-    
-        <div class="page-nav">
-            <a class="extend prev" rel="prev" href="/page/3/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/64/">64</a><a class="extend next" rel="next" href="/page/5/">下一页</a>
-        </div>
-    
-</div>            </div>
-            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
-                <div class="blog-profile">
-                    <div class="blog-author">
+          
 
-    <div class="author-img">
-        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
-    </div>
+<article class="card">
+  <div class="card-top">
+    <h2 class="card-title"><a href="/2025/08/30/20250830-2021-longjianbei/">2021年第一届陇剑杯初赛题目整理</a></h2>
+  </div>
 
-    <div class="author-desc">
-        <h1>cocowool</h1>
-        <p>A full-stack dreamer!</p>
-    </div>
-</div>
-                </div>
-                <div class="blog-google-ads">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- EDULINKS-Right -->
-     <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2449691085720111"
-          data-ad-slot="7013232113"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-     <script>
+  
+    <p class="card-excerpt">赛事简介 「陇剑杯」被公安部网安局确定为是「网鼎杯」、「天府杯」之后的全国第三大网络安全赛事，与「网鼎杯」一样隔年举办，「陇剑杯」在「网鼎杯」的次年举办。「陇剑杯」是全国同类赛事中首次引入「人……</p>
+  
 
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid blog-footer">
-        <div class="container">
-            <div class="row blog-friend-link">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <h3>友情链接</h3>
-                </div>
-                
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="blog-copyright">
-                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
-                </div>    
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+  <div class="card-meta">
     
-<script src="/scripts/main.js"></script>
+      <a class="cat" href="/categories/CTF/"
+         title="查看「CTF」分类下的全部文章">CTF</a><span class="dot">·</span>
+    
+    2025-08-30
+    
+      <span class="dot">·</span>2118 字
+    
+    
+      <span class="dot">·</span>5 分钟
+    
+  </div>
+</article>
+
+          
+            
+          
+        
+          
+
+<article class="card">
+  <div class="card-top">
+    <h2 class="card-title"><a href="/2025/08/20/20250820-niklaus-wirth/">尼古拉斯·沃斯</a></h2>
+  </div>
+
+  
+    <p class="card-excerpt">尼古拉斯·沃斯（Niklaus Wirth，1934年2月15日-2024年1月1日），计算机科学家，以创建两种计算机语言 Euler 和 Pascal 在计算机科学领域崭露头角。Pascal……</p>
+  
+
+  <div class="card-meta">
+    
+      <a class="cat" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"
+         title="查看「计算机名人录」分类下的全部文章">计算机名人录</a><span class="dot">·</span>
+    
+    2025-08-20
+    
+      <span class="dot">·</span>1098 字
+    
+    
+      <span class="dot">·</span>3 分钟
+    
+  </div>
+</article>
+
+          
+        
+          
+
+<article class="card">
+  <div class="card-top">
+    <h2 class="card-title"><a href="/2025/08/12/20250812-antony-hoare/">安东尼·霍尔</a></h2>
+  </div>
+
+  
+    <p class="card-excerpt">安东尼·霍尔（C.Antony R.Hoare，1934年1月11日 - ），被称为「托尼」霍尔，快速排序算法发明者，1980年图灵奖得主。 托尼于1934年1月11日出生在锡兰（现在的斯里兰……</p>
+  
+
+  <div class="card-meta">
+    
+      <a class="cat" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"
+         title="查看「计算机名人录」分类下的全部文章">计算机名人录</a><span class="dot">·</span>
+    
+    2025-08-12
+    
+      <span class="dot">·</span>1672 字
+    
+    
+      <span class="dot">·</span>4 分钟
+    
+  </div>
+</article>
+
+          
+        
+          
+
+<article class="card">
+  <div class="card-top">
+    <h2 class="card-title"><a href="/2025/08/04/20250804-kenneth-iverson/">肯尼斯·艾佛森</a></h2>
+  </div>
+
+  
+    <p class="card-excerpt">肯尼斯·艾佛森（Kenneth Iverson，1920年12月17日 - 2004年10月19日），1979年图灵奖得主，以表彰他在编程语言和数学方面的开创性努力。 肯尼斯于1920年12月……</p>
+  
+
+  <div class="card-meta">
+    
+      <a class="cat" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"
+         title="查看「计算机名人录」分类下的全部文章">计算机名人录</a><span class="dot">·</span>
+    
+    2025-08-04
+    
+      <span class="dot">·</span>1032 字
+    
+    
+      <span class="dot">·</span>3 分钟
+    
+  </div>
+</article>
+
+          
+        
+          
+
+<article class="card">
+  <div class="card-top">
+    <h2 class="card-title"><a href="/2025/07/09/20250709-robert-floyd/">罗伯特·弗洛伊德</a></h2>
+  </div>
+
+  
+    <p class="card-excerpt">罗伯特·弗洛伊德（Robert W. Floyd，1936年6月8日 - 2001年9月25日），图灵奖得主。 弗洛伊德于1936年6月8日出生在纽约，是一个非常聪明的孩子，14岁完成高中学业……</p>
+  
+
+  <div class="card-meta">
+    
+      <a class="cat" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"
+         title="查看「计算机名人录」分类下的全部文章">计算机名人录</a><span class="dot">·</span>
+    
+    2025-07-09
+    
+      <span class="dot">·</span>1064 字
+    
+    
+      <span class="dot">·</span>3 分钟
+    
+  </div>
+</article>
+
+          
+        
+          
+
+<article class="card">
+  <div class="card-top">
+    <h2 class="card-title"><a href="/2025/07/07/20250707-dana-scott/">达纳·斯科特</a></h2>
+  </div>
+
+  
+    <p class="card-excerpt">达纳·斯科特（Dana Stewart Scott，1932年10月11日 - ），1976年图灵奖得主，是国际公认的数理逻辑学家，其工作涵盖计算机科学、数学和哲学，致力于有限自动机理论的研究……</p>
+  
+
+  <div class="card-meta">
+    
+      <a class="cat" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"
+         title="查看「计算机名人录」分类下的全部文章">计算机名人录</a><span class="dot">·</span>
+    
+    2025-07-07
+    
+      <span class="dot">·</span>928 字
+    
+    
+      <span class="dot">·</span>2 分钟
+    
+  </div>
+</article>
+
+          
+        
+          
+
+<article class="card">
+  <div class="card-top">
+    <h2 class="card-title"><a href="/2025/06/13/20250613-michael-rabin/">迈克尔·拉宾</a></h2>
+  </div>
+
+  
+    <p class="card-excerpt">迈克尔·拉宾（Michael Rabin，1931年9月1日 - ），1976年图灵奖得主，致力于有限自动机的研究。 迈克尔·拉宾于1931年出生于德国布雷斯劳，即现在的波兰佛罗茨瓦夫。他的父……</p>
+  
+
+  <div class="card-meta">
+    
+      <a class="cat" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"
+         title="查看「计算机名人录」分类下的全部文章">计算机名人录</a><span class="dot">·</span>
+    
+    2025-06-13
+    
+      <span class="dot">·</span>1832 字
+    
+    
+      <span class="dot">·</span>5 分钟
+    
+  </div>
+</article>
+
+          
+        
+          
+
+<article class="card">
+  <div class="card-top">
+    <h2 class="card-title"><a href="/2025/05/26/20250526-python-multi-env/">MacOS 中 Python 多环境管理问题</a></h2>
+  </div>
+
+  
+    <p class="card-excerpt">自 Python 3.11 版本开始，MacOS 系统强制实施 PEP 668 保护机制，禁止直接通过 pip 、 pip3 命令安装包到系统级 Python 环境。这是为了避免 Homebr……</p>
+  
+
+  <div class="card-meta">
+    
+    2025-05-26
+    
+      <span class="dot">·</span>558 字
+    
+    
+      <span class="dot">·</span>1 分钟
+    
+  </div>
+</article>
+
+          
+        
+          
+
+<article class="card">
+  <div class="card-top">
+    <h2 class="card-title"><a href="/2025/05/23/20250523-fernado/">费尔南多·何塞·科尔巴托</a></h2>
+  </div>
+
+  
+    <p class="card-excerpt">费尔南多·何塞·科尔巴托（Fernando José Corbató，1926年7月1日——2019年7月19日），美国物理学家和计算机科学家，1990年图灵奖得主，开发了早期的兼容分时系统并……</p>
+  
+
+  <div class="card-meta">
+    
+      <a class="cat" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/"
+         title="查看「计算机名人录」分类下的全部文章">计算机名人录</a><span class="dot">·</span>
+    
+    2025-05-23
+    
+      <span class="dot">·</span>70 字
+    
+    
+      <span class="dot">·</span>1 分钟
+    
+  </div>
+</article>
+
+          
+        
+      </div>
+      
+<nav class="pagination" aria-label="分页导航">
+  <a class="extend prev" rel="prev" href="/page/3/">上一页</a><a class="page-number" href="/">1</a><span class="space">…</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">…</span><a class="page-number" href="/page/64/">64</a><a class="extend next" rel="next" href="/page/5/">下一页</a>
+</nav>
+
+
+    </main>
+    
+
+<aside class="home-side is-sticky">
+
+  
+  <div class="side-card">
+    
+      <div class="qr qr--head"><img src="/assets/wechat-qr.jpg" alt="微信公众号"></div>
+    
+
+    <div class="side-name">cocowool</div>
+
+    
+      <div class="side-desc">A FULL STACK DREAMER!</div>
+    
+
+    
+      <div class="side-divider side-divider--gap"></div>
+    
+
+
+    
+
+    
+    <div class="social">
+      
+        <a href="https://github.com/cocowool" target="_blank" rel="noopener">GitHub</a>
+      
+        <a href="mailto:cocowool@qq.com" target="_blank" rel="noopener">邮箱</a>
+      
+    </div>
+    
+  </div>
+  
+
+  <div class="ad-slot ad-slot--side ad-slot--live"><ins class="adsbygoogle" style="display:block;width:100%" data-ad-client="ca-pub-2449691085720111" data-ad-slot="7013232113" data-ad-format="auto" data-full-width-responsive="true"></ins></div><script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+  
+  <div class="side-card side-card--links">
+    <ul class="side-links">
+      
+        <li>
+          <a href="/archives/">
+            文章归档
+            
+            <span>632</span>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/categories/">
+            全部分类
+            
+            <span>10</span>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/links/">
+            独立博客
+            
+            <span>123</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+  
+
+</aside>
+
+
+  </div>
+
+
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 cocowool
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>

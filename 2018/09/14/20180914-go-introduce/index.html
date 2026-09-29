@@ -1,71 +1,94 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="codeva-lFRExQpfJ8" />
-    <title>Go学习入门-大江小浪</title>
-    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="go, go language">
-    <meta name="description" content="Go语言宣称为互联网时代的C语言，那她有那些特性值得我们必须学习呢。">
-    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
-    <link rel="stylesheet" href="/css/main.css" />
-    <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>Go学习入门 · cocowool</title>
+<meta name="description" content="Go语言宣称为互联网时代的C语言，那她有那些特性值得我们必须学习呢。">
+
+<link rel="canonical" href="http://www.popsite.cn/2018/09/14/20180914-go-introduce/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go学习入门 · cocowool">
+<meta property="og:site_name" content="cocowool">
+<meta property="og:description" content="Go语言宣称为互联网时代的C语言，那她有那些特性值得我们必须学习呢。">
+<meta property="article:published_time" content="2018-09-14T03:11:00.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="cocowool" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="wave">
-    <nav class="navbar blog-header navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">大江小浪</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/links/">独立博客</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">我的文章</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">关于我</a>
-                    </li>
-                
-                </ul>
-            </div>
-        </div>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">cocowool</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
     </nav>
-    <div class="container blog-content">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
-                <div class="blog-post-detail">
-    <div class="blog-post-title">
-      <h1>Go学习入门</h1>
+  </div>
+</header>
+
+  
+<div class="post-wrap">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
     </div>
-    <div class="blog-post-meta">
-        
-        <span class="post-time">更新于：2026-09-25 21:01:43</span>
-        
-        <span class="post-time">发布于：2018-09-14 11:11:00</span>
+
+    <h1>Go学习入门</h1>
+
+    <div class="post-meta">
+      发布于2018-09-14<span class="dot">·</span>更新于 2026-09-29<span class="dot">·</span>1804 字<span class="dot">·</span>5 分钟
     </div>
-    <div class="blog-post-content">
-      <div class="blog-post-ad">
-        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
-        <!-- <div>
-          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
-        </div> -->
-      </div>
+
+    <div class="prose">
       <h2 id="1-为什么要学习Go"><a href="#1-为什么要学习Go" class="headerlink" title="1. 为什么要学习Go"></a>1. 为什么要学习Go</h2><p>Go语言宣称为互联网时代的C语言，那她有那些特性值得我们必须学习呢：</p>
 <ul>
 <li>并行与分布式支持。除了我们日常熟悉的进程和线程，Go语言中提供了协程coroutine，从而简化了并行开发的难度。</li>
@@ -110,7 +133,9 @@ var _hmt = _hmt || [];
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bogon:go.my rousseau$ go run hello.go</span><br><span class="line">Hello, world!</span><br></pre></td></tr></table></figure>
 <figure class="highlight go"><figcaption><span>run```命令将编译、链接、 运行三个步骤合为一步，运行后不会再当前目录看到任何中间文件和可执行文件。使用```go build```命令会生成可执行文件。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">``</span><span class="string">`bash</span></span><br><span class="line"><span class="string">bogon:go.my rousseau$ go build hello.go </span></span><br><span class="line"><span class="string">bogon:go.my rousseau$ ls</span></span><br><span class="line"><span class="string">hello		hello.go</span></span><br><span class="line"><span class="string">bogon:go.my rousseau$ ./hello </span></span><br><span class="line"><span class="string">Hello, world!</span></span><br></pre></td></tr></table></figure>
 <p>关于开发工具的选择，这个第一要看个人习惯，第二要结合项目的规模和最多使用的一些功能。可以用来编程的工具包括 vim、VS Code、liteIDE、goland等，目前我水平还比较菜，感觉Vim或者VS Code就能满足需求了。</p>
-<h2 id="6-Go的工程管理"><a href="#6-Go的工程管理" class="headerlink" title="6. Go的工程管理"></a>6. Go的工程管理</h2><p>Go消除了工程文件的概念，完全用目录结构和包名来推导工程结构和构建顺序。<br>看一个简单的命令行计算器工程的目录结构，代码在<a target="_blank" rel="noopener" href="https://github.com/cocowool/k8s-go/tree/master/golearn/calcproject">这里</a><br><img src="/20180914-go-introduce/39469-20180914111126339-138017365.png"><br>想要编译这个工程，执行以下命令。</p>
+<h2 id="6-Go的工程管理"><a href="#6-Go的工程管理" class="headerlink" title="6. Go的工程管理"></a>6. Go的工程管理</h2><p>Go消除了工程文件的概念，完全用目录结构和包名来推导工程结构和构建顺序。<br>看一个简单的命令行计算器工程的目录结构，代码在<a target="_blank" rel="noopener" href="https://github.com/cocowool/k8s-go/tree/master/golearn/calcproject">这里</a></p>
+<img src="/2018/09/14/20180914-go-introduce/39469-20180914111126339-138017365.png" class="" loading="lazy" decoding="async">
+<p>想要编译这个工程，执行以下命令。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">bogon:calcproject rousseau$ <span class="built_in">export</span> GOPATH=$(<span class="built_in">pwd</span>)</span><br><span class="line">bogon:calcproject rousseau$ <span class="built_in">cd</span> bin</span><br><span class="line">bogon:bin rousseau$ go build calc</span><br><span class="line">bogon:bin rousseau$ ./calc </span><br><span class="line">Usage: calc <span class="built_in">command</span> [arguments] ... </span><br><span class="line"></span><br><span class="line">The commands are:</span><br><span class="line">	add	Addition of two values.</span><br><span class="line">	sqrt	Square root of a non-negative value.</span><br></pre></td></tr></table></figure>
 
 <h2 id="7-问题追踪和调试"><a href="#7-问题追踪和调试" class="headerlink" title="7. 问题追踪和调试"></a>7. 问题追踪和调试</h2><h3 id="7-1-打印日志"><a href="#7-1-打印日志" class="headerlink" title="7.1 打印日志"></a>7.1 打印日志</h3><p>Go语言中包含了一个fmt包，包含了大量的打印函数，主要用到的是<code>Printf()</code>和<code>Println()</code>两个函数。区别就是一个能够换行一个不能换行。</p>
@@ -123,84 +148,76 @@ var _hmt = _hmt || [];
 <li><a target="_blank" rel="noopener" href="http://blog.studygolang.com/2012/12/gdb%E8%B0%83%E8%AF%95go%E7%A8%8B%E5%BA%8F/">GDB调试Go程序</a></li>
 </ol>
 
-      <div class="blog-post-footer">
-        <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
       </div>
-    </div>
     
-    <div class="blog-post-nav row">
-      
-        <div class="nav-link col-md-6">
-          <a href="/2018/09/21/20180921-systemd-journal-log/" id="article-nav-newer" class="article-nav-link-wrap">
-            &lt;&lt; Linux系统管理员应该知道的journalctl知识
-          </a>  
-        </div>
-      
-      
-        <div class="nav-link col-md-6">
-          <a href="/2018/09/10/20180910-deploy-elk-and-collect-logs-via-filebeat/" id="article-nav-older" class="article-nav-link-wrap">
-            Kubernetes部署ELK并使用Filebeat收集容器日志 &gt;&gt;
-          </a>
-        </div>
-      
-    </div>
+
+    
+      <nav class="post-nav">
         
-  </div>
-              </div>
-            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
-                <div class="blog-profile">
-                    <div class="blog-author">
-
-    <div class="author-img">
-        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
-    </div>
-
-    <div class="author-desc">
-        <h1>cocowool</h1>
-        <p>A full-stack dreamer!</p>
-    </div>
-</div>
-                </div>
-                <div class="blog-google-ads">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- EDULINKS-Right -->
-     <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2449691085720111"
-          data-ad-slot="7013232113"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-     <script>
-
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid blog-footer">
-        <div class="container">
-            <div class="row blog-friend-link">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <h3>友情链接</h3>
-                </div>
-                
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="blog-copyright">
-                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
-                </div>    
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+          <a class="post-nav-item post-nav-prev" href="/2018/09/21/20180921-systemd-journal-log/">
+            <em>上一篇</em>
+            <b>Linux系统管理员应该知道的journalctl知识</b>
+          </a>
+        
+        
+          <a class="post-nav-item post-nav-next" href="/2018/09/10/20180910-deploy-elk-and-collect-logs-via-filebeat/">
+            <em>下一篇</em>
+            <b>Kubernetes部署ELK并使用Filebeat收集容器日志</b>
+          </a>
+        
+      </nav>
     
-<script src="/scripts/main.js"></script>
+  </article>
+
+  
+<aside class="toc" id="toc">
+  <div class="toc-title">目 录</div>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%AD%A6%E4%B9%A0Go"><span class="toc-text">1. 为什么要学习Go</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Go%E8%AF%AD%E8%A8%80%E7%AE%80%E5%8F%B2"><span class="toc-text">2. Go语言简史</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7"><span class="toc-text">3. 语言特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Hello-World"><span class="toc-text">4. Hello World</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E4%B8%8E%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7"><span class="toc-text">5. 编译环境与开发工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-Go%E7%9A%84%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86"><span class="toc-text">6. Go的工程管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E9%97%AE%E9%A2%98%E8%BF%BD%E8%B8%AA%E5%92%8C%E8%B0%83%E8%AF%95"><span class="toc-text">7. 问题追踪和调试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-%E6%89%93%E5%8D%B0%E6%97%A5%E5%BF%97"><span class="toc-text">7.1 打印日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-GDB-%E8%B0%83%E8%AF%95"><span class="toc-text">7.2 GDB 调试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-text">参考资料:</span></a></li></ol>
+</aside>
+
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 cocowool
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>

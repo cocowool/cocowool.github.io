@@ -1,71 +1,94 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="codeva-lFRExQpfJ8" />
-    <title>Kubernetes部署ELK并使用Filebeat收集容器日志-大江小浪</title>
-    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="kubernetes, k8s, 日志, 日志管理">
-    <meta name="description" content="日志对于我们管理Kubernetes集群及其上的应用具有非常重要的作用，特别是在出现故障或者Bug的时候。本文介绍Kubernetes部署ELK并使用Filebeat收集容器日志的方法。">
-    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
-    <link rel="stylesheet" href="/css/main.css" />
-    <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>Kubernetes部署ELK并使用Filebeat收集容器日志 · cocowool</title>
+<meta name="description" content="日志对于我们管理Kubernetes集群及其上的应用具有非常重要的作用，特别是在出现故障或者Bug的时候。本文介绍Kubernetes部署ELK并使用Filebeat收集容器日志的方法。">
+
+<link rel="canonical" href="http://www.popsite.cn/2018/09/10/20180910-deploy-elk-and-collect-logs-via-filebeat/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes部署ELK并使用Filebeat收集容器日志 · cocowool">
+<meta property="og:site_name" content="cocowool">
+<meta property="og:description" content="日志对于我们管理Kubernetes集群及其上的应用具有非常重要的作用，特别是在出现故障或者Bug的时候。本文介绍Kubernetes部署ELK并使用Filebeat收集容器日志的方法。">
+<meta property="article:published_time" content="2018-09-10T10:25:00.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="cocowool" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="wave">
-    <nav class="navbar blog-header navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">大江小浪</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/links/">独立博客</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">我的文章</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">关于我</a>
-                    </li>
-                
-                </ul>
-            </div>
-        </div>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">cocowool</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
     </nav>
-    <div class="container blog-content">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
-                <div class="blog-post-detail">
-    <div class="blog-post-title">
-      <h1>Kubernetes部署ELK并使用Filebeat收集容器日志</h1>
+  </div>
+</header>
+
+  
+<div class="post-wrap">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
     </div>
-    <div class="blog-post-meta">
-        
-        <span class="post-time">更新于：2026-09-25 21:01:43</span>
-        
-        <span class="post-time">发布于：2018-09-10 18:25:00</span>
+
+    <h1>Kubernetes部署ELK并使用Filebeat收集容器日志</h1>
+
+    <div class="post-meta">
+      发布于2018-09-10<span class="dot">·</span>更新于 2026-09-29<span class="dot">·</span>1783 字<span class="dot">·</span>4 分钟
     </div>
-    <div class="blog-post-content">
-      <div class="blog-post-ad">
-        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
-        <!-- <div>
-          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
-        </div> -->
-      </div>
+
+    <div class="prose">
       <blockquote>
 <p>本文的试验环境为CentOS 7.3，Kubernetes集群为1.11.2，安装步骤参见<a target="_blank" rel="noopener" href="https://www.cnblogs.com/cocowool/p/kubeadm_install_kubernetes.html">kubeadm安装kubernetes V1.11.1 集群</a>。想要了解更多 Kubernetes 相关知识，可以阅读 <a target="_blank" rel="noopener" href="http://www.edulinks.cn/2020/10/16/20201016-kubernetes-articles/">Kubernetes 系列学习文章</a>。</p>
 </blockquote>
@@ -82,7 +105,7 @@ var _hmt = _hmt || [];
 <li>log4j.properties 配置ES logging参数</li>
 </ul>
 </li>
-<li><p>使用Prompt方式在启动时输入<br>最常使用的配置方式为使用配置文件，ES的配置文件为yaml格式，格式要求和Kubernetes的编排文件一样。配置文件中可以引用环境变量，例如<code>node.name: ${HOSTNAME}</code></p>
+<li><p>使用Prompt方式在启动时输入<br>最常使用的配置方式为使用配置文件，ES的配置文件为yaml格式，格式要求和Kubernetes的编排文件一样。配置文件中可以引用环境变量，例如<code>node.name: $&#123;HOSTNAME&#125;</code></p>
 </li>
 </ul>
 <h3 id="ES的节点"><a href="#ES的节点" class="headerlink" title="ES的节点"></a>ES的节点</h3><p>ES的节点<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-node.html">Node</a>可以分为几种角色：</p>
@@ -94,13 +117,22 @@ var _hmt = _hmt || [];
 </ul>
 <h2 id="2-单实例方式部署ELK"><a href="#2-单实例方式部署ELK" class="headerlink" title="2. 单实例方式部署ELK"></a>2. 单实例方式部署ELK</h2><p>单实例部署ELK的方法非常简单，可以参考我Github上的<a target="_blank" rel="noopener" href="https://github.com/cocowool/k8s-go/blob/master/elk/elk-single.yaml">elk-single.yaml</a>文件，整体就是创建一个ES的部署，创建一个Kibana的部署，创建一个ES的Headless服务，创建一个Kiana的NodePort服务，本地通过节点的NodePort访问Kibana。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">[root@devops-101 ~]# curl -L -O https://raw.githubusercontent.com/cocowool/k8s-go/master/elk/elk-single.yaml</span><br><span class="line">[root@devops-101 ~]# kubectl apply -f elk-single.yaml </span><br><span class="line">deployment.apps/kb-single created</span><br><span class="line">service/kb-single-svc unchanged</span><br><span class="line">deployment.apps/es-single created</span><br><span class="line">service/es-single-nodeport unchanged</span><br><span class="line">service/es-single unchanged</span><br><span class="line">[root@devops-101 ~]# kubectl get all</span><br><span class="line">NAME                             READY     STATUS    RESTARTS   AGE</span><br><span class="line">pod/es-single-5b8b696ff8-9mqrz   1/1       Running   0          26s</span><br><span class="line">pod/kb-single-69d6d9c744-sxzw9   1/1       Running   0          26s</span><br><span class="line"></span><br><span class="line">NAME                         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                         AGE</span><br><span class="line">service/es-single            ClusterIP   None             &lt;none&gt;        9200/TCP,9300/TCP               19m</span><br><span class="line">service/es-single-nodeport   NodePort    172.17.197.237   &lt;none&gt;        9200:31200/TCP,9300:31300/TCP   13h</span><br><span class="line">service/kb-single-svc        NodePort    172.17.27.11     &lt;none&gt;        5601:32601/TCP                  19m</span><br><span class="line">service/kubernetes           ClusterIP   172.17.0.1       &lt;none&gt;        443/TCP                         14d</span><br><span class="line"></span><br><span class="line">NAME                        DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE</span><br><span class="line">deployment.apps/es-single   1         1         1            1           26s</span><br><span class="line">deployment.apps/kb-single   1         1         1            1           26s</span><br><span class="line"></span><br><span class="line">NAME                                   DESIRED   CURRENT   READY     AGE</span><br><span class="line">replicaset.apps/es-single-5b8b696ff8   1         1         1         26s</span><br><span class="line">replicaset.apps/kb-single-69d6d9c744   1         1         1         26s</span><br></pre></td></tr></table></figure>
-<p>可以看看效果如下：<br><img src="/20180910-deploy-elk-and-collect-logs-via-filebeat/39469-20180910182121558-1067453160.png"></p>
+<p>可以看看效果如下：</p>
+<img src="/2018/09/10/20180910-deploy-elk-and-collect-logs-via-filebeat/39469-20180910182121558-1067453160.png" class="" loading="lazy" decoding="async">
+
 <h2 id="3-集群部署ELK"><a href="#3-集群部署ELK" class="headerlink" title="3. 集群部署ELK"></a>3. 集群部署ELK</h2><h3 id="3-1-不区分集群中的节点角色"><a href="#3-1-不区分集群中的节点角色" class="headerlink" title="3.1 不区分集群中的节点角色"></a>3.1 不区分集群中的节点角色</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@devops-101 ~]# curl -L -O https://raw.githubusercontent.com/cocowool/k8s-go/master/elk/elk-cluster.yaml</span><br><span class="line">[root@devops-101 ~]# kubectl apply -f elk-cluster.yaml </span><br><span class="line">deployment.apps/kb-single created</span><br><span class="line">service/kb-single-svc created</span><br><span class="line">statefulset.apps/es-cluster created</span><br><span class="line">service/es-cluster-nodeport created</span><br><span class="line">service/es-cluster created</span><br></pre></td></tr></table></figure>
-<p>效果如下<br><img src="/20180910-deploy-elk-and-collect-logs-via-filebeat/39469-20180910182150309-194695122.png"></p>
+<p>效果如下</p>
+<img src="/2018/09/10/20180910-deploy-elk-and-collect-logs-via-filebeat/39469-20180910182150309-194695122.png" class="" loading="lazy" decoding="async">
+
 <h3 id="3-2-区分集群中节点角色"><a href="#3-2-区分集群中节点角色" class="headerlink" title="3.2 区分集群中节点角色"></a>3.2 区分集群中节点角色</h3><p>如果需要区分节点的角色，就需要建立两个StatefulSet部署，一个是Master集群，一个是Data集群。Data集群的存储我这里为了简单使用了<code>emptyDir</code>，可以使用<code>localStorage</code>或者<code>hostPath</code>，关于存储的介绍，可以参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/cocowool/p/kubernetes_storage.html">Kubernetes存储系统介绍</a>。这样就可以避免Data节点在本机重启时发生数据丢失而重建索引，但是如果发生迁移的话，如果想保留数据，只能采用共享存储的方案了。具体的编排文件在这里<a target="_blank" rel="noopener" href="https://github.com/cocowool/k8s-go/blob/master/elk/elk-cluster-with-role.yaml">elk-cluster-with-role</a></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">[root@devops-101 ~]# curl -L -O https://raw.githubusercontent.com/cocowool/k8s-go/master/elk/elk-cluster-with-role.yaml </span><br><span class="line">[root@devops-101 ~]# kubectl apply -f elk-cluster-with-role.yaml </span><br><span class="line">deployment.apps/kb-single created</span><br><span class="line">service/kb-single-svc created</span><br><span class="line">statefulset.apps/es-cluster created</span><br><span class="line">statefulset.apps/es-cluster-data created</span><br><span class="line">service/es-cluster-nodeport created</span><br><span class="line">service/es-cluster created</span><br><span class="line">[root@devops-101 ~]# kubectl get all</span><br><span class="line">NAME                             READY     STATUS              RESTARTS   AGE</span><br><span class="line">pod/es-cluster-0                 1/1       Running             0          13s</span><br><span class="line">pod/es-cluster-1                 0/1       ContainerCreating   0          2s</span><br><span class="line">pod/es-cluster-data-0            1/1       Running             0          13s</span><br><span class="line">pod/es-cluster-data-1            0/1       ContainerCreating   0          2s</span><br><span class="line">pod/kb-single-5848f5f967-w8hwq   1/1       Running             0          14s</span><br><span class="line"></span><br><span class="line">NAME                          TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                         AGE</span><br><span class="line">service/es-cluster            ClusterIP   None             &lt;none&gt;        9200/TCP,9300/TCP               13s</span><br><span class="line">service/es-cluster-nodeport   NodePort    172.17.207.135   &lt;none&gt;        9200:31200/TCP,9300:31300/TCP   13s</span><br><span class="line">service/kb-single-svc         NodePort    172.17.8.137     &lt;none&gt;        5601:32601/TCP                  14s</span><br><span class="line">service/kubernetes            ClusterIP   172.17.0.1       &lt;none&gt;        443/TCP                         16d</span><br><span class="line"></span><br><span class="line">NAME                        DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE</span><br><span class="line">deployment.apps/kb-single   1         1         1            1           14s</span><br><span class="line"></span><br><span class="line">NAME                                   DESIRED   CURRENT   READY     AGE</span><br><span class="line">replicaset.apps/kb-single-5848f5f967   1         1         1         14s</span><br><span class="line"></span><br><span class="line">NAME                               DESIRED   CURRENT   AGE</span><br><span class="line">statefulset.apps/es-cluster        3         2         14s</span><br><span class="line">statefulset.apps/es-cluster-data   2         2         13s</span><br></pre></td></tr></table></figure>
-<p>效果如下<br><img src="/20180910-deploy-elk-and-collect-logs-via-filebeat/39469-20180910182220529-48582025.png"></p>
-<h2 id="4-使用Filebeat监控收集容器日志"><a href="#4-使用Filebeat监控收集容器日志" class="headerlink" title="4. 使用Filebeat监控收集容器日志"></a>4. 使用Filebeat监控收集容器日志</h2><p>使用Logstash，可以监测具有一定命名规律的日志文件，但是对于容器日志，很多文件名都是没有规律的，这种情况比较适合使用Filebeat来对日志目录进行监测，发现有更新的日志后上送到Logstash处理或者直接送入到ES中。<br>每个Node节点上的容器应用日志，默认都会在<code>/var/log/containers</code>目录下创建软链接，这里我遇到了两个小问题，第一个就是当时挂载<code>hostPath</code>的时候没有挂载软链接的目的文件夹，导致在容器中能看到软链接，但是找不到对应的文件；第二个问题是宿主机上这些日志权限都是root，而Pod默认用filebeat用户启动的应用，因此要单独设置下。<br>效果如下<br><img src="/20180910-deploy-elk-and-collect-logs-via-filebeat/39469-20180910182334500-531866919.png"><br><img src="/20180910-deploy-elk-and-collect-logs-via-filebeat/39469-20180910182345566-25819522.png"><br>具体的编排文件可以参考我的Github主页，提供了<a target="_blank" rel="noopener" href="https://github.com/cocowool/k8s-go/blob/master/elk/filebeat-dp.yml">Deployment</a>方式的编排和<a target="_blank" rel="noopener" href="https://github.com/cocowool/k8s-go/blob/master/elk/filebeat-ds.yml">DaemonSet</a>方式的编排。<br>对于具体日志的格式，因为时间问题没有做进一步的解析，这里如果有朋友做过，可以分享出来。<br>主要的编排文件内容摘抄如下。</p>
+<p>效果如下</p>
+<img src="/2018/09/10/20180910-deploy-elk-and-collect-logs-via-filebeat/39469-20180910182220529-48582025.png" class="" loading="lazy" decoding="async">
+
+<h2 id="4-使用Filebeat监控收集容器日志"><a href="#4-使用Filebeat监控收集容器日志" class="headerlink" title="4. 使用Filebeat监控收集容器日志"></a>4. 使用Filebeat监控收集容器日志</h2><p>使用Logstash，可以监测具有一定命名规律的日志文件，但是对于容器日志，很多文件名都是没有规律的，这种情况比较适合使用Filebeat来对日志目录进行监测，发现有更新的日志后上送到Logstash处理或者直接送入到ES中。<br>每个Node节点上的容器应用日志，默认都会在<code>/var/log/containers</code>目录下创建软链接，这里我遇到了两个小问题，第一个就是当时挂载<code>hostPath</code>的时候没有挂载软链接的目的文件夹，导致在容器中能看到软链接，但是找不到对应的文件；第二个问题是宿主机上这些日志权限都是root，而Pod默认用filebeat用户启动的应用，因此要单独设置下。<br>效果如下</p>
+<img src="/2018/09/10/20180910-deploy-elk-and-collect-logs-via-filebeat/39469-20180910182334500-531866919.png" class="" loading="lazy" decoding="async">
+<img src="/2018/09/10/20180910-deploy-elk-and-collect-logs-via-filebeat/39469-20180910182345566-25819522.png" class="" loading="lazy" decoding="async">
+<p>具体的编排文件可以参考我的Github主页，提供了<a target="_blank" rel="noopener" href="https://github.com/cocowool/k8s-go/blob/master/elk/filebeat-dp.yml">Deployment</a>方式的编排和<a target="_blank" rel="noopener" href="https://github.com/cocowool/k8s-go/blob/master/elk/filebeat-ds.yml">DaemonSet</a>方式的编排。<br>对于具体日志的格式，因为时间问题没有做进一步的解析，这里如果有朋友做过，可以分享出来。<br>主要的编排文件内容摘抄如下。</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">kind:</span> <span class="string">List</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">items:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line">  <span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line">  <span class="attr">metadata:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">filebeat-config</span></span><br><span class="line">    <span class="attr">labels:</span></span><br><span class="line">      <span class="attr">k8s-app:</span> <span class="string">filebeat</span></span><br><span class="line">      <span class="attr">kubernetes.io/cluster-service:</span> <span class="string">&quot;true&quot;</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">filebeat-config</span></span><br><span class="line">  <span class="attr">data:</span></span><br><span class="line">    <span class="attr">filebeat.yml:</span> <span class="string">|</span></span><br><span class="line"><span class="string">      processors:</span></span><br><span class="line"><span class="string">        - add_cloud_metadata:</span></span><br><span class="line"><span class="string">      filebeat.modules:</span></span><br><span class="line"><span class="string">      - module: system</span></span><br><span class="line"><span class="string">      filebeat.inputs:</span></span><br><span class="line"><span class="string">      - type: log</span></span><br><span class="line"><span class="string">        paths:</span></span><br><span class="line"><span class="string">          - /var/log/containers/*.log</span></span><br><span class="line"><span class="string">        symlinks: true</span></span><br><span class="line"><span class="string">        # json.message_key: log</span></span><br><span class="line"><span class="string">        # json.keys_under_root: true</span></span><br><span class="line"><span class="string">      output.elasticsearch:</span></span><br><span class="line"><span class="string">        hosts: [&#x27;es-single:9200&#x27;]</span></span><br><span class="line"><span class="string">      logging.level: info        </span></span><br><span class="line"><span class="string"></span><span class="bullet">-</span> <span class="attr">apiVersion:</span> <span class="string">extensions/v1beta1</span></span><br><span class="line">  <span class="attr">kind:</span> <span class="string">DaemonSet</span> </span><br><span class="line">  <span class="attr">metadata:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">filebeat</span></span><br><span class="line">    <span class="attr">labels:</span></span><br><span class="line">      <span class="attr">k8s-app:</span> <span class="string">filebeat</span></span><br><span class="line">      <span class="attr">kubernetes.io/cluster-service:</span> <span class="string">&quot;true&quot;</span></span><br><span class="line">  <span class="attr">spec:</span></span><br><span class="line">    <span class="attr">template:</span></span><br><span class="line">      <span class="attr">metadata:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">filebeat</span></span><br><span class="line">        <span class="attr">labels:</span></span><br><span class="line">          <span class="attr">app:</span> <span class="string">filebeat</span></span><br><span class="line">          <span class="attr">k8s-app:</span> <span class="string">filebeat</span></span><br><span class="line">          <span class="attr">kubernetes.io/cluster-service:</span> <span class="string">&quot;true&quot;</span></span><br><span class="line">      <span class="attr">spec:</span></span><br><span class="line">        <span class="attr">containers:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">image:</span> <span class="string">docker.elastic.co/beats/filebeat:6.4.0</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">filebeat</span></span><br><span class="line">          <span class="attr">args:</span> [</span><br><span class="line">            <span class="string">&quot;-c&quot;</span>, <span class="string">&quot;/home/filebeat-config/filebeat.yml&quot;</span>,</span><br><span class="line">            <span class="string">&quot;-e&quot;</span>,</span><br><span class="line">          ]</span><br><span class="line">          <span class="attr">securityContext:</span></span><br><span class="line">            <span class="attr">runAsUser:</span> <span class="number">0</span></span><br><span class="line">          <span class="attr">volumeMounts:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">filebeat-storage</span></span><br><span class="line">            <span class="attr">mountPath:</span> <span class="string">/var/log/containers</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">varlogpods</span></span><br><span class="line">            <span class="attr">mountPath:</span> <span class="string">/var/log/pods</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">varlibdockercontainers</span></span><br><span class="line">            <span class="attr">mountPath:</span> <span class="string">/var/lib/docker/containers</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;filebeat-volume&quot;</span></span><br><span class="line">            <span class="attr">mountPath:</span> <span class="string">&quot;/home/filebeat-config&quot;</span></span><br><span class="line">        <span class="attr">nodeSelector:</span></span><br><span class="line">          <span class="attr">role:</span> <span class="string">front</span></span><br><span class="line">        <span class="attr">volumes:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">filebeat-storage</span></span><br><span class="line">            <span class="attr">hostPath:</span></span><br><span class="line">              <span class="attr">path:</span> <span class="string">/var/log/containers</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">varlogpods</span></span><br><span class="line">            <span class="attr">hostPath:</span></span><br><span class="line">              <span class="attr">path:</span> <span class="string">/var/log/pods</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">varlibdockercontainers</span></span><br><span class="line">            <span class="attr">hostPath:</span></span><br><span class="line">              <span class="attr">path:</span> <span class="string">/var/lib/docker/containers</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">filebeat-volume</span></span><br><span class="line">            <span class="attr">configMap:</span></span><br><span class="line">              <span class="attr">name:</span> <span class="string">filebeat-config</span></span><br></pre></td></tr></table></figure>
 
 
@@ -118,84 +150,76 @@ var _hmt = _hmt || [];
 <li><a target="_blank" rel="noopener" href="https://github.com/elastic/beats/pull/2478">Add experimental symlink support</a></li>
 </ol>
 
-      <div class="blog-post-footer">
-        <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
       </div>
-    </div>
     
-    <div class="blog-post-nav row">
-      
-        <div class="nav-link col-md-6">
-          <a href="/2018/09/14/20180914-go-introduce/" id="article-nav-newer" class="article-nav-link-wrap">
-            &lt;&lt; Go学习入门
-          </a>  
-        </div>
-      
-      
-        <div class="nav-link col-md-6">
-          <a href="/2018/08/30/20180830-docker-kubernetes-log-location/" id="article-nav-older" class="article-nav-link-wrap">
-            谈一下Docker与Kubernetes集群的日志和日志管理 &gt;&gt;
-          </a>
-        </div>
-      
-    </div>
+
+    
+      <nav class="post-nav">
         
-  </div>
-              </div>
-            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
-                <div class="blog-profile">
-                    <div class="blog-author">
-
-    <div class="author-img">
-        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
-    </div>
-
-    <div class="author-desc">
-        <h1>cocowool</h1>
-        <p>A full-stack dreamer!</p>
-    </div>
-</div>
-                </div>
-                <div class="blog-google-ads">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- EDULINKS-Right -->
-     <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2449691085720111"
-          data-ad-slot="7013232113"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-     <script>
-
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid blog-footer">
-        <div class="container">
-            <div class="row blog-friend-link">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <h3>友情链接</h3>
-                </div>
-                
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="blog-copyright">
-                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
-                </div>    
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+          <a class="post-nav-item post-nav-prev" href="/2018/09/14/20180914-go-introduce/">
+            <em>上一篇</em>
+            <b>Go学习入门</b>
+          </a>
+        
+        
+          <a class="post-nav-item post-nav-next" href="/2018/08/30/20180830-docker-kubernetes-log-location/">
+            <em>下一篇</em>
+            <b>谈一下Docker与Kubernetes集群的日志和日志管理</b>
+          </a>
+        
+      </nav>
     
-<script src="/scripts/main.js"></script>
+  </article>
+
+  
+<aside class="toc" id="toc">
+  <div class="toc-title">目 录</div>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="toc-text">1. 环境准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ES%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F"><span class="toc-text">ES的配置方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ES%E7%9A%84%E8%8A%82%E7%82%B9"><span class="toc-text">ES的节点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%8D%95%E5%AE%9E%E4%BE%8B%E6%96%B9%E5%BC%8F%E9%83%A8%E7%BD%B2ELK"><span class="toc-text">2. 单实例方式部署ELK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2ELK"><span class="toc-text">3. 集群部署ELK</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E4%B8%8D%E5%8C%BA%E5%88%86%E9%9B%86%E7%BE%A4%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9%E8%A7%92%E8%89%B2"><span class="toc-text">3.1 不区分集群中的节点角色</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%8C%BA%E5%88%86%E9%9B%86%E7%BE%A4%E4%B8%AD%E8%8A%82%E7%82%B9%E8%A7%92%E8%89%B2"><span class="toc-text">3.2 区分集群中节点角色</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%BD%BF%E7%94%A8Filebeat%E7%9B%91%E6%8E%A7%E6%94%B6%E9%9B%86%E5%AE%B9%E5%99%A8%E6%97%A5%E5%BF%97"><span class="toc-text">4. 使用Filebeat监控收集容器日志</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99%EF%BC%9A"><span class="toc-text">参考资料：</span></a></li></ol>
+</aside>
+
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 cocowool
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>

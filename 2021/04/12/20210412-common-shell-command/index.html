@@ -1,71 +1,96 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="codeva-lFRExQpfJ8" />
-    <title>常用 Shell 命令-大江小浪</title>
-    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="linux, shell, shell command, shell 命令, shell 常用命令">
-    <meta name="description" content="本文总结了运维过程中常用的 shell 命令">
-    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
-    <link rel="stylesheet" href="/css/main.css" />
-    <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>常用 Shell 命令 · cocowool</title>
+<meta name="description" content="本文总结了运维过程中常用的 shell 命令">
+
+<link rel="canonical" href="http://www.popsite.cn/2021/04/12/20210412-common-shell-command/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用 Shell 命令 · cocowool">
+<meta property="og:site_name" content="cocowool">
+<meta property="og:description" content="本文总结了运维过程中常用的 shell 命令">
+<meta property="article:published_time" content="2021-04-12T08:56:07.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="cocowool" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="wave">
-    <nav class="navbar blog-header navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">大江小浪</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/links/">独立博客</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">我的文章</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">关于我</a>
-                    </li>
-                
-                </ul>
-            </div>
-        </div>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">cocowool</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
     </nav>
-    <div class="container blog-content">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
-                <div class="blog-post-detail">
-    <div class="blog-post-title">
-      <h1>常用 Shell 命令</h1>
+  </div>
+</header>
+
+  
+<div class="post-wrap">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
+        <span>/</span> <a href="/categories/Linux/">Linux</a>
+      
     </div>
-    <div class="blog-post-meta">
-        
-        <span class="post-time">更新于：2026-09-25 21:01:43</span>
-        
-        <span class="post-time">发布于：2021-04-12 16:56:07</span>
+
+    <h1>常用 Shell 命令</h1>
+
+    <div class="post-meta">
+      <a class="tag" href="/categories/Linux/">Linux</a><span class="dot">·</span>发布于2021-04-12<span class="dot">·</span>更新于 2026-09-29<span class="dot">·</span>1606 字<span class="dot">·</span>4 分钟
     </div>
-    <div class="blog-post-content">
-      <div class="blog-post-ad">
-        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
-        <!-- <div>
-          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
-        </div> -->
-      </div>
+
+    <div class="prose">
       <h2 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h2><h3 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> `<span class="built_in">seq</span>  1 10`</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;xxxx&quot;</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="SHELL中的特定变量"><a href="#SHELL中的特定变量" class="headerlink" title="SHELL中的特定变量"></a>SHELL中的特定变量</h3><ol>
@@ -148,84 +173,76 @@ var _hmt = _hmt || [];
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39591031/article/details/114028113">Shell字符串截取（非常详细）</a></li>
 </ol>
 
-      <div class="blog-post-footer">
-        <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
       </div>
-    </div>
     
-    <div class="blog-post-nav row">
-      
-        <div class="nav-link col-md-6">
-          <a href="/2021/04/12/20210413-linux-firmware-infomation/" id="article-nav-newer" class="article-nav-link-wrap">
-            &lt;&lt; Linux下查看CPU等硬件信息
-          </a>  
-        </div>
-      
-      
-        <div class="nav-link col-md-6">
-          <a href="/2021/04/11/20210411-herman-goldstine/" id="article-nav-older" class="article-nav-link-wrap">
-            赫曼·哥尔斯廷 &gt;&gt;
-          </a>
-        </div>
-      
-    </div>
+
+    
+      <nav class="post-nav">
         
-  </div>
-              </div>
-            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
-                <div class="blog-profile">
-                    <div class="blog-author">
-
-    <div class="author-img">
-        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
-    </div>
-
-    <div class="author-desc">
-        <h1>cocowool</h1>
-        <p>A full-stack dreamer!</p>
-    </div>
-</div>
-                </div>
-                <div class="blog-google-ads">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- EDULINKS-Right -->
-     <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2449691085720111"
-          data-ad-slot="7013232113"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-     <script>
-
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid blog-footer">
-        <div class="container">
-            <div class="row blog-friend-link">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <h3>友情链接</h3>
-                </div>
-                
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="blog-copyright">
-                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
-                </div>    
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+          <a class="post-nav-item post-nav-prev" href="/2021/04/12/20210413-linux-firmware-infomation/">
+            <em>上一篇</em>
+            <b>Linux下查看CPU等硬件信息</b>
+          </a>
+        
+        
+          <a class="post-nav-item post-nav-next" href="/2021/04/11/20210411-herman-goldstine/">
+            <em>下一篇</em>
+            <b>赫曼·哥尔斯廷</b>
+          </a>
+        
+      </nav>
     
-<script src="/scripts/main.js"></script>
+  </article>
+
+  
+<aside class="toc" id="toc">
+  <div class="toc-title">目 录</div>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"><span class="toc-text">基础语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF"><span class="toc-text">循环</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SHELL%E4%B8%AD%E7%9A%84%E7%89%B9%E5%AE%9A%E5%8F%98%E9%87%8F"><span class="toc-text">SHELL中的特定变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SHELL%E8%84%9A%E6%9C%AC%E8%AF%AD%E6%B3%95%E6%A3%80%E6%9F%A5"><span class="toc-text">SHELL脚本语法检查</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6"><span class="toc-text">1.查找文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6%E5%90%8E%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4"><span class="toc-text">2. 查找文件后执行命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%AF%94%E8%BE%83%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-text">3. 比较文件夹</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%8B%B7%E8%B4%9D%E6%96%87%E4%BB%B6%E7%9A%84%E6%97%B6%E5%80%99%E6%8E%92%E9%99%A4svn%E6%96%87%E4%BB%B6"><span class="toc-text">4. 拷贝文件的时候排除svn文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E4%B8%80%E6%9D%A1%E5%BE%AA%E7%8E%AF%E7%BB%9F%E8%AE%A1%E7%9A%84%E5%91%BD%E4%BB%A4%EF%BC%8Cfor-grep-zgrep"><span class="toc-text">5. 一条循环统计的命令，for\grep\zgrep</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E4%BF%AE%E6%94%B9%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%97%B6%E9%97%B4"><span class="toc-text">6. 修改服务器时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E6%9B%BF%E6%8D%A2%E6%96%87%E4%BB%B6%E6%9F%90%E8%A1%8C%E7%9A%84%E5%86%85%E5%AE%B9"><span class="toc-text">7. 替换文件某行的内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E6%9F%A5%E6%89%BE%E5%89%8D%E7%BC%80%E5%92%8C%E5%90%8E%E7%BC%80%E7%AC%A6%E5%90%88%E7%89%B9%E5%AE%9A%E8%A6%81%E6%B1%82%E7%9A%84%E5%86%85%E5%AE%B9%EF%BC%8C%E5%B9%B6%E8%BF%9B%E8%A1%8C%E6%9B%BF%E6%8D%A2"><span class="toc-text">8. 查找前缀和后缀符合特定要求的内容，并进行替换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E4%B8%AD%E5%90%AB%E6%9C%89%E7%89%B9%E5%AE%9A%E5%AD%97%E7%AC%A6%E7%9A%84%E6%96%87%E4%BB%B6%EF%BC%8C%E5%B9%B6%E5%88%97%E5%87%BA%E6%96%87%E4%BB%B6%E5%88%97%E8%A1%A8"><span class="toc-text">9. 查找文件内容中含有特定字符的文件，并列出文件列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E5%B9%B6%E5%88%A0%E9%99%A4%E4%BF%9D%E5%AD%98"><span class="toc-text">10. 查找文件内容并删除保存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E6%9F%A5%E6%89%BE%E7%AC%AC%E4%BA%94%E5%88%97%E7%9A%84%E5%86%85%E5%AE%B9%EF%BC%8C%E5%B9%B6%E4%B8%94%E5%8F%96%E9%83%A8%E5%88%86%E5%86%85%E5%AE%B9"><span class="toc-text">11. 查找第五列的内容，并且取部分内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-%E6%9F%A5%E6%89%BE%E5%B9%B6%E6%9D%80%E6%AD%BB%E7%AC%A6%E5%90%88%E6%9D%A1%E4%BB%B6%E7%9A%84%E8%BF%9B%E7%A8%8B"><span class="toc-text">12. 查找并杀死符合条件的进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-%E6%89%B9%E9%87%8F%E7%94%9F%E6%88%90%E5%BB%BA%E8%A1%A8%E8%AF%AD%E5%8F%A5"><span class="toc-text">13. 批量生成建表语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-%E6%89%B9%E9%87%8F%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E5%90%8D"><span class="toc-text">14. 批量修改文件名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15-%E6%9F%A5%E7%9C%8B%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%8F%91%E8%A1%8C%E7%89%88%E6%9C%AC"><span class="toc-text">15. 查看系统的发行版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16-%E6%B7%BB%E5%8A%A0%E8%B7%AF%E7%94%B1"><span class="toc-text">16. 添加路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17-SED%E6%9F%A5%E6%89%BE%E5%86%85%E5%AE%B9%E5%B9%B6%E8%BE%93%E5%87%BA"><span class="toc-text">17. SED查找内容并输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18-%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86"><span class="toc-text">18. 时间处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#20-AWK%E6%8A%BD%E5%8F%96%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="toc-text">20. AWK抽取文件内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#21-%E6%96%87%E4%BB%B6%E7%9A%84%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B%E7%BC%A9"><span class="toc-text">21. 文件的压缩与解压缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#22-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%8C%82%E8%BD%BD"><span class="toc-text">22. 文件系统挂载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#23-%E5%B0%86%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%8B-gz-%E6%96%87%E4%BB%B6%E8%A7%A3%E5%8E%8B%E4%B8%BA%E5%90%8C%E5%90%8D%E6%96%87%E4%BB%B6"><span class="toc-text">23. 将文件夹下 gz 文件解压为同名文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99%EF%BC%9A"><span class="toc-text">参考资料：</span></a></li></ol>
+</aside>
+
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 cocowool
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>

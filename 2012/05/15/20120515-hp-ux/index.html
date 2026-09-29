@@ -1,76 +1,100 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="codeva-lFRExQpfJ8" />
-    <title>HP-UX培训学习笔记-大江小浪</title>
-    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="hp-ux, hp unix, hp">
-    <meta name="description" content="HP-UX操作系统全称为Hewlett Packard UniX，是惠普服务器上所有的操作系统。">
-    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
-    <link rel="stylesheet" href="/css/main.css" />
-    <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>HP-UX培训学习笔记 · cocowool</title>
+<meta name="description" content="HP-UX操作系统全称为Hewlett Packard UniX，是惠普服务器上所有的操作系统。">
+
+<link rel="canonical" href="http://www.popsite.cn/2012/05/15/20120515-hp-ux/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="HP-UX培训学习笔记 · cocowool">
+<meta property="og:site_name" content="cocowool">
+<meta property="og:description" content="HP-UX操作系统全称为Hewlett Packard UniX，是惠普服务器上所有的操作系统。">
+<meta property="article:published_time" content="2012-05-15T06:48:00.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="cocowool" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="wave">
-    <nav class="navbar blog-header navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">大江小浪</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/links/">独立博客</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">我的文章</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">关于我</a>
-                    </li>
-                
-                </ul>
-            </div>
-        </div>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">cocowool</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
     </nav>
-    <div class="container blog-content">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
-                <div class="blog-post-detail">
-    <div class="blog-post-title">
-      <h1>HP-UX培训学习笔记</h1>
+  </div>
+</header>
+
+  
+<div class="post-wrap post-wrap--single">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
     </div>
-    <div class="blog-post-meta">
-        
-        <span class="post-time">更新于：2026-09-25 21:01:43</span>
-        
-        <span class="post-time">发布于：2012-05-15 14:48:00</span>
+
+    <h1>HP-UX培训学习笔记</h1>
+
+    <div class="post-meta">
+      发布于2012-05-15<span class="dot">·</span>更新于 2026-09-29<span class="dot">·</span>4748 字<span class="dot">·</span>12 分钟
     </div>
-    <div class="blog-post-content">
-      <div class="blog-post-ad">
-        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
-        <!-- <div>
-          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
-        </div> -->
-      </div>
+
+    <div class="prose">
       <p>HP-UX操作系统全称为Hewlett Packard UniX，是惠普服务器上所有的操作系统。其发源自 AT &amp; T SRV4系统，可以支持HP的PA-RISC处理器、Intel的Itanium处理器。因为PA-RISC的停产（RISC机器现在越来越没落了），今后的主流就是只支持Intel的处理器了。</p>
 <p>HP-UX操作系统版本包括：11.11（11iv1）、11.23（11iv2）、11.31（11iv3）。其中11i第一次发布时间是2000年。</p>
 <p>培训中使用的环境是11.31，进入系统后，查看环境的办法：<br>查看系统：uname -a<br>查看软件版本：swlist | grep QPK<br>查看文件系统的使用情况：bdf</p>
 <p><strong>SMH工具</strong>：<br>SMH（System Management Homepage）是一个系统管理工具，之前有一个名为SAM的工具。SMH是一个升级版本，提供了利用Web方式进行系统管理的方式。<br>SAM支持HP-UX11iV1、V2,SMH支持 HP-UX 11iv1、v2、v3。</p>
-<p><img src="/20120515-hp-ux/201205151448055527.png"></p>
+<img src="/2012/05/15/20120515-hp-ux/201205151448055527.png" class="" loading="lazy" decoding="async">
+
 <p>这两个管理工具的特点包括：提供了图形化的管理界面、可以向非Root用户提供配置管理功能、方便的帮助信息、配置灵活可扩展性强、使用标准的HP-UX命令完成所有操作（每个操作都可以看到对应的命令行指令）、整合了HP的SIM（Systems Insight Manager）、提供了Windows、Linux支持（也就是说可以用来管理Windows和Linux）。</p>
 <p>SMH的启动有两种方式：autostart和start-on-boot。可以使用smhstartconfig这个命令查看当前的状态并进行启动方式的改变。autostart方式时，我们通过ip:2301端口进行访问。如果是start-on-boot，通过ip:2381进行访问。</p>
 <p>SMH菜单包括：Home、Settings、Tools、Task、Log等。</p>
@@ -86,7 +110,8 @@ var _hmt = _hmt || [];
 <p>硬件的外观（型号）<br><strong>Disk Arrays and LUNs、SANs and Multipathing</strong></p>
 <p>当今的服务器，很多是将内置的磁盘做为Boot Disk，但是数据多数存放在Disk Arrays上。Disk Array 包含数十甚至数以百计、千计的磁盘。为了方便，利用一些管理软件，经常将一定数量的磁盘划分为一个LUN（Logical Units）。磁盘阵列管理软件会自动为每一个LUN分配一个独立的64位标识符WWID，管理员也可以为每个LUN分配一个比较容易记忆的LUN ID。操作系统将一个LUN看作一个磁盘设备，而不关心其到底由多少物理磁盘组成。</p>
 <p>SANs（Storage Area Network）的Multipathing的原理如下图所示，这样的做法带来了很大的灵活性，同时提供了高可用（High Availability）的环境以及应对高负载的能力。下图是最简单的一种SANs网络连接，依据网络的复杂性，到达一个LUN的通路可能有2、4、8甚至更多。在HP-UX的11iV1、V2版本中，对于通路的识别还需要依赖于LVM、VxVM等软件的外部支持，在V3版本中，这一特性已经被整合到内核中。</p>
-<p><img src="/20120515-hp-ux/201205151448065428.png"></p>
+<img src="/2012/05/15/20120515-hp-ux/201205151448065428.png" class="" loading="lazy" decoding="async">
+
 <p>分区连续体技术，包括nPar、vPar、VM、SRP（Secure Resource Partitions）。这种技术的出发点在于之前独立CPU的机器存在高峰瓶颈和利用率低估，通过加入更多的计算和内存单元，来达到资源的动态划分，一方面提高资源利用率，一方面提高高可用性。我觉得这种思路和云计算有些相似，只不过划分的物理逻辑单元不一样。</p>
 <p>相关命令：<br>scsimgr：scsimgr get_attr -a wwid -H 64000&#x2F;0xfa00&#x2F;0x4     获取LUN信息</p>
 <p><strong>硬件的编址（路径）</strong></p>
@@ -115,84 +140,71 @@ var _hmt = _hmt || [];
 <p><strong>网络的管理</strong><br>网络的连通性、网络的服务。<br>相关命令：<br>三层<br>ifconfig：如果需要永久生效，修改&#x2F;etc&#x2F;rc.config.d&#x2F;netconf<br>route：管理系统路由，如果需要永久生效，配置文件同上，启动脚本是&#x2F;sbin&#x2F;init.d&#x2F;net<br>hostname：修改主机名，配置文件&#x2F;etc&#x2F;rc.config.d&#x2F;netconf，启动脚本是&#x2F;sbin&#x2F;init.d&#x2F;hostname<br>&#x2F;etc&#x2F;hosts，本地的主机名解析文件<br>&#x2F;etc&#x2F;resolv.conf，DNS服务器的地址<br>故障定位常用命令：<br>lanscan<br>lanadmin<br>linkloop<br>arp<br>ping<br>traceroute<br>nslookup<br>dig<br>nsquery<br>nwmgr</p>
 <p>参考资料：<br>1、<a target="_blank" rel="noopener" href="http://www.junipercorp.com.cn/">www.junipercorp.com.cn</a><br>2、<a target="_blank" rel="noopener" href="http://baike.baidu.com/view/58963.htm">百度百科 HP-UX</a><br>3、<a target="_blank" rel="noopener" href="http://baike.baidu.com/view/1102790.htm">百度百科 Superblock</a><br>4、<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/File_system">Wiki File System</a><br>5、<a target="_blank" rel="noopener" href="http://blog.itpub.net/post/40024/488870">HP-UX常用命令</a><br>6、<a target="_blank" rel="noopener" href="http://baike.baidu.com/view/413760.htm">百度百科 Itanium</a><br>7、<a target="_blank" rel="noopener" href="http://wenku.baidu.com/view/ba0fe41fa300a6c30c229f6e.html">HP-UX LVM卷组学习笔记</a></p>
 
-      <div class="blog-post-footer">
-        <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
       </div>
-    </div>
     
-    <div class="blog-post-nav row">
-      
-        <div class="nav-link col-md-6">
-          <a href="/2012/05/18/20120518-prime-number-program/" id="article-nav-newer" class="article-nav-link-wrap">
-            &lt;&lt; 计算质数和回文数的小程序
-          </a>  
-        </div>
-      
-      
-        <div class="nav-link col-md-6">
-          <a href="/2012/05/04/20120504-ruby-tail/" id="article-nav-older" class="article-nav-link-wrap">
-            使用Ruby简单实现的tail命令，支持动态输出 &gt;&gt;
-          </a>
-        </div>
-      
-    </div>
+
+    
+      <nav class="post-nav">
         
-  </div>
-              </div>
-            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
-                <div class="blog-profile">
-                    <div class="blog-author">
-
-    <div class="author-img">
-        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
-    </div>
-
-    <div class="author-desc">
-        <h1>cocowool</h1>
-        <p>A full-stack dreamer!</p>
-    </div>
-</div>
-                </div>
-                <div class="blog-google-ads">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- EDULINKS-Right -->
-     <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2449691085720111"
-          data-ad-slot="7013232113"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-     <script>
-
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid blog-footer">
-        <div class="container">
-            <div class="row blog-friend-link">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <h3>友情链接</h3>
-                </div>
-                
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="blog-copyright">
-                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
-                </div>    
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+          <a class="post-nav-item post-nav-prev" href="/2012/05/18/20120518-prime-number-program/">
+            <em>上一篇</em>
+            <b>计算质数和回文数的小程序</b>
+          </a>
+        
+        
+          <a class="post-nav-item post-nav-next" href="/2012/05/04/20120504-ruby-tail/">
+            <em>下一篇</em>
+            <b>使用Ruby简单实现的tail命令，支持动态输出</b>
+          </a>
+        
+      </nav>
     
-<script src="/scripts/main.js"></script>
+  </article>
+
+  
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 cocowool
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>

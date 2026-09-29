@@ -1,73 +1,99 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="codeva-lFRExQpfJ8" />
-    <title>安东尼·霍尔-大江小浪</title>
-    <meta name="baidu-site-verification" content="y4EEfl1oRM" />
-    <meta name="keywords" content="安东尼·霍尔, 托尼·霍尔, 计算机名人录, 计算机名人, 图灵奖得主, 图灵奖">
-    <meta name="description" content="托尼·霍尔爵士（Sir Tony Hoare）——计算机科学先驱，快速排序算法发明者、1980年图灵奖得主。探索他如何从牛津哲学学者转型为编程语言设计巨匠：创立霍尔逻辑（Hoare Triples）、提出CSP并发模型，奠定程序验证基石。深度解析其对ALGOL 60编译器、微软研究院及软件可靠性的革命性影响。">
-    <link href="/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">    
-    <link rel="stylesheet" href="/css/main.css" />
-    <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>    <meta name="msvalidate.01" content="D8350FC7417B692DE23E5326C13202D3" />
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>安东尼·霍尔 · cocowool</title>
+<meta name="description" content="托尼·霍尔爵士（Sir Tony Hoare）——计算机科学先驱，快速排序算法发明者、1980年图灵奖得主。探索他如何从牛津哲学学者转型为编程语言设计巨匠：创立霍尔逻辑（Hoare Triples）、提出CSP并发模型，奠定程序验证基石。深度解析其对ALGOL 60编译器、微软研究院及软件可靠性的革">
+
+<link rel="canonical" href="http://www.popsite.cn/2025/08/12/20250812-antony-hoare/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="安东尼·霍尔 · cocowool">
+<meta property="og:site_name" content="cocowool">
+<meta property="og:description" content="托尼·霍尔爵士（Sir Tony Hoare）——计算机科学先驱，快速排序算法发明者、1980年图灵奖得主。探索他如何从牛津哲学学者转型为编程语言设计巨匠：创立霍尔逻辑（Hoare Triples）、提出CSP并发模型，奠定程序验证基石。深度解析其对ALGOL 60编译器、微软研究院及软件可靠性的革">
+<meta property="article:published_time" content="2025-08-12T08:19:01.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="cocowool" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
 <meta name="generator" content="Hexo 8.1.2"></head>
-<body class="wave">
-    <nav class="navbar blog-header navbar-expand-lg ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">大江小浪</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="菜单">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/links/">独立博客</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">我的文章</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">关于我</a>
-                    </li>
-                
-                </ul>
-            </div>
-        </div>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">cocowool</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
     </nav>
-    <div class="container blog-content">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9">
-                <div class="blog-post-detail">
-    <div class="blog-post-title">
-      <h1>安东尼·霍尔</h1>
+  </div>
+</header>
+
+  
+<div class="post-wrap">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
+        <span>/</span> <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/">计算机名人录</a>
+      
     </div>
-    <div class="blog-post-meta">
-        
-        <span class="post-time">更新于：2026-09-25 21:01:43</span>
-        
-        <span class="post-time">发布于：2025-08-12 16:19:01</span>
+
+    <h1>安东尼·霍尔</h1>
+
+    <div class="post-meta">
+      <a class="tag" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%E4%BA%BA%E5%BD%95/">计算机名人录</a><span class="dot">·</span>发布于2025-08-12<span class="dot">·</span>更新于 2026-09-29<span class="dot">·</span>1672 字<span class="dot">·</span>4 分钟
     </div>
-    <div class="blog-post-content">
-      <div class="blog-post-ad">
-        <!-- <h3>为感谢各位朋友对本站的关注，在2021年元旦即将到来之际为大家提供一张「腾讯视频VIP兑换卡」，扫描下方的小程序二维码即可参与活动，活动中奖者将获得一张「腾讯视频VIP兑换卡」，感谢大家对小站的支持，祝大家好运并提前祝大家新年快乐！</h3> -->
-        <!-- <div>
-          <a href="https://cloud.tencent.com/developer/grocery-stall3?invitedUid=2725480" target="_parent"><img src="/image/ad_image.png" alt="扫码参与活动，攒云+值，得云+社区定制礼盒"></a>
-        </div> -->
-      </div>
+
+    <div class="prose">
       <p>安东尼·霍尔（C.Antony R.Hoare，1934年1月11日 - ），被称为「托尼」霍尔，快速排序算法发明者，1980年图灵奖得主。</p>
-<p><img src="/20250812-antony-hoare/4622167.jpg" alt="C. Antony R. Hoare "></p>
+<img src="/2025/08/12/20250812-antony-hoare/4622167.jpg" class="" title="C. Antony R. Hoare" loading="lazy" decoding="async">
+
 <p>托尼于1934年1月11日出生在锡兰（现在的斯里兰卡）科伦坡市，全名叫查尔斯·安东尼·理查德·霍尔。他的父母参与了当时大英帝国的生意，他在英国接受了中学教育，曾就读于牛津的龙校「Dragon School」和坎特伯雷的国王学院「King’s School」，大学在牛津学习现代哲学，这为他理解逻辑学奠定了基础。</p>
 <p>1956年毕业时，托尼被征召进入皇家海军。两年义务兵役结束后，他回到牛津学习统计学，并开始使用 Mercury Autocode 进行计算机编程。研究生期间前往莫斯科国立大学，师从安德烈·柯尔莫哥洛夫「Andrey Kolmogorov」学习机器翻译。正是在这段时间，托尼认为排序很重要，在这里首先想到了后来被称为快速排序的新颖排序算法。</p>
 <p><strong>工业实践与学术转向</strong><br>回到英国后，霍尔加入了名为Elliott Brothers的小型英国计算机公司。他领导的重要项目之一是为Elliott 503计算机开发<strong>ALGOL 60编译器</strong>。这段工业实践经历深刻影响了他后续的学术生涯，带来了两大核心研究主题的灵感：</p>
@@ -80,7 +106,7 @@ var _hmt = _hmt || [];
 <p>图灵奖颁奖词特别强调了霍尔在<strong>编程语言设计</strong>领域的卓越贡献。他始终认为，作为程序表达媒介的编程语言设计至关重要，低劣的语言设计是导致软件质量低下、安全漏洞（如病毒入侵）和巨额经济损失的重要原因。他不断呼吁软件设计应追求<strong>简洁（simplicity）和优雅（elegance）</strong>，以确保软件处于人类智慧的掌控之中（这一观点在其图灵奖演讲[3]中清晰阐述）。他1973年发表的论文《编程语言设计提示》是其思想的集中体现。</p>
 <p>霍尔对计算机科学最革命性的贡献之一是在<strong>程序语义形式化</strong>方面。1968年，他离开工业界，成为贝尔法斯特女王大学（Queen’s University, Belfast）的正教授。他对当时描述编程语言语义的主流方法感到不满。在深入研究罗伯特·弗洛伊德（Bob Floyd）关于程序赋义的工作后，霍尔于1969年发表了具有里程碑意义的论文《计算机程序设计的一个公理基础》。在这篇论文中：</p>
 <ul>
-<li>他摒弃了流程图，发展了一套基于 <strong>“霍尔三元组”（Hoare Triples）</strong> 的逻辑系统（<code>{P} C {Q}</code>），用于在程序规范下对语句行为进行推理。</li>
+<li>他摒弃了流程图，发展了一套基于 <strong>“霍尔三元组”（Hoare Triples）</strong> 的逻辑系统（<code>&#123;P&#125; C &#123;Q&#125;</code>），用于在程序规范下对语句行为进行推理。</li>
 <li>他提出这种<strong>公理化（axiomatic）</strong> 系统可以作为定义编程语言语义的一种抽象方法。<br>这项开创性工作奠定了<strong>程序验证（program verification）</strong> 的理论基础，使得“开发可证明正确的程序”成为可能，而非事后补救。围绕“霍尔语义”（Hoare semantics）的研究极大地深化了人们对编程语言的理解和程序推理的能力。</li>
 </ul>
 <p><strong>并发理论与CSP</strong></p>
@@ -104,84 +130,76 @@ var _hmt = _hmt || [];
 <li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%89%98%E5%B0%BC%C2%B7%E9%9C%8D%E5%B0%94/65848">https://baike.baidu.com/item/%E6%89%98%E5%B0%BC%C2%B7%E9%9C%8D%E5%B0%94/65848</a></li>
 </ol>
 
-      <div class="blog-post-footer">
-        <p><img src="/image/qrcode.jpg" alt=""></p>
-        <p><b>用心体验、认真记录</b>，欢迎关注<a target="_blank" rel="noopener" href="https://www.edulinks.cn">大江小浪</a>的技术人生！</p>
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
       </div>
-    </div>
     
-    <div class="blog-post-nav row">
-      
-        <div class="nav-link col-md-6">
-          <a href="/2025/08/20/20250820-niklaus-wirth/" id="article-nav-newer" class="article-nav-link-wrap">
-            &lt;&lt; 尼古拉斯·沃斯
-          </a>  
-        </div>
-      
-      
-        <div class="nav-link col-md-6">
-          <a href="/2025/08/04/20250804-kenneth-iverson/" id="article-nav-older" class="article-nav-link-wrap">
-            肯尼斯·艾佛森 &gt;&gt;
-          </a>
-        </div>
-      
-    </div>
+
+    
+      <nav class="post-nav">
         
-  </div>
-              </div>
-            <div class="blog-side col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3">
-                <div class="blog-profile">
-                    <div class="blog-author">
-
-    <div class="author-img">
-        <a href="#"><img src="/image/qrcode.jpg" alt=""></a>
-    </div>
-
-    <div class="author-desc">
-        <h1>cocowool</h1>
-        <p>A full-stack dreamer!</p>
-    </div>
-</div>
-                </div>
-                <div class="blog-google-ads">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- EDULINKS-Right -->
-     <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-2449691085720111"
-          data-ad-slot="7013232113"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-     <script>
-
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid blog-footer">
-        <div class="container">
-            <div class="row blog-friend-link">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                    <h3>友情链接</h3>
-                </div>
-                
-                
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3">
-                    <a target="_blank" href="http://www.popsite.cn">大江小浪</a>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="blog-copyright">
-                    <p>&copy; 2020 - 2026 All rights reserved. 大江小浪   </p>
-                </div>    
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+          <a class="post-nav-item post-nav-prev" href="/2025/08/20/20250820-niklaus-wirth/">
+            <em>上一篇</em>
+            <b>尼古拉斯·沃斯</b>
+          </a>
+        
+        
+          <a class="post-nav-item post-nav-next" href="/2025/08/04/20250804-kenneth-iverson/">
+            <em>下一篇</em>
+            <b>肯尼斯·艾佛森</b>
+          </a>
+        
+      </nav>
     
-<script src="/scripts/main.js"></script>
+  </article>
+
+  
+<aside class="toc" id="toc">
+  <div class="toc-title">目 录</div>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-text">参考资料</span></a></li></ol>
+</aside>
+
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 cocowool
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/main.js" defer></script>
 
 </body>
 </html>
