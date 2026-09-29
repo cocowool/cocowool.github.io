@@ -1,0 +1,15 @@
+<%
+  var total = page.total || 0;
+  var current = page.current || 1;
+  if (total > 1) {
+%>
+<nav class="pagination" aria-label="分页导航">
+  <%- paginator({
+    prev_text: '上一页',
+    next_text: '下一页',
+    mid_size: 1,
+    end_size: 1,
+    space: '…'
+  }) %>
+</nav>
+<% } %>

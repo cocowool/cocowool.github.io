@@ -1,0 +1,19 @@
+// ============================================================
+//  Historical 主题样式入口
+//
+//  编译产物： public/css/main.css
+//  依赖：    hexo-renderer-dartsass（dart-sass 实现，无需 node-sass）
+//            npm i hexo-renderer-dartsass
+//
+//  说明：
+//   - 下划线开头的文件（_base / _layout / ...）是 partial，不会单独产出；
+//   - 只有本文件 main.scss 会产出 css，最终站点只加载 1 个样式文件；
+//   - 引入顺序 = 输出顺序，响应式必须放最后才能覆盖前面的规则。
+// ============================================================
+
+@use 'base';
+@use 'layout';
+@use 'components';
+@use 'blogs';
+@use 'post';
+@use 'responsive';

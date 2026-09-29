@@ -1,0 +1,16 @@
+<%
+  var ads = theme.adsense || {};
+  if (ads.client) {
+%>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= ads.client %>" crossorigin="anonymous"></script>
+<% if (ads.auto_ads) { %>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "<%= ads.client %>",
+    enable_page_level_ads: true
+  });
+</script>
+<% } %>
+<% } %>
+
+<script src="<%- url_for('/js/main.js') %>" defer></script>

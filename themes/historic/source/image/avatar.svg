@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-label="头像">
+  <defs>
+    <clipPath id="avatar-clip">
+      <circle cx="48" cy="48" r="48"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#avatar-clip)">
+    <rect width="96" height="96" fill="#F7EBE5"/>
+    <path d="M-6 46 Q 12 30 30 46 T 66 46 T 102 46"
+          fill="none" stroke="#E4BCAB" stroke-width="2.2" stroke-linecap="round" opacity=".8"/>
+    <path d="M-6 60 Q 12 43 30 60 T 66 60 T 102 60"
+          fill="none" stroke="#B2452D" stroke-width="3.4" stroke-linecap="round"/>
+    <path d="M-6 74 Q 12 57 30 74 T 66 74 T 102 74"
+          fill="none" stroke="#D8A897" stroke-width="3.4" stroke-linecap="round"/>
+  </g>
+</svg>

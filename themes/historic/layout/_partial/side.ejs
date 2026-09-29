@@ -1,0 +1,83 @@
+<%
+  var sb = theme.sidebar || {};
+  var siteName = theme.author.name || config.title;
+  var social = theme.social || {};
+  var wechat = sb.wechat || {};
+  var avatar = theme_asset('avatar');
+  var qrcode = theme_asset('wechat_qr');
+
+  // 二维码下面不再叠「微信公众号 / 扫码关注 · 每月两篇长文」这两行小字。
+  // 二维码本身就是公众号的，紧跟在下面放站名（= 公众号名）最直接，再往下才是横线。
+  // 想找回那两行，把 sidebar.wechat.show_label / show_tip 改成 true。
+  var showLabel = wechat.show_label === true && wechat.label;
+  var showTip   = wechat.show_tip === true && wechat.tip;
+
+  // 两种排布：
+  //   有头像   → 头像在顶，公众号二维码单独一个区块在下面；
+  //   没头像（assets.avatar: none）→ 二维码顶上来替掉头像的位置，
+  //             此时下面不再重复放一次，避免两张同样的码。
+  var qrOnTop = !avatar && wechat.enable && qrcode;
+%>
+<% if (sb.enable) { %>
+<aside class="home-side<%= sb.sticky ? ' is-sticky' : '' %>">
+
+  <% if (sb.info_card) { %>
+  <div class="side-card">
+    <% if (avatar) { %>
+      <img class="avatar" src="<%- avatar %>" alt="<%= siteName %>">
+    <% } else if (qrOnTop) { %>
+      <div class="qr qr--head"><img src="<%- qrcode %>" alt="<%= wechat.label || siteName %>"></div>
+    <% } else { %>
+      <div class="avatar"><%= siteName.substring(0, 2) %></div>
+    <% } %>
+
+    <div class="side-name"><%= siteName %></div>
+
+    <% if (qrOnTop) { %>
+      <div class="side-divider side-divider--gap"></div>
+    <% } %>
+
+    <% if (theme.author.bio) { %>
+      <div class="side-desc"><%= theme.author.bio %><% if (theme.author.bio_more) { %><br><%= theme.author.bio_more %><% } %></div>
+    <% } %>
+
+    <% if (wechat.enable && qrcode && !qrOnTop) { %>
+      <div class="side-divider"></div>
+      <% if (showLabel) { %><div class="side-label"><%= wechat.label %></div><% } %>
+      <div class="qr"><img src="<%- qrcode %>" alt="<%= wechat.label || siteName %>"></div>
+      <% if (showTip) { %><div class="qr-tip"><%= wechat.tip %></div><% } %>
+    <% } %>
+
+    <%
+      var socialKeys = Object.keys(social).filter(function (k) { return social[k]; });
+      if (socialKeys.length) {
+    %>
+    <div class="social">
+      <% socialKeys.forEach(function (k) { %>
+        <a href="<%- url_for(social[k]) %>" target="_blank" rel="noopener"><%= k %></a>
+      <% }); %>
+    </div>
+    <% } %>
+  </div>
+  <% } %>
+
+  <%- ad_slot('sidebar', 'side') %>
+
+  <% if (sb.shortcut_card && (sb.shortcuts || []).length) { %>
+  <div class="side-card side-card--links">
+    <ul class="side-links">
+      <% sb.shortcuts.forEach(function (item) { %>
+        <li>
+          <a href="<%- url_for(item.url) %>">
+            <%= item.name %>
+            <% var c = sidebar_count(item.count); %>
+            <% if (c !== '') { %><span><%= c %></span><% } %>
+          </a>
+        </li>
+      <% }); %>
+    </ul>
+  </div>
+  <% } %>
+
+</aside>
+<% } %>

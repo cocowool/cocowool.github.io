@@ -1,0 +1,10 @@
+<%
+  var cat = post_category(post);
+%>
+<li class="entry">
+  <time datetime="<%- date_xml(post.date) %>"><%- date(post.date, 'MM-DD') %></time>
+  <a class="entry-title" href="<%- url_for(post.path) %>"><%= post.title %></a>
+  <% if (cat) { %>
+    <a class="entry-cat" href="<%- url_for(cat.path) %>"><%= cat.name %></a>
+  <% } %>
+</li>

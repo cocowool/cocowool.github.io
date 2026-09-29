@@ -1,0 +1,20 @@
+<%
+  var bodyCls = [];
+  if (is_home()) bodyCls.push('is-home');
+  else if (is_post()) bodyCls.push('is-post');
+  else if (is_archive()) bodyCls.push('is-archive');
+  else if (is_page()) bodyCls.push('is-page');
+  if (is_category()) bodyCls.push('is-category');
+  if (is_tag()) bodyCls.push('is-tag');
+%><!DOCTYPE html>
+<html lang="<%= (config.language || 'zh-CN').replace('_', '-') %>">
+<head>
+  <%- partial('_partial/head') %>
+</head>
+<body class="<%= bodyCls.join(' ') %>">
+  <%- partial('_partial/header') %>
+  <%- body %>
+  <%- partial('_partial/footer') %>
+  <%- partial('_partial/script') %>
+</body>
+</html>

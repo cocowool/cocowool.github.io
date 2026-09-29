@@ -1,0 +1,72 @@
+<% if (is_home()) { %>
+
+  <%# ------------------------------ 首页：文章流 + 个人信息侧栏 ------------- %>
+  <div class="home-layout<%= theme.sidebar.enable ? '' : ' home-layout--single' %>">
+    <main class="home-main">
+      <div class="card-list">
+        <% page.posts.each(function (post, i) { %>
+          <%- partial('_partial/post-card', { post: post }) %>
+          <% if (i === 1) { %>
+            <%- ad_slot('list_feed', 'wide') %>
+          <% } %>
+        <% }); %>
+      </div>
+      <%- partial('_partial/pager') %>
+    </main>
+    <%- partial('_partial/side') %>
+  </div>
+
+<% } else { %>
+
+  <%# ------------------------------- 归档 / 分类 / 标签 -------------------------- %>
+  <%
+    var heroTitle, heroKind;
+    if (is_category()) { heroTitle = page.category; heroKind = '分类'; }
+    else if (is_tag()) { heroTitle = '#' + page.tag; heroKind = '标签'; }
+    else { heroTitle = '我的文章'; heroKind = '归档'; }
+
+    var useYearGroup = is_archive() || is_category() || is_tag();
+    var groups = useYearGroup ? group_by_year(page.posts) : null;
+  %>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <h1><%= heroTitle %></h1>
+      <p>
+        共 <%= site.posts.length %> 篇 · <%= heroKind %> · 按时间倒序排列
+        <% if (page.current && page.total > 1) { %>· 第 <%= page.current %> / <%= page.total %> 页<% } %>
+      </p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <% if (groups) { %>
+      <% groups.forEach(function (g) { %>
+        <div class="year-block">
+          <div class="year-head">
+            <span class="year-num"><%= g.year %></span>
+            <span class="year-count"><%= g.posts.length %> 篇</span>
+            <span class="section-rule"></span>
+          </div>
+          <ul class="entry-list">
+            <% g.posts.forEach(function (post) { %>
+              <%- partial('_partial/entry', { post: post }) %>
+            <% }); %>
+          </ul>
+        </div>
+      <% }); %>
+    <% } else { %>
+      <div class="year-block">
+        <ul class="entry-list">
+          <% page.posts.each(function (post) { %>
+            <%- partial('_partial/entry', { post: post }) %>
+          <% }); %>
+        </ul>
+      </div>
+    <% } %>
+
+    <%- ad_slot('list_feed', 'inline') %>
+    <%- partial('_partial/pager') %>
+  </div>
+
+<% } %>

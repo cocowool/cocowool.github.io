@@ -1,0 +1,29 @@
+// ============================================================
+//  复用 mixin
+// ============================================================
+
+@use 'variables' as *;
+
+// 响应式：小于某个宽度时生效
+//   @include below($bp-mobile) { .card { padding: 20px; } }
+@mixin below($bp) {
+  @media (max-width: $bp) {
+    @content;
+  }
+}
+
+// 卡片外观：白底 + 细边框 + 圆角 + 轻阴影
+//   首页卡片 / 分类卡 / 侧栏卡 三处共用，改这里同时生效
+@mixin card-surface($radius: var(--radius)) {
+  background: var(--card);
+  border: 1px solid rgba(231, 224, 210, .8);
+  border-radius: $radius;
+  box-shadow: var(--shadow);
+}
+
+// 卡片 hover：轻微抬起 + 描边转砖红
+@mixin card-lift {
+  transform: translateY(-2px);
+  border-color: var(--accent-soft);
+  box-shadow: var(--shadow-hover);
+}

@@ -1,0 +1,425 @@
+// ============================================================
+//  Historical — 独立博客页
+//
+//  博客清单（source/_data/blogs.json）的呈现：
+//    页头 → 统计条 → 搜索/筛选 → 站点列表 → 他们的最新文章
+//
+//  列表用 grid 而不是 <table>：窄屏能把一行拆成卡片，
+//  表格做不到这点（<td> 不能自由换行成块）。
+// ============================================================
+
+@use 'variables' as *;
+@use 'mixins' as *;
+
+/* ---------------------------------------------------------------- 页头 --- */
+
+.blogs-hero {
+  padding-bottom: 24px;
+
+  h1 {
+    margin: 0;
+    font-size: 31px;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+
+  p {
+    margin: 12px 0 0;
+    font-size: 14.5px;
+    color: var(--ink-3);
+    letter-spacing: .4px;
+  }
+}
+
+/* -------------------------------------------------------------- 统计条 --- */
+
+.blog-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  // 用 1px 间隙 + 底色做格子分隔线，比给每格加 border 干净
+  gap: 1px;
+  background: var(--line-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.blog-stat {
+  background: var(--card);
+  padding: 18px 14px 16px;
+  text-align: center;
+
+  b {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1.2;
+    letter-spacing: .5px;
+  }
+
+  span {
+    display: block;
+    margin-top: 6px;
+    font-size: 12.5px;
+    color: var(--ink-3);
+    letter-spacing: .8px;
+  }
+}
+
+/* ----------------------------------------------------- 搜索与筛选工具条 --- */
+
+.blog-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 18px;
+  flex-wrap: wrap;
+  margin: 26px 0 14px;
+}
+
+.blog-search {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 1 250px;
+  height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink-4);
+  transition: border-color .18s ease, box-shadow .18s ease;
+
+  &:focus-within {
+    border-color: var(--accent-soft);
+    box-shadow: 0 0 0 3px var(--accent-wash);
+  }
+
+  input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font: inherit;
+    font-size: 14px;
+    color: var(--ink);
+
+    &::placeholder { color: var(--ink-4); }
+    &::-webkit-search-cancel-button { -webkit-appearance: none; }
+  }
+}
+
+.blog-filters {
+  display: inline-flex;
+  gap: 6px;
+  flex-wrap: wrap;
+
+  button {
+    padding: 7px 13px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--ink-2);
+    font: inherit;
+    font-size: 13px;
+    letter-spacing: .3px;
+    cursor: pointer;
+    transition: color .16s ease, border-color .16s ease, background .16s ease;
+
+    em {
+      margin-left: 4px;
+      font-style: normal;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--ink-4);
+    }
+
+    &:hover {
+      border-color: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    &.is-on {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+
+      em { color: rgba(255, 255, 255, .78); }
+    }
+  }
+}
+
+/* ------------------------------------------------------------ 站点列表 --- */
+
+.blog-table {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.blog-head,
+.blog-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 2fr) 84px 108px;
+  gap: 18px;
+  align-items: center;
+}
+
+.blog-head {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--line);
+  background: var(--code-bg);
+  font-size: 12px;
+  letter-spacing: 1.4px;
+  color: var(--ink-3);
+}
+
+.blog-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.blog-row {
+  padding: 13px 20px;
+  border-bottom: 1px solid var(--line-soft);
+  transition: background .16s ease;
+
+  &:last-child { border-bottom: 0; }
+  &:hover { background: var(--accent-wash); }
+
+  // 搜索/筛选时 JS 会给行加 hidden。
+  // 本行是 display: grid，特异性高于 UA 的 [hidden]{display:none}，
+  // 不显式写这一条的话隐藏根本不生效。
+  &[hidden] { display: none; }
+}
+
+.blog-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+
+  // 第一个 a 是站名本身 —— 不再单列「链接」列，点名字就跳
+  > a:first-child {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: .3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-bottom: 1px solid transparent;
+    transition: color .16s ease, border-color .16s ease;
+
+    &:hover {
+      color: var(--accent);
+      border-bottom-color: var(--accent-soft);
+    }
+  }
+}
+
+.blog-rss {
+  flex: none;
+  display: inline-flex;
+  color: var(--ink-4);
+  transition: color .16s ease;
+
+  &:hover { color: var(--accent); }
+}
+
+.blog-desc {
+  font-size: 13.5px;
+  color: var(--ink-3);
+  line-height: 1.6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  // 作者没写简介时回落到域名：那是「补充信息」不是简介，
+  // 用等宽字 + 更浅的颜色跟正文简介区分开，别让人以为是作者写的
+  &--host {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--ink-4);
+  }
+}
+
+.blog-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  letter-spacing: .3px;
+  white-space: nowrap;
+}
+
+.blog-dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink-4);
+}
+
+.blog-row[data-status="active"]   .blog-dot { background: var(--accent); }
+.blog-row[data-status="no_rss"]   .blog-dot { background: var(--accent-soft); }
+.blog-row[data-status="archived"] .blog-dot { background: var(--ink-4); }
+
+// 已归档的整行压暗一档，扫列表时自然沉下去
+.blog-row[data-status="archived"] {
+  .blog-name > a:first-child,
+  .blog-desc { opacity: .62; }
+}
+
+.blog-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+.blog-new {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.4;
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: var(--accent);
+  color: #fff;
+  letter-spacing: .6px;
+}
+
+.blog-none {
+  margin: 0;
+  padding: 34px 20px;
+  border-top: 1px solid var(--line-soft);
+  text-align: center;
+  font-size: 14px;
+  color: var(--ink-3);
+}
+
+/* -------------------------------------------------------- 最新文章流 --- */
+
+.blog-feed {
+  margin-top: 46px;
+
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+
+  .section-title {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    white-space: nowrap;
+  }
+
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+}
+
+.blog-feed-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--line);
+
+    &:last-child { border-bottom: 0; }
+  }
+
+  .feed-title {
+    min-width: 0;
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: var(--ink);
+    transition: color .16s ease;
+
+    &:hover { color: var(--accent); }
+  }
+
+  .feed-meta {
+    flex: none;
+    font-size: 12.5px;
+    color: var(--ink-4);
+    white-space: nowrap;
+  }
+}
+
+/* ---------------------------------------------------------------- 窄屏 --- */
+
+@include below($bp-tablet) {
+  .blog-head,
+  .blog-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) 76px 96px;
+    gap: 14px;
+  }
+
+  .blog-desc { font-size: 13px; }
+}
+
+@include below($bp-mobile) {
+  .blogs-hero h1 { font-size: 26px; letter-spacing: 1.2px; }
+
+  .blog-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .blog-stat {
+    padding: 15px 12px 13px;
+
+    b { font-size: 21px; }
+  }
+
+  .blog-toolbar { margin: 22px 0 13px; }
+
+  .blog-search { flex: 1 1 100%; }
+
+  // 表格拆成卡片：站名与日期一行，简介独占一行，状态压到最后
+  .blog-head { display: none; }
+
+  .blog-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "name   date"
+      "desc   desc"
+      "status status";
+    gap: 7px 12px;
+    align-items: start;
+    padding: 15px 16px;
+  }
+
+  .blog-name   { grid-area: name; }
+  .blog-date   { grid-area: date; justify-self: end; }
+  .blog-desc   { grid-area: desc; white-space: normal; }
+  .blog-status { grid-area: status; }
+
+  .blog-feed-list li {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .blog-feed-list .feed-meta { white-space: normal; }
+}

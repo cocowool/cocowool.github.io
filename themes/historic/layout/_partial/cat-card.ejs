@@ -1,0 +1,18 @@
+<%
+  var latest = cat.posts && cat.posts.length
+    ? cat.posts.sort('-date').first()
+    : null;
+  var desc = category_desc(cat.name);
+%>
+<a class="cat-card" href="<%- url_for(cat.path) %>">
+  <div class="cat-head">
+    <span class="cat-name"><%= cat.name %></span>
+    <span class="cat-count"><%= cat.length %> 篇</span>
+  </div>
+  <% if (desc) { %>
+    <p class="cat-desc"><%= desc %></p>
+  <% } %>
+  <% if (latest) { %>
+    <div class="cat-latest">最近：<b><%= latest.title %></b></div>
+  <% } %>
+</a>

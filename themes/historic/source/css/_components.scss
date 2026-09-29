@@ -1,0 +1,593 @@
+// ============================================================
+//  Historical — components
+//  卡片 / 标签 / 条目列表 / 分类卡 / 友链 / 侧栏 / 广告位 / 分页 / 目录
+// ============================================================
+
+@use 'mixins' as *;
+
+/* ------------------------------------------------------------ 文章卡片 --- */
+
+.card-list { display: grid; gap: 22px; }
+
+.card {
+  position: relative;
+  display: block;
+  @include card-surface;
+  padding: 30px 34px 28px;
+  transition: transform .22s var(--ease), box-shadow .22s var(--ease), border-color .22s ease;
+
+  &:hover {
+    @include card-lift;
+  }
+
+  // 整卡可点，hover 时标题跟着变砖红
+  &:hover &-title { color: var(--accent); }
+
+  &-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  &-title {
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 1.45;
+    letter-spacing: .8px;
+    transition: color .2s ease;
+
+    // 整卡可点：把标题链接的点击区铺满整张卡片。
+    // 卡片的空白、摘要、元信息行都能进文章，同时卡片里的分类链接
+    // 靠 z-index 压在这层之上，仍然各自跳自己的地址。
+    a::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      border-radius: var(--radius);
+    }
+  }
+
+  &-excerpt {
+    margin: 18px 0 0;
+    font-size: 15.5px;
+    line-height: 2;
+    color: var(--ink-2);
+    letter-spacing: .2px;
+  }
+
+  &-meta {
+    margin-top: 22px;
+    font-size: 14px;
+    color: var(--ink-3);
+    letter-spacing: .3px;
+
+    & .site { color: var(--accent); }
+
+    // 分类是一个独立链接（跳到该分类的列表页）。
+    // position/z-index 是为了压在「整卡点击层」之上，否则点它会跳到文章。
+    & .cat {
+      position: relative;
+      z-index: 1;
+      color: var(--accent);
+      transition: color .18s ease;
+
+      // 悬浮时颜色加深 + 出下划线 —— 明确提示「这两个字可以点」
+      &:hover {
+        color: var(--accent-deep);
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+      }
+    }
+
+    & .dot { margin: 0 10px; color: var(--ink-4); }
+  }
+}
+
+/* -------------------------------------------------------------- 标签 --- */
+
+.tag {
+  flex: none;
+  margin-top: 4px;
+  padding: 5px 13px;
+  border: 1px solid var(--accent-soft);
+  border-radius: 7px;
+  color: var(--accent);
+  font-size: 12.5px;
+  letter-spacing: 1px;
+  line-height: 1.6;
+  white-space: nowrap;
+  transition: background .18s ease;
+
+  &:hover { background: var(--accent-wash); }
+}
+
+/* ------------------------------------------------------ 条目列表（归档） */
+
+.entry-list { list-style: none; margin: 0; padding: 0; }
+
+.entry {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  padding: 17px 4px;
+  border-bottom: 1px solid var(--line-soft);
+  transition: padding .2s var(--ease), background .2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, .7);
+    padding-left: 12px;
+  }
+
+  time {
+    flex: none;
+    width: 52px;
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    color: var(--ink-3);
+    letter-spacing: .5px;
+  }
+
+  &-title {
+    font-size: 18px;
+    letter-spacing: .6px;
+    line-height: 1.6;
+    transition: color .18s ease;
+  }
+
+  &:hover &-title { color: var(--accent); }
+
+  &-cat {
+    flex: none;
+    margin-left: auto;
+    font-size: 12.5px;
+    color: var(--ink-3);
+    letter-spacing: 1px;
+    white-space: nowrap;
+    transition: color .18s ease;
+  }
+
+  &:hover &-cat {
+    color: var(--accent-deep);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+}
+
+/* -------------------------------------------------------- 分类总览卡 --- */
+
+.cat {
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  &-card {
+    display: block;
+    @include card-surface;
+    padding: 26px 30px 24px;
+    transition: transform .22s var(--ease), border-color .22s ease, box-shadow .22s ease;
+
+    &:hover {
+      @include card-lift;
+    }
+  }
+
+  &-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  &-name {
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    transition: color .2s ease;
+  }
+
+  &-card:hover &-name { color: var(--accent); }
+
+  &-count {
+    flex: none;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--ink-3);
+    letter-spacing: .5px;
+  }
+
+  &-desc {
+    margin: 12px 0 0;
+    font-size: 14.5px;
+    line-height: 1.9;
+    color: var(--ink-2);
+  }
+
+  &-latest {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line-soft);
+    font-size: 13.5px;
+    color: var(--ink-3);
+    letter-spacing: .3px;
+
+    b {
+      color: var(--ink-2);
+      font-weight: 400;
+      transition: color .18s ease;
+    }
+  }
+
+  &-card:hover &-latest b { color: var(--accent); }
+}
+
+/* ------------------------------------------------------------ 友链墙 --- */
+
+.blog {
+  &-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 11px;
+  }
+
+  &-chip {
+    display: inline-block;
+    padding: 9px 17px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--ink-2);
+    letter-spacing: .3px;
+    transition: all .18s ease;
+
+    &:hover {
+      border-color: var(--accent-soft);
+      color: var(--accent);
+      background: var(--accent-wash);
+      transform: translateY(-1px);
+    }
+
+    // 自己的站点，常驻高亮
+    &.is-self {
+      border-color: var(--accent-soft);
+      color: var(--accent);
+      background: var(--accent-wash);
+      font-weight: 700;
+    }
+  }
+}
+
+/* ------------------------------------------------------------ 侧栏卡片 --- */
+
+.side-card {
+  @include card-surface;
+  padding: 26px 22px 22px;
+  text-align: center;
+
+  &--links { padding: 14px 20px; }
+
+  .avatar {
+    width: 62px; height: 62px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    background: var(--accent-wash);
+    border: 1px solid var(--accent-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 1px;
+    object-fit: cover;
+  }
+
+  .side-name {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+  }
+
+  .side-desc {
+    margin-top: 8px;
+    font-size: 13.5px;
+    line-height: 1.8;
+    color: var(--ink-3);
+    letter-spacing: .3px;
+  }
+}
+
+.side-label {
+  margin-top: 18px;
+  font-size: 13.5px;
+  letter-spacing: 1px;
+  color: var(--ink-2);
+}
+
+.side-card .qr {
+  margin: 14px auto 12px;
+  width: 148px;
+  height: 148px;
+  padding: 9px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+
+  img,
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  // 没放头像时，二维码顶到卡片最上方替掉头像的位置。
+  // 卡片自己有 26px 上内边距，这里就不用再留 14px 了；
+  // 下面紧跟的是站名，留 16px 比原来的 12px 松一点。
+  &--head {
+    margin: 0 auto 16px;
+  }
+
+  // 二维码下面那句提示
+  &-tip {
+    font-size: 12.5px;
+    color: var(--ink-4);
+    letter-spacing: .5px;
+  }
+}
+
+.side-divider {
+  height: 1px;
+  background: var(--line-soft);
+  margin: 20px 0 0;
+
+  // 默认下面接的是「微信公众号」小标题（自带 margin-top: 18px），所以下边距为 0。
+  // 二维码顶上时它夹在站名和简介之间，上下都要留白。
+  &--gap { margin: 18px 0 14px; }
+}
+
+.side-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 4px;
+    font-size: 14px;
+    color: var(--ink-2);
+    border-bottom: 1px solid var(--line-soft);
+    letter-spacing: .3px;
+    transition: color .18s ease;
+  }
+
+  li:last-child a { border-bottom: 0; }
+
+  li a:hover { color: var(--accent); }
+
+  li a span {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--ink-4);
+    transition: color .18s ease;
+  }
+
+  li a:hover span { color: var(--accent); }
+}
+
+/* -------------------------------------------------------------- 社交 --- */
+
+.social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 18px;
+
+  a {
+    padding: 6px 13px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-2);
+    letter-spacing: .3px;
+    transition: all .18s ease;
+
+    &:hover {
+      border-color: var(--accent-soft);
+      color: var(--accent);
+      background: var(--accent-wash);
+    }
+  }
+}
+
+/* ------------------------------------------------------------ 广告位 --- */
+
+.ad-slot {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 12px;
+  border: 1px dashed var(--accent-soft);
+  border-radius: 12px;
+  background: repeating-linear-gradient(135deg, #FCFAF5 0 7px, #F9F5EC 7px 14px);
+  color: var(--ink-4);
+  font-size: 12.5px;
+  letter-spacing: 1px;
+  text-align: center;
+
+  b {
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+
+  span { color: var(--ink-3); }
+
+  &--side   { height: 258px; }
+  &--wide   { height: 94px;  margin: 22px 0; }
+  &--inline { height: 132px; margin: 24px 0; }
+
+  // 真实广告单元：去掉虚线占位样式
+  &--live {
+    border: 0;
+    background: none;
+    padding: 0;
+
+    // 不再预留 250px。原来给侧栏写死 min-height: 250px，
+    // 结果只要广告没被填充（本地预览、广告拦截插件、后台尚未审核通过），
+    // 侧栏底部就挂着一块 250px 的空白 —— 侧栏因此超高、被逼出滚动条。
+    // 现在让高度完全由广告 iframe 自己撑开。
+    min-height: 0;
+
+    // AdSense 会给「未填充」的广告单元打上 data-ad-status="unfilled"，
+    // 这时把整个容器从布局里摘掉，连 gap 留出的那段空隙也一并消掉。
+    // （:has() 不支持的旧浏览器会忽略这条，退化成上面允许的状态，无副作用）
+    &:has(> ins[data-ad-status="unfilled"]) { display: none; }
+  }
+}
+
+/* -------------------------------------------------------------- 分页 --- */
+
+.pagination {
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 14.5px;
+
+  a,
+  span {
+    min-width: 38px;
+    height: 38px;
+    padding: 0 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    color: var(--ink-2);
+    letter-spacing: .5px;
+    transition: all .18s ease;
+  }
+
+  a:hover {
+    border-color: var(--accent-soft);
+    color: var(--accent);
+    background: var(--accent-wash);
+  }
+
+  .current {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .extend:not([href]),
+  .space {
+    color: var(--ink-4);
+    border-color: var(--line-soft);
+  }
+}
+
+/* -------------------------------------------------------------- 目录 --- */
+
+.toc {
+  position: sticky;
+  top: calc(var(--header-h) + 26px);
+  padding-top: 68px;
+  max-height: calc(100vh - var(--header-h) - 60px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+
+  &-title {
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    letter-spacing: 2px;
+    color: var(--ink-3);
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line-soft);
+    margin-bottom: 14px;
+  }
+
+  ol,
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  // 一级目录带 01 / 02 编号
+  > ol {
+    counter-reset: tocitem;
+
+    > li {
+      counter-increment: tocitem;
+      position: relative;
+      padding-left: 26px;
+      margin-bottom: 11px;
+
+      &::before {
+        content: "0" counter(tocitem);
+        position: absolute;
+        left: 0; top: 0;
+        font-family: var(--font-mono);
+        font-size: 11.5px;
+        color: var(--ink-4);
+        transition: color .18s ease;
+      }
+    }
+  }
+
+  li a {
+    display: block;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink-2);
+    transition: color .18s ease;
+
+    &:hover,
+    &.is-active { color: var(--accent); }
+  }
+
+  > ol > li:hover::before { color: var(--accent); }
+
+  // 二级目录：缩进、无编号、字号小一号
+  .toc-child,
+  ol ol {
+    margin: 6px 0 0;
+    padding-left: 0;
+  }
+
+  .toc-child > li,
+  ol ol > li {
+    position: relative;
+    padding-left: 12px;
+    margin-bottom: 7px;
+  }
+
+  .toc-child > li::before,
+  ol ol > li::before { display: none; }
+
+  .toc-child li a,
+  ol ol li a {
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+}

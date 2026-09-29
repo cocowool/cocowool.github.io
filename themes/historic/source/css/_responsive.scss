@@ -1,0 +1,253 @@
+// ============================================================
+//  Historical — responsive
+//
+//  断点写在 _variables.scss，用 below() mixin 引入，
+//  避免每个断点都手写一遍 @media (max-width: ...)。
+// ============================================================
+
+@use 'variables' as *;
+@use 'mixins' as *;
+
+/* ---------------------------------------------------- 中等屏幕：收窄留白 --- */
+
+@include below($bp-desktop) {
+  :root { --wrap-pad: 32px; }
+
+  .post-wrap { gap: 44px; }
+}
+
+/* ------------------------------------------- 窄屏：侧栏与目录改为单栏 --- */
+
+@include below($bp-narrow) {
+  :root { --wrap-pad: 28px; }
+
+  /* 首页 */
+  .home-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    padding-top: 36px;
+  }
+
+  .home-side {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    gap: 18px;
+
+    /* 侧栏广告在窄屏去掉，避免整页最下方出现一块大广告 */
+    .ad-slot--side { display: none; }
+  }
+
+  /* 独立博客 */
+  .blogs-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+
+    .home-side {
+      padding-top: 0;
+      padding-bottom: 36px;
+    }
+  }
+
+  /* 文章页 */
+  .post-wrap {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .toc { display: none; }
+
+  .post-wrap--single .post,
+  .post { max-width: none; }
+}
+
+/* --------------------------------------------- 平板：标题与间距整体收一档 --- */
+
+@include below($bp-tablet) {
+  .page-hero {
+    padding: 56px 0 22px;
+
+    h1 { font-size: 30px; letter-spacing: 2px; }
+  }
+
+  .post h1 { font-size: 32px; }
+  .post { padding-top: 48px; }
+
+  .prose {
+    font-size: 16.5px;
+    line-height: 2.05;
+
+    h2 { font-size: 22px; margin: 44px 0 18px; }
+    h3 { font-size: 18.5px; }
+  }
+
+  .cat-grid { gap: 16px; }
+}
+
+/* --------------------------------------------------------- 手机：竖排 --- */
+
+@include below($bp-mobile) {
+  :root { --wrap-pad: 20px; --header-h: 64px; }
+
+  body { font-size: 15.5px; }
+
+  /* 页头导航 */
+  .site-header .wrap {
+    height: var(--header-h);
+    gap: 12px;
+  }
+
+  .brand { font-size: 19px; }
+
+  .nav-toggle {
+    display: flex;
+    margin-left: auto;
+  }
+
+  .nav {
+    position: absolute;
+    top: var(--header-h);
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 4px 0 10px;
+    background: rgba(252, 250, 245, .98);
+    backdrop-filter: saturate(150%) blur(8px);
+    -webkit-backdrop-filter: saturate(150%) blur(8px);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 14px 26px rgba(28, 24, 21, .07);
+
+    &.is-open { display: flex; }
+
+    a {
+      padding: 13px var(--wrap-pad);
+      font-size: 16px;
+
+      &.is-active {
+        color: var(--accent);
+        background: var(--accent-wash);
+
+        &::after { display: none; }
+      }
+    }
+  }
+
+  /* 首页卡片 */
+  .home-layout { padding-top: 28px; }
+
+  .card { padding: 24px 22px 22px; }
+  .card-title { font-size: 21px; line-height: 1.5; }
+  .card-excerpt { font-size: 15px; line-height: 1.95; }
+  .card-meta { font-size: 13px; }
+  .card-meta .dot { margin: 0 7px; }
+
+  .ad-slot--wide { height: 78px; }
+  .ad-slot--inline { height: 110px; }
+  .ad-slot { font-size: 11.5px; }
+
+  /* 侧栏卡片：窄屏两列不太好放，保持竖排但收窄内边距 */
+  .side-card { padding: 22px 18px 20px; }
+
+  /* 归档条目 */
+  .entry {
+    gap: 12px;
+    padding: 14px 2px;
+
+    time { width: 44px; font-size: 12.5px; }
+  }
+
+  .entry-title { font-size: 16px; }
+  .entry-cat { display: none; }
+
+  .year-block { padding-top: 34px; }
+
+  /* 分类卡 */
+  .cat-grid { grid-template-columns: minmax(0, 1fr); }
+  .cat-card { padding: 22px 22px 20px; }
+  .cat-name { font-size: 19px; }
+
+  /* 友链 */
+  .blog-chip { padding: 8px 13px; font-size: 13.5px; }
+  .blog-grid { gap: 9px; }
+  .blogs-main { padding-top: 32px; }
+
+  /* 文章页 */
+  .post h1 { font-size: 26px; letter-spacing: .5px; }
+  .post { padding-top: 34px; }
+
+  .crumb { margin-bottom: 18px; font-size: 13px; }
+  .post-meta { font-size: 13px; gap: 6px; margin-top: 18px; padding-bottom: 20px; }
+
+  .prose {
+    padding-top: 22px;
+    font-size: 16px;
+    line-height: 2;
+
+    p { margin-bottom: 22px; }
+
+    h2 {
+      font-size: 20px;
+      margin: 38px 0 16px;
+      padding-left: 13px;
+
+      &::before { width: 3px; height: 15px; }
+    }
+
+    h3 { font-size: 17.5px; margin: 30px 0 14px; }
+
+    pre,
+    figure.highlight pre { font-size: 12.5px; padding: 15px 16px; }
+
+    table { font-size: 14px; }
+
+    thead th,
+    tbody td { padding: 9px 12px; }
+  }
+
+  .post-nav {
+    grid-template-columns: minmax(0, 1fr);
+
+    &-next { text-align: left; }
+    &-item.is-empty { display: none; }
+  }
+
+  /* 分页 */
+  .pagination {
+    gap: 6px;
+    font-size: 14px;
+    margin-top: 30px;
+
+    a,
+    span { min-width: 34px; height: 34px; padding: 0 10px; }
+  }
+
+  /* 页脚 */
+  .site-footer {
+    margin-top: 56px;
+    padding: 26px 0 34px;
+
+    .wrap {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+    }
+  }
+
+  .to-top { right: 16px; bottom: 16px; width: 38px; height: 38px; }
+}
+
+/* ------------------------------------------------- 超小屏：进一步压缩 --- */
+
+@include below($bp-tiny) {
+  .card-title { font-size: 19.5px; }
+  .post h1 { font-size: 23px; }
+  .page-hero h1 { font-size: 26px; }
+
+  .social a { padding: 5px 10px; font-size: 12.5px; }
+
+  .side-card .qr { width: 132px; height: 132px; }
+}

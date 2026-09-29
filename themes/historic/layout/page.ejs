@@ -1,0 +1,55 @@
+<% if (page.type === 'categories') { %>
+
+  <%# ---------------------------------- 分类总览页 ---------------------------------- %>
+  <section class="page-hero">
+    <div class="wrap">
+      <h1><%= page.title || '分类' %></h1>
+      <p>
+        共 <%= site.categories.length %> 个分类 · <%= site.posts.length %> 篇文章
+        <% if (page.subtitle) { %> · <%= page.subtitle %><% } %>
+      </p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="cat-grid">
+      <% site.categories.sort('-length').each(function (cat) { %>
+        <%- partial('_partial/cat-card', { cat: cat }) %>
+      <% }); %>
+    </div>
+
+    <% if (page.content) { %>
+      <div class="prose page-extra"><%- page.content %></div>
+    <% } %>
+
+    <%- ad_slot('list_feed', 'inline') %>
+  </div>
+
+<% } else { %>
+
+  <%# ----------------------------------- 普通页面 ----------------------------------- %>
+  <div class="page-wrap" style="max-width: <%= theme.page.max_width || 780 %>px">
+    <article class="post">
+      <div class="crumb">
+        <a href="<%- url_for('/') %>">首页</a>
+        <% if (page.title) { %><span>/</span> <%= page.title %><% } %>
+      </div>
+
+      <h1><%= page.title %></h1>
+
+      <% if (page.date) { %>
+        <div class="post-meta">
+          <%- date(page.date, 'YYYY-MM-DD') %>
+          <% if (page.updated && date(page.updated, 'YYYY-MM-DD') !== date(page.date, 'YYYY-MM-DD')) { %>
+            <span class="dot">·</span>更新于 <%- date(page.updated, 'YYYY-MM-DD') %>
+          <% } %>
+        </div>
+      <% } %>
+
+      <div class="prose">
+        <%- page.content %>
+      </div>
+    </article>
+  </div>
+
+<% } %>

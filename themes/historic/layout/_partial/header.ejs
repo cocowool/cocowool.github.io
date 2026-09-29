@@ -1,0 +1,26 @@
+<%
+  var menu = theme.menu || {};
+  var siteName = theme.author.name || config.title;
+%>
+<% if (is_post() && theme.post.reading_progress) { %>
+<div class="reading-progress" id="reading-progress"></div>
+<% } %>
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    <%# 站名后面的砖红小圆点是纯装饰（header.brand_dot 控制），不承载任何信息 %>
+    <a class="brand<%= (theme.header && theme.header.brand_dot) ? '' : ' brand--plain' %>" href="<%- url_for('/') %>"><%= siteName %></a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      <% Object.keys(menu).forEach(function (name) { %>
+        <% if (!menu[name]) return; %>
+        <a href="<%- url_for(menu[name]) %>"<%= is_current(menu[name]) ? ' class="is-active"' : '' %>><%= name %></a>
+      <% }); %>
+    </nav>
+  </div>
+</header>

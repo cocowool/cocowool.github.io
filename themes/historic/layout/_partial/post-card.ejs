@@ -1,0 +1,32 @@
+<%
+  var cat = post_category(post);
+  var showCat = theme.index.show_category !== false;
+  var excerpt = theme.index.show_excerpt !== false
+    ? excerpt_text(post, theme.index.excerpt_length || 96)
+    : '';
+%>
+<%# 整张卡不是 <a>：分类要做成独立链接，嵌套 <a> 是非法 HTML。
+    改由 .card-title a::after 铺满整卡承担「任意位置进文章」，分类链接靠 z-index 浮在上面。 %>
+<article class="card">
+  <div class="card-top">
+    <h2 class="card-title"><a href="<%- url_for(post.path) %>"><%= post.title %></a></h2>
+  </div>
+
+  <% if (excerpt) { %>
+    <p class="card-excerpt"><%= excerpt %></p>
+  <% } %>
+
+  <div class="card-meta">
+    <% if (showCat && cat) { %>
+      <a class="cat" href="<%- url_for(cat.path) %>"
+         title="查看「<%= cat.name %>」分类下的全部文章"><%= cat.name %></a><span class="dot">·</span>
+    <% } %>
+    <%- date(post.date, 'YYYY-MM-DD') %>
+    <% if (theme.index.show_word_count !== false) { %>
+      <span class="dot">·</span><%= word_count(post.content) %>
+    <% } %>
+    <% if (theme.index.show_reading_time !== false) { %>
+      <span class="dot">·</span><%= reading_time(post.content) %>
+    <% } %>
+  </div>
+</article>

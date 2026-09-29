@@ -1,0 +1,260 @@
+<%
+  /* ==================================================================
+     独立博客页 —— 站点列表
+
+     数据源（按优先级，解析逻辑在 theme/scripts/main.js 的 blogItems()）：
+       1. source/_data/blogs.json            博客清单（爬虫产出，字段最全）
+       2. source/_data/links.yml             手工维护的友链分组（老格式，仍兼容）
+
+     字段：name / url / description / rss / status / added_date
+       status 取值：active（正常更新）/ no_rss（抓不到订阅源）/ archived（已停更）
+
+     侧栏「独立博客」那一项的数字走的是同一个 blogItems()，
+     所以列表和计数不会出现两套口径。
+     ================================================================== */
+
+  var STATUS_TEXT = { active: '活跃', no_rss: '无 RSS', archived: '已归档' };
+
+  // 统计条里只显示月-日（年份在列表里已经有了，统计条不重复占位）
+  function shortDate(d) {
+    return d && d.length >= 10 ? d.slice(5, 10) : (d || '');
+  }
+
+  var items = blog_items() || [];
+
+  /* ---------------------------------------------------------- 统计 */
+
+  var total = items.length,
+      activeN = 0,
+      rssN = 0,
+      latestDate = '';
+
+  items.forEach(function (it) {
+    if (it.status === 'active') activeN++;
+    if (it.rss) rssN++;
+    if (it.date && it.date > latestDate) latestDate = it.date;
+  });
+
+  /* ------------------------------------------- 排序：新收录的在前 */
+
+  items.sort(function (a, b) {
+    if (!a.date && !b.date) return a.name.localeCompare(b.name, 'zh');
+    if (!a.date) return 1;
+    if (!b.date) return -1;
+    if (a.date === b.date) return a.name.localeCompare(b.name, 'zh');
+    return b.date.localeCompare(a.date);
+  });
+
+  /* -------------------------------------- 最近 7 天收录的打个 NEW */
+
+  var NOW = Date.now();
+  function isNew(d) {
+    if (!d) return false;
+    var t = Date.parse(String(d).replace(/-/g, '/'));
+    if (isNaN(t)) return false;
+    return (NOW - t) >= 0 && (NOW - t) < 7 * 86400000;
+  }
+
+  var latestFeed = Array.isArray(site.data.latest_posts_cn) ? site.data.latest_posts_cn : [];
+%>
+<div class="blogs-layout">
+
+  <main class="blogs-main">
+
+    <header class="blogs-hero">
+      <h1><%= page.title || '独立博客' %></h1>
+      <% if (total) { %>
+        <p>收录 <%= total %> 个中文独立博客<% if (activeN) { %>，其中 <%= activeN %> 个仍在更新<% } %></p>
+      <% } %>
+    </header>
+
+    <% if (page.content) { %>
+      <div class="blogs-intro"><%- page.content %></div>
+    <% } %>
+
+    <% if (!total) { %>
+
+      <div class="blogs-empty">
+        <p>还没有读到博客清单数据。</p>
+        <p>把清单放到 <code>source/_data/blogs.json</code> 即可，格式：</p>
+<pre><code>[
+  {
+    "name": "某个博客",
+    "url": "https://example.com",
+    "description": "一句话简介",
+    "rss": "https://example.com/atom.xml",
+    "status": "active",
+    "added_date": "2026-06-05"
+  }
+]</code></pre>
+        <p>字段都可选，只有 <code>name</code> 和 <code>url</code> 必须。也可以继续用老写法 <code>source/_data/links.yml</code>。</p>
+      </div>
+
+    <% } else { %>
+
+      <%# ---------------------------------------------------- 统计 --- %>
+      <div class="blog-stats">
+        <div class="blog-stat">
+          <b><%= total %></b>
+          <span>收录站点</span>
+        </div>
+        <div class="blog-stat">
+          <b><%= activeN %></b>
+          <span>活跃更新</span>
+        </div>
+        <div class="blog-stat">
+          <b><%= rssN %></b>
+          <span>提供 RSS</span>
+        </div>
+        <div class="blog-stat">
+          <b><%= latestDate ? shortDate(latestDate) : '—' %></b>
+          <span>最近收录</span>
+        </div>
+      </div>
+
+      <%# ------------------------------------------------ 工具条 --- %>
+      <div class="blog-toolbar">
+        <label class="blog-search">
+          <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M16.5 16.5 21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <input type="search" id="blog-search" placeholder="搜索站名或简介…" autocomplete="off" aria-label="搜索站点">
+        </label>
+
+        <div class="blog-filters" id="blog-filters">
+          <button type="button" class="is-on" data-f="all">全部 <em><%= total %></em></button>
+          <button type="button" data-f="active">活跃 <em><%= activeN %></em></button>
+          <% if (total - activeN > 0) { %>
+            <button type="button" data-f="other">其它 <em><%= total - activeN %></em></button>
+          <% } %>
+          <% if (rssN > 0) { %>
+            <button type="button" data-f="rss">有订阅 <em><%= rssN %></em></button>
+          <% } %>
+        </div>
+      </div>
+
+      <%# ---------------------------------------------- 站点列表 --- %>
+      <div class="blog-table">
+        <div class="blog-head" aria-hidden="true">
+          <span>博客</span>
+          <span>简介</span>
+          <span>状态</span>
+          <span>收录</span>
+        </div>
+
+        <ul class="blog-list" id="blog-list">
+          <% items.forEach(function (it) { %>
+            <li class="blog-row"
+                data-status="<%= it.status %>"
+                data-rss="<%= it.rss ? 1 : 0 %>"
+                data-k="<%= (it.name + ' ' + it.desc).toLowerCase() %>">
+              <div class="blog-name">
+                <a href="<%- url_for(it.url) %>" target="_blank" rel="noopener"><%= it.name %></a>
+                <% if (it.rss) { %>
+                  <a class="blog-rss" href="<%- url_for(it.rss) %>" target="_blank" rel="noopener" title="订阅 RSS" aria-label="订阅 RSS">
+                    <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true">
+                      <path d="M5 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" fill="currentColor"/>
+                      <path d="M4 10.5a9.5 9.5 0 0 1 9.5 9.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+                      <path d="M4 5a15 15 0 0 1 15 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+                    </svg>
+                  </a>
+                <% } %>
+              </div>
+
+              <%# 没写简介的站（120 条里有 26 条）留空会像坏了，回落到域名 %>
+              <div class="blog-desc<%= it.desc ? '' : ' blog-desc--host' %>" title="<%= it.desc || it.host %>"><%= it.desc || it.host %></div>
+
+              <div class="blog-status">
+                <i class="blog-dot"></i><%= STATUS_TEXT[it.status] || it.status %>
+              </div>
+
+              <div class="blog-date">
+                <%= it.date || '—' %>
+                <% if (isNew(it.date)) { %><span class="blog-new">NEW</span><% } %>
+              </div>
+            </li>
+          <% }); %>
+        </ul>
+
+        <p class="blog-none" id="blog-none" hidden>没有匹配的站点。</p>
+      </div>
+
+      <%# ------------------------------------------ 他们的新文章 --- %>
+      <% if (latestFeed.length) { %>
+        <section class="blog-feed">
+          <div class="section-head">
+            <span class="section-title">他们的最新文章</span>
+            <span class="section-rule"></span>
+          </div>
+
+          <ul class="blog-feed-list">
+            <% latestFeed.forEach(function (p) { %>
+              <% if (!p) return; %>
+              <li>
+                <a class="feed-title" href="<%- url_for(p.link || p.blog_url) %>" target="_blank" rel="noopener"><%= p.title %></a>
+                <span class="feed-meta">
+                  <%= p.blog_name %>
+                  <% if (p.pub_date && p.pub_date !== '未知时间') { %> · <%= p.pub_date %><% } %>
+                </span>
+              </li>
+            <% }); %>
+          </ul>
+        </section>
+      <% } %>
+
+    <% } %>
+
+  </main>
+
+  <%- partial('_partial/side') %>
+
+</div>
+
+<script>
+/* 站点搜索 + 状态筛选。只在本页生效，数据都在 DOM 上，不需要额外请求。 */
+(function () {
+  var list = document.getElementById('blog-list');
+  if (!list) return;
+
+  var rows    = Array.prototype.slice.call(list.querySelectorAll('.blog-row'));
+  var input   = document.getElementById('blog-search');
+  var filters = document.getElementById('blog-filters');
+  var none    = document.getElementById('blog-none');
+  var current = 'all';
+
+  function apply() {
+    var q = ((input && input.value) || '').trim().toLowerCase();
+    var shown = 0;
+
+    rows.forEach(function (r) {
+      var okQ = !q || (r.getAttribute('data-k') || '').indexOf(q) >= 0;
+      var st  = r.getAttribute('data-status');
+      var okF = current === 'all'
+        || (current === 'active' && st === 'active')
+        || (current === 'other'  && st !== 'active')
+        || (current === 'rss'    && r.getAttribute('data-rss') === '1');
+
+      var ok = okQ && okF;
+      r.hidden = !ok;
+      if (ok) shown++;
+    });
+
+    if (none) none.hidden = shown > 0;
+  }
+
+  if (input) input.addEventListener('input', apply);
+
+  if (filters) {
+    filters.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('button[data-f]') : null;
+      if (!btn) return;
+      current = btn.getAttribute('data-f');
+      Array.prototype.forEach.call(filters.querySelectorAll('button'), function (b) {
+        b.classList.toggle('is-on', b === btn);
+      });
+      apply();
+    });
+  }
+})();
+</script>

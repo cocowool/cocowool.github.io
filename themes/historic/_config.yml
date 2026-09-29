@@ -1,13 +1,43 @@
-author:
-  name: 大江小浪                   # 站名，用于页头 logo 与页脚版权
-  avatar: /image/avatar.svg      # 头像，留空则用站名首字
-  bio: A FULL STACK DREAMER!
+# ===================================================================
+# Historical —— Hexo 主题配置
+# 所有项都可以在站点根目录用 _config.historical.yml 覆盖
+# ===================================================================
 
+# ------------------------------------------------------------------ 站点作者
+author:
+  name: Author Name                 # 站名，用于页头 logo 与页脚版权
+  avatar: ''                     # 头像，见下方 assets；留空 = 自动解析
+  bio: Your Slogan
+  bio_more: Your Description
+
+# ------------------------------------------------------------ 个人图片资源
+# 主题内置的默认图在 themes/historical/source/image/ 下 —— 那是主题的地盘，
+# 升级主题会被覆盖，所以【不要把你的图放那里】。
+#
+# 解析优先级（从高到低）：
+#   1. 下面 assets.* 显式配置     → 站内任意路径 / CDN 外链 / data URI 都行
+#   2. 站点 source/<dir>/ 同名文件 → 零配置，如 source/assets/avatar.jpg（任意图片后缀）
+#   3. 主题内置的 /image/<name>.svg → 兜底，保证主题开箱就能看
+#
+# 想彻底不显示某项，填 none（例如 avatar: none，则退化成站名前两个字）
+assets:
+  dir: assets                    # 站点内个人资源目录，相对站点 source/
+  avatar: ''                     # 头像
+  favicon: ''                    # 站点图标
+  wechat_qr: ''                  # 微信 / 公众号二维码
+  og_image: ''                   # 社交分享卡片图
+
+# --------------------------------------------------------------------- 页头
+header:
+  brand_dot: false               # 站名后面那个装饰性砖红小圆点（默认关；喜欢这点收尾感就改 true）
+
+# --------------------------------------------------------------------- 导航
+# 顺序即显示顺序；键名是文案，值是链接
 menu:
   首页: /
-  我的文章: /posts/
-  独立博客: /links
-  归档: /archives/
+  独立博客: /links/
+  我的文章: /archives/
+  分类: /categories/
   关于我: /about/
 
 # --------------------------------------------------------------------- 首页
@@ -15,8 +45,9 @@ index:
   show_excerpt: true             # 卡片是否显示摘要
   excerpt_length: 96             # 摘要字数上限
   show_category: true            # 元信息行显示分类（有分类时替代作者名）
+  # 元信息行顺序固定为「分类 · 日期 · N 字 · N 分钟」，两个开关只控制后两项显示与否
+  show_word_count: true
   show_reading_time: true
-  show_word_count: false
 
 # --------------------------------------------------------------------- 侧栏
 sidebar:
@@ -26,7 +57,7 @@ sidebar:
   wechat:
     enable: true
     label: 微信公众号
-    qrcode: /image/wechat-qr.svg
+    qrcode: ''                   # 留空 = 自动解析，见 assets.wechat_qr
     tip: 扫码关注 · 每月两篇长文
   shortcut_card: true
   # count 支持三个取值：posts / categories / links / 留空
@@ -43,20 +74,36 @@ sidebar:
     - name: RSS 订阅
       url: /atom.xml
 
-# -- 社交信息
+# ----------------------------------------------------------------- 社交入口
 # 值为空字符串则不渲染该项；键名即显示文案
 social:
-  GitHub: https://github.com/cocowool
+  GitHub: https://github.com/
   Twitter: ''
   微博: ''
   知乎: ''
   RSS: /atom.xml
   邮箱: mailto:me@example.com
 
+# --------------------------------------------------------------------- 字体
+# 标题走「有中国历史印记」的一路（霞鹜文楷 → 系统楷体 → 宋体兜底），
+# 正文仍用宋体。字体栈定义在 source/css/_base.scss 的
+# --font-display / --font-serif 两个变量里，想换风格只改那两行。
+font:
+  # 标题 Web 字体的样式表地址，可写多条（数组），留空则一条额外请求都不发。
+  # 霞鹜文楷是开源楷体（OFL 协议），带毛笔笔锋，适合做站名与文章标题。
+  # 只引 regular + bold 两个字重即可；不要引 style.css ——
+  # 那个文件会连带 light 和等宽变体一起 @import 进来，白白多出四份请求。
+  display_webfont:
+    - https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css
+    - https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css
+    # 备选 CDN（饿了么的在国内最快；实测 jsDelivr 在部分网络下完全不通）：
+    # - https://unpkg.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css
+
 # --------------------------------------------------------- Google AdSense
-# client 填上后自动加载 AdSense 脚本并渲染真实广告单元；
-# client 为空且 placeholder 为 true 时，只在版面上画出虚线占位框（方便调版式）。
-# 上线前请把 placeholder 改成 false。
+# 用法：client 留空 + placeholder: true  →  只画虚线占位框，方便调版式（不加载任何脚本）
+#       client 填上                      →  自动加载 AdSense 脚本，配了 slot id 的位置渲染真实广告
+#       某个位置不想放广告              →  对应 slot id 留空即可，不会留空洞也不会出占位框
+# 注意：填了 client 之后占位框会自动全部消失，不必手动把 placeholder 改成 false。
 adsense:
   client: ''                     # 形如 ca-pub-1234567890123456
   placeholder: true

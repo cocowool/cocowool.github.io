@@ -1,0 +1,52 @@
+<%
+  var siteName = theme.author.name || config.title;
+  var pageTitle = page.title
+    ? page.title + ' · ' + siteName
+    : (config.subtitle ? siteName + ' · ' + config.subtitle : siteName);
+  var desc = page.description || page.excerpt || config.description || '';
+  desc = strip_html(desc).substring(0, 150);
+  var favicon = theme_asset('favicon');
+  var touchIcon = theme_asset('avatar');
+  var ogImage = theme_asset('og_image');
+%>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title><%= pageTitle %></title>
+<% if (desc) { %><meta name="description" content="<%= desc %>"><% } %>
+<% if (config.keywords) { %><meta name="keywords" content="<%= [].concat(config.keywords).join(',') %>"><% } %>
+<link rel="canonical" href="<%- page.permalink || config.url %>">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="<%= is_post() ? 'article' : 'website' %>">
+<meta property="og:title" content="<%= pageTitle %>">
+<meta property="og:site_name" content="<%= siteName %>">
+<meta property="og:description" content="<%= desc %>">
+<% if (is_post() && page.date) { %><meta property="article:published_time" content="<%- date_xml(page.date) %>"><% } %>
+<% if (ogImage) { %><meta property="og:image" content="<%- ogImage %>"><% } %>
+
+<% if (favicon) { %><link rel="icon" href="<%- favicon %>"><% } %>
+<% if (touchIcon) { %><link rel="apple-touch-icon" href="<%- touchIcon %>"><% } %>
+<link rel="alternate" type="application/atom+xml" title="<%= siteName %>" href="<%- url_for('/atom.xml') %>">
+
+<%
+  // 标题 Web 字体：地址写在 _config.yml 的 font.display_webfont（可以是数组）。
+  // 留空就完全用访客系统自带字体，一个额外请求都不发。
+  var wf = [].concat((theme.font && theme.font.display_webfont) || []).filter(function (u) { return u; });
+  var wfOrigins = {};
+  wf.forEach(function (u) {
+    var m = /^(https?:\/\/[^\/]+)/.exec(u);
+    if (m) wfOrigins[m[1]] = 1;
+  });
+%>
+<% if (wf.length) { %>
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<% Object.keys(wfOrigins).forEach(function (o) { %><link rel="preconnect" href="<%= o %>" crossorigin>
+<% }); %>
+<% wf.forEach(function (u) { %><link rel="stylesheet" href="<%= u %>">
+<% }); %>
+<% } %>
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="<%- url_for('/css/main.css') %>">

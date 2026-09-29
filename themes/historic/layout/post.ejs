@@ -1,0 +1,82 @@
+<%
+  var cat = post_category(page);
+  var po = theme.post || {};
+
+  var tocHtml = '';
+  if (po.toc !== false && page.content) {
+    tocHtml = toc(page.content, {
+      list_number: false,
+      min_depth: po.toc_min_depth || 2,
+      max_depth: po.toc_max_depth || 3
+    });
+  }
+
+  var metas = [];
+  if (cat) {
+    metas.push('<a class="tag" href="' + url_for(cat.path) + '">' + cat.name + '</a>');
+  }
+  metas.push('发布于' + date(page.date, 'YYYY-MM-DD'));
+  if (po.show_updated !== false && page.updated && date(page.updated, 'YYYY-MM-DD') !== date(page.date, 'YYYY-MM-DD')) {
+    metas.push('更新于 ' + date(page.updated, 'YYYY-MM-DD'));
+  }
+  metas.push(word_count(page.content));
+  metas.push(reading_time(page.content));
+%>
+<div class="post-wrap<%= tocHtml ? '' : ' post-wrap--single' %>">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="<%- url_for('/') %>">首页</a>
+      <% if (cat) { %>
+        <span>/</span> <a href="<%- url_for(cat.path) %>"><%= cat.name %></a>
+      <% } %>
+    </div>
+
+    <h1><%= page.title %></h1>
+
+    <div class="post-meta">
+      <%- metas.join('<span class="dot">·</span>') %>
+    </div>
+
+    <div class="prose">
+      <%- page.content %>
+    </div>
+
+    <%- ad_slot('article_bottom', 'inline') %>
+
+    <% if (page.tags && page.tags.length) { %>
+      <div class="post-tags">
+        <% page.tags.each(function (t) { %>
+          <a href="<%- url_for(t.path) %>"><%= t.name %></a>
+        <% }); %>
+      </div>
+    <% } %>
+
+    <% if (po.copyright) { %>
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span><%= po.copyright_text %></span>
+      </div>
+    <% } %>
+
+    <% if (page.prev || page.next) { %>
+      <nav class="post-nav">
+        <% if (page.prev) { %>
+          <a class="post-nav-item post-nav-prev" href="<%- url_for(page.prev.path) %>">
+            <em>上一篇</em>
+            <b><%= page.prev.title %></b>
+          </a>
+        <% } else { %><span class="post-nav-item is-empty"></span><% } %>
+        <% if (page.next) { %>
+          <a class="post-nav-item post-nav-next" href="<%- url_for(page.next.path) %>">
+            <em>下一篇</em>
+            <b><%= page.next.title %></b>
+          </a>
+        <% } else { %><span class="post-nav-item is-empty"></span><% } %>
+      </nav>
+    <% } %>
+  </article>
+
+  <%- partial('_partial/toc', { tocHtml: tocHtml }) %>
+
+</div>

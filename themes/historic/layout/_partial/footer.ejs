@@ -1,0 +1,24 @@
+<%
+  var siteName = theme.author.name || config.title;
+  var since = theme.footer.since || new Date().getFullYear();
+  var now = new Date().getFullYear();
+  var years = since && since < now ? since + '–' + now : now;
+%>
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © <%= years %> <%= siteName %>
+      <% if (theme.footer.powered) { %>
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      <% } %>
+    </span>
+    <span class="footer-extra">
+      <% if (theme.footer.extra) { %>
+        <a href="<%- url_for(theme.footer.extra_url || '/') %>"><%= theme.footer.extra %></a>
+      <% } %>
+      <a href="<%- url_for('/') %>">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
