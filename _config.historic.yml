@@ -75,6 +75,12 @@ adsense:
     sidebar: '7013232113'                # 侧栏 · 300×250  ← 你原来的 EDULINKS-Right
     article_bottom: ''                   # 文章底部 · 自适应
 
+# ------------------------------------------------------------ 百度相关的辅助工具
+baidu_tools:
+  baidu_stats:
+    enable: true
+    code: b5abf80be02d97782fdc022fb2c5482c  # 百度统计：
+
 # ------------------------------------------------------------ 社交入口
 social:
   GitHub: https://github.com/cocowool      # ← 你的原值

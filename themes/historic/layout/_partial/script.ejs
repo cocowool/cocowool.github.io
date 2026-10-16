@@ -13,4 +13,19 @@
 <% } %>
 <% } %>
 
+<%
+  var baiduStats = theme.baidu_tools.baidu_stats || {};
+  if (baiduStats && baiduStats.enable && baiduStats.code) {
+%>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?<%= baiduStats.code %>";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<% } %>
+
 <script src="<%- url_for('/js/main.js') %>" defer></script>
