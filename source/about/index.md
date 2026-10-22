@@ -29,7 +29,7 @@ tag:
 ## 历史
 
 曾经在互联网上留痕的地址
-* [popsite.cn](https://www.popsite.cn) : 转投 Hexo，自己搭建静态博客，曾经用过 edulinks.cn 域名
+* [popsite.cn](https://www.popsite.cn) : 16年之后，转投 Hexo，自己搭建静态博客，曾经用过 edulinks.cn 域名
 * [CNBLOGS - cocowool](https://www.cnblogs.com/cocowool) : 断断续续更新了十多年
 * [CSDN - aifox](https://blog.csdn.net/aifox) : 在校期间记录了一些有的没的
 
