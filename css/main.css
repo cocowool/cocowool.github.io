@@ -1706,6 +1706,9 @@ button {
 .prose figure.highlight .line {
   display: block;
 }
+.prose figure.highlight br {
+  display: none;
+}
 .prose .highlight .comment,
 .prose .highlight .quote {
   color: #9A9086;
