@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>又菜又爱-2026年CTF参赛感受 · 大江小浪</title>
+<meta name="description" content="又菜又爱，这是参加完单位举办的2026年安全攻防比赛之后的感受。">
+
+<link rel="canonical" href="http://www.popsite.cn/2026/11/01/20261101-2026ctf-pain-and-gain/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="又菜又爱-2026年CTF参赛感受 · 大江小浪">
+<meta property="og:site_name" content="大江小浪">
+<meta property="og:description" content="又菜又爱，这是参加完单位举办的2026年安全攻防比赛之后的感受。">
+<meta property="article:published_time" content="2026-11-01T03:54:06.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="大江小浪" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">大江小浪</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
+    </nav>
+  </div>
+</header>
+
+  
+<div class="post-wrap">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
+    </div>
+
+    <h1>又菜又爱-2026年CTF参赛感受</h1>
+
+    <div class="post-meta">
+      发布于2026-11-01<span class="dot">·</span>893 字<span class="dot">·</span>2 分钟
+    </div>
+
+    <div class="prose">
+      <p>又菜又爱，这是参加完单位举办的2026年安全攻防比赛之后的感受。</p>
+<p>今年的比赛和往年不同，总共只给了2个小时的比赛时间，一共给了10道题目，涵盖 Web、Misc、Crypto、Reverse四个方向。第一名做出了9道题，仅有1道Web题无人攻破。我做出了2道题，是无望参加后续的比赛了。</p>
+<p>往年比赛时长往往是6～8小时或者更长，参加过GeekGame去年的比赛，比赛时长还可能是跨越好几天。为什么今年只给了2个小时？我感觉可能是因为受到了AI Agent的影响。</p>
+<p>其实去年或者更早的时候，AI对话能力就已经很强了，也可以用来辅助CTF赛事答题。今年在Agent领域的进展是在是太快了，利用Agent可以形成很完善的CTF答题工作流，Agent根据指示获取题目、分析题目、尝试解题思路、自动提交答案。如果攻击选手本地配置了完善的工具包，再加上一个或者多个互相配合的Agent，结合历史答题经验，那对于答题速度一定会有数量级的提升。</p>
+<p>我今天尝试了自主答题+WorkBuddy本地配合+Qwen网页端配合的方式。自主答题主要依靠手工执行排查命令并使用工具，使用了包括dirsearch、burpsuite、sqlmap等工具。WorkBuddy配合尝试了两道Reverse赛道的题目。Qwen网页端辅助提供一些解题思路。</p>
+<p>重点说一下 WorkBuddy，在2个小时的时间里，我总共提交了4个与题目相关的问题。第一道题是对一个流量包进行分析，第一次回答用了16分钟，因为靶机被销毁了导致会话拿不到文件。第二道题我提供了pcap文件之后，分析了10分钟，给出了一个显而易见不是正确答案的答案。第三次我让它重新分析，分析了20分钟之后，给了四个尝试性答案（感觉也是蒙出来的）。第四次提问，让它换成一个Reverse方向的题目，并且提示限定只思考10分钟。结果这道题实际上思考了1小时17分钟，最后也没找出答案。</p>
+<img src="/2026/11/01/20261101-2026ctf-pain-and-gain/image-20261101121717311.png" class="" title="image-20261101121717311" loading="lazy" decoding="async">
+
+<p>我用的是 HY4 preview 的模型，从实际效果来看，投入到CTF实际比赛中，还是没有实战经验来的快。这道逆向题，一共100多个队伍都提交了正确答案，WorkBuddy在这方面，速度还远远不够。</p>
+<h2 id="个人总结"><a href="#个人总结" class="headerlink" title="个人总结"></a>个人总结</h2><p>网络安全是我们这个时代一个重要的话题，我始终对这方面充满着兴趣，因此每年只要是有时间、有机会就会参加单位组织的，或者社会上组织的这种类型的比赛。</p>
+<p>但是在这方面的积累还远远不够，时间投入的也不够，很多基础的知识和常见的Payload掌握的不牢固，参加比赛往往要依靠网络搜索或者大模型工具。在比赛中，就非常吃亏。</p>
+<p>我不会因此而感到气馁，参加CTF比赛，是我学习了解安全知识的一种途径，特别是对于WEB领域。这个领域和我们的实际工作、实际生活密切相关，后面我依然会利用业余时间，不断积累学习，痛并快乐着。</p>
+
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
+      </div>
+    
+
+    
+      <nav class="post-nav">
+        <span class="post-nav-item is-empty"></span>
+        
+          <a class="post-nav-item post-nav-next" href="/2026/10/30/20261030-charles-thacker/">
+            <em>下一篇</em>
+            <b>查尔斯·萨克尔</b>
+          </a>
+        
+      </nav>
+    
+  </article>
+
+  
+<aside class="toc" id="toc">
+  <div class="toc-title">目 录</div>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93"><span class="toc-text">个人总结</span></a></li></ol>
+</aside>
+
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 大江小浪
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script src="/js/main.js" defer></script>
+
+</body>
+</html>
