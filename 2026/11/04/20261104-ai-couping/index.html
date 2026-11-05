@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>AI Vibe coding，免费的就是最贵的 · 大江小浪</title>
+<meta name="description" content="结合首届 CCF TPCTF 2026 Agent 赛道热点，实测豆包、WorkBuddy、Trae 等 AI 产品的免费额度限制与协作局限性。透过“利用 AI 免费额度非法获利”新闻与双十一 Token 促销现象，探讨“免费的最贵”这一算力狂欢下的真实困境与付费思考。">
+
+<link rel="canonical" href="http://www.popsite.cn/2026/11/04/20261104-ai-couping/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI Vibe coding，免费的就是最贵的 · 大江小浪">
+<meta property="og:site_name" content="大江小浪">
+<meta property="og:description" content="结合首届 CCF TPCTF 2026 Agent 赛道热点，实测豆包、WorkBuddy、Trae 等 AI 产品的免费额度限制与协作局限性。透过“利用 AI 免费额度非法获利”新闻与双十一 Token 促销现象，探讨“免费的最贵”这一算力狂欢下的真实困境与付费思考。">
+<meta property="article:published_time" content="2026-11-04T10:41:06.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="大江小浪" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">大江小浪</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
+    </nav>
+  </div>
+</header>
+
+  
+<div class="post-wrap post-wrap--single">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
+    </div>
+
+    <h1>AI Vibe coding，免费的就是最贵的</h1>
+
+    <div class="post-meta">
+      发布于2026-11-04<span class="dot">·</span>更新于 2026-11-05<span class="dot">·</span>702 字<span class="dot">·</span>2 分钟
+    </div>
+
+    <div class="prose">
+      <p>前两天参加CTF比赛，感觉AI，特别是AI Agent在辅助比赛方面作用可能会越来越大。转身就看到由中国计算机学会（CCF）主办的首届 CCF 网络安全智能挑战赛暨「京华杯」TPCTF 2026 已正式启动，这届比赛单独给Agent打CTF，设置了一个赛道。</p>
+<img src="/2026/11/04/20261104-ai-couping/image-20261104184533819.png" class="" title="京华杯比赛通知" loading="lazy" decoding="async">
+
+<p>真的是把比赛的完全交给Agent去完成，可以用本地运行的Agent，主办方也提供了云上的Agent运行环境，这真的是一届非常有创意的CTF。</p>
+<p>这几天我在疯狂的使用各种国内的Agent产品，豆包办公、WorkBuddy、Trae，发现产品提供的免费额度，如果做一些稍微大一点的任务，额度要么会很快用完，要么就会被放进等待队列。</p>
+<img src="/2026/11/04/20261104-ai-couping/4ebadb91ff87e3077137321acbb46889.png" class="" title="豆包免费额度用尽" loading="lazy" decoding="async">
+
+<img src="/2026/11/04/20261104-ai-couping/c367ba8aca89166a9736af09b528084c.png" class="" title="WorkBuddy进入队列" loading="lazy" decoding="async">
+
+<img src="/2026/11/04/20261104-ai-couping/dcafc96f512dff35185e56eafc9094d4.png" class="" title="Trae进入队列" loading="lazy" decoding="async">
+
+<p>用 Trae，是正好看到池大有篇文章介绍刚推出了「Trace 宝」，并且免费一周。Workbuddy是一直在用，原来 HY4 Preview 限时免费，现在只有 HY3 免费了，勉强用着。豆包办公操作本地环境一直没放开，所以在效率上是这几个里面最弱的。</p>
+<p>我尝试用豆包写需求文档，让Wrokbuddy画原型，让Trae来实现工程。原型效果乍一看还挺像回事的，但是缺少了业务逻辑和业务数据内在的真实性、稳定性，与需求文档写的质量不高有关系。</p>
+<img src="/2026/11/04/20261104-ai-couping/image-20261104185309902.png" class="" title="Workbuddy画出的原型" loading="lazy" decoding="async">
+
+<p>Trae写代码的能力感觉挺强的，一天到晚闷头在干活，前后端一个人全包了。</p>
+<img src="/2026/11/04/20261104-ai-couping/image-20261104185521458.png" class="" title="Trae写出的工程代码" loading="lazy" decoding="async">
+
+<p>对于我这种工作上不依赖AI产出的人来说，用用这些免费的额度玩的已经很快乐了。今天看到新闻，还有人批量薅羊毛，最后被定性为「利用AI免费额度非法获利」。这有点类似于早期的优惠券网站发展阶段，这个阶段各家大模型厂商、Agent厂商都会提供一些免费的活动，有的网站提供这些优惠信息的汇总，有的人动了这些免费额度的坏主意。</p>
+<img src="/2026/11/04/20261104-ai-couping/image-20261104185840070.png" class="" title="利用AI免费额度非法获利" loading="lazy" decoding="async">
+
+<p>「免费的其实是最贵的」，免费的额度不稳定，完全不能满足需要持续输出、快速输出、高质量输出的要求。我现在都有点想每个月固定买一点Token了，马上临近双十一，有些厂商也开始在做活动了。甚至看到李佳琦的直播间都开始卖Token，真的是太疯狂了。</p>
+<p>算力的狂欢，估计还会持续很久。要不要上船？参加京华杯的比赛，我已经报名了队伍，需要研究下如何构建能够提交托管运行的Agent，有没有感兴趣的同伴一起组队，欢迎。</p>
+
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
+      </div>
+    
+
+    
+      <nav class="post-nav">
+        <span class="post-nav-item is-empty"></span>
+        
+          <a class="post-nav-item post-nav-next" href="/2026/11/03/20261103-ankle-hurt/">
+            <em>下一篇</em>
+            <b>脚踝受伤诊断与恢复记录</b>
+          </a>
+        
+      </nav>
+    
+  </article>
+
+  
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 大江小浪
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script src="/js/main.js" defer></script>
+
+</body>
+</html>
