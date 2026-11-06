@@ -1,8 +1,8 @@
 ---
-title: Workbuddy协助快速完成Hexo主题设计
+title: Workbuddy快速完成Hexo主题开发
 date: 2026-11-06 10:06:15
-keywords: 
-description: 
+keywords: Workbuddy, Hy4, Hexo, Hexo theme, historic theme
+description: 本文分享了将博客迁移至 GitHub Pages 后，利用 Workbuddy 和 HY4 AI 模型辅助设计与开发全新 Hexo 主题的完整实战过程。详细记录了从 AI 界面设计、素材生成，到安全隔离的代码开发与合并脚本交付的全流程，并探讨了 AI 赋能开发的同时，人工检验核查在生产环境中的不可替代性。
 ---
 
 记录技术学习资料和工作、生活感悟的习惯有很多年了，之前是在CSDN、博客园这种站点发表文章。2016年之后，因为博客园限制了发布Google Adsense，便在新浪云「SAE」上用Hexo搭建了一个静态博客站点。当时还从0开始，构建了一个简单的主题，并且分享到了 「Hexo.io」 上。完全受搓大概花了一两周的时间。
