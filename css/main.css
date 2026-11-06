@@ -1637,6 +1637,7 @@ button {
   background: #F4EFE4;
   color: #A8452C;
   word-break: break-word;
+  overflow-wrap: anywhere;
 }
 .prose pre {
   margin: 30px 0;
@@ -1645,9 +1646,15 @@ button {
   border: 1px solid var(--line-soft);
   border-left: 3px solid var(--accent-soft);
   border-radius: 0 10px 10px 0;
+  max-width: 100%;
   overflow-x: auto;
+  white-space: pre;
+  word-break: normal;
+  overflow-wrap: normal;
   line-height: 1.85;
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink-4) transparent;
 }
 .prose pre code {
   padding: 0;
@@ -1655,6 +1662,26 @@ button {
   border: 0;
   color: var(--code-ink);
   font-size: 13.5px;
+  white-space: inherit;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+.prose pre::-webkit-scrollbar,
+.prose figure.highlight::-webkit-scrollbar {
+  height: 8px;
+}
+.prose pre::-webkit-scrollbar-track,
+.prose figure.highlight::-webkit-scrollbar-track {
+  background: transparent;
+}
+.prose pre::-webkit-scrollbar-thumb,
+.prose figure.highlight::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 999px;
+}
+.prose pre::-webkit-scrollbar-thumb:hover,
+.prose figure.highlight::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-4);
 }
 .prose figure.highlight {
   margin: 30px 0;
@@ -1662,14 +1689,20 @@ button {
   border: 1px solid var(--line-soft);
   border-left: 3px solid var(--accent-soft);
   border-radius: 0 10px 10px 0;
-  overflow: hidden;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink-4) transparent;
 }
 .prose figure.highlight table {
   display: table;
-  width: 100%;
+  width: auto;
+  min-width: 100%;
   margin: 0;
   border-collapse: collapse;
   white-space: normal;
+  overflow: visible;
 }
 .prose figure.highlight td {
   border: 0;
@@ -1679,8 +1712,13 @@ button {
 .prose figure.highlight tbody tr:hover td {
   background: none;
 }
-.prose figure.highlight td.gutter {
+.prose figure.highlight td.gutter,
+.prose figure.highlight tbody tr:hover td.gutter {
   width: 1%;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--code-bg);
   user-select: none;
   -webkit-user-select: none;
 }
@@ -1694,6 +1732,11 @@ button {
   background: none;
   border: 0;
   border-radius: 0;
+  max-width: none;
+  overflow: visible;
+  white-space: pre;
+  word-break: normal;
+  overflow-wrap: normal;
   font-size: 13.5px;
   line-height: 1.85;
 }
@@ -1702,6 +1745,9 @@ button {
   background: none;
   color: var(--code-ink);
   font-size: inherit;
+  white-space: inherit;
+  word-break: normal;
+  overflow-wrap: normal;
 }
 .prose figure.highlight .line {
   display: block;
