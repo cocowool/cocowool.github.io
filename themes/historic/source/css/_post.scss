@@ -234,6 +234,13 @@
   tbody tr:hover td { background: rgba(255, 255, 255, .7); }
 
   // ------------------------------------------------------------- 代码 ---
+  // 长内容处理约定：
+  //   1. 行内 code 允许在任意字符处断行，长路径 / URL 不再撑破正文；
+  //   2. 普通 <pre> 保留 white-space: pre，靠自身横向滚动查看长行；
+  //   3. Hexo 高亮块只在 figure 上开一个横向滚动容器，行号与代码同步滚动，
+  //      里层 pre 不再各自滚动（否则长行撑开 td，滚动条永远不会出现）；
+  //   4. 画出细滚动条，避免系统叠加式滚动条让人误以为「不能滚」。
+
   code {
     font-family: var(--font-mono);
     font-size: .875em;
@@ -242,6 +249,7 @@
     background: #F4EFE4;
     color: #A8452C;
     word-break: break-word;
+    overflow-wrap: anywhere;
   }
 
   pre {
@@ -251,9 +259,15 @@
     border: 1px solid var(--line-soft);
     border-left: 3px solid var(--accent-soft);
     border-radius: 0 10px 10px 0;
+    max-width: 100%;
     overflow-x: auto;
+    white-space: pre;
+    word-break: normal;
+    overflow-wrap: normal;
     line-height: 1.85;
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--ink-4) transparent;
 
     code {
       padding: 0;
@@ -261,24 +275,50 @@
       border: 0;
       color: var(--code-ink);
       font-size: 13.5px;
+      white-space: inherit;
+      word-break: normal;
+      overflow-wrap: normal;
     }
   }
 
-  // hexo 开启代码高亮后的结构
+  // 滚动条：细、低调，但常驻可见（Chrome / Edge / Safari）
+  pre::-webkit-scrollbar,
+  figure.highlight::-webkit-scrollbar { height: 8px; }
+
+  pre::-webkit-scrollbar-track,
+  figure.highlight::-webkit-scrollbar-track { background: transparent; }
+
+  pre::-webkit-scrollbar-thumb,
+  figure.highlight::-webkit-scrollbar-thumb {
+    background: var(--line);
+    border-radius: 999px;
+  }
+
+  pre::-webkit-scrollbar-thumb:hover,
+  figure.highlight::-webkit-scrollbar-thumb:hover { background: var(--ink-4); }
+
+  // hexo 开启代码高亮后的结构：
+  // <figure.highlight> > table > tr > td.gutter / td.code > 各自一个 <pre>
   figure.highlight {
     margin: 30px 0;
     background: var(--code-bg);
     border: 1px solid var(--line-soft);
     border-left: 3px solid var(--accent-soft);
     border-radius: 0 10px 10px 0;
-    overflow: hidden;
+    max-width: 100%;
+    overflow-x: auto;          // ← 原来是 hidden：超长行被直接裁掉
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--ink-4) transparent;
 
     table {
       display: table;
-      width: 100%;
+      width: auto;
+      min-width: 100%;         // 短代码块铺满容器，长行按内容自然撑开
       margin: 0;
       border-collapse: collapse;
       white-space: normal;
+      overflow: visible;       // 挡掉 .prose table 的 overflow-x: auto
     }
 
     td {
@@ -289,16 +329,21 @@
 
     tbody tr:hover td { background: none; }
 
-    // 行号列
-    td.gutter {
+    // 行号列：横向滚动时留在左侧，背景不透出后面的代码
+    td.gutter,
+    tbody tr:hover td.gutter {
       width: 1%;
+      position: sticky;
+      left: 0;
+      z-index: 1;
+      background: var(--code-bg);
       user-select: none;
       -webkit-user-select: none;
+    }
 
-      pre {
-        padding-right: 14px;
-        color: var(--ink-4);
-      }
+    td.gutter pre {
+      padding-right: 14px;
+      color: var(--ink-4);
     }
 
     pre {
@@ -307,6 +352,11 @@
       background: none;
       border: 0;
       border-radius: 0;
+      max-width: none;
+      overflow: visible;       // 里层不滚动，避免行号与代码错位
+      white-space: pre;
+      word-break: normal;
+      overflow-wrap: normal;
       font-size: 13.5px;
       line-height: 1.85;
     }
@@ -316,6 +366,9 @@
       background: none;
       color: var(--code-ink);
       font-size: inherit;
+      white-space: inherit;
+      word-break: normal;
+      overflow-wrap: normal;
     }
 
     .line { display: block; }
@@ -324,6 +377,14 @@
       display: none;
     }
   }
+
+  // ------------------------------------------------------------------
+  // 可选：改成「长行软换行」而不是横向滚动。启用下面两条规则，并把上面
+  // figure.highlight 的 overflow-x 改回 hidden、table 改回 width: 100%。
+  // 注意：软换行会打乱缩进，行号与代码行不再严格一一对应，二选一。
+  //   figure.highlight .line,
+  //   pre code { white-space: pre-wrap; overflow-wrap: anywhere; }
+  // ------------------------------------------------------------------
 
   // 代码高亮配色（暖色系，配合纸感底）
   .highlight {
