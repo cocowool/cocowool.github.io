@@ -1,8 +1,7 @@
 ---
 title: 我的 macOS 常用快捷键
 date: 2020-06-19 13:16:09
-tags: Mac
-categories: 办公
+category: Mac
 keywords: macOS, macOS快捷键, macOS截屏, macOS多指操作, macOS预览
 description: MacbookPro一直是作为我主要的生产力工具来使用，本文介绍了截屏操作、多指触摸操作、预览等快捷键，帮助大家提高办公效率。
 ---
