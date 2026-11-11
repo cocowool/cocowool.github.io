@@ -1,9 +1,8 @@
 ---
 title: Shell脚本加密与解密
 date: 2021-04-13 14:59:22
-tags:
 keywords: Linux Shell, Shell, Linux, Shell加密, Shell解密
-category: Linux
+category: 运维
 description: shc能够将shell脚本编译加密为可执行文件，unshc能够解密相关文件。
 ---
 

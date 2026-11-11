@@ -1,10 +1,9 @@
 ---
 title: 查看Linux CPU使用率的7种方法
 date: 2021-04-09 09:40:53
-tags:
-keywords:
-description:
-category: Linux
+keywords: Linux, CPU, top, uptime
+description: 查看Linux CPU使用率的7种方法
+category: 运维
 ---
 
 ## 1. uptime

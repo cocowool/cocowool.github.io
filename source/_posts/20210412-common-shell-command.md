@@ -3,7 +3,7 @@ title: 常用 Shell 命令
 date: 2021-04-12 16:56:07
 keywords: linux, shell, shell command, shell 命令, shell 常用命令
 description: 本文总结了运维过程中常用的 shell 命令
-category: Linux
+category: 运维
 ---
 
 ## 基础语法

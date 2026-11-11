@@ -1,10 +1,9 @@
 ---
 title: Linux下查看CPU等硬件信息
 date: 2021-04-12 20:05:19
-tags:
 keywords: Linux, Linux CPU, Linux硬件信息, Linux查看硬件信息
 description: 经常我们需要确定一些Linux系统下的硬件信息，这些命令可以帮助你。
-category: Linux
+category: 运维
 ---
 
 测试机器的硬件信息： 
