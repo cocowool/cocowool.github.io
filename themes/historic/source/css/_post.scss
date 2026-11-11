@@ -324,10 +324,11 @@
     td {
       border: 0;
       padding: 0;
-      background: none;
+      background: var(--code-bg);   // 奇数行底色；sticky 行号列也不会透出后面的代码
     }
 
-    tbody tr:hover td { background: none; }
+    // 全局表格的 hover 变色不要渗进高亮块，否则条纹会在鼠标经过时忽明忽暗
+    tbody tr:hover td { background: var(--code-bg); }
 
     // 行号列：横向滚动时留在左侧，背景不透出后面的代码
     td.gutter,
@@ -342,13 +343,12 @@
     }
 
     td.gutter pre {
-      padding-right: 14px;
-      color: var(--ink-4);
+      color: var(--ink-3);   // 条纹铺满整行后，行号仍要看得清
     }
 
     pre {
       margin: 0;
-      padding: 18px 22px;
+      padding: 18px 0;       // 水平留白移到 .line，让条纹贯通整行
       background: none;
       border: 0;
       border-radius: 0;
@@ -372,6 +372,16 @@
     }
 
     .line { display: block; }
+
+    // 水平留白放在 .line 上：它撑满整个 td，条纹因此从行号列一直连到
+    // 代码列，中间不再留一道没有底色的「沟」。同时把行号到代码的距离
+    // 从 14 + 22 = 36px 收到 8 + 8 = 16px，行号右对齐后与代码成一组。
+    td.gutter pre .line {
+      padding: 0 8px 0 18px;
+      text-align: right;
+    }
+
+    td.code pre .line { padding: 0 22px 0 8px; }
 
     br {
       display: none;
@@ -425,6 +435,88 @@
     .emphasis { font-style: italic; }
 
     .strong { font-weight: 700; }
+  }
+}
+
+/* ------------------------------------------- 代码块：隔行底色与复制按钮 --- */
+//  - 斑马纹压在 .line 上（Hexo 把每行包成 block 的 span）。.line 撑满整个
+//    td，所以条纹从行号列到代码列是一条完整的横带，不会在两列之间断开；
+//    两列共用同一条规则，横向滚动时条纹始终对齐。
+//  - .code-block 是 /js/main.js 动态包的一层：让复制按钮不跟着代码内容
+//    横向滚走。margin 一并挪到外层，避免父子 margin 折叠把间距算重；
+//    顶部留白给按钮让位，不压住第一行代码。
+//  - JS 不执行时（禁用脚本 / 加载失败）代码块保持原样，属于渐进增强。
+.prose {
+  figure.highlight .line:nth-of-type(even) {
+    background: var(--code-stripe);
+  }
+
+  .code-block {
+    position: relative;
+    margin: 30px 0;
+
+    // 顶部让出一条放按钮的留白：长命令行不会被右上角按钮压住。
+    // 这段 padding 属于滚动容器本身，不随内容横向滚动。
+    > pre,
+    > figure.highlight {
+      margin: 0;
+      padding-top: 36px;
+    }
+  }
+
+  .code-copy {
+    position: absolute;
+    top: 7px;
+    right: 10px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    line-height: 1.6;
+    letter-spacing: .3px;
+    color: var(--ink-3);
+    background: rgba(255, 255, 255, .88);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    opacity: .6;
+    transition: opacity .18s ease, color .18s ease,
+                border-color .18s ease, background .18s ease;
+
+    svg { flex: none; }
+  }
+
+  // 鼠标进入代码块就把按钮点亮，但只有悬到按钮上才变成砖红
+  .code-block:hover .code-copy { opacity: 1; }
+
+  .code-copy:hover,
+  .code-copy:focus-visible {
+    opacity: 1;
+    color: var(--accent);
+    border-color: var(--accent-soft);
+    background: #fff;
+  }
+
+  .code-copy.is-done {
+    opacity: 1;
+    color: #6B7A4B;
+    border-color: #C9D2B9;
+    background: #fff;
+  }
+
+  .code-copy.is-error {
+    opacity: 1;
+    color: var(--accent);
+    border-color: var(--accent-soft);
+    background: #fff;
+  }
+
+  // 触屏没有 hover，按钮常驻可见
+  @media (hover: none) {
+    .code-copy { opacity: .85; }
   }
 }
 
