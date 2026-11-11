@@ -19,6 +19,7 @@
   /* 代码 */
   --code-bg: #F8F4EC;
   --code-ink: #3B322B;
+  --code-stripe: #F1E9D9; /* 代码块隔行底色：比 --code-bg 深一档，防止长代码串行 */
   /* 字体 */
   --font-display: "LXGW WenKai", "Kaiti SC", "STKaiti", "KaiTi", "楷体",
                   "Songti SC", "Noto Serif SC", serif;
@@ -1707,10 +1708,10 @@ button {
 .prose figure.highlight td {
   border: 0;
   padding: 0;
-  background: none;
+  background: var(--code-bg);
 }
 .prose figure.highlight tbody tr:hover td {
-  background: none;
+  background: var(--code-bg);
 }
 .prose figure.highlight td.gutter,
 .prose figure.highlight tbody tr:hover td.gutter {
@@ -1723,12 +1724,11 @@ button {
   -webkit-user-select: none;
 }
 .prose figure.highlight td.gutter pre {
-  padding-right: 14px;
-  color: var(--ink-4);
+  color: var(--ink-3);
 }
 .prose figure.highlight pre {
   margin: 0;
-  padding: 18px 22px;
+  padding: 18px 0;
   background: none;
   border: 0;
   border-radius: 0;
@@ -1751,6 +1751,13 @@ button {
 }
 .prose figure.highlight .line {
   display: block;
+}
+.prose figure.highlight td.gutter pre .line {
+  padding: 0 8px 0 18px;
+  text-align: right;
+}
+.prose figure.highlight td.code pre .line {
+  padding: 0 22px 0 8px;
 }
 .prose figure.highlight br {
   display: none;
@@ -1803,6 +1810,71 @@ button {
 }
 .prose .highlight .strong {
   font-weight: 700;
+}
+
+/* ------------------------------------------- 代码块：隔行底色与复制按钮 --- */
+.prose figure.highlight .line:nth-of-type(even) {
+  background: var(--code-stripe);
+}
+.prose .code-block {
+  position: relative;
+  margin: 30px 0;
+}
+.prose .code-block > pre,
+.prose .code-block > figure.highlight {
+  margin: 0;
+  padding-top: 36px;
+}
+.prose .code-copy {
+  position: absolute;
+  top: 7px;
+  right: 10px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 1.6;
+  letter-spacing: 0.3px;
+  color: var(--ink-3);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.18s ease, color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+.prose .code-copy svg {
+  flex: none;
+}
+.prose .code-block:hover .code-copy {
+  opacity: 1;
+}
+.prose .code-copy:hover,
+.prose .code-copy:focus-visible {
+  opacity: 1;
+  color: var(--accent);
+  border-color: var(--accent-soft);
+  background: #fff;
+}
+.prose .code-copy.is-done {
+  opacity: 1;
+  color: #6B7A4B;
+  border-color: #C9D2B9;
+  background: #fff;
+}
+.prose .code-copy.is-error {
+  opacity: 1;
+  color: var(--accent);
+  border-color: var(--accent-soft);
+  background: #fff;
+}
+@media (hover: none) {
+  .prose .code-copy {
+    opacity: 0.85;
+  }
 }
 
 /* ------------------------------------------------------------ 标签与版权 --- */
