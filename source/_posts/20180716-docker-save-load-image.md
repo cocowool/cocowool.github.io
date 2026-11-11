@@ -1,7 +1,7 @@
 ---
 title: Docker存出载入镜像
 date: 2018-07-16 09:47
-tag: 
+category: 容器技术
 keywords: docker, docker镜像, docker存储载入镜像
 description: 在离线环境下，通过镜像的存出和载入，同样可以实现将镜像文件导入到镜像库中。
 ---
@@ -94,7 +94,6 @@ node                                            6.9.2               faaadb4aaf9b
 ## 参考资料
 
 1. [Docker镜像的创建、存出、载入](https://www.cnblogs.com/zhangmingcheng/p/5720792.html)
-
 
 
 

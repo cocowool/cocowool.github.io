@@ -1,7 +1,7 @@
 ---
 title: 创建自己的Docker基础镜像
 date: 2018-06-27 19:23
-tag: 
+category: 容器技术
 keywords: docker, 基础镜像
 description: Docker 提供了两种方法来创建基础镜像，一种是通过引入 tar 包的形式，另外一种是通过一个空白的镜像来一步一步构建。
 ---
@@ -93,7 +93,6 @@ standard_init_linux.go:190: exec user process caused "exec format error"
 7、[alpine download](https://alpinelinux.org/downloads/)
 8、[Docker 核心技术与实现原理](https://draveness.me/docker)
 9、[BusyBox](https://busybox.net/about.html)
-
 
 
 

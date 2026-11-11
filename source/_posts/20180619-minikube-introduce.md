@@ -1,7 +1,7 @@
 ---
 title: Minikube体验
 date: 2018-06-19 11:31
-categories: 运维管理
+category: 容器技术
 tags:
 - Kubernetes
 keywords: kubernetes, k8s, minikube
@@ -209,7 +209,6 @@ kubectl delete deployment hello-node
 2、[Hello Minikube](https://kubernetes.io/docs/tutorials/hello-minikube/)
 3、[Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/setup/minikube/)
 4、[Install Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
-
 
 
 

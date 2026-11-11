@@ -1,13 +1,12 @@
 ---
 title: 在Redhat 7.3中采用离线方式安装Docker
 date: 2018-07-11 18:32
-tag: 
+category: 容器技术 
 keywords: docker, docker安装, docker离线安装
 description: 本文介绍在离线环境中安装docker的方案。
 ---
 
 > 本文环境 Redhat Linux 7.3。Docker 18.
-
 
 ## 写在前面
 Docker CE默认是不支持Redhat的，如果你想在Redhat安装，可以使用静态二进制包。这是我多次尝试RPM后得出的结论。使用这种方式安装，不支持32位的操作系统。这种方式仅仅是为了在测试环境能够运行Docker，真正的生产环境，建议大家还是使用Docker支持的操作系统或是选择企业版本。

@@ -2,7 +2,7 @@
 title: Kubernetes 基础概念
 date: 2018-07-10 14:52:02
 updated: 2020-05-25 21:39:50
-tag: kubernetes
+category: 容器技术
 keywords: docker, kubernetes
 description: Kubernetes是当今最流行的开源容器管理平台，Kubernetes可以方便的进行集群应用的部署、扩容、缩容、自愈机制、服务发现、负载均衡、日志、监控等功能，大大减少日常运维的工作量。
 ---
@@ -108,7 +108,6 @@ Kubernetes支持的volume的类型：awsElasticBlockStore、azureDisk、azureFil
 4. [StatefulSet: Kubernetes 中对有状态应用的运行和伸缩](https://www.cnblogs.com/lykops/p/7348002.html)
 5. [kubernetes DaemonSet资源对象](https://blog.csdn.net/ptmozhu/article/details/71101950)
 6. [Kubernetes对象之ReplicaSet](https://www.jianshu.com/p/fd8d8d51741e)
-
 
 
 
