@@ -325,6 +325,9 @@
       border: 0;
       padding: 0;
       background: var(--code-bg);   // 奇数行底色；sticky 行号列也不会透出后面的代码
+      // 表格单元格默认 middle：两列 pre 高度一旦不等，行号整列会被垂直居中，
+      // 与代码错开半行，条纹跟着错位。顶对齐后两列逐行严格对应。
+      vertical-align: top;
     }
 
     // 全局表格的 hover 变色不要渗进高亮块，否则条纹会在鼠标经过时忽明忽暗
@@ -371,7 +374,14 @@
       overflow-wrap: normal;
     }
 
-    .line { display: block; }
+    // 空行是 <span class="line"></span>，没有内容时 block 高度会塌成 0，
+    // 从空行往后的代码行整体上移一行，条纹奇偶也跟着串位。
+    // 1.85em 正好等于 line-height: 1.85（两者都相对 font-size），
+    // 响应式改字号时会自动跟随，不需要另写断点。
+    .line {
+      display: block;
+      min-height: 1.85em;
+    }
 
     // 水平留白放在 .line 上：它撑满整个 td，条纹因此从行号列一直连到
     // 代码列，中间不再留一道没有底色的「沟」。同时把行号到代码的距离
@@ -441,10 +451,11 @@
 /* ------------------------------------------- 代码块：隔行底色与复制按钮 --- */
 //  - 斑马纹压在 .line 上（Hexo 把每行包成 block 的 span）。.line 撑满整个
 //    td，所以条纹从行号列到代码列是一条完整的横带，不会在两列之间断开；
-//    两列共用同一条规则，横向滚动时条纹始终对齐。
+//    两列共用同一条规则。对齐前提是「td 顶对齐 + 空行不塌陷」，否则两列
+//    会错开半行、空行之后条纹奇偶串位（详见 figure.highlight 里的注释）。
 //  - .code-block 是 /js/main.js 动态包的一层：让复制按钮不跟着代码内容
 //    横向滚走。margin 一并挪到外层，避免父子 margin 折叠把间距算重；
-//    顶部留白给按钮让位，不压住第一行代码。
+//    顶部 26px 窄带放按钮，不压住第一行代码。
 //  - JS 不执行时（禁用脚本 / 加载失败）代码块保持原样，属于渐进增强。
 .prose {
   figure.highlight .line:nth-of-type(even) {
@@ -455,24 +466,28 @@
     position: relative;
     margin: 30px 0;
 
-    // 顶部让出一条放按钮的留白：长命令行不会被右上角按钮压住。
+    // 顶部只留一条刚好放得下按钮的窄带（26px），不再是一大块空白；
     // 这段 padding 属于滚动容器本身，不随内容横向滚动。
     > pre,
     > figure.highlight {
       margin: 0;
-      padding-top: 36px;
+      padding-top: 26px;
     }
+
+    // 高亮块自己的 pre 顶部留白同步收窄（两列一起改，不破坏逐行对齐）；
+    // 没有 .code-block（JS 未执行）时仍保持原来的 18px。
+    > figure.highlight pre { padding-top: 10px; }
   }
 
   .code-copy {
     position: absolute;
-    top: 7px;
+    top: 2px;
     right: 10px;
     z-index: 2;
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    padding: 3px 8px;
+    padding: 2px 8px;
     font-family: var(--font-sans);
     font-size: 12px;
     line-height: 1.6;
