@@ -1709,6 +1709,7 @@ button {
   border: 0;
   padding: 0;
   background: var(--code-bg);
+  vertical-align: top;
 }
 .prose figure.highlight tbody tr:hover td {
   background: var(--code-bg);
@@ -1751,6 +1752,7 @@ button {
 }
 .prose figure.highlight .line {
   display: block;
+  min-height: 1.85em;
 }
 .prose figure.highlight td.gutter pre .line {
   padding: 0 8px 0 18px;
@@ -1823,17 +1825,20 @@ button {
 .prose .code-block > pre,
 .prose .code-block > figure.highlight {
   margin: 0;
-  padding-top: 36px;
+  padding-top: 26px;
+}
+.prose .code-block > figure.highlight pre {
+  padding-top: 10px;
 }
 .prose .code-copy {
   position: absolute;
-  top: 7px;
+  top: 2px;
   right: 10px;
   z-index: 2;
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 3px 8px;
+  padding: 2px 8px;
   font-family: var(--font-sans);
   font-size: 12px;
   line-height: 1.6;
