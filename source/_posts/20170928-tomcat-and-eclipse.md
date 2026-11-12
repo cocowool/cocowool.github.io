@@ -1,16 +1,13 @@
 ---
 title: Mac环境下配置Tomcat+Eclipse
 date: 2017-09-28 11:02
-tag: 
-categories: 开发
+categories: Mac
 keywords: mac, tomcat, eclipse, mac eclipse
 description: mac下配置Tomcat和Eclipse的开发环境。
 ---
 
-
-
-
 ### 下载Tomcat
+
 首先在[Tomcat官方网站](http://tomcat.apache.org/download-70.cgi)找到自己合适的版本，下载 tar.gz 版本的，下载完成后解压缩到一个目录，进入这个目录下的 bin 执行 startup.sh，如果看到下面的界面，表示已经启动了。
 ![](20170928-tomcat-and-eclipse/39469-20170928110034653-2083478430.png)
 打开浏览器，输入[http://localhost:8080](http://localhost:8080)能够看到界面显示，表示安装已经成功了。
@@ -35,7 +32,6 @@ description: mac下配置Tomcat和Eclipse的开发环境。
 参考资料：
 1、[Apache Tomcat](http://tomcat.apache.org/download-70.cgi)
 2、[Eclipse](http://www.eclipse.org/home/index.php)
-
 
 
 

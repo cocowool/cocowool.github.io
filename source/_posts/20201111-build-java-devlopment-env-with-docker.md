@@ -1,12 +1,10 @@
 ---
 title: 利用 Docker 构建一个简单的 java 开发编译环境
-category: 开发
+category: 容器技术
 keywords: docker, java, 开发编译环境
 description: 利用Docker快速构建不同版本的java开发环境，支持在容器外生成编译结果文件。
 date: 2020-11-12 11:13:52
-tags:
 ---
-
 
 目前 Java 语言的版本很多，除了常用的 Java 8，有一些遗留项目可能使用了 Java 7，也可能有一些比较新的的项目使用了 Java 10 以上的版本。如果想切换自己本地的 Java 开发环境，折腾起来还是需要花费一些时间的，并且日后在不同版本间切换每次都要折腾一次。
 
