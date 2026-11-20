@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBF8F1">
+
+<title>金融数据中心运维平台建设的思考 · 大江小浪</title>
+<meta name="description" content="运维是伴随着信息化发展起来的一项职业，既然能职业化，那配套服务职业工作内容的信息化系统/工具也油然而生，做运维工作离不开一些趁手的运维平台或者运维工具。">
+
+<link rel="canonical" href="http://www.popsite.cn/2026/11/19/20261119-great-ops/">
+
+<!-- 站点信息 -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="金融数据中心运维平台建设的思考 · 大江小浪">
+<meta property="og:site_name" content="大江小浪">
+<meta property="og:description" content="运维是伴随着信息化发展起来的一项职业，既然能职业化，那配套服务职业工作内容的信息化系统/工具也油然而生，做运维工作离不开一些趁手的运维平台或者运维工具。">
+<meta property="article:published_time" content="2026-11-19T10:49:55.000Z">
+
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="alternate" type="application/atom+xml" title="大江小浪" href="/atom.xml">
+
+
+
+<!-- 标题字体。霞鹜文楷按 unicode-range 切成近百个分片，浏览器只下载页面真正用到的字，首屏通常 100~300KB -->
+<link rel="preconnect" href="https://npm.elemecdn.com" crossorigin>
+
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-bold.css">
+
+
+
+<!-- 样式：source/css/main.scss 编译产物，全站只需加载这一个 -->
+<link rel="stylesheet" href="/css/main.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+<body class="is-post">
+  
+
+<div class="reading-progress" id="reading-progress"></div>
+
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    
+    <a class="brand brand--plain" href="/">大江小浪</a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="展开导航" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      
+        
+        <a href="/">首页</a>
+      
+        
+        <a href="/links/">独立博客</a>
+      
+        
+        <a href="/archives/">我的文章</a>
+      
+        
+        
+        <a href="/about/">关于我</a>
+      
+        
+    </nav>
+  </div>
+</header>
+
+  
+<div class="post-wrap post-wrap--single">
+
+  <article class="post">
+    <div class="crumb">
+      <a href="/">首页</a>
+      
+        <span>/</span> <a href="/categories/%E8%BF%90%E7%BB%B4/">运维</a>
+      
+    </div>
+
+    <h1>金融数据中心运维平台建设的思考</h1>
+
+    <div class="post-meta">
+      <a class="tag" href="/categories/%E8%BF%90%E7%BB%B4/">运维</a><span class="dot">·</span>发布于2026-11-19<span class="dot">·</span>更新于 2026-11-20<span class="dot">·</span>855 字<span class="dot">·</span>2 分钟
+    </div>
+
+    <div class="prose">
+      <p>运维是伴随着信息化发展起来的一项职业，既然能职业化，那配套服务职业工作内容的信息化系统&#x2F;工具也油然而生，做运维工作离不开一些趁手的运维平台或者运维工具。</p>
+<p>做监控需要 Zabbix，做自动化需要 Ansible，做版本部署需要 CI&#x2F;CD 流水线，做大屏需要 Grafana。不管说出运维中的哪一类细分工作领域，都能找到一款流行的软件来满足需求。</p>
+<p>但是对于金融业数据中心来说，如果想要做一个让所有人都满意的运维平台，就变得有点困难了。</p>
+<p>与普通企业的数据中心或者信息中心相比，金融业数据中心要面临严格的多的监管、安全、连续性要求，金融业数据中心内各部门的职责划分又特别具体，在高标准的管理要求下，各部门之间有强烈的只为自己范围内的事项负责的意识。</p>
+<p>市面上零散的开源工具，往往只能解决某一方面的问题，无法提供一个完整的解决方案平台。</p>
+<p>将零散的开源工具引入后整合，是起步阶段不错的选择。但是随着使用程度的加深，统一登录需求、权限隔离需求、历史数据清理和治理需求，在研发不足以支撑开源软件快速魔改的情况下，会不断的积累内部使用的怨气。</p>
+<p>有些机构会选择自主开发，运维平台有一些与互联网产品、手机APP迥然不同的特性，导致自主开发也是一条很艰难的道路。</p>
+<p>首先，运维平台的用户类型特别多，有环境管理人员、网络管理人员、云基础设施管理人员、数据库管理人员、中间件管理人员、操作系统管理人员、应用系统管理人员，还要按照监管要求设计严密的权限隔离和审查审核机制。</p>
+<p>另外，数据中心技术发展又特别快，这几年流行商业 VMWARE，过几年流行云基础设施，再过一段时间有是加强 GPU 算力建设。运维平台管理的对象以一种可观的发展速度变化着，运维平台的研发迭代经常跟不上实际的需要。</p>
+<p>最后，运维平台的开发要求又很高，业务流程不仅复杂，用户要区分类型、访问来源要做控制、高权限操作要做授权和审计，这些功能做起来，比电商、银行传统业务复杂多了。</p>
+<p>但是运维平台又是保障重要基础设施平稳运行的重要工具，这套工具建的好，使用人员的效率和幸福感可以得到很大提升，从这个角度上来讲，运维平台开发又是一个非常重要、非常有意义的事。</p>
+<p>那会不会出现一种可以通吃所有金融数据中心的运维平台呢？</p>
+<p>现在市面上好像还不太多见这种产品，市场规模有限，因此还是以各机构自主研发为主，这样能够适合本机构的具体情况。</p>
+
+    </div>
+
+    
+
+    
+
+    
+      <div class="post-copyright">
+        <b>版权声明</b>
+        <span>本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
+      </div>
+    
+
+    
+      <nav class="post-nav">
+        <span class="post-nav-item is-empty"></span>
+        
+          <a class="post-nav-item post-nav-next" href="/2026/11/18/20261118-shafi-goldwasser/">
+            <em>下一篇</em>
+            <b>莎菲·戈德瓦塞尔</b>
+          </a>
+        
+      </nav>
+    
+  </article>
+
+  
+
+
+</div>
+
+  
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="copyright">
+      © 2016–2026 大江小浪
+      
+        · 由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动，主题 Historical
+      
+    </span>
+    <span class="footer-extra">
+      
+      
+        <a href="/atom.xml">RSS</a>
+      
+        <a href="/sitemap.xml">站点地图</a>
+      
+      <a href="/">回到首页</a>
+    </span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部" hidden>↑</button>
+
+  
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2449691085720111" crossorigin="anonymous"></script>
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b5abf80be02d97782fdc022fb2c5482c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script src="/js/main.js" defer></script>
+
+</body>
+</html>
