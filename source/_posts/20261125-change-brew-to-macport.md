@@ -1,5 +1,5 @@
 ---
-title: 20261125-change-brew-to-macport
+title: Homebrew切换为MacPorts
 date: 2026-11-25 15:53:05
 keywords: Homebrew, MacPorts, macOS, Monterey, 软件包管理
 category: Mac
