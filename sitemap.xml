@@ -2,15 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://www.popsite.cn/links/index.html</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/baidu_verify_codeva-lFRExQpfJ8.html</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -56,7 +47,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2026/11/19/20261119-great-ops/</loc>
+    <loc>http://www.popsite.cn/links/index.html</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -66,6 +57,24 @@
   
   <url>
     <loc>http://www.popsite.cn/2026/11/25/20261125-change-brew-to-macport/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2026/11/18/20261118-shafi-goldwasser/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2026/11/19/20261119-great-ops/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -92,15 +101,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2026/11/18/20261118-shafi-goldwasser/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2026/11/06/20261106-workbuddy-help-improve-blog-theme/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -119,7 +119,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2026/11/01/20261101-2026ctf-pain-and-gain/</loc>
+    <loc>http://www.popsite.cn/2026/11/03/20261103-ankle-hurt/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -128,7 +128,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2026/11/03/20261103-ankle-hurt/</loc>
+    <loc>http://www.popsite.cn/2026/11/01/20261101-2026ctf-pain-and-gain/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -182,25 +182,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2026/08/12/20260812-peter-naur/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2026/09/17/20260917-human-memory/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2026/08/25/20260825-frances-allen/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -219,6 +201,24 @@
   
   <url>
     <loc>http://www.popsite.cn/2026/08/07/20260807-cmdb-interface/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2026/08/25/20260825-frances-allen/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2026/08/12/20260812-peter-naur/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -308,7 +308,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2026/03/24/20260324-a-niche-sport-jianqiu/</loc>
+    <loc>http://www.popsite.cn/2026/03/23/20260323-ronald-rivest/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -317,7 +317,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2026/03/23/20260323-ronald-rivest/</loc>
+    <loc>http://www.popsite.cn/2026/03/24/20260324-a-niche-sport-jianqiu/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -371,15 +371,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2025/12/31/20251231-edward-feigenbaum/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2026/01/12/20260112-raj-reddy/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -390,6 +381,15 @@
   
   <url>
     <loc>http://www.popsite.cn/2026/01/16/20260116-amir-pnueli/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2025/12/31/20251231-edward-feigenbaum/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -488,7 +488,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2025/06/13/20250613-michael-rabin/</loc>
+    <loc>http://www.popsite.cn/2025/07/07/20250707-dana-scott/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -497,7 +497,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2025/07/07/20250707-dana-scott/</loc>
+    <loc>http://www.popsite.cn/2025/06/13/20250613-michael-rabin/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -524,15 +524,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2025/05/23/20250523-fernado/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2025/05/26/20250526-python-multi-env/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -542,7 +533,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2025/04/10/20250410-edgar-codd/</loc>
+    <loc>http://www.popsite.cn/2025/05/23/20250523-fernado/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -552,6 +543,15 @@
   
   <url>
     <loc>http://www.popsite.cn/2025/05/13/20250513-judea-pearl/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2025/04/10/20250410-edgar-codd/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -578,7 +578,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2025/02/28/20250228-how-to-measure-devops-cost/</loc>
+    <loc>http://www.popsite.cn/2025/01/22/20250122-how-to-parse-http-request-in-java/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -587,7 +587,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2025/01/22/20250122-how-to-parse-http-request-in-java/</loc>
+    <loc>http://www.popsite.cn/2025/02/28/20250228-how-to-measure-devops-cost/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -623,6 +623,15 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2024/12/20/20241220-herbert-simon/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2024/12/24/20241224-online-cloud-and-local-cloud/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -632,7 +641,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2024/12/20/20241220-herbert-simon/</loc>
+    <loc>http://www.popsite.cn/2024/10/10/20241010-john-hopcroft/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -659,15 +668,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2024/10/10/20241010-john-hopcroft/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2024/10/07/20241007-john-coke/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -686,15 +686,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2024/08/30/20240830-macos-python-env/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2024/09/03/20240903-complex-problem-under-large-devops-org/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -704,7 +695,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2024/09/10/20240910-open-source-responsible-for-anything/</loc>
+    <loc>http://www.popsite.cn/2024/08/30/20240830-macos-python-env/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -714,6 +705,15 @@
   
   <url>
     <loc>http://www.popsite.cn/2024/09/13/20240913-beijing-autumn/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2024/09/10/20240910-open-source-responsible-for-anything/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -839,7 +839,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2024/03/08/20240308-manuel-blum/</loc>
+    <loc>http://www.popsite.cn/2024/02/28/20240228-frederick-brooks/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -848,7 +848,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2024/02/28/20240228-frederick-brooks/</loc>
+    <loc>http://www.popsite.cn/2024/03/08/20240308-manuel-blum/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -902,7 +902,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2024/01/16/20240116-ctf-tools-archpr/</loc>
+    <loc>http://www.popsite.cn/2024/01/15/20240115-ctf-tools-dirsearch/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -911,7 +911,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2024/01/15/20240115-ctf-tools-dirsearch/</loc>
+    <loc>http://www.popsite.cn/2024/01/16/20240116-ctf-tools-archpr/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -938,7 +938,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2023/11/23/20231123-springboot-log4j2/</loc>
+    <loc>http://www.popsite.cn/2023/11/21/20231121-springboot-config/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -947,7 +947,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2023/11/21/20231121-springboot-config/</loc>
+    <loc>http://www.popsite.cn/2023/11/23/20231123-springboot-log4j2/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -992,15 +992,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2023/09/16/20230916-ted-nelson/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2023/09/03/20230903-new-school-journey/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -1010,7 +1001,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2023/08/23/20230823-donald-ervin-knuth/</loc>
+    <loc>http://www.popsite.cn/2023/09/16/20230916-ted-nelson/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1028,6 +1019,15 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2023/08/23/20230823-donald-ervin-knuth/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2023/07/18/20230718-harry-hushkey/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -1037,7 +1037,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2023/06/29/20230629-buy-chinese-baijiu/</loc>
+    <loc>http://www.popsite.cn/2023/07/12/20230712-alan-kay/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1046,7 +1046,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2023/07/12/20230712-alan-kay/</loc>
+    <loc>http://www.popsite.cn/2023/06/29/20230629-buy-chinese-baijiu/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1082,7 +1082,25 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2023/04/17/20230417-arthur-burks/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2023/04/25/20230425-more-question-about-change/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2023/04/29/20230429-build-windows-workspace/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1109,43 +1127,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2023/04/29/20230429-build-windows-workspace/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2023/04/17/20230417-arthur-burks/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2023/04/12/20230412-draw-gps-path-with-python/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2023/03/19/20230319-spring-boot-starter/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2023/03/31/20230331-herman-lukoff/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1181,7 +1163,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2022/12/27/20221227-learn-from-failure-of-aliyun/</loc>
+    <loc>http://www.popsite.cn/2023/03/31/20230331-herman-lukoff/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1190,7 +1172,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2023/01/05/20230105-stephen-kleene/</loc>
+    <loc>http://www.popsite.cn/2023/03/19/20230319-spring-boot-starter/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1209,6 +1191,24 @@
   
   <url>
     <loc>http://www.popsite.cn/2023/01/28/20230128-edsger-wybe-dijkstra/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2022/12/27/20221227-learn-from-failure-of-aliyun/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2023/01/05/20230105-stephen-kleene/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1289,15 +1289,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2022/09/20/20220920-publish-hexo-theme/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2022/09/01/20220901-activemq-cluster-architecture/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -1307,43 +1298,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2022/04/21/20220421-dns-resolve-seq/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2022/05/24/20220524-change-advisory-board/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2022/05/28/20220528-forget-mobaxterm-host-password/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2022/04/27/20220427-plot-multiline/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2022/06/01/20220601-compress-hexo-images-with-python/</loc>
+    <loc>http://www.popsite.cn/2022/09/20/20220920-publish-hexo-theme/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1370,6 +1325,15 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2022/07/13/20220713-linux-cgroups/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2022/07/01/20220701-linux-password-security/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -1379,7 +1343,124 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2022/07/13/20220713-linux-cgroups/</loc>
+    <loc>http://www.popsite.cn/2022/04/21/20220421-dns-resolve-seq/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2022/04/27/20220427-plot-multiline/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2022/05/24/20220524-change-advisory-board/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2022/05/28/20220528-forget-mobaxterm-host-password/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2022/06/01/20220601-compress-hexo-images-with-python/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2021/11/28/20211128-npm-cli-module-develop/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2021/11/30/20211201-convert-markdown-to-html-with-nodejs/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2021/12/16/20211216-what-does-sre-meaning/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2021/12/24/20211224-bye-bye-2021/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2022/01/04/20220104-run-ansible-offline/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2022/01/12/20220112-ansible-common-usage/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2022/01/13/20220113-puppet-startup/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2022/01/27/20220127-life-memo/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2022/01/30/20220131-linux-connection-limit/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1415,15 +1496,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2022/03/11/20220311-ctf-again/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2022/03/12/20220312-ctf-pwn-introduce/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -1434,6 +1506,15 @@
   
   <url>
     <loc>http://www.popsite.cn/2022/03/13/20220313-speedup-homebrew/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2022/03/11/20220311-ctf-again/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1469,79 +1550,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/11/28/20211128-npm-cli-module-develop/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2021/12/16/20211216-what-does-sre-meaning/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2021/11/30/20211201-convert-markdown-to-html-with-nodejs/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2021/12/24/20211224-bye-bye-2021/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2022/01/04/20220104-run-ansible-offline/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2022/01/13/20220113-puppet-startup/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2022/01/12/20220112-ansible-common-usage/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2022/01/27/20220127-life-memo/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2022/01/30/20220131-linux-connection-limit/</loc>
+    <loc>http://www.popsite.cn/2021/11/20/20211122-ken-thompson/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1551,15 +1560,6 @@
   
   <url>
     <loc>http://www.popsite.cn/2021/11/19/20211120-catalina-bootcamp-win10/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2021/11/20/20211122-ken-thompson/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1586,7 +1586,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/09/07/20210907-kafka-basics-02/</loc>
+    <loc>http://www.popsite.cn/2021/09/04/20210903-linux-count-file-shell/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1595,7 +1595,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/09/04/20210903-linux-count-file-shell/</loc>
+    <loc>http://www.popsite.cn/2021/09/07/20210907-kafka-basics-02/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1613,7 +1613,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/10/11/20211011-spark-intro-2/</loc>
+    <loc>http://www.popsite.cn/2021/10/07/20211007-spark-intro-1/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1631,7 +1631,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/10/07/20211007-spark-intro-1/</loc>
+    <loc>http://www.popsite.cn/2021/10/21/20211021-make-activemq-docker-image/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1640,7 +1640,16 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/10/21/20211021-make-activemq-docker-image/</loc>
+    <loc>http://www.popsite.cn/2021/10/11/20211011-spark-intro-2/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2021/08/16/20210816-build-your-body/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1694,15 +1703,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/07/15/20210715-java-compile/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2021/07/23/20210724-oop-design-pricipal/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -1721,7 +1721,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/08/10/20210812-node-program-introduce/</loc>
+    <loc>http://www.popsite.cn/2021/07/15/20210715-java-compile/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1730,7 +1730,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/08/16/20210816-build-your-body/</loc>
+    <loc>http://www.popsite.cn/2021/08/10/20210812-node-program-introduce/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1784,7 +1784,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/07/02/20210702-happy-party-birthday/</loc>
+    <loc>http://www.popsite.cn/2021/06/30/20210701-leetcode-complex-number-multiplication/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1793,7 +1793,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/06/30/20210701-leetcode-complex-number-multiplication/</loc>
+    <loc>http://www.popsite.cn/2021/07/02/20210702-happy-party-birthday/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1865,15 +1865,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/05/24/20210524-file-transfer-methods/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2021/05/20/20210520-apache-security/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -1892,6 +1883,15 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2021/05/24/20210524-file-transfer-methods/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2021/05/14/20210514-linux-security-tips/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -1901,7 +1901,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/05/17/20210517-bash-terminal-config/</loc>
+    <loc>http://www.popsite.cn/2021/05/19/20210519-dmz-zone/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -1910,7 +1910,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/05/19/20210519-dmz-zone/</loc>
+    <loc>http://www.popsite.cn/2021/05/17/20210517-bash-terminal-config/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2045,6 +2045,15 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2021/04/07/20210407-linux-touch/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2021/04/04/20210405-grace-murray-hopper/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -2055,15 +2064,6 @@
   
   <url>
     <loc>http://www.popsite.cn/2021/04/06/20210406-phpexecl-out-of-memory/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2021/04/07/20210407-linux-touch/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2099,7 +2099,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/03/28/20210401-docker-save-in-and-out/</loc>
+    <loc>http://www.popsite.cn/2021/04/01/20210401-vim-shortcut/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2117,7 +2117,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/04/01/20210401-vim-shortcut/</loc>
+    <loc>http://www.popsite.cn/2021/03/28/20210401-docker-save-in-and-out/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2135,7 +2135,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/03/18/20210318-dynamic-lib-usage/</loc>
+    <loc>http://www.popsite.cn/2021/03/21/20210321-john-mauchly/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2144,7 +2144,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/03/21/20210321-john-mauchly/</loc>
+    <loc>http://www.popsite.cn/2021/03/18/20210318-dynamic-lib-usage/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2189,7 +2189,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/03/10/20210311-gnuplot-usage/</loc>
+    <loc>http://www.popsite.cn/2021/03/12/20210314-john-eckert/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2198,7 +2198,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/03/12/20210314-john-eckert/</loc>
+    <loc>http://www.popsite.cn/2021/03/10/20210311-gnuplot-usage/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2243,6 +2243,15 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2021/02/09/20210209-linux-daemon/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2021/02/08/20210208-sass-notes/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -2253,15 +2262,6 @@
   
   <url>
     <loc>http://www.popsite.cn/2021/02/08/20210209-kubernetes-node/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2021/02/09/20210209-linux-daemon/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2297,15 +2297,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/02/01/20210201-request-by-set-host/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2021/02/03/20210203-elasticsearch-best-practice/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -2324,7 +2315,16 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/01/26/20210126-nmap-notes/</loc>
+    <loc>http://www.popsite.cn/2021/02/01/20210201-request-by-set-host/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2021/01/29/20210131-gordon-moore/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2342,7 +2342,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/01/29/20210131-gordon-moore/</loc>
+    <loc>http://www.popsite.cn/2021/01/26/20210126-nmap-notes/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2441,7 +2441,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2020/12/10/20201210-endof-centos/</loc>
+    <loc>http://www.popsite.cn/2020/12/09/20201209-git-faq/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2450,7 +2450,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2020/12/09/20201209-git-faq/</loc>
+    <loc>http://www.popsite.cn/2020/12/10/20201210-endof-centos/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2576,6 +2576,15 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2020/07/22/20200722-shell-quick-start/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2020/06/23/20200623-homebrew-introduction/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -2595,15 +2604,6 @@
   
   <url>
     <loc>http://www.popsite.cn/2020/07/18/20200718-zsh-and-bash/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2020/07/22/20200722-shell-quick-start/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2747,15 +2747,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2019/09/25/20190925-get-kafka-latest-offset/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2019/10/09/20191009-java-metrics/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -2765,7 +2756,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2019/10/15/20191015-spark-101-intro/</loc>
+    <loc>http://www.popsite.cn/2019/09/25/20190925-get-kafka-latest-offset/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2783,7 +2774,16 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2019/03/06/20190306-linux-shell-run-as-root/</loc>
+    <loc>http://www.popsite.cn/2019/10/15/20191015-spark-101-intro/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2019/04/05/20190405-zookeeper-notes/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2801,7 +2801,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2019/04/05/20190405-zookeeper-notes/</loc>
+    <loc>http://www.popsite.cn/2019/03/06/20190306-linux-shell-run-as-root/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2828,7 +2828,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2018/09/26/20180926-kubernetes-all-controllers/</loc>
+    <loc>http://www.popsite.cn/2018/09/21/20180921-systemd-journal-log/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2837,7 +2837,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2018/09/21/20180921-systemd-journal-log/</loc>
+    <loc>http://www.popsite.cn/2018/09/26/20180926-kubernetes-all-controllers/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2873,15 +2873,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2018/08/27/20180827-kubernetes-namespace/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2018/08/30/20180830-docker-daemon-log-driver/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -2900,7 +2891,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2018/08/08/20180808-kubernetes-pod-detail/</loc>
+    <loc>http://www.popsite.cn/2018/08/27/20180827-kubernetes-namespace/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2918,7 +2909,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2018/08/20/20180820-kubernetes-coredns/</loc>
+    <loc>http://www.popsite.cn/2018/08/08/20180808-kubernetes-pod-detail/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2928,6 +2919,51 @@
   
   <url>
     <loc>http://www.popsite.cn/2018/08/23/20180823-kubernetes-container-probe/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2018/08/20/20180820-kubernetes-coredns/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2018/07/25/20180725-use-kubectl-create-deployment/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2018/08/02/20180802-kubernetes-storage/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2018/07/19/20180719-install-k8s-offline/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2018/07/24/20180724-kubeadm-install-kubernetes/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -2963,42 +2999,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2018/07/24/20180724-kubeadm-install-kubernetes/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2018/07/19/20180719-install-k8s-offline/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2018/07/25/20180725-use-kubectl-create-deployment/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2018/08/02/20180802-kubernetes-storage/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2018/06/27/20180627-make-your-own-base-docker-image/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -3017,7 +3017,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2018/06/19/20180619-vue-tab-single-page-app/</loc>
+    <loc>http://www.popsite.cn/2018/06/15/20180615-python-urllib-get-post/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3026,7 +3026,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2018/06/15/20180615-python-urllib-get-post/</loc>
+    <loc>http://www.popsite.cn/2018/06/19/20180619-vue-tab-single-page-app/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3062,7 +3062,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2018/05/28/20180528-tomcat-memory-set/</loc>
+    <loc>http://www.popsite.cn/2018/06/01/20180601-install-tomcat-under-windows/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3071,7 +3071,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2018/06/01/20180601-install-tomcat-under-windows/</loc>
+    <loc>http://www.popsite.cn/2018/05/28/20180528-tomcat-memory-set/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3089,7 +3089,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2018/04/21/20180421-sre-reading-tips/</loc>
+    <loc>http://www.popsite.cn/2018/05/08/20180508-jenkins-quick-start/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3098,7 +3098,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2018/05/08/20180508-jenkins-quick-start/</loc>
+    <loc>http://www.popsite.cn/2018/04/21/20180421-sre-reading-tips/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3134,15 +3134,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2018/03/08/20180308-bst-leetcode/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2018/02/06/20180206-pandas-delete-data/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -3152,7 +3143,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2018/02/05/20180205-pandas-introduce-2/</loc>
+    <loc>http://www.popsite.cn/2018/03/08/20180308-bst-leetcode/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3162,15 +3153,6 @@
   
   <url>
     <loc>http://www.popsite.cn/2018/03/16/20180316-prometheus-introduce/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2017/12/26/20171226-ipython-introduce/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3206,6 +3188,24 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2018/02/05/20180205-pandas-introduce-2/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2017/12/26/20171226-ipython-introduce/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2017/12/11/20171211-error-caused-by-bom/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -3224,7 +3224,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2017/12/22/20171222-python-data-analysis/</loc>
+    <loc>http://www.popsite.cn/2017/12/22/20171222-mysql-condition/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3233,7 +3233,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2017/12/22/20171222-mysql-condition/</loc>
+    <loc>http://www.popsite.cn/2017/12/22/20171222-python-data-analysis/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3296,34 +3296,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2017/09/06/20170906-jquery-attr/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2017/08/26/20170826-mysql-data-to-elasticsearch/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2017/08/18/20170818-change-openjdk-to-oraclejdk/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2017/08/19/20170819-install-logstash-plugin-offline/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3342,6 +3315,33 @@
   
   <url>
     <loc>http://www.popsite.cn/2017/08/25/20170825-jdbc-exception-about-null-time/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2017/08/26/20170826-mysql-data-to-elasticsearch/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2017/08/19/20170819-install-logstash-plugin-offline/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2017/09/06/20170906-jquery-attr/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3377,7 +3377,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2017/08/09/20170809-logstash-learning/</loc>
+    <loc>http://www.popsite.cn/2017/08/07/20170808-plupload-parameters/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3386,7 +3386,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2017/08/07/20170808-plupload-parameters/</loc>
+    <loc>http://www.popsite.cn/2017/08/09/20170809-logstash-learning/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3440,51 +3440,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2017/05/27/20170527-python3-tutorial-6/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2017/07/11/20170711-tomcat-oom/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2017/04/24/20170424-multi-layer-pdf/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2017/05/12/20170512-windows-schedule-job/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2017/04/27/20170427-convert-space-to-tab/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2017/05/22/20170522-mysql-date-functions/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -3503,7 +3458,34 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2017/05/12/20170512-windows-schedule-job/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2017/05/26/20170526-list-domain-machines/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2017/05/27/20170527-python3-tutorial-6/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2017/07/11/20170711-tomcat-oom/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3539,6 +3521,33 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2017/04/24/20170424-multi-layer-pdf/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2017/04/27/20170427-convert-space-to-tab/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2017/03/22/20170322-python3-tutorial-1/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2017/03/27/20170327-python3-tutorial-2/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -3549,15 +3558,6 @@
   
   <url>
     <loc>http://www.popsite.cn/2017/03/29/20170329-python3-tutorial-3/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2017/03/22/20170322-python3-tutorial-1/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3602,7 +3602,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2017/02/17/20170217-diff-and-patch/</loc>
+    <loc>http://www.popsite.cn/2016/12/09/20161209-hexo-and-github-pages/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3611,7 +3611,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2016/12/09/20161209-hexo-and-github-pages/</loc>
+    <loc>http://www.popsite.cn/2017/02/17/20170217-diff-and-patch/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3683,6 +3683,15 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2015/05/11/20150511-export-git-project/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2015/11/28/20151128-robots-reference/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -3701,15 +3710,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2015/05/11/20150511-export-git-project/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2015/01/26/20150126-find-max-number/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -3719,7 +3719,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2014/12/21/20141221-operation-datacenter/</loc>
+    <loc>http://www.popsite.cn/2014/10/15/20141015-read-excel-with-php/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3728,7 +3728,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2014/10/15/20141015-read-excel-with-php/</loc>
+    <loc>http://www.popsite.cn/2014/12/21/20141221-operation-datacenter/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3747,6 +3747,15 @@
   
   <url>
     <loc>http://www.popsite.cn/2014/07/31/20140731-p2p-website/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2013/12/31/20131231-php-mssql-connect/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3782,15 +3791,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2013/12/31/20131231-php-mssql-connect/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2013/11/30/20131130-prototype-with-omnigraffle/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -3801,42 +3801,6 @@
   
   <url>
     <loc>http://www.popsite.cn/2013/10/10/20131010-dede-cms-update/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2013/05/12/20130512-jquey-animate/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2013/04/25/20130425-ie-dom-parse/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2013/05/21/20130521-coffeescript-introduce/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2013/05/17/20130517-css-counter/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3872,7 +3836,43 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2013/04/25/20130425-ie-dom-parse/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2013/05/12/20130512-jquey-animate/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2013/05/21/20130521-coffeescript-introduce/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2013/05/24/20130525-touch-screen-design/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2013/05/17/20130517-css-counter/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3926,6 +3926,15 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2012/12/11/20121211-javascript-mobile-framework/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2012/12/15/20121215-about-colors/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -3944,15 +3953,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2012/12/09/20121209-phonegap-introduce/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2012/11/25/20121125-remote-css-font/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -3962,7 +3962,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2012/12/11/20121211-javascript-mobile-framework/</loc>
+    <loc>http://www.popsite.cn/2012/12/09/20121209-phonegap-introduce/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -3998,6 +3998,51 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2012/07/23/20120723-css3-transition/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2012/07/26/20120726-locale-detail/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2012/07/28/20120728-improve-itunes-download-rate/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2012/09/01/20120901-yui3/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2012/08/29/20120829-codeigniter-white-screen/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2012/07/05/20120705-width-auto-in-ie6/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -4016,7 +4061,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2012/07/23/20120723-css3-transition/</loc>
+    <loc>http://www.popsite.cn/2012/05/22/20120522-ipcs/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4025,7 +4070,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2012/07/28/20120728-improve-itunes-download-rate/</loc>
+    <loc>http://www.popsite.cn/2012/05/18/20120518-prime-number-program/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4034,25 +4079,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2012/07/26/20120726-locale-detail/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2012/08/29/20120829-codeigniter-white-screen/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2012/09/01/20120901-yui3/</loc>
+    <loc>http://www.popsite.cn/2012/05/31/20120531-ruby-introduce/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4115,33 +4142,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2012/05/18/20120518-prime-number-program/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2012/05/22/20120522-ipcs/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2012/05/31/20120531-ruby-introduce/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2012/05/15/20120515-hp-ux/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -4178,7 +4178,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2012/02/25/20120225-yum-segmentation-fault/</loc>
+    <loc>http://www.popsite.cn/2012/04/01/20120401-weblogic-introduce/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4187,7 +4187,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2012/04/01/20120401-weblogic-introduce/</loc>
+    <loc>http://www.popsite.cn/2012/02/25/20120225-yum-segmentation-fault/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4268,33 +4268,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2011/12/04/20111204-php-daemon/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2011/12/08/20111208-centos-minimal/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2021/03/25/20111210-c-programming-reading/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2011/12/14/20111214-virtualbox-adapter/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -4313,25 +4286,34 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2021/03/25/20111210-c-programming-reading/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2011/12/04/20111204-php-daemon/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2011/12/08/20111208-centos-minimal/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2011/12/03/20111203-php-gearman/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2011/11/14/20111114-gunpgp-mail/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2011/11/10/20111110-php-upload-security/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4367,7 +4349,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/03/24/20111027-php-history/</loc>
+    <loc>http://www.popsite.cn/2021/03/25/20111103-php-signal/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4376,7 +4358,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2021/03/25/20111103-php-signal/</loc>
+    <loc>http://www.popsite.cn/2021/03/24/20111027-php-history/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4394,7 +4376,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2011/09/30/20110930-make-lion-speaking/</loc>
+    <loc>http://www.popsite.cn/2011/11/10/20111110-php-upload-security/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4403,7 +4385,16 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2011/08/22/20110822-http-cache/</loc>
+    <loc>http://www.popsite.cn/2011/11/14/20111114-gunpgp-mail/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2011/09/30/20110930-make-lion-speaking/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4421,7 +4412,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2011/08/02/20110802-google-file-system/</loc>
+    <loc>http://www.popsite.cn/2011/08/22/20110822-http-cache/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4430,7 +4421,25 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2011/07/30/20110730-operation-functions/</loc>
+    <loc>http://www.popsite.cn/2011/07/28/20110728-install-memcacheq/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2011/07/29/20110729-improve-sql-performance/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2020/11/04/20110729-install-apk-in-command-line/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4440,6 +4449,15 @@
   
   <url>
     <loc>http://www.popsite.cn/2021/03/19/20110730-math-round-in-javascript/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2011/07/30/20110730-operation-functions/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4466,6 +4484,15 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2011/08/02/20110802-google-file-system/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2011/08/18/20110818-gearman/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -4475,25 +4502,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2011/07/28/20110728-install-memcacheq/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2020/11/04/20110729-install-apk-in-command-line/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2011/07/29/20110729-improve-sql-performance/</loc>
+    <loc>http://www.popsite.cn/2011/07/27/20110727-install-android-simulator/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4511,7 +4520,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2011/06/01/20110601-compile-imap/</loc>
+    <loc>http://www.popsite.cn/2011/06/05/20110605-nusoap/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4529,7 +4538,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2011/06/05/20110605-nusoap/</loc>
+    <loc>http://www.popsite.cn/2011/06/01/20110601-compile-imap/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4556,15 +4565,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2011/07/22/20110722-load-data-infile/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2011/07/09/20110709-wget/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -4574,7 +4574,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2011/07/27/20110727-install-android-simulator/</loc>
+    <loc>http://www.popsite.cn/2011/07/22/20110722-load-data-infile/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4584,6 +4584,24 @@
   
   <url>
     <loc>http://www.popsite.cn/2011/07/25/20110725-ab-test/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2011/04/15/20110415-nginx-rewrite/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2011/05/13/20110513-apache-log/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4610,52 +4628,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2011/04/15/20110415-nginx-rewrite/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2011/04/10/20110410-generate-eot/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2011/05/13/20110513-apache-log/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2011/02/25/20110225-analog/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2011/03/08/20110308-svn-post-commit/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2011/03/18/20110318-memcache/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4673,7 +4646,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2011/01/14/20110114-php-rrdtool/</loc>
+    <loc>http://www.popsite.cn/2011/02/25/20110225-analog/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4682,7 +4655,16 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2010/12/23/20101223-excel-vba/</loc>
+    <loc>http://www.popsite.cn/2011/03/18/20110318-memcache/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2011/03/08/20110308-svn-post-commit/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4700,7 +4682,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2010/12/17/20101217-modify-cacti-rrd/</loc>
+    <loc>http://www.popsite.cn/2010/12/23/20101223-excel-vba/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4709,7 +4691,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2010/12/03/20101203-awstats/</loc>
+    <loc>http://www.popsite.cn/2011/01/14/20110114-php-rrdtool/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4736,6 +4718,15 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2010/12/03/20101203-awstats/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2010/11/10/20101110-zendstudio-support-perl/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -4745,7 +4736,16 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2010/09/10/20100910-apache-log-analyze/</loc>
+    <loc>http://www.popsite.cn/2010/12/17/20101217-modify-cacti-rrd/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2010/09/30/20100930-linux-blog-tools/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4772,7 +4772,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2010/09/30/20100930-linux-blog-tools/</loc>
+    <loc>http://www.popsite.cn/2010/09/10/20100910-apache-log-analyze/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4826,7 +4826,16 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2010/07/17/20100717-php-cross-timezone/</loc>
+    <loc>http://www.popsite.cn/2010/08/04/20100804-php-upgrade/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2010/08/14/20100814-time-test/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4844,25 +4853,16 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2010/07/17/20100717-php-cross-timezone/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2010/08/03/20100804-facebook-image-storage/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2010/08/04/20100804-php-upgrade/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2010/08/14/20100814-time-test/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4889,16 +4889,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2010/06/02/20100602-xhprof/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2010/05/31/20100531-put-upload/</loc>
+    <loc>http://www.popsite.cn/2010/06/14/20100614-design-reading/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4908,15 +4899,6 @@
   
   <url>
     <loc>http://www.popsite.cn/2010/06/25/20100625-vim-split/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2010/06/14/20100614-design-reading/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4943,7 +4925,16 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2010/05/12/20100512-google-homepage/</loc>
+    <loc>http://www.popsite.cn/2010/05/31/20100531-put-upload/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2010/06/02/20100602-xhprof/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4961,7 +4952,16 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2010/01/26/20100126-yui-grids/</loc>
+    <loc>http://www.popsite.cn/2010/05/12/20100512-google-homepage/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2010/04/04/20100404-div-css/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4979,6 +4979,15 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2010/01/26/20100126-yui-grids/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2010/02/05/20100205-charset/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -4988,7 +4997,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2010/02/06/20100206-php-timezone/</loc>
+    <loc>http://www.popsite.cn/2010/02/07/20100207-yui3-overlay/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -4997,7 +5006,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2010/02/07/20100207-yui3-overlay/</loc>
+    <loc>http://www.popsite.cn/2010/02/06/20100206-php-timezone/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -5024,15 +5033,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2010/03/10/20100310-eclipse-parameter/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2010/03/09/20100309-resin/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -5042,7 +5042,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2010/03/15/20100315-doctype/</loc>
+    <loc>http://www.popsite.cn/2010/03/10/20100310-eclipse-parameter/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -5051,7 +5051,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2010/04/04/20100404-div-css/</loc>
+    <loc>http://www.popsite.cn/2010/03/15/20100315-doctype/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -5096,7 +5096,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2009/12/17/20091217-keep-moving/</loc>
+    <loc>http://www.popsite.cn/2009/12/11/20091211-em-issue/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -5105,7 +5105,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2009/12/11/20091211-em-issue/</loc>
+    <loc>http://www.popsite.cn/2009/12/17/20091217-keep-moving/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -5195,7 +5195,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2009/09/23/20090923-clone-virtualbox-image/</loc>
+    <loc>http://www.popsite.cn/2009/09/22/20090922-fedora-lampp/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -5204,7 +5204,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2009/09/22/20090922-fedora-lampp/</loc>
+    <loc>http://www.popsite.cn/2009/09/23/20090923-clone-virtualbox-image/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -5303,7 +5303,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2009/07/04/20090704-php-enter/</loc>
+    <loc>http://www.popsite.cn/2009/07/10/20090710-why-we-love-javascript/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -5312,7 +5312,16 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2009/07/10/20090710-why-we-love-javascript/</loc>
+    <loc>http://www.popsite.cn/2009/07/21/20090721-rsync/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2009/07/04/20090704-php-enter/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -5339,7 +5348,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2009/07/21/20090721-rsync/</loc>
+    <loc>http://www.popsite.cn/2009/07/29/20090729-fedora-zend-studio/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -5349,15 +5358,6 @@
   
   <url>
     <loc>http://www.popsite.cn/2009/08/01/20090801-php-session/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2009/07/29/20090729-fedora-zend-studio/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -5402,7 +5402,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2009/09/08/20090908-php-mvc/</loc>
+    <loc>http://www.popsite.cn/2009/09/13/20090913-php-to-iis/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -5411,7 +5411,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2009/09/13/20090913-php-to-iis/</loc>
+    <loc>http://www.popsite.cn/2009/09/08/20090908-php-mvc/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -5430,42 +5430,6 @@
   
   <url>
     <loc>http://www.popsite.cn/2009/05/07/20090507-segoe-font/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2009/03/18/20090318-bread-menu/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2009/03/18/20090318-php-singlton/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2009/04/10/20090410-aptana-plugin/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2009/03/24/20090324-caculate-length/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -5501,6 +5465,42 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2009/03/18/20090318-bread-menu/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2009/03/18/20090318-php-singlton/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2009/03/24/20090324-caculate-length/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2009/04/10/20090410-aptana-plugin/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2009/04/15/20090415-vim-operation/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -5519,7 +5519,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2008/09/26/20080926-javascript-trim-space/</loc>
+    <loc>http://www.popsite.cn/2008/09/21/20080921-vimperator/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -5546,15 +5546,6 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2008/11/03/20081103-callback-parameter/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.popsite.cn/2008/10/20/20081020-different-enter/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -5564,7 +5555,16 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2008/09/21/20080921-vimperator/</loc>
+    <loc>http://www.popsite.cn/2008/11/03/20081103-callback-parameter/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.popsite.cn/2008/09/26/20080926-javascript-trim-space/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -5591,7 +5591,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2008/11/13/20081113-ssh-and-copy/</loc>
+    <loc>http://www.popsite.cn/2008/11/12/20081112-js-tips/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -5609,7 +5609,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2008/11/12/20081112-js-tips/</loc>
+    <loc>http://www.popsite.cn/2008/11/13/20081113-ssh-and-copy/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -5654,6 +5654,15 @@
   </url>
   
   <url>
+    <loc>http://www.popsite.cn/2009/01/19/20090119-apache-virtual-machine/</loc>
+    
+    <lastmod>2026-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.popsite.cn/2009/01/19/20090119-vim-tips/</loc>
     
     <lastmod>2026-11-26</lastmod>
@@ -5664,15 +5673,6 @@
   
   <url>
     <loc>http://www.popsite.cn/2009/02/03/20090203-apache-charset/</loc>
-    
-    <lastmod>2026-11-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.popsite.cn/2009/01/19/20090119-apache-virtual-machine/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -5726,7 +5726,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2008/09/10/20080910-js-design-pattern/</loc>
+    <loc>http://www.popsite.cn/2008/09/09/20080909-javascript-design-pattern-1/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
@@ -5744,7 +5744,7 @@
   </url>
   
   <url>
-    <loc>http://www.popsite.cn/2008/09/09/20080909-javascript-design-pattern-1/</loc>
+    <loc>http://www.popsite.cn/2008/09/10/20080910-js-design-pattern/</loc>
     
     <lastmod>2026-11-26</lastmod>
     
